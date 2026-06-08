@@ -1,0 +1,77 @@
+{
+  "id": "undo",
+  "name": "Undo",
+  "aliases": ["revert action", "undo snackbar"],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": ["Feedback, Status, And System State"],
+  "platforms": ["web", "mobile", "desktop"],
+  "problem": "Users need a fast way to recover from an action without being blocked before every action.",
+  "solution": "Allow the action to complete, communicate the result, and provide a time-bound or persistent way to reverse it.",
+  "problemContext": [
+    "A frequent action can be performed quickly and mistakes are plausible.",
+    "The system can reliably restore the prior state after the action."
+  ],
+  "selectionRules": [
+    "Choose undo when recovery is reliable and the action is frequent enough that confirmation would slow users down.",
+    "Prefer confirmation when the action has irreversible external side effects.",
+    "Use persistent recovery, not a short toast, when the consequence is important or recovery needs time."
+  ],
+  "requiredStates": [
+    "Normal state before the action.",
+    "Action-completed state that clearly communicates what changed.",
+    "Recoverable state with an undo or restore affordance.",
+    "Final state after undo expires or is completed."
+  ],
+  "interactionContract": [
+    "The undo affordance must be reachable by keyboard and visible long enough to use.",
+    "Undo must restore the relevant object, selection, or previous value.",
+    "The system must communicate whether undo succeeded or is no longer available."
+  ],
+  "implementationChecklist": [
+    "Show what action happened.",
+    "Expose a clearly labeled undo or restore control.",
+    "Preserve enough state to accurately reverse the action.",
+    "Avoid moving focus unexpectedly after routine actions."
+  ],
+  "commonMisuses": [
+    "Offering undo for an action that cannot actually be reversed.",
+    "Hiding the undo action in a transient message that disappears too quickly.",
+    "Using undo without confirming that the restored state is accurate."
+  ],
+  "critiqueQuestions": [
+    "Is recovery reliable enough that the user can act first and fix mistakes afterward?"
+  ],
+  "useWhen": [
+    "The action is common and mistakes are likely.",
+    "The system can reliably restore the prior state."
+  ],
+  "avoidWhen": [
+    "The action has external side effects that cannot be reversed.",
+    "The user needs to understand a serious consequence before the action happens."
+  ],
+  "variants": ["Toast undo", "Persistent undo history", "Restore from trash", "Version rollback"],
+  "accessibility": [
+    "The undo control must be keyboard reachable.",
+    "The recovery option should not disappear before assistive technology users can perceive it."
+  ],
+  "keyboardBehavior": [
+    "Keyboard shortcuts can supplement visible undo controls.",
+    "Focus should not be unexpectedly stolen after routine actions."
+  ],
+  "failureModes": [
+    "Showing an undo action too briefly.",
+    "Pretending an irreversible action can be undone.",
+    "Relying on a toast-only recovery path for critical changes."
+  ],
+  "relatedPatterns": ["confirmation-dialog"],
+  "comparisons": ["undo-vs-confirmation-dialog"],
+  "examples": [],
+  "sources": [
+    {
+      "id": "apple-hig-alerts",
+      "note": "Alert guidance explicitly contrasts undoable destructive actions with cases requiring alerts."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

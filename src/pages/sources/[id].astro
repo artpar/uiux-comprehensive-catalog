@@ -1,0 +1,40 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPatternsForSource, sources } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+
+export function getStaticPaths() {
+  return sources.map((source) => ({
+    params: { id: source.id },
+    props: { source }
+  }));
+}
+
+const { source } = Astro.props;
+const linkedPatterns = getPatternsForSource(source.id);
+---
+
+<BaseLayout title={`${source.name} | UI/UX Pattern Catalog`} description={source.notes}>
+  <section class="page-head">
+    <div class="pill-list">
+      <span>{source.type}</span>
+      <span>checked {source.checkedAt}</span>
+    </div>
+    <h1>{source.name}</h1>
+    <p>{source.notes}</p>
+    <p><a href={source.url}>Open source</a></p>
+  </section>
+
+  <section class="detail-panel">
+    <h2>Supported Patterns</h2>
+    {linkedPatterns.length > 0 ? (
+      <ul>
+        {linkedPatterns.map((pattern) => (
+          <li><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></li>
+        ))}
+      </ul>
+    ) : (
+      <p>No linked patterns yet.</p>
+    )}
+  </section>
+</BaseLayout>

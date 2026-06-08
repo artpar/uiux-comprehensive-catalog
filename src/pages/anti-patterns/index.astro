@@ -1,0 +1,27 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { patterns } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+
+const antiPatterns = patterns.filter((pattern) => pattern.maturity === "anti-pattern");
+---
+
+<BaseLayout title="Anti-patterns | UI/UX Pattern Catalog">
+  <section class="page-head">
+    <h1>Anti-patterns</h1>
+    <p>Recurring interaction choices that create avoidable confusion, risk, or unrecoverable failure.</p>
+  </section>
+
+  <div class="pattern-grid">
+    {antiPatterns.map((pattern) => (
+      <article class="pattern-card">
+        <div class="card-meta">
+          <span>{pattern.category}</span>
+          <span>{pattern.maturity}</span>
+        </div>
+        <h2><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h2>
+        <p>{pattern.problem}</p>
+      </article>
+    ))}
+  </div>
+</BaseLayout>

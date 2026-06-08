@@ -1,0 +1,81 @@
+{
+  "id": "confirmation-dialog",
+  "name": "Confirmation dialog",
+  "aliases": ["confirm dialog", "destructive confirmation"],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": ["Disclosure And Attention Management"],
+  "platforms": ["web", "mobile", "desktop"],
+  "problem": "Users can accidentally trigger irreversible or high-consequence actions.",
+  "solution": "Interrupt the action with a focused confirmation step that clearly names the consequence and offers a safe cancellation path.",
+  "problemContext": [
+    "A user is about to commit an action with meaningful consequence.",
+    "The system cannot fully reverse the action after completion."
+  ],
+  "selectionRules": [
+    "Choose confirmation when the consequence is destructive, costly, security-sensitive, or irreversible.",
+    "Prefer undo when the system can safely restore the prior state.",
+    "Avoid confirmation for routine actions because repeated prompts create automatic confirmation behavior."
+  ],
+  "requiredStates": [
+    "Pre-action state with an explicit triggering control.",
+    "Decision state that names the object and consequence.",
+    "Cancelled state that leaves the object unchanged.",
+    "Confirmed state that reports the outcome."
+  ],
+  "interactionContract": [
+    "The dialog must make the safe path and destructive path unambiguous.",
+    "Keyboard users must be able to cancel without activating the destructive action.",
+    "The final action label should describe the consequence, not say OK."
+  ],
+  "implementationChecklist": [
+    "Name the affected object or scope.",
+    "Use a specific destructive action label such as Delete project.",
+    "Include a safe cancel action.",
+    "Avoid making the destructive action the default for accidental keypresses."
+  ],
+  "commonMisuses": [
+    "Using vague OK and Cancel labels for irreversible actions.",
+    "Asking for confirmation after every routine click.",
+    "Using confirmation when undo would produce a faster and safer flow."
+  ],
+  "critiqueQuestions": [
+    "Can the action be made undoable instead of interrupting the user before it happens?"
+  ],
+  "useWhen": [
+    "The action is destructive, irreversible, costly, or security-sensitive.",
+    "Undo or recovery is not available."
+  ],
+  "avoidWhen": [
+    "The action is routine and easily reversible.",
+    "The dialog only asks users to confirm something they already intentionally selected."
+  ],
+  "variants": ["Delete confirmation", "Purchase confirmation", "Permission escalation", "Typed confirmation"],
+  "accessibility": [
+    "The destructive action label should be explicit and distinguishable from cancel.",
+    "Initial focus should support safe decision-making rather than accidental confirmation."
+  ],
+  "keyboardBehavior": [
+    "Escape should cancel when cancellation is safe.",
+    "Keyboard focus order should expose the consequence text before final action where possible."
+  ],
+  "failureModes": [
+    "Vague labels such as OK and Cancel for destructive outcomes.",
+    "Overuse that trains users to confirm automatically.",
+    "Making the destructive action visually easier than cancellation."
+  ],
+  "relatedPatterns": ["modal-dialog", "undo"],
+  "comparisons": ["undo-vs-confirmation-dialog", "modal-vs-confirmation-dialog"],
+  "examples": [],
+  "sources": [
+    {
+      "id": "apple-hig-alerts",
+      "note": "Alert guidance recommends alerts for uncommon destructive actions that cannot be undone."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "Alert dialog guidance covers interruptive modal decisions."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

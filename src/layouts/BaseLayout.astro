@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+import { withBase } from "@/lib/paths";
+
+type Props = {
+  title: string;
+  description?: string;
+};
+
+const { title, description = "A source-backed catalog of practical UI/UX patterns." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={withBase("/")}>UI/UX Pattern Catalog</a>
+      <nav aria-label="Primary">
+        <a href={withBase("/")}>Patterns</a>
+        <a href={withBase("/agent/")}>Agent exports</a>
+        <a href={withBase("/compare/")}>Compare</a>
+        <a href={withBase("/sources/")}>Sources</a>
+        <a href={withBase("/anti-patterns/")}>Anti-patterns</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

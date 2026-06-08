@@ -1,0 +1,81 @@
+{
+  "id": "modal-dialog",
+  "name": "Modal dialog",
+  "aliases": ["dialog", "modal"],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": ["Task And Workflow Patterns"],
+  "platforms": ["web", "mobile", "desktop"],
+  "problem": "Users need to complete or acknowledge a focused task without losing the context of the current page.",
+  "solution": "Present a focused layer over the current interface, constrain interaction to that layer, and provide clear completion and dismissal paths.",
+  "problemContext": [
+    "A user is in a larger page context but needs a short focused task or decision.",
+    "Continuing with the background interface before resolving the task would be confusing or unsafe."
+  ],
+  "selectionRules": [
+    "Choose a modal only when the user must temporarily leave normal page interaction.",
+    "Prefer a full page when the task has many steps, deep content, or durable navigation needs.",
+    "Prefer inline disclosure or a popover when the content is optional and does not block progress."
+  ],
+  "requiredStates": [
+    "Closed state with a clear invoking control.",
+    "Open state with title, focused content, and clear primary and secondary actions.",
+    "Dismissed or completed state that returns the user to the originating context."
+  ],
+  "interactionContract": [
+    "Opening the modal moves focus inside it and makes the background inert.",
+    "Tab and Shift+Tab stay within the modal until it closes.",
+    "Escape closes non-destructive modals, and closing restores focus to the invoker."
+  ],
+  "implementationChecklist": [
+    "Include a visible title that names the task or decision.",
+    "Provide an explicit cancel or close path unless the task truly cannot be dismissed.",
+    "Prevent interaction with background controls while the modal is open.",
+    "Restore focus to the opener after close."
+  ],
+  "commonMisuses": [
+    "Using a modal as a generic content container for routine information.",
+    "Opening nested modals or trapping users without a safe exit.",
+    "Letting the background page remain interactive."
+  ],
+  "critiqueQuestions": [
+    "Does this task truly need to block the rest of the interface, or would inline UI be less disruptive?"
+  ],
+  "useWhen": [
+    "The task requires focused attention before the user can safely continue.",
+    "The content is short enough to complete without navigating away."
+  ],
+  "avoidWhen": [
+    "The interaction is informational only and does not require a response.",
+    "The task is complex enough to need a full page or persistent workspace."
+  ],
+  "variants": ["Alert dialog", "Confirmation dialog", "Form dialog", "Full-screen modal"],
+  "accessibility": [
+    "Move focus into the dialog when it opens.",
+    "Keep focus within the dialog while it is modal.",
+    "Return focus to the invoking control when the dialog closes."
+  ],
+  "keyboardBehavior": [
+    "Escape commonly dismisses non-destructive dialogs.",
+    "Tab and Shift+Tab cycle through focusable controls inside the dialog."
+  ],
+  "failureModes": [
+    "Trapping users without a visible close or cancel path.",
+    "Using a modal for routine information that could be inline.",
+    "Opening nested modals."
+  ],
+  "relatedPatterns": ["confirmation-dialog"],
+  "comparisons": ["modal-vs-confirmation-dialog"],
+  "examples": [],
+  "sources": [
+    {
+      "id": "wai-aria-apg",
+      "note": "Dialog pattern defines modal behavior and keyboard expectations."
+    },
+    {
+      "id": "apple-hig-alerts",
+      "note": "Alert guidance distinguishes interruptive modal use from less intrusive alternatives."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

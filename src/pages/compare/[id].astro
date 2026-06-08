@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { comparisons, getPattern, getSource } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import type { PatternEntry } from "@/schemas/catalog";
+
+function isPattern(value: PatternEntry | undefined): value is PatternEntry {
+  return Boolean(value);
+}
+
+export function getStaticPaths() {
+  return comparisons.map((comparison) => ({
+    params: { id: comparison.id },
+    props: { comparison }
+  }));
+}
+
+const { comparison } = Astro.props;
+const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(isPattern);
+const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
+---
+
+<BaseLayout title={`${comparison.title} | UI/UX Pattern Catalog`} description={comparison.summary}>
+  <section class="page-head">
+    <h1>{comparison.title}</h1>
+    <p>{comparison.summary}</p>
+  </section>
+
+  <div class="detail-grid">
+    <div class="stack">
+      <section class="detail-panel">
+        <h2>Decision Rules</h2>
+        <ul>
+          {comparison.decisionRules.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section class="detail-panel">
+        <h2>Compared Patterns</h2>
+        <ul>
+          {comparedPatterns.map((pattern) => (
+            <li><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a>: {pattern.problem}</li>
+          ))}
+        </ul>
+      </section>
+
+      {comparison.failureModes.length > 0 && (
+        <section class="detail-panel">
+          <h2>Failure Modes</h2>
+          <ul>
+            {comparison.failureModes.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )}
+    </div>
+
+    <aside class="stack">
+      <section class="detail-panel">
+        <h2>Sources</h2>
+        <ul>
+          {sourceRefs.map(({ ref, source }) => (
+            <li>
+              {source ? <a href={withBase(`/sources/${source.id}/`)}>{source.name}</a> : ref.id}
+              <br />
+              <span>{ref.note}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="detail-panel">
+        <h2>Verification</h2>
+        <p>Last verified: {comparison.lastVerified}</p>
+      </section>
+    </aside>
+  </div>
+</BaseLayout>

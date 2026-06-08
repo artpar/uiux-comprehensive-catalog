@@ -1,0 +1,72 @@
+{
+  "id": "toast-only-critical-error",
+  "name": "Toast-only critical error",
+  "aliases": ["disappearing critical error"],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": ["Error Prevention And Recovery"],
+  "platforms": ["web", "mobile", "desktop"],
+  "problem": "A critical error is communicated only through a transient message that users can miss.",
+  "solution": "Treat this as an anti-pattern. Critical errors need persistent, contextual recovery paths, not only disappearing feedback.",
+  "problemContext": [
+    "A generated UI reports a blocking, destructive, financial, security, or data-integrity error.",
+    "The only feedback is a disappearing toast, snackbar, or transient message."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern whenever missing or critical failure information can disappear.",
+    "Use persistent inline or page-level error recovery for errors that require user action.",
+    "Allow transient feedback only for low-risk informational events that do not block progress."
+  ],
+  "requiredStates": [
+    "Failure state that remains visible until resolved or dismissed intentionally.",
+    "Recovery state with a specific retry, fix, contact, or undo action.",
+    "Resolved state that confirms the user can continue."
+  ],
+  "interactionContract": [
+    "Critical feedback must remain available long enough to read, understand, and act on.",
+    "Recovery controls must be reachable without chasing a disappearing message.",
+    "Assistive technology users must receive the error and the recovery path."
+  ],
+  "implementationChecklist": [
+    "Render critical errors near the affected task or as a persistent page-level message.",
+    "Name what failed and what the user can do next.",
+    "Keep recovery actions visible and keyboard reachable.",
+    "Use transient toasts only as supplemental feedback."
+  ],
+  "commonMisuses": [
+    "Showing payment, save, permission, or destructive-action failures only in a toast.",
+    "Letting an error disappear before the user can understand it.",
+    "Providing no persistent recovery action."
+  ],
+  "critiqueQuestions": [
+    "If the user misses the toast, can they still understand what failed and recover?"
+  ],
+  "useWhen": [
+    "Use this entry to identify and remove the anti-pattern from product flows."
+  ],
+  "avoidWhen": [
+    "Any error blocks progress, affects data integrity, changes account/security state, or requires user action."
+  ],
+  "variants": ["Toast-only form failure", "Toast-only payment failure", "Toast-only permission failure"],
+  "accessibility": [
+    "Transient messages can be missed by screen reader users, keyboard users, and users with cognitive or attention constraints."
+  ],
+  "keyboardBehavior": [
+    "A disappearing message often has no reachable recovery action."
+  ],
+  "failureModes": [
+    "Users do not know what failed.",
+    "Users cannot recover because the action disappeared.",
+    "Assistive technology does not announce the message in time."
+  ],
+  "relatedPatterns": ["no-results-recovery", "confirmation-dialog"],
+  "comparisons": [],
+  "examples": [],
+  "sources": [
+    {
+      "id": "wai-aria-apg",
+      "note": "Accessible feedback patterns require appropriate semantics and interaction behavior; critical feedback should not rely on transient visibility alone."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-08"
+}

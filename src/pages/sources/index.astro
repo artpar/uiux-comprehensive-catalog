@@ -1,0 +1,29 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPatternsForSource, sources } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+---
+
+<BaseLayout title="Sources | UI/UX Pattern Catalog">
+  <section class="page-head">
+    <h1>Source index</h1>
+    <p>Every accepted pattern is tied back to specs, platform guidance, UX research, service manuals, or real product evidence.</p>
+  </section>
+
+  <div class="source-list">
+    {sources.map((source) => {
+      const linkedPatterns = getPatternsForSource(source.id);
+      return (
+        <article class="source-row">
+          <h2><a href={withBase(`/sources/${source.id}/`)}>{source.name}</a></h2>
+          <div class="pill-list">
+            <span>{source.type}</span>
+            <span>{linkedPatterns.length} patterns</span>
+            <span>checked {source.checkedAt}</span>
+          </div>
+          <p>{source.notes}</p>
+        </article>
+      );
+    })}
+  </div>
+</BaseLayout>

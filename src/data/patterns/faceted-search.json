@@ -1,0 +1,77 @@
+{
+  "id": "faceted-search",
+  "name": "Faceted search",
+  "aliases": ["facets", "filtering", "guided filtering"],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": ["Data Display And Exploration"],
+  "platforms": ["web", "mobile", "desktop"],
+  "problem": "Users need to narrow a large result set using multiple meaningful attributes.",
+  "solution": "Expose filter dimensions near the result set, let users combine constraints, and make applied filters visible and removable.",
+  "problemContext": [
+    "A result set is too large to scan directly.",
+    "Items have structured attributes that users understand and can combine."
+  ],
+  "selectionRules": [
+    "Choose faceted search when users need to progressively narrow a large set by multiple attributes.",
+    "Prefer basic search when users usually know the exact item or query.",
+    "Prefer category browse when users are exploring broad groups rather than combining constraints."
+  ],
+  "requiredStates": [
+    "Unfiltered state with result count and available facets.",
+    "Filtered state with applied constraints visible.",
+    "Zero-result state with clear recovery actions.",
+    "Facet loading or disabled state when counts are recalculating."
+  ],
+  "interactionContract": [
+    "Applying or removing a facet updates the result count and preserves visible applied filters.",
+    "Users can remove individual filters and clear all filters.",
+    "Facet labels should be user-facing concepts, not internal system names."
+  ],
+  "implementationChecklist": [
+    "Show applied filters near the results.",
+    "Provide clear-one and clear-all actions.",
+    "Keep the result count visible after filtering.",
+    "Prevent combinations from becoming dead ends without recovery."
+  ],
+  "commonMisuses": [
+    "Using internal database labels as facets.",
+    "Hiding applied filters in a collapsed drawer.",
+    "Letting filters produce zero results without a path to broaden."
+  ],
+  "critiqueQuestions": [
+    "Can the user see exactly why the current results are being shown or excluded?"
+  ],
+  "useWhen": [
+    "The data set has structured attributes users understand.",
+    "Users need to explore, compare, or progressively narrow results."
+  ],
+  "avoidWhen": [
+    "The result set is small enough that filtering adds complexity.",
+    "The available facets are system-centric rather than user meaningful."
+  ],
+  "variants": ["Sidebar facets", "Filter drawer", "Filter chips", "Batch-applied filters", "Instant filters"],
+  "accessibility": [
+    "Applied filters should be announced and removable without pointer-only interaction.",
+    "Filter groups need clear labels and state."
+  ],
+  "keyboardBehavior": [
+    "All filter controls must be keyboard reachable.",
+    "Applying or clearing filters should preserve a predictable focus position."
+  ],
+  "failureModes": [
+    "Showing filters that lead to empty results without recovery.",
+    "Hiding applied filters.",
+    "Using internal taxonomy labels users do not recognize."
+  ],
+  "relatedPatterns": ["no-results-recovery"],
+  "comparisons": ["faceted-search-vs-no-results-recovery"],
+  "examples": [],
+  "sources": [
+    {
+      "id": "govuk-design-system-patterns",
+      "note": "Service patterns distinguish task-oriented narrowing and recovery from raw visual filtering."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

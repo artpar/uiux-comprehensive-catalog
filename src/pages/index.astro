@@ -1,0 +1,29 @@
+---
+import CatalogWorkbench from "@/components/CatalogWorkbench";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { comparisons, patterns } from "@/lib/catalog";
+import { patternCategories, patternMaturities, platforms } from "@/data/taxonomy";
+import { withBase } from "@/lib/paths";
+---
+
+<BaseLayout title="UI/UX Pattern Catalog">
+  <section class="workbench-head">
+    <div>
+      <span class="eyebrow">Pattern decision workbench</span>
+      <h1>Choose, inspect, export</h1>
+    </div>
+    <p>
+      Inspect the live behavior first, then use the decision guidance to compare patterns and copy compact agent context.
+    </p>
+  </section>
+
+  <CatalogWorkbench
+    client:load
+    patterns={patterns}
+    comparisons={comparisons}
+    categories={[...patternCategories]}
+    platforms={[...platforms]}
+    maturities={[...patternMaturities]}
+    baseUrl={withBase("/")}
+  />
+</BaseLayout>

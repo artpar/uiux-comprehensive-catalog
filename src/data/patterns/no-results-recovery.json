@@ -1,0 +1,77 @@
+{
+  "id": "no-results-recovery",
+  "name": "No-results recovery",
+  "aliases": ["empty search state", "zero results"],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": ["Feedback, Status, And System State", "Error Prevention And Recovery"],
+  "platforms": ["web", "mobile", "desktop"],
+  "problem": "A search or filter returns nothing, leaving users without a path forward.",
+  "solution": "Explain that no matches were found, preserve the user's query or filters, and offer specific ways to broaden or correct the search.",
+  "problemContext": [
+    "A valid search, filter, or browse action produces zero visible items.",
+    "The user may be able to broaden, correct, or redirect their task."
+  ],
+  "selectionRules": [
+    "Choose no-results recovery whenever search or filters can produce an empty set.",
+    "Prefer an error state when the absence is caused by system failure rather than valid criteria.",
+    "Prefer an empty-state onboarding pattern when the user has not created or received any data yet."
+  ],
+  "requiredStates": [
+    "Zero-result state that preserves the user's criteria.",
+    "Recovery state with clear filters, broaden query, or browse alternatives.",
+    "Recovered state after criteria are changed.",
+    "Unavailable state if no alternatives exist."
+  ],
+  "interactionContract": [
+    "The UI must explain that no matches were found and identify the active constraints.",
+    "Recovery actions must be specific and immediately usable.",
+    "Clearing filters or changing search must update results and count predictably."
+  ],
+  "implementationChecklist": [
+    "Show the query or filters that caused zero results.",
+    "Offer at least one direct recovery action.",
+    "Do not erase the user's input without consent.",
+    "Distinguish zero results from network or permission errors."
+  ],
+  "commonMisuses": [
+    "Showing a blank list with no explanation.",
+    "Resetting all criteria automatically.",
+    "Offering generic help that does not change the result set."
+  ],
+  "critiqueQuestions": [
+    "Does the user have a clear next action that can produce results again?"
+  ],
+  "useWhen": [
+    "Search, browse, or filter controls can produce an empty result set.",
+    "Users can modify criteria, browse alternatives, or start over."
+  ],
+  "avoidWhen": [
+    "There is genuinely no possible next action and the system should instead explain availability.",
+    "The state is caused by an error rather than valid empty results."
+  ],
+  "variants": ["Clear all filters", "Suggested query", "Spell correction", "Browse categories", "Contact support"],
+  "accessibility": [
+    "Announce result-count changes where search results update dynamically.",
+    "Keep recovery actions reachable near the empty state."
+  ],
+  "keyboardBehavior": [
+    "Focus should remain predictable after filters are cleared.",
+    "Recovery actions should be reachable in normal tab order."
+  ],
+  "failureModes": [
+    "Blank result areas with no explanation.",
+    "Resetting the user's query without consent.",
+    "Suggesting irrelevant alternatives."
+  ],
+  "relatedPatterns": ["faceted-search"],
+  "comparisons": ["faceted-search-vs-no-results-recovery"],
+  "examples": [],
+  "sources": [
+    {
+      "id": "govuk-design-system-patterns",
+      "note": "Service guidance emphasizes helping users recover from validation and task dead ends."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

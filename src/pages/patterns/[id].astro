@@ -1,0 +1,201 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PatternPlayground from "@/components/PatternPlayground";
+import { comparisons, getComparison, getPattern, getSource, patterns } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
+
+function isPattern(value: PatternEntry | undefined): value is PatternEntry {
+  return Boolean(value);
+}
+
+function isComparison(value: ComparisonEntry | undefined): value is ComparisonEntry {
+  return Boolean(value);
+}
+
+export function getStaticPaths() {
+  return patterns.map((pattern) => ({
+    params: { id: pattern.id },
+    props: { pattern }
+  }));
+}
+
+const { pattern } = Astro.props;
+const sourceRefs = pattern.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
+const related = pattern.relatedPatterns.map((id) => getPattern(id)).filter(isPattern);
+const patternComparisons = pattern.comparisons.map((id) => getComparison(id)).filter(isComparison);
+const referencedByComparisons = comparisons.filter((comparison) => comparison.patternIds.includes(pattern.id));
+const allComparisons = [...new Map([...patternComparisons, ...referencedByComparisons].map((item) => [item.id, item])).values()];
+---
+
+<BaseLayout title={`${pattern.name} | UI/UX Pattern Catalog`} description={pattern.problem}>
+  <section class="pattern-titlebar">
+    <div class="pill-list">
+      <span>{pattern.category}</span>
+      <span>{pattern.maturity}</span>
+      {pattern.platforms.map((platform) => <span>{platform}</span>)}
+    </div>
+    <h1>{pattern.name}</h1>
+    <p>{pattern.problem}</p>
+  </section>
+
+  <div class="pattern-lab">
+    <PatternPlayground client:load pattern={pattern} variant="detail" />
+  </div>
+
+  <div class="pattern-workspace">
+    <aside class="sticky-demo pattern-sidebar">
+      <section class="detail-panel compact-panel">
+        <h2>At A Glance</h2>
+        <div class="meta-strip">
+          <span>{pattern.category}</span>
+          <span>{pattern.maturity}</span>
+          {pattern.platforms.map((platform) => <span>{platform}</span>)}
+          <span>{pattern.sources.length} {pattern.sources.length === 1 ? "source" : "sources"}</span>
+        </div>
+      </section>
+
+      {related.length > 0 && (
+        <section class="detail-panel compact-panel">
+          <h2>Related</h2>
+          <ul>
+            {related.map((item) => (
+              <li><a href={withBase(`/patterns/${item.id}/`)}>{item.name}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {allComparisons.length > 0 && (
+        <section class="detail-panel compact-panel">
+          <h2>Comparisons</h2>
+          <ul>
+            {allComparisons.map((item) => (
+              <li><a href={withBase(`/compare/${item.id}/`)}>{item.title}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </aside>
+
+    <div class="guidance-pane">
+      <section class="guidance-block lead-block">
+        <h2>Problem And Solution</h2>
+        <p><strong>Problem:</strong> {pattern.problem}</p>
+        <p><strong>Solution:</strong> {pattern.solution}</p>
+      </section>
+
+      <section class="guidance-block agent-panel">
+        <h2>Agent Decision Guidance</h2>
+        <h3>Problem Context</h3>
+        <ul>
+          {pattern.problemContext.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h3>Selection Rules</h3>
+        <ul>
+          {pattern.selectionRules.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h3>Required States</h3>
+        <ul>
+          {pattern.requiredStates.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h3>Interaction Contract</h3>
+        <ul>
+          {pattern.interactionContract.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h3>Implementation Checklist</h3>
+        <ul>
+          {pattern.implementationChecklist.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h3>Common Generated-UI Mistakes</h3>
+        <ul>
+          {pattern.commonMisuses.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <h3>Critique Questions</h3>
+        <ul>
+          {pattern.critiqueQuestions.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section class="guidance-block">
+        <h2>Use When</h2>
+        <ul>
+          {pattern.useWhen.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section class="guidance-block">
+        <h2>Avoid When</h2>
+        <ul>
+          {pattern.avoidWhen.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      {pattern.failureModes.length > 0 && (
+        <section class="guidance-block">
+          <h2>Failure Modes</h2>
+          <ul>
+            {pattern.failureModes.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )}
+
+      {pattern.accessibility.length > 0 && (
+        <section class="guidance-block">
+          <h2>Accessibility</h2>
+          <ul>
+            {pattern.accessibility.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )}
+
+      {pattern.keyboardBehavior.length > 0 && (
+        <section class="guidance-block">
+          <h2>Keyboard Behavior</h2>
+          <ul>
+            {pattern.keyboardBehavior.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )}
+      <section class="guidance-block">
+        <h2>Aliases</h2>
+        <div class="pill-list">
+          {pattern.aliases.length ? pattern.aliases.map((alias) => <span>{alias}</span>) : <span>None</span>}
+        </div>
+      </section>
+
+      {pattern.variants.length > 0 && (
+        <section class="guidance-block">
+          <h2>Variants</h2>
+          <ul>
+            {pattern.variants.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <section class="guidance-block">
+        <h2>Sources</h2>
+        <ul>
+          {sourceRefs.map(({ ref, source }) => (
+            <li>
+              {source ? <a href={withBase(`/sources/${source.id}/`)}>{source.name}</a> : ref.id}
+              <br />
+              <span>{ref.note}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="guidance-block">
+        <h2>Verification</h2>
+        <p>Last verified: {pattern.lastVerified}</p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
