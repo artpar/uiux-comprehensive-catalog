@@ -659,10 +659,10 @@ export default function CatalogWorkbench({
           <span className="rail-label">Find candidates</span>
           <strong>{filtered.length} matches</strong>
         </div>
-        <p className="result-summary" aria-live="polite">{filteredSummary}</p>
+        <p className="result-summary compact-only" aria-live="polite">{filteredSummary}</p>
 
         <label>
-          <span>Search by problem, risk, state, or misuse</span>
+          <span>Search</span>
           <input
             ref={searchRef}
             type="search"
@@ -674,31 +674,34 @@ export default function CatalogWorkbench({
           />
         </label>
 
-        <div className="job-chips" role="group" aria-label="User job filters">
-          <button
-            className={job === "all" ? "is-active" : ""}
-            aria-pressed={job === "all"}
-            onClick={() => setJob("all")}
-          >
-            All jobs
-          </button>
-          {jobGroups.map((item) => (
+        <details className="filter-details compact-disclosure">
+          <summary>{activeJob ? activeJob.label : "Jobs"}</summary>
+          <div className="job-chips" role="group" aria-label="User job filters">
             <button
-              key={item.id}
-              className={job === item.id ? "is-active" : ""}
-              aria-pressed={job === item.id}
-              onClick={() => setJob(item.id)}
+              className={job === "all" ? "is-active" : ""}
+              aria-pressed={job === "all"}
+              onClick={() => setJob("all")}
             >
-              {item.label}
+              All jobs
             </button>
-          ))}
-        </div>
+            {jobGroups.map((item) => (
+              <button
+                key={item.id}
+                className={job === item.id ? "is-active" : ""}
+                aria-pressed={job === item.id}
+                onClick={() => setJob(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </details>
 
         <div className="decision-buttons mode-switcher" role="group" aria-label="Candidate mode">
           {([
-            ["patterns", "Pattern candidates"],
-            ["audit", "Audit flags"],
-            ["all", "All entries"]
+            ["patterns", "Patterns"],
+            ["audit", "Audit"],
+            ["all", "All"]
           ] as [CandidateMode, string][]).map(([mode, label]) => (
             <button
               key={mode}
@@ -797,9 +800,6 @@ export default function CatalogWorkbench({
               <span className="row-title">
                 <HighlightedText text={pattern.name} term={firstMatchedTerm(pattern, query)} />
               </span>
-              <span className="row-problem">
-                <HighlightedText text={getMatchReason(pattern, job, query)} term={firstMatchedTerm(pattern, query)} />
-              </span>
               <span className="row-meta">
                 <span>{formatLabel(pattern.maturity)}</span>
                 <span>{sourceCountLabel(pattern)}</span>
@@ -811,8 +811,26 @@ export default function CatalogWorkbench({
 
       {selected && (
         <aside className="decision-panel" aria-label="Decision guidance and agent export">
-          <section className="decision-card">
-            <h3>Decision Inputs</h3>
+          <section className="decision-card fit-card minimal-fit">
+            <span className="rail-label">Fit</span>
+            <p>{selected.useWhen[0]}</p>
+          </section>
+
+          <div className="decision-quick-actions" aria-label="Decision actions">
+            {selectedComparisons[0] && (
+              <a className="action-link" href={comparisonHref(selectedComparisons[0])}>
+                <span className="action-mark" aria-hidden="true">&lt;&gt;</span>
+                Compare
+              </a>
+            )}
+            <button className="demo-button small" type="button" onClick={copyAgentBrief}>
+              <span className="action-mark" aria-hidden="true">copy</span>
+              Copy brief
+            </button>
+          </div>
+
+          <details className="decision-card compact-disclosure">
+            <summary>Decision inputs</summary>
             <div className="filter-pair">
               <label>
                 <span>Consequence</span>
@@ -861,16 +879,17 @@ export default function CatalogWorkbench({
                 <option value="high">High interruption cost</option>
               </select>
             </label>
-          </section>
+          </details>
 
-          <section className="decision-card fit-card">
+          <details className="decision-card compact-disclosure">
+            <summary>Why this candidate</summary>
             <span className="rail-label">Why this candidate</span>
             <p>{getMatchReason(selected, job, query)}</p>
             <p className="source-confidence">{sourceConfidence}</p>
-          </section>
+          </details>
 
-          <section className="decision-card">
-            <h3>Source-Backed Claims</h3>
+          <details className="decision-card compact-disclosure">
+            <summary>Sources</summary>
             <ul className="claim-list">
               {selected.sources.slice(0, 3).map((source) => (
                 <li key={source.id}>
@@ -879,29 +898,29 @@ export default function CatalogWorkbench({
                 </li>
               ))}
             </ul>
-          </section>
+          </details>
 
-          <section className="decision-card">
-            <h3>Required States</h3>
+          <details className="decision-card compact-disclosure">
+            <summary>Required states</summary>
             <ul className="check-list">
               {selected.requiredStates.slice(0, 4).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-          </section>
+          </details>
 
-          <section className="decision-card">
-            <h3>Interaction Contract</h3>
+          <details className="decision-card compact-disclosure">
+            <summary>Interaction contract</summary>
             <ul className="check-list">
               {selected.interactionContract.slice(0, 3).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-          </section>
+          </details>
 
           {selectedComparisons.length > 0 && (
-            <section className="decision-card">
-              <h3>Compare Alternatives</h3>
+            <details className="decision-card compact-disclosure">
+              <summary>Alternatives</summary>
               <div className="comparison-links">
                 {selectedComparisons.map((comparison) => (
                   <a key={comparison.id} href={comparisonHref(comparison)}>
@@ -910,11 +929,11 @@ export default function CatalogWorkbench({
                   </a>
                 ))}
               </div>
-            </section>
+            </details>
           )}
 
-          <section className="decision-card">
-            <h3>Audit Generated UI</h3>
+          <details className="decision-card compact-disclosure">
+            <summary>Audit</summary>
             <ul className="check-list audit-list">
               {selected.critiqueQuestions.slice(0, 3).map((item) => (
                 <li key={item}>
@@ -935,11 +954,11 @@ export default function CatalogWorkbench({
                 placeholder="Record the gap to fix before generating UI"
               />
             </label>
-          </section>
+          </details>
 
           {shortlist.length > 0 && (
-            <section className="decision-card">
-              <h3>Shortlist</h3>
+            <details className="decision-card compact-disclosure">
+              <summary>Shortlist</summary>
               <div className="shortlist">
                 {shortlist.map((pattern) => (
                   <button
@@ -952,22 +971,16 @@ export default function CatalogWorkbench({
                   </button>
                 ))}
               </div>
-            </section>
+            </details>
           )}
 
-          <section className="decision-card agent-brief-card">
-            <div className="decision-card-head">
-              <h3>Agent Brief</h3>
-              <button className="demo-button small" type="button" onClick={copyAgentBrief}>
-                <span className="action-mark" aria-hidden="true">copy</span>
-                Copy
-              </button>
-            </div>
+          <details className="decision-card agent-brief-card compact-disclosure">
+            <summary>Agent brief</summary>
             <textarea name="selected-pattern-agent-brief" readOnly value={agentBrief} rows={9} aria-label="Selected pattern agent brief" />
             <p className="demo-status" aria-live="polite">
               {copyStatus}
             </p>
-          </section>
+          </details>
         </aside>
       )}
     </section>
