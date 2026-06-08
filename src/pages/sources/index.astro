@@ -2,6 +2,17 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPatternsForSource, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+
+const authorityByType: Record<string, string> = {
+  spec: "Normative accessibility and semantics evidence",
+  "platform-guideline": "Platform behavior and convention evidence",
+  "ux-research": "Research-backed interaction guidance",
+  "service-manual": "Task completion and public-service evidence",
+  "product-example": "Observed product implementation evidence",
+  "hci-literature": "Academic interaction evidence",
+  "pattern-library": "Pattern inventory evidence"
+};
+const sourceTypes = [...new Set(sources.map((source) => source.type))].sort();
 ---
 
 <BaseLayout title="Sources | UI/UX Pattern Catalog">
@@ -10,20 +21,50 @@ import { withBase } from "@/lib/paths";
     <p>Every accepted pattern is tied back to specs, platform guidance, UX research, service manuals, or real product evidence.</p>
   </section>
 
+  <section class="comparison-matrix detail-panel">
+    <h2>Evidence Weight</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Source type</th>
+          <th>How to use it</th>
+          <th>Current coverage</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sourceTypes.map((type) => {
+          const typeSources = sources.filter((source) => source.type === type);
+          const linkedPatternCount = new Set(typeSources.flatMap((source) => getPatternsForSource(source.id).map((pattern) => pattern.id))).size;
+          return (
+            <tr>
+              <th scope="row">{type}</th>
+              <td>{authorityByType[type] ?? "Supporting evidence"}</td>
+              <td>{typeSources.length} sources backing {linkedPatternCount} patterns</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </section>
+
   <div class="source-list">
-    {sources.map((source) => {
-      const linkedPatterns = getPatternsForSource(source.id);
-      return (
-        <article class="source-row">
-          <h2><a href={withBase(`/sources/${source.id}/`)}>{source.name}</a></h2>
-          <div class="pill-list">
-            <span>{source.type}</span>
-            <span>{linkedPatterns.length} patterns</span>
-            <span>checked {source.checkedAt}</span>
-          </div>
-          <p>{source.notes}</p>
-        </article>
-      );
-    })}
+    {sourceTypes.map((type) => (
+      <section class="source-group">
+        <h2>{type}</h2>
+        {sources.filter((source) => source.type === type).map((source) => {
+          const linkedPatterns = getPatternsForSource(source.id);
+          return (
+            <article class="source-row">
+              <h3><a href={withBase(`/sources/${source.id}/`)}>{source.name}</a></h3>
+              <div class="pill-list">
+                <span>{linkedPatterns.length} patterns</span>
+                <span>checked {source.checkedAt}</span>
+              </div>
+              <p>{source.notes}</p>
+            </article>
+          );
+        })}
+      </section>
+    ))}
   </div>
 </BaseLayout>

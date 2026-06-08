@@ -76,6 +76,7 @@ export default function FacetedSearchDemo() {
                 <label key={value} className="facet-option">
                   <input
                     type="checkbox"
+                    name={`facet-${group.id}`}
                     checked={facets[group.id].includes(value)}
                     onChange={() => toggleFacet(group.id, value)}
                   />

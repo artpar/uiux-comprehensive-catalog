@@ -8,6 +8,14 @@ type Props = {
 };
 
 const { title, description = "A source-backed catalog of practical UI/UX patterns." } = Astro.props;
+const currentPath = Astro.url.pathname;
+const navItems = [
+  { href: withBase("/"), label: "Patterns", icon: "#", active: currentPath === withBase("/") || currentPath.startsWith(withBase("/patterns/")) },
+  { href: withBase("/agent/"), label: "Agent exports", icon: "{}", active: currentPath.startsWith(withBase("/agent/")) },
+  { href: withBase("/compare/"), label: "Compare", icon: "<>", active: currentPath.startsWith(withBase("/compare/")) },
+  { href: withBase("/sources/"), label: "Sources", icon: "[]", active: currentPath.startsWith(withBase("/sources/")) },
+  { href: withBase("/anti-patterns/"), label: "Anti-patterns", icon: "!", active: currentPath.startsWith(withBase("/anti-patterns/")) }
+];
 ---
 
 <!doctype html>
@@ -16,17 +24,19 @@ const { title, description = "A source-backed catalog of practical UI/UX pattern
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
     <title>{title}</title>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href={withBase("/")}>UI/UX Pattern Catalog</a>
       <nav aria-label="Primary">
-        <a href={withBase("/")}>Patterns</a>
-        <a href={withBase("/agent/")}>Agent exports</a>
-        <a href={withBase("/compare/")}>Compare</a>
-        <a href={withBase("/sources/")}>Sources</a>
-        <a href={withBase("/anti-patterns/")}>Anti-patterns</a>
+        {navItems.map((item) => (
+          <a href={item.href} aria-current={item.active ? "page" : undefined}>
+            <span class="nav-mark" aria-hidden="true">{item.icon}</span>
+            {item.label}
+          </a>
+        ))}
       </nav>
     </header>
     <main>

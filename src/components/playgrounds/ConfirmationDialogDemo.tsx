@@ -7,6 +7,8 @@ export default function ConfirmationDialogDemo() {
   const [open, setOpen] = useState(false);
   const [projectExists, setProjectExists] = useState(true);
   const [status, setStatus] = useState("Project is active.");
+  const [highRisk, setHighRisk] = useState(false);
+  const [typedValue, setTypedValue] = useState("");
   const cancelRef = useRef<HTMLButtonElement | null>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
@@ -53,6 +55,7 @@ export default function ConfirmationDialogDemo() {
   function close(message: string) {
     setOpen(false);
     setStatus(message);
+    setTypedValue("");
     window.setTimeout(() => openerRef.current?.focus(), 0);
   }
 
@@ -61,6 +64,24 @@ export default function ConfirmationDialogDemo() {
       <div className="demo-object">
         <strong>Research archive</strong>
         <span>{projectExists ? "Active project with 14 notes" : "Deleted"}</span>
+      </div>
+      <div className="demo-row" role="group" aria-label="Confirmation risk variant">
+        <button
+          className={!highRisk ? "demo-button small primary" : "demo-button small"}
+          type="button"
+          aria-pressed={!highRisk}
+          onClick={() => setHighRisk(false)}
+        >
+          Standard risk
+        </button>
+        <button
+          className={highRisk ? "demo-button small primary" : "demo-button small"}
+          type="button"
+          aria-pressed={highRisk}
+          onClick={() => setHighRisk(true)}
+        >
+          Typed confirmation
+        </button>
       </div>
       <div className="demo-row">
         <button
@@ -95,12 +116,19 @@ export default function ConfirmationDialogDemo() {
           >
             <h3 id="confirm-title">Delete Research archive?</h3>
             <p id="confirm-description">This removes the project and its 14 notes. This demo treats the action as irreversible.</p>
+            {highRisk && (
+              <label>
+                Type DELETE to confirm
+                <input name="typed-confirmation" value={typedValue} onChange={(event) => setTypedValue(event.target.value)} />
+              </label>
+            )}
             <div className="demo-actions">
               <button
                 className="demo-button danger"
+                disabled={highRisk && typedValue !== "DELETE"}
                 onClick={() => {
                   setProjectExists(false);
-                  close("Project deleted. The destructive action was explicit.");
+                  close(highRisk ? "Project deleted after typed confirmation." : "Project deleted. The destructive action was explicit.");
                 }}
               >
                 Delete project

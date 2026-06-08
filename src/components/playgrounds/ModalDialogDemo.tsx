@@ -6,6 +6,7 @@ const focusableSelector =
 export default function ModalDialogDemo() {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState("Dialog is closed.");
+  const [mode, setMode] = useState<"modal" | "inline">("modal");
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
@@ -51,9 +52,28 @@ export default function ModalDialogDemo() {
   return (
     <div className="demo-surface">
       <div className="demo-row">
+        <div className="demo-row" role="group" aria-label="Dialog alternative">
+          <button
+            type="button"
+            className={mode === "modal" ? "demo-button small primary" : "demo-button small"}
+            aria-pressed={mode === "modal"}
+            onClick={() => setMode("modal")}
+          >
+            Modal task
+          </button>
+          <button
+            type="button"
+            className={mode === "inline" ? "demo-button small primary" : "demo-button small"}
+            aria-pressed={mode === "inline"}
+            onClick={() => setMode("inline")}
+          >
+            Inline alternative
+          </button>
+        </div>
         <button
           ref={openerRef}
           className="demo-button"
+          disabled={mode === "inline"}
           onClick={() => {
             setOpen(true);
             setStatus("Dialog opened; focus moved inside.");
@@ -65,6 +85,17 @@ export default function ModalDialogDemo() {
           {status}
         </span>
       </div>
+
+      {mode === "inline" && (
+        <div className="demo-mini-panel corrected">
+          <h3>Inline settings panel</h3>
+          <p>Use this instead of a modal when the task can stay in page context and does not need blocking focus.</p>
+          <label>
+            Display name
+            <input name="inline-display-name" defaultValue="Art" />
+          </label>
+        </div>
+      )}
 
       <div className={open ? "demo-backdrop is-open" : "demo-backdrop"} aria-hidden={!open}>
         {open && (
@@ -82,7 +113,7 @@ export default function ModalDialogDemo() {
             </p>
             <label>
               Display name
-              <input defaultValue="Art" />
+              <input name="modal-display-name" defaultValue="Art" />
             </label>
             <div className="demo-actions">
               <button className="demo-button primary" onClick={() => closeDialog("Settings saved; focus returned to the opener.")}>

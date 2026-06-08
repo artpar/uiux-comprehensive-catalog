@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { patterns } from "@/lib/catalog";
+import { getPattern, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 
 const antiPatterns = patterns.filter((pattern) => pattern.maturity === "anti-pattern");
@@ -9,7 +9,41 @@ const antiPatterns = patterns.filter((pattern) => pattern.maturity === "anti-pat
 <BaseLayout title="Anti-patterns | UI/UX Pattern Catalog">
   <section class="page-head">
     <h1>Anti-patterns</h1>
-    <p>Recurring interaction choices that create avoidable confusion, risk, or unrecoverable failure.</p>
+    <p>Audit generated UI for recurring interaction choices that create avoidable confusion, risk, or unrecoverable failure.</p>
+  </section>
+
+  <section class="detail-panel anti-audit">
+    <h2>Audit Mode</h2>
+    <p>Check each detection cue against the UI under review. If a cue is present, replace the interaction with the safer pattern contract before shipping or generating more code.</p>
+    <div class="audit-grid">
+      {antiPatterns.map((pattern) => (
+        <article class="audit-card">
+          <div class="card-meta">
+            <span>High severity</span>
+            <span>{pattern.category}</span>
+          </div>
+          <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
+          <label class="audit-check">
+            <input type="checkbox" name={`audit-${pattern.id}`} />
+            <span>{pattern.problemContext[0]}</span>
+          </label>
+          <h4>Detection cues</h4>
+          <ul>
+            {pattern.commonMisuses.slice(0, 3).map((item) => <li>{item}</li>)}
+          </ul>
+          <h4>Remediate with</h4>
+          <ul>
+            {pattern.implementationChecklist.slice(0, 3).map((item) => <li>{item}</li>)}
+          </ul>
+          <div class="comparison-links">
+            {pattern.relatedPatterns.map((id) => {
+              const related = getPattern(id);
+              return <a href={withBase(`/patterns/${id}/`)}>Safer alternative: {related?.name ?? id}</a>;
+            })}
+          </div>
+        </article>
+      ))}
+    </div>
   </section>
 
   <div class="pattern-grid">

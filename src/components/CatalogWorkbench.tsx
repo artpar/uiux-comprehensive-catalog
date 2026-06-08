@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PatternPlayground from "@/components/PatternPlayground";
 import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
 
@@ -18,6 +18,9 @@ type JobGroup = {
   patternIds: string[];
   categories: string[];
 };
+
+type DecisionStatus = "reviewing" | "selected" | "rejected" | "compare";
+type CandidateMode = "patterns" | "audit" | "all";
 
 const jobGroups: JobGroup[] = [
   {
@@ -71,8 +74,19 @@ const jobGroups: JobGroup[] = [
   }
 ];
 
-function matchesText(pattern: PatternEntry, query: string) {
-  const text = [
+const searchSynonyms: Record<string, string[]> = {
+  delete: ["destructive", "remove", "irreversible"],
+  destructive: ["delete", "remove", "danger"],
+  error: ["failure", "recovery", "failed"],
+  ai: ["automation", "prompt", "suggestion"],
+  filter: ["facet", "narrow", "search"],
+  mobile: ["navigation", "bottom"],
+  popup: ["modal", "dialog"],
+  undo: ["recover", "restore", "reversible"]
+};
+
+function searchText(pattern: PatternEntry) {
+  return [
     pattern.name,
     pattern.aliases.join(" "),
     pattern.category,
@@ -80,12 +94,120 @@ function matchesText(pattern: PatternEntry, query: string) {
     pattern.solution,
     pattern.selectionRules.join(" "),
     pattern.requiredStates.join(" "),
-    pattern.commonMisuses.join(" ")
-  ]
-    .join(" ")
-    .toLowerCase();
+    pattern.commonMisuses.join(" "),
+    pattern.implementationChecklist.join(" "),
+    pattern.variants.join(" "),
+    pattern.avoidWhen.join(" "),
+    pattern.failureModes.join(" "),
+    pattern.critiqueQuestions.join(" ")
+  ].join(" ");
+}
 
-  return text.includes(query.toLowerCase());
+function searchFields(pattern: PatternEntry) {
+  return [
+    { label: "name", value: pattern.name },
+    { label: "aliases", value: pattern.aliases.join(" ") },
+    { label: "problem", value: pattern.problem },
+    { label: "solution", value: pattern.solution },
+    { label: "selection rule", value: pattern.selectionRules.join(" ") },
+    { label: "required state", value: pattern.requiredStates.join(" ") },
+    { label: "misuse", value: pattern.commonMisuses.join(" ") },
+    { label: "checklist", value: pattern.implementationChecklist.join(" ") },
+    { label: "variant", value: pattern.variants.join(" ") },
+    { label: "avoid rule", value: pattern.avoidWhen.join(" ") },
+    { label: "failure mode", value: pattern.failureModes.join(" ") },
+    { label: "critique question", value: pattern.critiqueQuestions.join(" ") }
+  ].filter((field) => field.value.trim());
+}
+
+function normalizeSearch(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function editDistanceAtMost(a: string, b: string, maxDistance: number) {
+  if (Math.abs(a.length - b.length) > maxDistance) return false;
+  const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+
+  for (let i = 1; i <= a.length; i += 1) {
+    let lastDiagonal = previous[0];
+    previous[0] = i;
+    let rowMin = previous[0];
+
+    for (let j = 1; j <= b.length; j += 1) {
+      const nextDiagonal = previous[j];
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      previous[j] = Math.min(previous[j] + 1, previous[j - 1] + 1, lastDiagonal + cost);
+      lastDiagonal = nextDiagonal;
+      rowMin = Math.min(rowMin, previous[j]);
+    }
+
+    if (rowMin > maxDistance) return false;
+  }
+
+  return previous[b.length] <= maxDistance;
+}
+
+function queryTerms(query: string) {
+  return normalizeSearch(query)
+    .split(" ")
+    .filter(Boolean)
+    .flatMap((term) => [term, ...(searchSynonyms[term] ?? [])]);
+}
+
+function matchesText(pattern: PatternEntry, query: string) {
+  const text = normalizeSearch(searchText(pattern));
+  const words = text.split(" ");
+  return queryTerms(query).some((term) => {
+    if (text.includes(term)) return true;
+    if (term.length < 4) return false;
+    return words.some((word) => editDistanceAtMost(term, word, term.length > 7 ? 2 : 1));
+  });
+}
+
+function getSearchExplanation(pattern: PatternEntry, query: string) {
+  if (!query.trim()) return "";
+  const evidence = getSearchEvidence(pattern, query);
+  if (!evidence) return "Matched by fuzzy search across aliases, rules, states, and misuse guidance.";
+  return `Matched ${evidence.label}: ${evidence.snippet}`;
+}
+
+function firstMatchedTerm(pattern: PatternEntry, query: string) {
+  if (!query.trim()) return "";
+  return getSearchEvidence(pattern, query)?.term ?? "";
+}
+
+function getSearchEvidence(pattern: PatternEntry, query: string) {
+  const terms = queryTerms(query);
+  for (const field of searchFields(pattern)) {
+    const normalized = normalizeSearch(field.value);
+    const term = terms.find((item) => normalized.includes(item));
+    if (term) return { label: field.label, snippet: field.value, term };
+  }
+
+  for (const field of searchFields(pattern)) {
+    const words = normalizeSearch(field.value).split(" ");
+    for (const item of terms) {
+      if (item.length < 4) continue;
+      const matchedWord = words.find((word) => editDistanceAtMost(item, word, item.length > 7 ? 2 : 1));
+      if (matchedWord) return { label: field.label, snippet: field.value, term: matchedWord };
+    }
+  }
+
+  return null;
+}
+
+function HighlightedText({ text, term }: { text: string; term: string }) {
+  if (!term.trim()) return <>{text}</>;
+  const normalizedTerm = term.toLowerCase();
+  const index = text.toLowerCase().indexOf(normalizedTerm);
+  if (index === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark>{text.slice(index, index + term.length)}</mark>
+      {text.slice(index + term.length)}
+    </>
+  );
 }
 
 function matchesJob(pattern: PatternEntry, jobId: string) {
@@ -106,6 +228,10 @@ function formatLabel(value: string) {
     .join(" ");
 }
 
+function isCandidateMode(value: string | null): value is CandidateMode {
+  return value === "patterns" || value === "audit" || value === "all";
+}
+
 function getMatchReason(pattern: PatternEntry, jobId: string, query: string) {
   const reasons: string[] = [];
   const job = jobGroups.find((item) => item.id === jobId);
@@ -114,7 +240,7 @@ function getMatchReason(pattern: PatternEntry, jobId: string, query: string) {
   }
 
   if (query.trim()) {
-    reasons.push(`Matches "${query.trim()}" in pattern guidance.`);
+    reasons.push(getSearchExplanation(pattern, query));
   }
 
   if (!reasons.length) {
@@ -124,20 +250,48 @@ function getMatchReason(pattern: PatternEntry, jobId: string, query: string) {
   return reasons[0];
 }
 
-function buildAgentBrief(pattern: PatternEntry, jobId: string, query: string) {
+function buildAgentBrief({
+  pattern,
+  jobId,
+  query,
+  platform,
+  risk,
+  recovery,
+  urgency,
+  confidence,
+  interruptionCost,
+  decisionStatus,
+  shortlist
+}: {
+  pattern: PatternEntry;
+  jobId: string;
+  query: string;
+  platform: string;
+  risk: string;
+  recovery: string;
+  urgency: string;
+  confidence: string;
+  interruptionCost: string;
+  decisionStatus: DecisionStatus;
+  shortlist: PatternEntry[];
+}) {
   const job = jobGroups.find((item) => item.id === jobId);
   const lines = [
     `Pattern: ${pattern.name}`,
+    `Decision status: ${formatLabel(decisionStatus)}`,
     `Problem: ${pattern.problem}`,
+    `Context: risk=${risk}; reversibility=${recovery}; urgency=${urgency}; system-confidence=${confidence}; interruption-cost=${interruptionCost}; platform=${platform === "all" ? "unspecified" : platform}`,
     `Use when: ${pattern.useWhen.slice(0, 2).join(" ")}`,
     `Avoid when: ${pattern.avoidWhen.slice(0, 2).join(" ")}`,
     `Required states: ${pattern.requiredStates.slice(0, 4).join("; ")}`,
     `Interaction contract: ${pattern.interactionContract.slice(0, 3).join("; ")}`,
-    `Common generated-UI mistakes: ${pattern.commonMisuses.slice(0, 3).join("; ")}`
+    `Common generated-UI mistakes: ${pattern.commonMisuses.slice(0, 3).join("; ")}`,
+    `Critique questions: ${pattern.critiqueQuestions.slice(0, 3).join("; ")}`
   ];
 
   if (job) lines.unshift(`User job: ${job.label} - ${job.decisionPrompt}`);
   if (query.trim()) lines.unshift(`Current search: ${query.trim()}`);
+  if (shortlist.length > 0) lines.push(`Shortlist: ${shortlist.map((item) => item.name).join(", ")}`);
 
   return lines.join("\n");
 }
@@ -155,13 +309,25 @@ export default function CatalogWorkbench({
   const [category, setCategory] = useState("all");
   const [platform, setPlatform] = useState("all");
   const [maturity, setMaturity] = useState("all");
-  const [showAntiPatterns, setShowAntiPatterns] = useState(true);
+  const [candidateMode, setCandidateMode] = useState<CandidateMode>("patterns");
   const [selectedId, setSelectedId] = useState(patterns[0]?.id ?? "");
   const [copyStatus, setCopyStatus] = useState("Ready to copy.");
+  const [risk, setRisk] = useState("medium");
+  const [recovery, setRecovery] = useState("reversible");
+  const [urgency, setUrgency] = useState("normal");
+  const [confidence, setConfidence] = useState("known");
+  const [interruptionCost, setInterruptionCost] = useState("medium");
+  const [shortlistIds, setShortlistIds] = useState<string[]>([]);
+  const [decisionById, setDecisionById] = useState<Record<string, DecisionStatus>>({});
+  const [critiqueNote, setCritiqueNote] = useState("");
+  const [expandedLab, setExpandedLab] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+  const searchRef = useRef<HTMLInputElement | null>(null);
 
   const filtered = useMemo(() => {
     return patterns.filter((pattern) => {
-      if (!showAntiPatterns && pattern.maturity === "anti-pattern") return false;
+      if (candidateMode === "patterns" && pattern.maturity === "anti-pattern") return false;
+      if (candidateMode === "audit" && pattern.maturity !== "anti-pattern") return false;
       if (!matchesJob(pattern, job)) return false;
       if (category !== "all" && pattern.category !== category) return false;
       if (platform !== "all" && !pattern.platforms.includes(platform as never)) return false;
@@ -169,14 +335,196 @@ export default function CatalogWorkbench({
       if (query.trim() && !matchesText(pattern, query.trim())) return false;
       return true;
     });
-  }, [patterns, query, job, category, platform, maturity, showAntiPatterns]);
+  }, [patterns, query, job, category, platform, maturity, candidateMode]);
 
-  const selected = filtered.find((pattern) => pattern.id === selectedId) ?? filtered[0] ?? patterns[0];
-  const agentBrief = selected ? buildAgentBrief(selected, job, query) : "";
+  const selectedWasFilteredOut = Boolean(selectedId) && filtered.length > 0 && !filtered.some((pattern) => pattern.id === selectedId);
+  const selected = patterns.find((pattern) => pattern.id === selectedId) ?? filtered[0] ?? patterns[0];
   const selectedComparisons = selected
     ? comparisons.filter((comparison) => comparison.patternIds.includes(selected.id))
     : [];
   const activeJob = jobGroups.find((item) => item.id === job);
+  const filteredSummary = useMemo(() => {
+    const antiPatternCount = filtered.filter((pattern) => pattern.maturity === "anti-pattern").length;
+    const categoriesShown = new Set(filtered.map((pattern) => pattern.category)).size;
+    const matureCount = filtered.filter((pattern) => pattern.maturity === "standard" || pattern.maturity === "established").length;
+    return `${categoriesShown} families, ${matureCount} proven, ${antiPatternCount} audit flags`;
+  }, [filtered]);
+  const shortlist = shortlistIds
+    .map((id) => patterns.find((pattern) => pattern.id === id))
+    .filter((pattern): pattern is PatternEntry => Boolean(pattern));
+  const decisionStatus = selected ? decisionById[selected.id] ?? "reviewing" : "reviewing";
+  const sourceConfidence = selected
+    ? `${selected.sources.length} source-backed ${selected.sources.length === 1 ? "claim" : "claims"}, verified ${selected.lastVerified}`
+    : "";
+  const agentBrief = selected
+    ? buildAgentBrief({
+        pattern: selected,
+        jobId: job,
+        query,
+        platform,
+        risk,
+        recovery,
+        urgency,
+        confidence,
+        interruptionCost,
+        decisionStatus,
+        shortlist
+      })
+    : "";
+  const contextParams = new URLSearchParams();
+  if (selected) contextParams.set("selected", selected.id);
+  if (shortlistIds.length > 0) contextParams.set("shortlist", shortlistIds.join(","));
+  if (job !== "all") contextParams.set("job", job);
+  if (query.trim()) contextParams.set("query", query.trim());
+  contextParams.set("mode", candidateMode);
+  if (category !== "all") contextParams.set("category", category);
+  if (platform !== "all") contextParams.set("platform", platform);
+  if (maturity !== "all") contextParams.set("maturity", maturity);
+  contextParams.set("risk", risk);
+  contextParams.set("recovery", recovery);
+  contextParams.set("urgency", urgency);
+  contextParams.set("confidence", confidence);
+  contextParams.set("interruption", interruptionCost);
+
+  function comparisonHref(comparison: ComparisonEntry) {
+    const suffix = contextParams.toString();
+    return `${baseUrl}compare/${comparison.id}/${suffix ? `?${suffix}` : ""}`;
+  }
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const patternId = params.get("pattern") ?? params.get("selected");
+    if (patternId && patterns.some((pattern) => pattern.id === patternId)) {
+      setSelectedId(patternId);
+    }
+
+    const shortlist = params
+      .get("shortlist")
+      ?.split(",")
+      .filter((id) => patterns.some((pattern) => pattern.id === id));
+    if (shortlist?.length) setShortlistIds(shortlist);
+
+    const queryParam = params.get("query");
+    if (queryParam) setQuery(queryParam);
+
+    const jobParam = params.get("job");
+    if (jobParam && (jobParam === "all" || jobGroups.some((item) => item.id === jobParam))) setJob(jobParam);
+
+    const modeParam = params.get("mode");
+    if (isCandidateMode(modeParam)) setCandidateMode(modeParam);
+
+    const categoryParam = params.get("category");
+    if (categoryParam && (categoryParam === "all" || categories.includes(categoryParam))) setCategory(categoryParam);
+
+    const platformParam = params.get("platform");
+    if (platformParam && (platformParam === "all" || platforms.includes(platformParam))) setPlatform(platformParam);
+
+    const maturityParam = params.get("maturity");
+    if (maturityParam && (maturityParam === "all" || maturities.includes(maturityParam))) setMaturity(maturityParam);
+
+    const riskParam = params.get("risk");
+    if (riskParam === "low" || riskParam === "medium" || riskParam === "high") setRisk(riskParam);
+
+    const recoveryParam = params.get("recovery");
+    if (recoveryParam === "reversible" || recoveryParam === "delayed" || recoveryParam === "irreversible") {
+      setRecovery(recoveryParam);
+    }
+
+    const urgencyParam = params.get("urgency");
+    if (urgencyParam === "low" || urgencyParam === "normal" || urgencyParam === "urgent") setUrgency(urgencyParam);
+
+    const confidenceParam = params.get("confidence");
+    if (confidenceParam === "known" || confidenceParam === "uncertain" || confidenceParam === "low") {
+      setConfidence(confidenceParam);
+    }
+
+    const interruptionParam = params.get("interruption");
+    if (interruptionParam === "low" || interruptionParam === "medium" || interruptionParam === "high") {
+      setInterruptionCost(interruptionParam);
+    }
+  }, [categories, maturities, patterns, platforms]);
+
+  useEffect(() => {
+    if (!selected) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("pattern", selected.id);
+    url.searchParams.set("mode", candidateMode);
+    if (shortlistIds.length > 0) url.searchParams.set("shortlist", shortlistIds.join(","));
+    else url.searchParams.delete("shortlist");
+    if (job !== "all") url.searchParams.set("job", job);
+    else url.searchParams.delete("job");
+    if (query.trim()) url.searchParams.set("query", query.trim());
+    else url.searchParams.delete("query");
+    if (category !== "all") url.searchParams.set("category", category);
+    else url.searchParams.delete("category");
+    if (platform !== "all") url.searchParams.set("platform", platform);
+    else url.searchParams.delete("platform");
+    if (maturity !== "all") url.searchParams.set("maturity", maturity);
+    else url.searchParams.delete("maturity");
+    url.searchParams.set("risk", risk);
+    url.searchParams.set("recovery", recovery);
+    url.searchParams.set("urgency", urgency);
+    url.searchParams.set("confidence", confidence);
+    url.searchParams.set("interruption", interruptionCost);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  }, [
+    candidateMode,
+    category,
+    confidence,
+    interruptionCost,
+    job,
+    maturity,
+    platform,
+    query,
+    recovery,
+    risk,
+    selected,
+    shortlistIds,
+    urgency
+  ]);
+
+  useEffect(() => {
+    if (!selected && filtered[0]) {
+      setSelectedId(filtered[0].id);
+    }
+  }, [filtered, selected]);
+
+  useEffect(() => {
+    function isTypingTarget(target: EventTarget | null) {
+      return target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement;
+    }
+
+    function moveSelection(direction: 1 | -1) {
+      if (!selected || filtered.length === 0) return;
+      const currentIndex = filtered.findIndex((pattern) => pattern.id === selected.id);
+      const nextIndex = Math.max(0, Math.min(filtered.length - 1, currentIndex + direction));
+      setSelectedId(filtered[nextIndex].id);
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "/" && !isTypingTarget(event.target)) {
+        event.preventDefault();
+        searchRef.current?.focus();
+        return;
+      }
+
+      if (isTypingTarget(event.target)) return;
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        moveSelection(1);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        moveSelection(-1);
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [filtered, selected]);
 
   async function copyAgentBrief() {
     if (!agentBrief) return;
@@ -188,10 +536,29 @@ export default function CatalogWorkbench({
     }
   }
 
+  function toggleShortlist(patternId: string) {
+    setShortlistIds((current) =>
+      current.includes(patternId) ? current.filter((id) => id !== patternId) : [...current, patternId]
+    );
+  }
+
+  function setPatternDecisionStatus(status: DecisionStatus) {
+    if (!selected) return;
+    setDecisionById((current) => ({ ...current, [selected.id]: status }));
+  }
+
   return (
-    <section className="workbench decision-workbench" aria-label="Pattern decision workbench">
+    <section
+      className="workbench decision-workbench"
+      aria-label="Pattern decision workbench"
+      aria-busy={!hydrated}
+    >
+      {!hydrated && <p className="hydration-status" role="status">Preparing interactive controls...</p>}
       {selected && (
-        <article className="lab-panel" aria-labelledby="selected-pattern-title">
+        <article
+          className={expandedLab ? "lab-panel is-expanded" : "lab-panel"}
+          aria-labelledby="selected-pattern-title"
+        >
           <div className="lab-titlebar">
             <div>
               <span className="eyebrow">Selected pattern</span>
@@ -199,11 +566,31 @@ export default function CatalogWorkbench({
               <p>{selected.problem}</p>
             </div>
             <div className="lab-actions" aria-label="Selected pattern actions">
+              <button
+                className="action-link action-button"
+                type="button"
+                onClick={() => toggleShortlist(selected.id)}
+                aria-pressed={shortlistIds.includes(selected.id)}
+              >
+                <span className="action-mark" aria-hidden="true">{shortlistIds.includes(selected.id) ? "-" : "+"}</span>
+                {shortlistIds.includes(selected.id) ? "Shortlisted" : "Shortlist"}
+              </button>
+              <button
+                className="action-link action-button"
+                type="button"
+                onClick={() => setExpandedLab((current) => !current)}
+                aria-pressed={expandedLab}
+              >
+                <span className="action-mark" aria-hidden="true">{expandedLab ? "[]" : "[ ]"}</span>
+                {expandedLab ? "Compact lab" : "Expand lab"}
+              </button>
               <a className="action-link" href={`${baseUrl}patterns/${selected.id}/`}>
+                <span className="action-mark" aria-hidden="true">-&gt;</span>
                 Full contract
               </a>
               {selectedComparisons[0] && (
-                <a className="action-link" href={`${baseUrl}compare/${selectedComparisons[0].id}/`}>
+                <a className="action-link" href={comparisonHref(selectedComparisons[0])}>
+                  <span className="action-mark" aria-hidden="true">&lt;&gt;</span>
                   Compare
                 </a>
               )}
@@ -220,6 +607,23 @@ export default function CatalogWorkbench({
           </div>
 
           <PatternPlayground pattern={selected} variant="preview" />
+
+          <div className="decision-status" aria-label="Pattern decision result">
+            <span className="rail-label">Decision result</span>
+            <div className="decision-buttons">
+              {(["reviewing", "selected", "compare", "rejected"] as DecisionStatus[]).map((status) => (
+                <button
+                  key={status}
+                  className={decisionStatus === status ? "is-active" : ""}
+                  type="button"
+                  aria-pressed={decisionStatus === status}
+                  onClick={() => setPatternDecisionStatus(status)}
+                >
+                  {formatLabel(status)}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <div className="contract-strip" aria-label="Pattern contract snapshot">
             <section>
@@ -255,11 +659,15 @@ export default function CatalogWorkbench({
           <span className="rail-label">Find candidates</span>
           <strong>{filtered.length} matches</strong>
         </div>
+        <p className="result-summary" aria-live="polite">{filteredSummary}</p>
 
         <label>
           <span>Search by problem, risk, state, or misuse</span>
           <input
+            ref={searchRef}
             type="search"
+            name="catalog-query"
+            aria-keyshortcuts="/"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Example: irreversible action"
@@ -286,14 +694,37 @@ export default function CatalogWorkbench({
           ))}
         </div>
 
+        <div className="decision-buttons mode-switcher" role="group" aria-label="Candidate mode">
+          {([
+            ["patterns", "Pattern candidates"],
+            ["audit", "Audit flags"],
+            ["all", "All entries"]
+          ] as [CandidateMode, string][]).map(([mode, label]) => (
+            <button
+              key={mode}
+              type="button"
+              className={candidateMode === mode ? "is-active" : ""}
+              aria-pressed={candidateMode === mode}
+              onClick={() => setCandidateMode(mode)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
         {activeJob && <p className="finder-context">{activeJob.decisionPrompt}</p>}
+        {selectedWasFilteredOut && (
+          <p className="finder-context" role="status">
+            Selected pattern is outside the current candidate filters. It remains open so you can inspect or compare it.
+          </p>
+        )}
 
         <details className="filter-details">
           <summary>Advanced filters</summary>
           <div className="filter-content">
             <label>
               <span>Category</span>
-              <select value={category} onChange={(event) => setCategory(event.target.value)}>
+              <select name="catalog-category" value={category} onChange={(event) => setCategory(event.target.value)}>
                 <option value="all">All categories</option>
                 {categories.map((item) => (
                   <option key={item} value={item}>
@@ -306,7 +737,7 @@ export default function CatalogWorkbench({
             <div className="filter-pair">
               <label>
                 <span>Platform</span>
-                <select value={platform} onChange={(event) => setPlatform(event.target.value)}>
+                <select name="catalog-platform" value={platform} onChange={(event) => setPlatform(event.target.value)}>
                   <option value="all">All platforms</option>
                   {platforms.map((item) => (
                     <option key={item} value={item}>
@@ -318,7 +749,7 @@ export default function CatalogWorkbench({
 
               <label>
                 <span>Maturity</span>
-                <select value={maturity} onChange={(event) => setMaturity(event.target.value)}>
+                <select name="catalog-maturity" value={maturity} onChange={(event) => setMaturity(event.target.value)}>
                   <option value="all">All levels</option>
                   {maturities.map((item) => (
                     <option key={item} value={item}>
@@ -329,14 +760,7 @@ export default function CatalogWorkbench({
               </label>
             </div>
 
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={showAntiPatterns}
-                onChange={(event) => setShowAntiPatterns(event.target.checked)}
-              />
-              Include anti-patterns in candidates
-            </label>
+            <p className="filter-note">Candidate mode controls whether anti-patterns appear as audit flags or normal entries.</p>
           </div>
         </details>
 
@@ -347,15 +771,17 @@ export default function CatalogWorkbench({
               <p>Clear a filter or broaden the search to inspect candidates again.</p>
               <button
                 className="demo-button small"
+                type="button"
                 onClick={() => {
                   setQuery("");
                   setJob("all");
                   setCategory("all");
                   setPlatform("all");
                   setMaturity("all");
-                  setShowAntiPatterns(true);
+                  setCandidateMode("patterns");
                 }}
               >
+                <span className="action-mark" aria-hidden="true">x</span>
                 Reset filters
               </button>
             </div>
@@ -368,8 +794,12 @@ export default function CatalogWorkbench({
               onClick={() => setSelectedId(pattern.id)}
               aria-current={pattern.id === selected?.id ? "true" : undefined}
             >
-              <span className="row-title">{pattern.name}</span>
-              <span className="row-problem">{getMatchReason(pattern, job, query)}</span>
+              <span className="row-title">
+                <HighlightedText text={pattern.name} term={firstMatchedTerm(pattern, query)} />
+              </span>
+              <span className="row-problem">
+                <HighlightedText text={getMatchReason(pattern, job, query)} term={firstMatchedTerm(pattern, query)} />
+              </span>
               <span className="row-meta">
                 <span>{formatLabel(pattern.maturity)}</span>
                 <span>{sourceCountLabel(pattern)}</span>
@@ -381,9 +811,74 @@ export default function CatalogWorkbench({
 
       {selected && (
         <aside className="decision-panel" aria-label="Decision guidance and agent export">
+          <section className="decision-card">
+            <h3>Decision Inputs</h3>
+            <div className="filter-pair">
+              <label>
+                <span>Consequence</span>
+                <select name="decision-risk" value={risk} onChange={(event) => setRisk(event.target.value)}>
+                  <option value="low">Low risk</option>
+                  <option value="medium">Medium risk</option>
+                  <option value="high">High risk</option>
+                </select>
+              </label>
+              <label>
+                <span>Recovery</span>
+                <select name="decision-recovery" value={recovery} onChange={(event) => setRecovery(event.target.value)}>
+                  <option value="reversible">Reversible</option>
+                  <option value="delayed">Delayed recovery</option>
+                  <option value="irreversible">Irreversible</option>
+                </select>
+              </label>
+            </div>
+            <div className="filter-pair">
+              <label>
+                <span>Urgency</span>
+                <select name="decision-urgency" value={urgency} onChange={(event) => setUrgency(event.target.value)}>
+                  <option value="low">Can wait</option>
+                  <option value="normal">Normal pace</option>
+                  <option value="urgent">Urgent task</option>
+                </select>
+              </label>
+              <label>
+                <span>System confidence</span>
+                <select name="decision-confidence" value={confidence} onChange={(event) => setConfidence(event.target.value)}>
+                  <option value="known">Known outcome</option>
+                  <option value="uncertain">Uncertain outcome</option>
+                  <option value="low">Low confidence</option>
+                </select>
+              </label>
+            </div>
+            <label>
+              <span>Interruption cost</span>
+              <select
+                name="decision-interruption-cost"
+                value={interruptionCost}
+                onChange={(event) => setInterruptionCost(event.target.value)}
+              >
+                <option value="low">Low interruption cost</option>
+                <option value="medium">Medium interruption cost</option>
+                <option value="high">High interruption cost</option>
+              </select>
+            </label>
+          </section>
+
           <section className="decision-card fit-card">
             <span className="rail-label">Why this candidate</span>
             <p>{getMatchReason(selected, job, query)}</p>
+            <p className="source-confidence">{sourceConfidence}</p>
+          </section>
+
+          <section className="decision-card">
+            <h3>Source-Backed Claims</h3>
+            <ul className="claim-list">
+              {selected.sources.slice(0, 3).map((source) => (
+                <li key={source.id}>
+                  <a href={`${baseUrl}sources/${source.id}/`}>{source.id}</a>
+                  <span>{source.note}</span>
+                </li>
+              ))}
+            </ul>
           </section>
 
           <section className="decision-card">
@@ -409,9 +904,52 @@ export default function CatalogWorkbench({
               <h3>Compare Alternatives</h3>
               <div className="comparison-links">
                 {selectedComparisons.map((comparison) => (
-                  <a key={comparison.id} href={`${baseUrl}compare/${comparison.id}/`}>
+                  <a key={comparison.id} href={comparisonHref(comparison)}>
+                    <span className="action-mark" aria-hidden="true">&lt;&gt;</span>
                     {comparison.title}
                   </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section className="decision-card">
+            <h3>Audit Generated UI</h3>
+            <ul className="check-list audit-list">
+              {selected.critiqueQuestions.slice(0, 3).map((item) => (
+                <li key={item}>
+                  <label className="audit-check">
+                    <input type="checkbox" name={`audit-${selected.id}`} />
+                    <span>{item}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <label className="critique-note">
+              <span>Critique note</span>
+              <textarea
+                name="critique-note"
+                rows={3}
+                value={critiqueNote}
+                onChange={(event) => setCritiqueNote(event.target.value)}
+                placeholder="Record the gap to fix before generating UI"
+              />
+            </label>
+          </section>
+
+          {shortlist.length > 0 && (
+            <section className="decision-card">
+              <h3>Shortlist</h3>
+              <div className="shortlist">
+                {shortlist.map((pattern) => (
+                  <button
+                    key={pattern.id}
+                    type="button"
+                    className={pattern.id === selected.id ? "is-active" : ""}
+                    onClick={() => setSelectedId(pattern.id)}
+                  >
+                    {pattern.name}
+                  </button>
                 ))}
               </div>
             </section>
@@ -420,11 +958,12 @@ export default function CatalogWorkbench({
           <section className="decision-card agent-brief-card">
             <div className="decision-card-head">
               <h3>Agent Brief</h3>
-              <button className="demo-button small" onClick={copyAgentBrief}>
+              <button className="demo-button small" type="button" onClick={copyAgentBrief}>
+                <span className="action-mark" aria-hidden="true">copy</span>
                 Copy
               </button>
             </div>
-            <textarea readOnly value={agentBrief} rows={9} aria-label="Selected pattern agent brief" />
+            <textarea name="selected-pattern-agent-brief" readOnly value={agentBrief} rows={9} aria-label="Selected pattern agent brief" />
             <p className="demo-status" aria-live="polite">
               {copyStatus}
             </p>

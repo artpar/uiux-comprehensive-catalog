@@ -19,15 +19,28 @@ export default function NoResultsRecoveryDemo() {
     setOnlyMobile(false);
   }
 
+  function showNoResults() {
+    setQuery("zzz");
+    setOnlyMobile(true);
+  }
+
   return (
     <div className="demo-surface">
+      <div className="demo-row" role="group" aria-label="No-results scenarios">
+        <button type="button" className="demo-button small" onClick={recover}>
+          Normal results
+        </button>
+        <button type="button" className="demo-button small" onClick={showNoResults}>
+          Zero-result state
+        </button>
+      </div>
       <div className="demo-filter-grid">
         <label>
           Search patterns
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try zzz" />
+          <input name="no-results-query" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try zzz" />
         </label>
         <label className="checkbox-label">
-          <input type="checkbox" checked={onlyMobile} onChange={(event) => setOnlyMobile(event.target.checked)} />
+          <input name="no-results-mobile-only" type="checkbox" checked={onlyMobile} onChange={(event) => setOnlyMobile(event.target.checked)} />
           Mobile only
         </label>
       </div>

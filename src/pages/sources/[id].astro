@@ -12,6 +12,10 @@ export function getStaticPaths() {
 
 const { source } = Astro.props;
 const linkedPatterns = getPatternsForSource(source.id);
+const claimRows = linkedPatterns.map((pattern) => ({
+  pattern,
+  note: pattern.sources.find((ref) => ref.id === source.id)?.note ?? source.notes
+}));
 ---
 
 <BaseLayout title={`${source.name} | UI/UX Pattern Catalog`} description={source.notes}>
@@ -25,16 +29,37 @@ const linkedPatterns = getPatternsForSource(source.id);
     <p><a href={source.url}>Open source</a></p>
   </section>
 
-  <section class="detail-panel">
-    <h2>Supported Patterns</h2>
+  <section class="comparison-matrix detail-panel">
+    <h2>Pattern Decisions This Source Supports</h2>
     {linkedPatterns.length > 0 ? (
-      <ul>
-        {linkedPatterns.map((pattern) => (
-          <li><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Pattern</th>
+            <th>Supported decision</th>
+            <th>Required contract</th>
+            <th>Claim note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {claimRows.map(({ pattern, note }) => (
+            <tr>
+              <td><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></td>
+              <td>{pattern.selectionRules[0]}</td>
+              <td>{pattern.interactionContract[0]}</td>
+              <td>{note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     ) : (
       <p>No linked patterns yet.</p>
     )}
+  </section>
+
+  <section class="detail-panel">
+    <h2>Evidence Role</h2>
+    <p>This source is treated as <strong>{source.type}</strong> evidence. Use it to validate the decision rules above, not as a visual style reference.</p>
+    <p>Publisher: {source.publisher ?? "Unknown"}. Last checked: {source.checkedAt}.</p>
   </section>
 </BaseLayout>

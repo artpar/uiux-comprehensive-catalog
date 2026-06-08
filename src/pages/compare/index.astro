@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { comparisons } from "@/lib/catalog";
+import { comparisons, getPattern } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 ---
 
@@ -10,11 +10,41 @@ import { withBase } from "@/lib/paths";
     <p>Decision pages for choosing between similar interaction patterns.</p>
   </section>
 
+  <section class="comparison-matrix detail-panel">
+    <h2>Decision Matrix</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Comparison</th>
+          <th>Patterns</th>
+          <th>Choose by</th>
+          <th>Failure to avoid</th>
+        </tr>
+      </thead>
+      <tbody>
+        {comparisons.map((comparison) => {
+          const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(Boolean);
+          return (
+            <tr>
+              <td><a href={withBase(`/compare/${comparison.id}/`)}>{comparison.title}</a></td>
+              <td>{comparedPatterns.map((pattern) => pattern?.name).join(" vs ")}</td>
+              <td>{comparison.decisionRules[0]}</td>
+              <td>{comparison.failureModes[0] ?? "Document the conditions that make either pattern unsafe."}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </section>
+
   <div class="pattern-grid">
     {comparisons.map((comparison) => (
       <article class="comparison-card">
         <h2><a href={withBase(`/compare/${comparison.id}/`)}>{comparison.title}</a></h2>
         <p>{comparison.summary}</p>
+        <ul>
+          {comparison.decisionRules.slice(0, 2).map((item) => <li>{item}</li>)}
+        </ul>
       </article>
     ))}
   </div>

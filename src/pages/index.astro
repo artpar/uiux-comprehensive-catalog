@@ -2,8 +2,20 @@
 import CatalogWorkbench from "@/components/CatalogWorkbench";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { comparisons, patterns } from "@/lib/catalog";
-import { patternCategories, patternMaturities, platforms } from "@/data/taxonomy";
 import { withBase } from "@/lib/paths";
+
+const seededCategories = [...new Set(patterns.map((pattern) => pattern.category))].sort();
+const seededPlatforms = [...new Set(patterns.flatMap((pattern) => pattern.platforms))].sort();
+const seededMaturities = [...new Set(patterns.map((pattern) => pattern.maturity))].sort();
+const coverageRows = seededCategories.map((category) => {
+  const categoryPatterns = patterns.filter((pattern) => pattern.category === category);
+  return {
+    category,
+    count: categoryPatterns.length,
+    patterns: categoryPatterns.map((pattern) => pattern.name).join(", "),
+    maturity: [...new Set(categoryPatterns.map((pattern) => pattern.maturity))].join(", ")
+  };
+});
 ---
 
 <BaseLayout title="UI/UX Pattern Catalog">
@@ -21,9 +33,33 @@ import { withBase } from "@/lib/paths";
     client:load
     patterns={patterns}
     comparisons={comparisons}
-    categories={[...patternCategories]}
-    platforms={[...platforms]}
-    maturities={[...patternMaturities]}
+    categories={seededCategories}
+    platforms={seededPlatforms}
+    maturities={seededMaturities}
     baseUrl={withBase("/")}
   />
+
+  <section class="comparison-matrix detail-panel catalog-coverage">
+    <h2>Catalog Coverage</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Family</th>
+          <th>Seeded patterns</th>
+          <th>Maturity represented</th>
+          <th>Current entries</th>
+        </tr>
+      </thead>
+      <tbody>
+        {coverageRows.map((row) => (
+          <tr>
+            <th scope="row">{row.category}</th>
+            <td>{row.count}</td>
+            <td>{row.maturity}</td>
+            <td>{row.patterns}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
 </BaseLayout>

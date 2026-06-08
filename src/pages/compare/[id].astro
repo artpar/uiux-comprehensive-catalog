@@ -18,12 +18,73 @@ export function getStaticPaths() {
 const { comparison } = Astro.props;
 const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(isPattern);
 const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
+const dimensions = [
+  {
+    label: "Best fit",
+    value: (pattern: PatternEntry) => pattern.useWhen[0] ?? pattern.selectionRules[0]
+  },
+  {
+    label: "Avoid when",
+    value: (pattern: PatternEntry) => pattern.avoidWhen[0] ?? pattern.failureModes[0]
+  },
+  {
+    label: "Required state",
+    value: (pattern: PatternEntry) => pattern.requiredStates[0]
+  },
+  {
+    label: "Accessibility burden",
+    value: (pattern: PatternEntry) => pattern.accessibility[0] ?? pattern.keyboardBehavior[0] ?? "Verify focus, labels, and operable controls."
+  },
+  {
+    label: "Common misuse",
+    value: (pattern: PatternEntry) => pattern.commonMisuses[0]
+  }
+];
 ---
 
 <BaseLayout title={`${comparison.title} | UI/UX Pattern Catalog`} description={comparison.summary}>
   <section class="page-head">
     <h1>{comparison.title}</h1>
     <p>{comparison.summary}</p>
+  </section>
+
+  <section class="detail-panel context-panel" id="workbench-context" hidden>
+    <h2>Workbench Context</h2>
+    <dl class="context-list">
+      <div><dt>Selected</dt><dd data-context-value="selected"></dd></div>
+      <div><dt>Shortlist</dt><dd data-context-value="shortlist"></dd></div>
+      <div><dt>User job</dt><dd data-context-value="job"></dd></div>
+      <div><dt>Search</dt><dd data-context-value="query"></dd></div>
+      <div><dt>Mode</dt><dd data-context-value="mode"></dd></div>
+      <div><dt>Category</dt><dd data-context-value="category"></dd></div>
+      <div><dt>Platform</dt><dd data-context-value="platform"></dd></div>
+      <div><dt>Maturity</dt><dd data-context-value="maturity"></dd></div>
+      <div><dt>Risk</dt><dd data-context-value="risk"></dd></div>
+      <div><dt>Recovery</dt><dd data-context-value="recovery"></dd></div>
+      <div><dt>Urgency</dt><dd data-context-value="urgency"></dd></div>
+      <div><dt>Confidence</dt><dd data-context-value="confidence"></dd></div>
+      <div><dt>Interruption</dt><dd data-context-value="interruption"></dd></div>
+    </dl>
+  </section>
+
+  <section class="comparison-matrix detail-panel">
+    <h2>Side-by-side decision table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          {comparedPatterns.map((pattern) => <th>{pattern.name}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {dimensions.map((dimension) => (
+          <tr>
+            <th scope="row">{dimension.label}</th>
+            {comparedPatterns.map((pattern) => <td>{dimension.value(pattern)}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </section>
 
   <div class="detail-grid">
@@ -36,12 +97,12 @@ const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref
       </section>
 
       <section class="detail-panel">
-        <h2>Compared Patterns</h2>
-        <ul>
+        <h2>Inspect Live Examples</h2>
+        <div class="comparison-links">
           {comparedPatterns.map((pattern) => (
-            <li><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a>: {pattern.problem}</li>
+            <a data-live-pattern={pattern.id} href={withBase(`/?pattern=${pattern.id}`)}>{pattern.name}</a>
           ))}
-        </ul>
+        </div>
       </section>
 
       {comparison.failureModes.length > 0 && (
@@ -74,4 +135,43 @@ const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref
       </section>
     </aside>
   </div>
+
+  <script>
+    const contextPanel = document.getElementById("workbench-context");
+    const params = new URLSearchParams(window.location.search);
+    const contextKeys = [
+      "selected",
+      "shortlist",
+      "job",
+      "query",
+      "mode",
+      "category",
+      "platform",
+      "maturity",
+      "risk",
+      "recovery",
+      "urgency",
+      "confidence",
+      "interruption"
+    ];
+    const hasContext = contextKeys.some((key) => params.has(key));
+
+    if (contextPanel && hasContext) {
+      contextPanel.hidden = false;
+      contextKeys.forEach((key) => {
+        const target = contextPanel.querySelector(`[data-context-value="${key}"]`);
+        if (!target) return;
+        target.textContent = params.get(key)?.replaceAll(",", ", ") || "Not set";
+      });
+    }
+
+    document.querySelectorAll("[data-live-pattern]").forEach((link) => {
+      if (!(link instanceof HTMLAnchorElement)) return;
+      const pattern = link.getAttribute("data-live-pattern");
+      const nextParams = new URLSearchParams(window.location.search);
+      nextParams.delete("selected");
+      if (pattern) nextParams.set("pattern", pattern);
+      link.href = `${link.pathname}?${nextParams.toString()}`;
+    });
+  </script>
 </BaseLayout>

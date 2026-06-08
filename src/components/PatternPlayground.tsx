@@ -79,6 +79,20 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
       {demos[pattern.id] ?? (
         <p className="demo-status">No live example has been added for this pattern yet.</p>
       )}
+      <div className="demo-contract" aria-label={`${pattern.name} demo contract`}>
+        <section>
+          <h3>State To Inspect</h3>
+          <p>{pattern.requiredStates[0]}</p>
+        </section>
+        <section>
+          <h3>Keyboard / Access</h3>
+          <p>{pattern.keyboardBehavior[0] ?? pattern.accessibility[0] ?? "Verify focus, labels, and operable controls."}</p>
+        </section>
+        <section>
+          <h3>Avoid Generating</h3>
+          <p>{pattern.commonMisuses[0]}</p>
+        </section>
+      </div>
     </section>
   );
 }

@@ -30,13 +30,19 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
 
 <BaseLayout title={`${pattern.name} | UI/UX Pattern Catalog`} description={pattern.problem}>
   <section class="pattern-titlebar">
-    <div class="pill-list">
-      <span>{pattern.category}</span>
-      <span>{pattern.maturity}</span>
-      {pattern.platforms.map((platform) => <span>{platform}</span>)}
+    <div>
+      <div class="pill-list">
+        <span>{pattern.category}</span>
+        <span>{pattern.maturity}</span>
+        {pattern.platforms.map((platform) => <span>{platform}</span>)}
+      </div>
+      <h1>{pattern.name}</h1>
+      <p>{pattern.problem}</p>
     </div>
-    <h1>{pattern.name}</h1>
-    <p>{pattern.problem}</p>
+    <div class="title-actions">
+      <a class="action-link" href={withBase(`/?pattern=${pattern.id}`)}>Back to lab context</a>
+      {allComparisons[0] && <a class="action-link" href={withBase(`/compare/${allComparisons[0].id}/`)}>Compare alternatives</a>}
+    </div>
   </section>
 
   <div class="pattern-lab">
@@ -46,13 +52,21 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
   <div class="pattern-workspace">
     <aside class="sticky-demo pattern-sidebar">
       <section class="detail-panel compact-panel">
-        <h2>At A Glance</h2>
-        <div class="meta-strip">
-          <span>{pattern.category}</span>
-          <span>{pattern.maturity}</span>
-          {pattern.platforms.map((platform) => <span>{platform}</span>)}
-          <span>{pattern.sources.length} {pattern.sources.length === 1 ? "source" : "sources"}</span>
-        </div>
+        <h2>Decision Snapshot</h2>
+        <p><strong>Use:</strong> {pattern.useWhen[0]}</p>
+        <p><strong>Avoid:</strong> {pattern.avoidWhen[0]}</p>
+        <p><strong>Confidence:</strong> {pattern.sources.length} source-backed claims, verified {pattern.lastVerified}</p>
+      </section>
+
+      <section class="detail-panel compact-panel agent-panel">
+        <h2>Agent Contract</h2>
+        <ul>
+          {pattern.requiredStates.slice(0, 3).map((item) => <li>{item}</li>)}
+        </ul>
+        <h3>Avoid Generating</h3>
+        <ul>
+          {pattern.commonMisuses.slice(0, 2).map((item) => <li>{item}</li>)}
+        </ul>
       </section>
 
       {related.length > 0 && (
@@ -86,7 +100,7 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
       </section>
 
       <section class="guidance-block agent-panel">
-        <h2>Agent Decision Guidance</h2>
+        <h2>Full Agent Decision Guidance</h2>
         <h3>Problem Context</h3>
         <ul>
           {pattern.problemContext.map((item) => <li>{item}</li>)}

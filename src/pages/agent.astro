@@ -1,6 +1,35 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+
+const featuredPatterns = patterns.slice(0, 4);
+const patternBrief = featuredPatterns
+  .map((pattern) => [
+    `Pattern: ${pattern.name}`,
+    `Use when: ${pattern.selectionRules[0]}`,
+    `Must include: ${pattern.requiredStates.slice(0, 2).join("; ")}`,
+    `Avoid: ${pattern.commonMisuses[0]}`
+  ].join("\n"))
+  .join("\n\n");
+
+const decisionBrief = [
+  "Before generating UI:",
+  "1. Identify user job, consequence severity, reversibility, platform, and interruption cost.",
+  "2. Choose the pattern whose required states and interaction contract match that context.",
+  "3. Reject patterns whose avoid-when rules or common misuses match the current flow.",
+  "4. Generate the required empty, loading, error, disabled, keyboard, and recovery states."
+].join("\n");
+
+const antiPatternBrief = patterns
+  .filter((pattern) => pattern.maturity === "anti-pattern")
+  .map((pattern) => [
+    `Anti-pattern: ${pattern.name}`,
+    `Detect: ${pattern.problemContext[0]}`,
+    `Replace with: ${pattern.implementationChecklist[0]}`,
+    `Review: ${pattern.critiqueQuestions[0]}`
+  ].join("\n"))
+  .join("\n\n");
 ---
 
 <BaseLayout title="Agent Exports | UI/UX Pattern Catalog">
@@ -12,19 +41,60 @@ import { withBase } from "@/lib/paths";
     </p>
   </section>
 
-  <section class="detail-panel">
-    <h2>Prompt-ready Markdown</h2>
-    <ul>
-      <li><a href={withBase("/agent/patterns.md")}>Pattern guidance</a></li>
-      <li><a href={withBase("/agent/decision-guide.md")}>Decision guide</a></li>
-      <li><a href={withBase("/agent/anti-pattern-checklist.md")}>Anti-pattern checklist</a></li>
-    </ul>
-  </section>
+  <div class="agent-export-grid">
+    <section class="detail-panel export-card">
+      <div class="decision-card-head">
+        <h2>Pattern Guidance</h2>
+        <button class="demo-button small" data-copy-target="pattern-guidance">Copy preview</button>
+      </div>
+      <p>Use before code generation when an agent needs pattern contracts and common mistakes.</p>
+      <textarea id="pattern-guidance" name="pattern-guidance" readonly rows="10">{patternBrief}</textarea>
+      <a class="action-link" href={withBase("/agent/patterns.md")}>Open full Markdown</a>
+    </section>
 
-  <section class="detail-panel">
-    <h2>Machine-readable JSON</h2>
-    <ul>
-      <li><a href={withBase("/agent/patterns.json")}>Compact pattern JSON</a></li>
-    </ul>
-  </section>
+    <section class="detail-panel export-card">
+      <div class="decision-card-head">
+        <h2>Decision Guide</h2>
+        <button class="demo-button small" data-copy-target="decision-guide">Copy preview</button>
+      </div>
+      <p>Use when the agent must choose between patterns from task risk and state requirements.</p>
+      <textarea id="decision-guide" name="decision-guide" readonly rows="10">{decisionBrief}</textarea>
+      <a class="action-link" href={withBase("/agent/decision-guide.md")}>Open full Markdown</a>
+    </section>
+
+    <section class="detail-panel export-card">
+      <div class="decision-card-head">
+        <h2>Anti-pattern Checklist</h2>
+        <button class="demo-button small" data-copy-target="anti-pattern-checklist">Copy preview</button>
+      </div>
+      <p>Use after generation or during review to find known interaction failures and safer replacements.</p>
+      <textarea id="anti-pattern-checklist" name="anti-pattern-checklist" readonly rows="10">{antiPatternBrief}</textarea>
+      <a class="action-link" href={withBase("/agent/anti-pattern-checklist.md")}>Open full Markdown</a>
+    </section>
+
+    <section class="detail-panel export-card">
+      <h2>Machine-readable JSON</h2>
+      <p>Use for retrieval, custom agents, or automated catalog checks.</p>
+      <dl class="export-shape">
+        <div><dt>patterns[].selectionRules</dt><dd>Candidate choice rules.</dd></div>
+        <div><dt>patterns[].requiredStates</dt><dd>States the generated UI must include.</dd></div>
+        <div><dt>patterns[].commonMisuses</dt><dd>What not to generate.</dd></div>
+      </dl>
+      <a class="action-link" href={withBase("/agent/patterns.json")}>Open JSON</a>
+    </section>
+  </div>
+
+  <script>
+    document.querySelectorAll("[data-copy-target]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const target = document.getElementById(button.getAttribute("data-copy-target") || "");
+        if (!(target instanceof HTMLTextAreaElement)) return;
+        await navigator.clipboard.writeText(target.value);
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = "Copy preview";
+        }, 1400);
+      });
+    });
+  </script>
 </BaseLayout>
