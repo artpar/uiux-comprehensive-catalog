@@ -1,51 +1,107 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { comparisons, getPattern } from "@/lib/catalog";
+import { comparisons, patterns, getPattern } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+
+const patternOptions = patterns
+  .filter((pattern) => pattern.maturity !== "anti-pattern")
+  .map((pattern) => ({ id: pattern.id, name: pattern.name }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+const comparisonOptions = comparisons.map((comparison) => {
+  const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(Boolean);
+  return {
+    id: comparison.id,
+    title: comparison.title,
+    href: withBase(`/compare/${comparison.id}/`),
+    patternIds: comparison.patternIds,
+    patternNames: comparedPatterns.map((pattern) => pattern?.name ?? "").filter(Boolean),
+    rule: comparison.decisionRules[0]
+  };
+});
 ---
 
 <BaseLayout title="Pattern Comparisons | UI/UX Pattern Catalog">
-  <section class="page-head">
-    <h1>Pattern comparisons</h1>
-    <p>Decision pages for choosing between similar interaction patterns.</p>
+  <section class="compare-picker" aria-labelledby="compare-title">
+    <div>
+      <span class="eyebrow">Compare</span>
+      <h1 id="compare-title">Pick two patterns</h1>
+    </div>
+
+    <form class="compare-form" data-compare-form>
+      <label>
+        <span>First pattern</span>
+        <select name="first">
+          <option value="">Choose pattern</option>
+          {patternOptions.map((pattern) => <option value={pattern.id}>{pattern.name}</option>)}
+        </select>
+      </label>
+
+      <label>
+        <span>Second pattern</span>
+        <select name="second">
+          <option value="">Choose pattern</option>
+          {patternOptions.map((pattern) => <option value={pattern.id}>{pattern.name}</option>)}
+        </select>
+      </label>
+
+      <a class="demo-button primary compare-open is-disabled" data-compare-open href="#" aria-disabled="true">
+        Open comparison
+      </a>
+      <p class="demo-status" data-compare-status>Choose a supported pair to compare.</p>
+    </form>
   </section>
 
-  <section class="comparison-matrix detail-panel">
-    <h2>Decision Matrix</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Comparison</th>
-          <th>Patterns</th>
-          <th>Choose by</th>
-          <th>Failure to avoid</th>
-        </tr>
-      </thead>
-      <tbody>
-        {comparisons.map((comparison) => {
-          const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(Boolean);
-          return (
-            <tr>
-              <td><a href={withBase(`/compare/${comparison.id}/`)}>{comparison.title}</a></td>
-              <td>{comparedPatterns.map((pattern) => pattern?.name).join(" vs ")}</td>
-              <td>{comparison.decisionRules[0]}</td>
-              <td>{comparison.failureModes[0] ?? "Document the conditions that make either pattern unsafe."}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+  <section class="comparison-list" aria-labelledby="available-comparisons">
+    <h2 id="available-comparisons">Available comparisons</h2>
+    <div class="comparison-list-grid">
+      {comparisonOptions.map((comparison) => (
+        <a class="comparison-row" href={comparison.href}>
+          <span>{comparison.patternNames.join(" vs ")}</span>
+          <strong>{comparison.rule}</strong>
+        </a>
+      ))}
+    </div>
   </section>
 
-  <div class="pattern-grid">
-    {comparisons.map((comparison) => (
-      <article class="comparison-card">
-        <h2><a href={withBase(`/compare/${comparison.id}/`)}>{comparison.title}</a></h2>
-        <p>{comparison.summary}</p>
-        <ul>
-          {comparison.decisionRules.slice(0, 2).map((item) => <li>{item}</li>)}
-        </ul>
-      </article>
-    ))}
-  </div>
+  <script is:inline define:vars={{ comparisonOptions }}>
+    const comparisons = comparisonOptions;
+    const form = document.querySelector("[data-compare-form]");
+    const openLink = document.querySelector("[data-compare-open]");
+    const status = document.querySelector("[data-compare-status]");
+
+    function updateCompareLink() {
+      if (!(form instanceof HTMLFormElement) || !(openLink instanceof HTMLAnchorElement) || !status) return;
+      const data = new FormData(form);
+      const first = String(data.get("first") || "");
+      const second = String(data.get("second") || "");
+      const selected = [first, second].filter(Boolean).sort().join("|");
+      const match = comparisons.find((comparison) => [...comparison.patternIds].sort().join("|") === selected);
+
+      if (!first || !second) {
+        openLink.href = "#";
+        openLink.classList.add("is-disabled");
+        openLink.setAttribute("aria-disabled", "true");
+        status.textContent = "Choose a supported pair to compare.";
+        return;
+      }
+
+      if (!match || first === second) {
+        openLink.href = "#";
+        openLink.classList.add("is-disabled");
+        openLink.setAttribute("aria-disabled", "true");
+        status.textContent = "No comparison page exists for that pair yet.";
+        return;
+      }
+
+      openLink.href = match.href;
+      openLink.classList.remove("is-disabled");
+      openLink.removeAttribute("aria-disabled");
+      status.textContent = match.title;
+    }
+
+    form?.addEventListener("change", updateCompareLink);
+    openLink?.addEventListener("click", (event) => {
+      if (openLink.getAttribute("aria-disabled") === "true") event.preventDefault();
+    });
+  </script>
 </BaseLayout>

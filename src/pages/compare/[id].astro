@@ -43,9 +43,15 @@ const dimensions = [
 ---
 
 <BaseLayout title={`${comparison.title} | UI/UX Pattern Catalog`} description={comparison.summary}>
-  <section class="page-head">
-    <h1>{comparison.title}</h1>
-    <p>{comparison.summary}</p>
+  <section class="compare-detail-head">
+    <a class="open-link" href={withBase("/compare/")}>Back to compare picker</a>
+    <h1>{comparedPatterns.map((pattern) => pattern.name).join(" vs ")}</h1>
+    <p>{comparison.decisionRules[0]}</p>
+    <div class="comparison-links">
+      {comparedPatterns.map((pattern) => (
+        <a data-live-pattern={pattern.id} href={withBase(`/?pattern=${pattern.id}`)}>{pattern.name} live example</a>
+      ))}
+    </div>
   </section>
 
   <section class="detail-panel context-panel" id="workbench-context" hidden>
@@ -67,8 +73,8 @@ const dimensions = [
     </dl>
   </section>
 
-  <section class="comparison-matrix detail-panel">
-    <h2>Side-by-side decision table</h2>
+  <section class="comparison-matrix detail-panel compare-decision-table">
+    <h2>Decision dimensions</h2>
     <table>
       <thead>
         <tr>
@@ -89,35 +95,35 @@ const dimensions = [
 
   <div class="detail-grid">
     <div class="stack">
-      <section class="detail-panel">
-        <h2>Decision Rules</h2>
+      <details class="detail-panel compact-disclosure" open>
+        <summary>Decision rules</summary>
         <ul>
           {comparison.decisionRules.map((item) => <li>{item}</li>)}
         </ul>
-      </section>
+      </details>
 
-      <section class="detail-panel">
-        <h2>Inspect Live Examples</h2>
+      <details class="detail-panel compact-disclosure">
+        <summary>Inspect live examples</summary>
         <div class="comparison-links">
           {comparedPatterns.map((pattern) => (
             <a data-live-pattern={pattern.id} href={withBase(`/?pattern=${pattern.id}`)}>{pattern.name}</a>
           ))}
         </div>
-      </section>
+      </details>
 
       {comparison.failureModes.length > 0 && (
-        <section class="detail-panel">
-          <h2>Failure Modes</h2>
+        <details class="detail-panel compact-disclosure">
+          <summary>Failure modes</summary>
           <ul>
             {comparison.failureModes.map((item) => <li>{item}</li>)}
           </ul>
-        </section>
+        </details>
       )}
     </div>
 
     <aside class="stack">
-      <section class="detail-panel">
-        <h2>Sources</h2>
+      <details class="detail-panel compact-disclosure">
+        <summary>Sources</summary>
         <ul>
           {sourceRefs.map(({ ref, source }) => (
             <li>
@@ -127,9 +133,9 @@ const dimensions = [
             </li>
           ))}
         </ul>
-      </section>
+      </details>
 
-      <section class="detail-panel">
+      <section class="detail-panel compact-note">
         <h2>Verification</h2>
         <p>Last verified: {comparison.lastVerified}</p>
       </section>
