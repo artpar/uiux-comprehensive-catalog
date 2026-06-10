@@ -98,13 +98,15 @@ const coverageRows = seededCategories.map((category) => {
       data-subscribe-form
       data-mailto={subscribeEndpoint.startsWith("mailto:") ? subscribeEndpoint : undefined}
     >
+      <input type="hidden" name="embed" value="1" />
+      <input type="hidden" name="tag" value="landing-page" />
       <label>
         Work email
         <input type="email" name="email" autocomplete="email" placeholder="you@company.com" required />
       </label>
       <label>
         Role
-        <select name="role" required>
+        <select name="metadata__role" required>
           <option value="">Choose role</option>
           <option value="engineering">Engineering</option>
           <option value="product">Product management</option>
@@ -115,7 +117,7 @@ const coverageRows = seededCategories.map((category) => {
       </label>
       <button type="submit">Subscribe</button>
       <p class="subscribe-note">
-        Static Pages build: configure PUBLIC_SUBSCRIBE_ENDPOINT for a newsletter provider, or use the default email handoff.
+        No spam. Just one practical pattern brief with the tradeoffs, implementation contract, and review prompts.
       </p>
     </form>
   </section>
@@ -276,7 +278,7 @@ const coverageRows = seededCategories.map((category) => {
         event.preventDefault();
         const formData = new FormData(subscribeForm);
         const email = String(formData.get("email") || "");
-        const role = String(formData.get("role") || "");
+        const role = String(formData.get("metadata__role") || "");
         const subject = encodeURIComponent("Subscribe to UI/UX Pattern Catalog");
         const body = encodeURIComponent(`Please add ${email} to the UI/UX Pattern Catalog email list.\nRole: ${role}`);
         window.location.href = `${mailto}?subject=${subject}&body=${body}`;
