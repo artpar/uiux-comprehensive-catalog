@@ -1,0 +1,45 @@
+{
+  "id": "object-picker-vs-combobox-vs-autocomplete-vs-multi-select",
+  "title": "Object picker vs combobox vs autocomplete vs multi-select",
+  "summary": "Use an object picker when users must select an existing entity with a stable identity and disambiguating metadata; use combobox for one popup-owned field value, autocomplete for known-value completion behavior, and multi-select when several predefined values are selected together.",
+  "patternIds": ["object-picker", "combobox", "autocomplete", "multi-select"],
+  "decisionRules": [
+    "Prefer object picker when the submitted value is an entity ID, record key, account ID, user ID, group ID, file ID, or project ID rather than only the visible label.",
+    "Prefer object picker over a generic combobox when duplicate names, object type, status, owner, scope, permissions, or a preview panel are needed before a user can safely commit the entity.",
+    "Prefer combobox when the main requirement is a single field with popup ownership, active option movement, acceptance, cancellation, and synchronized selected value, but the choices do not need entity preview or record-scope controls.",
+    "Prefer autocomplete when the problem is completing a known text value from suggestions; upgrade to object picker when choosing the wrong same-named record has durable consequences.",
+    "Prefer multi-select when users choose several values and review them as chips; use object picker when each chosen item needs identity metadata, lookup scope, permission checks, or a confirmation preview.",
+    "If free text is valid, use combobox or autocomplete with a clear custom-value policy; object pickers should reject unresolved text because the system needs an existing object.",
+    "If the candidate set is hierarchical, use tree selection instead of flattening nested records into an object picker without levels or parent context.",
+    "If users need to move objects into a separate selected destination set with ordering, use transfer list instead of hiding the selected set in one picker field.",
+    "Show duplicate labels with secondary fields such as type, owner, location, email, status, or ID; do not rely on row order to distinguish entities.",
+    "Clear or mark the submitted object ID unresolved whenever the visible text changes after selection, and require an explicit object selection before save."
+  ],
+  "failureModes": [
+    "The user selects Acme Retail but the system submits a stale hidden ID for a different Acme Retail record after the label is edited.",
+    "Search results show duplicate names with no type, owner, status, or identifier, forcing users to guess which object will be linked.",
+    "The picker searches every object the user can access when the task needs a scoped account, project, group, or directory segment.",
+    "A custom picker lets users type any text even though the backend requires an existing record ID.",
+    "Selected objects appear only as labels and cannot be inspected, cleared, or verified before submission.",
+    "The UI exposes avatars or icons but no accessible names, selected state, no-result state, loading state, or validation message."
+  ],
+  "sources": [
+    {
+      "id": "salesforce-lightning-record-picker",
+      "note": "Salesforce documents record search, selected record behavior, filters, display fields, validation, and object restrictions for record picker lookup behavior."
+    },
+    {
+      "id": "atlassian-forge-user-picker",
+      "note": "Atlassian documents user search and selection with account ID, avatar, name, email, required state, and single or multi-selection modes."
+    },
+    {
+      "id": "microsoft-power-platform-peoplepicker",
+      "note": "Microsoft documents selected persona keys, suggestion data, roles, photos, presence, search thresholds, no-result text, validation error state, and accessibility labeling for people picking."
+    },
+    {
+      "id": "mui-autocomplete-object-options",
+      "note": "MUI documents object options, unique keys for duplicate labels, equality checks for selected object values, separate input and selected value state, async search, and value rendering."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

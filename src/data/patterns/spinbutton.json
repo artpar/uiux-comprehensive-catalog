@@ -1,0 +1,254 @@
+{
+  "id": "spinbutton",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a bounded incrementable numeric-value control with source-backed spinbutton semantics, direct entry, min and max repair, small-step and large-step keyboard behavior, disabled and read-only states, and distinctions from slider, range slider, text input, select, and workflow step navigation.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a single incrementable numeric value, visible unit and bounds, direct editable value, plus and minus controls, arrow-key and Page-key movement, min and max clamping, default and empty states, disabled and read-only review, and numeric-string avoidance.",
+    "relatedPatternDistinction": "The entry separates spinbutton from slider by favoring exact small count changes over spatial relative adjustment, from range slider by controlling one count rather than two boundaries, from text input by requiring bounded step movement instead of arbitrary typing, from select by avoiding named option lists, and from step navigation by not representing workflow progress.",
+    "liveDemoBehavior": "The live demo increments and decrements a guest count, accepts direct typed values, handles Page-step movement, shows required-empty and below-minimum repair, disables the control for sold-out rooms, preserves a read-only review state, and contrasts identifier, large-range, button-only, and hidden-label misuse.",
+    "comparisonDecisionRules": "The linked spinbutton-vs-slider-vs-text-input-vs-select comparison gives concrete rules for small incrementable counts, relative spatial adjustment, exact arbitrary entry, finite named options, numeric-looking identifiers, bounds, step behavior, direct entry, unit display, disabled state, and high-stakes submission.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/spinbutton.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, bounded guest count stepping, typed-value repair, disabled and read-only states, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/spinbutton.png"
+    ]
+  },
+  "name": "Spinbutton / numeric stepper",
+  "aliases": [
+    "number input",
+    "numeric stepper",
+    "stepper input",
+    "spinner",
+    "quantity stepper"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Bounded incrementable numeric-value control",
+  "uiGuidance": [
+    "Render a visible label, editable numeric value, unit, lower and upper bounds, plus and minus controls, focus state, and warning, error, disabled, and read-only states.",
+    "Keep the value field directly editable and expose min, max, now, step, invalid state, and human-readable value text when the raw number alone is ambiguous."
+  ],
+  "uxGuidance": [
+    "Use a spinbutton when users adjust a small count or bounded quantity by one or a few steps and still may need to type the exact number.",
+    "Repair or reject values outside bounds with local feedback, and avoid stepping numbers that behave as identifiers, codes, dates, phone numbers, or high-precision amounts."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Guests control shows label, value 2, minus and plus buttons, range 0 to 9, and a clear unit beside the field.",
+      "A Copies field lets the user type 12, use arrow keys for one-copy changes, and use Page Up for a larger supported jump."
+    ],
+    "bad": [
+      "An account ID field has plus and minus buttons, implying the identifier can be stepped.",
+      "A quantity stepper shows only icons and the number 3 with no label, unit, min, max, or disabled-bound explanation."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user adds one guest, types 7, clears the required field, then sees a specific error and restores a valid count without losing context.",
+      "A user enters -3 for guests, the value is repaired to 0, and the interface explains the lower bound before submit."
+    ],
+    "bad": [
+      "A user tries to set 480 items with one-step buttons and cannot type or jump by larger increments.",
+      "A user scrolls a page while an account number field is focused and accidentally changes the stored account ID."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to adjust a small bounded numeric quantity, but plain text fields hide allowed increments while sliders and selects either lose exact entry or imply the wrong kind of choice.",
+  "solution": "Provide a labelled editable numeric value with explicit increment and decrement controls, declared min, max, step, unit, keyboard movement, direct typing, validation, and repair feedback.",
+  "problemContext": [
+    "The value is a real number or count that can be incremented or decremented.",
+    "Most changes are small, such as adding one guest, copy, item, seat, day, night, or minute.",
+    "The product knows the lower bound, upper bound, step size, unit, and default.",
+    "Users may need to type the number directly instead of repeatedly pressing buttons.",
+    "Some numeric-looking values must remain strings and should not become spinbuttons."
+  ],
+  "selectionRules": [
+    "Choose a spinbutton for one bounded numeric value that changes in predictable increments.",
+    "Use it when a default such as 0 or 1 is meaningful and most users make only a few adjustments.",
+    "Provide direct typing whenever the range has more than a handful of steps or users may already know the exact value.",
+    "Use slider when relative position across a wider range matters more than repeated count changes.",
+    "Use range slider when users set both lower and upper boundaries.",
+    "Use text input for arbitrary numbers, pasted values, precise decimals, financial amounts, or numeric-looking identifiers.",
+    "Use select, radio, or segmented controls for named options that should be compared as labels.",
+    "Avoid spinbuttons for account numbers, payment cards, verification codes, postal codes, phone numbers, dates, and other strings that merely contain digits."
+  ],
+  "requiredStates": [
+    "Initial state with visible label, default value, unit, min, max, and step.",
+    "Focused value field state.",
+    "Increment and decrement button hover, focus, pressed, and disabled-at-bound states.",
+    "Direct typed valid value state.",
+    "Required empty value state.",
+    "Below-minimum and above-maximum repair or error states.",
+    "Non-step value repair state when the typed value falls between allowed increments.",
+    "Large-step keyboard state when Page Up and Page Down are supported.",
+    "Disabled dependency state with explanation.",
+    "Read-only review state that remains readable and programmatically exposed."
+  ],
+  "interactionContract": [
+    "Increment and decrement controls change the value by the declared step and stop at the lower and upper bounds.",
+    "The editable field accepts direct numeric entry and preserves standard text-editing behavior.",
+    "Up Arrow and Down Arrow move by one step; Home and End move to known bounds when supported; Page Up and Page Down move by a documented larger step when present.",
+    "Min, max, step, value, unit, and invalid state stay synchronized between visual controls, programmatic state, and submitted value.",
+    "Out-of-range, empty, and non-step values are rejected or repaired with visible feedback before submission.",
+    "Disabled and read-only states explain whether the quantity is unavailable or only reviewable."
+  ],
+  "implementationChecklist": [
+    "Confirm the value is incrementable, not a numeric string identifier.",
+    "Define min, max, step, default, unit, decimal precision, large-step behavior, and whether immediate commit or form submit applies.",
+    "Use a native number input or implement spinbutton roles and value attributes only when native behavior is insufficient.",
+    "Label the field and give plus and minus controls names that include the affected quantity.",
+    "Keep direct text entry, paste, selection, undo, and keyboard editing available unless the target platform explicitly supports a button-only stepper.",
+    "Disable the minus button at the minimum and the plus button at the maximum without disabling the whole field unnecessarily.",
+    "Validate on blur or submit, clamp only with explanation, and run the same checks server-side.",
+    "Test keyboard, pointer, touch, screen reader, high zoom, forced colors, locale decimal entry, disabled, read-only, and mobile numeric keyboard behavior."
+  ],
+  "commonMisuses": [
+    "Using a spinbutton for numeric-looking identifiers or codes.",
+    "Using one-step buttons for a large range without direct typing or larger-step movement.",
+    "Omitting the label, unit, min, max, default, or current value.",
+    "Providing plus and minus buttons with accessible names that do not identify the quantity.",
+    "Silently rounding decimals or repairing invalid values without telling the user.",
+    "Disabling the whole control when only one direction is unavailable at a bound.",
+    "Using a workflow stepper or progress indicator when the task needs a numeric value control."
+  ],
+  "critiqueQuestions": [
+    "Is the value actually incrementable, or is it a string made of digits?",
+    "Will most users change the default by only a few steps?",
+    "Can users type the exact value, paste, undo, and recover from errors?",
+    "Are the min, max, step, unit, current value, and disabled-bound states visible and programmatic?",
+    "Would a slider, range slider, text input, select, or workflow step navigation communicate the job more clearly?"
+  ],
+  "useWhen": [
+    "Users adjust a small bounded count such as guests, copies, items, seats, nights, minutes, retries, or quantity.",
+    "The current value has a meaningful default and can increase or decrease by a known step.",
+    "The product can expose local bounds, unit, and direct entry with clear validation."
+  ],
+  "avoidWhen": [
+    "The value is a numeric-looking identifier, code, account number, card number, phone number, postal code, date, or formatted string.",
+    "Users need a very large range, pasted value, exact decimal, currency amount, or high-stakes arbitrary entry.",
+    "Users choose from named options rather than numeric quantities.",
+    "Users need to set two endpoints or a continuous relative position.",
+    "The controls would commit expensive, irreversible, or externally visible changes on every click."
+  ],
+  "variants": [
+    "Quantity stepper",
+    "Number input with plus and minus controls",
+    "Native number input",
+    "Currency number field",
+    "Unit number field",
+    "Percent number field",
+    "Read-only number field",
+    "Disabled number field",
+    "Large-step spinbutton"
+  ],
+  "accessibility": [
+    "Expose the editable value as a spinbutton or native number input with a visible label.",
+    "Provide aria-valuemin, aria-valuemax, aria-valuenow, and aria-valuetext when building custom controls.",
+    "Name increment and decrement controls with the affected quantity, not only plus and minus.",
+    "Do not interfere with standard single-line editing keys in the value field.",
+    "Expose invalid state and connect helper, error, and bound text to the field.",
+    "Use text and disabled attributes, not color alone, for lower-bound, upper-bound, disabled, read-only, warning, and error states."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the editable value field and any separate increment or decrement controls in a predictable order.",
+    "Up Arrow increases the value by one step.",
+    "Down Arrow decreases the value by one step.",
+    "Home sets the minimum when a minimum exists.",
+    "End sets the maximum when a maximum exists.",
+    "Page Up and Page Down may move by larger documented steps.",
+    "Typing, selection, Delete, Backspace, undo, redo, and paste follow normal single-line editing behavior.",
+    "Buttons activate with Enter or Space and do not trap focus."
+  ],
+  "failureModes": [
+    "Keyboard arrows change a focused number unexpectedly while the user intended to scroll or edit text.",
+    "The input cannot be dictated, selected, or announced reliably because native number behavior is used for the wrong data type.",
+    "The visible value, button disabled state, and submitted number drift out of sync.",
+    "The control blocks invalid keystrokes so aggressively that users cannot edit toward a valid value.",
+    "The component repairs a value at blur but does not explain what changed.",
+    "The minus button remains active at the minimum or the plus button remains active at the maximum.",
+    "The component lacks a default, leaving users uncertain whether blank means zero, unchanged, or required."
+  ],
+  "relatedPatterns": [
+    "slider",
+    "range-slider",
+    "text-input",
+    "select",
+    "input-prefix-suffix",
+    "inline-validation",
+    "step-navigation"
+  ],
+  "comparisons": [
+    "spinbutton-vs-slider-vs-text-input-vs-select"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Spinbutton Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/",
+      "platform": "web",
+      "notes": "Documents spinbutton anatomy, discrete value range, direct editing, keyboard movement, value attributes, labels, and invalid state.",
+      "screenshot": "screenshots/patterns/spinbutton.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Number Input",
+      "url": "https://carbondesignsystem.com/components/number-input/usage/",
+      "platform": "web",
+      "notes": "Documents number input use for small incremental changes, label and helper text, default values, states, keyboard behavior, and slider or text-input alternatives.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "React Spectrum NumberField",
+      "url": "https://react-spectrum.adobe.com/react-spectrum/NumberField.html",
+      "platform": "web",
+      "notes": "Documents number-field labels, required state, form submission, locale formatting, min and max clamping, step values, units, percentages, and currency behavior.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN input type number",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/number",
+      "platform": "web",
+      "notes": "Documents native number-input min, max, step, required, automatic numeric invalidation, unsupported pattern matching, and validation limitations.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Design System Text input numeric guidance",
+      "url": "https://design-system.service.gov.uk/components/text-input/",
+      "platform": "web",
+      "notes": "Documents numeric entry wording, inputmode numeric, number error messages, too-low and too-high messages, and cautions against type number without supporting research.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-spinbutton",
+      "note": "APG defines spinbutton as a discrete range input with direct editing, increase and decrease behavior, keyboard movement, value properties, labeling, and invalid state."
+    },
+    {
+      "id": "carbon-number-input-component",
+      "note": "Carbon number input guidance supports small incremental numeric changes, labels, helper text, default values, warning, error, disabled, read-only, and slider or text-input alternatives."
+    },
+    {
+      "id": "react-spectrum-numberfield",
+      "note": "React Spectrum documents NumberField labels, min and max clamping, step values, stepper buttons, raw form submission, locale formatting, units, percentages, and currency values."
+    },
+    {
+      "id": "mdn-input-number",
+      "note": "MDN documents native number-input min, max, step, required, automatic numeric invalidation, unsupported pattern matching, and server-side validation needs."
+    },
+    {
+      "id": "govuk-number-input-guidance",
+      "note": "GOV.UK numeric guidance cautions against type number without user research and provides specific error wording for numeric entry, bounds, and decimal money values."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

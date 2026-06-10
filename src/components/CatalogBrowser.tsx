@@ -118,6 +118,7 @@ export default function CatalogBrowser({
             <div className="card-meta">
               <span>{pattern.category}</span>
               <span>{pattern.maturity}</span>
+              <span>{pattern.completionStatus}</span>
             </div>
             <h2>
               <a href={`${baseUrl}patterns/${pattern.id}/`}>{pattern.name}</a>

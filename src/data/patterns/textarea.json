@@ -1,0 +1,226 @@
+{
+  "id": "textarea",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a multi-line freeform writing field with source-backed guidance for visible rows, labels, hints, sensitive-content instructions, character limits, length validation, draft preservation, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers multi-line paragraph entry, visible rows, persistent label, hint and error association, spellcheck choices, sensitive-information warnings, character counts only for real limits, too-short and too-long recovery, disabled state, and draft preservation.",
+    "relatedPatternDistinction": "The entry separates textarea from text input by paragraph and line-break writing versus short single-line values, from inline validation by field feedback versus the input itself, from error summary by page-level error navigation versus local entry, and from rich text editors by plain text entry versus formatted content.",
+    "liveDemoBehavior": "The rendered exercise lets users write multiple lines, add a paragraph, validate an empty response, trim an over-limit response, preserve submitted text after errors, inspect remaining characters, and compare a broken one-line paragraph field that clears a drafted response.",
+    "comparisonDecisionRules": "The linked textarea-vs-text-input-vs-inline-validation-vs-error-summary comparison gives concrete rules for paragraph entry, one-line answers, local field feedback, page-level error navigation, character-count use, rich-text escalation, visible row sizing, sensitive-content hints, and server-returned errors.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/textarea.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, multi-line entry, remaining-count behavior, validation, preserved draft text, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/textarea.png"
+    ]
+  },
+  "name": "Textarea",
+  "aliases": [
+    "text area",
+    "multi-line input",
+    "long answer field",
+    "paragraph field",
+    "comment box"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Multi-line freeform writing field",
+  "uiGuidance": [
+    "Render a persistent label, enough visible rows for the expected answer, optional hint, readable multiline text, visible focus state, and nearby error or count text associated with the textarea.",
+    "Show line wrapping, vertical review space, disabled and error states, and character-count feedback only when a real content limit or writing constraint exists."
+  ],
+  "uxGuidance": [
+    "Use textarea when users need to write or paste sentences, paragraphs, explanations, notes, or comments that may wrap across lines.",
+    "Preserve long drafted text through validation, back navigation, and submission errors; validate after interaction or submit with specific empty, too-short, too-long, or disallowed-character messages."
+  ],
+  "uiExamples": {
+    "good": [
+      "A more-detail field has a visible question, sensitive-data hint, five visible rows, wrapping text, remaining-character count, and an error directly above the textarea when needed.",
+      "A long answer preview keeps multiple lines visible so users can review paragraph structure before submitting."
+    ],
+    "bad": [
+      "A paragraph question is squeezed into a single-line input that hides most of the answer.",
+      "The only instruction appears inside the field and disappears after typing, while a character limit is revealed only after submit."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user writes two paragraphs, sees remaining characters update, submits, and the exact line breaks and wording are preserved.",
+      "A user submits an empty textarea, sees a specific local error, adds text, and the error state clears without losing the draft."
+    ],
+    "bad": [
+      "A user writes a long explanation, hits submit, and the product clears the entire draft after a length error.",
+      "A hidden hard limit silently truncates pasted paragraphs, so the submitted explanation is incomplete."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to provide longer freeform explanations, but cramped fields, hidden limits, vague hints, early validation, or draft loss make long-answer entry risky and hard to review.",
+  "solution": "Provide a labelled multi-line textarea with enough visible rows, stable hint and error text, optional count for real limits, native editing behavior, and preservation of drafted text across validation and navigation.",
+  "problemContext": [
+    "The answer is freeform and may include sentences, paragraphs, pasted text, or line breaks.",
+    "The product may need to warn users about sensitive information, maximum length, minimum detail, or disallowed characters.",
+    "Users may spend significant time composing the answer and expect editing, undo, paste, spellcheck, mobile keyboard, and back navigation to preserve their work."
+  ],
+  "selectionRules": [
+    "Choose textarea when the expected response is more than a short single-line answer.",
+    "Use enough visible rows for users to review the likely answer without excessive scrolling.",
+    "Prefer text input for short values that should not include line breaks.",
+    "Add a character count only when there is a real limit or users need help staying within a policy constraint.",
+    "Use rich text editing only when formatting, links, headings, lists, or structured content are part of the task.",
+    "Explain sensitive-data restrictions in hint text before users start writing.",
+    "Validate required, too-short, too-long, and disallowed-character states after interaction or attempted submit.",
+    "Preserve text exactly, including line breaks, unless the product previews and explains a transformation."
+  ],
+  "requiredStates": [
+    "Empty untouched state with visible label and optional hint.",
+    "Focused writing state with caret, wrapping text, and visible focus indicator.",
+    "Filled multi-line state preserving line breaks and pasted content.",
+    "Remaining-count state when a real maximum length is configured.",
+    "Required empty error state after attempted submit.",
+    "Too-long or too-short error state with specific length guidance.",
+    "Disabled state when the textarea cannot be edited.",
+    "Recovered draft state after validation or navigation back."
+  ],
+  "interactionContract": [
+    "Typing, selection, line breaks, paste, undo, redo, and spellcheck follow native textarea behavior.",
+    "The label remains visible while the user writes and reviews multiple lines.",
+    "Hint, count, and error text are associated with the textarea when present.",
+    "Submitting invalid long text keeps the user's draft in place and explains the exact fix.",
+    "Character count updates as text changes and does not replace specific validation errors.",
+    "Tab leaves the textarea in normal form order unless the product intentionally supports tab insertion and documents it."
+  ],
+  "implementationChecklist": [
+    "Use a native textarea with id, name, rows, label, and descriptive associations before creating a custom editor.",
+    "Set rows and CSS resizing behavior to suit expected answer length and page layout.",
+    "Add hint text for examples, sensitive information, expected detail, or content restrictions.",
+    "Add maxlength and remaining-count feedback only for real limits; include too-long recovery text on submit.",
+    "Preserve textarea value across client validation, server validation, page reload, browser back, and draft restore paths.",
+    "Configure spellcheck, autocapitalize, autocomplete, and disabled state based on the content being collected.",
+    "Test keyboard editing, screen reader label and description announcement, paste, line breaks, mobile keyboard coverage, zoom, and long-text scrolling."
+  ],
+  "commonMisuses": [
+    "Using a single-line input for paragraph answers.",
+    "Using textarea for short codes, names, or titles that should stay one line.",
+    "Clearing a long draft after validation fails.",
+    "Showing a hard character limit only after submit.",
+    "Silently truncating pasted paragraphs.",
+    "Using a rich text editor for plain text comments.",
+    "Making the textarea so short that users cannot review what they wrote.",
+    "Leaving sensitive-data instructions until after the user has already written the answer."
+  ],
+  "critiqueQuestions": [
+    "Does this answer need multiple lines, paragraph review, or pasted long text?",
+    "Can users see enough of their answer to review it before submitting?",
+    "Are character limits real, visible, and recoverable?",
+    "Are hint, count, and error text announced with the textarea?",
+    "Will drafts survive validation failures, reloads, and navigation back?"
+  ],
+  "useWhen": [
+    "Users need to write sentences, paragraphs, comments, explanations, notes, or descriptions.",
+    "Users may paste text that wraps across lines.",
+    "The task benefits from visible review space before submit.",
+    "The product can preserve drafts and give specific length or content feedback."
+  ],
+  "avoidWhen": [
+    "The answer is a short one-line value.",
+    "The valid values are predetermined choices.",
+    "The task requires formatted content rather than plain text.",
+    "The product cannot preserve drafted text reliably."
+  ],
+  "variants": [
+    "Required textarea",
+    "Optional textarea",
+    "Textarea with hint",
+    "Textarea with character count",
+    "Textarea with maximum length",
+    "Textarea with minimum length",
+    "Disabled textarea",
+    "Textarea with draft recovery",
+    "Sensitive-information textarea"
+  ],
+  "accessibility": [
+    "Associate the textarea with a visible label that states the writing prompt.",
+    "Use aria-describedby or equivalent to connect hint, count, and error text.",
+    "Do not use text inside the field as the only instruction.",
+    "Provide visible focus and error states that do not rely on color alone.",
+    "Announce remaining count or limit status without overwhelming users on every keystroke.",
+    "Keep text readable at zoom and avoid layouts where mobile keyboards cover the writing area."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus into and out of the textarea in page order.",
+    "Enter inserts a line break instead of submitting the form.",
+    "Typing, selection, copy, paste, undo, redo, Home, End, and arrow keys follow native multiline editing behavior.",
+    "Submit is triggered by an explicit button or form shortcut outside normal multiline editing.",
+    "After validation errors, focus can return to the textarea while preserving the draft.",
+    "Escape does not clear the draft unless a separate reversible clear action is offered."
+  ],
+  "failureModes": [
+    "Long answers are hidden in a one-line control.",
+    "The textarea starts with too few visible rows for the expected response.",
+    "The field clears or resets after a server error.",
+    "The remaining count is missing, stale, or inconsistent with the actual limit.",
+    "Line breaks are stripped without preview or explanation.",
+    "Sensitive personal information is requested or warned about too late.",
+    "Screen readers hear the label but not the hint, limit, or error message.",
+    "Mobile users cannot see both the prompt and writing area while the keyboard is open."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "inline-validation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "textarea-vs-text-input-vs-inline-validation-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Textarea",
+      "url": "https://design-system.service.gov.uk/components/textarea/",
+      "platform": "web",
+      "notes": "Documents labelled textarea examples with hints, error messages, rows, spellcheck, disabled state, aria-describedby, and specific error text for empty or length failures.",
+      "screenshot": "screenshots/patterns/textarea.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS Character count textarea example",
+      "url": "https://designsystem.digital.gov/components/character-count/",
+      "platform": "web",
+      "notes": "Documents textarea character-count markup with label, hint, rows, maxlength, and remaining-count message association.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI-ARIA APG Names and Descriptions",
+      "url": "https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/",
+      "platform": "web",
+      "notes": "Documents accessible-name and description behavior relevant to labelled textarea fields.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-textarea-component",
+      "note": "GOV.UK textarea guidance supports labels, hints, rows, spellcheck, disabled state, aria-describedby, and specific empty or length errors."
+    },
+    {
+      "id": "uswds-text-input-component",
+      "note": "USWDS text input guidance distinguishes paragraph responses that should use a textarea rather than a one-line field."
+    },
+    {
+      "id": "uswds-character-count-component",
+      "note": "USWDS character count guidance supports textarea limits with associated remaining-count messages."
+    },
+    {
+      "id": "wai-aria-apg-names-and-descriptions",
+      "note": "WAI-ARIA APG names and descriptions guidance supports accessible labels and descriptions for textarea fields."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

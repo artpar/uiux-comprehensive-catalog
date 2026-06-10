@@ -1,0 +1,50 @@
+{
+  "id": "review-before-submit-vs-multi-step-form-vs-complete-complex-form-vs-error-summary",
+  "title": "Review before submit vs multi-step form vs complete complex form vs error summary",
+  "summary": "Use review before submit when users need one final, editable check of captured answers before the irreversible submit action; use multi-step form for the journey, complete complex form for editable sectioned settings, and error summary for validation recovery.",
+  "patternIds": [
+    "review-before-submit",
+    "multi-step-form",
+    "complete-complex-form",
+    "error-summary"
+  ],
+  "decisionRules": [
+    "Prefer review before submit when answers have already been collected and the next action will send, apply, pay, publish, or otherwise commit the transaction.",
+    "Prefer multi-step form for the sequence that collects and saves answers before the review page; the review page is a gate inside that journey, not the whole journey lifecycle.",
+    "Prefer complete complex form when users need to edit many related settings on one sectioned surface before saving, rather than reviewing captured answers from previous pages.",
+    "Prefer error summary when validation has failed and users need links to errors; it does not replace a final review of valid captured answers.",
+    "A review page must show only relevant captured answers, grouped under meaningful section headings, with skipped optional answers shown explicitly as not provided when that matters.",
+    "Each editable answer or section needs a Change link that returns to the owning question with values pre-populated, then returns users to review without repeating unrelated pages.",
+    "The submit button must state the committed action, such as Send claim, Pay now, or Change tax details, rather than generic Continue.",
+    "If a changed answer creates new required questions, ask those questions before returning to review and mark affected answers as needing review.",
+    "Do not use review before submit for a low-risk single field where inline validation and one clear submit action are enough.",
+    "Do not use a post-submit confirmation page as a review page; after commit, users need receipt, reference, and next steps, not pre-submit edit affordances."
+  ],
+  "failureModes": [
+    "A final page says Review but contains only a generic warning and no captured answers to inspect.",
+    "Change links return users to an earlier page and then force them through the whole transaction again.",
+    "The submit button says Continue, so users do not realize the next action commits the transaction.",
+    "The page shows irrelevant skipped branches or hidden conditional answers, making users review information that does not apply.",
+    "The page appears after submission, so Change links imply edits are still possible when the data is already committed.",
+    "A changed answer does not invalidate dependent answers before final submit."
+  ],
+  "sources": [
+    {
+      "id": "govuk-check-answers-pattern",
+      "note": "Supports a single check answers page before confirmation, confidence and error-rate benefits, Change links, pre-populated return pages, and returning to review."
+    },
+    {
+      "id": "govuk-summary-list-component",
+      "note": "Supports key/value summary rows, row actions, summary cards, and accessible hidden context for Change links."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "Supports splitting forms across pages and saving answers as users go before review."
+    },
+    {
+      "id": "uswds-summary-box-component",
+      "note": "Supports using a summary region to highlight key information or next steps from a longer page."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

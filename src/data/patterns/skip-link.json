@@ -1,0 +1,236 @@
+{
+  "id": "skip-link",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a keyboard bypass pattern with source-backed first-focus placement, visible-on-focus behavior, focus transfer, target integrity, repeated-block scope, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers placing the link before repeated page chrome, revealing it on keyboard focus, destination-oriented copy, matching href and target ID, moving focus to the main content start, additional bypass links for large repeated blocks, and avoiding inaccessible hiding.",
+    "relatedPatternDistinction": "The entry separates skip links from in-page anchor navigation by bypassing repeated chrome versus browsing content sections, from back links by same-page forward jump versus previous transaction page return, and from landmarks/headings by an explicit keyboard-operable shortcut rather than structural navigation alone.",
+    "liveDemoBehavior": "The live demo simulates the first Tab revealing the skip link, activates it to bypass repeated header links and move focus to main content, counts skipped links, verifies a working target, and contrasts a bad link that is hidden or points nowhere.",
+    "comparisonDecisionRules": "The linked skip-link-vs-in-page-anchor-navigation-vs-back-link comparison gives concrete rules for repeated-block bypass, contents navigation, transaction return, placement, visible focus, target focus transfer, labels, landmarks, and avoiding skip-link clutter.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/skip-link.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, focused skip link, main-content target, broken hidden skip link, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/skip-link.png"
+    ]
+  },
+  "name": "Skip link",
+  "aliases": [
+    "skip to content",
+    "skip to main content",
+    "skip navigation link",
+    "bypass block link",
+    "bypass navigation",
+    "skipnav"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Keyboard-visible bypass link to primary page content",
+  "uiGuidance": [
+    "Render a real link before repeated page chrome, usually as the first focusable control after required cookie or service banners, with destination-oriented text such as Skip to main content.",
+    "Keep the link visually hidden until keyboard focus, then make it prominent, high-contrast, and above surrounding content so sighted keyboard users can see and activate it."
+  ],
+  "uxGuidance": [
+    "Use skip links to let keyboard, switch, screen-reader, and magnifier users bypass repeated navigation, headers, breadcrumbs, filter panels, or other repeated blocks before reaching the primary task or content.",
+    "After activation, move focus or the browser's focus position to the main content start so the next keyboard action continues from the destination rather than returning users to the repeated block."
+  ],
+  "uiExamples": {
+    "good": [
+      "The first Tab on a service page reveals a high-contrast Skip to main content link above the header.",
+      "Activating the link moves focus to the H1 or main element and the next Tab reaches the first control in the content.",
+      "A search-results page adds a second bypass link before a long repeated filter panel that jumps directly to results."
+    ],
+    "bad": [
+      "The skip link is hidden with display none and never receives keyboard focus.",
+      "The skip link appears after the full header, search box, account menu, and navigation list.",
+      "The link says Skip but points to a missing ID, leaving keyboard focus in the header."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A keyboard user presses Tab once, activates Skip to main content, and reaches the page heading instead of tabbing through 18 header links.",
+      "A screen-reader user moving across several pages avoids hearing the same service navigation before each page's unique content.",
+      "A switch user bypasses a long filter panel and reaches the result list without dozens of repeated switch activations."
+    ],
+    "bad": [
+      "Users must tab through global navigation, service navigation, breadcrumbs, and account links on every page before content.",
+      "A visible skip link scrolls the page but the focus order remains in the header, so the next Tab goes to Search.",
+      "A page offers five skip links before content, forcing users to read another mini-navigation before they can start."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Keyboard and assistive-technology users can be forced through the same repeated navigation and page chrome on every page before reaching the main content.",
+  "solution": "Provide a focusable skip link at the beginning of the page that becomes visible on focus, targets the main content start, and moves keyboard focus past repeated blocks when activated.",
+  "problemContext": [
+    "Pages share repeated headers, navigation, breadcrumbs, filters, service menus, banners, or advertising before the unique page content.",
+    "Users navigate sequentially by keyboard, switch, screen reader, voice, or magnifier and cannot visually ignore repeated material as easily as mouse users.",
+    "The page still needs structural headings and landmarks, but some users need a direct first-focus bypass control."
+  ],
+  "selectionRules": [
+    "Choose a skip link when repeated blocks appear before the primary content on pages in a site, service, product shell, or app.",
+    "Place the primary skip link before the repeated block it bypasses, commonly immediately after the opening body tag or after required cookie or notification banners.",
+    "Use a real anchor href that matches one unique target ID on the main content start, page H1, or equivalent first content landmark.",
+    "Make the link keyboard focusable and prominent on focus; never hide it with display none, the hidden attribute, zero-size-only tricks, transparent-only styling, or a background-matching color.",
+    "On activation, ensure the viewport and keyboard focus position both move to the target so subsequent Tab order continues in main content.",
+    "Use one primary skip link in most layouts; add extra bypass links only for substantial repeated blocks such as long filters or sidebars.",
+    "Use in-page anchor navigation for visible section contents, landmarks and headings for structural navigation, and Back links for returning to previous transaction pages.",
+    "Retest skip links whenever layout shells, sticky headers, route transitions, or client-side rendering change the target or focus behavior."
+  ],
+  "requiredStates": [
+    "Default hidden-but-focusable state before keyboard focus.",
+    "Focused visible state shown as the first or near-first keyboard stop.",
+    "Activated state where viewport and keyboard focus reach the main content target.",
+    "Repeated-block bypass state showing the number or set of navigation controls skipped.",
+    "Broken-target state where missing or duplicate IDs are detected and fixed.",
+    "Long repeated-block state with an additional skip link only when a filter or sidebar block is large enough to justify it."
+  ],
+  "interactionContract": [
+    "The skip link is reachable before the repeated content it bypasses.",
+    "The link text names the destination, not only the content being skipped.",
+    "Activating the link changes the current focus position to the intended target or a focusable proxy at the content start.",
+    "The target remains unique, present, and not hidden by sticky headers after route changes or template changes.",
+    "The link remains available to keyboard and assistive-technology users even when visually hidden by default.",
+    "Skip-link activation does not submit forms, leave the page, move backward in history, or change application state beyond focus and scroll position."
+  ],
+  "implementationChecklist": [
+    "Add the skip link near the top of the document before repeated header, navigation, and breadcrumb blocks.",
+    "Use href=\"#main-content\" or an equivalent target that exists exactly once on the page.",
+    "Give the target an appropriate ID on main, H1, or a focusable proxy and handle focus transfer for browsers that only scroll.",
+    "Style the link off-screen or clipped by default but visible, high contrast, and above other content on focus.",
+    "Avoid display none, visibility hidden, hidden, opacity-only, same-color, or zero-size hiding methods that make the link inaccessible or invisible.",
+    "Set scroll margin or focus offset so sticky headers do not cover the target.",
+    "Test with keyboard only: first Tab reveals the link, Enter activates it, and the next Tab continues inside main content.",
+    "Test route changes and layouts with cookie banners, service headers, sidebars, and long filters."
+  ],
+  "commonMisuses": [
+    "Placing the skip link inside the header or after the navigation it should bypass.",
+    "Hiding the link in a way that removes it from focus order.",
+    "Using vague text such as Skip, Next, Continue, or Jump.",
+    "Pointing to a missing, duplicated, or visually obscured target.",
+    "Only scrolling the viewport while keyboard focus remains in the repeated navigation.",
+    "Adding many skip links that become another repeated navigation block.",
+    "Treating landmarks or headings as a complete substitute when keyboard users still need a direct bypass."
+  ],
+  "critiqueQuestions": [
+    "What repeated block does this skip link bypass, and is it before that block in focus order?",
+    "Does first Tab reveal a visible, readable link for sighted keyboard users?",
+    "Where does focus land after activation, and what receives the next Tab?",
+    "Is the target unique, present after client-side route changes, and clear of sticky headers?",
+    "Would one skip link be enough, or is there a separate large repeated filter or sidebar that needs its own bypass?",
+    "Is this being confused with same-page section navigation, breadcrumbs, or a transaction Back link?"
+  ],
+  "useWhen": [
+    "Pages include repeated navigation, headers, breadcrumbs, filters, or other content before the main content.",
+    "Users can navigate sequentially with keyboard or assistive technology.",
+    "The page belongs to a shared site or app shell where the same chrome appears across multiple pages.",
+    "A long repeated block such as filters appears before results or the primary task."
+  ],
+  "avoidWhen": [
+    "There is no repeated block before the main content and the first focusable control is already the content task.",
+    "The desired behavior is browsing visible sections within the current page.",
+    "The desired behavior is returning to a previous transaction step.",
+    "The target cannot be made unique, present, and reachable after activation.",
+    "The design adds so many bypass links that the skip-link block becomes a burden."
+  ],
+  "variants": [
+    "Skip to main content",
+    "Skip to results",
+    "Skip filters",
+    "Skip navigation",
+    "Visible skip link",
+    "Focus-revealed skip link",
+    "Multiple bypass links for complex pages"
+  ],
+  "accessibility": [
+    "Use a real link and a real fragment target so browser and assistive-technology behavior is predictable.",
+    "Ensure the link is keyboard focusable while visually hidden and visibly apparent when focused.",
+    "Use visible text that describes the destination, usually Skip to main content.",
+    "Move focus to the target or make the target programmatically focusable during activation when needed.",
+    "Do not rely on screen-reader-only behavior because sighted keyboard users also need the link.",
+    "Keep headings and landmarks as complementary structure rather than replacing the skip link with them on navigation-heavy pages."
+  ],
+  "keyboardBehavior": [
+    "The first or near-first Tab stop reveals the skip link.",
+    "Enter activates the link and moves focus or browser focus position to the target.",
+    "After activation, Tab continues from the main content, not from the header or navigation.",
+    "Shift+Tab from the main target returns predictably toward the skip link or previous content.",
+    "The focused skip link remains visible long enough to read and does not get covered by sticky headers or banners."
+  ],
+  "failureModes": [
+    "Keyboard users must traverse repeated page chrome on every page.",
+    "The skip link is visually hidden but unavailable to keyboard focus.",
+    "The link appears only for pointer hover, not keyboard focus.",
+    "Activation updates the URL hash but leaves focus behind.",
+    "The main target is missing, duplicated, or covered by sticky layout.",
+    "Client-side routing removes the target after the link has been rendered.",
+    "Skip links multiply into a noisy pre-navigation menu."
+  ],
+  "relatedPatterns": [
+    "in-page-anchor-navigation",
+    "back-link",
+    "global-navigation",
+    "header",
+    "side-navigation"
+  ],
+  "comparisons": [
+    "skip-link-vs-in-page-anchor-navigation-vs-back-link"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Skip link",
+      "url": "https://design-system.service.gov.uk/components/skip-link/",
+      "platform": "web",
+      "notes": "Documents required skip links, placement before repeated navigation, visible-on-keyboard-focus behavior, and bypassing top-level navigation to main content.",
+      "screenshot": "screenshots/patterns/skip-link.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "W3C WCAG 2.4.1 Bypass Blocks",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html",
+      "platform": "web",
+      "notes": "Explains the accessibility requirement and examples for bypassing repeated blocks such as navigation, headers, advertising, and filters.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WebAIM Skip Navigation Links",
+      "url": "https://webaim.org/techniques/skipnav/",
+      "platform": "web",
+      "notes": "Documents first-link placement, focused visibility, main-content focus behavior, wording choices, and failures caused by inaccessible hiding.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Scottish Government Design System Skip link",
+      "url": "https://designsystem.gov.scot/components/skip-link",
+      "platform": "web",
+      "notes": "Documents skip links for bypassing repeated navigation and breadcrumbs, Skip to main content wording, and Enter moving focus to the target.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-skip-link-component",
+      "note": "GOV.UK documents keyboard-only skip links, placement before repeated navigation, visual hiding until focus, and main-content bypass behavior."
+    },
+    {
+      "id": "w3c-wcag-bypass-blocks",
+      "note": "W3C WCAG 2.4.1 defines the bypass-block requirement and supports links, headings, and landmarks for repeated content."
+    },
+    {
+      "id": "webaim-skip-navigation-links",
+      "note": "WebAIM documents first-item placement, visible focused state, focus transfer, wording, and hiding techniques that make skip links fail."
+    },
+    {
+      "id": "scottish-government-skip-link",
+      "note": "Scottish Government guidance supports bypassing repeated elements, Skip to main content wording, and moving focus to the target on Enter."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

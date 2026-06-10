@@ -1,0 +1,246 @@
+{
+  "id": "chip-selection",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a compact selectable-chip group pattern with source-backed choice, selectable tag, and chip form-cell behavior, single and multi-selection variants, short-label limits, visible selected state, max and required validation, stable chip order, wrapping constraints, and distinctions from filter chips, checkbox groups, multi-select, segmented controls, radio groups, badges, and action chips.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers short selectable chip labels, chip-group question labels, single and multiple selection modes, selected checkmarks, pressed state, max-count rules, required validation, stable ordering, wrapping or horizontal scroll limits, disabled options, and avoiding mixed chip roles.",
+    "relatedPatternDistinction": "The entry separates chip selection from filter chips by treating chips as submitted answers rather than result filters, from checkbox groups by requiring short compact labels, from segmented controls by allowing answer selection rather than local mode switching, and from multi-select by keeping all options visible without search or a popup.",
+    "liveDemoBehavior": "The live demo selects onboarding interest chips, enforces a maximum of three choices, preserves chip order, blocks extra selections with inline feedback, validates the required state after clearing, and contrasts broken chips that act as filters, actions, badges, or removals.",
+    "comparisonDecisionRules": "The linked chip-selection-vs-filter-chips-vs-checkbox-group-vs-segmented-control comparison gives concrete rules for compact form answers, result filters, fuller checkbox choices, one-active segmented modes, visible short sets, selected-state communication, max-count enforcement, and mixed chip-role failures.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/chip-selection.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, selected chips, required validation, stable order, related links, comparison link, and source-backed guidance; live interaction also verified max-count blocking.",
+    "screenshots": [
+      "screenshots/patterns/chip-selection.png"
+    ]
+  },
+  "name": "Chip selection",
+  "aliases": [
+    "choice chips",
+    "selectable chips",
+    "selectable tags",
+    "choice tags",
+    "chip group",
+    "tag selection"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Personalization And Preference",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Compact selectable chip group for short choice answers",
+  "uiGuidance": [
+    "Render a labelled chip group with short chip labels, visible selected and unselected states, focus states, disabled states, optional selected checkmarks, and inline help or error text.",
+    "Keep the chip set compact and scannable: preserve chip order, avoid multi-function chips, use wrapping or horizontal scroll deliberately, and switch to checkbox group, radio group, list picker, or multi-select when labels or option counts grow."
+  ],
+  "uxGuidance": [
+    "Use chip selection when users answer a lightweight choice question from a small visible set and the labels are short enough to scan as chips.",
+    "Make selection rules explicit before interaction, including whether one or many chips can be selected, whether the question is required, and the maximum number of chips allowed."
+  ],
+  "uiExamples": {
+    "good": [
+      "An onboarding form asks Choose up to 3 interests and shows compact chips for Design, Data, Research, AI, Accessibility, and Mobile with selected checkmarks.",
+      "A food-preference question uses one row of short selectable chips with a persistent question label, helper text, selected state, and a required error message.",
+      "A mobile setup screen uses horizontally scrollable chips for seven short delivery windows and switches to a picker when more choices are added."
+    ],
+    "bad": [
+      "A chip row contains selectable answers, removable tags, links, and action chips with identical styling.",
+      "Long chip labels wrap to two or three lines and create uneven hit targets.",
+      "A selected chip can only be identified by a faint color change."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects Design, Data, and Accessibility, sees 3 of 3 selected, then receives immediate feedback when trying to add a fourth chip.",
+      "A user clears all chips and Save shows an inline required message while preserving the same chip order for repair.",
+      "A user toggles an already selected chip off and the remaining selected chips stay in place."
+    ],
+    "bad": [
+      "A user taps a chip expecting to answer a question, but the page filters content instead.",
+      "A user selects too many chips and only learns the maximum at final submit.",
+      "A user removes a chip from the available list because the selected chip uses a close icon instead of toggling selected state."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to make a quick choice from short, visible options, but using chips without a clear selection contract can blur form answers, filters, badges, links, actions, and removable values.",
+  "solution": "Provide a labelled selectable chip group with explicit single or multiple selection rules, stable chip order, visible selected state, keyboard operation, validation, and clear limits on option count and label length.",
+  "problemContext": [
+    "The answer set is small and each option can be represented by a short word or phrase.",
+    "The product wants a compact, touch-friendly alternative to conventional checkboxes or radio buttons.",
+    "The choice is part of a form, onboarding flow, preference setup, chat decision, or lightweight configuration task.",
+    "The UI must distinguish selected answer chips from filter chips, badges, removable tags, and action chips."
+  ],
+  "selectionRules": [
+    "Choose chip selection when the chip set itself is the user's answer to a short choice question.",
+    "Use single-selection chips only when exactly one chip in the group can be selected at a time, and state that rule before interaction.",
+    "Use multiple-selection chips when several short options can be selected and the maximum count is small enough to remain readable.",
+    "Use filter chips when selection changes result inclusion rather than storing a form or preference answer.",
+    "Use checkbox group when options need longer labels, descriptions, conventional form affordance, or many visible independent choices.",
+    "Use segmented control when exactly one compact option changes a nearby view, mode, sort, or presentation immediately.",
+    "Use multi-select when the option set is long, searchable, async, grouped, or better managed in a popup with selected-value chips.",
+    "Use badges or read-only tags when the label is informational and cannot be selected.",
+    "Avoid chip selection for more than a small set of short labels; switch to list picker, checkbox group, radio group, or multi-select when wrapping exceeds a few rows."
+  ],
+  "requiredStates": [
+    "Empty chip group with visible question label and helper text.",
+    "Unselected chip state with visible focus and hit target.",
+    "Selected chip state with checkmark, pressed state, or equivalent selected indicator.",
+    "Single-selection chip group state where selecting one chip deselects the previous chip.",
+    "Multiple-selection chip group state with selected count and maximum count feedback.",
+    "Blocked maximum-selection state when another chip cannot be added.",
+    "Required validation state with no selected chips.",
+    "Disabled unavailable chip state with explanation when needed.",
+    "Overflow, wrapping, or horizontal-scroll state for compact chip rows."
+  ],
+  "interactionContract": [
+    "Selecting a chip changes only that chip group's answer and does not navigate, run an action, remove the option, or filter unrelated content.",
+    "For single-selection chip groups, selecting one chip clears the previous selection.",
+    "For multiple-selection chip groups, selecting a chip toggles that chip while preserving other selected chips and chip order.",
+    "The group enforces minimum, maximum, required, and disabled rules immediately with inline feedback.",
+    "Selected state is visible and programmatic, not conveyed by color alone.",
+    "Chip labels stay concise and stable; long labels are not allowed to wrap in a way that changes chip shape unpredictably."
+  ],
+  "implementationChecklist": [
+    "Define whether the chip group is single-select or multi-select before implementation.",
+    "Label the chip group with a visible question and helper text that explains required or maximum selection rules.",
+    "Expose each selectable chip as a button, checkbox-like control, radio-like control, or equivalent with selected or pressed state.",
+    "Use checkmarks, borders, text, icons, or pressed state in addition to color for selected chips.",
+    "Keep chip order stable after selection and avoid moving selected chips to the front.",
+    "Block extra selections immediately when a maximum count is reached and announce the reason.",
+    "Do not place links, delete icons, menus, actions, and selection toggles inside the same chip unless the component pattern explicitly supports that role.",
+    "Test keyboard toggling, focus order, screen reader state, touch target spacing, high zoom, forced colors, wrapping, long labels, localization, required validation, and max-count validation."
+  ],
+  "commonMisuses": [
+    "Using chip selection to filter result sets without explaining that the chips are filters.",
+    "Mixing selectable chips, removable tags, read-only badges, links, and action chips in one visual group.",
+    "Using chips for long labels that should be checkbox or radio options.",
+    "Letting selected chips reorder or disappear after selection.",
+    "Relying only on color to show selected state.",
+    "Using a close icon on a selectable chip and making users wonder whether it toggles selection or removes the option.",
+    "Allowing more chips to be selected than the submitted value accepts."
+  ],
+  "critiqueQuestions": [
+    "Is the chip group collecting an answer, filtering content, triggering actions, or merely labelling information?",
+    "Are labels short enough that chips remain compact after localization?",
+    "Can users tell whether the group is single-select or multi-select before they tap?",
+    "What happens when the user selects none, too many, a disabled chip, or a long localized label?",
+    "Does the selected state remain clear without color and in screen reader output?",
+    "Should this become checkbox group, radio group, segmented control, or multi-select because the option set is growing?"
+  ],
+  "useWhen": [
+    "Users answer a lightweight choice question from a small set of short labels.",
+    "The selection needs to feel compact, touch-friendly, and immediately reviewable.",
+    "The task allows single or multiple chip selection with simple validation rules.",
+    "The option set is stable enough to keep all choices visible without search."
+  ],
+  "avoidWhen": [
+    "The chips filter a result set rather than collect an answer.",
+    "Options need long descriptions, helper text, prices, legal text, or error details.",
+    "There are many options, dynamic options, or search is needed.",
+    "The choice changes a local view mode where segmented control is clearer.",
+    "The labels are read-only metadata, statuses, badges, or links."
+  ],
+  "variants": [
+    "Single-select choice chips",
+    "Multi-select choice chips",
+    "Required chip group",
+    "Chip group with maximum count",
+    "Wrapped chip group",
+    "Horizontally scrollable chip row",
+    "Selectable tags",
+    "Chip form cell"
+  ],
+  "accessibility": [
+    "Give the chip group a visible label and programmatic group name.",
+    "Expose selected state for every selected chip through aria-pressed, checkbox semantics, radio semantics, or equivalent platform state.",
+    "Do not rely on color alone; include checkmarks, borders, text, or pressed state for selection.",
+    "Ensure each chip is keyboard focusable and has a target large enough for touch.",
+    "Announce required, maximum count, disabled, and validation feedback close to the group.",
+    "Keep focus predictable when chips are selected, deselected, disabled, or blocked by max-count rules."
+  ],
+  "keyboardBehavior": [
+    "Tab moves through the chip group or into the chip group according to the chosen control semantics.",
+    "Enter or Space toggles the focused chip.",
+    "In single-selection groups, activating one chip deselects the previous selected chip.",
+    "In multiple-selection groups, activating a chip toggles only that chip unless a maximum count blocks the change.",
+    "Arrow-key roving can be used for radio-like chip groups when implemented consistently.",
+    "After validation, focus should remain on the chip group or move to the first invalid chip with the error announced."
+  ],
+  "failureModes": [
+    "Users cannot tell whether chips are answers, filters, links, actions, or badges.",
+    "The selected state disappears in forced colors or screen reader output.",
+    "A max-count rule is hidden until final submit.",
+    "Long labels wrap inside chips and make the group hard to scan.",
+    "Selected chips move to the front and the available answer set feels unstable.",
+    "A required validation error clears selected chips or shifts focus away from the group.",
+    "A chip with a remove icon removes the option from the question instead of deselecting it."
+  ],
+  "relatedPatterns": [
+    "filter-chips",
+    "checkbox-group",
+    "segmented-control",
+    "multi-select",
+    "radio-group",
+    "select",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "chip-selection-vs-filter-chips-vs-checkbox-group-vs-segmented-control"
+  ],
+  "examples": [
+    {
+      "product": "SAP Fiori for Android Chips",
+      "url": "https://www.sap.com/design-system/fiori-design-android/v25-4/components/input-and-selection/chips/usage",
+      "platform": "mobile",
+      "notes": "Documents chips as form-cell selection controls with single and multiple selection, short labels, selected checkmarks, required indicators, validation messages, wrapping or horizontal scrolling, and option-count limits.",
+      "screenshot": "screenshots/patterns/chip-selection.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Tag",
+      "url": "https://carbondesignsystem.com/components/tag/usage/",
+      "platform": "web",
+      "notes": "Documents selectable tags that can be selected or deselected, keyboard operation with Tab, Enter, and Space, selected state, concise titles, grouping guidance, and variants that separate selectable tags from dismissible or read-only tags.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Design Chips",
+      "url": "https://m2.material.io/components/chips/android",
+      "platform": "mobile",
+      "notes": "Documents chips for making selections, filtering content, entering information, or triggering actions, including choice chips for single selection and filter chips for collections.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Wise Design Chip",
+      "url": "https://www.wise.design/components/chip",
+      "platform": "web",
+      "notes": "Documents choice chips separately from filter chips and gives guidance on chip-row placement, short labels, stable order, and avoiding long chip sets.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "sap-fiori-android-chips",
+      "note": "SAP documents chips for compact form-cell selections, short labels, single and multiple selection, selected checkmarks, required indicators, error messages, wrapping or horizontal scroll, and option-count limits."
+    },
+    {
+      "id": "carbon-tag-component",
+      "note": "Carbon documents selectable tags, selected and unselected states, concise titles, grouping and wrapping limits, keyboard operation, and distinctions from read-only, dismissible, and operational tags."
+    },
+    {
+      "id": "material-design-chips",
+      "note": "Material documents chips for entering information, making selections, filtering content, and triggering actions, and distinguishes choice, filter, input, and action chip roles."
+    },
+    {
+      "id": "wise-chip-component",
+      "note": "Wise chip guidance distinguishes choice chips from filter chips and supports compact chip rows with stable ordering, short text, and limits on overly long chip sets."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

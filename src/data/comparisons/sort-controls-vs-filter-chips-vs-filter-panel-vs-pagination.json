@@ -1,0 +1,50 @@
+{
+  "id": "sort-controls-vs-filter-chips-vs-filter-panel-vs-pagination",
+  "title": "Sort controls vs filter chips vs filter panel vs pagination",
+  "summary": "Use sort controls to change the order of the current result set, filter chips or panels to change which items are included, and pagination to move through slices of the same ordered set.",
+  "patternIds": [
+    "sort-controls",
+    "filter-chips",
+    "filter-panel",
+    "pagination"
+  ],
+  "decisionRules": [
+    "Prefer sort controls when the user needs the same matching items arranged by relevance, date, name, distance, price, priority, or another meaningful ordering attribute.",
+    "Prefer filter chips when a small visible set of criteria should include or exclude items directly above the current results.",
+    "Prefer a filter panel when users need grouped criteria, ranges, dates, or batch apply behavior that changes which records are present in the result set.",
+    "Prefer pagination when the ordered result set is too large to show at once and users need to move through pages without changing item order.",
+    "Do not put date ranges, status choices, categories, or ownership criteria inside a sort menu because those choices filter membership rather than reorder items.",
+    "Do not use filter chips for sorting because a selected chip implies inclusion or exclusion, while sort state should identify one active ordering rule.",
+    "When sort and pagination are combined, apply the sort to the whole data set and reset or explain the current page position so users do not think only the visible page was reordered.",
+    "When sort and search are combined, preserve the search query and filters while changing order, and announce the new result order near the result summary.",
+    "Use table header sorting when the sortable attribute is a visible column and users compare rows; use a separate Sort by control when the options apply to cards, search results, or a list without sortable columns.",
+    "Expose default, ascending, descending, loading, and unavailable states when sorting affects remote data, formatted dates, numeric values, or paginated results."
+  ],
+  "failureModes": [
+    "A sort menu includes Status: Open and Last 30 days, so users cannot tell which choices filter results and which reorder them.",
+    "Changing sort silently clears the current search query, active filters, selected view, or page size.",
+    "Only the current page is sorted, causing records on later pages to remain out of global order.",
+    "Dates are sorted as display strings, putting 10/1 before 2/20 in a newest-first list.",
+    "A table header toggles order but has no current-state icon, no aria-sort state, and no screen-reader announcement.",
+    "Sort options are labelled only Newest or A-Z even though the sortable attribute is ambiguous."
+  ],
+  "sources": [
+    {
+      "id": "va-sort-component",
+      "note": "VA documents dedicated sort usage, implicit submission, whole-set ordering, pagination reset, persistence, placement, and clear option labels."
+    },
+    {
+      "id": "uswds-table-component",
+      "note": "USWDS documents sortable table headers, aria-sort, live announcements, and raw sort values for formatted data."
+    },
+    {
+      "id": "carbon-data-table-component",
+      "note": "Carbon documents table sorting states, header placement, and visible sort indicators."
+    },
+    {
+      "id": "maersk-table-component",
+      "note": "Maersk documents clickable sortable headers, active sort suffix icons, and unsorted, ascending, and descending modes."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

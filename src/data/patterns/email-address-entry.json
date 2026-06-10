@@ -1,0 +1,255 @@
+{
+  "id": "email-address-entry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an email-address capture pattern with source-backed guidance for purpose text, type email, autocomplete email, spellcheck off, paste and autofill support, 254-character capacity, visible width, format errors, provider typo warnings, review and change, access confirmation loops, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers email address capture for receipts, notifications, account recovery, sign-in identifiers, invitations, and verification; purpose text; type email; autocomplete email; spellcheck false; paste and browser autofill; 254-character capacity; at least 30 visible characters; format validation; provider typo warnings with proceed option; review and change; and email confirmation only when mailbox access is essential.",
+    "relatedPatternDistinction": "The entry separates email address entry from text input by using email-specific keyboard, autocomplete, validation, and contactability handling; from inline validation by owning email parsing and typo warnings; from error summary by letting summaries link to the field after submit; and from password input by collecting a contact address rather than a secret.",
+    "liveDemoBehavior": "The rendered exercise accepts pasted and autofilled addresses, validates missing and malformed values, preserves plus tags and long domains, warns on likely provider typos without silently correcting them, shows review and change for the chosen address, and contrasts a broken flow that blocks paste, rejects plus addressing, and forces repeat entry.",
+    "comparisonDecisionRules": "The linked email-address-entry-vs-text-input-vs-inline-validation-vs-error-summary comparison gives concrete rules for contactable email capture, ordinary short text, local field correction, submitted-form recovery, type and autocomplete choice, typo warnings, paste support, review, and access-confirmation loops.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/email-address-entry.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, paste support, malformed-email error, provider typo warning, plus-address preservation, review state, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/email-address-entry.png"
+    ]
+  },
+  "name": "Email address entry",
+  "aliases": [
+    "email input",
+    "email address field",
+    "contact email field",
+    "sign-in email field",
+    "email capture",
+    "email contact details",
+    "mailbox address entry"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Contactable email address capture field",
+  "uiGuidance": [
+    "Render email entry as a labelled single-line field with purpose text, type email, autocomplete email, spellcheck disabled, enough visible width for review, field-specific errors, and optional typo warning and review states.",
+    "Keep the full address editable and visible enough to inspect; do not split the address into local-part and domain fields or replace the user's value with an unconfirmed correction."
+  ],
+  "uxGuidance": [
+    "Use email address entry when the product must contact the user, identify an account, send a receipt, invite someone, or confirm access to a mailbox.",
+    "Help users provide a deliverable address by allowing paste and autofill, preserving valid address forms, explaining format problems, warning about likely provider typos, and confirming back the address before consequential use."
+  ],
+  "uiExamples": {
+    "good": [
+      "A receipt form asks for Email address, says We will only use this to send your receipt, uses type email and autocomplete email, and shows a review row before submit.",
+      "An account recovery form accepts alex+tax@example.co.uk, warns if the domain looks like gmial.com, and lets the user either change it or keep it."
+    ],
+    "bad": [
+      "A form uses a plain text field named Contact and later rejects it as not email-shaped after submit.",
+      "A page asks users to type the email twice, blocks paste, and silently changes homtail.com to hotmail.com."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pastes alex+receipts@example.co.uk, sees it preserved exactly, reviews it on the check page, and changes it only if needed.",
+      "A user types ada@gmial.com, receives a warning that they may have meant gmail.com, and can either fix it or keep the original address."
+    ],
+    "bad": [
+      "A user with a long work address cannot see enough of it to spot a typo before the service sends a reset link.",
+      "A user enters a valid plus-addressed mailbox and the form rejects it because the validator only allows letters before the at sign."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Email addresses look simple but are easy to mistype, may be long or uncommon, often come from password managers or copy and paste, and can affect account recovery, receipts, notifications, and access confirmation.",
+  "solution": "Use an email-specific field with clear purpose, paste and autofill support, email keyboard and autocomplete, tolerant validation, provider typo warnings, preserved values, review and change, and confirmation loops only when mailbox access is essential.",
+  "problemContext": [
+    "The service needs to send receipts, status updates, invitations, alerts, reset links, verification messages, or account notifications.",
+    "Users may have multiple addresses and need to know whether to give work, personal, recovery, shared, or temporary email.",
+    "Addresses may include plus tags, subdomains, long domains, uncommon top-level domains, uppercase letters, dots, hyphens, and pasted whitespace.",
+    "A syntactically valid email address does not prove that the user owns or can access the mailbox.",
+    "Wrong addresses can leak information, block recovery, prevent receipts, or send a message to another person."
+  ],
+  "selectionRules": [
+    "Choose email address entry when the field value must be an email address used for contact, identity, invitation, recovery, notification, or receipt delivery.",
+    "Use type email, autocomplete email, spellcheck false, and a visible label that says Email address or names the mailbox purpose.",
+    "Explain why the address is needed unless the purpose is already obvious in a sign-in context.",
+    "Allow paste, browser autofill, plus addressing, subdomains, long addresses, and uncommon domains.",
+    "Size the field so most users can inspect at least the main part of the address, and support up to 254 characters.",
+    "Validate empty and malformed values after blur or submit, preserve the entered value, and say how to fix it.",
+    "Trim accidental leading and trailing spaces, but do not silently rewrite the local part, domain, or provider.",
+    "Warn on likely provider typos and offer a suggested domain, but let users keep the original address.",
+    "Use the multiple attribute only when the task truly accepts multiple comma-separated addresses; otherwise reject multiple addresses clearly.",
+    "Show the captured address on review or confirmation before sending consequential email.",
+    "Use an email confirmation loop only when the service must know that the user can access the mailbox.",
+    "Do not require repeated email entry, block paste, or force confirmation loops unless research and risk justify the extra friction."
+  ],
+  "requiredStates": [
+    "Initial state with label, purpose hint, type email, autocomplete email, spellcheck false, and adequate width.",
+    "Focused state with email keyboard and normal typing, paste, selection, undo, and autofill behavior.",
+    "Pasted address state preserving plus tags, case where relevant for display, subdomains, and long domains.",
+    "Missing required email state with field-specific error text.",
+    "Malformed email state with an example such as name@example.com.",
+    "Likely provider typo warning state with change, keep, or suggested-domain action.",
+    "Multiple addresses rejected state when only one address is allowed.",
+    "Long address state where enough of the value can be inspected and no silent truncation occurs.",
+    "Reviewed address state with change action before receipt, notification, recovery, or invitation is sent.",
+    "Email confirmation pending state when access to the mailbox must be proven.",
+    "Delivered or verified state that records contactability separately from syntactic validity."
+  ],
+  "interactionContract": [
+    "Users can type, paste, autofill, edit, select, undo, and correct the email value through native input behavior.",
+    "Submitting an empty or malformed address keeps the typed value and puts the correction next to the field or in a linked summary.",
+    "Provider typo warnings are advisory and never overwrite the user's value without confirmation.",
+    "Review states show the exact address that will receive messages and provide a direct change path.",
+    "Confirmation loops explain what was sent, where it was sent, how long the code or link lasts, and how to change the address.",
+    "The backend treats syntax validity, deliverability, ownership, and verified access as separate states."
+  ],
+  "implementationChecklist": [
+    "Use a native input with type email, autocomplete email, spellcheck false, a stable label, purpose hint, and aria-describedby for hint, warning, and error text.",
+    "Support paste, autofill, mobile email keyboard, long values, plus tags, subdomains, uncommon domains, and copied addresses with leading or trailing spaces.",
+    "Validate required and email-format errors on the client and server, and avoid brittle regular expressions that reject real addresses.",
+    "Add provider typo detection for common domains only as a warning with keep and change paths.",
+    "Use a review page, summary row, or confirmation panel before sending important email.",
+    "Use email access confirmation only for account activation, password reset, sensitive notifications, or flows where mailbox access is required.",
+    "Test password managers, browser autofill, paste, mobile keyboard, screen readers, zoom, long addresses, plus tags, multiple-address attempts, provider typos, bounced email, and confirmation timeout."
+  ],
+  "commonMisuses": [
+    "Using a plain text input without email autocomplete or email keyboard support.",
+    "Blocking paste or browser autofill.",
+    "Rejecting plus-addressed, long, subdomain, or uncommon-domain addresses with a narrow regex.",
+    "Silently correcting a provider typo and sending mail to the changed address.",
+    "Asking users to repeat the email address without evidence that it helps.",
+    "Forcing an email confirmation loop for low-risk contact or receipt fields.",
+    "Hiding the entered address so users cannot review it before a reset link or receipt is sent.",
+    "Treating syntactic validity as proof that the mailbox exists or belongs to the user."
+  ],
+  "critiqueQuestions": [
+    "What will the service send to this email address and how should users choose which mailbox to provide?",
+    "Does the field use type email, autocomplete email, spellcheck false, and enough visible width?",
+    "Can users paste or autofill plus-tagged, long, or uncommon-domain addresses without rejection?",
+    "What happens when a user enters a likely provider typo such as gmial.com?",
+    "Does the flow need mailbox access confirmation, or is review and change enough?",
+    "How are format validity, deliverability, bounced messages, and verified access represented separately?"
+  ],
+  "useWhen": [
+    "The product must capture an email address for contact, receipt, notification, invitation, account identifier, recovery, or verification.",
+    "Users may need to choose among multiple personal, work, shared, or recovery addresses.",
+    "The service can preserve, review, validate, and where necessary confirm the address before relying on it.",
+    "The address needs email-specific keyboard, autocomplete, and spelling behavior."
+  ],
+  "avoidWhen": [
+    "The value is a username, label, reference, organization name, or other short text that may not be an email address.",
+    "The flow needs a phone number, postal address, payment account, password, or one-time code instead.",
+    "The product cannot safely send email, handle bounces, change an incorrect address, or explain confirmation failures.",
+    "Users should choose from known contacts or account records rather than type a new address.",
+    "The task requires multiple recipients but the product has not designed recipient chips, errors, and review for multiple addresses."
+  ],
+  "variants": [
+    "Contact email address",
+    "Sign-in email address",
+    "Receipt email",
+    "Recovery email",
+    "Invitation email",
+    "Email with provider typo warning",
+    "Email review before submit",
+    "Email confirmation pending",
+    "Multiple email address field",
+    "Verified email state"
+  ],
+  "accessibility": [
+    "Use a visible label that names the value as an email address and a hint that explains why it is requested.",
+    "Use autocomplete email to identify the input purpose for autofill and assistive technologies.",
+    "Connect hint, warning, and error text to the field with descriptive relationships.",
+    "Do not rely on placeholder text or browser validation messages as the only instruction.",
+    "Present typo warnings, errors, and confirmation states in text, not only color or icons.",
+    "Keep the address review and change controls reachable by keyboard and screen reader.",
+    "Make confirmation-loop resend, change-address, and timeout recovery paths accessible."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows the email field, typo warning actions when present, review change action, and submit or confirmation controls.",
+    "Typing, paste, selection, deletion, undo, redo, and autofill use native input behavior.",
+    "Enter submits the surrounding form only when the form contract is clear.",
+    "Submitting an invalid address moves focus to the error summary or email field without clearing the value.",
+    "Warning actions such as Use suggested domain and Keep original are reachable by keyboard.",
+    "Confirmation code or link recovery does not trap focus away from changing the email address."
+  ],
+  "failureModes": [
+    "The wrong email receives a receipt, recovery link, or private notification because the user could not review it.",
+    "A valid address is rejected because a regex disallows plus tags, subdomains, or newer domains.",
+    "A typo warning silently rewrites the address and sends messages to someone else.",
+    "Users abandon because they must repeat or confirm email for a low-risk transaction.",
+    "A syntactically valid but inaccessible mailbox is treated as verified access.",
+    "Browser autofill puts an email address in the wrong field because autocomplete is missing or incorrect.",
+    "Long addresses are truncated or hidden so the user cannot spot a typo.",
+    "The field rejects copied addresses with harmless leading or trailing whitespace."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "inline-validation",
+    "error-summary",
+    "autocomplete",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "email-address-entry-vs-text-input-vs-inline-validation-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Email addresses",
+      "url": "https://design-system.service.gov.uk/patterns/email-addresses/",
+      "platform": "web",
+      "notes": "Documents purpose text, type email, autocomplete email, spellcheck false, paste support, length capacity, visible width, provider typo warnings, review, and optional confirmation loops.",
+      "screenshot": "screenshots/patterns/email-address-entry.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "ONS Design System Email addresses",
+      "url": "https://service-manual.ons.gov.uk/design-system/patterns/email-addresses",
+      "platform": "web",
+      "notes": "Documents purpose text, type email, autocomplete email, paste support, check-answers review, and confirmation only where user research shows value.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN input type email",
+      "url": "https://developer.mozilla.org/docs/Web/HTML/Reference/Elements/input/email",
+      "platform": "web",
+      "notes": "Documents email input semantics, browser email-format validation, supported attributes, and multiple comma-separated address handling.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "HTML Standard email input state",
+      "url": "https://html.spec.whatwg.org/multipage/input.html#email-state-(type=email)",
+      "platform": "web",
+      "notes": "Documents the email input state, valid email grammar, type mismatch validation, multiple-address handling, and applicable attributes.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-email-addresses-pattern",
+      "note": "GOV.UK supports email-purpose text, type email, autocomplete email, spellcheck false, paste support, 254-character capacity, visible width, typo warnings, review, and confirmation loops only when access is essential."
+    },
+    {
+      "id": "ons-email-addresses-pattern",
+      "note": "ONS supports email purpose descriptions, type email, autocomplete email, paste support, check-answers review, and confirmation only where research supports it."
+    },
+    {
+      "id": "mdn-input-email",
+      "note": "MDN supports email input semantics, automatic email-format validation, supported attributes, and multiple-address handling."
+    },
+    {
+      "id": "whatwg-input-email",
+      "note": "WHATWG supports the email input state, valid email grammar, type mismatch validation, and multiple-address handling."
+    },
+    {
+      "id": "mdn-html-autocomplete-email",
+      "note": "MDN supports the email autocomplete token and input-purpose identification."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,257 @@
+{
+  "id": "object-picker",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an existing-entity lookup pattern with source-backed record, user, and people picker behavior, stable object identity, duplicate-name disambiguation, scoped search, selected-object preview, unresolved text validation, stale hidden-ID prevention, and distinctions from combobox, autocomplete, multi-select, transfer list, tree selection, and listbox.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers entity identity, object type, stable ID, duplicate labels, scoped search, display fields, status metadata, selected-object preview, clear action, unresolved text validation, stale hidden-ID reset, no-result and loading states, and permission-limited results.",
+    "relatedPatternDistinction": "The entry separates object picker from combobox by requiring selected entity identity and disambiguating metadata, from autocomplete by rejecting unresolved text, from multi-select by focusing on object identity rather than compact multi-value choice, and from transfer list or tree selection by avoiding destination-pane movement and hierarchy selection.",
+    "liveDemoBehavior": "The live demo searches same-named records, switches lookup scope, moves active result focus, commits a specific object ID, shows a preview card, clears stale selected IDs after text edits, validates unresolved text, and contrasts duplicate-name and broad-scope failures.",
+    "comparisonDecisionRules": "The linked object-picker-vs-combobox-vs-autocomplete-vs-multi-select comparison gives concrete rules for entity IDs, duplicate labels, metadata, scope, preview, custom text rejection, hierarchy, selected-set movement, and stale submitted values.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/object-picker.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, scoped search, duplicate labels, active result, selected preview, stale text validation, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/object-picker.png"
+    ]
+  },
+  "name": "Object picker",
+  "aliases": [
+    "record picker",
+    "entity picker",
+    "lookup field",
+    "reference picker",
+    "people picker",
+    "user picker",
+    "assignee picker"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Search, Browse, And Discovery",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Existing-entity lookup and selected-object confirmation",
+  "uiGuidance": [
+    "Render a labelled lookup field with search text, scoped result list, active result, selected object chip or preview, object type, stable ID or equivalent key, secondary metadata, clear action, no-result state, loading state, and validation text.",
+    "Show enough fields to distinguish same-named objects before selection, and keep the selected object preview visible after the popup closes so the submitted entity can be inspected."
+  ],
+  "uxGuidance": [
+    "Use an object picker when the user must choose an existing entity whose identity matters beyond the displayed label, such as a record, person, group, account, file, team, project, or workspace.",
+    "Protect users from linking the wrong entity by scoping search, disambiguating duplicate names, clearing stale selected IDs after edits, and requiring explicit selection of a valid object before save."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Related account field shows two Acme Retail records with account ID, region, status, and owner, then displays a selected-object preview card before saving.",
+      "A people picker shows avatar or initials, full name, email, job title, and presence while preserving the selected account ID.",
+      "A project lookup includes a scope chip for Active projects, a no-results message for the current scope, and a clear control that removes both visible label and submitted ID."
+    ],
+    "bad": [
+      "A text field accepts Acme Retail as free text even though the backend needs a record ID.",
+      "A result list shows three identical names with no metadata, status, owner, or ID.",
+      "A selected label remains visible after the user edits the text while the hidden submitted object ID still points at the previous record."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user searches Acme, compares two same-named records by region and status, selects the active EMEA account, and reviews the selected account ID before saving.",
+      "A user changes the typed text after selecting a project and the selected object clears until a new result is explicitly chosen.",
+      "A user toggles from Active only to All records, sees archived results labelled as archived, and avoids selecting an inactive object by mistake."
+    ],
+    "bad": [
+      "A user types a person name and presses Save, but no actual user account was selected.",
+      "A user picks the first Acme result because every row looks identical, then links the case to the wrong account.",
+      "A stale hidden ID is submitted after the visible label has been edited to a different name."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to link, assign, or reference an existing entity, but names can be duplicated, records can be scoped or restricted, and a text-only autocomplete can submit the wrong hidden object ID.",
+  "solution": "Provide a scoped object lookup that searches permitted entities, displays disambiguating metadata, requires explicit selection of an existing object, shows a selected-object preview, and keeps the visible label synchronized with the submitted identity.",
+  "problemContext": [
+    "The product stores a stable object identity, not only the label the user typed.",
+    "Different entities may share the same name or have similar labels.",
+    "Users may need to see object type, owner, status, location, email, avatar, account, project, or permission scope before selecting.",
+    "Search results may come from a remote service, directory, graph, CRM, repository, or data table with access controls.",
+    "The selected object may affect assignment, permissions, ownership, billing, workflow routing, or linked records."
+  ],
+  "selectionRules": [
+    "Choose object picker when users must select an existing record, person, group, file, account, project, team, workspace, or other entity with a stable ID.",
+    "Use combobox when the main requirement is one popup-owned field value and entity identity metadata is not central to the task.",
+    "Use autocomplete when suggestions complete a known text value and the submitted value does not require previewing an object record.",
+    "Use multi-select or chip selection when users choose several simple values; use object picker for one or more entities only when each selected item needs identity, metadata, or permission-aware validation.",
+    "Use transfer list when users move objects into a separate selected destination set with ordering, locked items, or batch review.",
+    "Use tree selection when hierarchy is the primary way to understand and select entities.",
+    "Restrict result scope to the current task when possible, and label any broadened scope such as All records, Archived, External, or Directory.",
+    "Require a selected object ID before submit when free text is not valid.",
+    "Clear the selected ID or mark it unresolved whenever the visible text no longer matches the committed object."
+  ],
+  "requiredStates": [
+    "Empty object lookup field with label, helper text, and current search scope.",
+    "Focused field with popup available and no committed object.",
+    "Loading remote results state for the current query and scope.",
+    "Filtered result list with active result and disambiguating metadata.",
+    "Duplicate-label result state with distinct type, status, owner, region, email, or ID.",
+    "Selected object state with visible chip, preview card, object type, and stable identity.",
+    "Edited-after-selection unresolved state where the submitted ID is cleared.",
+    "No results in current scope state with a safe way to broaden or change scope.",
+    "Permission-restricted result state that explains why an object is unavailable when the product can disclose it.",
+    "Required valid-object validation state for unresolved text or empty selection.",
+    "Disabled or read-only state with selected object still inspectable."
+  ],
+  "interactionContract": [
+    "Typing searches or filters permitted objects without committing the first visible result.",
+    "Arrow keys or equivalent controls move the active result independently from the selected object.",
+    "Enter, pointer selection, or an explicit Choose action commits the active object and synchronizes the selected ID, visible label, and preview.",
+    "Editing the visible text after a committed selection clears or invalidates the selected object until another result is chosen.",
+    "Scope changes refresh results while preserving the selected object only if it still belongs to the allowed scope.",
+    "The user can clear the selected object and recover from no-result, loading, unavailable, and validation states without losing form context."
+  ],
+  "implementationChecklist": [
+    "Define the object type, submitted ID, display label, secondary fields, permission scope, and duplicate-label strategy before building the picker.",
+    "Use an accessible combobox, listbox, dialog, or platform picker structure with labelled input, expanded state, active option, selected state, and validation text.",
+    "Show secondary metadata such as email, owner, status, type, region, path, account, project, or ID in every result row where labels may collide.",
+    "Synchronize visible text, selected object, submitted ID, preview card, clear action, and validation state as one state machine.",
+    "Debounce remote search, cancel stale responses, expose loading and no-result states, and avoid leaking inaccessible object names.",
+    "Test duplicate names, archived or inactive records, permission-denied objects, slow search, scope changes, stale IDs, keyboard selection, screen readers, high zoom, mobile fallback, and localization."
+  ],
+  "commonMisuses": [
+    "Treating the picker as a free text field when the system requires an existing object ID.",
+    "Displaying only names for entities that commonly share names.",
+    "Submitting a hidden object ID after the visible text changes.",
+    "Searching an unbounded directory when the task has a clear project, account, group, or status scope.",
+    "Using object picker for a short static enum that should be radio, select, listbox, or checkbox group.",
+    "Hiding unavailable or archived status until after the user saves."
+  ],
+  "critiqueQuestions": [
+    "What exact object ID is submitted, and can the user inspect it before saving?",
+    "Can users distinguish same-named entities without opening another page?",
+    "Does editing the visible label clear the committed object identity?",
+    "Is search limited to the task's relevant scope, and are broadened scopes labelled?",
+    "What happens when results are loading, empty, stale, archived, inaccessible, or duplicated?"
+  ],
+  "useWhen": [
+    "Users assign, link, reference, invite, route, or attach an existing entity.",
+    "The selected value has an internal identity that must stay synchronized with a human-readable label.",
+    "Results need metadata, preview, status, permission scope, or duplicate-name disambiguation.",
+    "Remote search or directory lookup is needed because the entity set is too large to browse directly."
+  ],
+  "avoidWhen": [
+    "Any arbitrary text is valid.",
+    "The choices are a short static enum.",
+    "Users need to choose several simple labels without record-level identity.",
+    "Users need to move items into an ordered selected destination set.",
+    "Users need to navigate a meaningful hierarchy before choosing."
+  ],
+  "variants": [
+    "Record picker",
+    "People picker",
+    "User picker",
+    "Group picker",
+    "File picker",
+    "Project picker",
+    "Account lookup",
+    "Single-object picker",
+    "Multi-object picker",
+    "Scoped directory picker",
+    "Picker with preview panel"
+  ],
+  "accessibility": [
+    "Give the lookup field a persistent label and helper text that explains the expected object type.",
+    "Expose result rows as options or selectable rows with accessible names that include disambiguating metadata.",
+    "Expose the active result, selected object, loading state, no-result state, validation error, and clear action.",
+    "Do not rely on avatar, icon, color, or row order as the only distinction between objects.",
+    "Ensure selected chips or preview cards have readable labels and keyboard-reachable remove or clear controls.",
+    "Avoid leaking hidden object names to assistive technology if access restrictions prevent disclosure."
+  ],
+  "keyboardBehavior": [
+    "Tab moves into and out of the picker without trapping focus.",
+    "Printable text updates the search query and clears stale selected identity when it diverges from the committed object.",
+    "Down Arrow and Up Arrow move the active result when the popup is open.",
+    "Enter commits the active object only when a real result is active.",
+    "Escape closes the result popup without changing the previously committed object.",
+    "Backspace or Delete removes selected chips or clears the field according to the platform convention.",
+    "Scope controls, preview links, clear buttons, and validation repair actions are reachable by keyboard."
+  ],
+  "failureModes": [
+    "Duplicate object names appear without metadata and users guess.",
+    "A hidden selected ID survives after the visible label is edited.",
+    "The result list auto-selects the first object while the user is still typing.",
+    "Search includes archived, external, inactive, or unauthorized objects with no visible status.",
+    "The selected object cannot be reviewed after the popup closes.",
+    "The picker exposes loading or no-result states visually but not programmatically.",
+    "A broad people search leaks more directory information than the task requires.",
+    "The object picker is used for a simple enum where radio, select, listbox, or checkbox group would be clearer."
+  ],
+  "relatedPatterns": [
+    "combobox",
+    "autocomplete",
+    "multi-select",
+    "transfer-list",
+    "tree-selection",
+    "listbox",
+    "select",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "object-picker-vs-combobox-vs-autocomplete-vs-multi-select"
+  ],
+  "examples": [
+    {
+      "product": "Salesforce Lightning Record Picker",
+      "url": "https://developer.salesforce.com/docs/platform/lightning-component-reference/guide/lightning-record-picker.html",
+      "platform": "web",
+      "notes": "Documents a lookup-style record picker that searches Salesforce records, filters candidates, displays fields, lets users select a record, and exposes validation behavior.",
+      "screenshot": "screenshots/patterns/object-picker.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Atlassian Forge User Picker",
+      "url": "https://developer.atlassian.com/platform/forge/ui-kit/components/user-picker/",
+      "platform": "web",
+      "notes": "Documents user search and selection, required labels, single and multi selection, and selected user objects containing account ID, avatar URL, name, and email.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Power Platform PeoplePicker",
+      "url": "https://learn.microsoft.com/en-us/power-platform/guidance/creator-kit/peoplepicker",
+      "platform": "web",
+      "notes": "Documents people or group picking with selected persona keys, suggestion data, display name, role, profile image, presence, search threshold, no-result message, error state, and accessibility label.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MUI Autocomplete object options",
+      "url": "https://mui.com/material-ui/react-autocomplete/",
+      "platform": "web",
+      "notes": "Documents object options, stable equality checks, unique keys for duplicate labels, separate input and selected value state, async search, and custom selected value rendering.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "salesforce-lightning-record-picker",
+      "note": "Salesforce documents searching records, selecting a record, filtering result candidates, customizing display fields, validation, object support constraints, and focus methods."
+    },
+    {
+      "id": "atlassian-forge-user-picker",
+      "note": "Atlassian documents user search and selection with required labels, account ID, avatar, name, email, and single or multi-selection behavior."
+    },
+    {
+      "id": "microsoft-power-platform-peoplepicker",
+      "note": "Microsoft documents people or group selection, selected persona keys, suggestion names, roles, images, presence, no-result messaging, search thresholds, error state, and accessibility label."
+    },
+    {
+      "id": "mui-autocomplete-object-options",
+      "note": "MUI documents object options, getOptionLabel, unique option keys for duplicate labels, equality checks, controlled input and value state, async search, and value rendering."
+    },
+    {
+      "id": "wai-aria-apg-combobox",
+      "note": "APG combobox guidance supports the accessible popup, expanded state, active descendant, Enter acceptance, Escape cancellation, and selected value mechanics an object picker commonly builds on."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

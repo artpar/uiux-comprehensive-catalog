@@ -1,0 +1,50 @@
+{
+  "id": "search-scope-selector-vs-basic-search-vs-filter-panel-vs-tabs",
+  "title": "Search scope selector vs basic search vs filter panel vs tabs",
+  "summary": "Use search scope selector when users must choose the corpus to search, basic search for the query input and result retrieval, filter panel for narrowing returned results by attributes, and tabs for switching visible sections or result-type views.",
+  "patternIds": [
+    "search-scope-selector",
+    "basic-search",
+    "filter-panel",
+    "tabs"
+  ],
+  "decisionRules": [
+    "Prefer search scope selector when the same query can run against materially different corpora such as this repository, all repositories, current site, hub, organization, current channel, all messages, files, or people.",
+    "Prefer basic search when users only need to enter, submit, revise, clear, and see results for one already-understood corpus.",
+    "Prefer filter panel when users are narrowing a result set after the corpus is already chosen, using attributes such as date, type, author, status, label, or space.",
+    "Prefer tabs when users are switching between sibling result views or content panels and the tab label is not changing the search index before the query runs.",
+    "A scope selector should be visible before submission or repeated in the result summary so users know where the search ran.",
+    "When a scope change preserves the query, update the result count and scope summary together; when it clears the query, warn before clearing because users may interpret the same words differently in another corpus.",
+    "Use names that describe the corpus, not implementation labels such as tenant, index-4, default source, or vertical unless those words are the user's vocabulary.",
+    "If permissions differ by scope, show available scopes only when the user can search them and explain why broader scopes may be unavailable.",
+    "Do not hide scope inside placeholder text because the placeholder disappears as soon as users type.",
+    "Keep scope selection separate from sort order and result highlighting because scope changes where the system searches, sort changes ordering, and highlighting explains why existing results matched."
+  ],
+  "failureModes": [
+    "The search runs only within the current site or repository, but the UI looks like it searched the whole product.",
+    "Changing from Current space to All spaces erases the query without warning.",
+    "A tab labelled Files is used as both a result-type view and a pre-query corpus selector, so users cannot tell what will be searched next.",
+    "Internal index names appear in the menu and users choose the wrong scope.",
+    "Guest users see organization-wide scope options that cannot return results for them.",
+    "The result count changes after a scope switch but the heading still names the previous scope."
+  ],
+  "sources": [
+    {
+      "id": "github-repository-search-scope",
+      "note": "GitHub documents automatically constraining search to the current repository with a repo qualifier when searching from within a repository."
+    },
+    {
+      "id": "slack-search-scope-modifiers",
+      "note": "Slack documents narrowing search to conversations with in: modifiers, switching result types, and searching within a specific conversation."
+    },
+    {
+      "id": "confluence-cloud-search-scopes",
+      "note": "Confluence documents spaces, pages under, titles-only, and type constraints for focusing advanced search results."
+    },
+    {
+      "id": "microsoft-sharepoint-search-box-scope",
+      "note": "Microsoft documents current site, hub, and organization search scopes and guest-user limitations for SharePoint search."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

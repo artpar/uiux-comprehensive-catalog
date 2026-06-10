@@ -1,0 +1,52 @@
+{
+  "id": "destructive-action-confirmation-vs-confirmation-dialog-vs-undo-vs-warning-text",
+  "title": "Destructive action confirmation vs confirmation dialog vs undo vs warning text",
+  "summary": "Use destructive action confirmation for a named destructive commit with loss inventory and safe cancellation; use confirmation dialog for other high-consequence decisions, undo for recoverable routine actions, and warning text for consequence copy before the user starts the action.",
+  "patternIds": [
+    "destructive-action-confirmation",
+    "confirmation-dialog",
+    "undo",
+    "warning-text"
+  ],
+  "decisionRules": [
+    "Choose destructive action confirmation when the user has invoked Delete, Remove, Cancel subscription, Deactivate account, Reset keys, or a similar destructive command and the UI must stop final commitment until the object, scope, and loss are reviewed.",
+    "Choose confirmation dialog when the high-consequence decision is not primarily destructive, such as sending an irreversible invitation, changing a permission, making a purchase, or exposing private data.",
+    "Choose undo when the action can complete immediately and the exact prior object, membership, order, permissions, and visible counts can be restored before external effects occur.",
+    "Choose warning text when the user has not started the destructive command yet and only needs a concise severe-consequence warning near a button, declaration, or instruction.",
+    "A destructive action confirmation must name the destructive verb and target in the title and final button, such as Delete project or Cancel subscription, rather than using OK, Yes, Continue, or Confirm.",
+    "Use a loss inventory when deletion affects child records, shared links, members, automations, billing, integrations, audit logs, or external recipients.",
+    "Do not use destructive action confirmation for soft delete to trash when restore is prominent enough; use undo or restore-from-trash behavior instead.",
+    "Escalate from ordinary destructive confirmation to typed confirmation only for severe broad scope, production data, account closure, workspace deletion, or security-critical destruction."
+  ],
+  "failureModes": [
+    "A delete command opens a vague Are you sure prompt with OK, so users cannot tell which object or data will be lost.",
+    "A destructive confirmation appears for every archive or dismiss action, making users click through automatically when a real deletion appears.",
+    "A reversible trash move is blocked by a severe modal instead of offering restore, slowing routine cleanup without adding safety.",
+    "Warning copy sits beside the Delete button but no final commit review appears before permanent deletion.",
+    "The dialog lists a count but omits child objects, shared links, automations, or billing effects that would have changed the user's decision.",
+    "The destructive button is enabled before required acknowledgement or scope review is complete."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-forge-danger-modal",
+      "note": "Atlassian danger modals show permanent delete copy, affected child content, a cancel option, and a danger action."
+    },
+    {
+      "id": "maersk-dialog-component",
+      "note": "Maersk dialog guidance reserves disruptive dialogs for decisions or acknowledgement and includes destructive-action confirmation as a valid use."
+    },
+    {
+      "id": "apple-hig-alerts",
+      "note": "Apple alert guidance supports careful destructive-action treatment and warns that unclear OK-style labels can be ambiguous."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance emphasizes meaningful consequences, specific information, prevention, and undo alternatives."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG defines alert dialogs as modal interruptions for important messages requiring a user response."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

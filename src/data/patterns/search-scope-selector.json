@@ -1,0 +1,252 @@
+{
+  "id": "search-scope-selector",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a corpus-selection search pattern with source-backed current-site, hub, organization, repository, space, channel, result-type, permission, query-preservation, result-summary, default-scope, and wrong-scope recovery guidance plus related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers choosing the searchable corpus before or during search, visible scope names, default scope, query preservation, result counts per scope, permission-aware availability, vanishing hint limitations, mobile behavior, wrong-scope recovery, and result summaries.",
+    "relatedPatternDistinction": "The entry separates search scope selector from basic search by changing where a query runs, from filter panel by selecting the corpus before attribute narrowing, from tabs by not merely switching visible panels, and from search result highlighting by not explaining why returned results matched.",
+    "liveDemoBehavior": "The live demo preserves a query while switching among All knowledge, Current workspace, Cases, and People scopes, updates result counts and scope summaries, shows unavailable broader scope behavior, resets page position, and contrasts bad behavior that hides scope, clears the query, and shows stale scope names.",
+    "comparisonDecisionRules": "The linked search-scope-selector-vs-basic-search-vs-filter-panel-vs-tabs comparison gives concrete rules for corpus selection, query entry, result filtering, tabbed views, visible pre-submit scope, permission boundaries, query preservation, and wrong-scope failures.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/search-scope-selector.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, scope choices, query preservation, result-count changes, unavailable scope handling, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/search-scope-selector.png"
+    ]
+  },
+  "name": "Search scope selector",
+  "aliases": [
+    "scoped search",
+    "search within selector",
+    "search scope control",
+    "corpus selector",
+    "search vertical selector",
+    "repository search scope",
+    "site search scope",
+    "conversation search scope"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Data Display And Exploration",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Control that selects which corpus, location, or result source a query searches",
+  "uiGuidance": [
+    "Render the active search scope near the search input and result summary, using user-facing corpus names such as Current workspace, All knowledge, This repository, or People.",
+    "Expose scope choices as radios, segmented buttons, a labelled select, or clearly labelled result-source tabs, and show result counts or availability when scope changes affect expected coverage."
+  ],
+  "uxGuidance": [
+    "Use a search scope selector when the same query can search meaningfully different content sources and users need to control where the system looks.",
+    "Preserve the typed query when scope changes unless the query syntax is incompatible, and explain when a broader or narrower scope is unavailable because of permissions or product rules."
+  ],
+  "uiExamples": {
+    "good": [
+      "A knowledge search field includes scope buttons for All knowledge, Current workspace, Cases, and People with the active scope repeated above results.",
+      "A repository search box labels the current scope as This repository and offers All repositories without hiding the repo qualifier in placeholder text.",
+      "A site search result page says Results for appeal in Current site and offers Expand to hub or Search organization when those scopes are available."
+    ],
+    "bad": [
+      "The placeholder says Search this site, but after typing only a generic magnifying glass remains and the result page no longer names the scope.",
+      "The product silently searches the current channel while the user assumes all workspace messages were searched.",
+      "A menu offers index-a, index-b, and tenant without explaining which content each scope contains."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user searches appeal in Current workspace, switches to All knowledge, and sees the same query rerun with a larger result count and broader source summary.",
+      "A user chooses People and the result list changes to people records while the query remains editable and the search input keeps its value.",
+      "A guest user sees Organization unavailable with an explanation instead of a selectable scope that returns empty or unauthorized results."
+    ],
+    "bad": [
+      "Switching from This repository to All GitHub clears the query and leaves users unsure whether anything ran.",
+      "A Files tab looks selected after the query, but users cannot tell whether future searches will search only files or all content.",
+      "The result summary says All spaces even though filters and breadcrumbs show the search still ran only in the current space."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users search the wrong corpus when products have multiple searchable locations, content types, repositories, spaces, conversations, sites, or permission boundaries but the UI hides where the query will run.",
+  "solution": "Provide a visible, labelled scope selector that chooses the searchable corpus, preserves or explicitly clears the query, updates counts and result summaries with each scope, and explains unavailable or permission-limited scopes.",
+  "problemContext": [
+    "The product can search across different sites, spaces, repositories, channels, conversations, teams, result types, hubs, tenants, or organization-wide indexes.",
+    "A user's current location creates a useful default scope but may not match the user's intent.",
+    "Broader scopes can expose more results, take longer, change ranking, or be limited by permissions."
+  ],
+  "selectionRules": [
+    "Choose search scope selector when users need to decide where the search runs before interpreting results.",
+    "Show the active scope before submission when the default could be confused with a broader or narrower corpus.",
+    "Repeat the active scope in the result heading, result count, URL state, or applied criteria summary after submission.",
+    "Preserve the typed query when users switch scope if the query syntax works in the new corpus.",
+    "Reset pagination to the first page when scope changes, because the result set is different even when the query text is the same.",
+    "Use permission-aware scope choices so unavailable broad scopes are disabled with explanations or omitted according to security policy.",
+    "Use user-facing content names rather than backend index, tenant, vertical, or source IDs.",
+    "Distinguish result-type tabs from pre-query search scope when both are present, because switching Messages to Files after search is not always the same as searching only files next time.",
+    "Use filter panel after scope selection when users need attribute constraints within the chosen corpus.",
+    "Use advanced search when users need boolean logic, fielded query syntax, or multiple clauses rather than a small set of named corpora."
+  ],
+  "requiredStates": [
+    "Default scope state based on current location or product-wide policy.",
+    "Explicitly selected scope state before the query is submitted.",
+    "Submitted query state with scope name and result count.",
+    "Scope changed state where the query is preserved and results rerun.",
+    "Unavailable or permission-limited scope state with explanation.",
+    "No-results-in-this-scope state with path to broaden or change scope.",
+    "Mobile compact state where the active scope remains visible near the search input.",
+    "Deep-linked state where query and scope restore from the URL or saved view.",
+    "Incompatible query syntax state when a qualifier or field only works in one scope."
+  ],
+  "interactionContract": [
+    "Selecting a scope changes the corpus searched, not merely the visual grouping of existing results.",
+    "The search input, result count, result list, and result summary all update from the same query and scope state.",
+    "Changing scope preserves the current query unless the user confirms clearing it or the query cannot run in the new scope.",
+    "Changing scope resets pagination and clears stale highlights or result selections that belonged to the previous corpus.",
+    "Scope choices remain keyboard reachable and have accessible names that include what content they search.",
+    "Unavailable scopes explain whether the reason is permission, product plan, guest mode, indexing delay, or no content source.",
+    "When a scope is encoded as query syntax, the visible UI still explains it in plain language.",
+    "Deep links, saved searches, and browser history restore both query and scope."
+  ],
+  "implementationChecklist": [
+    "Define the canonical scope IDs and map each one to a user-facing label, content source, permission rule, and result route.",
+    "Keep query, scope, filters, sort, and result type as separate state so changing one does not silently mutate the others.",
+    "Place the active scope in or next to the search form and repeat it in the result summary.",
+    "Persist scope in URL parameters, route state, or saved search definitions when users need shareable or resumable results.",
+    "Reset pagination and stale selected-result state whenever scope changes.",
+    "Validate whether typed query qualifiers are compatible with the selected scope and offer repair copy when they are not.",
+    "Disable, hide, or explain broad scopes that the current user cannot search.",
+    "Test current-location defaults, broadening actions, mobile presentation, keyboard order, result counts, no-results recovery, and permission-limited users."
+  ],
+  "commonMisuses": [
+    "Putting scope only in placeholder text, which disappears when users type.",
+    "Using tabs as scope selectors without saying whether future searches will use the selected tab.",
+    "Calling scope choices filters even though they change the corpus before attribute filtering begins.",
+    "Changing scope while leaving the previous result count, highlights, or selected result active.",
+    "Showing broad organization scope to users who cannot search it.",
+    "Using internal source names or index IDs as menu labels."
+  ],
+  "critiqueQuestions": [
+    "Can users tell where the next search will run before they submit it?",
+    "After results load, does the result summary name both the query and the active scope?",
+    "What happens to query text, pagination, filters, highlights, and selected results when scope changes?",
+    "Are current-location defaults clear enough when users may expect product-wide search?",
+    "Are unavailable broad scopes explained without implying zero results?",
+    "Are result-type tabs, filters, and scope choices visually and semantically distinct?"
+  ],
+  "useWhen": [
+    "The same query can search different repositories, sites, workspaces, spaces, channels, result types, teams, or organization-wide indexes.",
+    "The user's current location is a useful default but not always the desired search coverage.",
+    "Broader or narrower search scopes materially change result count, ranking, privacy, or performance.",
+    "Users frequently recover from wrong-scope searches by broadening or narrowing where the system looks."
+  ],
+  "avoidWhen": [
+    "There is only one searchable corpus and scope selection would be decorative.",
+    "Users need ordinary filtering within one result set rather than changing where the query runs.",
+    "The choice is really navigation between product sections, not a search corpus.",
+    "The corpus distinction is technical and cannot be explained in user-facing terms.",
+    "Permission rules make a scope unsafe to expose or impossible to explain."
+  ],
+  "variants": [
+    "This site vs all sites",
+    "Current repository vs all repositories",
+    "Current channel vs all conversations",
+    "Current workspace vs all workspaces",
+    "People, files, messages, and pages scopes",
+    "Hub search scope",
+    "Organization search scope",
+    "Search titles only scope",
+    "Permission-limited scope",
+    "Deep-linked scoped search"
+  ],
+  "accessibility": [
+    "Use a labelled fieldset, radio group, select, or tablist only when the semantics match the scope interaction.",
+    "Include the active scope name in the search form accessible name or adjacent text, not only in visual styling.",
+    "Announce result-count changes after scope changes through the same status region used for search results.",
+    "Do not rely on placeholder text as the only scope label.",
+    "Make disabled scopes programmatically disabled and provide adjacent explanatory text when users need to know why they are unavailable.",
+    "Keep scope controls reachable before the submit action when scope affects what the search will do."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the scope selector before Search when scope changes the next submitted query.",
+    "Arrow keys move among radio or segmented scope choices when those semantics are used.",
+    "Enter submits the current query and active scope together.",
+    "Changing scope after results load moves focus predictably to the updated result summary or leaves it on the selected scope with an announcement.",
+    "Escape closes compact scope menus without changing the active scope.",
+    "Browser back and forward restore both query and selected scope."
+  ],
+  "failureModes": [
+    "Users search only the current site, repository, or channel while believing they searched everything.",
+    "The UI widens search scope and exposes unexpected private result names or counts.",
+    "Scope changes preserve incompatible filters or highlights from the previous corpus.",
+    "A broad scope returns too many results but offers no quick way back to the current location.",
+    "A disabled scope appears selectable and then fails as an empty result set.",
+    "Saved search links restore the query but not the intended scope.",
+    "Mobile layouts hide the active scope below the fold, making results look unscoped."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "filter-panel",
+    "tabs",
+    "search-result-highlighting",
+    "saved-search",
+    "faceted-search",
+    "no-results-recovery",
+    "sort-controls"
+  ],
+  "comparisons": [
+    "search-scope-selector-vs-basic-search-vs-filter-panel-vs-tabs"
+  ],
+  "examples": [
+    {
+      "product": "GitHub repository search",
+      "url": "https://docs.github.com/en/get-started/learning-to-code/finding-and-understanding-example-code",
+      "platform": "web",
+      "notes": "Documents automatically adding the repo qualifier when search starts from a repository, constraining results to that repository.",
+      "screenshot": "screenshots/patterns/search-scope-selector.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Slack search modifiers and result types",
+      "url": "https://slack.com/help/articles/202528808-Search-in-Slack",
+      "platform": "web",
+      "notes": "Documents narrowing search to conversations with in: modifiers, result type switches, filters, and shortcuts for searching in a specific conversation.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Confluence Cloud search",
+      "url": "https://support.atlassian.com/confluence-cloud/docs/search-for-pages-and-posts/",
+      "platform": "web",
+      "notes": "Documents spaces, pages under, search titles only, type constraints, highlighted terms, and breadcrumbs for scoped content search.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "SharePoint search box scope",
+      "url": "https://learn.microsoft.com/en-us/microsoftsearch/manage-spo-search-box",
+      "platform": "web",
+      "notes": "Documents current site, hub, and whole-organization search scope defaults, configuration, placeholders, and guest limitations.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-repository-search-scope",
+      "note": "GitHub documents automatically constraining repository-context searches with a repo qualifier."
+    },
+    {
+      "id": "slack-search-scope-modifiers",
+      "note": "Slack documents conversation-scoped search modifiers, result type switches, filters, and current-conversation search shortcuts."
+    },
+    {
+      "id": "confluence-cloud-search-scopes",
+      "note": "Confluence documents search focus controls such as spaces, pages under, content type, and titles-only search."
+    },
+    {
+      "id": "microsoft-sharepoint-search-box-scope",
+      "note": "Microsoft documents current site, hub, tenant, default scope, placeholder, and guest-user scope behavior for SharePoint search."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

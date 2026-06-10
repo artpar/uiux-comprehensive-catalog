@@ -1,0 +1,46 @@
+{
+  "id": "multi-step-form-vs-single-page-form-vs-single-question-page-vs-step-navigation",
+  "title": "Multi-step form vs single-page form vs single-question page vs step navigation",
+  "summary": "Use a multi-step form when a transaction needs several saved pages or sections before a final review and submission.",
+  "patternIds": [
+    "multi-step-form",
+    "single-page-form",
+    "single-question-page",
+    "step-navigation"
+  ],
+  "decisionRules": [
+    "Prefer a multi-step form when a transaction has several ordered pages, sections, or question groups that cannot be reliably completed and recovered on one page.",
+    "Prefer a single-page form when a compact related field set should be scanned, edited, validated, and submitted together.",
+    "Prefer a single-question page when the current page asks exactly one answer or decision and may be one page inside a larger multi-step form.",
+    "Use step navigation only as progress communication inside a multi-step form; it is not the transaction, validation model, or submission contract by itself.",
+    "Include a review or check-answers step when users need a final chance to confirm captured answers before the transaction is submitted.",
+    "Save or preserve each step's answers before users move forward, backward, refresh, or return from the review step.",
+    "Do not use a visible step indicator when the flow has fewer than three meaningful sections or when the number of steps changes heavily based on answers.",
+    "Do not let users jump to future steps until prerequisites are complete unless the form is explicitly designed for non-linear task completion.",
+    "When an earlier answer changes, recompute later steps and make stale downstream answers visible before final submission.",
+    "Keep each step's page title, progress text, Back and Continue behavior, validation, and stored state synchronized with the route."
+  ],
+  "failureModes": [
+    "A multi-step form marks a step complete because it was visited, even though required fields were not saved.",
+    "Back or browser refresh clears answers from earlier steps.",
+    "A step indicator shows a fixed count while conditional answers insert or remove pages later.",
+    "Review links return users to an earlier page but force them through the whole transaction again.",
+    "An earlier eligibility answer changes and stale upload or payment answers remain silently valid.",
+    "The flow uses wizard-style chrome for a short single-page edit task."
+  ],
+  "sources": [
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance supports splitting forms across pages, one thing per page, saving as users go, and handling branching questions and loops."
+    },
+    {
+      "id": "govuk-check-answers-pattern",
+      "note": "GOV.UK check-answers guidance supports review before submission, change links, pre-populated return pages, and returning users to review without repeating the whole flow."
+    },
+    {
+      "id": "uswds-step-indicator-component",
+      "note": "USWDS step indicator guidance supports progress display for linear multi-page forms with three or more high-level steps."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

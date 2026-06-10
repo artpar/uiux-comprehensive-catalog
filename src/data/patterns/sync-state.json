@@ -1,0 +1,239 @@
+{
+  "id": "sync-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed reconciliation-state surface with pattern-specific guidance for local and remote copy status, per-item queues, remote acceptance, partial success, retry, pause, failed sync, conflict handoff, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets local-to-remote and peer-to-peer reconciliation, including local saved, queued, syncing, synced, partially synced, failed, retrying, paused, and review-needed states, plus last successful sync time and per-item recovery.",
+    "relatedPatternDistinction": "The entry separates sync state from offline state by focusing on reconciliation after or outside connection loss, from progress bar by remote acceptance and queue semantics rather than only numeric completion, from error state by mixed per-item recovery, and from draft state by synchronization status rather than unpublished authoring state.",
+    "liveDemoBehavior": "The live demo switches a field report queue through Local saved, Queued, Syncing, Synced, Partial, Failed, Retrying, and Conflict states while contrasting False synced, Hidden queue, Spinner, Global percent, Cleared failure, and Hidden conflict misuse.",
+    "comparisonDecisionRules": "The sync-state-vs-offline-state-vs-progress-bar-vs-error-state comparison gives concrete rules for reconciliation queues, no-connection mode, measurable operations, confirmed failures, remote acceptance, partial success, item-level retry, and conflict review.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/sync-state/ and /compare/sync-state-vs-offline-state-vs-progress-bar-vs-error-state/ on 2026-06-09. Live check exercised Local saved, Queued, Syncing, Synced, Partial, Failed, Retrying, Conflict, False synced, Hidden queue, Spinner, Global percent, Cleared failure, and Hidden conflict controls. screenshots/patterns/sync-state.png captures Good UI, Bad UI, Good UX, Bad UX, per-item queue status, local/server distinction, failed retry, review-needed handoff, hidden-queue misuse, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/sync-state.png"
+    ]
+  },
+  "name": "Sync state",
+  "aliases": [
+    "synchronization state",
+    "sync status",
+    "queued sync",
+    "sync queue",
+    "pending sync",
+    "cloud sync status",
+    "reconciliation state",
+    "local to server sync"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Local-and-remote reconciliation status",
+  "uiGuidance": [
+    "Show sync state close to the object or queue it describes, using labels such as Local saved, Queued, Syncing, Synced, Partially synced, Failed, Paused, and Conflict needs review.",
+    "Separate device-local persistence from remote acceptance; a green synced status is only appropriate after the server or target peer has accepted the change."
+  ],
+  "uxGuidance": [
+    "Use sync state to keep users confident while local changes, remote copies, attachments, messages, or records reconcile across devices, services, or background workers.",
+    "Make partial progress actionable by exposing per-item status, last successful sync time, retry/cancel/export choices, and a clear handoff when a conflict or validation issue needs review."
+  ],
+  "uiExamples": {
+    "good": [
+      "A field report queue shows 5 local changes: notes synced, two photos uploading, meter reading queued, signature failed with Retry, and supervisor comment needs review.",
+      "A file list uses separate badges for Available offline, Syncing, Sync error, and Online-only, with details available from the affected row.",
+      "A mobile outbox shows messages saved locally, queued for send, sending, sent, failed, and edit-before-retry states."
+    ],
+    "bad": [
+      "A single green Saved badge appears while several attachments are still queued.",
+      "An endless spinner says Syncing with no item count, failure details, last sync time, or retry action.",
+      "A percentage bar reaches 100 percent before server validation finishes and later loses a rejected item."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user reconnects after editing offline and sees the queue move from local saved to syncing, then to one failed photo with retry while the accepted notes remain synced.",
+      "A user opens the same record on another device and sees that the server copy is current as of 11:08 while one local edit still needs review.",
+      "A user pauses sync on a metered connection and can resume later without losing local work or confusing paused with failed."
+    ],
+    "bad": [
+      "The offline banner disappears after reconnect, but hidden queued changes keep failing in the background.",
+      "A sync error toast disappears before the user can identify which file failed.",
+      "The app overwrites a newer server value with a local edit without showing conflict review or preservation choices."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users have local changes, downloaded files, queued uploads, or background requests whose server or peer copy may be pending, in progress, accepted, partially accepted, failed, paused, or conflicting.",
+  "solution": "Expose sync state as a scoped reconciliation surface that names the local and remote copy status, keeps per-item progress and failures visible, preserves local data, and provides retry, cancel, export, resume, or review actions.",
+  "problemContext": [
+    "The product stores or edits data locally before remote acceptance, or it downloads remote content for local use.",
+    "Sync can happen after reconnect, in the background, across devices, or after a service worker, native client, or cloud service retries queued work.",
+    "Users need to know whether work is merely local, queued, actively transferring, accepted remotely, stuck, paused, partially synced, or blocked by conflict or validation."
+  ],
+  "selectionRules": [
+    "Choose sync state when local and remote copies both matter and their reconciliation status affects trust, next action, or data integrity.",
+    "Label local saved separately from remote synced until the server, service, or peer confirms acceptance.",
+    "Show per-item status when different queue items can be queued, in progress, accepted, failed, paused, or conflicting at the same time.",
+    "Show last successful sync time or server version when freshness or cross-device confidence matters.",
+    "Keep failed or conflicting local work visible with retry, edit, cancel, export, or review actions.",
+    "Use offline state when the primary condition is no connection and the question is what still works locally.",
+    "Use progress bar when the measurable percentage is the primary useful signal, not when users need acceptance, queue, or conflict status.",
+    "Use error state when a failed sync item has become a blocking recovery surface rather than one state in an active queue.",
+    "Use draft state when the main concern is unpublished authoring state, even if that draft may later sync.",
+    "Escalate from passive status to persistent recovery when sync failure affects submission, payment, legal records, medical records, file integrity, or collaboration."
+  ],
+  "requiredStates": [
+    "Local saved state for data persisted on the device but not yet sent.",
+    "Queued state for work waiting for a sync attempt.",
+    "Syncing state with scope, item count, or operation label.",
+    "Synced state after remote acceptance.",
+    "Partially synced state when some queue items succeeded and others did not.",
+    "Failed sync state that preserves local work and exposes recovery.",
+    "Retrying state that differs from idle failure.",
+    "Paused state for user, metered-network, account, battery, or policy pause.",
+    "Conflict-needs-review state that preserves both local and server information.",
+    "Last successful sync timestamp or version state."
+  ],
+  "interactionContract": [
+    "The sync surface never upgrades local saved or queued work to synced until the remote system confirms acceptance.",
+    "Queue-level status summarizes counts while item-level rows show which object owns each status.",
+    "Retry acts on failed items or a clearly named queue; it does not duplicate already accepted changes.",
+    "Cancel or remove actions explain whether they discard only queued local work or also affect the remote copy.",
+    "Partial success remains visible until every failed, paused, or conflict item is resolved.",
+    "Background sync updates are announced at meaningful boundaries such as queued, syncing, synced, failed, or review needed.",
+    "The user can identify whether a problem is network retry, account sign-in, server validation, unsupported file type, policy block, or conflict."
+  ],
+  "implementationChecklist": [
+    "Define canonical sync statuses in the data model, not just in display text.",
+    "Store local queue entries with stable IDs, object names, timestamps, retry counts, server request identifiers, and recoverable local payloads.",
+    "Record remote acceptance separately from local persistence and transfer completion.",
+    "Render a compact summary plus expandable item-level rows when queues contain more than one object.",
+    "Expose retry, cancel, export local copy, view details, and review conflict actions according to the item status.",
+    "Use background sync, native sync queues, upload managers, or job workers only when the UI can surface their states honestly.",
+    "Test reconnect, duplicate retry, partial server success, app restart, account sign-out, policy-blocked files, quota failure, server validation failure, and multi-device conflict."
+  ],
+  "commonMisuses": [
+    "Calling local persistence Synced before remote acceptance.",
+    "Showing only one spinner for a mixed queue of succeeded, failed, and pending items.",
+    "Hiding failed sync work in a transient toast.",
+    "Clearing local data after a failed retry.",
+    "Treating server validation failure, offline mode, account pause, and conflict as the same sync message.",
+    "Using a percentage as proof of save when server acceptance still has not happened.",
+    "Removing the sync indicator immediately after reconnect even though queued work remains."
+  ],
+  "critiqueQuestions": [
+    "What exactly is local, what exactly is remote, and which copy is current?",
+    "What event proves that this item is synced: transfer complete, server accepted, peer acknowledged, or later validation passed?",
+    "Can users identify which queue item failed and what action fixes it?",
+    "How does the UI represent partial success without implying the whole task is done?",
+    "What happens to local work after app restart, account switch, retry exhaustion, or conflict?",
+    "Does the status explain whether sync is paused, blocked, retrying, failed, or waiting for review?"
+  ],
+  "useWhen": [
+    "Local changes, files, messages, uploads, or records need to reconcile with a remote service or another device.",
+    "Users can continue work while sync happens asynchronously or after reconnect.",
+    "Partial success, retry, pause, conflict, or last-synced freshness affects user trust or next action.",
+    "The product needs to distinguish local durability from cloud or server confirmation."
+  ],
+  "avoidWhen": [
+    "The product has no local copy or queued work and a simple loading, success, or error state is enough.",
+    "The user only needs to know the device is offline and no reconciliation is happening yet.",
+    "The operation is a single short request with no recoverable local state.",
+    "A confirmed failure blocks the whole view and needs a full error recovery surface.",
+    "A numeric progress bar alone communicates the useful state and remote acceptance is not in question."
+  ],
+  "variants": [
+    "Inline row sync badge",
+    "Global sync summary",
+    "Outbox queue",
+    "File sync overlay",
+    "Background upload queue",
+    "Partial sync report",
+    "Paused sync notice",
+    "Sync error recovery",
+    "Conflict review handoff",
+    "Last synced timestamp"
+  ],
+  "accessibility": [
+    "Use visible text and accessible names for statuses; do not rely on spinning arrows, checkmarks, color, or icon overlays alone.",
+    "Expose sync summaries through polite status updates when state changes matter to the current task.",
+    "Keep retry, cancel, export, pause, resume, and review actions keyboard reachable in the affected item row or queue panel.",
+    "Associate failed item messages with their owning object and action.",
+    "Avoid announcing every byte-level change; announce meaningful transitions such as queued, syncing, synced, failed, paused, and review needed.",
+    "Make last-synced timestamps and local-vs-remote copy labels available to assistive technology near the affected content."
+  ],
+  "keyboardBehavior": [
+    "Focus remains stable when background sync updates status.",
+    "Queue rows, retry buttons, cancel buttons, export actions, and review-conflict controls follow a predictable tab order.",
+    "If the user activates Retry, focus remains on the item or moves to the updated status message when retry begins.",
+    "When a modal or separate review flow opens for a conflict, focus moves into that flow and returns to the originating queue item on close.",
+    "Paused, failed, and review-needed statuses do not hide actions behind hover-only affordances."
+  ],
+  "failureModes": [
+    "Users close the app after a green status even though work was only saved locally.",
+    "A hidden queue retries forever and creates duplicate records.",
+    "A failed attachment blocks submission but is not visible from the report page.",
+    "A screen reader user hears only Syncing repeatedly and never learns which item failed.",
+    "A conflict overwrites newer server data without review.",
+    "A policy-blocked file remains in progress instead of switching to a cannot-sync state.",
+    "The UI says 100 percent uploaded although server validation later rejects the record."
+  ],
+  "relatedPatterns": [
+    "offline-state",
+    "progress-bar",
+    "error-state",
+    "draft-state",
+    "notification-center",
+    "loading-spinner"
+  ],
+  "comparisons": [
+    "sync-state-vs-offline-state-vs-progress-bar-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "MDN Background Synchronization API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Background_Synchronization_API",
+      "platform": "web",
+      "notes": "Documents deferring synchronization work until stable network connectivity and using service workers to handle later sync events.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Workbox Background Sync",
+      "url": "https://developer.chrome.com/docs/workbox/modules/workbox-background-sync",
+      "platform": "web",
+      "notes": "Documents failed request queues, replay on future sync events, browser-managed retry intervals, and retention limits.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft OneDrive sync icons",
+      "url": "https://support.microsoft.com/en-us/office/what-do-the-onedrive-icons-mean-11143026-8000-44f8-aaa9-67c985aa49b3",
+      "platform": "desktop",
+      "notes": "Documents sync in progress, sync error, paused sync, locally available, online-only, and always-available file states.",
+      "screenshot": "screenshots/patterns/sync-state.png",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-background-synchronization-api",
+      "note": "MDN supports deferring synchronization work to a service worker until stable network connectivity exists."
+    },
+    {
+      "id": "workbox-background-sync",
+      "note": "Workbox supports queued failed requests, sync-event replay, browser-managed retry timing, and retention limits."
+    },
+    {
+      "id": "microsoft-onedrive-sync-icons",
+      "note": "OneDrive supports visible sync states for in-progress, error, paused, online-only, locally available, and offline-available files."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

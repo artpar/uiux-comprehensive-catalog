@@ -1,0 +1,254 @@
+{
+  "id": "range-slider",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a two-boundary numeric range control with source-backed multi-thumb semantics, stable thumb order, dependent endpoint constraints, exact endpoint fields, no-results and crossed-range recovery, and distinctions from single slider, text input, date range picker, and ordinary filters.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers two or more thumbs, lower and upper numeric endpoints, non-crossing constraints, stable tab order, dependent aria min and max updates, visible min/max/unit/current range, paired endpoint inputs, result count feedback, empty-result warning, disabled state, and touch assistive technology testing.",
+    "relatedPatternDistinction": "The entry separates range slider from slider by setting two boundaries instead of one value, from text input by using a bounded approximate numeric scale instead of arbitrary precise typing, from date range picker by avoiding calendar semantics, and from filter panel by being one numeric filter rather than a grouped filter container.",
+    "liveDemoBehavior": "The live demo uses two labeled range inputs for minimum and maximum nightly price, keeps endpoints at least forty dollars apart, updates the selected band, synchronizes exact number fields, repairs crossed endpoints, shows few-result and disabled states, and contrasts single-handle, crossed, hidden-value, and date-rail misuse.",
+    "comparisonDecisionRules": "The linked range-slider-vs-slider-vs-text-input-vs-date-range-picker comparison gives concrete rules for two numeric boundaries, one-value sliders, precise typed endpoints, calendar date ranges, stable tab order, non-crossing constraints, endpoint review, result feedback, small named sets, and hidden filtering.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/range-slider.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, two endpoint handles, exact endpoint fields, warning and repair behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/range-slider.png"
+    ]
+  },
+  "name": "Range slider",
+  "aliases": [
+    "multi-thumb slider",
+    "dual thumb slider",
+    "two-handle slider",
+    "minimum maximum slider",
+    "range filter slider"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Input And Data Entry",
+    "Feedback, Status, And System State"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to set lower and upper numeric boundaries for one ordered scale, but single sliders, hidden filters, or free text fields make it unclear which endpoints will be applied.",
+  "solution": "Use two separately named thumbs on one bounded scale, keep the endpoints ordered, show the selected range and unit, synchronize exact endpoint fields when precision matters, and explain empty, crossed, disabled, or repaired states.",
+  "problemContext": [
+    "The task is one numeric or relative scale with a lower and upper boundary.",
+    "Users understand the scale as price, distance, duration, rating, speed, size, or another ordered numeric quantity.",
+    "The interface can define min, max, step, unit, endpoint gap, and active range feedback.",
+    "Filtering or previewing results benefits from quick coarse adjustment and visible endpoint review.",
+    "The task is not selecting calendar dates, named categories, or a single value."
+  ],
+  "selectionRules": [
+    "Choose a range slider when users need both a minimum and maximum value on one known numeric scale.",
+    "Use single slider when only one value is adjusted.",
+    "Use paired text or number inputs when exact arbitrary endpoints, pasted values, currency precision, or very large ranges matter more than quick adjustment.",
+    "Use date range picker when endpoints are dates or depend on calendar availability.",
+    "Use filter panel when the range is one of several filters that need grouped apply, reset, saved, or mobile disclosure behavior.",
+    "Keep both endpoints visible and programmatically named.",
+    "Prevent the lower endpoint from passing the upper endpoint, or repair crossed input with explicit feedback.",
+    "Avoid tiny ranges, binary choices, named categories, destructive actions, hidden filters, and scales whose units users cannot interpret."
+  ],
+  "requiredStates": [
+    "Initial state with visible label, min, max, unit, current lower endpoint, and current upper endpoint.",
+    "Lower thumb focused state.",
+    "Upper thumb focused state.",
+    "Dragging or actively adjusting either endpoint.",
+    "Keyboard increment state for each thumb.",
+    "Exact endpoint typed state.",
+    "Crossed endpoint prevention or repair state.",
+    "Few or zero results state caused by a narrow range.",
+    "Disabled dependency state.",
+    "Read-only range review state.",
+    "Mobile screen-reader interaction checked on both lower and upper thumbs before release."
+  ],
+  "interactionContract": [
+    "Each thumb controls one endpoint in a related value pair.",
+    "The lower endpoint remains less than or equal to the upper endpoint, with any required minimum gap enforced.",
+    "The visual selected band, text summary, number inputs, and submitted payload stay synchronized.",
+    "Both thumbs remain in a stable tab order regardless of visual proximity.",
+    "Changing one thumb updates the allowed aria minimum or maximum of the other when endpoints depend on each other.",
+    "Warnings, no-results states, disabled state, and repaired crossings are announced without clearing the current range."
+  ],
+  "implementationChecklist": [
+    "Define min, max, step, unit, default lower endpoint, default upper endpoint, and minimum gap.",
+    "Use an accessible multi-thumb implementation or pair native range inputs with clear labels and synchronized constraints.",
+    "Provide visible endpoint values and paired number inputs when users need exact review.",
+    "Update aria-valuemin and aria-valuemax on dependent thumbs as the opposite endpoint changes.",
+    "Keep tab order lower endpoint then upper endpoint even when thumbs are close.",
+    "Show result count, empty-result warning, reset or widen action, and applied filter summary when the range filters content.",
+    "Test pointer drag, keyboard, touch, screen readers, high zoom, forced colors, RTL, mobile, and backend endpoint validation."
+  ],
+  "commonMisuses": [
+    "Using only one thumb for a task that needs two boundaries.",
+    "Allowing endpoints to cross without repair or explanation.",
+    "Hiding the exact minimum and maximum values.",
+    "Using a range slider for dates instead of a calendar-aware date range picker.",
+    "Using a range slider for three named choices or binary state.",
+    "Filtering results instantly without showing the active range or a way to widen it.",
+    "Changing tab order when the visual order of thumbs changes.",
+    "Using an extremely large or highly precise range that users cannot control with the rail."
+  ],
+  "critiqueQuestions": [
+    "Are users setting two boundaries on one numeric scale?",
+    "Can the product define meaningful min, max, step, unit, and endpoint gap?",
+    "Do users need exact values, and if so are endpoint fields provided?",
+    "What happens if a user types a minimum above the maximum?",
+    "Will a narrow range produce few or zero results, and is recovery visible?",
+    "Would a date range picker, paired number fields, filter panel, select, or single slider be clearer?"
+  ],
+  "useWhen": [
+    "Users need a lower and upper bound on one numeric scale.",
+    "Relative filtering or quick coarse adjustment matters.",
+    "Endpoint values can remain visible and synchronized with the handles.",
+    "The product can prevent crossing and communicate result impact."
+  ],
+  "avoidWhen": [
+    "Users choose only one value.",
+    "Users need exact arbitrary endpoints without spatial adjustment.",
+    "The endpoints are dates or calendar availability.",
+    "The range is binary, tiny, categorical, destructive, legal, or high-stakes.",
+    "The implementation cannot provide accessible thumb names, values, constraints, and keyboard behavior."
+  ],
+  "variants": [
+    "Price range slider",
+    "Distance range slider",
+    "Duration range slider",
+    "Rating range slider",
+    "Dual-thumb filter slider",
+    "Range slider with endpoint inputs",
+    "Range slider with result count",
+    "Disabled range slider",
+    "Read-only range slider"
+  ],
+  "accessibility": [
+    "Expose each thumb as a separate slider with a clear endpoint name such as Minimum price and Maximum price.",
+    "Expose current value, minimum, maximum, and human-readable value text for each thumb.",
+    "Keep thumb tab order stable regardless of visual position.",
+    "Update dependent aria-valuemin and aria-valuemax when the opposite endpoint changes.",
+    "Do not rely on the selected band alone; show endpoint text and unit.",
+    "Test touch assistive technologies before shipping custom multi-thumb sliders."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the lower endpoint thumb, then the upper endpoint thumb in stable order.",
+    "Arrow keys adjust the focused endpoint by one step.",
+    "Home and End move the focused endpoint to its allowed limit, respecting the other endpoint.",
+    "Page Up and Page Down may adjust the focused endpoint by a larger step.",
+    "Tab moves from the thumbs to exact endpoint fields or the next control without losing the selected range.",
+    "Typed endpoint errors return focus to the affected endpoint field or thumb without clearing the other endpoint."
+  ],
+  "failureModes": [
+    "Only one endpoint is stored despite two values being shown.",
+    "The lower endpoint can exceed the upper endpoint.",
+    "Thumb names are both announced as Slider with no endpoint meaning.",
+    "The active range band and numeric values disagree.",
+    "A narrow range removes all results without feedback.",
+    "Date endpoints lose calendar validation.",
+    "The thumbs are impossible to operate with keyboard or touch assistive technology.",
+    "Endpoint fields accept values the slider cannot represent."
+  ],
+  "relatedPatterns": [
+    "slider",
+    "text-input",
+    "date-range-picker",
+    "filter-panel",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "range-slider-vs-slider-vs-text-input-vs-date-range-picker"
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-slider-multithumb",
+      "note": "APG multi-thumb guidance defines related values, min/max price examples, non-crossing constraints, stable tab order, per-thumb roles and values, dependent aria min/max updates, and touch assistive technology cautions."
+    },
+    {
+      "id": "carbon-slider-component",
+      "note": "Carbon range slider guidance defines minimum and maximum number inputs, two handles, track, min/max labels, exact input, click and drag behavior, and date-picker avoidance for date ranges."
+    },
+    {
+      "id": "material-web-slider-component",
+      "note": "Material Web slider guidance documents range mode with value-start and value-end, start and end aria labels, aria value text, value labels, steps, ticks, and disabled state."
+    },
+    {
+      "id": "uswds-range-slider-component",
+      "note": "USWDS range slider guidance supports approximate or relative range selection, precise text-input alternatives, draggable behavior, min/max labels, step granularity, and screen reader units."
+    },
+    {
+      "id": "visa-slider-component",
+      "note": "Visa slider guidance documents dual-point sliders for upper and lower boundaries, common filtering use, min/max values, units, and calendar alternatives for dates."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09",
+  "patternType": "ui-ux",
+  "surfaceType": "Two-boundary numeric range control",
+  "uiGuidance": [
+    "Render two endpoint thumbs on one track with a persistent label, selected range band, visible minimum and maximum endpoint values, unit, min and max labels, focus states, and disabled or read-only states.",
+    "Provide separate accessible names, values, and constraints for lower and upper thumbs; pair with endpoint number fields when exact review or typing matters."
+  ],
+  "uxGuidance": [
+    "Help users quickly narrow one numeric scale by setting both lower and upper limits while seeing the resulting active range.",
+    "Prevent impossible endpoint order, show result impact, and choose date pickers or typed endpoint fields when range-slider interaction would hide important semantics."
+  ],
+  "uiExamples": {
+    "good": [
+      "A nightly price range slider shows Minimum $120 and Maximum $280, a selected band between the thumbs, $0 and $500 endpoints, and paired endpoint fields.",
+      "A departure-time filter keeps lower and upper handles separately focusable and displays the resulting time range."
+    ],
+    "bad": [
+      "A filter labelled Budget has one thumb and stores only a minimum price.",
+      "A dual-thumb rail has no endpoint labels, values, units, or visible selected range."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user raises the minimum price, lowers the maximum price, sees the result count narrow, then widens the range after a few-results warning.",
+      "A user types exact endpoints and both handles move while the submitted minimum and maximum remain ordered."
+    ],
+    "bad": [
+      "A user drags the lower handle beyond the upper handle and the filter submits an impossible range.",
+      "A user tries to choose travel dates on a numeric rail and cannot see unavailable days or type a date."
+    ]
+  },
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Slider Multi-Thumb Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/",
+      "platform": "web",
+      "notes": "Documents multi-thumb sliders, related values, min/max examples, non-crossing constraints, stable tab order, per-thumb value properties, and touch assistive technology cautions.",
+      "screenshot": "screenshots/patterns/range-slider.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Slider",
+      "url": "https://carbondesignsystem.com/components/slider/usage/",
+      "platform": "web",
+      "notes": "Documents range slider anatomy, min and max number inputs, two handles, min/max labels, exact input, states, and date-picker avoidance for date ranges.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Web Slider",
+      "url": "https://material-web.dev/components/slider/",
+      "platform": "web",
+      "notes": "Documents range mode, value-start, value-end, start and end labels, aria value text, steps, ticks, and disabled state.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "U.S. Web Design System Range slider",
+      "url": "https://designsystem.digital.gov/components/range-slider/",
+      "platform": "web",
+      "notes": "Documents approximate and relative range selection, precise text-input alternatives, draggable behavior, min/max labels, step granularity, and screen reader units.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Visa Product Design System Slider",
+      "url": "https://design.visa.com/components/slider/",
+      "platform": "web",
+      "notes": "Documents dual-point sliders for lower and upper boundaries, filtering use, units, min/max labels, and date-picker alternatives.",
+      "checkedAt": "2026-06-09"
+    }
+  ]
+}

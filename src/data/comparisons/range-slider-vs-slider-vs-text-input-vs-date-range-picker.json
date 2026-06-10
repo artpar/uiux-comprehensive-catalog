@@ -1,0 +1,49 @@
+{
+  "id": "range-slider-vs-slider-vs-text-input-vs-date-range-picker",
+  "title": "Range slider vs slider vs text input vs date range picker",
+  "summary": "Use a range slider for two numeric boundaries on one ordered scale, a slider for one value, text inputs for precise arbitrary endpoints, and a date range picker for calendar boundaries.",
+  "patternIds": ["range-slider", "slider", "text-input", "date-range-picker"],
+  "decisionRules": [
+    "Prefer a range slider when users need to set both lower and upper numeric limits on one known scale, such as price, distance, duration, rating, or departure time.",
+    "Prefer a single slider when users adjust one value, not a minimum and maximum pair.",
+    "Prefer text input or paired number fields when users need exact arbitrary endpoints, pasted values, financial precision, very large ranges, or endpoints outside a fixed UI scale.",
+    "Prefer date range picker when the endpoints are calendar dates, unavailable days, date formats, time zones, or booking rules rather than numeric positions.",
+    "Keep both thumbs focusable and separately named, and keep tab order stable even if visual positions get close.",
+    "Prevent or repair crossed endpoints; if the lower endpoint depends on the upper endpoint, update aria-valuemax and aria-valuemin accordingly.",
+    "Pair range sliders with visible endpoint values or number inputs when the submitted min and max must be reviewed.",
+    "Show min, max, unit, current range, step size, result count, empty-result state, disabled/read-only state, and validation or repair feedback near the control.",
+    "Do not use a range slider for a small set of named options; use radios, checkboxes, select, or segmented controls where labels are visible.",
+    "Do not use a range slider for hidden filtering that immediately removes results without showing the active range or a reset path."
+  ],
+  "failureModes": [
+    "Only one handle is available, so users can set a minimum but not a maximum.",
+    "The minimum thumb can cross above the maximum thumb, producing an impossible range.",
+    "The submitted endpoints are hidden, so users cannot review what filter was applied.",
+    "Dates are mapped onto a numeric rail and lose calendar semantics, unavailable dates, and typed-date fallback.",
+    "The range slider filters to zero results without a visible warning or widening action.",
+    "The two thumbs change visual order and the tab order changes unexpectedly."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-slider-multithumb",
+      "note": "APG multi-thumb guidance defines related thumb values, min/max examples, non-crossing constraints, stable tab order, per-thumb slider roles, dependent aria min/max updates, and touch assistive technology cautions."
+    },
+    {
+      "id": "carbon-slider-component",
+      "note": "Carbon defines range sliders as minimum and maximum values from a predefined range with two number inputs, two handles, min/max labels, and range-specific keyboard and mouse behavior."
+    },
+    {
+      "id": "material-web-slider-component",
+      "note": "Material Web documents range sliders with value-start and value-end, start and end value labels, aria labels, aria value text, step, ticks, min, and max."
+    },
+    {
+      "id": "uswds-range-slider-component",
+      "note": "USWDS supports range-slider use for approximate or relative numeric selection, precise input alternatives, draggable behavior, min/max labels, and screen reader units."
+    },
+    {
+      "id": "visa-slider-component",
+      "note": "Visa documents dual-point sliders for upper and lower boundaries, common filtering use, units, min/max values, and date-picker alternatives."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

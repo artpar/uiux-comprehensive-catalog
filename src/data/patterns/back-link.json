@@ -1,0 +1,215 @@
+{
+  "id": "back-link",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a transaction-return navigation pattern with source-backed placement, previous-page state restoration, breadcrumb exclusion, link-versus-button distinctions, related-pattern comparisons, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers multi-page transaction use, top-of-page placement before main content, previous-page state restoration, one-step journey return, breadcrumb exclusion, clearer target text for complex journeys, no-JavaScript fallback, and button rendering only when posting form data back.",
+    "relatedPatternDistinction": "The entry separates back links from breadcrumbs by previous transaction page versus canonical hierarchy, from pagination by journey return versus ordered collection paging, and from browser Back by explicit in-service navigation that can preserve form state.",
+    "liveDemoBehavior": "The live demo moves through a multi-page application, lets users enter data, activates Back to restore the previous step with its last-seen value, and contrasts a bad back control that clears data or jumps to an unrelated history page.",
+    "comparisonDecisionRules": "The linked back-link-vs-breadcrumbs-vs-pagination comparison gives concrete rules for transactions, hierarchy orientation, ordered result sets, breadcrumb conflicts, no-JavaScript fallback, button-versus-link behavior, and preserving previously entered data.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/back-link.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, state restoration behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/back-link.png"
+    ]
+  },
+  "name": "Back link",
+  "aliases": [
+    "back control",
+    "transaction back link",
+    "previous page link",
+    "go back link",
+    "back to previous step"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Single previous-page return link for a transaction",
+  "uiGuidance": [
+    "Render one unobtrusive Back link near the top-left of a transaction page, before the main content, with a destination that returns to the previous service page.",
+    "Use a normal link when navigating to a known previous URL, and render it as a button only when the control must submit or post current form state back to the previous page."
+  ],
+  "uxGuidance": [
+    "Use Back links to help users safely move one step back in a multi-page transaction without relying on browser history or losing previously entered information.",
+    "Preserve the previous page in the state the user last saw it; if that cannot be guaranteed, hide the control without JavaScript or use a server-backed route that can restore state."
+  ],
+  "uiExamples": {
+    "good": [
+      "A question page shows a single 'Back' link above the H1, before the form, and the Continue button remains the only primary action after the fields.",
+      "A complex admin journey labels the control 'Back to eligibility' so users know which page they will return to.",
+      "A dark header variant uses an inverse back link with sufficient contrast and no competing links nearby."
+    ],
+    "bad": [
+      "A page shows Back, breadcrumbs, a previous button, and pagination controls at the same time.",
+      "The Back link sits next to Continue and looks like a secondary form action rather than navigation.",
+      "A JavaScript-only Back link appears when there is no safe previous page and fails when scripts are unavailable."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user goes back from Review answers to Contact details and sees the email address and phone number they already entered.",
+      "A user who is unsure about an answer can return one page, change it, and continue without re-entering unrelated data.",
+      "A direct-entry page hides the Back link or sends users to a safe service start page instead of calling an empty browser history stack."
+    ],
+    "bad": [
+      "Clicking Back returns to the browser's previous marketing page instead of the last service page.",
+      "Going back clears the previous page's fields, forcing the user to re-enter information.",
+      "Back jumps to a parent category page even though the user is in a linear question flow."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users in a multi-page transaction need an explicit, predictable way to return to the previous service page without losing progress or interpreting hierarchy navigation.",
+  "solution": "Provide one Back link at the top of transaction pages that returns to the previous page in its last-seen state, with clear target text when the journey is complex and safe fallback behavior when history or JavaScript is unreliable.",
+  "problemContext": [
+    "The journey has multiple pages or questions and users may need to revise a previous answer.",
+    "Users may distrust or misunderstand the browser Back button because some services lose progress when it is used.",
+    "The current page is part of a transaction rather than a hierarchical content structure."
+  ],
+  "selectionRules": [
+    "Choose a Back link on question pages and other multi-page transaction pages where users may need to return one step.",
+    "Return users to the previous page they were on in the state they last saw it, including pre-populated valid answers.",
+    "Use simple 'Back' text for simple linear services, and use target-specific text such as 'Back to eligibility' when the journey has branching or admin areas.",
+    "Never show a Back link together with breadcrumbs; research which is more useful if both seem plausible.",
+    "Do not use a Back link on ordinary content pages where hierarchy, related links, or breadcrumbs better explain where the page sits.",
+    "Do not rely on JavaScript-only history if there may be no safe previous page; provide a real href, hide the link without JavaScript, or route through server state.",
+    "Use a button only when the back control needs to post form data back; otherwise keep it a navigation link."
+  ],
+  "requiredStates": [
+    "Default transaction page with one Back link before main content.",
+    "Previous-page restored state with valid entered values pre-populated.",
+    "Complex journey state with target-specific back text.",
+    "No safe previous page or no-JavaScript state where the control is hidden or uses a safe route.",
+    "Button-backed state when current form data must be posted before returning.",
+    "Validation state where returning preserves valid entries and does not silently reuse invalid or unsafe information."
+  ],
+  "interactionContract": [
+    "Activating the Back link returns one service step or previous transaction page, not a parent hierarchy page.",
+    "The destination page restores the values, filters, or answers the user last saw when those values remain valid.",
+    "The Back link appears before main content in reading order so skip links can bypass it with other navigation.",
+    "The control does not submit the current page unless it is deliberately implemented as a button to preserve posted form data.",
+    "If the destination is ambiguous, the visible text names the target page rather than relying on a generic Back label.",
+    "The control is removed, disabled by routing, or changed to a safe URL when there is no trusted previous transaction page."
+  ],
+  "implementationChecklist": [
+    "Place the Back link before the main content and away from primary submit or Continue controls.",
+    "Store transaction step state server-side, in the URL, or in form state so the previous page can be restored.",
+    "Use a real href to the previous service URL where possible instead of depending only on window.history.back().",
+    "Pre-populate previous answers when the user goes back, unless the information is invalid, unsafe, or security-sensitive.",
+    "Remove breadcrumbs from pages that use a transaction Back link.",
+    "Choose target-specific copy for non-linear or administrative journeys.",
+    "Test keyboard order, focus visibility, target size, and no-JavaScript fallback."
+  ],
+  "commonMisuses": [
+    "Using Back as a breadcrumb or parent-category link.",
+    "Combining Back links with breadcrumbs on the same transaction page.",
+    "Putting Back next to Continue so it looks like a secondary form action.",
+    "Calling browser history when the previous page might be outside the service.",
+    "Clearing the previous page's entered values when users go back.",
+    "Showing a Back link on content pages that need hierarchy or related-link navigation instead."
+  ],
+  "critiqueQuestions": [
+    "What exact page will this Back link return to, and can that page restore its last-seen state?",
+    "Is this page part of a transaction, or would breadcrumbs or related links better fit the user's mental model?",
+    "Will a direct visitor or user without JavaScript see a safe and honest control?",
+    "Does the link text need to name the destination because the journey branches?",
+    "Could the previous values become invalid, unsafe, or security-sensitive when restored?"
+  ],
+  "useWhen": [
+    "A multi-page transaction or form asks users one thing per page.",
+    "Users may need to revise the immediately previous service page.",
+    "The service can preserve or safely restore the previous page's state.",
+    "A related details page was reached from a page without additional navigation and needs a simple return."
+  ],
+  "avoidWhen": [
+    "The page is an informational content page with a stable hierarchy.",
+    "Breadcrumbs are already present and better support orientation.",
+    "The user needs to move through pages of an ordered result collection.",
+    "The previous page cannot be known or safely restored.",
+    "The control would perform an action rather than navigate or intentionally post form state back."
+  ],
+  "variants": [
+    "Simple Back link",
+    "Back to named page",
+    "Inverse back link on dark background",
+    "Button-rendered back control for posted form state",
+    "Safe fallback back link",
+    "Related-page return link"
+  ],
+  "accessibility": [
+    "Keep the Back link in a predictable reading order before main content, so skip links can bypass repeated navigation.",
+    "Use link semantics for navigation and button semantics only for form-posting behavior.",
+    "Ensure focus style, link underline, and target size make the small control discoverable and operable.",
+    "Do not rely on color or an icon alone; include visible Back or destination text.",
+    "If an accessibility checker warns about the back link outside landmarks, evaluate the service context rather than moving it into a worse reading order."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the Back link before the main content and before form fields on a transaction page.",
+    "Enter activates a link-backed Back control; Enter or Space activates a button-backed back control.",
+    "After returning, focus follows the service's page-load convention and the restored page heading or first field is reachable.",
+    "The Back control is not placed so close to Continue or other buttons that keyboard or pointer users accidentally activate the wrong control."
+  ],
+  "failureModes": [
+    "The control sends users to an unrelated browser-history entry.",
+    "The previous page reloads blank and forces redundant entry.",
+    "Breadcrumbs and Back links compete on the same page.",
+    "The link text is too vague for branching journeys.",
+    "A JavaScript-only link is visible when scripts fail.",
+    "Back submits or mutates data unexpectedly.",
+    "The control appears on content pages where users need hierarchy, not transaction return."
+  ],
+  "relatedPatterns": [
+    "breadcrumbs",
+    "pagination",
+    "undo"
+  ],
+  "comparisons": [
+    "back-link-vs-breadcrumbs-vs-pagination"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Back link",
+      "url": "https://design-system.service.gov.uk/components/back-link/",
+      "platform": "web",
+      "notes": "Documents multi-page transaction use, placement before main, previous-page state restoration, breadcrumb exclusion, and clearer text for complex journeys.",
+      "screenshot": "screenshots/patterns/back-link.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "NHS Digital service manual Back link",
+      "url": "https://service-manual.nhs.uk/design-system/components/back-link",
+      "platform": "web",
+      "notes": "Documents transactional form use, preserving previously entered information, top-left placement, avoiding breadcrumbs, and button rendering for form-posted back behavior.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "VA.gov Link component Back variation",
+      "url": "https://design.va.gov/components/link/",
+      "platform": "web",
+      "notes": "Documents Back link as a replacement for breadcrumbs in multi-step forms, short forms, and related-page returns.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-back-link-component",
+      "note": "GOV.UK defines Back links for multi-page transactions, requires previous-page state restoration, places them before main content, and forbids combining them with breadcrumbs."
+    },
+    {
+      "id": "nhs-back-link-component",
+      "note": "NHS limits Back links to transactional services or forms, documents redundant-entry restoration, top-left placement, and button-backed variants when posting form data."
+    },
+    {
+      "id": "va-link-component",
+      "note": "VA documents the Back link variation as a breadcrumb replacement for multi-step forms, short forms, and related-page returns."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

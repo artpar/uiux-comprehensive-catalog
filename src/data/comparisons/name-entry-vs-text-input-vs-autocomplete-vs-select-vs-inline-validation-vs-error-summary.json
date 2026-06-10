@@ -1,0 +1,58 @@
+{
+  "id": "name-entry-vs-text-input-vs-autocomplete-vs-select-vs-inline-validation-vs-error-summary",
+  "title": "Name entry vs text input vs autocomplete vs select vs inline validation vs error summary",
+  "summary": "Use name entry when the product needs a person's name with name-specific labels, autocomplete, character support, respectful wording, review, and update paths; use text input for ordinary short text, autocomplete for known-record resolution, select only for finite non-name choices, inline validation for local correction, and error summary for failed submitted forms.",
+  "patternIds": [
+    "name-entry",
+    "text-input",
+    "autocomplete",
+    "select",
+    "inline-validation",
+    "error-summary"
+  ],
+  "decisionRules": [
+    "Prefer name entry when the value identifies a person, appears in correspondence, profile display, official records, verification, payment, booking, application, or support workflows.",
+    "Prefer text input when the value is a short label, reference, organization name, username, or note that should not receive name-specific labels, autocomplete tokens, or cultural-name handling.",
+    "Prefer autocomplete when the user must select an existing person record from known identities rather than type a new or changed name.",
+    "Prefer select for finite non-name choices; do not use a title dropdown unless the title is genuinely required, optional, and cannot be avoided.",
+    "Prefer a single full-name field when the service can store and use the name as provided, because it avoids false first-name, last-name, middle-name, and title assumptions.",
+    "Use separate given-name and family-name fields only when downstream systems genuinely need those parts, and then label them clearly with autocomplete given-name and family-name rather than guessing parts from a full name.",
+    "Use autocomplete name for one full-name field; use honorific-prefix, given-name, additional-name, family-name, honorific-suffix, or nickname only when those parts are deliberately captured.",
+    "Disable spellcheck and avoid automatic casing changes, ASCII-only filters, or capitalization rules that alter accents, punctuation, spacing, particles, or native-script names.",
+    "Ask whether you need a common name, preferred form of address, name on official documents, previous name, pronunciation, native-script form, or Latin transcription, and label each need separately.",
+    "Prefer inline validation inside name entry for missing required name, unsupported script where a real constraint exists, official-document mismatch, or unacceptable characters in a constrained legacy system.",
+    "Prefer error summary when a submitted application, checkout, account, or identity form has several errors and users need a top-of-form list that links back to the name field.",
+    "Allow name changes and review the exact spelling before correspondence or official submission, rather than assuming a captured name is permanent."
+  ],
+  "failureModes": [
+    "A form requires first and last names and blocks users with one-part names or names whose family name appears first.",
+    "A title dropdown forces users to reveal gender or marital status and still omits valid titles.",
+    "The field strips accents, apostrophes, hyphens, spaces, or native-script characters from a user's name.",
+    "A service calls a user by a guessed first token even though they gave a formal full name or a different preferred name.",
+    "A previous-name field is labelled maiden name and embeds a gendered marriage assumption.",
+    "A top-of-page error says invalid value without linking back to the name field or preserving the typed name."
+  ],
+  "sources": [
+    {
+      "id": "govuk-names-pattern",
+      "note": "GOV.UK supports needed-only name collection, full-name labels, careful split-field choice, long and broad character support, autocomplete tokens, spellcheck false, title avoidance, name changes, and specific errors."
+    },
+    {
+      "id": "w3c-personal-names-around-world",
+      "note": "W3C supports broad global-name variation, single names, multiple family names, different order, native scripts, pronunciation and transcription needs, and caution around splitting or parsing names."
+    },
+    {
+      "id": "w3c-i18n-specdev-personal-names",
+      "note": "W3C best practices support preserving casing, allowing spaces and punctuation, avoiding family-name requirements, accepting single-letter names, and providing transcription fields when needed."
+    },
+    {
+      "id": "baymard-avoid-splitting-single-input-fields",
+      "note": "Baymard supports the user-perceived single-name entity and documents interaction costs when name fields are split unnecessarily."
+    },
+    {
+      "id": "mdn-html-autocomplete-name",
+      "note": "MDN supports autocomplete name for full names and component tokens only when a service deliberately captures parts."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,243 @@
+{
+  "id": "conflict-resolution",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed guided resolution workflow for one or more detected conflicts, with guidance for per-conflict review, source labels, keep or merge decisions, save-copy and manual routes, final reviewed summary, commit guards, comparison boundaries, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets guided multi-conflict resolution after detection, including unresolved count, current conflict position, local and server or incoming and existing source labels, keep-local, keep-server, merge-both, save-copy, skip, manual-file routing, resolved preview, final decision summary, commit guard, accepted result, and retained history.",
+    "relatedPatternDistinction": "The entry separates conflict resolution from conflict state by making resolution the active review and decision workflow after competing versions are detected, from autosave recovery by requiring an explicit side-by-side decision rather than preserving uncertain saved work first, from review before submit by involving another source or version rather than only the user's captured answers, and from draft or sync state by focusing on what survives a competing-change decision.",
+    "liveDemoBehavior": "The live demo shows a field report resolver with Good UI, Bad UI, Good UX, and Bad UX panels. The Good UX controls exercise Review, Keep local, Keep server, Merge both, Save copy, Skip, Manual file, Review decisions, and Commit, including a disabled commit guard before review, a final decision summary, a committed state, and a resolved preview. The Bad UX controls exercise Accept all, Open commit, Ambiguous sides, Lost choices, Hidden skipped, and Server reject failure paths.",
+    "comparisonDecisionRules": "The conflict-resolution-vs-conflict-state-vs-review-before-submit-vs-autosave-recovery comparison gives concrete rules for choosing resolution when users must step through detected conflicts and commit or defer decisions, conflict state when the main need is exposing competing valid versions, review before submit when users verify their own answers before a transaction, and autosave recovery when failed or uncertain background saving must preserve local work before any resolution workflow exists.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/conflict-resolution/ and /compare/conflict-resolution-vs-conflict-state-vs-review-before-submit-vs-autosave-recovery/ on 2026-06-10. Live check exercised the disabled Commit guard, Keep local, Keep server, Merge both, Save copy, Skip, Manual file, Review decisions, Commit, Accept all, Open commit, Ambiguous sides, Lost choices, Hidden skipped, and Server reject controls. screenshots/patterns/conflict-resolution.png captures Good UI, Bad UI, Good UX, Bad UX, per-conflict source values, resolution controls, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/conflict-resolution.png"
+    ]
+  },
+  "name": "Conflict resolution",
+  "aliases": [
+    "resolve conflict",
+    "conflict review workflow",
+    "resolve competing edits",
+    "version resolution",
+    "change conflict resolution",
+    "collaboration conflict workflow",
+    "field conflict resolver"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Collaboration And Social Interaction",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Guided workflow for reviewing and committing conflict decisions",
+  "uiGuidance": [
+    "Show a durable resolution workspace that lists every unresolved conflict, exposes the current conflict, names each version source, and separates choose-local, choose-remote, merge, save-copy, skip, and commit actions.",
+    "Keep the resolved preview, unresolved count, discarded-change summary, and final commit action visually distinct so users can review the combined result before it replaces, publishes, syncs, or commits anything."
+  ],
+  "uxGuidance": [
+    "Use conflict resolution after conflict detection when users must make one or more explicit decisions before a record, document, branch, import, or synced object can continue.",
+    "Guide users through conflicts in a stable order, preserve every unchosen value until commit, support safe deferral or manual escalation, and leave an audit trail that explains what was kept, merged, copied, or discarded."
+  ],
+  "uiExamples": {
+    "good": [
+      "A field report resolver shows 2 of 3 conflicts remaining, displays Your offline value and Mina's server value for the current field, offers Keep local, Keep server, Merge both, Save copy, and shows a reviewed result before Commit resolutions.",
+      "A document conflict review lists conflicting paragraphs in order, highlights only the overlapping text, lets the user accept or reject each recovered change, and shows a final summary before returning to editing.",
+      "An import update resolver groups row conflicts by account, shows incoming and existing values, lets reviewers choose per field, skips unresolved rows, and exports skipped rows after commit."
+    ],
+    "bad": [
+      "A conflict page has one Accept recommended button for all fields and no way to inspect discarded values.",
+      "A resolver lets users click Commit while some conflicts are still unresolved and hides which side will be lost.",
+      "A merge screen says Ours and Theirs without branch, owner, timestamp, row, or field labels."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user resolves the supervisor comment by merging both versions, keeps the server contact number, saves the local safety note as a copy, reviews the final report, then commits with an audit summary.",
+      "A reviewer opens six import conflicts, filters to high-risk rows, resolves three, exports the remaining unresolved rows, and commits only the reviewed decisions.",
+      "A developer uses a browser merge tool for simple text conflicts, sees one binary file cannot be resolved there, downloads both versions, and leaves the merge blocked until manual resolution returns."
+    ],
+    "bad": [
+      "The system silently resolves all conflicts by newest timestamp and only shows a success toast.",
+      "Users repeatedly press Retry because the workflow never explains that a choice between valid values is required.",
+      "A bulk resolution commits every conflict before a reviewer sees the final combined value or the discarded data."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can make the wrong decision or lose work when a product detects competing valid changes but provides no guided way to inspect every affected value, choose or merge outcomes, defer unsafe cases, and review the final result before commit.",
+  "solution": "Provide a conflict resolution workflow that preserves every version, walks users through each conflict, records a decision per conflicting unit, previews the final resolved value, blocks commit until required decisions are complete, and routes unsupported or high-risk conflicts to manual resolution.",
+  "problemContext": [
+    "A conflict state already exists because two or more valid edits overlap in the same field, paragraph, row, file, branch hunk, draft, or synchronized object.",
+    "More than one conflict may need to be resolved before the user can submit, publish, sync, import, save, or merge.",
+    "The product must preserve local, remote, collaborator, source-branch, target-branch, existing-row, or incoming-row values until a decision is committed.",
+    "Some conflicts are simple choose-one-side decisions, while others require manual merge, save-copy, skip, owner assistance, or a different tool."
+  ],
+  "selectionRules": [
+    "Choose conflict resolution when users need a workflow for deciding, merging, skipping, or committing one or more conflicts after they have been detected.",
+    "Use conflict state for the persistent status surface that says a conflict exists; conflict resolution is the active review and decision workflow that follows.",
+    "Use autosave recovery when the main issue is preserving local work after failed or uncertain saving and no explicit side-by-side decision has started.",
+    "Use draft state when the main task is managing unpublished work, not deciding between overlapping valid versions.",
+    "Use review-before-submit when users are checking their own captured answers before final submission; use conflict resolution when another source, version, branch, or system has a competing value.",
+    "Resolve at the smallest unit the user can judge: field, row, line, paragraph, file, branch hunk, setting, or record.",
+    "Offer only decisions that are true for the data type: keep local, keep server, accept incoming, keep existing, merge both, save copy, skip, discard, or open manual tool.",
+    "Block final commit when required conflicts remain unresolved, when a resolved preview is invalid, or when unsupported files require a manual route.",
+    "Show a final review summary before destructive commit, including counts resolved, skipped, copied, discarded, and sent to manual resolution.",
+    "After commit, update the source object, clear the conflict badge, and leave a retrievable history or export of decisions where the domain requires it."
+  ],
+  "requiredStates": [
+    "Conflict list state with unresolved count and current conflict position.",
+    "Side-by-side or inline comparison state for the current conflict.",
+    "Choose local, choose remote, choose existing, or choose incoming state.",
+    "Manual merge edit state with unresolved markers.",
+    "Save copy or keep both state for preserving a rejected version.",
+    "Skip or defer state for conflicts that cannot be decided now.",
+    "Unsupported or manual-tool-required state.",
+    "Resolved preview state showing the value that will be committed.",
+    "Review all decisions state with kept, discarded, copied, skipped, and unresolved counts.",
+    "Committed state with audit trail, version history, or exported resolution report."
+  ],
+  "interactionContract": [
+    "The resolver opens from a known conflict and keeps users oriented to the affected object, conflict number, and total unresolved count.",
+    "Each decision records which source value survives, which value is copied or discarded, and whether the resolved value is complete.",
+    "Next and Previous conflict controls move through unresolved items without losing decisions already made.",
+    "Manual merge preserves both source values until the merged value passes validation or the user explicitly cancels.",
+    "Save copy or keep both creates a findable artifact and does not claim the conflict is solved unless the primary object has a committed value.",
+    "Final commit is disabled or intercepted while required conflicts remain unresolved, while previews are invalid, or while manual-tool items are open.",
+    "The committed result clears conflict indicators only after the server, repository, import job, or document accepts the resolved version.",
+    "The workflow exposes undo, history, or exported decisions when data loss, collaboration, compliance, publication, or code review risk is high."
+  ],
+  "implementationChecklist": [
+    "Model conflicts as a list of units with base value, local or incoming value, remote or existing value, owner, timestamp, field or file path, decision, preview, validation, and commit state.",
+    "Keep conflict-state detection separate from the resolver route so users can reopen unfinished decisions.",
+    "Persist in-progress decisions through reload, route changes, reauthentication, and reconnect when policy permits.",
+    "Implement choose-one-side, merge, save-copy, skip, cancel, next, previous, review, and commit controls with explicit labels.",
+    "Validate merged values before commit and keep unresolved markers visible until every required choice is made.",
+    "Handle bulk conflict sets with filters, progress, keyboard navigation, and item-level review rather than only a global accept action.",
+    "Record resolution metadata for collaborative documents, regulated records, imports, source control, and published content.",
+    "Test multi-conflict navigation, partial decisions, reload recovery, unsupported file types, permission changes, validation failure after merge, skipped items, final commit failure, keyboard access, and screen reader status updates."
+  ],
+  "commonMisuses": [
+    "Marking conflicts resolved before the user reviews the surviving value.",
+    "Using a single Accept all button without showing affected fields or discarded values.",
+    "Letting users commit with required conflicts still unresolved.",
+    "Using ambiguous Ours and Theirs labels without branch, owner, device, or timestamp context.",
+    "Hiding skipped or save-copy artifacts after commit.",
+    "Treating conflict resolution as retry, reload, or last-write-wins.",
+    "Clearing the conflict badge before the resolved version is accepted by the server, repository, or document."
+  ],
+  "critiqueQuestions": [
+    "How many conflicts remain, and where is the user in the resolution sequence?",
+    "What exact value will be committed if the user chooses each action?",
+    "Which rejected values are copied, exported, discarded, or still recoverable?",
+    "Can users resolve some conflicts and safely defer or export the rest?",
+    "What prevents commit while conflicts remain unresolved or previews are invalid?",
+    "What history, audit trail, or undo path remains after the resolved version is accepted?"
+  ],
+  "useWhen": [
+    "A conflict has been detected and a user must choose, merge, save-copy, skip, or commit a result.",
+    "Multiple conflicts must be reviewed in sequence before sync, publish, import, document save, or branch merge can complete.",
+    "Discarding either side has material risk and users need a final resolved preview.",
+    "Unsupported files, permissions, or business rules require a manual resolution route."
+  ],
+  "avoidWhen": [
+    "The system can safely merge non-overlapping changes without user judgment.",
+    "The interface only needs to signal that a conflict exists and route users elsewhere.",
+    "The problem is failed saving, offline mode, or retry without a competing valid value.",
+    "Users are reviewing their own answers before submit and no external version is competing.",
+    "A canonical source can recalculate the value safely and no alternative needs preserving."
+  ],
+  "variants": [
+    "Guided conflict review",
+    "Field-by-field conflict resolution",
+    "Document conflict review",
+    "Import conflict resolver",
+    "Branch conflict resolution",
+    "Tracked-change resolution",
+    "Bulk conflict review",
+    "Keep both workflow",
+    "Manual merge handoff",
+    "Conflict decision summary"
+  ],
+  "accessibility": [
+    "Expose conflict number, total count, source labels, field names, and resolution status as text, not only color or diff markers.",
+    "Place resolution controls after the compared values they affect and label them with the source they keep or discard.",
+    "Announce decision changes and unresolved count in a polite status region without rereading entire diff content.",
+    "Provide keyboard access to next conflict, previous conflict, keep local, keep remote, merge, save copy, skip, review decisions, and commit.",
+    "For inline or code-like diffs, include accessible labels for inserted, deleted, local, remote, source, target, existing, and incoming content.",
+    "When commit is disabled, state which conflicts or validation errors block it."
+  ],
+  "keyboardBehavior": [
+    "Focus starts on the current conflict heading or the first changed value when the resolver opens.",
+    "Next and Previous conflict buttons move focus to the next conflict heading and preserve any decision already made.",
+    "Resolution buttons are reachable immediately after the compared values and expose the resulting preview.",
+    "Manual merge editors preserve normal text editing and provide an escape path from any tab-trapping editor.",
+    "Review decisions opens a keyboard-reachable summary where each decision can be revisited.",
+    "After commit, focus moves to the resolved confirmation or back to the originating object with the conflict badge cleared."
+  ],
+  "failureModes": [
+    "A bulk accept action discards collaborator work before any field is inspected.",
+    "Users cannot tell whether Ours means local, source branch, target branch, existing row, or server value.",
+    "The resolver loses in-progress choices after reload or reauthentication.",
+    "Commit remains enabled after a merge preview fails validation.",
+    "Skipped conflicts disappear from the object, so users cannot return to them.",
+    "A binary or unsupported file is forced through a text merge editor.",
+    "The server rejects the resolved version but the UI clears the conflict state anyway."
+  ],
+  "relatedPatterns": [
+    "conflict-state",
+    "autosave-recovery",
+    "review-before-submit",
+    "draft-state",
+    "sync-state",
+    "error-state",
+    "inline-edit",
+    "notification-center"
+  ],
+  "comparisons": [
+    "conflict-resolution-vs-conflict-state-vs-review-before-submit-vs-autosave-recovery"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian Confluence concurrent editing",
+      "url": "https://confluence.atlassian.com/display/DOC/Concurrent%20Editing%20and%20Merging%20Changes",
+      "platform": "web",
+      "notes": "Documents concurrent editing notices, automatic merging for non-overlapping edits, conflict display for overlapping edits, and choices to continue editing, overwrite, or cancel.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Office coauthoring conflict errors",
+      "url": "https://support.microsoft.com/en-us/office/troubleshoot-common-coauthoring-errors-f0a0be0c-c03f-45b2-bec0-535e5b13f691",
+      "platform": "desktop",
+      "notes": "Documents conflict review and resolution flows with save-copy, discard, recovered-change review, navigation between conflicts, and accept or reject decisions.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GitLab merge conflicts",
+      "url": "https://docs.gitlab.com/user/project/merge_requests/conflicts/",
+      "platform": "web",
+      "notes": "Documents conflict blocks, UI eligibility limits, Use ours and Use theirs choices, inline editing, commit messages, and manual resolution paths when browser resolution is not supported.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-confluence-concurrent-editing",
+      "note": "Confluence supports conflict display for overlapping edits and choices to continue editing, overwrite, or cancel while preserving another person's saved edits."
+    },
+    {
+      "id": "microsoft-office-coauthoring-conflicts",
+      "note": "Microsoft Office supports save-copy and discard recovery, conflict view navigation, and accept or reject decisions for recovered changes."
+    },
+    {
+      "id": "gitlab-merge-conflicts",
+      "note": "GitLab supports conflict blocks, Use ours and Use theirs choices, inline editing, commit messages, and manual resolution when UI limits are exceeded."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

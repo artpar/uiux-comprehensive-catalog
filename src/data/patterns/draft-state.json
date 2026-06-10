@@ -1,0 +1,244 @@
+{
+  "id": "draft-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an object-level unpublished-version lifecycle pattern with source-backed guidance for draft versus active state, resume/discard dialogs, draft lists and labels, shared unpublished-change risks, publish visibility, stale or missing draft recovery, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers object-level draft state, active versus unpublished versions, own draft and shared draft labels, resume editing, discard scope, publish or activate boundaries, draft lists and filters, stale or missing deep links, collaborator ownership, locks, and visibility to viewers versus editors.",
+    "relatedPatternDistinction": "The entry separates draft state from autosave form by focusing on the whole draft lifecycle rather than the save mechanism, from inline edit by persisting a separate object version beyond one local field edit, from complete complex form by handling version status rather than sectioned validation, and from multi-step form by not defining a page sequence.",
+    "liveDemoBehavior": "The rendered exercise starts from a published article with an unpublished draft, resumes the draft into edit mode, compares draft changes to the live version, publishes the draft, discards it with scoped loss messaging, simulates a stale draft link, and contrasts a broken editor that hides whether the user is editing draft or live content.",
+    "comparisonDecisionRules": "The linked draft-state-vs-autosave-form-vs-inline-edit-vs-complete-complex-form comparison gives concrete rules for unpublished versions, autosave mechanisms, local inline edits, sectioned complex forms, resume/discard dialogs, publish boundaries, shared-draft warnings, draft filters, and unavailable deep links.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/draft-state.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, draft label, published/live label, resume, discard, publish, comparison summary, stale-link recovery, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/draft-state.png"
+    ]
+  },
+  "name": "Draft state",
+  "aliases": [
+    "draft mode",
+    "unpublished changes",
+    "saved draft",
+    "content draft",
+    "object draft",
+    "inactive version",
+    "unpublished version"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Collaboration And Social Interaction",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Unpublished object version lifecycle",
+  "uiGuidance": [
+    "Label the current version explicitly as Draft, Unpublished changes, Published, Active, Locked, or Unavailable, and place that label near the object title, list row, editor header, and publish actions.",
+    "Render separate actions for Resume editing, Save draft, View published, Compare changes, Discard draft, and Publish or Activate; never rely on one generic Save label for every state."
+  ],
+  "uxGuidance": [
+    "Use draft state when users need to pause work on an object, return later, and decide whether to publish, activate, discard, or keep editing an unpublished version.",
+    "Treat discarding or publishing a draft as a lifecycle decision: explain visibility, collaborator impact, last-saved time, and whether the active version will change."
+  ],
+  "uiExamples": {
+    "good": [
+      "A knowledge article header says Draft saved today, shows the currently published title, and offers Resume draft, Compare with published, Discard draft, and Publish.",
+      "A work list has editing-status chips for Own draft, Unpublished changes, Locked by another user, and Published so users know which rows are safe to open."
+    ],
+    "bad": [
+      "An editor opens directly into draft text but the header only says Saved, so users cannot tell whether viewers see the changes.",
+      "A Delete draft action appears beside Publish without explaining that shared unpublished changes from collaborators will be lost."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens a published article that has an unpublished version, chooses Resume draft, reviews a change summary, publishes, and sees the page become visible to viewers.",
+      "A user follows an old draft link after the draft was discarded and gets an unavailable-draft message with a link back to the published item."
+    ],
+    "bad": [
+      "A user closes an editor after seeing Saved, later discovers the page was never published, and cannot find the draft in the content list.",
+      "A user discards a shared draft and unknowingly removes another editor's unpublished changes."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users lose trust in draft-capable products when they cannot tell whether they are editing a draft or the active version, who can see the changes, how to resume them, and what publish or discard will affect.",
+  "solution": "Expose the draft as a separate recoverable object state with clear labels, last-saved time, resume and discard choices, published-version comparison, collaborator scope, unavailable-draft recovery, and a distinct publish or activation boundary.",
+  "problemContext": [
+    "The product supports creating or editing content, records, rules, pages, policies, listings, workflows, or business objects before they become active.",
+    "Users may pause work, close the editor, follow deep links, return from a dashboard, or collaborate on unpublished changes.",
+    "The draft can differ from a live version that remains visible to viewers, customers, systems, or downstream workflows.",
+    "Discard, delete, publish, or activate can affect collaborators, public visibility, search visibility, locks, or business state."
+  ],
+  "selectionRules": [
+    "Choose draft state when a recoverable unpublished version exists separately from a published, active, or previously saved version.",
+    "Use autosave form when the main need is reliable background persistence while a user is filling fields, not a separate draft lifecycle.",
+    "Use inline edit when one local value enters edit mode and is saved or canceled immediately without durable unpublished-version management.",
+    "Use complete complex form when many related fields need section ownership, validation, and review; add draft state only if the whole configuration has a separate inactive version.",
+    "Use multi-step form when the work is primarily a sequence of pages with Back, Continue, saved step state, and final review.",
+    "Show whether the current view is draft, published, active, locked, or unavailable before users edit or publish.",
+    "When opening an active object that has a draft, ask users to resume the draft or discard it before silently showing either version.",
+    "Keep Publish, Activate, Submit, or Send visually and semantically distinct from Save draft.",
+    "Before discard, identify whether the draft is personal, shared, includes other contributors, or differs from the active version.",
+    "For draft lists, expose filters or labels for own drafts, shared unpublished changes, locked records, active records, and deleted or unavailable draft links when relevant."
+  ],
+  "requiredStates": [
+    "Published or active state with no draft.",
+    "Published or active state with an available draft.",
+    "Draft editor state with draft label and last-saved time.",
+    "Unpublished changes state for an already-published object.",
+    "Resume draft confirmation state when an active object has a draft.",
+    "Compare draft with published state before publish or discard.",
+    "Discard draft confirmation with scope of loss.",
+    "Published or activated state after draft promotion.",
+    "Locked or another-user draft state.",
+    "Unavailable draft state for deleted, published, inaccessible, or stale deep-linked drafts."
+  ],
+  "interactionContract": [
+    "Opening a draft from a list lands in draft edit mode and preserves the unpublished values.",
+    "Opening a published object with an existing draft prompts Resume or Discard with object name and last-saved time.",
+    "Resume shows the latest draft, not the active version, and labels it as draft throughout editing.",
+    "View published or Compare shows what viewers currently see versus what the draft will change.",
+    "Save draft keeps the item unpublished and recoverable without implying viewer visibility.",
+    "Publish or Activate promotes the draft to the active version and updates visibility or downstream effects.",
+    "Discard removes only the stated draft scope and returns users to the active version or draft list.",
+    "Stale draft links explain why the draft is unavailable and offer a path to the active object or list."
+  ],
+  "implementationChecklist": [
+    "Model active, draft, unpublished-changes, locked, unavailable, and published states separately instead of deriving them from a generic dirty flag.",
+    "Store draft owner, collaborators, last-saved timestamp, source active version, and publish readiness.",
+    "Add labels and filters wherever drafts appear: dashboards, object lists, editor headers, breadcrumbs, recent-work surfaces, and deep-link recovery pages.",
+    "Separate Save draft from Publish, Activate, Submit, or Send in copy, placement, disabled logic, analytics, and permissions.",
+    "Provide Resume, View published, Compare, Discard, and Publish actions only when each action is valid for the current state.",
+    "Warn before discard or delete when the draft is shared, has collaborators, or contains unpublished changes by others.",
+    "Handle missing drafts, stale bookmarks, deleted drafts, published drafts, permission loss, session expiry, locks, and another user's draft.",
+    "Test draft discovery, resume, publish, discard, reload, deep links, permissions, collaboration, mobile return, screen reader labels, and keyboard access."
+  ],
+  "commonMisuses": [
+    "Using Saved to mean both saved draft and published content.",
+    "Opening the draft silently when users expected to view the active version.",
+    "Hiding draft labels in lists so users cannot find unpublished work later.",
+    "Making Publish and Save draft adjacent buttons with identical visual weight and vague labels.",
+    "Discarding shared unpublished changes without collaborator scope warnings.",
+    "Treating a draft as merely a form dirty state even though it survives navigation and appears in object lists.",
+    "Failing to explain why a bookmarked draft is gone after publish, discard, deletion, or permission change."
+  ],
+  "critiqueQuestions": [
+    "Can users tell whether they are viewing draft, published, active, locked, or unavailable content?",
+    "Where can users find drafts after closing the editor?",
+    "Does Save draft clearly differ from Publish or Activate?",
+    "What exactly is lost when the user discards this draft?",
+    "Can users compare the draft with the active version before publishing or discarding?",
+    "What happens to collaborators' unpublished changes, locks, and stale draft links?"
+  ],
+  "useWhen": [
+    "Users create or edit objects that should not become visible, active, submitted, or externally effective until a later action.",
+    "Users need to pause and resume unfinished work across sessions, devices, or routes.",
+    "A live version can remain available while unpublished changes are being prepared.",
+    "Drafts need discovery in recent-work lists, dashboards, worklists, or deep links."
+  ],
+  "avoidWhen": [
+    "The change is a small one-field edit that should be saved or canceled immediately.",
+    "The product has no persistent draft storage or reliable way to distinguish active from draft versions.",
+    "Every change should become active immediately and there is no review, publish, or activation boundary.",
+    "The work is only a transient unsaved-changes prompt inside a single route.",
+    "Collaboration or compliance rules make unpublished parallel versions unsafe without a stronger review workflow."
+  ],
+  "variants": [
+    "Content draft",
+    "Unpublished changes",
+    "Shared draft",
+    "Personal draft",
+    "Draft with published version",
+    "Draft resume dialog",
+    "Draft comparison",
+    "Draft discard confirmation",
+    "Draft publish workflow",
+    "Locked draft record",
+    "Unavailable draft deep link"
+  ],
+  "accessibility": [
+    "Expose Draft, Published, Unpublished changes, Locked, and Unavailable as text in the page title area and list rows, not only by color or icon.",
+    "Use headings and status regions so screen reader users know whether they are editing a draft or viewing the active version.",
+    "Give Publish, Save draft, Discard draft, Compare, Resume, and View published controls distinct accessible names.",
+    "When a resume or discard dialog opens, move focus into it and return focus to the triggering object after dismissal.",
+    "Before destructive discard, describe the affected draft scope in dialog text and button labels.",
+    "Do not announce every background save as a publish event; draft status and public visibility must remain separate.",
+    "For unavailable draft links, provide a clear heading, reason, and navigable recovery target."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches draft status, editor controls, compare controls, Save draft, Publish, Discard, and View published in a predictable order.",
+    "Enter or Space activates Resume, Discard, Publish, and comparison controls without changing state until confirmation where needed.",
+    "Escape closes resume or discard dialogs and restores focus to the object or action that opened them.",
+    "After publishing, focus moves to a confirmation or the promoted active object, not to a stale draft editor.",
+    "After a stale draft link loads, focus starts at the unavailable-draft heading and recovery link.",
+    "Draft lists preserve keyboard position when a row changes from draft to published or is removed after discard."
+  ],
+  "failureModes": [
+    "A draft label is missing from the editor, so users publish or discard the wrong version.",
+    "The draft list shows outdated rows for drafts that were already published or deleted.",
+    "A shared draft is deleted without identifying other contributors' changes.",
+    "A locked record lets another user begin editing and creates conflicting drafts.",
+    "Publish succeeds but the interface still says Draft, causing users to publish twice or distrust visibility.",
+    "Save draft is placed where users expect Publish, causing unfinished work to remain hidden.",
+    "A stale deep link opens a blank editor instead of explaining the draft is no longer available.",
+    "Draft and active versions are merged without showing conflicting changes."
+  ],
+  "relatedPatterns": [
+    "autosave-form",
+    "inline-edit",
+    "complete-complex-form",
+    "multi-step-form",
+    "error-state"
+  ],
+  "comparisons": [
+    "draft-state-vs-autosave-form-vs-inline-edit-vs-complete-complex-form"
+  ],
+  "examples": [
+    {
+      "product": "SAP Fiori Draft Handling",
+      "url": "https://www.sap.com/design-system/fiori-design-web/v1-136/foundations/best-practices/global-patterns/object-handling/draft-handling",
+      "platform": "web",
+      "notes": "Documents active and draft entities, resume or discard prompts, deep-link behavior, draft list sorting and filtering, unavailable drafts, and editing status such as own draft and locked by another user.",
+      "screenshot": "screenshots/patterns/draft-state.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Atlassian Confluence Drafts",
+      "url": "https://confluence.atlassian.com/doc/drafts-149040.html",
+      "platform": "web",
+      "notes": "Documents drafts and unpublished changes, autosaved recovery, Recently worked on labels, resume editing, publishing, reverting to last published version, deleting drafts, and shared-draft deletion risk.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft SharePoint page publishing",
+      "url": "https://support.microsoft.com/en-au/office/what-happens-when-i-publish-a-page-e5e070be-00bd-4a74-84c2-67aafddb6c19",
+      "platform": "web",
+      "notes": "Documents Save as draft, Discard changes, Publish, editor-only draft visibility, site-viewer visibility after publish, and search availability after publish.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "sap-fiori-draft-handling",
+      "note": "SAP Fiori supports active versus draft entities, resume or discard choices, draft deep links, draft filters, unavailable draft recovery, and locked editing status."
+    },
+    {
+      "id": "atlassian-confluence-drafts",
+      "note": "Confluence supports draft and unpublished-change labels, recovery through Recently worked on, resume editing, publish, revert, delete draft, and shared-draft warnings."
+    },
+    {
+      "id": "microsoft-sharepoint-publish-draft",
+      "note": "SharePoint supports explicit save as draft, discard changes, publish, editor-only draft visibility, and public/search visibility after publishing."
+    },
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab Pajamas supports draft save status language and clarifies when progress is saved as a draft rather than as final changed data."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

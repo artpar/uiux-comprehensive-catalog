@@ -1,0 +1,247 @@
+{
+  "id": "meter",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a read-only bounded scalar gauge pattern with source-backed guidance for native meter semantics, min/max bounds, low/high/optimum bands, useful value text, threshold labels, color-independent status, progress/input distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets current scalar measurements such as storage usage, battery charge, fuel, utilization, risk score, capacity, quota, budget burn, and health score, including known bounds, threshold bands, optimum direction, units, value text, read-only behavior, color-independent status, and non-progress use.",
+    "relatedPatternDistinction": "The entry separates meter from progress bar by current value inside a range versus task completion, from slider by read-only gauge versus user-adjusted range input, from spinbutton by status display versus small numeric entry, and from password creation by a general gauge pattern versus password-specific strength feedback.",
+    "liveDemoBehavior": "The live demo switches an account storage meter through healthy, warning, critical, over-limit, low-better, and unknown-max cases, exposes value text and thresholds, and contrasts bad behavior such as draggable meters, missing maximum, progress misuse, color-only zones, and reversed-goodness risk labels.",
+    "comparisonDecisionRules": "The meter-vs-progress-bar-vs-slider-vs-spinbutton comparison gives concrete rules for read-only bounded values, task completion, approximate range input, small numeric input, unknown maximums, interactivity, threshold bands, and useful value text.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/meter/ and /compare/meter-vs-progress-bar-vs-slider-vs-spinbutton/ on 2026-06-09. Live check exercised Healthy, Warning, Critical, Over limit, Low-better, Battery, Unavailable, No max, Progress misuse, Draggable, Color only, Reversed good, and Stale controls. screenshots/patterns/meter.png captures Good UI, Bad UI, Good UX, Bad UX, storage quota value, min/max range, threshold bands, useful value text, read-only behavior, draggable-gauge misuse, progress misuse, state notes, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/meter.png"
+    ]
+  },
+  "name": "Meter",
+  "aliases": [
+    "gauge",
+    "usage meter",
+    "quota meter",
+    "capacity gauge",
+    "battery gauge",
+    "fuel gauge",
+    "utilization meter",
+    "score meter",
+    "health gauge"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Error Prevention And Recovery",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Read-only scalar value gauge within a known range",
+  "uiGuidance": [
+    "Show the measured object, current value, unit, minimum and maximum context, and threshold bands close to the gauge so users can interpret the reading without guessing.",
+    "Use native meter semantics or equivalent read-only meter attributes, and pair color bands with text such as Healthy, Warning, Critical, Low, Normal, High, or Over limit."
+  ],
+  "uxGuidance": [
+    "Use a meter when users need to judge the current level of a bounded resource, score, capacity, or risk, not when they are completing a task or choosing a value.",
+    "Explain whether higher, lower, or middle values are better, what threshold the current value crosses, and what action is available when the meter enters a warning or critical range."
+  ],
+  "uiExamples": {
+    "good": [
+      "An account storage card says 86 GB of 100 GB used, marks 70 GB as warning and 90 GB as critical, and labels the current state Critical.",
+      "A battery meter shows 50%, 6 hours remaining, low and high threshold labels, and a charging status outside the gauge.",
+      "A credit utilization gauge says 18% used of a 30% recommended ceiling and labels lower values as better."
+    ],
+    "bad": [
+      "A red-to-green bar says 89% with no unit, minimum, maximum, or explanation of whether high is good.",
+      "A progress bar for uploading evidence.zip is implemented as a meter, so task completion and capacity status are confused.",
+      "A meter has a draggable handle, implying users can edit a read-only storage value."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user sees storage at 86 of 100 GB, understands the account is in the critical band, opens Manage storage, and deletes old exports before uploads are blocked.",
+      "A support admin reviews a risk score at 22 out of 100 where lower is better, sees Low risk, and avoids unnecessary escalation.",
+      "A device dashboard shows battery at 14%, marks Low, estimates remaining time, and offers Turn on power saver."
+    ],
+    "bad": [
+      "A user watches a meter animate during upload and waits for it to reach full even though it represents remaining quota, not upload progress.",
+      "A score meter says 72 without explaining the range or whether 72 is healthy, risky, passing, or failing.",
+      "A meter changes color at hidden thresholds, so users cannot predict what action is needed before a quota limit blocks them."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to understand the current level of a bounded resource, capacity, score, or risk, but unlabeled gauges and decorative bars often hide the range, unit, threshold meaning, or whether high values are good or bad.",
+  "solution": "Render a read-only meter for scalar values with a meaningful minimum and maximum, visible current value and unit, threshold labels, accessible name and value text, and clear action guidance when the value crosses warning, critical, or optimum boundaries.",
+  "problemContext": [
+    "The product can name the measured object and provide a current numeric value inside a meaningful range.",
+    "The value represents state such as storage used, battery charge, quota consumed, memory utilization, credit utilization, score, risk, capacity, or health.",
+    "Users need to compare the current value against low, high, optimum, warning, critical, limit, target, or safe bands.",
+    "The value is not directly editable in this context, though an adjacent action may help users improve the state."
+  ],
+  "selectionRules": [
+    "Choose meter when a read-only scalar value has a meaningful minimum and maximum.",
+    "Use a native meter element when possible for web surfaces, with value, min, max, low, high, and optimum when threshold bands are meaningful.",
+    "Use visible value text such as 86 GB of 100 GB used when a percent alone does not explain the measurement.",
+    "Label whether higher, lower, or middle values are better whenever the direction is not obvious.",
+    "Use progress bar when the value represents completion of an active task that moves toward a finish.",
+    "Use slider when users change the value by dragging or keyboard adjustment.",
+    "Use spinbutton when users type or step an exact numeric value.",
+    "Use ordinary text, stat cards, tables, or charts when the value lacks a meaningful maximum.",
+    "Do not use a meter for identifiers, one-off counts, dates, rankings, or cumulative totals with no bounded scale.",
+    "Do not rely on browser default color alone; add text or icon status for threshold meaning."
+  ],
+  "requiredStates": [
+    "Normal state inside the acceptable band.",
+    "Warning state near a threshold users can act on.",
+    "Critical or over-limit state with an action or consequence.",
+    "Low-better state where the optimum range is near the minimum.",
+    "High-better state where the optimum range is near the maximum.",
+    "Middle-better state where both extremes are less desirable.",
+    "Unknown or unavailable measurement state that removes the meter instead of showing a fake value.",
+    "Loading or refreshing state before a current value is known, using progress or loading semantics instead of meter."
+  ],
+  "interactionContract": [
+    "The meter is read-only; users cannot drag, type, increment, or submit the meter itself.",
+    "The visible label identifies the measured object and the value text includes the unit and total range.",
+    "Threshold labels explain the consequence of low, high, optimum, warning, critical, and over-limit bands.",
+    "If the value updates automatically, the product announces meaningful threshold crossings rather than every small change.",
+    "A crossed warning or critical threshold offers an adjacent action such as Manage storage, Turn on power saver, Reduce risk, or View details.",
+    "If max, min, unit, or current value is unknown, the product uses unavailable or loading state rather than a misleading gauge.",
+    "The meter does not replace validation, progress, input, or chart patterns when those better match the task."
+  ],
+  "implementationChecklist": [
+    "Define the measured object, unit, current value source, minimum, maximum, threshold bands, optimum direction, update frequency, and actions before choosing a meter.",
+    "Use native meter when browser support and styling needs allow; otherwise recreate role, accessible name, current value, minimum, maximum, and useful value text.",
+    "Keep text outside the meter track so labels and values remain readable at any fill amount.",
+    "Pair color bands with text, icons, or labels; ensure low/high/critical meanings are available without color.",
+    "Use aria-valuetext or native fallback text for values where a percent is not enough.",
+    "Test low, normal, high, optimum, over-limit, unavailable, and refreshed-value states.",
+    "Avoid interactive affordances such as thumbs, handles, plus/minus buttons, and editable text inside the meter."
+  ],
+  "commonMisuses": [
+    "Using a meter to show task progress such as upload completion.",
+    "Using a meter for a value without a meaningful maximum.",
+    "Showing percent without unit, total, or threshold meaning.",
+    "Using color alone for warning and critical ranges.",
+    "Making a read-only meter look draggable or editable.",
+    "Failing to explain whether high, low, or middle values are best.",
+    "Putting headings or important controls inside a custom meter element where descendants may be presentational."
+  ],
+  "critiqueQuestions": [
+    "What object is being measured, and what are the minimum and maximum?",
+    "Is the value read-only in this context, or should this be an input control?",
+    "Does the value represent current state or completion of a task?",
+    "What unit and value text will users hear and see?",
+    "Which thresholds matter, and what action should users take at each band?",
+    "Is high, low, or middle the optimum range, and is that clear without color?"
+  ],
+  "useWhen": [
+    "A current value exists inside a meaningful known range.",
+    "Users need to judge level, capacity, utilization, quality, risk, battery, storage, quota, or score.",
+    "The value is read-only on this surface.",
+    "Threshold bands or optimum direction help users decide whether to act."
+  ],
+  "avoidWhen": [
+    "The value has no meaningful maximum or minimum.",
+    "The value represents task completion or loading progress.",
+    "Users are meant to choose, type, drag, increment, or submit the value.",
+    "A chart, table, stat, warning, or error state would explain the situation better.",
+    "The only available information is an unbounded total or identifier."
+  ],
+  "variants": [
+    "Storage usage meter",
+    "Battery meter",
+    "Fuel gauge",
+    "Quota meter",
+    "Risk score meter",
+    "Credit utilization meter",
+    "Health score gauge",
+    "Capacity meter",
+    "Threshold meter",
+    "Low-better meter",
+    "Middle-optimum meter"
+  ],
+  "accessibility": [
+    "Prefer the native meter element where possible because it carries the correct read-only meter semantics.",
+    "Provide an accessible name that identifies the measured object.",
+    "Expose current, minimum, and maximum values, plus useful value text when percent is not enough.",
+    "Do not place essential headings, controls, or semantic content inside a custom role=meter element.",
+    "Do not require keyboard interaction for the meter itself; adjacent actions remain reachable in normal tab order.",
+    "Announce meaningful threshold changes such as Warning, Critical, Over limit, or Back to healthy without noisy updates."
+  ],
+  "keyboardBehavior": [
+    "The meter itself is read-only and normally does not receive focus.",
+    "Adjacent actions such as Manage storage, Reduce usage, Turn on power saver, View details, or Upgrade plan are reachable by keyboard.",
+    "If a custom implementation is focusable for inspection, it must not imply editable slider behavior.",
+    "Focus remains stable when the value refreshes unless a threshold-crossing message requires attention.",
+    "Keyboard users can reach explanatory threshold labels and action links without interacting with the gauge body."
+  ],
+  "failureModes": [
+    "Users mistake quota level for upload completion because the meter animates like progress.",
+    "Assistive technology announces 86% but not 86 GB of 100 GB used.",
+    "Users cannot tell if 72 is good or bad because high/low/optimum direction is hidden.",
+    "A custom meter loses its accessible name or value after visual updates.",
+    "A high-risk value appears green because the same high-is-good color rule was reused from storage capacity.",
+    "The meter remains visible with stale data after the value source becomes unavailable."
+  ],
+  "relatedPatterns": [
+    "progress-bar",
+    "slider",
+    "spinbutton",
+    "password-creation"
+  ],
+  "comparisons": [
+    "meter-vs-progress-bar-vs-slider-vs-spinbutton"
+  ],
+  "examples": [
+    {
+      "product": "MDN HTML meter element",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter",
+      "platform": "web",
+      "notes": "Documents native meter for scalar or fractional values in a known range, including value, min, max, low, high, optimum, examples, implicit meter role, and fallback text.",
+      "screenshot": "screenshots/patterns/meter.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN ARIA meter role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/meter_role",
+      "platform": "web",
+      "notes": "Documents read-only meter role, accessible naming, min/max/current values, useful value text, native meter preference, and progressbar distinction.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WAI-ARIA APG Meter Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/meter/",
+      "platform": "web",
+      "notes": "Documents meter as a numeric value in a defined range, battery and fuel examples, no keyboard interaction, required meter values, labels, value text, and progressbar separation.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "HTML Standard meter element",
+      "url": "https://html.spec.whatwg.org/multipage/form-elements.html#the-meter-element",
+      "platform": "web",
+      "notes": "Defines meter attributes, valid value constraints, low/high/optimum regions, and gauge representation behavior.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-html-meter",
+      "note": "MDN supports native meter for scalar or fractional values in a known range with value, min, max, low, high, and optimum attributes."
+    },
+    {
+      "id": "mdn-aria-meter-role",
+      "note": "MDN supports read-only meter role semantics, accessible names, min/max/current values, useful value text, native meter preference, and progress distinction."
+    },
+    {
+      "id": "wai-aria-apg-meter-pattern",
+      "note": "APG supports meter semantics, no keyboard interaction, useful value text, labels, and separation from progressbar."
+    },
+    {
+      "id": "whatwg-html-meter-element",
+      "note": "The HTML Standard supports meter attribute constraints, threshold regions, optimum direction, fallback text, and user-agent gauge requirements."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

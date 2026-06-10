@@ -1,0 +1,243 @@
+{
+  "id": "typeahead",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a live as-you-type result lookup pattern with source-backed guidance for incremental retrieval, minimum length, debounce, loading and stalled states, stale-response handling, result-hit selection, final submit behavior, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers as-you-type result lookup, live hit rows, minimum characters, debounce or request pacing, loading and stalled states, stale request suppression, active result, no-result preview, keyboard navigation, result selection, final submit, privacy and cost constraints, and typed-text preservation.",
+    "relatedPatternDistinction": "The entry separates typeahead from autocomplete by live result lookup versus selecting a known field value, from search suggestions by result hits versus suggested query phrases, from basic search by incremental retrieval versus explicit submit, and from query correction by pre-submit live lookup versus after-submit spelling repair.",
+    "liveDemoBehavior": "The demo updates live result hits as the query changes, enforces a two-character threshold, shows loading for a simulated slow query, ignores stale query state, supports selecting a result without replacing typed text unexpectedly, supports final search submit, and contrasts a bad implementation with every-keystroke flicker, stale results, and auto-committed top hit.",
+    "comparisonDecisionRules": "The linked typeahead-vs-autocomplete-vs-search-suggestions-vs-basic-search comparison gives concrete rules for live result lookup, known-value completion, query wording suggestions, explicit submit search, debounce, loading, stale responses, minimum length, and auto-commit failures.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/typeahead.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, live result hits, minimum-length state, loading or stalled state, stale-response handling, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/typeahead.png"
+    ]
+  },
+  "name": "Typeahead",
+  "aliases": [
+    "search as you type",
+    "instant results",
+    "live search",
+    "incremental search",
+    "as-you-type results",
+    "predictive result lookup"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Live search-as-you-type result lookup with incremental result preview",
+  "uiGuidance": [
+    "Render a labelled input with a live result panel that shows matching result hits, result count, active result, source labels, and loading or stalled state while the user types.",
+    "Keep the typed query visually separate from result selection; do not make the top live hit look like it has already replaced or committed the user's text."
+  ],
+  "uxGuidance": [
+    "Use typeahead when users benefit from immediate result feedback while typing and can either open a result hit or continue to a full submitted search.",
+    "Protect the typing flow with minimum length, debounce, request cancellation or stale-response guards, empty preview copy, keyboard navigation, and a clear final submit path."
+  ],
+  "uiExamples": {
+    "good": [
+      "Typing ca opens a panel with live case, calendar, and claim results, a 3 results for ca count, active row styling, and source labels.",
+      "A slow network state keeps the typed query visible and shows Searching for case... instead of clearing the panel.",
+      "A short one-character query says Type at least 2 characters before searching so the empty panel is not mistaken for zero results."
+    ],
+    "bad": [
+      "The input silently becomes Case 104 because the first result was auto-filled while the user was typing ca.",
+      "Rows flicker between old and new results with no loading state or query label.",
+      "Query suggestions, ads, recent searches, and result hits are mixed in one list without source labels."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user types cas, sees matching case records immediately, selects Case 104, and can still edit the query or submit a full search.",
+      "A user types c, sees the two-character threshold message, then types ca and receives live results.",
+      "A user types case quickly and the product ignores stale ca results when the newer case response arrives."
+    ],
+    "bad": [
+      "Users cannot finish typing because focus jumps into the first result on every keystroke.",
+      "Slow old results overwrite newer query results and users open the wrong record.",
+      "Every typed character sends a remote request, making the panel stutter and increasing cost."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users often need fast feedback while searching large content sets, but waiting for explicit submit slows exploration and naive every-keystroke search can produce flicker, stale results, accidental selection, and wasted requests.",
+  "solution": "Provide a live typeahead result panel that updates from the current query with clear thresholds, loading, stale-response handling, keyboard support, and distinct actions for selecting a hit or submitting the full query.",
+  "problemContext": [
+    "The product has a large searchable result set where users can identify useful hits from partial input.",
+    "The search backend or index can support low-latency prefix or as-you-type matching.",
+    "The interface must balance immediate feedback with network cost, privacy, mobile typing, and keyboard control."
+  ],
+  "selectionRules": [
+    "Choose typeahead when live result hits should appear as the user types and the result set can update safely before explicit submit.",
+    "Set a minimum query length before searching when short prefixes produce noisy, expensive, or privacy-sensitive results.",
+    "Debounce or pace remote requests and ignore stale responses so older results cannot overwrite newer query state.",
+    "Show a loading, searching, or stalled state when live results are not yet ready.",
+    "Keep typed text under user control; selecting a hit should not be confused with auto-filling the input.",
+    "Let users open a typeahead result directly or submit the typed query for a full result page.",
+    "Use autocomplete when the field must resolve to a known value; use search suggestions when rows are suggested query phrases; use basic search when results should wait for explicit submit.",
+    "Show result type, source, count, and enough secondary metadata to distinguish similar hits.",
+    "Handle no live results, offline or failed lookup, cleared input, input blur, Escape dismissal, and mobile viewport constraints.",
+    "Avoid typeahead for sensitive searches, high-latency backends, costly queries, or domains where every keystroke should not leave the device."
+  ],
+  "requiredStates": [
+    "Empty state before typing.",
+    "Below-minimum-length state explaining when live lookup begins.",
+    "Loading or stalled state tied to the current query.",
+    "Populated live-result state with result count, source labels, and active result.",
+    "Selected result state where opening a hit is distinct from submitting the query.",
+    "No live results state for the current typed query.",
+    "Stale-response ignored state when older results arrive after a newer query.",
+    "Submitted full-search state after the user explicitly searches the current query."
+  ],
+  "interactionContract": [
+    "Typing changes the query and schedules live lookup only when the minimum length and privacy rules allow it.",
+    "Each response must be associated with the query that requested it and ignored if the user has typed a newer query.",
+    "The active result can move with arrow keys without replacing the input value.",
+    "Enter opens the active result only when result focus or active option semantics make that explicit; otherwise it submits the query.",
+    "Escape closes the typeahead panel without clearing the typed query.",
+    "Clicking or pressing a result opens that result or previews it, while final search submit runs the typed query.",
+    "Clearing input cancels pending live lookup and resets result, loading, and active-result state."
+  ],
+  "implementationChecklist": [
+    "Define whether rows are result hits, entities, commands, or query suggestions and label the source accordingly.",
+    "Configure minimum length, debounce interval, maximum visible results, request timeout, and stale-response guard.",
+    "Implement loading, stalled, no-results, error, offline, and cleared states for live lookup.",
+    "Preserve typed query separately from selected result ID and full-search submitted query.",
+    "Expose combobox or listbox semantics when the panel behaves like selectable options, including active descendant or equivalent focus management.",
+    "Provide keyboard behavior for arrow movement, Enter, Escape, Tab, and pointer selection.",
+    "Test rapid typing, deleting text, IME composition, mobile keyboards, screen readers, slow responses, failed responses, privacy-sensitive queries, and result opening.",
+    "Measure request volume, stale response suppression, selected result rate, full-search rate, no-result rate, and abandoned typeahead panels."
+  ],
+  "commonMisuses": [
+    "Calling a known-value autocomplete field typeahead even though no result set is searched.",
+    "Calling suggested query phrases typeahead when no live result hits are shown.",
+    "Auto-filling the first result into the input while users type.",
+    "Sending a remote request for every keystroke with no debounce or minimum length.",
+    "Letting stale results overwrite the current query's result panel.",
+    "Showing no loading or stalled state during slow lookup.",
+    "Mixing ads, recent searches, query suggestions, and result hits without source labels.",
+    "Moving keyboard focus out of the input unexpectedly."
+  ],
+  "critiqueQuestions": [
+    "Are rows live result hits for the current typed query, or are they query suggestions or known-value options?",
+    "What minimum length and debounce policy prevents noisy or expensive every-keystroke search?",
+    "How does the UI show loading, stalled, no-result, and stale-response states?",
+    "Can users keep typing without the first result replacing their query?",
+    "Does Enter open an active result or submit the query, and is that contract clear?",
+    "Can users distinguish source, type, and relevance of live hits?",
+    "What privacy, telemetry, or backend-cost constraints apply to sending partial queries?"
+  ],
+  "useWhen": [
+    "Users search large datasets and benefit from seeing result hits before full submit.",
+    "The backend can return relevant prefix or as-you-type results quickly and cheaply.",
+    "Users often know part of the target title, record, file, command, or content and can recognize it in a live panel.",
+    "The product can handle stale responses, loading, keyboard behavior, and privacy constraints honestly."
+  ],
+  "avoidWhen": [
+    "The task is choosing one constrained field value, which is better handled as autocomplete.",
+    "The product only has suggested query phrases and no live result hits.",
+    "Results should not change until users intentionally submit a search.",
+    "Partial queries are sensitive, expensive, unreliable, or not allowed to leave the device.",
+    "The backend latency makes live panels flicker or frequently show stale data."
+  ],
+  "variants": [
+    "Live result typeahead",
+    "Instant search panel",
+    "Entity typeahead",
+    "Command typeahead",
+    "Search-as-you-type page results",
+    "Grouped typeahead results",
+    "Local index typeahead",
+    "Remote typeahead"
+  ],
+  "accessibility": [
+    "Use a labelled input and expose the live result panel with combobox, listbox, or region semantics appropriate to the interaction.",
+    "Announce loading, result count, no-result, selected result, and final search outcomes through a polite status region.",
+    "Expose result title, type, source, and secondary context as text, not only icons.",
+    "Do not rely on color alone for the active result; provide focus or selected styling and text labels.",
+    "Keep the input value visible and editable while results are displayed.",
+    "Do not force focus into results while users are still typing."
+  ],
+  "keyboardBehavior": [
+    "Typing updates the query and leaves focus in the input.",
+    "Arrow Down and Arrow Up move the active result when the panel is open.",
+    "Enter opens the active result only when active-result behavior is clear; otherwise it submits the current query.",
+    "Escape closes the panel without clearing input.",
+    "Tab moves out of the typeahead control without unexpectedly selecting a result.",
+    "After opening a result or submitting search, focus moves to the destination heading or result summary."
+  ],
+  "failureModes": [
+    "Stale results appear for an older query after the user types more characters.",
+    "The top result is committed unintentionally.",
+    "The panel flickers because requests are not debounced or cached.",
+    "Short prefixes create noisy results with no threshold message.",
+    "Screen readers hear changing rows but not the current query or count.",
+    "Mobile keyboard covers the result panel.",
+    "Offline or slow lookup looks like no results.",
+    "Partial sensitive queries are logged or sent before users intend to search."
+  ],
+  "relatedPatterns": [
+    "autocomplete",
+    "search-suggestions",
+    "basic-search",
+    "search-result-highlighting",
+    "query-correction",
+    "recently-searched",
+    "command-palette",
+    "no-results-recovery"
+  ],
+  "comparisons": [
+    "typeahead-vs-autocomplete-vs-search-suggestions-vs-basic-search"
+  ],
+  "examples": [
+    {
+      "product": "Algolia Autocomplete JavaScript API",
+      "url": "https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-js/autocomplete",
+      "platform": "web",
+      "notes": "Documents query state, open panel state, sources, collections, keyboard navigation, detached mode, loading and stalled state, and result rendering.",
+      "screenshot": "screenshots/patterns/typeahead.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Elasticsearch search_as_you_type field",
+      "url": "https://www.elastic.co/guide/en/elasticsearch/reference/current/search-as-you-type.html",
+      "platform": "web",
+      "notes": "Documents index support for efficient prefix matching used by search-as-you-type interfaces.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon Search pattern",
+      "url": "https://carbondesignsystem.com/patterns/search-pattern/",
+      "platform": "web",
+      "notes": "Documents type-ahead search suggestions and keyboard behavior within search experiences.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "algolia-autocomplete-js",
+      "note": "Algolia documents as-you-type autocomplete state, sources, collections, keyboard behavior, and loading or stalled state."
+    },
+    {
+      "id": "elasticsearch-search-as-you-type",
+      "note": "Elastic documents a search_as_you_type field optimized for prefix matching as users enter text."
+    },
+    {
+      "id": "carbon-search-pattern",
+      "note": "Carbon documents type-ahead suggestions, keyboard cycling, Enter selection, Escape dismissal, and search result counts."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "WAI-ARIA APG provides accessible popup and keyboard expectations relevant to typeahead panels."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

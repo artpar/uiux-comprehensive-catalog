@@ -1,0 +1,253 @@
+{
+  "id": "slider",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a single-value bounded range control with source-backed guidance for approximate and discrete adjustment, min/max labels, current value display, exact numeric fallback, keyboard increments, warning/error/disabled states, and distinctions from text input, select, toggle switch, range slider, and numeric steppers.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers one-thumb bounded ranges, relative intensity choices, continuous versus discrete steps, visible value and unit, min/max labels, exact numeric entry pairing, aria value semantics, keyboard increments, touch-assistive testing, disabled/read-only state, warning and error feedback, and large-range avoidance.",
+    "relatedPatternDistinction": "The entry separates slider from text input by favoring relative adjustment over exact typed value, from select by representing ordered numeric position instead of named choices, from toggle switch by avoiding binary on/off state, from range slider by controlling one value rather than lower and upper bounds, and from numeric stepper by using spatial adjustment instead of repeated exact increments.",
+    "liveDemoBehavior": "The live demo uses a native range input and synchronized number input, updates a single brightness value in five-percent steps, supports larger Page Up and Page Down movement, shows warning, repaired out-of-range, disabled dependency, and restore states, and contrasts binary, exact-money, hidden-limit, and tiny-range misuse.",
+    "comparisonDecisionRules": "The linked slider-vs-text-input-vs-select-vs-toggle-switch comparison gives concrete rules for relative bounded adjustment, precise numeric typing, finite named options, binary settings, range-boundary tasks, small fixed sets, large ranges, visible labels and units, continuous versus discrete behavior, and user-friendly value text.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/slider.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, single-thumb range behavior, numeric fallback, warning and repair states, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/slider.png"
+    ]
+  },
+  "name": "Slider",
+  "aliases": [
+    "single-value slider",
+    "range input",
+    "trackbar",
+    "scale",
+    "value slider"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to adjust one bounded value, such as volume, brightness, opacity, or intensity, where relative position matters more than typing a precise number first.",
+  "solution": "Provide a labeled single-thumb slider with a known minimum and maximum, visible current value and unit, sensible step size, keyboard support, and an exact numeric entry path when precision matters.",
+  "problemContext": [
+    "The value has a known lower and upper bound.",
+    "Users understand the answer as position, intensity, amount, or coarse adjustment along a scale.",
+    "The product can choose meaningful step increments and expose the current value in text.",
+    "The task controls one value, not a start and end range.",
+    "Users may still need an exact numeric value, warning, disabled state, or server-side range repair."
+  ],
+  "selectionRules": [
+    "Choose a slider for one adjustable numeric or relative value inside a known range.",
+    "Use a continuous slider for subjective intensity where exact value is not critical.",
+    "Use a discrete slider when each step is meaningful and users can perceive the difference between steps.",
+    "Pair the slider with a number input or value display when users need exactness, screen-reader clarity, or copyable values.",
+    "Use text input when users need to type a precise, large-range, arbitrary, financial, or pasted value.",
+    "Use select, radio group, or segmented control for a small set of named options.",
+    "Use toggle switch for true on/off settings.",
+    "Use range slider when users must set both a lower and upper boundary.",
+    "Avoid sliders for very large ranges, tiny ranges, binary choices, dates, destructive actions, and values with unclear units."
+  ],
+  "requiredStates": [
+    "Initial value state with visible label, min, max, current value, and unit.",
+    "Focused thumb state.",
+    "Dragging or actively adjusting state.",
+    "Keyboard increment and larger-step state.",
+    "Discrete tick or step state when only certain values are allowed.",
+    "Exact numeric entry state when precision is needed.",
+    "Warning state for risky or unusual values.",
+    "Out-of-range repaired or validation error state.",
+    "Disabled dependency state.",
+    "Read-only review state.",
+    "Touch assistive technology tested state for custom implementations."
+  ],
+  "interactionContract": [
+    "Moving the thumb changes one value within the declared minimum and maximum.",
+    "The current value remains visible in text and matches the thumb position.",
+    "Keyboard arrows adjust by one step; Home and End move to the range limits; Page Up and Page Down may move by larger steps.",
+    "Typed numeric fallback synchronizes with the thumb and uses the same min, max, and step rules.",
+    "Warnings, errors, disabled state, and repaired values are announced without losing the user's context.",
+    "The slider never hides multiple named choices, binary on/off state, or two-boundary range selection behind one thumb."
+  ],
+  "implementationChecklist": [
+    "Define min, max, step, initial value, unit, precision, and whether values are continuous or discrete.",
+    "Use native input type range when it satisfies the design and accessibility needs.",
+    "Provide a visible label and current value, and expose min, max, now, and value text to assistive technologies.",
+    "Add min and max labels or icons when the endpoints are meaningful.",
+    "Pair with a number input for exact values, large ranges, or values users may need to copy or paste.",
+    "Clamp, reject, or repair out-of-range values with explicit feedback.",
+    "Test keyboard, pointer, touch, screen reader, high zoom, forced colors, and mobile assistive technology behavior.",
+    "Avoid custom slider implementations unless the thumb, track, value text, focus, keyboard, and touch behavior are fully implemented."
+  ],
+  "commonMisuses": [
+    "Using a slider for a binary on/off choice.",
+    "Using a slider for exact financial, legal, account, or measurement values without a numeric field.",
+    "Hiding a small set of named options behind a numeric rail.",
+    "Using one slider for lower and upper range boundaries.",
+    "Omitting the label, current value, unit, min, or max.",
+    "Choosing a step size that is too fine to move efficiently or too coarse to match user needs.",
+    "Using sliders for dates or categories that are not numeric or ordered."
+  ],
+  "critiqueQuestions": [
+    "Is this one value inside a known range?",
+    "Do users care about relative position more than entering an exact number?",
+    "Are min, max, step size, current value, and unit visible and programmatic?",
+    "Would a number field, select, radio group, segmented control, toggle, or range slider make the task clearer?",
+    "Does keyboard and touch assistive technology behavior work on the target devices?"
+  ],
+  "useWhen": [
+    "Users adjust one bounded value such as brightness, volume, opacity, zoom, intensity, cost tolerance, or preference strength.",
+    "Relative position, quick adjustment, or coarse tuning is more important than initial exact typing.",
+    "The product can define a meaningful min, max, step size, unit, and value label."
+  ],
+  "avoidWhen": [
+    "Users need to enter an exact, arbitrary, or high-stakes number.",
+    "The range is extremely large or has many indistinguishable steps.",
+    "There are only two states.",
+    "There are a few named choices that should be compared directly.",
+    "Users need to choose both lower and upper bounds.",
+    "The value is a date, category, command, consent, or destructive action."
+  ],
+  "variants": [
+    "Continuous slider",
+    "Discrete slider",
+    "Slider with current value",
+    "Slider with number input",
+    "Slider with tooltip value",
+    "Slider with min and max labels",
+    "Read-only slider",
+    "Disabled slider",
+    "Vertical slider"
+  ],
+  "accessibility": [
+    "Prefer native range input where possible.",
+    "Expose a label, minimum, maximum, current numeric value, and human-readable value text when the number alone is unclear.",
+    "Use text and shape, not color alone, for focus, active, warning, error, disabled, and read-only states.",
+    "Ensure keyboard users can adjust by small steps and jump to range ends.",
+    "Test touch assistive technologies before shipping custom sliders on touch-first surfaces.",
+    "Provide an exact numeric entry path when slider gestures are hard to operate or precision matters."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the slider thumb or native range input.",
+    "Right Arrow and Up Arrow increase the value by one step.",
+    "Left Arrow and Down Arrow decrease the value by one step.",
+    "Home sets the first allowed value.",
+    "End sets the last allowed value.",
+    "Page Up and Page Down may adjust by a larger step when that is useful.",
+    "Tab moves from the slider to the paired number input or next control without losing the selected value."
+  ],
+  "failureModes": [
+    "The slider cannot be operated with keyboard or touch assistive technology.",
+    "The current value is visible only as thumb position and not exposed as text.",
+    "The min and max labels do not match the actual min and max attributes.",
+    "The paired number input accepts values the slider cannot represent.",
+    "A disabled slider hides the reason the value cannot be changed.",
+    "The step size makes adjustment tedious or too imprecise.",
+    "The slider appears to choose a range but stores only one value."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "select",
+    "toggle-switch",
+    "input-prefix-suffix",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "slider-vs-text-input-vs-select-vs-toggle-switch"
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-slider",
+      "note": "APG slider guidance defines range input semantics, value properties, value text, labels, orientation, keyboard movement, and touch assistive technology cautions."
+    },
+    {
+      "id": "carbon-slider-component",
+      "note": "Carbon slider guidance distinguishes default single-value sliders from range sliders and documents labels, min and max, number input pairing, value display, states, and keyboard interaction."
+    },
+    {
+      "id": "uswds-range-slider-component",
+      "note": "USWDS range slider guidance supports approximate relative selection, precise text-input alternatives, draggable track behavior, min/max labels, step granularity, and screen reader units."
+    },
+    {
+      "id": "material-design-sliders",
+      "note": "Material Design slider guidance supports intensity settings, continuous subjective ranges, discrete specific-value sliders, editable numeric value variants, and disabled states."
+    },
+    {
+      "id": "visa-slider-component",
+      "note": "Visa slider guidance supports required labels, min/max values, units, checkbox/radio alternatives for small sets, binary-option avoidance, and discrete versus continuous behavior."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09",
+  "patternType": "ui-ux",
+  "surfaceType": "Single-value bounded range control",
+  "uiGuidance": [
+    "Render one thumb on a track with a persistent label, visible current value, unit, min and max labels, focus state, and disabled or read-only state.",
+    "Use a native range input or fully implement slider semantics, value text, keyboard movement, and touch behavior for custom sliders."
+  ],
+  "uxGuidance": [
+    "Help users adjust one bounded value quickly when the relative position or intensity matters.",
+    "Provide a precise number input or choose a different control when users need exact, high-stakes, pasted, or named values."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Brightness slider shows 55%, dim and bright endpoint labels, visible focus, and a paired number input.",
+      "A discrete Volume slider uses 5% steps and shows the selected percentage near the thumb or label."
+    ],
+    "bad": [
+      "An unlabeled rail has no visible value, min, max, or unit.",
+      "A two-stop slider is styled like a switch but lacks on/off semantics."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user adjusts brightness with arrow keys, types 65 in the number field, sees both controls synchronize, and gets a warning near battery-heavy values.",
+      "A user enters 140, the value is repaired to the allowed maximum, and the interface explains the accepted value."
+    ],
+    "bad": [
+      "A user tries to enter $812.37 with a huge slider and cannot land on the exact cents.",
+      "A user is asked to choose Small, Medium, or Large through a numeric rail with hidden labels."
+    ]
+  },
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Slider Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/slider/",
+      "platform": "web",
+      "notes": "Documents slider semantics, keyboard interaction, value attributes, value text, labeling, orientation, and touch assistive technology cautions.",
+      "screenshot": "screenshots/patterns/slider.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Slider",
+      "url": "https://carbondesignsystem.com/components/slider/usage/",
+      "platform": "web",
+      "notes": "Documents default sliders, range sliders, label, min and max values, paired number input, states, tooltips, and keyboard behavior.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "U.S. Web Design System Range slider",
+      "url": "https://designsystem.digital.gov/components/range-slider/",
+      "platform": "web",
+      "notes": "Documents approximate and relative value selection, precise text-input alternatives, draggable behavior, min/max labels, step granularity, and screen reader units.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Design Sliders",
+      "url": "https://m1.material.io/components/sliders.html",
+      "platform": "web",
+      "notes": "Documents intensity settings, continuous subjective sliders, discrete specific-value sliders, editable numeric value variants, and disabled states.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Visa Product Design System Slider",
+      "url": "https://design.visa.com/components/slider/",
+      "platform": "web",
+      "notes": "Documents labels, min/max values, units, binary-option avoidance, checkbox/radio alternatives, discrete and continuous sliders, and dual-point slider boundaries.",
+      "checkedAt": "2026-06-09"
+    }
+  ]
+}

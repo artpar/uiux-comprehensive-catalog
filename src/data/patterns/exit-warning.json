@@ -1,0 +1,240 @@
+{
+  "id": "exit-warning",
+  "completionStatus": "complete",
+  "completionNotes": "Drafted as a source-backed attempted-departure safeguard with guidance for unsaved work, route changes, browser close or reload, sign-out, pending autosave, discard choices, saved-state cleanup, and comparison boundaries.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names clean, dirty, pending autosave, failed save, in-app route attempted, browser close or reload, save-and-leave, discard-and-leave, stay-editing, and saved-or-submitted states, with conditional listener and dirty-scope rules.",
+    "relatedPatternDistinction": "The entry separates exit warning from autosave form by guarding attempted departure rather than saving progress, from draft state by handling unrecoverable transient work rather than durable unpublished objects, from confirmation dialog by using navigation as the trigger, and from alert by requiring a departure decision.",
+    "liveDemoBehavior": "The live demo edits a grant application summary, attempts internal route, browser close, external link, and sign-out departures, opens a warning with Stay editing, Save and leave, Finish save, Fail save, and Discard and leave choices, clears the guard after saved or clean navigation, and contrasts warn-always, no-warning, vague, trapped, stale-after-save, and toast-only failures.",
+    "comparisonDecisionRules": "The exit-warning-vs-autosave-form-vs-draft-state-vs-confirmation-dialog comparison gives concrete rules for attempted departure, background progress saving, durable draft lifecycle, explicit risky action confirmation, conditional dirty state, browser-owned close or reload copy, and avoiding warnings for engagement or clean navigation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/exit-warning/ and /compare/exit-warning-vs-autosave-form-vs-draft-state-vs-confirmation-dialog/ on 2026-06-10. Live check exercised Make dirty, Internal route, Browser close, External link, Sign out, Save and leave, Finish save, Fail save, Mark saved, Clean nav, Warn always, No warning, Vague, Trapped, Stale after save, and Toast only controls. screenshots/patterns/exit-warning.png captures Good UI, Bad UI, Good UX, Bad UX, dirty-state summary, stay/save/discard warning choices, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/exit-warning.png"
+    ]
+  },
+  "name": "Exit warning",
+  "aliases": [
+    "leave page warning",
+    "navigation guard",
+    "unsaved changes warning",
+    "dirty form exit guard",
+    "beforeunload warning",
+    "departure warning"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Attempted-departure safeguard for unrecoverable in-progress work",
+  "uiGuidance": [
+    "Show a warning only when the user attempts to leave with real unsaved, pending, failed, or unrecoverable work; place in-app route warnings at the point of departure with Save and leave, Discard and leave, and Stay editing choices.",
+    "For browser close, reload, or cross-origin navigation, rely on the browser-owned beforeunload dialog and keep an in-page status that already explains what is unsaved because custom dialog text may not be shown."
+  ],
+  "uxGuidance": [
+    "Use exit warning to interrupt an attempted departure that would lose work, context, payment state, upload progress, or session-bound data the product cannot safely recover.",
+    "Treat exit warning as a last-resort safeguard, not the primary save model: save or draft work when possible, remove the warning as soon as work is safe, and avoid blocking clean navigation."
+  ],
+  "uiExamples": {
+    "good": [
+      "A grant form user clicks Back with two unsaved answers; a dialog names the changed section and offers Save and leave, Discard and leave, or Stay editing.",
+      "A browser reload attempt on a dirty form triggers the browser's leave-page dialog only while the dirty state exists, with the page already showing Last change not saved."
+    ],
+    "bad": [
+      "Every navigation shows Are you sure you want to leave? even after the form is saved.",
+      "A vague warning says Changes may be lost but gives only OK and Cancel, with no save, discard, or stay wording."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user starts to close a tab after a failed autosave, sees the risk before leaving, stays on the page, retries the save, and then leaves without another warning.",
+      "A user chooses Discard and leave from an in-app warning and is taken to the intended destination with a clear understanding of what was discarded."
+    ],
+    "bad": [
+      "A user clicks a sidebar link after typing a long answer and loses it because the product only watched final Submit.",
+      "A user saves a draft but still sees a leave warning on every route change because the dirty flag was never cleared."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users can accidentally leave a page, close a tab, reload, follow a link, sign out, or move to another route while work is dirty, pending, failed, or session-bound, causing data or context loss that cannot be recovered.",
+  "solution": "Track departure-risk state precisely, attach browser leave protection only while needed, intercept in-app navigation with a clear decision surface, identify what is at risk, offer save, discard, and stay choices where possible, and clear the warning immediately after work is safe.",
+  "problemContext": [
+    "The task includes typed answers, selected records, uploads, payment setup, edited content, in-progress review, temporary calculations, or session-bound state.",
+    "The product cannot guarantee recovery through autosave, draft state, server session, local storage, or transaction replay.",
+    "Users may leave through Back, close tab, reload, external link, sidebar navigation, breadcrumb, sign out, idle timeout, or route change.",
+    "Browser-owned unload dialogs have limited custom copy and unreliable mobile behavior, so the product still needs local dirty-state messaging and recovery."
+  ],
+  "selectionRules": [
+    "Choose exit warning when departure has already been attempted and leaving would lose work or context that is not safely recoverable.",
+    "Do not show exit warnings for clean state, read-only browsing, already-saved drafts, completed submissions, or changes that autosave can reliably restore.",
+    "Use autosave form to reduce the need for warnings by saving progress automatically and warning only while saves are pending or failed.",
+    "Use draft state when the work survives navigation as a durable object with Resume, Discard, Publish, or Compare choices.",
+    "Use confirmation dialog when the trigger is an explicit action such as Cancel application, Delete file, or Discard draft rather than a navigation attempt.",
+    "For in-app navigation, show a custom warning that names the affected section, last saved state, and intended destination.",
+    "For tab close, reload, or browser Back outside app control, attach beforeunload only while dirty state exists and remove it after save or discard.",
+    "Offer Stay editing as the safest default when data loss is likely; offer Discard and leave only with clear loss scope.",
+    "Offer Save and leave only when save can complete safely before navigation or when users understand that leaving waits for save completion.",
+    "If mobile or browser behavior cannot guarantee a warning, preserve local draft state or show earlier in-page risk messaging instead of relying solely on beforeunload."
+  ],
+  "requiredStates": [
+    "Clean state with no exit warning attached.",
+    "Dirty unsaved state with local unsaved-work status.",
+    "Pending autosave or upload state.",
+    "Failed save state with retry before leaving.",
+    "In-app route change attempted state with destination named.",
+    "Browser close, reload, or external navigation protected state.",
+    "Save and leave in progress state.",
+    "Discard and leave confirmation state.",
+    "Stay editing state that restores focus and preserves values.",
+    "Saved or submitted state that clears the warning."
+  ],
+  "interactionContract": [
+    "The warning appears only after a departure attempt or immediately before a known session boundary that could cause loss.",
+    "The warning identifies the scope of loss, such as Contact details, uploaded evidence, payment setup, or unsaved section answers.",
+    "Stay editing keeps the user on the current surface with values intact and returns focus to the triggering or first dirty control.",
+    "Discard and leave clears only the stated unsaved work and then completes the intended navigation.",
+    "Save and leave either completes the save before navigation or explains that saving failed and keeps the user on the page.",
+    "The browser beforeunload listener is attached only while dirty state exists and removed after save, submit, discard, or reset.",
+    "A warning never traps users after they explicitly discard or after the work is safely recoverable."
+  ],
+  "implementationChecklist": [
+    "Define dirty state from actual data changes, pending uploads, failed saves, in-flight payment setup, or unrecoverable session context rather than from page visit alone.",
+    "Track the intended destination for in-app navigation so the warning can continue there after save or discard.",
+    "Keep browser beforeunload protection conditional and remove it as soon as risk clears.",
+    "Use route guards for internal links, Back controls, breadcrumbs, side navigation, sign out, and cancel routes that could lose current work.",
+    "Model Save and leave, Discard and leave, Stay editing, Retry save, and Continue to destination as separate actions.",
+    "Handle pending or failed autosave differently from simple dirty state; do not allow a stale Saved label to suppress the warning.",
+    "Restore focus after Stay editing and announce the preserved state for assistive technology users.",
+    "Test browser reload, tab close, mobile app switch, internal route change, external link, sign out, session expiry, failed save, successful save, discard, Back button, keyboard activation, and screen readers."
+  ],
+  "commonMisuses": [
+    "Warning on every navigation regardless of whether work is dirty.",
+    "Using exit warnings for retention, growth, ads, or survey prompts instead of preventing user-facing loss.",
+    "Leaving beforeunload listeners attached after save, harming navigation and browser-cache behavior.",
+    "Showing a vague Are you sure? message without naming the affected work or consequence.",
+    "Providing only Leave and Cancel when Save and leave or Stay editing is technically possible.",
+    "Trapping users after they choose to discard or after work is saved.",
+    "Relying only on browser beforeunload even though mobile browsers may not show it reliably."
+  ],
+  "critiqueQuestions": [
+    "What exact work or context would be lost if the user leaves now?",
+    "Is the loss unrecoverable, or can autosave or draft state make the warning unnecessary?",
+    "Which exit paths are covered: internal links, Back, reload, close tab, external links, sign out, and session expiry?",
+    "Does the warning say what will be lost and where the user was trying to go?",
+    "Can users save before leaving, discard intentionally, and stay editing without losing focus or values?",
+    "Is the browser leave listener removed immediately after save, submit, or discard?"
+  ],
+  "useWhen": [
+    "Users have unsaved or pending changes that cannot be recovered if they leave.",
+    "A route change, tab close, reload, browser Back, external link, or sign-out action can interrupt a task.",
+    "Autosave, draft state, or server recovery is absent, pending, failed, or insufficient for the current change.",
+    "The product can identify the dirty scope and provide a clear stay, save, or discard choice."
+  ],
+  "avoidWhen": [
+    "The page is clean, read-only, or all changes are safely saved and recoverable.",
+    "The product can preserve work automatically and no user-facing loss remains.",
+    "The warning is being used to keep users from leaving for business metrics rather than data protection.",
+    "The trigger is an explicit destructive action that should use a confirmation dialog.",
+    "A durable draft object already exists and users can resume it from a clear draft state."
+  ],
+  "variants": [
+    "Unsaved form exit warning",
+    "Pending autosave exit warning",
+    "Failed save leave warning",
+    "Browser close warning",
+    "Reload warning",
+    "In-app route guard",
+    "External link warning",
+    "Sign-out with unsaved work warning",
+    "Upload in progress exit warning",
+    "Session boundary leave warning"
+  ],
+  "accessibility": [
+    "Use a real dialog or alertdialog for in-app warnings, with a heading that names the loss risk.",
+    "Move focus into the warning when it opens and return focus to the triggering navigation control or dirty field when users stay.",
+    "Use button labels that include action and consequence, such as Save and leave, Discard and leave, and Stay editing.",
+    "Do not rely on color, icons, or browser-owned dialogs as the only indication that work is unsaved.",
+    "Announce failed save, pending save, and stay-editing recovery through status text.",
+    "Ensure keyboard users can trigger and resolve the same warning paths as pointer users.",
+    "Do not trap keyboard or assistive technology users after they choose to leave."
+  ],
+  "keyboardBehavior": [
+    "Internal navigation controls activate the guard with Enter or Space when dirty state exists.",
+    "Focus moves to the warning heading or first safe action when an in-app warning opens.",
+    "Escape or Stay editing closes the warning and restores focus without losing values.",
+    "Tab order places Stay editing, Save and leave, and Discard and leave in a predictable order.",
+    "Save and leave keeps focus in the warning while saving and either navigates on success or exposes retry on failure.",
+    "Discard and leave requires a deliberate button activation and then completes the original destination."
+  ],
+  "failureModes": [
+    "The warning appears after every click even when the page is clean.",
+    "A route guard handles sidebar links but not browser Back, reload, sign out, or external links.",
+    "A successful save does not clear dirty state, so the warning continues incorrectly.",
+    "A failed autosave clears dirty state, allowing users to leave after data was not saved.",
+    "The warning names no destination or changed section, so users cannot make an informed decision.",
+    "The warning blocks leaving but offers no save, retry, discard, or support route.",
+    "A mobile browser kills the page without firing beforeunload and the product had no earlier recovery strategy."
+  ],
+  "relatedPatterns": [
+    "autosave-form",
+    "draft-state",
+    "confirmation-dialog",
+    "alert",
+    "inline-edit",
+    "multi-step-form"
+  ],
+  "comparisons": [
+    "exit-warning-vs-autosave-form-vs-draft-state-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "MDN beforeunload event",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event",
+      "platform": "web",
+      "notes": "Documents browser leave-page protection for unsaved data loss, including conditional listener guidance and browser limitations.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "web.dev back/forward cache",
+      "url": "https://web.dev/articles/bfcache",
+      "platform": "web",
+      "notes": "Documents avoiding unload handlers and adding beforeunload only when necessary, such as while unsaved changes exist.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "W3C WCAG timeouts understanding",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/timeouts.html",
+      "platform": "web",
+      "notes": "Documents warning users when inactivity can cause data loss unless data remains preserved.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-beforeunload-event",
+      "note": "MDN documents beforeunload for preventing unsaved data loss and recommends conditional use."
+    },
+    {
+      "id": "webdev-bfcache",
+      "note": "web.dev documents browser navigation-cache considerations and recommends limiting unload-related handlers."
+    },
+    {
+      "id": "w3c-wcag-timeouts",
+      "note": "W3C documents warning users before timeouts can cause data loss."
+    },
+    {
+      "id": "w3c-wcag-reauthenticating",
+      "note": "W3C documents preserving user activity after re-authentication."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

@@ -1,0 +1,235 @@
+{
+  "id": "loading-spinner",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a bounded, labeled indeterminate loading indicator pattern with source-backed guidance for short action waits, localized busy regions, page or component overlays, accessible naming, disabled duplicate actions, transition rules, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets short named indeterminate waits, including inline button spinners, region-level busy indicators, page or component overlays, operation labels, duplicate-action prevention, busy semantics, timeout handoff, and transition to content, progress, success, cancellation, or error.",
+    "relatedPatternDistinction": "The entry separates loading spinner from loading skeleton by compact indeterminate activity versus reserved content structure, from infinite spinner by bounded lifecycle and recovery, from error state by active pending work rather than confirmed failure, and from disabled-button-no-explanation by pairing temporary disabled controls with visible status.",
+    "liveDemoBehavior": "The live demo submits a payment, switches between button, region, and overlay spinner placement, resolves the wait, cancels the overlay, escalates a long wait to recovery options, and contrasts unlabeled, page-blocking, duplicate-submit, mixed-indicator, and stuck-spinner misuse.",
+    "comparisonDecisionRules": "The loading-spinner-vs-loading-skeleton-vs-infinite-spinner-vs-error-state comparison gives concrete rules for short indeterminate waits, predictable layout loading, unbounded waits, confirmed failure, measurable progress, inline placement, overlay scope, and mixed progress signals.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/loading-spinner/ and /compare/loading-spinner-vs-loading-skeleton-vs-infinite-spinner-vs-error-state/ on 2026-06-09. Live check exercised Button, Region, Overlay, Resolve, Timeout, Cancel, Unlabeled, Page block, Duplicate, Mixed, and Stuck controls. screenshots/patterns/loading-spinner.png captures labeled Good UI, unlabeled duplicate-submit Bad UI, timeout recovery for PAY-2048, duplicate payment misuse, state notes, related links, and the comparison link.",
+    "screenshots": [
+      "screenshots/patterns/loading-spinner.png"
+    ]
+  },
+  "name": "Loading spinner",
+  "aliases": [
+    "spinner",
+    "activity indicator",
+    "loading indicator",
+    "indeterminate loader",
+    "busy spinner",
+    "button spinner"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Bounded indeterminate wait indicator for a named action or region",
+  "uiGuidance": [
+    "Render a compact spinner only beside, inside, or over the affected action, component, or page region, and pair it with concise text that names what is loading or processing.",
+    "Size and place the spinner according to scope: inline for a button or small row, centered within a busy component, and overlay only when the whole component or page is temporarily unavailable."
+  ],
+  "uxGuidance": [
+    "Use a loading spinner for short indeterminate waits where the system is actively working but cannot yet expose progress; resolve it quickly to content, success, cancellation, progress, or error.",
+    "Prevent duplicate or conflicting actions while the operation is in flight, but keep context, status, safe cancellation, and timeout recovery available when the wait exceeds the expected threshold."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Pay invoice button becomes Processing payment with a small spinner, disables only duplicate payment actions, and leaves the invoice reference visible.",
+      "A report card shows Loading Q2 summary with a spinner centered in the card while the rest of the dashboard remains usable."
+    ],
+    "bad": [
+      "A blank page shows a large spinner with no text, no affected object, and no idea what is loading.",
+      "A search results panel shows skeleton rows, a spinner, and a progress bar for the same request."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "After submit, users see payment PAY-2048 processing, can tell the button is temporarily unavailable, and then get either success or retry guidance.",
+      "When a filter refresh becomes slow, the spinner changes to Still loading results with Retry, Cancel, or Use previous results."
+    ],
+    "bad": [
+      "The spinner blocks the whole workspace for a small table refresh and prevents users from continuing other work.",
+      "The spinner remains active after a failed request, so users refresh and may submit the same transaction twice."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need immediate feedback that a specific action or region is processing, but an unlabeled or unbounded spinner can hide scope, progress, failure, and recovery.",
+  "solution": "Show a labeled, scoped spinner only while the named operation is genuinely in flight, prevent duplicate actions, expose busy semantics for the affected region, and transition to a resolved, progress, cancelled, timeout, or error state on a defined path.",
+  "problemContext": [
+    "The operation has started and is expected to finish shortly, but the system cannot calculate percent complete or meaningful stages.",
+    "Users need reassurance that the click, submit, refresh, save, sync, or region load was received.",
+    "The spinner belongs to a known control, card, panel, table, dialog, or page region rather than an unknown global wait.",
+    "The product can determine when the operation resolves, times out, fails, moves to background, or should expose cancellation."
+  ],
+  "selectionRules": [
+    "Choose loading spinner when the wait is indeterminate, short, and tied to a named action or region.",
+    "Place the spinner at the smallest useful scope: button, row, card, panel, dialog, or page region.",
+    "Add nearby text such as Processing payment, Loading invoices, or Saving draft when the spinner is not already inside a clearly labelled control.",
+    "Disable only controls that would duplicate, cancel incorrectly, or corrupt the in-flight operation.",
+    "Use a skeleton instead when the content structure is predictable and layout reservation would reduce uncertainty or layout shift.",
+    "Use determinate progress, queue status, or step progress when the system knows percent complete, item counts, stages, or queue position.",
+    "Use error state when the operation has failed, timed out, or reached a retry limit.",
+    "Treat it as infinite-spinner misuse when the spinner can run with no timeout, retry, cancel, background, cached, or failure path."
+  ],
+  "requiredStates": [
+    "Idle state with no spinner and the action or region ready.",
+    "Inline processing state for a button or small local action.",
+    "Region loading state with aria-busy or equivalent status on the affected component.",
+    "Overlay loading state when the whole component or page must temporarily block interaction.",
+    "Resolved state after content, save, sync, or submit succeeds.",
+    "Slow-threshold state that changes copy or exposes retry, cancel, previous values, background, or support path.",
+    "Cancelled state when the user can stop a noncritical wait safely.",
+    "Failed state that removes busy state and hands off to persistent recovery."
+  ],
+  "interactionContract": [
+    "The spinner appears only after the operation starts and disappears or changes state when the operation resolves, fails, is cancelled, or moves to background.",
+    "The spinner is attached to the affected object so users can tell what is busy.",
+    "The loading label names the operation unless the enclosing control already does so unambiguously.",
+    "Duplicate submit, save, payment, import, or refresh actions are temporarily disabled or guarded while the request is in flight.",
+    "Unrelated navigation, reading, editing, or cancellation remains available unless the whole surface is genuinely unavailable.",
+    "Long waits cross a threshold into clearer status and recovery instead of remaining a spinner-only state.",
+    "Assistive technology receives a concise busy or progress announcement and does not remain busy after resolution."
+  ],
+  "implementationChecklist": [
+    "Define spinner scope, expected wait threshold, timeout threshold, and terminal states for each operation.",
+    "Write a loading label that names the operation and object, such as Processing payment PAY-2048.",
+    "Use aria-busy on the affected region or a named progress/status element for the spinner.",
+    "Guard duplicate submission and double-click cases without hiding all safe alternatives.",
+    "Switch to determinate progress when backend percent, stages, counts, or queue position become available.",
+    "Switch to recovery after timeout with actions such as Retry, Cancel, Use previous results, Move to background, or Contact support.",
+    "Remove disabled and busy states when loading resolves, fails, cancels, or goes to background.",
+    "Respect reduced-motion preferences by reducing animation where platform conventions allow."
+  ],
+  "commonMisuses": [
+    "Showing an unlabeled spinner on a blank page.",
+    "Using a spinner forever instead of timeout, retry, or error recovery.",
+    "Blocking an entire page for a local row or button operation.",
+    "Leaving the original action enabled so users can submit twice.",
+    "Using a spinner when progress is measurable and should be determinate.",
+    "Showing spinner, skeleton, and progress bar for the same request.",
+    "Keeping aria-busy set after loading succeeds or fails."
+  ],
+  "critiqueQuestions": [
+    "What exact action or region does the spinner belong to?",
+    "Can users tell what is processing without guessing from animation alone?",
+    "Which controls must be disabled to prevent duplicate work, and which safe actions should remain available?",
+    "When does the spinner become progress, content, success, timeout, cancellation, or error?",
+    "What happens if users press Back, refresh, retry, or submit again during the spinner state?",
+    "Does assistive technology receive a named busy state and a clear resolved or failed state?"
+  ],
+  "useWhen": [
+    "A short action, request, save, submit, refresh, sync, or fetch is actively processing and progress cannot be meaningfully measured.",
+    "The affected scope is clear enough that a compact activity indicator can reassure users without reserving a full content structure.",
+    "The operation has defined resolution, timeout, cancellation, or failure paths."
+  ],
+  "avoidWhen": [
+    "The content layout is predictable and a skeleton would better preserve structure.",
+    "The operation exposes percent, item count, stages, or queue position that should use determinate progress.",
+    "The wait can be long-running and should move to background job status, queue, or step progress.",
+    "The operation has already failed or timed out.",
+    "The spinner would block unrelated work or hide the affected object."
+  ],
+  "variants": [
+    "Button spinner",
+    "Inline loading spinner",
+    "Component spinner",
+    "Card loading spinner",
+    "Full-page loading overlay",
+    "Pull-to-refresh spinner",
+    "Activity indicator",
+    "Indeterminate circular progress"
+  ],
+  "accessibility": [
+    "Give the spinner or affected region an accessible name that identifies the operation.",
+    "Use aria-busy only on the affected region and clear it when the state resolves or fails.",
+    "Do not rely on animation alone; pair the spinner with text or an already clear control label.",
+    "Avoid trapping keyboard focus behind a spinner unless a blocking overlay is truly necessary and has a cancel or resolution path.",
+    "Reduce or pause animation for users who prefer reduced motion when the platform supports it.",
+    "Announce slow-threshold changes such as still loading, retry available, cancelled, or failed."
+  ],
+  "keyboardBehavior": [
+    "Focus remains on or near the triggering control for inline action spinners unless navigation to a new page is part of the operation.",
+    "Temporarily disabled controls retain nearby status that explains why the action is unavailable.",
+    "Safe cancel, retry, previous-results, or background controls are reachable in normal tab order after the wait threshold.",
+    "When loading resolves, focus moves to the loaded content, success status, or original control according to the task flow.",
+    "When loading fails, focus remains near the affected region or moves to the persistent recovery state."
+  ],
+  "failureModes": [
+    "Users double-submit because the button spinner does not guard the original action.",
+    "Users think the whole app is frozen because a page overlay hides a local update.",
+    "Screen reader users hear a region is busy but never receive the resolved, cancelled, or failed state.",
+    "Users wait through measurable upload progress because the spinner hides useful percent or item count.",
+    "A loading spinner masks a server failure and keeps the UI in a pending state.",
+    "Users cannot cancel or leave safely when an operation exceeds its short-wait threshold."
+  ],
+  "relatedPatterns": [
+    "loading-skeleton",
+    "infinite-spinner",
+    "error-state",
+    "disabled-button-no-explanation"
+  ],
+  "comparisons": [
+    "loading-spinner-vs-loading-skeleton-vs-infinite-spinner-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Loading",
+      "url": "https://carbondesignsystem.com/components/loading/usage/",
+      "platform": "web",
+      "notes": "Documents full-page, component, and inline loading indicators, optional labels for context, disabled related actions while loading, and skeleton alternatives for progressively displayed content.",
+      "screenshot": "screenshots/patterns/loading-spinner.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Design Progress indicators",
+      "url": "https://m2.material.io/components/progress-indicators/web",
+      "platform": "web",
+      "notes": "Documents circular indeterminate indicators for unspecified wait time and determinate indicators when completion rate can be detected.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Apple Human Interface Guidelines Progress indicators",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/progress-indicators",
+      "platform": "mobile",
+      "notes": "Documents activity indicators for background operations and constrained spaces where an indeterminate wait needs concise status.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN ARIA Progressbar role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/progressbar_role",
+      "platform": "web",
+      "notes": "Documents accessible naming, indeterminate progress semantics, and aria-busy on related loading regions.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-loading-component",
+      "note": "Carbon supports scoped loading indicators, optional labels, inline and overlay placement, disabled related actions, and skeleton alternatives."
+    },
+    {
+      "id": "material-design-progress-indicators",
+      "note": "Material supports indeterminate circular indicators when progress is not detectable and determinate progress when completion can be measured."
+    },
+    {
+      "id": "apple-hig-progress-indicators",
+      "note": "Apple supports activity indicators for concise indeterminate status in background operations or constrained spaces."
+    },
+    {
+      "id": "mdn-aria-progressbar",
+      "note": "MDN supports accessible progress naming, indeterminate state, determinate values, and aria-busy on affected loading regions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

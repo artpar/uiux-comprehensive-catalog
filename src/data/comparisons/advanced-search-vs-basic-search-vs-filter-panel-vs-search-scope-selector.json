@@ -1,0 +1,50 @@
+{
+  "id": "advanced-search-vs-basic-search-vs-filter-panel-vs-search-scope-selector",
+  "title": "Advanced search vs basic search vs filter panel vs search scope selector",
+  "summary": "Use advanced search when users must construct precise fielded, Boolean, grouped, or syntax-backed queries; use basic search for one query input, filter panel for narrowing a returned result set by visible controls, and search scope selector for choosing where the query runs.",
+  "patternIds": [
+    "advanced-search",
+    "basic-search",
+    "filter-panel",
+    "search-scope-selector"
+  ],
+  "decisionRules": [
+    "Prefer advanced search when the user needs multiple clauses such as field, operator, value, Boolean joiner, exact phrase, date range, exclusion, proximity, saved syntax, or search-history combination.",
+    "Prefer basic search when one plain-language query and a result list are enough, and exposing field names, operators, or query syntax would slow most users down.",
+    "Prefer filter panel when users are already looking at a result set and need to include or exclude records through visible controls without learning a query grammar.",
+    "Prefer search scope selector when the same query needs to run against a different corpus, repository, site, channel, people index, or organization index before filters or clauses are interpreted.",
+    "Advanced search should show a readable query preview or generated syntax so expert users can inspect exactly what will run before they submit it.",
+    "If the builder emits syntax, validate missing values, unmatched quotes, unsupported operators, incompatible fields, and ambiguous grouping before running the query.",
+    "When users add, remove, or reorder clauses, preserve the raw query, selected fields, result count preview, and search history separately from filters, sort, and scope.",
+    "Do not collapse advanced search into a generic filter drawer; clauses can create nested logic, combine prior searches, and change query semantics in ways a normal filter panel cannot.",
+    "Do not use advanced search for simple browse categories or tabs; those should remain scannable navigation choices rather than requiring syntax.",
+    "Offer a return path from advanced search to basic search when users only need a plain keyword query, but do not silently discard expert clauses."
+  ],
+  "failureModes": [
+    "A product labels a filter panel as Advanced search even though every control is a simple post-result filter.",
+    "The query builder runs malformed syntax and returns zero results instead of explaining the broken clause.",
+    "Users add OR clauses but the UI hides grouping, so the system runs a broader query than intended.",
+    "Switching back to basic search silently deletes the fielded query and search history.",
+    "Advanced query examples use internal field names that do not match visible result fields.",
+    "The builder lets users select a field and operator combination that the search backend cannot execute."
+  ],
+  "sources": [
+    {
+      "id": "pubmed-advanced-search-builder",
+      "note": "PubMed documents field selection, Boolean add actions, query box construction, result-count preview, history combination, and search details."
+    },
+    {
+      "id": "jira-cloud-advanced-search-jql",
+      "note": "Jira documents advanced queries as clauses built from fields, operators, values, functions, and keywords."
+    },
+    {
+      "id": "github-code-search-syntax",
+      "note": "GitHub documents exact strings, Boolean operators, parentheses, qualifiers, regular expressions, and spacing rules for code search syntax."
+    },
+    {
+      "id": "gmail-search-operators",
+      "note": "Gmail documents user-facing fielded operators and grouping for narrowing email searches."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

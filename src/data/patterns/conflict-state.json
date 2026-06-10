@@ -1,0 +1,244 @@
+{
+  "id": "conflict-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed competing-version resolution pattern with guidance for local/server/collaborator sources, overlapping values, conflict granularity, explicit keep/merge/save-copy/discard actions, manual-tool routing, post-resolution review, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets competing valid versions, including source labels, owners, timestamps, overlapping fields, side-by-side or inline comparison, choose-one-side actions, manual merge, save copy, discard confirmation, resolved preview, audit trail, and cannot-resolve-here routing.",
+    "relatedPatternDistinction": "The entry separates conflict state from sync state by requiring comparison and resolution of overlapping values, from draft state by deciding between competing versions rather than managing an unpublished lifecycle, and from error state by preserving multiple valid alternatives instead of recovering from a single failed operation.",
+    "liveDemoBehavior": "The live demo switches a field report conflict through Detected, Compare, Keep mine, Keep server, Merge, Save copy, Resolved, and Manual tool states while contrasting Overwrite, Retry only, Hidden copy, Reversed sides, Bulk accept, and Toast only misuse.",
+    "comparisonDecisionRules": "The conflict-state-vs-sync-state-vs-draft-state-vs-error-state comparison gives concrete rules for competing versions, reconciliation status, unpublished lifecycle, single-operation failure, source labeling, conflict granularity, durable review, and destructive resolution confirmation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/conflict-state/ and /compare/conflict-state-vs-sync-state-vs-draft-state-vs-error-state/ on 2026-06-09. Live check exercised Detected, Compare, Keep mine, Keep server, Merge, Save copy, Resolved, Manual tool, Overwrite, Retry only, Hidden copy, Reversed sides, Bulk accept, and Toast only controls. screenshots/patterns/conflict-state.png captures Good UI, Bad UI, Good UX, Bad UX, side-by-side source labels, resolved preview, explicit resolution actions, silent-overwrite misuse, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/conflict-state.png"
+    ]
+  },
+  "name": "Conflict state",
+  "aliases": [
+    "edit conflict",
+    "save conflict",
+    "version conflict",
+    "merge conflict",
+    "coauthoring conflict",
+    "conflicting changes",
+    "concurrent edit conflict",
+    "record conflict"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Collaboration And Social Interaction",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Competing-version resolution state",
+  "uiGuidance": [
+    "Show both competing versions near the affected object, field, paragraph, file, row, or branch with source labels such as Your edit, Server version, Mina's edit, Target branch, and Current published value.",
+    "Expose resolution actions that state their effect, such as Keep mine, Keep theirs, Merge manually, Save a copy, Continue editing, Overwrite, Discard my changes, Accept change, and Reject change."
+  ],
+  "uxGuidance": [
+    "Use conflict state when multiple valid changes overlap and the system needs a human, rule, or review workflow to decide what survives without losing work silently.",
+    "Preserve each version, explain why automatic merge was unsafe, guide users through the smallest conflicting unit, and make the post-resolution result reviewable before committing."
+  ],
+  "uiExamples": {
+    "good": [
+      "A field report says Conflict on supervisor comment, shows Your offline edit from 11:06 beside Server edit by Mina at 11:07, and offers Keep mine, Keep server, and Merge comment.",
+      "A document editor highlights the paragraph changed by Alice and Bob, shows last edit times, and offers Continue editing, Overwrite, or Cancel with clear loss copy.",
+      "A code review conflict view labels source and target branch lines, highlights the conflict block, and lets users choose one side or edit the merged result."
+    ],
+    "bad": [
+      "A save banner says Something went wrong and only offers Retry after another user changed the same field.",
+      "A merge UI uses Ours and Theirs without branch names, timestamps, or a preview of the chosen result.",
+      "A conflict copy appears in a synced folder without explaining which file is current or which copy needs review."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user tries to sync an offline field report, reviews only the two changed fields, merges one comment, keeps the server contact number, and commits a resolved version.",
+      "A coauthoring document preserves local edits, opens conflict review, lets the user navigate each tracked conflict, then returns to the live document after all decisions are made.",
+      "A pull request blocks merge, lists conflicted files, allows simple line conflicts to choose a side, and sends complex files to inline editing or local resolution."
+    ],
+    "bad": [
+      "The app silently keeps the newest server value and deletes the user's local note.",
+      "A conflict is treated like a network retry, so the user keeps pressing Retry even though a decision is required.",
+      "A bulk accept action resolves every conflict without a review summary or a way to inspect discarded values."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can lose trust and data when two or more valid edits target the same object or location and the product cannot safely decide which change should win, merge, or be discarded.",
+  "solution": "Present a conflict state that preserves every competing value, names the source and time of each version, highlights the exact overlap, offers explicit resolution actions, and shows the resulting value before committing destructive or collaborative changes.",
+  "problemContext": [
+    "The product supports concurrent editing, offline editing, file sync, branch merging, record updates, draft publishing, import updates, or background sync.",
+    "Two or more actors, devices, branches, jobs, or systems can change the same field, paragraph, file, record, or setting before one change is accepted.",
+    "Automatic merge may be impossible or unsafe because changes overlap, carry business meaning, affect collaborators, or require human judgment.",
+    "Local work, collaborator work, target branch changes, or server values must be preserved until a resolution decision is made."
+  ],
+  "selectionRules": [
+    "Choose conflict state when two or more valid versions overlap and a choice, merge, save-copy, discard, or policy resolution is required.",
+    "Show the conflict at the smallest understandable unit: field, sentence, paragraph, row, file, setting, branch hunk, or whole record.",
+    "Label each side with source, owner, timestamp, device, branch, version, or system of record instead of ambiguous side names.",
+    "Preserve both versions until resolution is committed, including local work that failed to upload or collaborator work that saved first.",
+    "Offer resolution actions that match the data type: choose one side, combine text, accept or reject tracked changes, save a copy, keep both files, edit manually, or cancel.",
+    "Show a preview or resolved value before committing when the conflict has business, legal, financial, medical, publication, code, or collaboration risk.",
+    "Use sync state when the conflict is only a status inside a broader queue and no side-by-side resolution is required yet.",
+    "Use draft state when the main task is managing an unpublished version rather than deciding between overlapping changes.",
+    "Use error state when a save, load, or validation failed without another valid version to preserve or compare.",
+    "Escalate to manual resolution when automatic or one-click resolution would hide context, discard data, or exceed product limits."
+  ],
+  "requiredStates": [
+    "No conflict state after automatic safe merge.",
+    "Conflict detected state naming affected object and source versions.",
+    "Side-by-side or inline comparison state for overlapping values.",
+    "Choose mine or choose theirs state with preview.",
+    "Manual merge state for combining text, structured values, or code.",
+    "Save copy or keep both state when overwriting would lose work.",
+    "Discard local change confirmation state.",
+    "Resolved pending review state before commit when risk is high.",
+    "Committed resolved state with audit trail or version history.",
+    "Cannot resolve here state when the conflict requires another tool, permission, file type, or owner."
+  ],
+  "interactionContract": [
+    "Conflict detection stops silent overwrite and keeps every competing value recoverable.",
+    "The surface states why automatic merge was not performed and what changed after the user started editing or syncing.",
+    "Each resolution action states whose change is kept, whose change is removed, and whether the result will be saved, published, synced, or committed.",
+    "Users can navigate between multiple conflicts, see progress through the list, and return to unresolved items.",
+    "Manual merge preserves editing focus and shows unresolved markers until all required decisions are complete.",
+    "Save copy or keep both keeps local data recoverable without claiming the conflict was resolved.",
+    "After resolution, the product shows the final value, version, or commit before or immediately after the change is applied.",
+    "Permission, file type, binary, branch protection, locked record, and policy limits route users to the correct manual or owner-assisted path."
+  ],
+  "implementationChecklist": [
+    "Model conflict state separately from failed save, unsaved changes, draft, and sync progress.",
+    "Store source values, base version, local version, remote version, actor, timestamp, device or branch, and resolution decision.",
+    "Determine conflict granularity: field, block, row, document section, file, branch hunk, or full object.",
+    "Provide comparison UI with stable labels, highlighted overlaps, untouched context, and enough surrounding content for judgment.",
+    "Implement explicit actions for keep mine, keep theirs, merge manually, save copy, discard, accept, reject, cancel, and commit where relevant.",
+    "Prevent duplicate submission or background overwrite while a conflict is unresolved.",
+    "Record resolution audit information for collaborative, regulated, financial, code, or published content.",
+    "Test simultaneous edits, offline return, stale browser tabs, autosave conflicts, binary file conflict copies, permission changes, bulk conflict resolution, undo limits, and screen reader navigation."
+  ],
+  "commonMisuses": [
+    "Treating a conflict as a simple retryable save error.",
+    "Letting newest timestamp win without preserving the losing value.",
+    "Using ambiguous labels such as ours and theirs without explaining source and target.",
+    "Showing a conflict count without the affected fields, values, owners, or timestamps.",
+    "Resolving all conflicts with one default choice before users inspect discarded data.",
+    "Hiding conflict copies or recovered edits in a separate location without linking them from the affected object.",
+    "Merging structured or regulated data automatically when business meaning must be reviewed."
+  ],
+  "critiqueQuestions": [
+    "What are the competing versions, who created them, and when?",
+    "What exact field, line, paragraph, file, or record overlaps?",
+    "What value will survive after each action?",
+    "Can users save or export their local work before discarding it?",
+    "Can the conflict be safely merged automatically, or must a human review it?",
+    "What audit trail, version history, or undo path remains after resolution?"
+  ],
+  "useWhen": [
+    "Concurrent users, devices, branches, or background jobs changed the same object or location.",
+    "The system cannot safely merge overlapping edits without a decision.",
+    "Both local and remote or source and target values are valid enough to preserve.",
+    "A resolution choice affects collaborators, published content, records, code, files, or downstream workflows."
+  ],
+  "avoidWhen": [
+    "Only one operation failed and there is no competing valid version.",
+    "The product can merge non-overlapping changes automatically and no user decision is needed.",
+    "The issue is only a queued or failed sync item with no overlapping value to compare.",
+    "The user is managing an unpublished draft lifecycle rather than resolving competing edits.",
+    "The value can be recalculated safely from a canonical source without preserving alternatives."
+  ],
+  "variants": [
+    "Field-level conflict",
+    "Document edit conflict",
+    "File sync conflict copy",
+    "Branch merge conflict",
+    "Tracked-change conflict review",
+    "Offline edit conflict",
+    "Import update conflict",
+    "Record lock conflict",
+    "Manual merge editor",
+    "Keep both versions"
+  ],
+  "accessibility": [
+    "Use headings and text labels to name each side of the conflict; do not rely only on red/green diff colors.",
+    "Associate each conflict message with the affected field, row, line, paragraph, or file.",
+    "Provide keyboard access to next conflict, previous conflict, keep mine, keep theirs, merge manually, save copy, discard, cancel, and commit controls.",
+    "Announce when a conflict is resolved and how many remain without repeatedly reading long diff content.",
+    "Expose inserted, deleted, changed, local, remote, source, and target labels in accessible text near the changed content.",
+    "For destructive choices, use explicit button text and confirmation copy that describes whose changes will be removed."
+  ],
+  "keyboardBehavior": [
+    "Focus moves to the conflict heading or first affected value when conflict review opens.",
+    "Next and Previous conflict controls move predictably through unresolved items.",
+    "Resolution buttons are reachable immediately after the compared values they affect.",
+    "Manual merge editors preserve normal text editing keys and do not trap Tab unless the editor documents an escape path.",
+    "After resolving a conflict, focus moves to the next unresolved conflict or to the resolved summary.",
+    "Cancel and save-copy actions return focus to the originating editor, queue item, file row, or merge request."
+  ],
+  "failureModes": [
+    "A user's local edit is overwritten by a newer server value without warning.",
+    "A screen reader user hears only conflict markers but not which version belongs to whom.",
+    "A reviewer chooses the wrong side because branch labels are reversed or unexplained.",
+    "A save-copy option hides the copy in a location the user cannot find later.",
+    "Bulk resolution discards collaborator changes without a review or audit trail.",
+    "A binary file conflict is presented in a text merge editor that cannot resolve it.",
+    "The conflict remains after resolution because another tab or background sync re-submits the stale value."
+  ],
+  "relatedPatterns": [
+    "sync-state",
+    "draft-state",
+    "error-state",
+    "inline-edit",
+    "review-before-submit",
+    "autosave-form",
+    "notification-center"
+  ],
+  "comparisons": [
+    "conflict-state-vs-sync-state-vs-draft-state-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian Confluence concurrent editing",
+      "url": "https://confluence.atlassian.com/display/DOC/Concurrent%20Editing%20and%20Merging%20Changes",
+      "platform": "web",
+      "notes": "Documents notifying users about another editor, merging non-overlapping edits, displaying conflicts for overlapping edits, and offering continue editing, overwrite, or cancel choices.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Office coauthoring conflict errors",
+      "url": "https://support.microsoft.com/en-us/office/troubleshoot-common-coauthoring-errors-f0a0be0c-c03f-45b2-bec0-535e5b13f691",
+      "platform": "desktop",
+      "notes": "Documents local-safe upload failed conflict states, save-copy and discard options, Resolve flows, conflict navigation, and accept or reject decisions for recovered changes.",
+      "screenshot": "screenshots/patterns/conflict-state.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GitLab merge conflicts",
+      "url": "https://docs.gitlab.com/user/project/merge_requests/conflicts/",
+      "platform": "web",
+      "notes": "Documents conflict markers, UI eligibility limits, highlighted conflicting lines, Use ours and Use theirs choices, inline editing, commit messages, and manual resolution paths.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-confluence-concurrent-editing",
+      "note": "Confluence supports concurrent edit notification, automatic non-overlap merge, conflict display, continue editing, overwrite, and cancel choices."
+    },
+    {
+      "id": "microsoft-office-coauthoring-conflicts",
+      "note": "Microsoft Office supports local-safe conflict errors, save-copy and discard recovery, conflict view navigation, and accept or reject choices."
+    },
+    {
+      "id": "gitlab-merge-conflicts",
+      "note": "GitLab supports conflict blocks, UI resolution criteria, Use ours and Use theirs choices, inline editing, and commit-based resolution."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

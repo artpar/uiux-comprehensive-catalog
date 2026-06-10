@@ -1,0 +1,240 @@
+{
+  "id": "permission-denied-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed authorization-boundary state with guidance for account, role, owner path, request status, read-only fallback, no-disclosure privacy, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets access-boundary surfaces, including current account, current role, required permission, safe object naming, owner or admin route, request reason, pending/approved/declined outcomes, wrong-account recovery, read-only fallback, and no-disclosure privacy rules.",
+    "relatedPatternDistinction": "The entry separates permission denied state from error state by treating authorization as the cause, from empty state by requiring a known blocked object or action, and from disabled-button-no-explanation by replacing an unexplained inactive control with visible access guidance and recovery.",
+    "liveDemoBehavior": "The live demo switches a revenue report through Denied, Read-only, Action denied, Request, Pending, Rejected, Approved, and Switch account states while contrasting Blank page, Retry loop, Hidden owner, Leaks title, Disabled only, and False success misuse.",
+    "comparisonDecisionRules": "The permission-denied-state-vs-error-state-vs-empty-state-vs-disabled-button-no-explanation comparison gives concrete rules for authorization boundaries, operation failures, legitimate absence, blocked-control misuse, no-disclosure privacy, account recovery, request flows, and request outcomes.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/permission-denied-state/ and /compare/permission-denied-state-vs-error-state-vs-empty-state-vs-disabled-button-no-explanation/ on 2026-06-09. Live check exercised Denied, Read-only, Action denied, Request, Pending, Rejected, Approved, Switch account, Blank page, Retry loop, Hidden owner, Leaks title, Disabled only, and False success controls. screenshots/patterns/permission-denied-state.png captures Good UI, Bad UI, Good UX, Bad UX, access request details, owner path, wrong-account recovery, privacy leak misuse, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/permission-denied-state.png"
+    ]
+  },
+  "name": "Permission denied state",
+  "aliases": [
+    "access denied",
+    "authorization denied",
+    "you need access",
+    "request access",
+    "insufficient permissions",
+    "forbidden state",
+    "role blocked action",
+    "read-only permission state",
+    "account lacks access"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Authorization and access-boundary state",
+  "uiGuidance": [
+    "Show the blocked object or action, current account, permission level, required role, owner, and request path when revealing that information is allowed.",
+    "Use a no-disclosure variant when policy must hide existence, title, path, owner, count, or collaborator details from the current account."
+  ],
+  "uxGuidance": [
+    "Use permission denied state when the system knows the user is authenticated but their role, group, share, license, policy, or approval status blocks a specific object or action.",
+    "Help users self-correct through request access, switch account, read-only fallback, contact owner, return to allowed work, or review request status instead of sending them into retry loops."
+  ],
+  "uiExamples": {
+    "good": [
+      "A report page says Quarterly revenue report requires Finance viewer access, shows the current account, names the report owner, and offers Request access and Switch account.",
+      "A viewer can read a document but the Publish action says Editor access is required and links to the owner rather than disabling the button silently.",
+      "A private repository settings page says Admin role required to manage secrets while preserving read access to permitted repository content."
+    ],
+    "bad": [
+      "A denial page says Something went wrong and shows Retry even though the user lacks a required group.",
+      "A confidential case page leaks the case title to a user who should not know it exists.",
+      "A toolbar hides the Publish button for non-admins without explaining why the workflow is blocked."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens a restricted report, sees which account is signed in, requests viewer access with a reason, then sees that the request is pending with the owner.",
+      "A collaborator with viewer access keeps reading a file while the edit action explains that editor access must be requested from the owner.",
+      "A developer tries to change repository settings, sees Maintain is insufficient for security settings, and contacts an Admin rather than retrying the request."
+    ],
+    "bad": [
+      "The app returns a blank screen for a restricted file, so the user cannot tell whether the file is gone, private, or opened with the wrong account.",
+      "A request access action submits and immediately says success even though no owner decision exists.",
+      "Every workspace control is disabled after one missing permission, including safe navigation and read-only tasks."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users cannot recover from access boundaries when a product hides the cause, confuses authorization with system failure, leaks sensitive resource details, or gives no owner-assisted path.",
+  "solution": "Present an explicit permission denied state that states the safe-to-reveal boundary, current identity, required access, available fallback, request or owner path, request status, and policy limits without exposing information the user is not allowed to know.",
+  "problemContext": [
+    "The product has accounts, roles, teams, sharing links, private objects, licenses, compliance policy, or admin-only actions.",
+    "A user is authenticated but cannot view, edit, approve, publish, delete, export, invite, manage, or configure a known object or action.",
+    "The same surface may need different outcomes for wrong account, missing role, read-only access, pending request, declined request, policy block, and no-disclosure security.",
+    "The product must balance recovery and support with privacy, security, and least-privilege rules."
+  ],
+  "selectionRules": [
+    "Choose permission denied state when the primary cause is missing authorization, role membership, share grant, license entitlement, approval, or organization policy.",
+    "Show the access boundary at the smallest useful scope: whole page, panel, row, file, field, toolbar action, submit step, or admin setting.",
+    "State what the user can still do, such as view read-only content, copy an ID, return to allowed folders, request access, contact owner, or switch account.",
+    "Say which account, workspace, group, or role is currently active when wrong-account recovery is plausible.",
+    "Name the required permission or role in user-facing language, such as Finance viewer, Editor, Publisher, Owner, Maintainer, or Admin.",
+    "Include request state after submission: sent, pending, approved, declined, expired, owner unavailable, or blocked by policy.",
+    "Use a no-disclosure denial when exposing object existence, title, owner, path, or count would leak private information.",
+    "Use error state when the user has access but the operation failed for network, validation, server, timeout, or data reasons.",
+    "Use empty state when there is no safe known object or blocked action to recover, and the main issue is absence of visible items.",
+    "Replace disabled-button-only treatment with explanatory permission text, owner/contact path, and allowed fallback."
+  ],
+  "requiredStates": [
+    "Whole-object access denied state.",
+    "Action-level denied state for publish, export, delete, invite, approve, manage, or configure actions.",
+    "Read-only state with edit denied but view allowed.",
+    "Request access form with optional reason and requested permission level.",
+    "Request sent or pending state naming the owner or safe recipient.",
+    "Request declined state with safe next steps.",
+    "Approved state that lets users retry or open the resource.",
+    "Wrong-account state with switch-account path.",
+    "Owner unavailable or policy-blocked state.",
+    "No-disclosure state that avoids leaking restricted object details."
+  ],
+  "interactionContract": [
+    "The denial is durable until the permission, account, role, policy, or request state changes.",
+    "Request access records the requested role, reason, requester account, target object or action, owner destination, and timestamp when policy allows.",
+    "Switch account returns to the intended resource after authentication when possible.",
+    "Read-only fallback preserves allowed viewing and safe navigation while blocking only restricted actions.",
+    "Owner-assisted paths identify a safe contact, team, admin group, or support route instead of exposing private collaborator lists.",
+    "No-disclosure variants use neutral navigation and support paths without confirming whether the private resource exists."
+  ],
+  "implementationChecklist": [
+    "Model authorization denial separately from not found, unauthenticated, rate limit, network failure, validation failure, and empty result states.",
+    "Capture denial reason codes that map to safe user copy, requestability, current account, current role, required role, owner visibility, and no-disclosure policy.",
+    "Implement request access flows with submission status, owner routing, approval or decline outcomes, expiry, and duplicate request handling.",
+    "Preserve allowed read-only content and navigation when only a specific action is denied.",
+    "Instrument support-safe diagnostics such as request ID, policy name, account, and timestamp without exposing restricted object data.",
+    "Test wrong account, missing role, revoked share, expired link, pending request, declined request, policy block, owner unavailable, private-object no-disclosure, and screen reader recovery."
+  ],
+  "commonMisuses": [
+    "Treating authorization denial as a generic retryable error.",
+    "Showing an empty state for a known restricted object without any request or account path.",
+    "Disabling controls without explaining missing access.",
+    "Leaking private object titles, owners, counts, comments, or paths in a denial page.",
+    "Claiming request success before an owner approves access.",
+    "Blocking read-only work when only edit, publish, or admin action is restricted."
+  ],
+  "critiqueQuestions": [
+    "Can the user tell whether this is missing access, wrong account, policy, or system failure?",
+    "What object or action is safe to name, and what must stay hidden?",
+    "Which current account, role, team, or share grant is being evaluated?",
+    "What role or permission is required for the blocked action?",
+    "Who can grant access, and is that owner path safe to reveal?",
+    "What can the user still do while access is pending or denied?"
+  ],
+  "useWhen": [
+    "A signed-in user lacks permission to view, edit, publish, export, delete, approve, share, administer, or configure a resource.",
+    "A wrong account or missing team membership is a likely cause.",
+    "An access request, owner approval, switch-account flow, or read-only fallback can help the user recover.",
+    "The product needs to communicate least-privilege and policy boundaries without making the state look like a system outage."
+  ],
+  "avoidWhen": [
+    "The user is not signed in and the next step is authentication rather than authorization.",
+    "The resource truly does not exist or existence must be hidden behind a neutral not-found response.",
+    "The operation failed for network, server, validation, data, or timeout reasons after permission was granted.",
+    "The user has no content yet and there is no specific blocked object or action to recover.",
+    "Revealing request, owner, object, or policy details would violate privacy or security policy."
+  ],
+  "variants": [
+    "Whole-page access denied",
+    "Action-level access denied",
+    "Read-only with edit denied",
+    "Request access",
+    "Pending access request",
+    "Access declined",
+    "Access approved retry",
+    "Wrong account",
+    "Owner unavailable",
+    "Organization policy block",
+    "No-disclosure denial"
+  ],
+  "accessibility": [
+    "Use a heading that identifies the access boundary and a text description that does not rely on lock icons or red color alone.",
+    "Move focus to the permission message when it replaces page content or blocks a workflow.",
+    "Associate action-level permission messages with the affected control using visible text and accessible descriptions.",
+    "Announce request sent, pending, approved, and declined changes through a polite status region.",
+    "Keep request, switch account, contact owner, read-only view, and safe navigation controls reachable by keyboard.",
+    "For no-disclosure states, make the neutral page understandable without exposing restricted object data in accessible names."
+  ],
+  "keyboardBehavior": [
+    "Focus lands on the access-denied heading or first safe recovery action when the state opens.",
+    "Tab order moves from explanation to request access, switch account, read-only view, owner contact, and safe exit actions.",
+    "Request access forms keep labels, reason fields, permission selectors, submit, cancel, and status messages in logical order.",
+    "After submitting a request, focus moves to the pending status and the next safe action.",
+    "If access is approved after refresh, focus returns to the formerly blocked object or action.",
+    "Disabled restricted actions are not the only path; an enabled control or message explains the missing permission."
+  ],
+  "failureModes": [
+    "Users keep retrying a request that will always fail until access changes.",
+    "Support cannot diagnose denials because the UI exposes no request ID, role, policy, or account context.",
+    "A wrong-account user requests access for the wrong identity instead of switching to an already authorized account.",
+    "A viewer loses read-only access because the product blocks the whole page for an edit-only denial.",
+    "An owner receives duplicate access requests because pending status is not shown.",
+    "A restricted object title leaks through the browser title, breadcrumb, card preview, notification, or accessible label.",
+    "A request remains pending forever without owner routing, expiry, resend, cancel, or support escalation."
+  ],
+  "relatedPatterns": [
+    "error-state",
+    "empty-state",
+    "disabled-button-no-explanation",
+    "inline-message",
+    "alert",
+    "notification-center",
+    "global-navigation"
+  ],
+  "comparisons": [
+    "permission-denied-state-vs-error-state-vs-empty-state-vs-disabled-button-no-explanation"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft SharePoint access requests",
+      "url": "https://support.microsoft.com/en-us/office/set-up-and-manage-access-requests-94b26e0b-2822-49d4-929a-8455698654b3",
+      "platform": "web",
+      "notes": "Documents allowing access requests, choosing who receives requests, approving or declining requests, assigning permission levels, and showing request history.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Google Drive file access",
+      "url": "https://support.google.com/drive?p=requesting_access",
+      "platform": "web",
+      "notes": "Documents You need access, viewer/commenter/editor levels, requesting access with a reason, owner decision notifications, pending outcomes, wrong-account checks, and policy limits.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GitHub repository roles",
+      "url": "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization",
+      "platform": "web",
+      "notes": "Documents read, triage, write, maintain, and admin repository roles and which role can perform repository actions such as push, merge, settings, and access management.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-sharepoint-access-requests",
+      "note": "SharePoint documents access requests, owner routing, approve or decline outcomes, permission-level assignment, and request history."
+    },
+    {
+      "id": "google-drive-file-access-requests",
+      "note": "Google Drive documents You need access, request access, owner notification, approved or denied outcomes, pending cases, wrong-account recovery, and policy limits."
+    },
+    {
+      "id": "github-repository-roles",
+      "note": "GitHub documents role-based repository permissions and action-specific access boundaries."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

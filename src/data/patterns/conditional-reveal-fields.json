@@ -1,0 +1,241 @@
+{
+  "id": "conditional-reveal-fields",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a same-question follow-up reveal pattern with source-backed guidance for radio, checkbox, and select triggers, related revealed fields, hidden-value clearing, reveal-only-required validation, assistive notification risk, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers trigger-owned follow-up fields, placement under the selected option, directly related revealed content, radio and checkbox variants, clearing hidden answers, conditional required validation, error ownership, assistive notification risk, avoiding complete revealed forms, and escalation to pages for larger branches.",
+    "relatedPatternDistinction": "The entry separates conditional reveal fields from dependent fields by showing or hiding a related follow-up question rather than filtering a downstream control, from radio group by adding trigger-owned content, from single-question page by keeping the follow-up in the same local question, and from details/progressive disclosure by making the revealed field part of the answer flow.",
+    "liveDemoBehavior": "The rendered exercise selects email, phone, and no-contact options, reveals the matching follow-up field directly under the trigger, validates the revealed field only while selected, clears hidden stale values, announces reveal state, and contrasts a broken form with a hidden required field that blocks submit.",
+    "comparisonDecisionRules": "The linked conditional-reveal-fields-vs-dependent-fields-vs-radio-group-vs-single-question-page comparison gives concrete rules for same-question reveals, dependent value filtering, plain radio groups, single-question page escalation, hidden-value clearing, required-field ownership, and accessibility notification risks.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/conditional-reveal-fields.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, trigger option, revealed field, hidden stale-value clearing, revealed-field validation, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/conditional-reveal-fields.png"
+    ]
+  },
+  "name": "Conditional reveal fields",
+  "aliases": [
+    "conditional reveal",
+    "conditionally revealed field",
+    "conditional field",
+    "follow-up field",
+    "radio conditional content",
+    "checkbox conditional content",
+    "show hide form field"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Selection And Choice",
+    "Disclosure And Attention Management",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Trigger-owned follow-up form field",
+  "uiGuidance": [
+    "Place the revealed field directly under the radio, checkbox, or select option that triggers it, visually nested enough to show ownership while keeping the label and error text fully visible.",
+    "Show only directly related follow-up questions or support text; avoid revealing unrelated content, complete subforms, independent submit actions, or a hidden journey inside one option."
+  ],
+  "uxGuidance": [
+    "Use conditional reveal fields when a short follow-up answer is only relevant for users who choose a specific option and should remain in the same decision context.",
+    "Treat reveal and hide as data-state changes: when the trigger is removed, clear or exclude hidden values and validate the revealed field only while it is relevant."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Contact me by email checkbox reveals an Email address field immediately below that checkbox and hides it when Email is unchecked.",
+      "A Yes radio for Do you have a reference number? reveals one Reference number field directly under Yes, with the error shown on that revealed field."
+    ],
+    "bad": [
+      "A hidden required email field blocks submit after Email was unchecked, but no visible field explains the error.",
+      "Selecting Other reveals a long nested form with its own Save button and unrelated questions."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects Phone, sees the Phone number field appear under Phone, enters the number, then unchecks Phone and sees the number excluded from submission.",
+      "A user submits after choosing Email but leaving Email address blank and gets a clear error on the revealed field while the Email option remains selected."
+    ],
+    "bad": [
+      "A user changes from Email to No contact and the hidden email address still gets sent.",
+      "A screen reader user chooses an option and is not told that a new follow-up question appeared."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Forms become noisy or misleading when all follow-up fields are always shown, but they become fragile when hidden fields are required, submitted, or revealed without a clear relationship to the triggering answer.",
+  "solution": "Reveal only the short related follow-up field owned by the selected answer, place it under the trigger, announce or describe the change, validate it only while relevant, and clear or exclude values when it becomes hidden.",
+  "problemContext": [
+    "A radio, checkbox, or select answer determines whether one short follow-up field or piece of supporting information is relevant.",
+    "The revealed content belongs to the same question or answer choice rather than a separate task, page, or section.",
+    "The product can remove hidden values from validation and submission when the trigger is no longer selected.",
+    "The implementation can be tested with keyboard and assistive technology so newly revealed fields are discoverable."
+  ],
+  "selectionRules": [
+    "Choose conditional reveal fields when one option needs a short, directly related follow-up field in the same local context.",
+    "Use dependent fields instead when the later field remains part of the form and its option set or validity changes based on a controlling value.",
+    "Use a plain radio group or checkbox group when no answer needs a follow-up field.",
+    "Use single-question page or multi-step form when the follow-up has multiple questions, branching, submit behavior, or enough reading burden to need its own page.",
+    "Use details or progressive disclosure for optional explanation text that is not part of the answer data.",
+    "Place revealed content immediately after the triggering input, not at the bottom of the form or in a disconnected panel.",
+    "Require revealed fields only while their trigger is selected.",
+    "Clear or omit hidden field values when the trigger becomes unselected, unless the user is explicitly returning to the same selected option and draft restoration is intended.",
+    "Show validation errors on the revealed field and preserve the selected trigger so users can see and fix the missing follow-up.",
+    "Avoid nested reveals unless the branch remains short and easy to understand; otherwise split the flow."
+  ],
+  "requiredStates": [
+    "Initial state with trigger options visible and no conditional field shown.",
+    "Trigger selected state with the related follow-up field revealed directly under the trigger.",
+    "Revealed field completed state with value included in submission.",
+    "Trigger changed or deselected state where the revealed field hides and its value is cleared or excluded.",
+    "Revealed field required error state while the trigger remains selected.",
+    "Hidden field not required state after the trigger is cleared.",
+    "Multiple checkbox reveal state where more than one selected option can own its own follow-up field.",
+    "Assistive notification or descriptive state that makes the newly revealed field discoverable.",
+    "Error summary state linking to the revealed field when submission fails.",
+    "Oversized branch state where the UI points users to a separate page or flow instead of revealing too much content."
+  ],
+  "interactionContract": [
+    "Selecting the trigger shows the related field immediately under that trigger.",
+    "Deselecting the trigger hides the related field and removes or marks its value out of scope.",
+    "The revealed field does not steal focus unless the product deliberately moves focus for a validated error or guided step.",
+    "Validation checks revealed required fields only while their trigger is selected.",
+    "Errors on a revealed field identify the revealed field and keep the trigger visible.",
+    "Keyboard users can tab from the trigger into the revealed field in logical order.",
+    "Submission payload excludes hidden stale values unless the user reselects the trigger and intentionally keeps the draft."
+  ],
+  "implementationChecklist": [
+    "Map each trigger option to exactly which field or short content block it reveals.",
+    "Keep revealed content adjacent to the triggering input in DOM and visual order.",
+    "Use stable IDs and descriptions so the trigger and revealed field relationship can be understood by assistive technology.",
+    "Clear, exclude, or explicitly mark hidden values as inactive when their trigger is deselected.",
+    "Apply required validation conditionally based on the trigger state.",
+    "Ensure error summary links target the revealed field and that the trigger remains selected when errors are shown.",
+    "Test with keyboard, screen reader, browser Back, form reload, saved draft, error summary, mobile layout, multiple selected checkboxes, and deselection.",
+    "Escalate to a separate page, wizard, or multi-step flow when the revealed branch contains several questions or a separate submit action."
+  ],
+  "commonMisuses": [
+    "Hiding a required field and still validating it after its trigger is unselected.",
+    "Submitting hidden stale values because the field was visually hidden but still active in the model.",
+    "Revealing a complete form or separate task under a single option.",
+    "Placing the revealed field far away from the answer that triggered it.",
+    "Using conditional reveal to hide independent choices users should compare.",
+    "Nesting several levels of reveals until users cannot tell what is required.",
+    "Relying only on visual appearance so assistive technology users miss the newly revealed question."
+  ],
+  "critiqueQuestions": [
+    "Is the revealed field directly related to the selected answer?",
+    "What happens to the revealed value when the trigger is unselected?",
+    "Is the field required only while visible and relevant?",
+    "Can keyboard and screen reader users discover the newly revealed field?",
+    "Would this branch be clearer as its own question page or step?",
+    "Does the error summary link to the revealed field while keeping the trigger selected?"
+  ],
+  "useWhen": [
+    "A selected radio, checkbox, or select option needs one short related follow-up field.",
+    "The follow-up belongs to the same local question context.",
+    "Showing every possible follow-up field would add noise for most users.",
+    "The implementation can safely hide, clear, and validate the field based on trigger state."
+  ],
+  "avoidWhen": [
+    "The revealed content is a complete form, separate workflow, or separate submit action.",
+    "The follow-up has several questions, branching, or enough complexity to need a page of its own.",
+    "The later field should remain visible but have filtered options based on a controlling value.",
+    "The field contains sensitive or important data that should not disappear without warning.",
+    "The product cannot reliably exclude hidden values from validation, submission, search indexing, or saved drafts."
+  ],
+  "variants": [
+    "Radio conditional reveal",
+    "Checkbox conditional reveal",
+    "Select-triggered reveal",
+    "Other please specify field",
+    "Contact method follow-up field",
+    "Yes reveal detail field",
+    "Multiple checkbox follow-up fields",
+    "Conditional reveal with error",
+    "Conditional reveal with cleared hidden value",
+    "Conditional reveal escalated to page"
+  ],
+  "accessibility": [
+    "Keep the revealed field immediately after the triggering control in DOM order so keyboard and screen reader users encounter it naturally.",
+    "Use clear labels and descriptions that identify the revealed field as related to the selected trigger.",
+    "Test whether assistive technology users are informed when content appears; add status text or guidance where the component does not reliably announce changes.",
+    "Do not rely on indentation, color, animation, or visual proximity alone to communicate the relationship.",
+    "Connect revealed-field errors to the revealed field and keep the triggering option selected during recovery.",
+    "Avoid disabled hidden controls that cannot receive focus but still block validation.",
+    "Ensure hiding a field does not trap focus or move focus unexpectedly."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the trigger option, then the revealed field when the trigger is selected.",
+    "Space or Enter on the trigger toggles reveal state without moving focus unexpectedly.",
+    "If the revealed field is hidden while focused, focus returns to the trigger or next logical control.",
+    "Submit with a missing revealed value moves focus to the error summary or revealed field, with the trigger still selected.",
+    "Deselecting a checkbox-triggered reveal removes its field from the tab order.",
+    "Multiple reveals preserve a predictable order matching the selected options."
+  ],
+  "failureModes": [
+    "Hidden required fields block submission.",
+    "Hidden values are submitted after their trigger is no longer selected.",
+    "A revealed field is inserted far away from the trigger and users miss it.",
+    "Screen reader users do not know a follow-up question appeared.",
+    "An error summary points to a hidden field without reselecting or showing the trigger.",
+    "Nested reveals create contradictory required states.",
+    "A conditional reveal is used to hide a full form that should be its own page.",
+    "Browser Back or saved draft restores a hidden value without restoring its trigger."
+  ],
+  "relatedPatterns": [
+    "dependent-fields",
+    "radio-group",
+    "checkbox-group",
+    "single-question-page",
+    "error-summary"
+  ],
+  "comparisons": [
+    "conditional-reveal-fields-vs-dependent-fields-vs-radio-group-vs-single-question-page"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Checkboxes conditional content",
+      "url": "https://design-system.service.gov.uk/components/checkboxes/",
+      "platform": "web",
+      "notes": "Documents checkbox items with conditional content revealed when the checkbox is checked, including contact-method examples with related email, phone, and text fields.",
+      "screenshot": "screenshots/patterns/conditional-reveal-fields.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Accessibility in government conditional reveals update",
+      "url": "https://accessibility.blog.gov.uk/2021/09/21/an-update-on-the-accessibility-of-conditionally-revealed-questions/",
+      "platform": "web",
+      "notes": "Documents conditional reveals in radio and checkbox components, typical related follow-up use, and accessibility risk when users are not notified of newly revealed questions.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Agriculture Design System conditional reveal pattern",
+      "url": "https://design-system.agriculture.gov.au/patterns/conditional-reveal",
+      "platform": "web",
+      "notes": "Documents do and do-not guidance: reveal one related set of questions under the initial input, do not reveal full forms or unrelated content, and use another page for larger branches.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-checkboxes-component",
+      "note": "GOV.UK checkbox guidance supports conditional content revealed when a checkbox is checked, including related contact detail fields."
+    },
+    {
+      "id": "govuk-conditional-reveal-accessibility",
+      "note": "GOV.UK accessibility research supports the related-follow-up use case and the need to consider whether newly revealed questions are announced."
+    },
+    {
+      "id": "agriculture-design-system-conditional-reveal",
+      "note": "Agriculture Design System guidance supports limiting reveals to directly related questions under the triggering control and avoiding complete revealed forms."
+    },
+    {
+      "id": "govuk-radios-component",
+      "note": "GOV.UK radio guidance anchors single-choice trigger behavior for conditional follow-up fields."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

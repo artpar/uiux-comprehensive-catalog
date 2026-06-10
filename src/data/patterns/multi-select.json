@@ -1,0 +1,179 @@
+{
+  "id": "multi-select",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a searchable multi-value picker pattern with source-backed selected-value chip guidance, open-list selection behavior, checkbox-group/autocomplete distinctions, duplicate audit, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names search filtering, selected-value chips, removable selections, checked options, clear-all behavior, validation limits, open-menu persistence, and custom listbox keyboard requirements.",
+    "relatedPatternDistinction": "The entry separates multi-select from checkbox groups by requiring compact long-list picking with selected values outside the list, and from autocomplete by allowing several predefined values.",
+    "liveDemoBehavior": "The live demo filters a longer assignee list, keeps selected people visible as removable chips, toggles multiple options without closing the list, clears all values, and validates when no assignee is selected.",
+    "comparisonDecisionRules": "The linked checkbox-group-vs-multi-select comparison distinguishes visible short-list independent choices from compact searchable multi-value picker behavior.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/multi-select.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, search filtering, selected chips, removable selections, and validation behavior.",
+    "screenshots": [
+      "screenshots/patterns/multi-select.png"
+    ]
+  },
+  "name": "Multi-select",
+  "aliases": [
+    "multiple select",
+    "tag picker"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Search, Browse, And Discovery"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to choose several predefined values from a list that is too long, searchable, or dynamic for a visible checkbox group.",
+  "solution": "Provide a filterable multi-value picker with selected chips or tags, checked options in the open list, removable values, clear-all behavior, and validation that preserves selections.",
+  "problemContext": [
+    "The option set may be long, remote, or frequently changing.",
+    "Users need to search, add, remove, and review multiple values before committing."
+  ],
+  "selectionRules": [
+    "Choose multi-select for long, searchable, or compact multi-choice sets where a visible checkbox group would be too large.",
+    "Show selected values outside the open list as removable chips, tags, or an explicit selected-value summary.",
+    "Keep the option list open while users select several values unless the platform has a clear equivalent review flow.",
+    "Use checkbox groups when the set is short enough to scan and should stay fully visible."
+  ],
+  "requiredStates": [
+    "No selected values state with empty selected set.",
+    "Open filtered option list state.",
+    "One or more selected values shown outside the option list.",
+    "Validation state for required, minimum, maximum, duplicate, or unavailable selection."
+  ],
+  "interactionContract": [
+    "Users can search, add, and remove values without losing their current selection.",
+    "Selected values are visible and removable outside the open option list.",
+    "The picker communicates selection limits, unavailable choices, duplicate labels, and no-match states."
+  ],
+  "implementationChecklist": [
+    "Expose selected values as removable chips or an explicit selected-value surface.",
+    "Show checked state for selected options when the picker list is open.",
+    "Support filtering or grouping for long lists.",
+    "Preserve selections on validation failure and during remote result refreshes.",
+    "Handle duplicate labels with context and avoid custom widgets without listbox or checkbox semantics."
+  ],
+  "commonMisuses": [
+    "Hiding selected values inside a closed menu.",
+    "Using multi-select for one mandatory choice.",
+    "Building custom widgets without listbox or checkbox semantics.",
+    "Closing the menu after each selection when users commonly need several values."
+  ],
+  "critiqueQuestions": [
+    "Can users review and remove the selected set before they commit?",
+    "Does filtering preserve existing selected values when the visible result list changes?"
+  ],
+  "useWhen": [
+    "Users choose many values from a long predefined list.",
+    "The option set benefits from search, grouping, filtering, or async loading."
+  ],
+  "avoidWhen": [
+    "The set is short and independent choices should stay visible.",
+    "Exactly one option is allowed.",
+    "Users need to enter arbitrary custom values rather than choose from known options."
+  ],
+  "variants": [
+    "Filterable checkbox listbox",
+    "Tag picker",
+    "Transfer list",
+    "Grouped multi-select"
+  ],
+  "accessibility": [
+    "Expose selected state for options and labels for remove controls.",
+    "Make search input, result list, and selected values relationships clear.",
+    "Ensure selected chips are reachable and removable by keyboard."
+  ],
+  "keyboardBehavior": [
+    "Keyboard users can open the list, move through options, toggle selection, and remove selected values.",
+    "Focus order should not trap users inside selected chips.",
+    "Escape or equivalent dismissal should close the list without clearing selected values."
+  ],
+  "failureModes": [
+    "Selections disappear when the popup closes.",
+    "No way to remove a selected value by keyboard.",
+    "Remote results overwrite existing selections.",
+    "Selected values are only represented by a count with no review or removal path."
+  ],
+  "relatedPatterns": [
+    "checkbox-group",
+    "autocomplete"
+  ],
+  "comparisons": [
+    "checkbox-group-vs-multi-select"
+  ],
+  "sources": [
+    {
+      "id": "carbon-dropdown-multiselect",
+      "note": "Carbon multiselect guidance supports checkbox options, persistent open menu while selecting, selected-count tags, clear-all behavior, and filtering."
+    },
+    {
+      "id": "calcite-combobox-component",
+      "note": "Calcite combobox guidance supports multi-selection, filtering, chip display, chip removal, required validation, select-all, and multiple selection modes."
+    },
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG listbox guidance documents multiple selection states, keyboard navigation, labels, and aria-multiselectable behavior for custom implementations."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Multi-value picker widget",
+  "uiGuidance": [
+    "Render a filter input, open option list, selected-value chips, remove controls, checked option states, clear-all control, and validation state.",
+    "Keep selected values reviewable outside the open list so closing or filtering the menu does not hide the selection."
+  ],
+  "uxGuidance": [
+    "Help users choose multiple values from a large, compact, or dynamic option set.",
+    "Preserve selections while users search, add, remove, clear, and submit."
+  ],
+  "uiExamples": {
+    "good": [
+      "Selected values are shown as removable chips or checked rows with clear labels.",
+      "Search, option list, and selected set are visually distinct."
+    ],
+    "bad": [
+      "Selected values hidden inside a closed dropdown.",
+      "Tiny removable chips with unclear labels or close buttons."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can search, add, remove, review, and submit multiple values without losing context.",
+      "Selection limits and duplicates are handled before submit."
+    ],
+    "bad": [
+      "Removing a value is impossible by keyboard.",
+      "Remote results overwrite existing selections."
+    ]
+  },
+  "examples": [
+    {
+      "product": "Carbon Design System Dropdown and Multiselect",
+      "url": "https://carbondesignsystem.com/components/dropdown/usage/",
+      "platform": "web",
+      "notes": "Documents multiselect dropdown behavior, checkbox options, selected-count tags, clear-all behavior, persistent menu selection, and filtering for long lists.",
+      "screenshot": "screenshots/patterns/multi-select.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Calcite Design System Combobox component",
+      "url": "https://developers.arcgis.com/calcite-design-system/components/combobox/",
+      "platform": "web",
+      "notes": "Documents filtered multi-selection with chips, removable selected items, required validation, select-all support, and keyboard removal behavior.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI-ARIA APG Listbox Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/",
+      "platform": "web",
+      "notes": "Documents multi-select listbox roles, selected-state requirements, keyboard behavior, and labelling constraints for custom implementations.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

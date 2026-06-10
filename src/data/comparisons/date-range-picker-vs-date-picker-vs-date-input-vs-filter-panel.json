@@ -1,0 +1,46 @@
+{
+  "id": "date-range-picker-vs-date-picker-vs-date-input-vs-filter-panel",
+  "title": "Date range picker vs date picker vs date input vs filter panel",
+  "summary": "Use a date range picker when users must choose a continuous start and end period; use a date picker for one calendar date, date input for known exact dates, and a filter panel when date is only one criterion among many.",
+  "patternIds": [
+    "date-range-picker",
+    "date-picker",
+    "date-input",
+    "filter-panel"
+  ],
+  "decisionRules": [
+    "Prefer date range picker when the answer is a continuous period with a start date, an end date, and visible days between them.",
+    "Prefer date picker when the task asks for one appointment, deadline, publication date, or booking date rather than a span.",
+    "Prefer date input when users already know both dates and day-of-week context does not affect the answer.",
+    "Prefer filter panel when date range is one of several draft filters that must be applied together with status, owner, category, or sort criteria.",
+    "Use presets such as Today, Last 7 days, or BFCM only when they match common user tasks and can be reviewed as explicit start and end dates.",
+    "Show separate labels and editable values for start and end so users can correct one boundary without losing the other.",
+    "Highlight start, end, in-range days, hover preview, disabled dates, out-of-window dates, empty state, and invalid-order state because range meaning depends on relationships between days.",
+    "Keep the picker open until both boundaries are chosen and, for analytical or reporting ranges, require Apply or Cancel before changing results.",
+    "Reject or repair an end date before the start date with a specific message that names both boundaries.",
+    "Do not use a range picker for approximate periods such as summer 2026, fiscal Q3, or next quarter if those are better represented by a preset list or plain text."
+  ],
+  "failureModes": [
+    "A range picker closes immediately after the start date, leaving no clear way to choose the end date.",
+    "Start and end fields share one label, so screen reader users cannot tell which boundary they are editing.",
+    "The interface allows an end date before the start date and stores a negative duration.",
+    "A reporting dashboard updates results on every day focus instead of waiting for Apply.",
+    "Only the two endpoint dates are highlighted, so users cannot see which days are included in the range.",
+    "A broad filter panel hides date range changes behind unrelated filters and never summarizes the active start and end dates."
+  ],
+  "sources": [
+    {
+      "id": "uswds-date-range-picker-component",
+      "note": "USWDS supports two labelled date fields, manual typing, format hints, scheduling use, min and max range bounds, accessibility testing, and avoiding auto-submission."
+    },
+    {
+      "id": "carbon-date-range-picker-component",
+      "note": "Carbon supports start and end endpoints, manually typed endpoint fields, selected start, days in range, end hover and focus, two-click or keyboard range selection, and min/max constraints."
+    },
+    {
+      "id": "shopify-polaris-date-range-picker-pattern",
+      "note": "Shopify Polaris supports quick ranges, manual text fields, calendar selection, multi-month spanning, explicit Apply and Cancel, disabled dates, and nonexistent-date recovery."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

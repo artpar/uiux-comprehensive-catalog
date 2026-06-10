@@ -1,0 +1,212 @@
+{
+  "id": "global-navigation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a persistent top-level navigation pattern with source-backed global/service navigation guidance, responsive overflow behavior, state preservation, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names persistent product or service-level links, current section state, brand/service identity, account or utility separation, responsive overflow, state preservation across destinations, external-link grouping, and skip-link implications.",
+    "relatedPatternDistinction": "The entry separates global navigation from breadcrumbs by top-level product movement versus hierarchy orientation, from bottom navigation by broad desktop/service navigation versus compact mobile destination switching, and from local side navigation by whole-product scope versus one area or workflow.",
+    "liveDemoBehavior": "The live demo switches global sections, preserves each section's draft count, exposes a More overflow state on narrow layouts, and contrasts a bad navigation row that changes labels without changing section content or current-state semantics.",
+    "comparisonDecisionRules": "The linked global-navigation-vs-breadcrumbs-vs-bottom-navigation comparison gives concrete rules for whole-product movement, hierarchy trails, compact mobile destinations, utility separation, current-state semantics, and not using global nav as a site map.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/global-navigation.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, responsive overflow behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/global-navigation.png"
+    ]
+  },
+  "name": "Global navigation",
+  "aliases": [
+    "primary navigation",
+    "main navigation",
+    "top-level navigation",
+    "service navigation",
+    "global header navigation"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Task And Workflow Patterns"
+  ],
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need a stable way to understand where they are and move between the most important product, site, or service sections without losing orientation.",
+  "solution": "Provide persistent, scoped top-level navigation that names the product or service, shows the current section, separates utility actions, and adapts overflow without hiding the user's place.",
+  "problemContext": [
+    "A product, service, or site has multiple top-level areas that users revisit.",
+    "Users may enter deep links and still need to recognize the service and move to another major area.",
+    "The navigation has to share space with account, search, switcher, language, or other utility controls."
+  ],
+  "selectionRules": [
+    "Choose global navigation when users need repeated access to a small set of top-level product or service sections.",
+    "Keep the link set limited to the most useful top-level destinations; global navigation is not a site map.",
+    "Show a clear current section that remains synchronized with page content and route changes.",
+    "Separate product or service navigation from account, help, search, language, switcher, sign-out, and other utility controls.",
+    "Use responsive overflow, drawer, side panel, or bottom navigation behavior only when the same top-level destinations remain discoverable and current state remains clear.",
+    "Avoid global navigation in a strictly linear transaction where task list, step navigation, or page-level links better preserve the journey."
+  ],
+  "requiredStates": [
+    "Default state with product or service identity and top-level links.",
+    "Current section state that matches the page or route.",
+    "Overflow or narrow viewport state where hidden links remain reachable.",
+    "Utility state for account, help, search, language, or switcher controls separated from main links.",
+    "External-link state with warning or grouping when navigation leaves the service.",
+    "State-preserved return after switching away and back to a section."
+  ],
+  "interactionContract": [
+    "Activating a global navigation item changes to the named top-level section and updates current-state semantics.",
+    "The visible navigation state always agrees with the main content heading or route.",
+    "Overflow controls reveal hidden top-level destinations without covering the current page irrecoverably.",
+    "Utility actions do not appear as peer destinations unless they are true top-level sections.",
+    "When switching sections would lose unsaved progress, the UI preserves state, restores state, or warns before leaving.",
+    "Keyboard and screen-reader users can identify the navigation landmark, current section, and overflow state."
+  ],
+  "implementationChecklist": [
+    "Define the small set of top-level destinations from user tasks, not the organization chart.",
+    "Render global navigation in a labeled navigation landmark with product or service identity nearby.",
+    "Mark the current section using route-driven state and appropriate current-page or current-section semantics.",
+    "Group utility controls separately from primary destinations.",
+    "Design responsive overflow so links move predictably to a menu, drawer, rail, or panel rather than disappearing.",
+    "Preserve or warn about section-specific draft, filter, and scroll state when users pivot across areas.",
+    "Keep breadcrumbs, side navigation, and page-specific links visually subordinate to global navigation."
+  ],
+  "commonMisuses": [
+    "Listing every page or admin object in the global nav.",
+    "Mixing account settings, sign out, help, and language controls into the same row as product destinations.",
+    "Highlighting a nav item that does not match the displayed content.",
+    "Using a hamburger menu on desktop to hide primary destinations without a strong space or complexity reason.",
+    "Replacing breadcrumbs or local side navigation with global links.",
+    "Losing form drafts, filters, or scroll context when users switch sections and return."
+  ],
+  "critiqueQuestions": [
+    "Can users identify the product or service and the current top-level section from any page?",
+    "Are these links the most important destinations, or are they a complete site map?",
+    "Are utilities and account actions visually and semantically separated from navigation destinations?",
+    "What happens to the user's local state when they switch sections and come back?"
+  ],
+  "useWhen": [
+    "Users revisit several top-level product or service areas.",
+    "The service is non-linear or supports multiple recurring tasks.",
+    "Deep-linked users still need persistent service identity and major destinations."
+  ],
+  "avoidWhen": [
+    "The flow has a single ordered transaction where navigation would distract or cause abandonment.",
+    "The information architecture has only one or two obvious pages.",
+    "The destination set is local to one area and belongs in side navigation, tabs, or page links.",
+    "Navigation would expose private, unauthorized, or unavailable areas without permission handling."
+  ],
+  "variants": [
+    "Header global navigation",
+    "Service navigation",
+    "Responsive global navigation",
+    "Global header with left panel",
+    "Global navigation with utility area",
+    "Global navigation with product switcher"
+  ],
+  "accessibility": [
+    "Use a labeled navigation landmark for primary navigation.",
+    "Expose the current page or section programmatically, not only with color.",
+    "Ensure overflow menus, drawers, or panels have clear expanded state and keyboard dismissal.",
+    "Keep skip links before repeated navigation so users can bypass global links.",
+    "Do not use hover-only dropdowns for essential destinations."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the navigation landmark, each visible link, overflow trigger, utility controls, and then page content in a predictable order.",
+    "Enter or Space activates buttons such as overflow triggers; Enter activates links.",
+    "Escape closes an open overflow menu or drawer and returns focus to its trigger.",
+    "Focus remains visible and current-state styling is not the only way to identify location.",
+    "After navigation, focus should land at the new page or main heading according to app routing conventions."
+  ],
+  "failureModes": [
+    "Current section not synchronized with content.",
+    "Too many links competing for top-level attention.",
+    "Utility controls mixed with destination links.",
+    "Overflow hides destinations without keyboard access.",
+    "Global nav appears in a linear flow and invites users to leave before finishing.",
+    "Switching sections loses unsaved local state without warning.",
+    "Mobile and desktop navigation expose different destination sets."
+  ],
+  "relatedPatterns": [
+    "breadcrumbs",
+    "bottom-navigation",
+    "tabs",
+    "command-palette"
+  ],
+  "comparisons": [
+    "global-navigation-vs-breadcrumbs-vs-bottom-navigation"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Navigate a service pattern",
+      "url": "https://design-system.service.gov.uk/patterns/navigate-a-service/",
+      "platform": "web",
+      "notes": "Guidance separates GOV.UK-wide header elements from service navigation and top-level service links.",
+      "screenshot": "screenshots/patterns/global-navigation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon Global Header pattern",
+      "url": "https://carbondesignsystem.com/patterns/global-header/",
+      "platform": "web",
+      "notes": "Documents global header behavior, system/product link separation, responsive movement into panels, and state preservation.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS Header component",
+      "url": "https://designsystem.digital.gov/components/header/",
+      "platform": "web",
+      "notes": "Documents government site header variants and primary navigation structures used for site-wide navigation.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-navigate-service",
+      "note": "GOV.UK Navigate a service guidance defines when services need navigation links, service identity, top-level links, utility separation, and ordering from global to page-specific elements."
+    },
+    {
+      "id": "carbon-global-header",
+      "note": "Carbon global header guidance documents persistent global navigation, system versus product link placement, responsive movement to panels, and state preservation."
+    },
+    {
+      "id": "uswds-header-component",
+      "note": "USWDS header guidance supports primary navigation in a site header with simple, megamenu, and extended variants."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent top-level navigation shell",
+  "uiGuidance": [
+    "Render product or service identity, a compact set of top-level destination links, current-section state, separate utility controls, and responsive overflow behavior.",
+    "Keep global navigation visually persistent and higher in hierarchy than breadcrumbs, local side navigation, tabs, and page-specific actions."
+  ],
+  "uxGuidance": [
+    "Help users move between major product or service areas while preserving orientation, local state, and confidence that they are in the right service.",
+    "Use global navigation only for non-linear, repeated top-level movement; simplify the journey or use task progress patterns when users should complete an ordered flow."
+  ],
+  "uiExamples": {
+    "good": [
+      "A header shows the product name, Dashboard, Projects, Reports, Billing, a More overflow, and separate Help and account controls.",
+      "The active destination has text and semantic current state, while utility controls sit apart from destination links.",
+      "On narrow screens, hidden product links move into a labeled More menu rather than disappearing."
+    ],
+    "bad": [
+      "A crowded row mixes every page, account action, language selector, and sign-out link.",
+      "The active link says Reports while the page heading is Billing.",
+      "A hamburger hides all primary destinations on desktop with no visible current section."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users switch from Projects to Reports, return to Projects, and find their project draft count preserved.",
+      "If switching away would discard a task, the route warns or saves state before changing sections.",
+      "Deep-linked users can tell which service they are using and move to another top-level area."
+    ],
+    "bad": [
+      "Switching top-level sections clears filters or drafts without notice.",
+      "Navigation opens external or utility destinations as if they were service sections.",
+      "A linear application journey includes global links that invite users to abandon required steps."
+    ]
+  }
+}

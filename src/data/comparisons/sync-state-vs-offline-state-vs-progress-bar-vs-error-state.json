@@ -1,0 +1,44 @@
+{
+  "id": "sync-state-vs-offline-state-vs-progress-bar-vs-error-state",
+  "title": "Sync state vs offline state vs progress bar vs error state",
+  "summary": "Use sync state when local and server copies are reconciling; use offline state for no-connection mode, progress bar for measurable transfer or processing, and error state for confirmed failures that need persistent recovery.",
+  "patternIds": [
+    "sync-state",
+    "offline-state",
+    "progress-bar",
+    "error-state"
+  ],
+  "decisionRules": [
+    "Choose sync state when work exists locally and the main question is whether it is queued, uploading, downloaded, accepted by the server, partially synced, failed per item, paused, or ready for conflict review.",
+    "Choose offline state when the device or app cannot reach the network and users need to know which cached data, local edits, and online-only actions are available or unavailable.",
+    "Choose progress bar when the operation has a meaningful numeric amount, such as bytes uploaded, records imported, or photos processed, and the percentage itself helps users judge time or scope.",
+    "Choose error state when a load, save, submit, sync, validation, or permission attempt has already failed and the affected item needs durable recovery instructions.",
+    "Do not say Synced or Saved online until the remote copy has accepted the local change; distinguish local saved, queued, syncing, synced, failed, and conflict-needs-review states.",
+    "Do not hide a multi-item sync queue behind one global spinner; show item-level status, failed items, retry actions, and last successful sync time.",
+    "Use sync state at the smallest truthful scope: app account, folder, record, attachment, field edit, message, or one queue item.",
+    "When sync fails for only part of the queue, preserve the completed items, keep unsynced local data visible, and offer retry, cancel, export, or review rather than clearing the whole queue."
+  ],
+  "failureModes": [
+    "A field report says Synced while photos are still waiting in a hidden upload queue.",
+    "A single spinner covers five queued changes, so users cannot see that one item failed and four succeeded.",
+    "A disconnected app shows sync progress even though no request can leave the device.",
+    "A failed server validation is treated as generic offline mode, so users keep retrying a change that needs editing.",
+    "The app clears local work after a sync error instead of preserving it with retry or export.",
+    "A percentage reaches 100 percent before server acceptance, making users believe remote save is complete."
+  ],
+  "sources": [
+    {
+      "id": "mdn-background-synchronization-api",
+      "note": "MDN supports deferred synchronization work that runs later in a service worker when stable network connectivity exists."
+    },
+    {
+      "id": "workbox-background-sync",
+      "note": "Workbox supports failed-request queues, replay on sync events, browser-managed retry timing, and retention limits."
+    },
+    {
+      "id": "microsoft-onedrive-sync-icons",
+      "note": "OneDrive provides product examples for sync in progress, sync error, paused sync, online-only, locally available, and always-available file states."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

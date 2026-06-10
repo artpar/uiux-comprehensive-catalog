@@ -1,0 +1,46 @@
+{
+  "id": "date-picker-vs-date-input-vs-select-vs-text-input",
+  "title": "Date picker vs date input vs select vs text input",
+  "summary": "Use a date picker when users choose a single date with calendar context, availability, or day-of-week meaning; use date input for known exact dates, select for short fixed date choices, and text input for fuzzy date wording.",
+  "patternIds": [
+    "date-picker",
+    "date-input",
+    "select",
+    "text-input"
+  ],
+  "decisionRules": [
+    "Prefer date picker when the user is scheduling an appointment, choosing from availability, or comparing a date against nearby weekdays.",
+    "Prefer date input when the date is already known, memorable, printed on a document, or far enough in the past that month-by-month navigation would be slow.",
+    "Prefer select when the valid answer is a short controlled list such as available appointment slots, reporting periods, or school years.",
+    "Prefer text input when the product accepts an approximate answer such as early July, Spring 2026, next quarter, or unknown day.",
+    "Keep a visible text field with a date-format hint so keyboard users can type the date instead of using the calendar menu.",
+    "Expose unavailable, before-minimum, after-maximum, today, focused, selected, open, closed, and error states because calendar choice depends on visible constraints.",
+    "Use previous and next month controls when nearby dates matter; do not make users page through decades for a birthday or other remembered historic date.",
+    "Return focus to the input or selected calendar day after a selection, month change, validation error, or close action.",
+    "Do not submit automatically when a day is highlighted or selected; selection is not the same as final form submission.",
+    "Explain disabled dates in plain language, such as weekends unavailable or outside the booking window, rather than leaving blank inactive cells."
+  ],
+  "failureModes": [
+    "A birthday flow opens on the current month and forces dozens of year changes instead of accepting typed date parts.",
+    "Unavailable days look like ordinary choices and only fail after submission.",
+    "The calendar menu opens without a visible label or format hint, so manual typing and screen reader context are weak.",
+    "Month navigation changes the grid without announcing the new month or preserving the selected date.",
+    "The component traps focus inside the calendar or drops focus at the top of the page after selection.",
+    "A highlighted day auto-submits before the user can review the rest of the form."
+  ],
+  "sources": [
+    {
+      "id": "uswds-date-picker-component",
+      "note": "USWDS supports date picker use for scheduling, day-of-week context, manual typing, min and max bounds, keyboard navigation, and avoiding auto-submission."
+    },
+    {
+      "id": "carbon-date-picker-component",
+      "note": "Carbon supports date picker anatomy, calendar menu open state, month and year controls, calendar day states, validation, and localization."
+    },
+    {
+      "id": "cms-calendar-picker-component",
+      "note": "CMS supports calendar picker use for recent or future dates, flexible typed entry, memorable-date alternatives, focus return, and disabled-date announcements."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

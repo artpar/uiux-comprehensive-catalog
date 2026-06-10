@@ -1,0 +1,251 @@
+{
+  "id": "offline-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a connectivity-mode surface with source-backed guidance for cached content, local-only drafts, queued actions, reconnect checks, sync handoff, scoped disabling, stale data labels, conflict preparation, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets no-connection and intermittent-connection experiences, including cached data, local edits, queued saves, read-only fallback, disabled online-only actions, reconnect controls, automatic reachability checks, stale-data labels, sync handoff, and conflict preparation.",
+    "relatedPatternDistinction": "The entry separates offline state from error state by connectivity mode and usable fallback versus confirmed operation failure, from loading spinner by disconnected or degraded mode versus active short wait, from progress bar by queued or local work versus measurable transfer, and from future sync state by network absence versus reconciliation after connection returns.",
+    "liveDemoBehavior": "The live demo switches a field report workspace between online, offline, queued local save, reconnecting, synced, sync failed, read-only cache, and stale data states, while contrasting blank offline pages, silent local saves, discarded drafts, fake online status, disabled-everything interfaces, and stale cache presented as current.",
+    "comparisonDecisionRules": "The offline-state-vs-error-state-vs-loading-spinner-vs-progress-bar comparison gives concrete rules for connectivity mode, confirmed failure, active indeterminate waits, measurable operations, cached fallback, local-only saves, scoped disabling, reconnect transitions, and queued-change handoff.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/offline-state/ and /compare/offline-state-vs-error-state-vs-loading-spinner-vs-progress-bar/ on 2026-06-09. Live check exercised Online, Offline, Queue save, Reconnect, Synced, Sync failed, Read-only, Stale, Blank page, Silent save, Discard draft, Fake online, Disabled all, and Stale current controls. screenshots/patterns/offline-state.png captures Good UI, Bad UI, Good UX, Bad UX, local device save copy, queued photos, cached timestamp, disabled server refresh, silent-save misuse, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/offline-state.png"
+    ]
+  },
+  "name": "Offline state",
+  "aliases": [
+    "no connection state",
+    "offline mode",
+    "network unavailable state",
+    "cached mode",
+    "local-only mode",
+    "offline fallback",
+    "disconnected state"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns",
+    "Cross-Device And Physical Interaction",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Connectivity-mode and local-work continuity state",
+  "uiGuidance": [
+    "Show offline status where it changes the current task, naming what remains available such as cached reports, local draft editing, queued saves, or read-only history.",
+    "Visually distinguish online-saved, device-saved, queued, stale, syncing, and failed-sync states with text labels and actions, not only a disconnected icon or color."
+  ],
+  "uxGuidance": [
+    "Use offline state to preserve trust and task continuity when connection loss changes what users can read, edit, submit, sync, refresh, or share.",
+    "Keep useful cached and local work available, disable only online-only actions, and move users through reconnect, sync, conflict, or failed-sync handoff when connectivity returns."
+  ],
+  "uiExamples": {
+    "good": [
+      "A field report says Offline: 3 edits saved on this device, cached customer history shown from 10:42, Submit disabled until connection returns, and Retry connection.",
+      "A cached dashboard labels figures Last updated 09:15, allows filtering cached rows, and disables Refresh and Export with no-connection copy.",
+      "A mobile form header shows No internet, local draft saved, 2 photos queued, and Sync when online."
+    ],
+    "bad": [
+      "A blank page says You are offline even though the app has cached drafts and help content.",
+      "A green Saved label appears while offline without saying the save is local only.",
+      "All navigation and read-only content are disabled because one submit endpoint is unreachable."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user loses connection while editing an inspection note, sees it saved on this device, attaches photos to a queue, and later watches the queue sync after reconnect.",
+      "A user opens a cached case offline, sees stale timestamp and unavailable online actions, then refreshes successfully when the connection returns.",
+      "A reconnect attempt reaches the server but a queued update fails, so the app keeps the draft and offers retry or export instead of deleting it."
+    ],
+    "bad": [
+      "The app keeps a spinner on Save during airplane mode and never explains that no network request can start.",
+      "A submitted offline form disappears from the screen even though it was neither queued nor accepted by the server.",
+      "After reconnect, the offline banner vanishes while two unsynced edits remain hidden."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users lose connection while reading, editing, saving, uploading, or navigating, and need to know what still works, what is only local, what is stale, and what will happen when the app reconnects.",
+  "solution": "Expose an offline state that scopes the connection loss to affected tasks, keeps cached or local work usable, labels stale and queued data honestly, prevents online-only actions from pretending to succeed, and provides reconnect plus sync handoff paths.",
+  "problemContext": [
+    "The app can detect a missing, intermittent, captive, or unreachable connection that affects current work.",
+    "Some content, drafts, settings, help, forms, or records may remain useful from cache or local storage.",
+    "Users may start or continue work offline and need to understand whether it is local, queued, blocked, stale, or ready to sync.",
+    "Connectivity can return while queued actions still need upload, server validation, conflict handling, or failure recovery."
+  ],
+  "selectionRules": [
+    "Choose offline state when connection loss changes what users can read, edit, save, submit, refresh, upload, export, or share.",
+    "State the scope of the outage: whole app, current page, one record, one action, one attachment queue, or one data source.",
+    "Label cached data with its last successful update time or source when freshness affects decisions.",
+    "Label local changes as saved on this device, queued, waiting to sync, or sync failed rather than simply Saved.",
+    "Allow safe local actions such as editing drafts, reading cached content, copying text, or exporting a local backup when available.",
+    "Disable or explain online-only actions such as Submit, Refresh, Share, Export, Payment, or Invite when they cannot complete.",
+    "Provide manual reconnect or retry check when users need control, and automatic reachability checks when appropriate.",
+    "Use error state when a specific operation failed even though the broader app may still be online.",
+    "Use loading spinner only while an operation is actively pending and before the app knows it is offline.",
+    "Use sync state after the connection returns and the main question becomes whether queued changes are reconciling, complete, failed, or conflicting."
+  ],
+  "requiredStates": [
+    "Online normal state with no offline warning.",
+    "Offline banner or local status that names affected scope.",
+    "Cached read-only state with last updated timestamp.",
+    "Local draft saved state that is not yet server-synced.",
+    "Queued action state for saves, photos, messages, uploads, or submissions.",
+    "Online-only action unavailable state with explanation.",
+    "Reconnecting or checking connection state.",
+    "Reconnected and syncing handoff state.",
+    "Sync failed or conflict-ready state that preserves local work.",
+    "No offline fallback state when nothing useful can be shown except a controlled offline page."
+  ],
+  "interactionContract": [
+    "The offline indicator appears only when connectivity affects the current task or a global app capability users can reasonably act on.",
+    "The UI never claims a server save, upload, payment, invite, or submit has completed while the app is offline.",
+    "Safe local work remains available and clearly local; unsafe online-only actions are disabled, queued, or routed to an explained fallback.",
+    "Retry connection checks update status to still offline, reconnected, server unreachable, syncing, or failed instead of doing nothing.",
+    "Queued work remains visible until it syncs, fails, is cancelled, exported, or enters conflict resolution.",
+    "Stale cached data is labeled with last updated time and does not silently replace current data after reconnect without reconciliation.",
+    "Focus and announcements communicate major connectivity transitions without interrupting every transient network fluctuation."
+  ],
+  "implementationChecklist": [
+    "Define connectivity sources: browser online state, server reachability, API health, service-worker cache availability, and per-feature offline capability.",
+    "Inventory which content and actions are available online, cached read-only, editable locally, queued for later, or unavailable.",
+    "Write state copy that names the affected object and save location, such as saved on this device or 2 photos queued.",
+    "Persist local drafts and queued actions with stable IDs, timestamps, user-visible status, and retry or cancel options.",
+    "Use service workers, cache storage, local storage, IndexedDB, native storage, or platform queues according to product architecture.",
+    "Keep stale labels, last-updated times, disabled action explanations, and reconnect controls visually close to affected content.",
+    "Announce offline, reconnected, queued, sync failed, and conflict-needed transitions through appropriate status messaging.",
+    "Test airplane mode, flaky network, captive portal, server timeout, refresh while offline, app restart, background return, duplicate queued actions, and multi-device conflicts."
+  ],
+  "commonMisuses": [
+    "Showing only a browser-style offline page when useful cached or local content exists.",
+    "Using a spinner forever during connection loss.",
+    "Claiming a server save or submit succeeded while the work is only local.",
+    "Disabling every control instead of only online-only actions.",
+    "Hiding stale-data timestamps or presenting cached data as current.",
+    "Clearing queued changes after reconnect failure.",
+    "Treating offline, server outage, permission failure, and validation error as the same message."
+  ],
+  "critiqueQuestions": [
+    "What can users still do without network, and what must wait?",
+    "Which content is cached, how old is it, and does freshness matter for this decision?",
+    "Where exactly are local edits stored, and how will users know they are not yet synced?",
+    "What does Retry connection test: device network, server reachability, or a specific API?",
+    "What happens after reconnect if queued work fails validation or conflicts with newer server data?",
+    "Can users recover local work by retrying, cancelling, exporting, or contacting support?"
+  ],
+  "useWhen": [
+    "Connection loss or server reachability changes the user's current task.",
+    "The app can offer cached content, local editing, queued actions, read-only fallback, or a controlled offline page.",
+    "Users need to distinguish device-local state from server-confirmed state.",
+    "Reconnect and later sync behavior matter for trust, data integrity, or task completion."
+  ],
+  "avoidWhen": [
+    "A single request failed while the rest of the app is reachable and an error state is clearer.",
+    "The operation is still actively pending and connection status is not yet known.",
+    "The app has no offline capability beyond a basic navigation failure and cannot provide useful next steps.",
+    "The issue is permission, validation, service outage, or conflict rather than network absence.",
+    "The message would be global noise while the current task is unaffected."
+  ],
+  "variants": [
+    "Global offline banner",
+    "Record-level offline state",
+    "Cached read-only mode",
+    "Local draft offline mode",
+    "Queued upload offline mode",
+    "Offline fallback page",
+    "Reconnect check state",
+    "Offline-to-sync handoff",
+    "Stale data warning",
+    "Offline mobile retry"
+  ],
+  "accessibility": [
+    "Announce significant connectivity changes with status messaging when they affect the current task.",
+    "Do not rely on a disconnected icon or color alone; include visible text such as Offline, Saved on this device, Queued, or Last updated.",
+    "Keep disabled online-only actions associated with an explanation and provide an alternative path where possible.",
+    "Ensure reconnect, retry, export local copy, view cached data, and cancel queued action controls are keyboard reachable.",
+    "Avoid repeatedly announcing brief network flaps; announce meaningful state changes such as offline, reconnected, syncing, failed, or conflict.",
+    "Make cached timestamps and local-only status available to assistive technology near the affected data."
+  ],
+  "keyboardBehavior": [
+    "Focus does not jump merely because the app detects offline status.",
+    "Retry connection, save locally, export local copy, cancel queued item, and view cached content actions appear in normal tab order.",
+    "When an online-only action becomes unavailable while focused, nearby status explains why and offers the next reachable action.",
+    "When reconnect or sync succeeds, focus remains stable unless the user explicitly activated a retry action that resolves to a new result.",
+    "When sync fails after reconnect, focus can move to the failed queued item or persistent recovery region if that is the next task."
+  ],
+  "failureModes": [
+    "Users keep typing into a form that later disappears because the app did not persist local changes.",
+    "Users submit twice after reconnect because an offline queue was hidden.",
+    "Users make decisions from stale cached data because no timestamp or warning is shown.",
+    "Screen reader users miss that Submit is unavailable because offline status is only an icon.",
+    "A server outage is labeled as device offline, so users keep toggling Wi-Fi instead of trying later.",
+    "Queued uploads resume after reconnect but fail silently, leaving users believing the task is complete.",
+    "A global offline banner obscures local actions even on pages that still work fully offline."
+  ],
+  "relatedPatterns": [
+    "error-state",
+    "loading-spinner",
+    "progress-bar",
+    "toast-notification",
+    "alert",
+    "draft-state"
+  ],
+  "comparisons": [
+    "offline-state-vs-error-state-vs-loading-spinner-vs-progress-bar"
+  ],
+  "examples": [
+    {
+      "product": "Material Design Offline states",
+      "url": "https://m1.material.io/patterns/offline-states.html",
+      "platform": "mobile",
+      "notes": "Documents offline-capable feature behavior, no-internet labeling, slow/intermittent connection planning, offline indicators, and feature-specific offline affordances.",
+      "screenshot": "screenshots/patterns/offline-state.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "web.dev Offline UX design guidelines",
+      "url": "https://web.dev/articles/offline-ux-design-guidelines",
+      "platform": "web",
+      "notes": "Documents communicating what changes offline, preserving task progress, distinguishing local saves from online saves, and using plain language and meaningful status design.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "web.dev Create an offline fallback page",
+      "url": "https://web.dev/articles/offline-fallback-page",
+      "platform": "web",
+      "notes": "Documents cached offline fallback pages, manual reconnect buttons, automatic online-event reload, server polling, and controlled offline experiences.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN PWA offline and background operation",
+      "url": "https://developer.mozilla.org/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation",
+      "platform": "web",
+      "notes": "Documents service-worker controlled pages, cache strategies, offline fallback, and background operation patterns for intermittent connectivity.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-design-offline-states",
+      "note": "Material supports explicit no-internet labels, offline-capable feature indicators, and planning for slow, intermittent, or absent connections."
+    },
+    {
+      "id": "webdev-offline-ux-design-guidelines",
+      "note": "web.dev supports communicating what changes offline and visibly distinguishing local save from online save."
+    },
+    {
+      "id": "webdev-offline-fallback-page",
+      "note": "web.dev supports cached offline fallback pages, manual reconnect, automatic reload on online events, and server polling."
+    },
+    {
+      "id": "mdn-pwa-offline-background-operation",
+      "note": "MDN supports service workers, Cache API strategies, offline fallback pages, and background operations for intermittent connectivity."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

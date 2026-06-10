@@ -1,77 +1,209 @@
 {
   "id": "prompt-suggestions",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an AI prompt helper pattern with contextual prompt starters, editable selected drafts, capability boundaries, explicit send behavior, related-pattern distinctions, source-backed evidence, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names contextual starter prompts, prompt galleries, selected editable draft state, capability and grounding boundaries, explicit send behavior, stale suggestion handling, and suppression when suggestions would overpromise.",
+    "relatedPatternDistinction": "The entry separates prompt suggestions from search suggestions that formulate retrieval queries, command palettes that execute commands, autocomplete that completes known values, and future prompt-box patterns that own the primary AI input surface.",
+    "liveDemoBehavior": "The live demo shows prompt starter cards with titles, editable selected prompt text, boundary notes, explicit send, clear behavior, and a bad UX path that auto-fills and submits a vague overpromising prompt.",
+    "comparisonDecisionRules": "The linked prompt-suggestions-vs-search-suggestions-vs-command-palette comparison distinguishes AI request starters from query suggestions and command execution with concrete rules for edit-before-send, capability disclosure, side effects, and known-value completion.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/prompt-suggestions.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, editable prompt starter behavior, source-backed guidance, related links, and comparison links.",
+    "screenshots": [
+      "screenshots/patterns/prompt-suggestions.png"
+    ]
+  },
   "name": "Prompt suggestions",
-  "aliases": ["suggested prompts", "starter prompts", "prompt chips"],
+  "aliases": [
+    "suggested prompts",
+    "starter prompts",
+    "prompt chips",
+    "prompt gallery"
+  ],
   "category": "AI And Automation UX",
-  "secondaryCategories": ["Search, Browse, And Discovery"],
-  "platforms": ["web", "mobile", "desktop", "ai"],
-  "problem": "Users often do not know what an AI system can do or how to ask effectively.",
-  "solution": "Show contextual example prompts that reveal capabilities and give users editable starting points.",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Task And Workflow Patterns"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "Users often do not know what an AI surface can do, what context it has, or how to write a useful request without over-trusting the system.",
+  "solution": "Offer contextual, truthful prompt starters that reveal useful tasks, load into an editable prompt field, and require the user to intentionally send the final request.",
   "problemContext": [
-    "An AI feature accepts open-ended user input.",
-    "Users may not know the system's capabilities, limits, or useful request shape."
+    "An AI feature accepts open-ended natural-language input.",
+    "The system has useful but bounded capabilities that users may not discover from an empty prompt box.",
+    "Suggested prompts may be created by the product, generated from agent configuration, saved by the user, or shared by a team."
   ],
   "selectionRules": [
-    "Choose prompt suggestions when users need help discovering what the AI can do.",
-    "Prefer a constrained form when the task has fixed required inputs and predictable outputs.",
-    "Avoid suggestions that imply capabilities, data access, or reliability the system does not have."
+    "Choose prompt suggestions when the user needs help discovering useful AI requests, not when the task can be captured by a fixed form.",
+    "Make each suggestion specific to the current object, workspace, agent capability, or role so it does not read like generic filler.",
+    "Load the selected suggestion into editable input before sending when the request can affect data, people, permissions, or consequential decisions.",
+    "Suppress or rewrite suggestions when the system lacks the required data, grounding, language support, tool access, or permission to satisfy them.",
+    "Prefer search suggestions when the goal is to phrase a retrieval query, and prefer a command palette when the row executes an app command or navigation action."
   ],
   "requiredStates": [
-    "Initial state with contextual suggestions.",
-    "Selected state where a suggestion becomes editable input.",
-    "Submitted state after the user intentionally sends the prompt.",
-    "Unavailable or limited-capability state when suggestions should be suppressed."
+    "Initial state with contextual prompt starters and capability or source boundary notes.",
+    "Selected suggestion state where the draft prompt is visible, editable, and not yet sent.",
+    "Edited draft state after the user changes the suggested prompt.",
+    "Submitted state that shows the exact prompt sent and preserves recovery if the output is weak.",
+    "Unavailable, stale, or limited-capability state when suggestions should be hidden, refreshed, or clearly labeled."
   ],
   "interactionContract": [
-    "Selecting a suggestion should populate or adapt the input, not silently perform high-impact work.",
-    "Suggestions should reflect current context and known capabilities.",
-    "Users must be able to edit suggested text before submission when consequences matter."
+    "Selecting a suggestion populates or inserts editable prompt text instead of silently running the request.",
+    "The suggestion label explains the task outcome, while the draft prompt contains enough context to be useful after selection.",
+    "Users can ignore, revise, combine, clear, or send suggestions using pointer and keyboard.",
+    "The UI distinguishes system-suggested text from user-authored text until the user edits or sends it.",
+    "The suggestion set updates when the underlying object, agent capability, language, permission, or source context changes."
   ],
   "implementationChecklist": [
-    "Make suggestions specific to the user's current task or object.",
-    "Keep suggestions truthful about system capability.",
-    "Place selected text in an editable input.",
-    "Avoid auto-submitting suggested prompts for consequential actions."
+    "Derive suggestions from the current task, selected object, available tools, and known data sources.",
+    "Show short action labels, full editable prompt text, and a boundary note such as needs selected text or uses open tickets only.",
+    "Provide an explicit send action after selection and keep the draft prompt editable.",
+    "Expose selected, focused, unavailable, stale, loading, and no-suggestion states.",
+    "Avoid suggestions that imply hidden data access, guaranteed correctness, unsupported languages, or unavailable tool actions.",
+    "Measure which suggestions are selected, edited, sent, dismissed, saved, or shared without turning analytics into required user workflow."
   ],
   "commonMisuses": [
-    "Showing generic prompts unrelated to the current context.",
-    "Overpromising what the AI can do.",
-    "Treating suggestions as final answers rather than starting points."
+    "Showing generic chips such as summarize, improve, or make better with no object-specific context.",
+    "Auto-submitting a suggested prompt before the user can review or edit it.",
+    "Suggesting work the AI cannot ground, verify, or perform with the current permissions.",
+    "Styling suggestions like final answers or mandatory next steps.",
+    "Leaving old suggestions visible after the user changes file, thread, customer, agent, language, or workspace context."
   ],
   "critiqueQuestions": [
-    "Would these suggestions help a user form a better request without misleading them about capability?"
+    "Would a user understand what the AI can do from these suggestions without being misled about data access or reliability?",
+    "After selecting a suggestion, can the user inspect and edit the exact text that will be sent?",
+    "Are these prompts tied to the current task strongly enough that another pattern could not use the same copy unchanged?"
   ],
   "useWhen": [
-    "The AI feature supports open-ended input.",
-    "Users need help forming a useful request."
+    "The AI surface supports open-ended requests and users need examples of useful, supported tasks.",
+    "The product can generate or curate prompts from reliable context such as page state, selected content, role, workflow, or agent capabilities.",
+    "Teams benefit from saved, shared, or curated prompt starters that can be adapted before use."
   ],
   "avoidWhen": [
-    "Suggestions would imply capabilities the system cannot reliably perform.",
-    "The task is constrained enough that a normal form is clearer."
+    "The user must provide fixed required fields that are clearer as a form.",
+    "Suggestions would claim access to data, sources, tools, languages, or outcomes the AI cannot actually use.",
+    "The action is high-risk enough that a prompt starter would hide necessary review, approval, or structured input.",
+    "The suggestions are generic marketing copy rather than practical task starters."
   ],
-  "variants": ["Starter prompts", "Contextual prompt chips", "Prompt autocomplete", "Template gallery"],
+  "variants": [
+    "Starter prompts",
+    "Contextual prompt chips",
+    "Prompt gallery",
+    "Saved prompts",
+    "Shared team prompts",
+    "Prompt assistant draft",
+    "Prompt template gallery"
+  ],
   "accessibility": [
-    "Suggestions should be reachable by keyboard and screen readers.",
-    "Selecting a suggestion should not submit without giving users a chance to edit when consequences matter."
+    "Expose suggestions as named buttons, list items, or cards with clear keyboard focus and selected state.",
+    "Do not rely on chip color alone to distinguish suggested text from user-authored prompt text.",
+    "Announce when selecting a suggestion loads an editable draft but does not send it.",
+    "Keep the prompt editor reachable immediately after choosing a suggestion."
   ],
   "keyboardBehavior": [
-    "Arrow-key navigation may be appropriate for suggestion lists.",
-    "Tab order should not trap users inside suggestions."
+    "Tab moves through suggestion controls, the prompt editor, send, and clear actions in a predictable order.",
+    "Enter or Space on a suggestion loads it into the prompt editor without submitting unless the control is explicitly labeled as send.",
+    "Escape may dismiss an open suggestion gallery or return focus to the prompt editor without deleting the draft.",
+    "Arrow-key navigation may be used inside a structured suggestion list if active option and selection state are exposed."
   ],
   "failureModes": [
-    "Overpromising what the AI can do.",
-    "Using generic suggestions unrelated to the user's context.",
-    "Making suggestions look like final answers."
+    "The selected starter sends a prompt before the user can correct missing context.",
+    "Suggestion labels overpromise precise confidence, source coverage, or tool use.",
+    "Saved or shared prompts are stale after workflow, model, data, or permission changes.",
+    "Users cannot tell whether they are editing their own words or a system-generated suggestion.",
+    "The prompt starter hides that the AI output still needs review, grounding, or human approval."
   ],
-  "relatedPatterns": [],
-  "comparisons": [],
-  "examples": [],
+  "relatedPatterns": [
+    "search-suggestions",
+    "command-palette",
+    "autocomplete"
+  ],
+  "comparisons": [
+    "prompt-suggestions-vs-search-suggestions-vs-command-palette"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft 365 Copilot Prompt Gallery",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-prompt-gallery",
+      "platform": "ai",
+      "notes": "Documents a prompt gallery with suggested, user-created, and team prompts intended to help users understand and use Copilot effectively.",
+      "screenshot": "screenshots/patterns/prompt-suggestions.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Microsoft Copilot Studio suggested prompts",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/configure-starter-prompts",
+      "platform": "ai",
+      "notes": "Documents configurable suggested prompts on an agent welcome page and publishing/update considerations for prompt changes.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Microsoft Copilot Studio Prompt assistant",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/prompt-assistant",
+      "platform": "ai",
+      "notes": "Documents prompt assistant as a draft-generation workflow where users review, keep, edit, and test the suggested prompt.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
   "sources": [
     {
+      "id": "microsoft-copilot-prompt-gallery",
+      "note": "Microsoft documents Prompt Gallery as suggested, saved, shared, and team prompts that help users understand Copilot capabilities."
+    },
+    {
+      "id": "microsoft-copilot-studio-suggested-prompts",
+      "note": "Copilot Studio documents configurable suggested prompts that appear before a new agent chat and need publish/update handling."
+    },
+    {
+      "id": "microsoft-copilot-studio-prompt-assistant",
+      "note": "Prompt assistant guidance documents draft prompts that users review, keep, edit, and test before use."
+    },
+    {
       "id": "microsoft-human-ai-guidelines",
-      "note": "Human-AI guidelines emphasize making clear what the system can do and how well it can do it."
+      "note": "Human-AI guidelines support capability clarity, user control, correction, dismissal, and appropriate reliance."
     }
   ],
   "maturity": "emerging",
-  "lastVerified": "2026-06-08"
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "AI prompt starter surface",
+  "uiGuidance": [
+    "Render contextual prompt starter cards or chips with a task label, editable prompt text, capability boundary, selected state, disabled or stale state, and explicit send action.",
+    "Keep suggestion content visually distinct from user-authored prompt text until the user edits or sends it.",
+    "Place the editable prompt editor close to the suggestions so the transition from starter to owned prompt is visible."
+  ],
+  "uxGuidance": [
+    "Help users discover useful AI requests while preserving control over the exact prompt that is sent.",
+    "Use prompt suggestions to reveal supported capabilities and needed context, not to imply guaranteed correctness or hidden data access.",
+    "Let users revise, combine, ignore, save, or share suggestions without making any suggestion mandatory."
+  ],
+  "uiExamples": {
+    "good": [
+      "Each prompt starter shows an action label, full prompt preview, and boundary note such as uses selected thread only.",
+      "The selected suggestion appears in an editable prompt field with Send and Clear actions.",
+      "Unavailable suggestions are disabled with a reason tied to missing selection, permission, or source data."
+    ],
+    "bad": [
+      "Three tiny chips labeled summarize, improve, and more with no context or affordance.",
+      "A suggestion styled like a final AI answer rather than an editable starting point.",
+      "Prompt suggestions remain visible after the selected document or agent capability changes."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Selecting a starter loads a draft, moves focus to the prompt editor, and lets the user adjust scope before sending.",
+      "The UI explains when a suggestion needs selected text, available sources, or a new chat session before it will work.",
+      "Users can save or share useful prompts while still adapting them to the current task."
+    ],
+    "bad": [
+      "Clicking a suggestion immediately runs a consequential task without review.",
+      "A vague prompt such as do everything perfectly is auto-filled and sent.",
+      "Suggestions promise source-grounded or high-confidence output when the AI cannot access the needed source."
+    ]
+  }
 }

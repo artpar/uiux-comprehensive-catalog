@@ -1,0 +1,208 @@
+{
+  "id": "disabled-button-no-explanation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for unavailable actions that hide eligibility requirements, permission limits, system locks, or validation recovery, with source-backed button and error guidance, comparison rules, unique demo behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets unavailable submit, create, save, continue, destructive, permission-gated, and system-locked actions where users need visible requirements and a recovery path before progress is possible.",
+    "relatedPatternDistinction": "The entry separates unexplained disabled buttons from inline validation by action eligibility versus one-field correction, and from error summary by pre-action blocked availability versus submitted-form recovery navigation.",
+    "liveDemoBehavior": "The live demo shows a create-workspace flow where visible requirements unlock the action, contrasts an unexplained disabled button that cannot reveal cause, and demonstrates validation-on-click as an alternate recovery path.",
+    "comparisonDecisionRules": "The disabled-button-no-explanation-vs-inline-validation-vs-error-summary comparison gives concrete rules for visible requirements, enabled validation submit, permission locks, field-level correction, and failed-submit summaries.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed anti-pattern entry.",
+    "manualSpotCheck": "screenshots/patterns/disabled-button-no-explanation.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/disabled-button-no-explanation.png"
+    ]
+  },
+  "name": "Disabled button with no explanation",
+  "aliases": [
+    "mystery disabled button",
+    "blocked action",
+    "unexplained unavailable action",
+    "greyed-out dead end"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users see an unavailable action but cannot tell which field, permission, prerequisite, system state, or safety rule blocks it.",
+  "solution": "Treat the unexplained disabled button as an anti-pattern: make the blocking requirement visible near the action, keep recovery controls reachable, or allow the action and return actionable validation.",
+  "problemContext": [
+    "A form, setup flow, permission model, quota, dependency, or safety gate controls whether an action can run.",
+    "The primary action is greyed out, skipped by keyboard focus, or visually present but functionally unavailable.",
+    "The reason may be a missing field, invalid format, unchecked agreement, insufficient permission, pending system state, or locked account.",
+    "Users need to know what to change, who can grant access, or when the action will become available."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when an unavailable action has no visible requirement, cause, owner, or next step near the control.",
+    "Show a requirement checklist or status message for eligibility gates such as missing name, terms acceptance, permission, quota, setup, or dependency state.",
+    "Keep the action enabled and validate on activation when users benefit from seeing exactly which fields failed after an attempted submit.",
+    "Use inline validation when one field has a local correctable problem and the action itself does not need to explain a wider eligibility gate.",
+    "Use an error summary when a submitted page or step returns multiple validation errors that may be spread across the page.",
+    "For permission or system locks, show who can resolve the block, whether the user can request access, and what data remains safe.",
+    "Disable only during short in-progress states such as preventing duplicate submit, and pair that state with visible progress or completion feedback."
+  ],
+  "requiredStates": [
+    "Unavailable action state with visible reason and affected requirement.",
+    "Partially eligible state that shows which requirements are complete and which remain.",
+    "Actionable recovery state such as edit field, accept terms, request access, retry later, or contact owner.",
+    "Eligible state where the action becomes available or an enabled submit can validate remaining issues.",
+    "Submitted or completed state after the action succeeds.",
+    "Permission-denied or system-locked state with an escalation route."
+  ],
+  "interactionContract": [
+    "Users can discover why the action is unavailable without hovering a disabled control or guessing from color alone.",
+    "The explanation is adjacent to the action or requirement list, not hidden in a detached tooltip or unrelated help page.",
+    "Keyboard and assistive technology users can reach the requirement text and any recovery controls even if the unavailable action itself cannot receive focus.",
+    "Eligibility changes update the visible requirement state and action state in the same region.",
+    "If submit remains enabled, failed activation preserves user input and moves focus or reading order to actionable validation.",
+    "Permission locks distinguish missing user input from account, role, quota, dependency, or system constraints."
+  ],
+  "implementationChecklist": [
+    "Name the exact condition blocking the action, such as Enter a workspace name, Accept billing terms, or Ask an admin for owner access.",
+    "Place requirement text, checklist, or field errors before the action or directly beside it.",
+    "Use enabled submit plus validation when disabling would hide field requirements or prevent users from learning what remains.",
+    "Use aria-describedby or equivalent relationships for nearby requirement text when an unavailable control remains in the UI.",
+    "Keep recovery links, request-access controls, edit fields, and support routes keyboard reachable.",
+    "Avoid hover-only explanations on disabled controls because disabled elements may not receive focus or pointer events consistently.",
+    "Update the action label or status during short processing states so users know the button is busy, not permanently unavailable."
+  ],
+  "commonMisuses": [
+    "Greying out Continue until every field is valid without showing the missing or invalid answers.",
+    "Putting the only explanation in a tooltip attached to a disabled button that keyboard and touch users cannot open.",
+    "Using disabled state to hide permission, quota, account lock, or system dependency problems.",
+    "Changing the button from disabled to enabled silently after a requirement changes elsewhere on the page.",
+    "Disabling a destructive action without explaining the safety prerequisite or alternate route.",
+    "Using low contrast disabled styling as the only signal that an action is unavailable."
+  ],
+  "critiqueQuestions": [
+    "Can users tell exactly which requirement blocks the action before they try random changes?",
+    "Can keyboard and screen reader users reach the explanation and recovery path?",
+    "Is this a field validation problem, a permission problem, a system state, or a safety lock?",
+    "Would an enabled submit with validation teach the next step better than a disabled button?",
+    "Does the UI distinguish temporary processing from a longer blocked state?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit disabled submit, continue, create, save, delete, publish, invite, export, payment, and setup actions.",
+    "Use it when generated UI disables a primary action before explaining the missing requirement or recovery route."
+  ],
+  "avoidWhen": [
+    "The action remains available and returns actionable validation after activation.",
+    "The unavailable state includes visible, reachable requirement text and a clear way to become eligible.",
+    "The button is briefly disabled only to prevent duplicate submission and shows active processing feedback.",
+    "The current user truly has no permission and the UI provides a request-access, owner-contact, or read-only explanation."
+  ],
+  "variants": [
+    "Disabled submit without requirements",
+    "Permission-gated disabled action",
+    "Disabled destructive action",
+    "Disabled payment button",
+    "Locked quota action",
+    "Disabled invite or publish control",
+    "Hover-only disabled tooltip"
+  ],
+  "accessibility": [
+    "Do not make the only explanation unreachable because the control is disabled, skipped by focus, or hidden behind hover.",
+    "Keep requirement text in normal reading order and near the unavailable action.",
+    "Expose requirement descriptions programmatically when a disabled or aria-disabled control remains visible.",
+    "Ensure recovery controls such as Request access, Edit field, or Contact owner are keyboard reachable.",
+    "Use sufficient contrast for disabled-looking text that communicates required information."
+  ],
+  "keyboardBehavior": [
+    "Keyboard users can reach the fields, requirement text, and recovery controls even when the blocked action itself is not focusable.",
+    "If an enabled submit is used, Enter or Space activates it and focus moves to inline validation or error summary after failure.",
+    "When requirements are satisfied, the newly available action appears in a predictable tab order.",
+    "For permission locks, focus can move to Request access or Contact admin instead of landing on an inert button.",
+    "Short processing states prevent duplicate activation without trapping focus or erasing the status message."
+  ],
+  "failureModes": [
+    "Users cannot tell what to change to proceed.",
+    "Disabled controls hide the only validation feedback from keyboard and assistive technology users.",
+    "A hover-only tooltip never appears on touch devices.",
+    "The action becomes available with no explanation of what changed.",
+    "Users abandon a flow because the primary path appears broken.",
+    "A permission or quota issue is misread as a missing form field."
+  ],
+  "relatedPatterns": [
+    "inline-validation",
+    "error-summary",
+    "infinite-spinner",
+    "icon-only-ambiguous-action"
+  ],
+  "comparisons": [
+    "disabled-button-no-explanation-vs-inline-validation-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Button",
+      "url": "https://design-system.service.gov.uk/components/button/",
+      "platform": "web",
+      "notes": "Documents button behavior including disabled buttons and preventing duplicate submits while still giving users information during slow processing.",
+      "screenshot": "screenshots/patterns/disabled-button-no-explanation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "VA.gov Design System Button",
+      "url": "https://design.va.gov/components/button/",
+      "platform": "web",
+      "notes": "Documents button usage, including strong restrictions on disabled form controls and appropriate post-action disabled states during in-between processing.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-button-component",
+      "note": "GOV.UK button guidance documents disabled behavior and recommends giving users information about what is happening during slow post-action states."
+    },
+    {
+      "id": "va-button-component",
+      "note": "VA.gov button guidance strongly discourages disabled controls except in narrow processing contexts and emphasizes correct button/link use."
+    },
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK error message guidance supports clear field-level requirements and correction text when validation is the better recovery path."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports linked failed-submit recovery when multiple requirements need correction."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Blocked action anti-pattern",
+  "uiGuidance": [
+    "Replace a lone greyed-out action with visible requirement text, a checklist, permission message, or enabled validation submit that tells users what blocks progress.",
+    "Keep recovery controls such as edit fields, request access, retry later, contact owner, or use valid details reachable beside the blocked action."
+  ],
+  "uxGuidance": [
+    "Help users understand whether the block is missing input, invalid data, permission, quota, dependency, safety policy, or temporary processing.",
+    "Turn action availability into a discoverable lifecycle: unavailable with reason, partially eligible, recoverable, eligible, processing, and completed."
+  ],
+  "uiExamples": {
+    "good": [
+      "Create workspace is paired with visible requirements: enter a workspace name, accept billing terms, and request owner access.",
+      "A form keeps Continue enabled and, after activation, shows inline messages or an error summary that names each missing answer."
+    ],
+    "bad": [
+      "Create workspace is greyed out with no nearby text, checklist, or request-access route.",
+      "A disabled Continue button has a hover-only tooltip that keyboard and touch users cannot open."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can satisfy requirements one by one and see the action become available, or submit and receive actionable validation.",
+      "Permission-gated users can request access or contact an owner instead of guessing at form fields."
+    ],
+    "bad": [
+      "Users change random fields because the unavailable action never states the missing condition.",
+      "The button remains inert after requirements are met because the eligibility state is not updated visibly."
+    ]
+  }
+}

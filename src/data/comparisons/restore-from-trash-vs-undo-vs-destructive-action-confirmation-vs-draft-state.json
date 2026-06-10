@@ -1,0 +1,46 @@
+{
+  "id": "restore-from-trash-vs-undo-vs-destructive-action-confirmation-vs-draft-state",
+  "title": "Restore from trash vs undo vs destructive action confirmation vs draft state",
+  "summary": "Use restore from trash when deleted objects remain recoverable in a durable deleted-items location after the immediate action window has passed.",
+  "patternIds": [
+    "restore-from-trash",
+    "undo",
+    "destructive-action-confirmation",
+    "draft-state"
+  ],
+  "decisionRules": [
+    "Use restore from trash when deletion removes an object from normal views but preserves it in a recoverable deleted-items area for a known retention period.",
+    "Use undo when the user needs immediate reversal of a just-completed low-risk action and the recovery control belongs near the result.",
+    "Use destructive action confirmation when the next action commits irreversible loss, broad scope, external effects, or permanent removal from trash.",
+    "Use draft state when the recoverable object is an unpublished or inactive version, not a deleted object awaiting restore or purge.",
+    "A trash restore UI must show object name, type, original location, deletion time, retention or purge status, and whether restore will recreate parent folders or permissions.",
+    "If the original location no longer exists or the user lacks permission there, route restore through a choose-location or permission recovery state instead of silently failing.",
+    "Keep permanent delete, empty trash, and purge actions visually and semantically separate from Restore, and escalate them to destructive confirmation when loss is final.",
+    "Do not rely on a short toast undo for important deleted records that users may need to recover hours or days later.",
+    "Do not use trash restore to handle unsaved drafts, publish/discard decisions, or edit-history replay; those need draft state, autosave recovery, undo, or redo.",
+    "When bulk restoring, preview item count, conflicts, unavailable parents, permission changes, and items that cannot be restored before committing the batch."
+  ],
+  "failureModes": [
+    "The trash list lacks original location or deletion time, so users cannot identify which object to restore.",
+    "Restore silently returns a file to an unavailable folder, hidden shared drive, or permission scope the user cannot find.",
+    "Permanent delete sits beside Restore with the same visual weight and no final-loss confirmation.",
+    "The interface promises recovery after retention has expired or after an administrator purge.",
+    "Bulk restore recreates stale parents, duplicates names, or changes permissions without review.",
+    "The product treats restore from trash as the same as undo, so users lose recovery after leaving the route."
+  ],
+  "sources": [
+    {
+      "id": "google-drive-recover-deleted-file",
+      "note": "Google Drive documents recovering files from Trash and explains permanent-deletion limits."
+    },
+    {
+      "id": "dropbox-recover-deleted-files",
+      "note": "Dropbox documents a deleted-files recovery surface with recovery limits."
+    },
+    {
+      "id": "microsoft-sharepoint-recycle-bin",
+      "note": "SharePoint documents first-stage and second-stage recycle bins, retention, and original-location restore."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "merge-conflict-resolver-vs-conflict-resolution-vs-conflict-state-vs-review-before-submit",
+  "title": "Merge conflict resolver vs conflict resolution vs conflict state vs review before submit",
+  "summary": "A merge conflict resolver is a source-control-specific resolver for branch, file, and hunk conflicts. Conflict resolution is the broader decision workflow for competing values, conflict state exposes that competing versions exist, and review before submit verifies a user's own captured answers before a transaction.",
+  "patternIds": [
+    "merge-conflict-resolver",
+    "conflict-resolution",
+    "conflict-state",
+    "review-before-submit"
+  ],
+  "decisionRules": [
+    "Use merge conflict resolver when the competing values are source-code branches, files, hunks, conflict markers, and a resolution commit in a repository.",
+    "Use conflict resolution when users must decide what survives across records, documents, imports, or synchronized objects without source-control hunk and branch semantics.",
+    "Use conflict state when the main UI job is to expose that competing valid versions exist, preserve both values, and route users to the proper resolver.",
+    "Use review before submit when users are checking their own captured answers before sending, paying, publishing, or applying a transaction and no external branch or collaborator version competes.",
+    "A merge conflict resolver must name target and source branches, file paths, hunk numbers, code context, and commit scope; a general conflict resolver can use field, row, document, or object labels instead.",
+    "A merge conflict resolver must validate that conflict markers and unsupported files are resolved before enabling commit; a conflict state may only show the unresolved badge and affected object.",
+    "Review before submit can offer Change links for user-entered values, but it should not present Use ours, Use theirs, branch labels, or repository commit messages.",
+    "Conflict resolution can include final reviewed summaries, but merge conflict resolver summaries must include files changed, remaining hunks, branch pair, and resolution commit message.",
+    "Do not use bulk Accept all incoming for merge conflicts unless the UI shows affected files, branch meaning, discarded code, and a reviewable commit result.",
+    "Do not clear merge conflict status until the repository accepts the resolution commit and refreshes mergeability."
+  ],
+  "failureModes": [
+    "A general conflict resolver is reused for code and omits branch labels, file paths, hunk numbers, and conflict marker validation.",
+    "A conflict state opens a merge page that only says conflicts exist and offers no per-hunk decisions.",
+    "A review-before-submit page asks developers to check a merge result but hides source and target branch code.",
+    "A merge conflict resolver enables Commit while <<<<<<< markers, unsupported files, or moved-target errors remain.",
+    "A bulk incoming choice discards target-branch code across many files without a changed-file summary.",
+    "The UI clears conflict status after a browser edit even though the repository rejects the resolution commit."
+  ],
+  "sources": [
+    {
+      "id": "gitlab-merge-conflicts",
+      "note": "GitLab documents source and target conflict blocks, Use ours and Use theirs choices, inline editing, commit messages, and manual resolution limits."
+    },
+    {
+      "id": "microsoft-office-coauthoring-conflicts",
+      "note": "Microsoft Office conflict review helps distinguish general recovered-change decisions from source-control branch and hunk semantics."
+    },
+    {
+      "id": "atlassian-confluence-concurrent-editing",
+      "note": "Confluence conflict display helps distinguish document conflict choices from repository merge conflict resolution."
+    },
+    {
+      "id": "govuk-check-answers-pattern",
+      "note": "Check answers guidance helps distinguish review-before-submit from conflict resolution between competing versions."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

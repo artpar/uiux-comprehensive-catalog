@@ -1,0 +1,262 @@
+{
+  "id": "action-menu",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a contextual object-scoped action list pattern with source-backed guidance for command taxonomy, section grouping, object and bulk scope labels, disabled reasons, destructive handoff, link versus command distinction, and differences from menu buttons, button groups, command palettes, select controls, menubars, and confirmation dialogs.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers resource-scoped command lists, section headings, verb-led item labels, object names, selected-count scope, disabled and unavailable reasons, destructive item separation, link disclosure, icons as secondary aids, bulk-action changes, and keeping forms or editors out of compact menus.",
+    "relatedPatternDistinction": "The entry separates action menu from menu button by organizing the command list rather than the trigger mechanics, from button group by hidden contextual commands rather than visible peer actions, from command palette by local object scope rather than product-wide search, from menu menubar by transient contextual lists rather than persistent application command systems, and from select by invoking actions rather than choosing values.",
+    "liveDemoBehavior": "The live demo changes between one selected customer and three selected customers, updates menu item labels and disabled reasons by scope, runs safe actions with result feedback, blocks a permission-limited export with a reason, routes Delete customer to review, and contrasts vague labels, mixed roles, hidden disabled reasons, and danger-in-the-middle failures.",
+    "comparisonDecisionRules": "The linked action-menu-vs-menu-button-vs-button-group-vs-command-palette comparison gives concrete rules for contextual command lists, trigger mechanics, visible peer actions, product-wide command search, object scope, sections, disabled reasons, destructive handoff, value-selection alternatives, and keeping rich editors out of action menus.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/action-menu.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, scoped menu sections, disabled reason, bulk-scope update, destructive handoff, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/action-menu.png"
+    ]
+  },
+  "name": "Action menu",
+  "aliases": [
+    "actions menu",
+    "contextual action list",
+    "resource actions menu",
+    "row actions menu",
+    "bulk actions menu",
+    "more actions list"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Disclosure And Attention Management",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Contextual command list for a resource or selection",
+  "uiGuidance": [
+    "Render a compact menu of verb-led actions scoped to one resource, row, card, selected set, or page object, with clear section headings, object-aware labels, disabled reasons, and separated dangerous commands.",
+    "Use icons, shortcuts, descriptions, and external-link markers only to clarify text labels; avoid making the menu a mixed panel of forms, filters, field values, navigation, and unrelated controls."
+  ],
+  "uxGuidance": [
+    "Use an action menu when users need several contextual commands without keeping every command visible, and the list itself must explain scope, availability, risk, and outcome.",
+    "Make the current object or selection count explicit, update actions when scope changes, and route destructive or privacy-sensitive commands into confirmation, undo, restore, or review instead of running silently."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Customer actions menu has Manage customer, Data requests, and Account risk sections, with Edit customer, Merge customer, Request data export, and Delete customer separated at the end.",
+      "A bulk selection menu changes labels from Archive customer to Archive 3 customers and disables Merge because it only applies to one customer.",
+      "A report row menu shows Duplicate report, Download CSV, Share link, and Archive report with disabled Export unavailable because the report is still processing."
+    ],
+    "bad": [
+      "A More menu contains Open, Edit, View, Delete, Settings, Filter, Owner, and a search box with no sections or object names.",
+      "A Delete action sits between Rename and Duplicate with the same style and no consequence preview.",
+      "Every row menu uses identical labels such as Open and Delete, so screen reader users cannot tell which record will change."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens Customer actions, chooses Duplicate customer, and receives status that names the customer and keeps focus anchored to the action context.",
+      "A user changes from one selected customer to three, sees single-object actions disabled with reasons, and can run Export selected customers.",
+      "A user chooses Delete customer and is moved to a review state that names the affected customer before commitment."
+    ],
+    "bad": [
+      "A user chooses Delete from a generic row menu and cannot tell whether it deletes the row, account, attached files, or selected customers.",
+      "A user opens a menu to export selected items but the action is disabled with no reason or next step.",
+      "A user activates a menu item that looks like a command but navigates away and loses unsaved context."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Contextual commands often need to stay compact, but generic overflow menus become junk drawers when they mix unrelated actions, hide scope, omit disabled reasons, and place destructive commands beside safe actions.",
+  "solution": "Design the action menu as a scoped command list: name the resource or selection, group related commands, label each item by verb and object, explain unavailable actions, separate high-risk commands, and route consequential actions through review or recovery.",
+  "problemContext": [
+    "A row, card, table, selected set, page resource, or toolbar has more contextual commands than should be visible at once.",
+    "The command list changes according to object state, permissions, processing state, or selection count.",
+    "Users need to distinguish safe commands, links, disabled commands, bulk actions, and dangerous commands before activation.",
+    "The trigger pattern already exists, but the menu content still needs taxonomy, labels, grouping, state, and outcome rules.",
+    "The interaction must work for pointer, keyboard, touch, and assistive technology users without losing object context."
+  ],
+  "selectionRules": [
+    "Choose an action menu when commands are contextual to one object, selected set, resource, row, card, or local page surface.",
+    "Use a menu button pattern when the primary problem is trigger labelling, open state, popup ownership, focus movement, dismissal, and focus return.",
+    "Use a button group when there are only a few important related commands that should remain visible.",
+    "Use a command palette when commands are broad, searchable, shortcut-driven, cross-product, or not tied to the current object.",
+    "Use a menubar when the product has a persistent application command hierarchy with stable top-level command groups.",
+    "Use select, listbox, radio group, checkbox group, multi-select, or chip selection when the user is choosing values rather than invoking commands.",
+    "Use confirmation dialog, typed confirmation, undo, or restore after a dangerous action is selected, not as a substitute for clear menu item labels.",
+    "Use action sheet, context menu, drawer, or bottom sheet for platform-specific presentation when the same contextual command-list rules apply."
+  ],
+  "requiredStates": [
+    "Closed trigger or contextual entry point with resource scope.",
+    "Open menu with accessible name that includes the object or selection scope.",
+    "Sectioned menu state with headings or separators.",
+    "Safe command item state with verb and object label.",
+    "Disabled or unavailable command state with visible reason.",
+    "External link or navigation item state when links are allowed.",
+    "Destructive command state separated from safe commands.",
+    "Bulk selection state that updates labels, disabled rules, and result copy.",
+    "Processing or recently completed command status.",
+    "Dangerous command review handoff state.",
+    "Empty or no-applicable-actions state.",
+    "Long label, narrow viewport, and high-zoom wrapping state."
+  ],
+  "interactionContract": [
+    "Every item has a clear verb, object, and outcome category: command, navigation link, checkable command, disabled command, or destructive command.",
+    "The menu title, trigger label, aria-label, or nearby context identifies which resource or selected set the actions affect.",
+    "Sections group commands by user intent or risk, not by implementation owner.",
+    "Disabled actions cannot run and explain the blocker when users need that knowledge.",
+    "Bulk selection changes item labels, disabled state, and result status so commands cannot silently affect the wrong scope.",
+    "Dangerous commands are visually separated and either open review, confirmation, undo, restore, or another recovery path.",
+    "Links disclose navigation or new-tab behavior when they can leave the current task.",
+    "The menu closes after safe command activation and reports what changed.",
+    "Focus return, keyboard movement, and dismissal follow the trigger pattern or platform action-sheet behavior.",
+    "The compact action menu does not contain forms, complex editors, large previews, filters, or unrelated content."
+  ],
+  "implementationChecklist": [
+    "Inventory commands by resource state, permission, selected count, frequency, risk, and recovery path.",
+    "Name the menu by object or scope, such as Customer actions or Actions for 3 selected invoices.",
+    "Write each item as a verb phrase with enough object context for repeated rows and screen readers.",
+    "Group related commands under headings or separators when there are different scopes or risk levels.",
+    "Separate destructive actions and define confirmation, undo, restore, or review behavior before implementation.",
+    "Decide when unavailable actions should remain visible with a reason versus be omitted because they never apply.",
+    "Update the menu when selection count, object state, permission, processing, or ownership changes.",
+    "Keep icons optional, consistent, and secondary to text; give icon-only triggers precise accessible names.",
+    "Avoid embedding form controls, search boxes, sliders, calendars, rich previews, and editable tables inside the action menu.",
+    "Test row context, bulk context, disabled reasons, destructive handoff, keyboard focus, screen reader names, touch target size, zoom, forced colors, clipping, and portal placement."
+  ],
+  "commonMisuses": [
+    "Treating the action menu as a junk drawer for every command that does not fit elsewhere.",
+    "Using vague labels such as Open, Manage, More, or Delete without naming the object or result.",
+    "Mixing commands, links, field values, filters, toggles, and form fields without role or visual distinction.",
+    "Leaving disabled actions greyed out with no reason or recovery path.",
+    "Letting a bulk action menu run single-object commands against multiple selected items.",
+    "Putting destructive actions in the middle of safe commands with the same emphasis.",
+    "Hiding primary or emergency recovery commands inside a menu while low-value buttons stay visible.",
+    "Using icons as the only action names inside the menu.",
+    "Failing to update menu content after object state changes, such as archived, locked, processing, or permission-limited records."
+  ],
+  "critiqueQuestions": [
+    "Can users tell exactly which object or selected set the menu will affect?",
+    "Are commands grouped by meaningful user intent and risk rather than dumped into one list?",
+    "Do item labels name the action and object well enough for repeated row menus?",
+    "Are disabled actions either explained or omitted according to whether the user can recover?",
+    "Does the menu update when selection count, permission, processing state, or ownership changes?",
+    "Are destructive commands separated and routed through confirmation, undo, restore, or review?",
+    "Is any menu content actually a form, filter panel, settings page, or value selector that needs a different pattern?"
+  ],
+  "useWhen": [
+    "A resource, row, card, selected set, or local page object has several contextual commands.",
+    "The commands are important enough to remain discoverable but not important enough to all stay visible.",
+    "Menu content needs grouping, disabled reasons, destructive separation, or scope-sensitive labels.",
+    "The same trigger or action surface appears across repeated objects and item labels need object context."
+  ],
+  "avoidWhen": [
+    "Only one or two commands are needed and visible buttons would be faster.",
+    "The command set is broad enough to need search, ranking, recents, or keyboard shortcuts across the product.",
+    "Users are choosing a value, filter, mode, or form answer rather than invoking a command.",
+    "The menu would contain forms, long explanations, previews, editable fields, or multi-step review.",
+    "The action is primary, urgent, or safety-critical and should be visible instead of hidden."
+  ],
+  "variants": [
+    "Row action menu",
+    "Card action menu",
+    "Page resource action menu",
+    "Bulk action menu",
+    "Account actions menu",
+    "Data request action menu",
+    "Danger-separated action menu",
+    "Action menu with disabled reasons",
+    "Action menu with external links",
+    "Action sheet presentation",
+    "Context menu presentation"
+  ],
+  "accessibility": [
+    "Give the trigger or menu an accessible name that includes the resource or selected-set scope.",
+    "Use menuitem roles only when implementing the menu keyboard model; otherwise use semantic buttons and links inside an appropriate popup or sheet.",
+    "Keep visible labels and accessible names aligned, especially in repeated row menus.",
+    "Expose disabled actions with aria-disabled or native disabled behavior according to the implementation, and provide the reason in visible or programmatic text.",
+    "Expose checkable command state with menuitemcheckbox or menuitemradio only when the menu item is a persistent command state.",
+    "Use separators and groups semantically without creating unnecessary focus stops.",
+    "Keep destructive labels, consequences, and confirmation or recovery paths available to screen reader users.",
+    "Do not rely on icons, color, or position alone to communicate item role, risk, checked state, or disabled state."
+  ],
+  "keyboardBehavior": [
+    "Opening and closing follow the menu-button, context-menu, action-sheet, or platform trigger pattern used by the surface.",
+    "Arrow keys move between menu items when using ARIA menu semantics.",
+    "Enter or Space activates the focused command unless it is disabled.",
+    "Escape closes the menu or action sheet without running a command.",
+    "Tab exits or dismisses according to the chosen popup pattern and does not reach hidden menu items.",
+    "After safe activation, focus returns to the trigger, affected row, result status, or next logical workflow target.",
+    "After destructive selection, focus moves to confirmation or review with the affected object named.",
+    "Bulk selection changes should be announced through the trigger label, menu label, or nearby selection status."
+  ],
+  "failureModes": [
+    "A repeated ellipsis menu has no object name, so assistive technology users hear identical Actions buttons in every row.",
+    "Safe, risky, disabled, external, and value-selection items share the same style and role.",
+    "Bulk selection changes but the menu still says Edit customer and Delete customer instead of naming the selected count.",
+    "A permission-blocked export command remains disabled without explaining who can run it or how to request access.",
+    "A destructive command runs directly from the menu and removes the wrong object.",
+    "A stale action remains visible after the object moves to archived, locked, or processing state.",
+    "The menu contains a search form, date picker, or settings editor that breaks menu keyboard behavior.",
+    "The menu becomes the only place for a primary task action, making repeated work slower and less discoverable."
+  ],
+  "relatedPatterns": [
+    "menu-button",
+    "menu-menubar",
+    "button-group",
+    "command-palette",
+    "confirmation-dialog",
+    "icon-only-ambiguous-action",
+    "disabled-button-no-explanation",
+    "undo",
+    "select",
+    "listbox"
+  ],
+  "comparisons": [
+    "action-menu-vs-menu-button-vs-button-group-vs-command-palette"
+  ],
+  "examples": [
+    {
+      "product": "Shopify Polaris Menu",
+      "url": "https://shopify.dev/docs/api/app-home/web-components/actions/menu",
+      "platform": "web",
+      "notes": "Documents contextual action menus for resources, accessible labels, grouped sections, disabled and link items, keyboard navigation, and critical delete actions.",
+      "screenshot": "screenshots/patterns/action-menu.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Adobe Spectrum Menu",
+      "url": "https://spectrum.adobe.com/page/menu/",
+      "platform": "web",
+      "notes": "Documents menu item labels, descriptions, values, disabled and unavailable states, section dividers, action and selection variants, text wrapping, and keyboard focus.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Atlassian Design System Dropdown menu",
+      "url": "https://atlassian.design/components/dropdown-menu/",
+      "platform": "web",
+      "notes": "Defines dropdown menus as lists of actions or options and links menu item, checkbox item, and radio item components within the design system.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "shopify-polaris-menu",
+      "note": "Shopify documents contextual resource action menus with accessible labels, grouped sections, disabled items, links, icons, keyboard navigation, and critical delete actions."
+    },
+    {
+      "id": "adobe-spectrum-menu",
+      "note": "Spectrum documents menu anatomy, item labels, descriptions, values, unavailable and disabled states, sections, dividers, checkable selection states, keyboard focus, text wrapping, and keyboard interactions."
+    },
+    {
+      "id": "wai-aria-apg-menu-menubar",
+      "note": "APG defines menu roles, menuitem roles, composite focus, keyboard movement, disabled items, separators, activation, dismissal, and focus return for action-oriented menus."
+    },
+    {
+      "id": "atlassian-dropdown-menu",
+      "note": "Atlassian defines dropdown menus as lists of actions or options and distinguishes item types for actions, checkbox items, radio items, and popup layering."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

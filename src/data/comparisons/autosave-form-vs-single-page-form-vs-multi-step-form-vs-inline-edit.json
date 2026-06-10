@@ -1,0 +1,48 @@
+{
+  "id": "autosave-form-vs-single-page-form-vs-multi-step-form-vs-inline-edit",
+  "title": "Autosave form vs single-page form vs multi-step form vs inline edit",
+  "summary": "Use autosave form when progress should be preserved automatically while users work through fields, with visible saving, saved, failed, retry, and leave-page states rather than relying on one final Save button.",
+  "patternIds": [
+    "autosave-form",
+    "single-page-form",
+    "multi-step-form",
+    "inline-edit"
+  ],
+  "decisionRules": [
+    "Prefer autosave form when users spend enough time entering information that losing progress would be costly and the product can safely persist draft changes in the background.",
+    "Prefer single-page form when users should review a compact related set of fields and intentionally submit the whole set once.",
+    "Prefer multi-step form when the task is a long ordered transaction with page-level progress, Back and Continue behavior, and a final review or submit step.",
+    "Prefer inline edit when one displayed value or row property changes locally with explicit Save and Cancel while surrounding context remains visible.",
+    "Autosave form must show the save model before users begin, then expose pending, saving, saved timestamp, failed save, retry, and unsafe-to-leave states.",
+    "Use per-field or per-section autosave triggers rather than pretending the entire form is saved if some fields, dependencies, uploads, or server validation are still pending.",
+    "For typing fields, debounce or save on blur so the system does not write every keystroke; for click/toggle changes, immediate autosave can be appropriate when safe.",
+    "Keep a final Submit, Review, or Send action when autosave only preserves a draft and does not complete the transaction.",
+    "Do not autosave financial, security, privacy-impacting, permission, destructive, or irreversible changes unless the product has an explicit review and recovery model.",
+    "When autosave fails, keep the failed state visible until recovery succeeds and provide manual retry; do not auto-dismiss the only evidence that progress is at risk.",
+    "If users navigate away while changes are pending or failed, warn them and offer a clear choice to stay, retry, discard, or leave knowingly.",
+    "Do not mix autosaved and manually saved fields on one screen without labeling which fields use which save model."
+  ],
+  "failureModes": [
+    "A page says autosaved but only the last field was persisted, leaving earlier changed fields at risk.",
+    "The autosave success message disappears while a later save failed, so users leave believing all progress is safe.",
+    "Autosave writes sensitive account, password, payment, or permission changes without review.",
+    "A final Submit button is removed even though autosave only preserves an incomplete draft.",
+    "Users can leave during a failed or pending autosave with no warning.",
+    "The interface mixes manual Save buttons and silent autosave with no status, making users unsure which changes are committed."
+  ],
+  "sources": [
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab Pajamas documents per-input autosave timing, status feedback, undo, retry, leave warnings, draft saving, and sensitive-data cautions."
+    },
+    {
+      "id": "va-autosave-component",
+      "note": "VA.gov documents autosave confirmation for authenticated form flows, including last-saved messaging, placement, and accessibility linkage to Continue."
+    },
+    {
+      "id": "sap-fiori-draft-handling",
+      "note": "SAP Fiori documents background draft saving, resume editing, locking, validation, and distinction between drafts and final active save."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

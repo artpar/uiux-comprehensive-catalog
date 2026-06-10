@@ -1,0 +1,50 @@
+{
+  "id": "character-count-vs-textarea-vs-text-input-vs-inline-validation",
+  "title": "Character count vs textarea vs text input vs inline validation",
+  "summary": "Use character count when a real text limit needs visible, recoverable feedback; use textarea for multiline writing, text input for short one-line answers, and inline validation for field-specific correction after interaction.",
+  "patternIds": [
+    "character-count",
+    "textarea",
+    "text-input",
+    "inline-validation"
+  ],
+  "decisionRules": [
+    "Prefer character count when a real maximum character or word limit affects whether the value can be accepted and users benefit from seeing remaining capacity while writing.",
+    "Prefer textarea without a counter when the task is long-form writing but the product does not enforce a meaningful maximum or the limit is far beyond normal answers.",
+    "Prefer text input when the answer is short, single-line, and its length is obvious from the data type, such as a postcode, phone number, or short reference.",
+    "Prefer inline validation when the main need is a specific correction after blur or submit, such as required, too short, disallowed characters, or format mismatch.",
+    "Do not use character count to paper over backend limits users frequently hit; raise the limit or redesign the data model before adding count pressure.",
+    "Do not announce every keystroke as a status update; use calm count text, thresholded warnings, or delayed live messages so assistive technology is not overwhelmed.",
+    "Use word count instead of character count only when policy, moderation, legal copy, or editorial constraints are expressed in words rather than characters.",
+    "If JavaScript fails, keep a static maximum-length message visible so users still know the limit before submitting.",
+    "When a user exceeds the limit, preserve the full draft, show the amount over the limit, and provide a trim or edit path instead of truncating silently.",
+    "If the count is only decorative or likely to make users spend extra time shortening useful content, remove it and use hint text or validation only when needed."
+  ],
+  "failureModes": [
+    "A form enforces a hard hidden limit and only tells users after they submit a long answer.",
+    "The counter appears on an unrestricted comment field and makes users shorten useful context for no product reason.",
+    "A counter updates through an aggressive live region on every keystroke and interrupts screen reader users.",
+    "A backend limit is too low, but the interface shifts the burden to users instead of fixing the service constraint.",
+    "The component counts characters visually while server validation counts bytes, words, or normalized characters.",
+    "The product silently truncates pasted text instead of preserving the draft and explaining how much must be removed."
+  ],
+  "sources": [
+    {
+      "id": "uswds-character-count-component",
+      "note": "USWDS documents character count use cases, maxlength, associated count messages, no-JavaScript fallback text, and avoidance guidance."
+    },
+    {
+      "id": "govuk-character-count-component",
+      "note": "GOV.UK documents character and word limits, thresholded display, assistive-technology messages, no-JavaScript fallback text, and over-limit errors."
+    },
+    {
+      "id": "govuk-textarea-component",
+      "note": "GOV.UK textarea guidance distinguishes the writing control itself from count feedback attached to a limited field."
+    },
+    {
+      "id": "material-design-text-fields",
+      "note": "Material Design documents character or word counters as text-field supporting text used when a character or word limit exists."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

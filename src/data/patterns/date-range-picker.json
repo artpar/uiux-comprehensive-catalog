@@ -1,0 +1,240 @@
+{
+  "id": "date-range-picker",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a two-boundary calendar range selector with source-backed guidance for start and end fields, range highlighting, in-range days, hover preview, preset ranges, manual endpoint typing, invalid-order recovery, min and max bounds, apply and cancel actions, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers start and end boundaries, continuous periods, visible in-range days, hover preview, preset ranges, manual endpoint typing, invalid-order validation, maximum duration, disabled dates, cross-month spans, and explicit apply or cancel.",
+    "relatedPatternDistinction": "The entry separates date range picker from date picker by requiring two boundaries and included days, from date input by supporting calendar relationship review, from filter panel by owning date-period selection rather than grouped criteria, and from select by allowing custom spans beyond preset choices.",
+    "liveDemoBehavior": "The rendered exercise selects a start date, previews and commits an end date, highlights the included range, applies a Last 7 days preset, rejects reversed and too-long ranges, preserves manual endpoint typing, and contrasts a broken auto-apply range.",
+    "comparisonDecisionRules": "The linked date-range-picker-vs-date-picker-vs-date-input-vs-filter-panel comparison gives concrete rules for continuous periods, single calendar dates, known date pairs, broader filter panels, presets, editable boundaries, range highlighting, invalid order, and apply/cancel timing.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/date-range-picker.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, start field, end field, selected start, selected end, in-range days, preset range, invalid-order error, apply action, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/date-range-picker.png"
+    ]
+  },
+  "name": "Date range picker",
+  "aliases": [
+    "calendar range picker",
+    "start end date picker",
+    "date period picker",
+    "booking range picker",
+    "reporting range selector"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Selection And Choice",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Two date fields with attached range calendar and apply controls",
+  "uiGuidance": [
+    "Render separate labelled start and end date fields with persistent format hints, a calendar trigger, and a shared calendar menu that shows both endpoints and the days between them.",
+    "Show selected start, selected end, in-range days, hover preview, disabled dates, min and max bounds, preset options, Apply, Cancel, and clear focus styling without relying on color alone."
+  ],
+  "uxGuidance": [
+    "Use a date range picker when users need to select or inspect a continuous period such as a report window, trip, event, booking, campaign, or eligibility span.",
+    "Keep both boundaries editable, explain invalid order or excessive duration, preserve the current range while users explore, and apply changes only after the range is complete for data-changing workflows."
+  ],
+  "uiExamples": {
+    "good": [
+      "An analytics report control shows Since and Until text fields, quick choices for Today and Last 7 days, a two-week calendar grid, selected August 3 start, selected August 14 end, and a filled band for days inside the range.",
+      "A hotel booking picker displays two adjacent months so a stay that crosses month boundaries can be selected without losing the start date."
+    ],
+    "bad": [
+      "A report filter has one field labelled Date and silently stores two dates separated by a dash with no start or end labels.",
+      "A calendar highlights only the first and last dates, leaving included days visually indistinguishable from unselected days."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user chooses Last 7 days, sees 2026-08-08 through 2026-08-14 filled in the calendar, reviews both inputs, then applies the range.",
+      "A user types 2026-08-10 as start and 2026-08-05 as end, sees a specific end-before-start error, fixes only the end field, and keeps the start date."
+    ],
+    "bad": [
+      "A dashboard refreshes on every hovered day while the user is still deciding the end date.",
+      "A booking calendar lets users select a 90-day stay even though the service limit is 14 nights, then fails after payment details."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Range tasks require users to understand two dates as one continuous span, but separate single-date controls hide included days, invalid order, presets, and whether changes have already affected the underlying data.",
+  "solution": "Provide labelled start and end fields tied to one calendar range surface that highlights the span, supports presets and manual entry, validates boundary order and duration, and applies or cancels the complete range deliberately.",
+  "problemContext": [
+    "The user is selecting a period for analytics, booking, scheduling, eligibility, reporting, campaign planning, or event duration.",
+    "The relationship between dates matters: start, end, days included, duration, weekdays, cross-month spans, or blackout dates.",
+    "Common ranges may be faster through presets but custom dates must remain possible.",
+    "The interface may update expensive search results, charts, availability, or pricing after the range changes.",
+    "The service must store unambiguous start and end dates and handle invalid or out-of-window values."
+  ],
+  "selectionRules": [
+    "Choose date range picker when the answer is a continuous start-to-end period and users need to see the included days.",
+    "Use a single date picker for one appointment, deadline, or booking date.",
+    "Use date input when users already know both dates and calendar adjacency does not affect the answer.",
+    "Use filter panel when the range is one draft criterion among multiple grouped filters that should be applied together.",
+    "Use select or segmented choices for a small set of fixed periods such as Today, This month, or Fiscal Q3 when custom dates are not allowed.",
+    "Keep start and end labels visible and editable instead of hiding both boundaries inside one compound value.",
+    "Show the range band between endpoints so users can verify inclusivity.",
+    "Use Apply and Cancel when selecting the range changes charts, tables, pricing, availability, or other expensive results.",
+    "Validate end date after start date, minimum date, maximum date, blocked dates, and maximum duration before committing.",
+    "Preserve one valid boundary when the other boundary is invalid."
+  ],
+  "requiredStates": [
+    "Empty start and end fields with visible labels, date-format hints, and a calendar trigger.",
+    "Open calendar with start endpoint active and no end selected.",
+    "Hover or keyboard preview state showing the possible in-range days before end selection.",
+    "Complete selected range with start date, end date, and all included days visibly connected.",
+    "Preset range selected state synchronized to both endpoint fields and the calendar band.",
+    "Manual endpoint typed state that updates the same range model as calendar selection.",
+    "Invalid order error when end date is before start date.",
+    "Too-long duration error when the span exceeds the service limit.",
+    "Out-of-window or disabled-date state for blocked dates.",
+    "Dirty unapplied state with Apply and Cancel actions.",
+    "Applied state showing canonical start and end dates."
+  ],
+  "interactionContract": [
+    "Opening the picker reveals both endpoint fields, presets when available, and a calendar that keeps the current range visible.",
+    "The first calendar click sets or replaces the start date; the second valid click sets the end date and highlights the full range.",
+    "Hovering or focusing a potential end date previews the included range without committing it.",
+    "Typing in either endpoint field updates only that boundary and validates against the other boundary.",
+    "Preset selection writes both endpoint fields and highlights the matching calendar range before Apply.",
+    "Apply commits the complete valid range; Cancel restores the previously applied range.",
+    "Submitting validates required endpoints, date format, real dates, start-before-end order, blocked dates, service bounds, and maximum span.",
+    "Errors name the failing boundary and keep the other boundary visible for correction."
+  ],
+  "implementationChecklist": [
+    "Define the range purpose, inclusive or exclusive end semantics, default range, preset ranges, min and max dates, disabled dates, maximum duration, display format, and canonical storage format.",
+    "Build two labelled inputs, persistent hints, calendar trigger, preset list, calendar month heading, weekday headings, start state, end state, in-range state, preview state, and Apply and Cancel controls.",
+    "Store range state as explicit start and end values rather than parsing a display string.",
+    "Synchronize typed endpoints, preset choices, calendar clicks, hover previews, dirty state, and applied state.",
+    "Validate date format, impossible dates, start after end, same-day ranges, minimum date, maximum date, disabled dates, and maximum span on client and server.",
+    "Announce active endpoint, selected start, selected end, in-range dates, disabled reasons, month changes, and validation errors to assistive technology.",
+    "Test keyboard selection of both endpoints, screen readers, zoom, forced colors, mobile layout, cross-month ranges, presets, cancel recovery, server-returned errors, and timezone boundaries."
+  ],
+  "commonMisuses": [
+    "Using two unrelated single-date pickers that do not validate order or show included days.",
+    "Collapsing the range into one unlabeled field with ambiguous dash-separated dates.",
+    "Refreshing analytics results before the user applies a complete range.",
+    "Hiding custom range entry behind presets only.",
+    "Clearing the valid start date when the end date fails validation.",
+    "Accepting an end date before the start date.",
+    "Failing to show whether endpoints are inclusive.",
+    "Using a range picker for approximate periods that users express in words."
+  ],
+  "critiqueQuestions": [
+    "Does the task require a continuous period, or is a single date enough?",
+    "Are start and end labels visible and programmatically separate?",
+    "Can users see every day included in the range before applying it?",
+    "Which presets match real user decisions, and can users still enter custom dates?",
+    "When should results update: on hover, on endpoint selection, or only after Apply?",
+    "What happens when the end date is before the start date, blocked, or too far away?"
+  ],
+  "useWhen": [
+    "Users need to select a reporting, analytics, booking, scheduling, campaign, or eligibility period.",
+    "The included days, duration, or cross-month span need to be visible.",
+    "Users benefit from both common presets and custom start/end dates.",
+    "The product can validate and store explicit canonical start and end dates."
+  ],
+  "avoidWhen": [
+    "The task asks for only one exact date.",
+    "Users already know both exact dates and do not need a calendar relationship view.",
+    "The answer is approximate, named, or relative, such as next quarter or summer 2026.",
+    "Only a few fixed periods are allowed and custom dates are forbidden.",
+    "The implementation cannot support endpoint labels, keyboard selection, range highlighting, validation, and apply/cancel recovery."
+  ],
+  "variants": [
+    "Analytics date range",
+    "Booking date range",
+    "Campaign period picker",
+    "Eligibility period picker",
+    "Date range picker with presets",
+    "Date range picker with two-month calendar",
+    "Date range picker with typed endpoints",
+    "Date range picker with maximum duration",
+    "Date range picker with disabled dates",
+    "Date range picker with explicit Apply and Cancel"
+  ],
+  "accessibility": [
+    "Label start and end fields separately and associate each hint and error with the correct field.",
+    "Expose selected start, selected end, in-range dates, previewed end, disabled dates, and active endpoint in text or accessible state.",
+    "Provide keyboard selection for both endpoints without trapping focus inside the calendar.",
+    "Keep manual typing available for both boundaries.",
+    "Announce month changes, preset selection, validation errors, and applied range summaries.",
+    "Do not auto-submit or refresh results while users are only focusing, hovering, or exploring dates.",
+    "Do not use color alone to identify the range band, endpoints, or disabled dates."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the start field, end field, calendar trigger, presets, calendar controls, day grid, Apply, Cancel, and following controls in a predictable order.",
+    "Enter or Space opens the calendar from the trigger and selects the focused date for the active boundary.",
+    "Arrow keys move through days and weeks while preserving the active start or end boundary.",
+    "Page Up and Page Down move by month; Home and End move to week edges.",
+    "After selecting a start date, focus or active selection moves toward end-date selection without closing the picker.",
+    "Escape or Cancel restores the previously applied range and returns focus to the trigger.",
+    "Apply commits the valid range and moves focus to a summary, field, or next logical control."
+  ],
+  "failureModes": [
+    "Screen reader users hear only day numbers and cannot tell start, end, or in-range status.",
+    "The selected range disappears when users navigate to the next month.",
+    "A preset updates the chart immediately even though the user intended to review the custom end date.",
+    "Typed endpoint validation uses a different timezone than calendar selection and shifts the stored range by one day.",
+    "The component accepts a blocked holiday inside a booking span without explanation.",
+    "The range band excludes the end date visually while the backend includes it.",
+    "Cancel closes the picker but leaves partially edited dates applied.",
+    "The service stores a localized display string instead of separate canonical start and end dates."
+  ],
+  "relatedPatterns": [
+    "date-picker",
+    "date-input",
+    "filter-panel",
+    "select",
+    "inline-validation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "date-range-picker-vs-date-picker-vs-date-input-vs-filter-panel"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Date range picker",
+      "url": "https://designsystem.digital.gov/components/date-range-picker/",
+      "platform": "web",
+      "notes": "Documents start and end date fields, mm/dd/yyyy hints, scheduling use, day-of-week relevance, manual typing, min and max dates, accessibility testing, no auto-submission, and known typing issues.",
+      "screenshot": "screenshots/patterns/date-range-picker.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Date picker range variant",
+      "url": "https://carbondesignsystem.com/components/date-picker/usage/",
+      "platform": "web",
+      "notes": "Documents range selection with start and end endpoints, manual endpoint entry, selected start, days in range, end hover and focus, keyboard range selection, min and max dates, and closing after end date.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Shopify Polaris Date range picking pattern",
+      "url": "https://polaris-react.shopify.com/patterns/date-picking/date-range",
+      "platform": "web",
+      "notes": "Documents date ranges for analytics and multi-day events, quick options, text input for large custom ranges, calendar selection for narrow scopes, two-month spans, Apply and Cancel, disabled dates, and nonexistent-date recovery.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-date-range-picker-component",
+      "note": "USWDS date range picker guidance supports two labelled endpoints, manual date entry, scheduling and weekday context, min/max bounds, accessibility testing, and no auto-submission."
+    },
+    {
+      "id": "carbon-date-range-picker-component",
+      "note": "Carbon date picker guidance supports range endpoints, manual endpoint fields, selected start, days in range, end hover/focus, two-click or keyboard selection, and min/max dates."
+    },
+    {
+      "id": "shopify-polaris-date-range-picker-pattern",
+      "note": "Shopify Polaris date range guidance supports presets, custom endpoint fields, calendar ranges, multi-month spans, explicit Apply and Cancel, disabled dates, and invalid-date recovery."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

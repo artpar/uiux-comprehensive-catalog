@@ -1,0 +1,201 @@
+{
+  "id": "icon-only-ambiguous-action",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for unlabeled or misleading icon actions where users cannot identify purpose, consequence, or accessible name before activation, with source-backed naming guidance, comparison rules, unique demo behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets icon-only controls in toolbars, table rows, cards, command surfaces, and destructive workflows where visual meaning, accessible name, and consequence must be clear before activation.",
+    "relatedPatternDistinction": "The entry separates ambiguous icon actions from confirmation dialog by recognition before activation versus consequence review after intent, and from undo by pre-action clarity versus post-action reversal.",
+    "liveDemoBehavior": "The live demo contrasts a report row with labeled archive, download, and share controls against mystery icon buttons, then shows how the bad flow triggers an unknown action while the good flow reports the named action.",
+    "comparisonDecisionRules": "The icon-only-ambiguous-action-vs-confirmation-dialog-vs-undo comparison gives concrete rules for labeling uncertain symbols, adding accessible names, choosing confirmation for high-risk intent checks, and using undo for reversible completed actions.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed anti-pattern entry.",
+    "manualSpotCheck": "screenshots/patterns/icon-only-ambiguous-action.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/icon-only-ambiguous-action.png"
+    ]
+  },
+  "name": "Icon-only ambiguous action",
+  "aliases": [
+    "mystery icon",
+    "unlabeled icon button",
+    "ambiguous toolbar action",
+    "symbol-only destructive action"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users must guess what an icon-only control does, which slows action selection, hides risk, and can leave keyboard and assistive technology users without an action name.",
+  "solution": "Treat ambiguous icon-only actions as an anti-pattern: use visible action text when meaning or risk is not obvious, and reserve icon-only controls for familiar low-risk utilities with a clear accessible name, stable context, and supplemental help.",
+  "problemContext": [
+    "A toolbar, table row, card, or compact navigation surface contains icon-only controls.",
+    "The icon is not conventional in the product domain, resembles multiple actions, or changes meaning by context.",
+    "The action can archive, delete, share, expose data, change permissions, spend money, or otherwise create user risk.",
+    "Mouse users may see a tooltip, but touch, keyboard, voice, and screen reader users need the action name before activation."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when the icon meaning is not clear from the visible label, surrounding row, action group, and product convention.",
+    "Use visible text for primary, destructive, financial, security-sensitive, sharing, permission, and low-frequency actions.",
+    "Use icon plus text when a symbol helps scanning but the action still needs explicit meaning.",
+    "Allow icon-only buttons only for familiar low-risk utilities such as search, close, back, or play when each control has a precise accessible name.",
+    "Use confirmation dialog when the user has already chosen a clearly labeled high-risk action and must review consequence before commitment.",
+    "Use undo when a clearly named reversible action has completed and users need a short recovery window.",
+    "Do not use hover-only tooltip text as the only way to understand an action."
+  ],
+  "requiredStates": [
+    "Default state where the action name is visible or programmatically exposed before activation.",
+    "Hover, focus, and touch-accessible help state for compact actions that still need supplemental explanation.",
+    "Activated state that confirms the named action, affected object, and result.",
+    "Risk review state for destructive or privacy-sensitive actions.",
+    "Recovery state such as undo, restore, or confirmation cancellation when the action has consequences."
+  ],
+  "interactionContract": [
+    "The visual control, accessible name, and action result use the same verb and object.",
+    "Keyboard focus reveals the same action meaning that pointer users receive, without relying on hover alone.",
+    "Touch users can identify the action without long-press discovery or trial activation.",
+    "Repeated icons in a row or toolbar are differentiated by accessible names such as Archive report, Download report, and Share report.",
+    "The icon does not change meaning across pages unless the surrounding visible label or control text changes with it.",
+    "Risky icon actions provide prevention or recovery through confirmation, preview, undo, or restore."
+  ],
+  "implementationChecklist": [
+    "Audit every icon-only button for visible action text, accessible name, affected object, and consequence.",
+    "Prefer text labels for primary and high-risk actions; use icon plus text when space allows.",
+    "If icon-only is justified, set a specific accessible name that describes the action, not the icon shape.",
+    "Keep tooltip text supplemental and make sure keyboard and touch users receive equivalent information.",
+    "Avoid reusing the same symbol for different verbs in the same product area.",
+    "Pair destructive icon actions with confirmation, undo, or restore according to consequence and reversibility.",
+    "Test with keyboard navigation, screen reader announcement, touch input, zoom, localization, and first-time users."
+  ],
+  "commonMisuses": [
+    "Using a trash, tray, box, arrow, or exclamation icon for archive, delete, download, export, and warning actions without visible words.",
+    "Providing an accessible name such as icon, more, or button instead of the action and object.",
+    "Putting the only explanation in a tooltip that appears on hover but not focus or touch.",
+    "Using the same icon for Archive on one page and Delete on another.",
+    "Hiding destructive row actions until hover, then presenting only symbols.",
+    "Relying on color or placement to distinguish icon actions with different consequences."
+  ],
+  "critiqueQuestions": [
+    "Can a first-time user name the action and consequence before pressing the control?",
+    "Will the screen reader announcement match the visible label or tooltip text?",
+    "Does the icon mean the same thing across this workflow and product area?",
+    "Would a touch or keyboard user receive the same explanation as a mouse user?",
+    "If the action is destructive or exposes data, is there confirmation, preview, undo, or restore?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit toolbars, row actions, cards, command bars, mobile action sheets, and generated UIs with symbol-only controls.",
+    "Use it when an action can be misread, triggered accidentally, or announced without a meaningful name."
+  ],
+  "avoidWhen": [
+    "The icon is paired with visible text that names the action.",
+    "The icon-only control is a familiar low-risk utility with a precise accessible name, strong surrounding context, and equivalent focus or touch help.",
+    "The symbol is decorative inside a labeled button and is hidden from assistive technology."
+  ],
+  "variants": [
+    "Unlabeled row action",
+    "Ambiguous toolbar icon",
+    "Icon-only destructive action",
+    "Hover-only icon explanation",
+    "Repeated icon with changing meaning",
+    "Decorative icon announced as action",
+    "Symbol-only mobile action"
+  ],
+  "accessibility": [
+    "Every interactive icon control needs an accessible name that describes the action and, when useful, the affected object.",
+    "Hide decorative icons from assistive technology when visible text already names the button.",
+    "Do not use tooltip text as the only accessible name unless it is reliably connected and available on focus and touch.",
+    "Ensure the focus indicator, accessible name, and visible consequence stay in sync.",
+    "Avoid naming controls by icon shape such as exclamation, arrow, or box when the action is archive, export, share, or delete."
+  ],
+  "keyboardBehavior": [
+    "Icon buttons remain reachable by keyboard in a predictable order with visible focus.",
+    "Focus exposes the same action name and supplemental help as pointer hover.",
+    "Activation follows button behavior with Enter and Space.",
+    "After activation, focus moves to the confirmation, undo, result status, or affected row according to the action outcome.",
+    "If an action menu opens from an icon, focus moves into the menu and returns to the opener when dismissed."
+  ],
+  "failureModes": [
+    "Users press the wrong icon because several symbols look similar or mean different things in adjacent contexts.",
+    "Assistive technology announces button, exclamation, or more without the action name.",
+    "A destructive or privacy-sensitive action fires before the user understands the consequence.",
+    "Touch users cannot access the hover tooltip that explains the icon.",
+    "Keyboard focus lands on unlabeled symbols that do not reveal purpose.",
+    "Localization or domain vocabulary changes make the symbol less recognizable than the text label would be."
+  ],
+  "relatedPatterns": [
+    "confirmation-dialog",
+    "undo",
+    "toast-only-critical-error",
+    "disabled-button-no-explanation"
+  ],
+  "comparisons": [
+    "icon-only-ambiguous-action-vs-confirmation-dialog-vs-undo"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA Authoring Practices: Names and Descriptions",
+      "url": "https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/",
+      "platform": "web",
+      "notes": "Documents that focusable interactive elements need accessible names and gives icon-button naming examples such as naming an X-shaped button by its action.",
+      "screenshot": "screenshots/patterns/icon-only-ambiguous-action.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Material Design Buttons",
+      "url": "https://m2.material.io/components/buttons",
+      "platform": "web",
+      "notes": "Documents icon-and-text button combinations and icon buttons where the icon needs to signify the action clearly.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-names-and-descriptions",
+      "note": "WAI-ARIA APG documents accessible names for focusable interactive elements and action-based naming for icon buttons."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "WAI-ARIA APG button guidance covers button naming, states, and standard keyboard activation behavior."
+    },
+    {
+      "id": "material-design-buttons",
+      "note": "Material Design documents button variants, icon-with-text buttons, and icon buttons whose icons must signify the button action."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Ambiguous action anti-pattern",
+  "uiGuidance": [
+    "Replace ambiguous symbol-only controls with visible text or icon-plus-text actions that name the verb and affected object.",
+    "Reserve icon-only controls for familiar low-risk utilities and give each one a precise accessible name, visible focus, and focus-or-touch-accessible supplemental help."
+  ],
+  "uxGuidance": [
+    "Make users confident about what will happen before activation instead of forcing recognition, memorization, or trial-and-error.",
+    "For risky icon actions, combine pre-action clarity with the right consequence handling: confirmation for irreversible intent checks and undo or restore for reversible completed actions."
+  ],
+  "uiExamples": {
+    "good": [
+      "A report row shows Archive report, Download report, and Share report as labeled controls with matching accessible names.",
+      "A compact Close button remains icon-only only because it is conventional, low risk, and announced as Close panel."
+    ],
+    "bad": [
+      "A row exposes !, tray, and arrow buttons with no visible label and unclear consequences.",
+      "The same box icon archives reports in one table and deletes folders in another."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can identify the action before activation and receive confirmation, undo, or result status after consequential actions.",
+      "Keyboard, touch, and screen reader users receive the same action meaning as pointer users."
+    ],
+    "bad": [
+      "Hover-only tooltip is the only explanation for a destructive action.",
+      "A screen reader announces button or exclamation, and activation archives the report without warning."
+    ]
+  }
+}

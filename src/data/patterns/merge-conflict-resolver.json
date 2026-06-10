@@ -1,0 +1,242 @@
+{
+  "id": "merge-conflict-resolver",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed code merge conflict resolver for branch, file, and hunk decisions, with guidance for target and source labels, code hunk choices, inline edit validation, manual-file handoff, commit message review, repository acceptance, comparison boundaries, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets source-control merge conflicts with repository context, target and source branches, file paths, hunk counts, conflict markers, choose-target, choose-source, edit-hunk, marker validation, unsupported file handoff, moved-target freshness checks, reviewed commit message, resolution commit, and refreshed mergeability.",
+    "relatedPatternDistinction": "The entry separates merge conflict resolver from conflict resolution by requiring repository, branch, file, hunk, conflict marker, and resolution commit semantics; from conflict state by making the resolver the active decision and commit workflow rather than only the competing-version status; from review before submit by involving branch code rather than the user's own captured answers; and from inline edit by preserving both branch versions until repository commit succeeds.",
+    "liveDemoBehavior": "The live demo shows a merge request resolver with Good UI, Bad UI, Good UX, and Bad UX panels. The Good UX controls exercise Review hunk, Use target, Use source, Edit hunk, Marker error, Manual file, Target moved, Review commit, and Commit, including disabled commit before review, marker-validation blocking, local manual-file routing, moved-target blocking, commit summary, and committed repository acceptance. The Bad UX controls exercise Accept incoming, Undefined sides, Marker commit, Binary text, Lost hunks, and Server reject failure paths.",
+    "comparisonDecisionRules": "The merge-conflict-resolver-vs-conflict-resolution-vs-conflict-state-vs-review-before-submit comparison gives concrete rules for choosing merge conflict resolver when branch files and hunks require a resolution commit, conflict resolution for non-code competing values, conflict state for signaling and routing, and review before submit for checking a user's own answers before transaction commit.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/merge-conflict-resolver/ and /compare/merge-conflict-resolver-vs-conflict-resolution-vs-conflict-state-vs-review-before-submit/ on 2026-06-10. Live check exercised disabled Commit guard, Use target, Use source, Edit hunk, Marker error, Manual file, Target moved, Review commit, Commit, Accept incoming, Undefined sides, Marker commit, Binary text, Lost hunks, and Server reject controls. screenshots/patterns/merge-conflict-resolver.png captures Good UI, Bad UI, Good UX, Bad UX, branch labels, file and hunk state, code lines, commit controls, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/merge-conflict-resolver.png"
+    ]
+  },
+  "name": "Merge conflict resolver",
+  "aliases": [
+    "code merge conflict resolver",
+    "branch conflict resolver",
+    "source control conflict resolver",
+    "pull request conflict resolver",
+    "merge request conflict resolver",
+    "hunk conflict resolver",
+    "ours theirs resolver"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Collaboration And Social Interaction",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Source-code branch conflict resolver with file and hunk decisions",
+  "uiGuidance": [
+    "Show the merge target, source branch, base branch, file path, conflict count, and current hunk before any Use ours, Use theirs, or Edit resolution action.",
+    "Render conflict markers or equivalent side-by-side changed lines with clear branch labels, syntax-aware context, validation status, and a commit message area that stays separate from hunk decision controls."
+  ],
+  "uxGuidance": [
+    "Use a merge conflict resolver when a source-control merge, rebase, pull request, or merge request cannot continue until developers decide which code survives in one or more conflicted hunks.",
+    "Guide developers through file and hunk decisions, preserve both branch versions until commit, validate the resolved file for remaining markers, and route unsupported or risky files to local/manual resolution instead of pretending the browser can solve them."
+  ],
+  "uiExamples": {
+    "good": [
+      "A merge request resolver shows Target main and Source feature/billing beside src/billing/rules.ts, lists 2 unresolved hunks, labels Use target and Use source controls, previews the resolved file, and keeps Commit resolution disabled until all conflict markers are gone.",
+      "A browser code resolver highlights only the conflicting lines inside surrounding context, lets the developer edit the resolved block inline, and shows the commit message field after the file validates.",
+      "A resolver shows assets/logo.png as unsupported in browser, links to command-line instructions, and leaves the merge blocked while preserving both file versions."
+    ],
+    "bad": [
+      "A merge screen has Accept all incoming with no target/source branch labels, file paths, or discarded code preview.",
+      "A resolver lets users commit while <<<<<<< markers remain in the file.",
+      "A code merge page says Ours and Theirs without saying whether Ours is the target branch, source branch, local checkout, or remote branch."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A developer opens a merge request conflict, chooses target for the dependency version, edits the feature flag block to keep both checks, reviews the resolved file, enters a commit message, and commits after validation passes.",
+      "A maintainer resolves three text hunks in the browser, sees one generated lockfile exceeds resolver limits, downloads manual commands, and keeps the merge request blocked until the lockfile is resolved locally.",
+      "A reviewer returns to a partially resolved merge conflict and sees previous hunk decisions, remaining files, validation errors, and the exact branch pair unchanged."
+    ],
+    "bad": [
+      "The tool resolves conflicts by newest commit timestamp and merges without showing the lost branch code.",
+      "A browser resolver removes conflict markers but produces syntax-invalid code and still enables Commit.",
+      "A merge request says conflicts fixed, but the target branch moved and the server rejects the commit after the UI clears the conflict state."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop"
+  ],
+  "problem": "Developers can merge broken code, discard branch work, or become stuck when a source-control conflict resolver hides branch ownership, file paths, conflict markers, validation errors, unsupported files, or the final commit boundary.",
+  "solution": "Provide a merge conflict resolver that works at repository, file, and hunk level; labels target and source branches; preserves both code versions; supports choose-side and inline editing; validates resolved content; blocks commit until conflicts are resolved; and hands unsupported files to local/manual tooling.",
+  "problemContext": [
+    "A merge, rebase, pull request, or merge request detected overlapping edits in one or more files.",
+    "The conflict is represented as code hunks, file versions, branch names, conflict markers, or repository metadata rather than ordinary form fields.",
+    "Some conflicts can be resolved in a browser or desktop UI, while binary files, huge files, generated lockfiles, or complex rebases may require a command-line or IDE route.",
+    "Committing the resolution changes repository history or merge request state and may trigger tests, review requirements, or branch protection."
+  ],
+  "selectionRules": [
+    "Choose merge conflict resolver for source-control branch conflicts with files, hunks, target/source branch labels, conflict markers, and a resolution commit.",
+    "Use conflict resolution for non-code records, documents, imports, or synced objects that need a general decision workflow without repository-specific semantics.",
+    "Use conflict state when the interface only needs to tell users that competing versions exist and route them to a resolver.",
+    "Use inline edit only for editing a value in place; a merge conflict resolver must preserve both branch versions and validate the entire resolved hunk or file.",
+    "Use review-before-submit when users verify their own entered values before a transaction, not when two branches changed the same code.",
+    "Resolve at the smallest source-control unit the developer can judge: hunk, file, generated artifact, rename, delete/modify conflict, or binary asset.",
+    "Provide branch labels that match the repository vocabulary, such as target/source, base/head, main/feature, incoming/current, or ours/theirs with explicit definitions.",
+    "Block commit while conflict markers remain, required files are unresolved, validation fails, unsupported files need local resolution, or the server rejects the new resolution commit.",
+    "Show final commit scope, commit message, files changed, and unresolved count before creating the merge-resolution commit.",
+    "After successful commit, refresh mergeability and preserve a visible audit trail in the merge request, branch history, or review discussion."
+  ],
+  "requiredStates": [
+    "Repository and branch context state with target branch, source branch, and merge request or pull request identifier.",
+    "Conflict file list state with unresolved count and file paths.",
+    "Current hunk compare state with source and target code labels.",
+    "Use target or ours decision state.",
+    "Use source or theirs decision state.",
+    "Inline edit resolved hunk state.",
+    "Validation failure state for remaining conflict markers, syntax errors, or unresolved hunks.",
+    "Unsupported file or local-tool-required state.",
+    "Review resolved files state with changed-file summary and commit message.",
+    "Committed resolution state after the repository accepts the resolution commit."
+  ],
+  "interactionContract": [
+    "The resolver opens from a known merge conflict and keeps branch pair, file path, hunk number, and total unresolved count visible.",
+    "Each hunk decision records whether target, source, or edited code survives and keeps both original branch versions available until the resolution commit succeeds.",
+    "Next and Previous hunk controls preserve decisions and move focus to the next conflicted block.",
+    "Inline editing validates that conflict markers are removed and required syntax or repository checks pass before commit is enabled.",
+    "Unsupported files show explicit local or IDE instructions and do not count as resolved until the repository receives a valid resolution.",
+    "The commit action includes the resolved file list and commit message and is disabled or intercepted when conflicts remain unresolved.",
+    "After commit, the interface refreshes mergeability and reports if the target branch moved, branch protection blocks the commit, or CI/review gates still apply.",
+    "The workflow exposes a way to reopen decisions, discard the attempted resolution, or continue locally when browser resolution is not appropriate."
+  ],
+  "implementationChecklist": [
+    "Model conflicts as repository files with target branch value, source branch value, base context, hunk ranges, conflict markers, decision, resolved text, validation errors, and commit state.",
+    "Use source-control terms consistently and define ours/theirs when those labels appear.",
+    "Render code in monospace blocks with line context, changed-line highlighting, file path, branch labels, and accessible text for inserted, removed, target, and source code.",
+    "Implement choose target, choose source, edit resolved hunk, reset hunk, next file, previous file, review files, open local instructions, and commit resolution controls.",
+    "Detect remaining conflict markers such as <<<<<<<, =======, and >>>>>>> before enabling commit.",
+    "Persist partial decisions through route changes, authentication refresh, target branch refresh, and browser reload when repository policy permits.",
+    "Route binary files, oversized files, submodules, generated lockfiles, rename/delete conflicts, and protected-branch failures to a manual or local tool path.",
+    "Test branch-label clarity, hunk navigation, marker validation, syntax validation, unsupported files, target branch moved, commit failure, keyboard access, screen reader labels, and audit trail output."
+  ],
+  "commonMisuses": [
+    "Using Accept all incoming without showing file paths, branches, or discarded code.",
+    "Leaving Ours and Theirs undefined in a browser context where repository roles can invert by operation.",
+    "Enabling Commit while conflict markers remain.",
+    "Treating a binary or generated file as editable text.",
+    "Clearing the merge conflict badge before the repository accepts the resolution commit.",
+    "Hiding branch-protection, moved-target, or CI blockers after the browser commit is created.",
+    "Mixing general document conflict copy into a code resolver without hunk, file, branch, and commit semantics."
+  ],
+  "critiqueQuestions": [
+    "Can the developer tell which branch each side of the hunk comes from?",
+    "Which file and hunk are being resolved, and how many remain?",
+    "Can the developer inspect the code that will be discarded before committing?",
+    "What prevents commit while conflict markers, unsupported files, or validation errors remain?",
+    "How does the resolver handle target branch movement or server rejection after local-looking resolution?",
+    "Where is the resolution commit message, audit trail, and merge request status shown?"
+  ],
+  "useWhen": [
+    "A pull request, merge request, rebase, merge, or branch update has source-code conflicts that require developer decisions.",
+    "Conflicts are represented by files, hunks, branch labels, conflict markers, or repository metadata.",
+    "Users need choose-side, edit-hunk, validate, review, and commit controls before the repository can merge.",
+    "Some conflicts may need a command-line, IDE, or manual route while the browser keeps the merge blocked."
+  ],
+  "avoidWhen": [
+    "The conflict is a non-code record, document, import row, or form value without repository branch semantics.",
+    "The system can safely auto-merge non-overlapping code and no user decision is needed.",
+    "The UI only needs to announce that a merge conflict exists and link to a resolver.",
+    "Users are reviewing their own data before submit and no branch or collaborator code competes.",
+    "The product cannot validate or commit repository changes from this surface."
+  ],
+  "variants": [
+    "Pull request conflict resolver",
+    "Merge request conflict resolver",
+    "Hunk-by-hunk resolver",
+    "Side-by-side code merge",
+    "Inline conflict marker editor",
+    "Use target or source resolver",
+    "Manual merge handoff",
+    "Binary conflict handoff",
+    "Branch moved recovery",
+    "Resolution commit review"
+  ],
+  "accessibility": [
+    "Expose branch names, file paths, hunk numbers, line labels, and resolution status as text, not only color or diff markers.",
+    "Use headings for repository, file, and hunk sections so keyboard and screen reader users can navigate conflict scope.",
+    "Label choose-side buttons with the branch they keep, such as Use target main or Use source feature/billing.",
+    "Provide text alternatives for added, removed, unchanged, conflict marker, target, source, and resolved lines.",
+    "Announce validation changes and remaining conflict count in a polite status region.",
+    "Make code editors keyboard-operable without trapping focus, and provide a route out of long editable hunks."
+  ],
+  "keyboardBehavior": [
+    "Focus starts on the current file or hunk heading when the resolver opens.",
+    "Next and Previous hunk controls move focus to the next hunk heading and preserve the current decision.",
+    "Choose target, choose source, edit hunk, reset hunk, review files, local instructions, and commit controls are reachable after the code they affect.",
+    "Inline code editing preserves normal text navigation and provides keyboard commands or buttons to validate and leave the editor.",
+    "Review files moves focus to the commit summary where each file can be reopened.",
+    "After commit, focus moves to the merge request status or committed-resolution confirmation."
+  ],
+  "failureModes": [
+    "A developer commits unresolved <<<<<<< markers because the browser only checked that a button was clicked.",
+    "Ours and Theirs labels reverse between merge and rebase, causing the wrong branch code to survive.",
+    "The browser resolver accepts generated or binary files it cannot safely display.",
+    "Partial hunk decisions disappear after reload or authentication refresh.",
+    "A target branch update invalidates the browser resolution but the UI still claims conflicts are fixed.",
+    "Commit creates a resolution but hides remaining branch protection, CI, or review gates.",
+    "A bulk choice discards code across multiple files without a changed-file review."
+  ],
+  "relatedPatterns": [
+    "conflict-resolution",
+    "conflict-state",
+    "review-before-submit",
+    "inline-edit",
+    "error-state",
+    "warning-text",
+    "confirmation-dialog",
+    "notification-center"
+  ],
+  "comparisons": [
+    "merge-conflict-resolver-vs-conflict-resolution-vs-conflict-state-vs-review-before-submit"
+  ],
+  "examples": [
+    {
+      "product": "GitLab merge conflicts",
+      "url": "https://docs.gitlab.com/user/project/merge_requests/conflicts/",
+      "platform": "web",
+      "notes": "Documents conflict blocks, source and target changes, Use ours and Use theirs choices, inline editing, commit messages, browser eligibility limits, and manual resolution when files cannot be resolved in the UI.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Office coauthoring conflict errors",
+      "url": "https://support.microsoft.com/en-us/office/troubleshoot-common-coauthoring-errors-f0a0be0c-c03f-45b2-bec0-535e5b13f691",
+      "platform": "desktop",
+      "notes": "Useful adjacent evidence for conflict navigation, preserving local data, reviewing recovered conflicts, and accepting or rejecting changes while distinguishing code merge resolver semantics from document coauthoring.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Atlassian Confluence concurrent editing",
+      "url": "https://confluence.atlassian.com/display/DOC/Concurrent%20Editing%20and%20Merging%20Changes",
+      "platform": "web",
+      "notes": "Useful adjacent evidence for overlapping edit conflict display and choices, while this pattern narrows to repository branches, files, hunks, and resolution commits.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "gitlab-merge-conflicts",
+      "note": "GitLab documents conflict blocks, source and target changes, Use ours and Use theirs choices, inline editing, commit messages, and manual resolution when browser resolution is not supported."
+    },
+    {
+      "id": "microsoft-office-coauthoring-conflicts",
+      "note": "Microsoft Office conflict review provides adjacent evidence for preserving data, navigating conflicts, and accepting or rejecting conflicting changes."
+    },
+    {
+      "id": "atlassian-confluence-concurrent-editing",
+      "note": "Confluence concurrent editing provides adjacent evidence for overlap conflict display and explicit choices after automatic merging cannot complete."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

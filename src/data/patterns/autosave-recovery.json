@@ -1,0 +1,249 @@
+{
+  "id": "autosave-recovery",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed recovery pattern for failed, stale, offline-only, conflicted, interrupted, and session-expired autosave states, with guidance for preserving the latest local value, exposing server and local evidence, blocking unsafe continuation, comparison boundaries, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets autosave states where the latest work is failed, stale, offline-only, conflicted, interrupted, or session-expired, including local copy preservation, last server-saved time, failed attempt time, retry of the same value, copy or download fallback, restore last saved, compare versions, reauthentication return, and blocking unsafe continue or submit actions until recovery succeeds.",
+    "relatedPatternDistinction": "The entry separates autosave recovery from autosave form by starting after ordinary background saving can no longer prove the latest work is safe, from draft state by focusing on recovery of an uncertain or failed save rather than durable unpublished object lifecycle, from retry by preserving local values and version evidence rather than repeating one request, and from conflict state or session timeout warning by handing off when merging or authentication policy becomes the primary task.",
+    "liveDemoBehavior": "The live demo shows a benefits claim with failed autosave evidence, local and server timestamps, preserved local text, Retry save, Finish retry, Copy answer, Compare versions, Restore last saved, Reauth needed, Continue, and Reset controls, plus bad-mode controls for stale saved, toast-only feedback, reload data loss, silent overwrite, duplicate submit, and hidden local copy.",
+    "comparisonDecisionRules": "The autosave-recovery-vs-autosave-form-vs-draft-state-vs-retry comparison gives concrete rules for choosing recovery after failed or uncertain autosave, ordinary autosave before failure, durable draft lifecycle across sessions, and retry for one failed operation with no local unsaved value or version choice.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/autosave-recovery/ and /compare/autosave-recovery-vs-autosave-form-vs-draft-state-vs-retry/ on 2026-06-10. Live check exercised Retry save, Finish retry, Continue, Reset, Copy answer, Compare versions, Restore last saved, Reauth needed, Stale saved, Toast only, Data loss, Overwrite, Duplicate submit, and Hidden local controls. screenshots/patterns/autosave-recovery.png captures Good UI, Bad UI, Good UX, Bad UX, failed-save copy, preserved local answer, recovery controls, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/autosave-recovery.png"
+    ]
+  },
+  "name": "Autosave recovery",
+  "aliases": [
+    "failed autosave recovery",
+    "autosave failure recovery",
+    "recover unsaved autosave",
+    "restore local autosave",
+    "autosave conflict recovery",
+    "save recovery panel",
+    "local draft recovery"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Recovery surface for failed or uncertain background saves",
+  "uiGuidance": [
+    "Show a persistent recovery surface when autosave did not protect the latest work, naming the affected field or section, last server-saved time, local copy status, and available recovery actions.",
+    "Keep the user's latest local value visible or copyable until recovery succeeds, and distinguish Retry save, Keep local copy, Restore last saved, Compare versions, Download copy, and Continue after recovery."
+  ],
+  "uxGuidance": [
+    "Use autosave recovery when users need to preserve effort after background saving fails, stalls, conflicts, expires, or only stores a local copy.",
+    "Treat recovery as a data-integrity workflow: do not allow submit, navigation, or reload to silently discard the latest local work or overwrite a newer server version."
+  ],
+  "uiExamples": {
+    "good": [
+      "A claim form says Household income answer failed to autosave at 10:42, keeps the typed answer visible, and offers Retry save, Copy answer, Restore last saved, and Continue after saved.",
+      "A content editor detects a local autosave after reload, shows local and server timestamps, and lets the user restore, compare, or discard the local copy."
+    ],
+    "bad": [
+      "A small toast says Could not save and disappears while the form still shows a green Saved label.",
+      "The app clears the field after a failed autosave and offers only Reload page."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user loses network while writing a long answer, sees it is saved on this device only, reconnects, retries the same value, and continues after the timestamp updates.",
+      "A user returns after session expiry, reauthenticates, compares the local answer with the older server answer, and keeps the local version without retyping."
+    ],
+    "bad": [
+      "A user submits after seeing Saved, but the newest section was failed and never reached the server.",
+      "A user opens the same draft in two tabs and the later autosave overwrites the first tab without any conflict or recovery choice."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Autosave can fail, stall, expire, conflict, or remain local-only while the interface still suggests progress is safe, causing users to lose text, submit stale data, overwrite versions, or distrust saved-state messaging.",
+  "solution": "Detect uncertain autosave states, preserve the latest local value, expose last saved and local-copy evidence, block unsafe continuation when needed, and provide scoped recovery actions for retry, restore, compare, copy, reauthenticate, or continue after save succeeds.",
+  "problemContext": [
+    "The product already uses autosave or local draft persistence for meaningful form, editor, upload, or configuration work.",
+    "The latest value may differ from the last server-saved value because of network failure, session expiry, offline mode, validation rejection, conflict, duplicate tab editing, or app reload.",
+    "Users need to know whether the newest work is on the server, only on this device, failed, stale, conflicted, or gone.",
+    "Continuing, submitting, publishing, or leaving could discard a local copy or commit an older server value."
+  ],
+  "selectionRules": [
+    "Choose autosave recovery when a background save did not complete or cannot prove that the latest value is safe.",
+    "Use autosave form for the ordinary save model before failure; autosave recovery begins when the model needs repair or preservation.",
+    "Use draft state when users are managing a durable unpublished object across lists, publish boundaries, or shared draft ownership.",
+    "Use retry for a simple failed operation only when no local unsaved value, timestamp ambiguity, or version choice must be preserved.",
+    "Escalate to conflict state or conflict resolution when local and server versions both changed and users need to compare or merge them.",
+    "Escalate to session timeout warning or reauthentication when recovery depends on restoring an authenticated session.",
+    "Show the last saved timestamp, failed attempt time, affected section, and storage location such as server, this device, or browser storage.",
+    "Keep the local value editable or copyable while recovery actions run; do not clear it before a successful server save or explicit discard.",
+    "Disable or explain Submit, Publish, Continue, and navigation while failed or uncertain autosave would make the next step unsafe.",
+    "After successful recovery, clear stale failed-save warnings and update the visible saved state to the recovered version."
+  ],
+  "requiredStates": [
+    "Clean saved state with current server timestamp.",
+    "Dirty or pending local state waiting for autosave.",
+    "Failed autosave state with affected field or section named.",
+    "Local-only saved-on-this-device state.",
+    "Retrying same value state with duplicate submission blocked.",
+    "Recovered saved state with updated timestamp.",
+    "Restore last server-saved version state.",
+    "Recovered local copy after reload or return state.",
+    "Version conflict or compare-needed state.",
+    "Expired session or reauthentication-needed recovery state."
+  ],
+  "interactionContract": [
+    "The recovery surface appears close to the affected form, section, editor, or submit action and remains until the risk is resolved.",
+    "Retry save sends the latest local value with the same field or section identity and prevents duplicate retry requests.",
+    "Copy answer or Download copy lets users preserve local work even if the server remains unavailable.",
+    "Restore last saved names the timestamp and consequence before replacing a newer local value.",
+    "Compare versions shows local and server evidence when overwrite risk exists.",
+    "Submit, Publish, or Continue is blocked or intercepted while latest required work is failed, local-only, conflicted, or unverified.",
+    "Recovery success updates the timestamp and returns focus or status to the affected task without forcing users to retype."
+  ],
+  "implementationChecklist": [
+    "Track server-saved value, local value, local storage key, field or section owner, save request ID, saved timestamp, failed timestamp, and retry state separately.",
+    "Persist local copies through reload, app restart, backgrounding, and reauthentication when policy allows.",
+    "Keep failed-save messages persistent and attached to the field, section, or submit area until recovery completes.",
+    "Make retry idempotent and scoped to the same local value; disable duplicate Submit and Retry while saving.",
+    "Expose safe manual preservation such as Copy answer, Download draft, or Save local copy when server recovery may fail.",
+    "Handle validation rejection, offline mode, session expiry, duplicate tabs, stale server versions, and storage quota failures as separate recovery states.",
+    "Log recovery outcomes for diagnostics without recording sensitive field values.",
+    "Test slow network, failed request, offline return, reload restore, session expiry, two tabs, conflict, copy fallback, keyboard access, and screen reader status updates."
+  ],
+  "commonMisuses": [
+    "Leaving a green Saved label visible after a failed or stale autosave.",
+    "Showing only a disappearing toast for work that may be lost.",
+    "Retrying a save after clearing the local value.",
+    "Letting users submit an older server version while the newest local answer failed.",
+    "Overwriting server changes from another tab or collaborator without comparison.",
+    "Treating local browser storage as server-saved progress.",
+    "Forcing reload or sign-in again without preserving a return target and local copy."
+  ],
+  "critiqueQuestions": [
+    "What exact field, section, upload, or object is not safely saved?",
+    "Where is the newest value now: server, this device, memory, browser storage, another tab, or nowhere?",
+    "What timestamp or version proves the visible Saved message refers to the latest edit?",
+    "Can users retry, copy, restore, compare, or reauthenticate without losing the local value?",
+    "What actions must be blocked until recovery succeeds?",
+    "How does the UI resolve a conflict between local and server-saved values?"
+  ],
+  "useWhen": [
+    "Autosave failed, stalled, expired, or became uncertain while users still have meaningful local work.",
+    "A reload, return, reauthentication, or offline transition finds a recoverable local copy.",
+    "Users need to choose between local and server versions after background save ambiguity.",
+    "Submit, continue, publish, or leave would risk losing or committing stale work."
+  ],
+  "avoidWhen": [
+    "The product does not use autosave or local draft persistence.",
+    "The ordinary autosave status is enough and no recovery or preservation decision is needed.",
+    "The work is a durable draft object with list-level resume, publish, and discard lifecycle.",
+    "The problem is a simple retryable operation with no local unsaved value.",
+    "Security or privacy policy forbids retaining the local value after expiry; show a clear signed-out recovery state instead."
+  ],
+  "variants": [
+    "Failed autosave recovery",
+    "Local copy recovery",
+    "Reload draft recovery",
+    "Offline autosave recovery",
+    "Session-expired autosave recovery",
+    "Autosave conflict recovery",
+    "Restore last saved",
+    "Copy unsaved answer",
+    "Download local draft",
+    "Duplicate-tab autosave recovery"
+  ],
+  "accessibility": [
+    "Announce failed, local-only, retrying, recovered, and conflict states through status text without repeating every save attempt.",
+    "Place recovery controls in reading order near the affected field, section, or submit action.",
+    "Use clear button labels such as Retry save, Copy answer, Restore last saved, Compare versions, and Continue after saved.",
+    "Do not rely on color or spinner-only feedback to indicate that the latest work is unsafe.",
+    "If a recovery panel opens after reload or reauthentication, focus the heading or first safe action.",
+    "Keep local values accessible to assistive technology unless privacy policy requires hiding them after sign-out."
+  ],
+  "keyboardBehavior": [
+    "Tab order reaches the failed-save message, affected field, Retry save, Copy answer, Restore last saved, Compare versions, and Continue controls.",
+    "Retry and copy actions activate with Enter or Space and expose a visible status change.",
+    "While retrying, duplicate retry and submit controls are disabled but focus remains stable.",
+    "Restore last saved requires deliberate activation when it would replace newer local work.",
+    "After successful recovery, focus remains near the recovered field or moves to a stable success status before Continue.",
+    "Reload-recovery dialogs can be dismissed only through explicit restore, discard, or later choices that preserve user intent."
+  ],
+  "failureModes": [
+    "A stale saved timestamp hides that the latest answer failed after the timestamp.",
+    "A local-only answer is treated as submitted server data.",
+    "Users cannot copy the answer before retrying and lose it when retry fails.",
+    "Two tabs race and the older tab overwrites newer content.",
+    "A validation failure is reported as saved because the local draft exists.",
+    "Reauthentication returns to a blank form instead of a recovery surface.",
+    "The recovery panel stays after save succeeds, so users keep retrying the same value."
+  ],
+  "relatedPatterns": [
+    "autosave-form",
+    "draft-state",
+    "retry",
+    "exit-warning",
+    "session-timeout-warning",
+    "offline-state",
+    "conflict-state",
+    "sync-state"
+  ],
+  "comparisons": [
+    "autosave-recovery-vs-autosave-form-vs-draft-state-vs-retry"
+  ],
+  "examples": [
+    {
+      "product": "GitLab Pajamas Saving and feedback",
+      "url": "https://design.gitlab.com/patterns/saving-and-feedback/",
+      "platform": "web",
+      "notes": "Documents retry after failed autosave, undo, autosave timing, saved feedback, leave warnings, and cautions for sensitive changes.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "VA.gov Autosave",
+      "url": "https://dev-design.va.gov/3886/components/form/autosave",
+      "platform": "web",
+      "notes": "Documents authenticated autosave messaging with saved timestamps and accessible association to Continue.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "SAP Fiori Draft Handling",
+      "url": "https://www.sap.com/design-system/fiori-design-web/v1-136/foundations/best-practices/global-patterns/object-handling/draft-handling",
+      "platform": "web",
+      "notes": "Documents background draft persistence, interruption recovery, validation support, locks, resume editing, and active-save distinction.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Atlassian Confluence Drafts",
+      "url": "https://confluence.atlassian.com/doc/drafts-149040.html",
+      "platform": "web",
+      "notes": "Documents autosaved draft recovery, recently worked on discovery, resume editing, publishing, revert, delete draft, and shared-draft risk.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab Pajamas supports retry after failed autosave, undo, saved feedback, leave warnings, and autosave cautions."
+    },
+    {
+      "id": "va-autosave-component",
+      "note": "VA.gov supports authenticated autosave messaging, saved timestamps, and accessible linkage to Continue."
+    },
+    {
+      "id": "sap-fiori-draft-handling",
+      "note": "SAP Fiori supports background draft persistence, interrupted-edit recovery, validation, locks, and active save distinction."
+    },
+    {
+      "id": "atlassian-confluence-drafts",
+      "note": "Confluence supports autosaved recovery, recently worked on discovery, resume editing, and shared-draft warnings."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

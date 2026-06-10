@@ -1,0 +1,46 @@
+{
+  "id": "text-input-vs-autocomplete-vs-select-vs-radio-group",
+  "title": "Text input vs autocomplete vs select vs radio group",
+  "summary": "Use text input for short freeform answers, autocomplete for known values that benefit from typing, select for compact single choice from a finite list, and radio group for short visible mutually exclusive choices.",
+  "patternIds": [
+    "text-input",
+    "autocomplete",
+    "select",
+    "radio-group"
+  ],
+  "decisionRules": [
+    "Prefer text input when the answer is short, user-authored, and cannot be usefully enumerated as a fixed option list.",
+    "Prefer autocomplete when the user is still typing into a field but the valid answer should resolve to one known record, product, address, tag, or code.",
+    "Prefer select when the user must choose one value from a finite moderate list and seeing every option at once is not critical.",
+    "Prefer radio group when the choice set is short, mutually exclusive, and users benefit from comparing every option before deciding.",
+    "Use textarea instead of text input when the expected answer has sentence or paragraph structure, needs line breaks, or should visibly support extended writing.",
+    "Use specialized text inputs such as email, password, phone, date, card, prefix/suffix, or input mask only when the answer has domain-specific parsing, keyboard, validation, or privacy behavior.",
+    "Do not use placeholder text as the only label for text input; persistent labels and nearby hints remain available after typing starts.",
+    "Do not validate a text input before the user has interacted with it, except for server-returned errors on an attempted submission.",
+    "Match the visible input width to the expected answer length so users do not infer a paragraph answer from a short field or a short code from a wide field.",
+    "If the field accepts pasted content or arbitrary text, do not replace it with select, radio, or autocomplete merely to make data cleaner."
+  ],
+  "failureModes": [
+    "A freeform answer is forced into a select, causing users to choose an inaccurate option.",
+    "A single-line text input is used for paragraph comments, hiding overflow and making review hard.",
+    "A placeholder disappears after typing, leaving no persistent label or instruction.",
+    "Inline validation fires on focus or the first keystroke and blocks normal editing.",
+    "A short code field is rendered full-width, making users think long prose is expected.",
+    "A known-value identifier is accepted as arbitrary text even though downstream systems need a selected record ID."
+  ],
+  "sources": [
+    {
+      "id": "govuk-text-input-component",
+      "note": "GOV.UK documents required labels, hints, errors, aria-describedby, autocomplete attributes, and text input markup."
+    },
+    {
+      "id": "uswds-text-input-component",
+      "note": "USWDS distinguishes freeform text input from predetermined options and recommends matching width, delayed validation, and avoiding placeholder-only guidance."
+    },
+    {
+      "id": "wai-aria-apg-names-and-descriptions",
+      "note": "WAI-ARIA APG names and descriptions guidance supports persistent accessible names for focusable inputs."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

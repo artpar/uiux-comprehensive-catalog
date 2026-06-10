@@ -1,0 +1,45 @@
+{
+  "id": "menu-menubar-vs-menu-button-vs-mega-menu-vs-global-navigation",
+  "title": "Menu / menubar vs menu button vs mega menu vs global navigation",
+  "summary": "Use a menu or menubar for desktop-style command sets with composite keyboard behavior, a menu button for a short local popup menu, a mega menu for large grouped navigation disclosure, and global navigation for persistent movement between top-level product or service sections.",
+  "patternIds": ["menu-menubar", "menu-button", "mega-menu", "global-navigation"],
+  "decisionRules": [
+    "Prefer a menu or menubar when users need a persistent application command surface such as File, Edit, View, Insert, or Format, where arrow keys move between top-level command groups and submenus.",
+    "Prefer a menu button when one local trigger reveals a short contextual set of actions and there is no persistent horizontal command bar.",
+    "Prefer a mega menu when a top-level navigation section needs a large grouped destination panel, not desktop-style command execution.",
+    "Prefer global navigation when the main task is moving between persistent product, site, or service sections rather than invoking commands on the current object.",
+    "Use menuitemcheckbox or menuitemradio when a menu item represents persistent command state such as Show comments or Theme, and expose aria-checked rather than replacing it with a checkbox control inside the menu.",
+    "Do not use menubar roles for ordinary site navigation unless the implementation truly follows application-menu behavior: roving focus, Arrow key movement, Escape handling, submenu ownership, and item roles.",
+    "Do not hide a single row action set inside a full menubar; use visible buttons or a menu button when the scope is local and short.",
+    "Do not turn a mega menu into an ARIA menubar just because it is visually horizontal; link-rich site navigation normally keeps nav/link semantics.",
+    "Use command palette when users need searchable, ranked, shortcut-driven command discovery across a large product; use menubar when commands are stable, visible, and organized into known top-level groups.",
+    "If a menu item opens a dialog, label it with clear consequence or destination wording and keep focus return predictable after the dialog or submenu closes."
+  ],
+  "failureModes": [
+    "A site header uses role menubar but Tab still visits every link and Arrow keys do not move between items.",
+    "A persistent menubar contains form fields, sliders, and buttons inside menuitem rows instead of menuitemcheckbox or menuitemradio state.",
+    "A menu button is stretched into File, Edit, View, and Insert groups, forcing users to open separate local popups for a stable command system.",
+    "A mega menu is given menuitem semantics, so screen reader users expect desktop command behavior while the content is actually grouped navigation links.",
+    "Global navigation commands such as Dashboard and Billing are mixed with editor commands such as Undo, Paste, and Show rulers.",
+    "Disabled menu items disappear completely, so users cannot learn that a command exists but is unavailable in the current context."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-menu-menubar",
+      "note": "APG defines menu and menubar roles, composite focus, top-level and submenu keyboard behavior, disabled item focusability, separators, groups, and checked item state."
+    },
+    {
+      "id": "mdn-aria-menubar-role",
+      "note": "MDN documents menubar as a persistent command bar, with focusable menu items, roving tabindex, submenus, accessible labeling, orientation, and keyboard behavior."
+    },
+    {
+      "id": "mdn-aria-menu-role",
+      "note": "MDN distinguishes ARIA menu from generic site navigation and documents action-oriented menu semantics, item roles, disabled state, and focus management."
+    },
+    {
+      "id": "adobe-spectrum-menu",
+      "note": "Spectrum documents menu item labels, descriptions, disabled and unavailable states, sections, dividers, checkable selection states, keyboard focus, and text wrapping."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

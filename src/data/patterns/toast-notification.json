@@ -1,0 +1,228 @@
+{
+  "id": "toast-notification",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a transient non-modal status-feedback pattern with source-backed timing, content, queueing, dismissal, history, accessibility, distinct comparison rules, a unique live demo, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets brief low-risk success, informational, warning, background-job, and optional one-action messages, including timing, stacking, content length, close behavior, durable history, and assistive technology announcement.",
+    "relatedPatternDistinction": "The entry separates toast notification from toast-only critical error by non-blocking consequence, from error state by transient feedback versus persistent recovery, from undo by whether exact reversal is required, and from loading skeleton by post-resolution status rather than pending structure.",
+    "liveDemoBehavior": "The live demo creates export, saved, archived, and sync toasts; caps the visible stack, dismisses one message, expires transient messages into a history rail, and contrasts noisy, critical, and vague toast misuse.",
+    "comparisonDecisionRules": "The toast-notification-vs-toast-only-critical-error-vs-error-state-vs-undo comparison gives concrete rules for low-risk feedback, critical persistence, reversible undo, recovery surfaces, durable message access, action limits, stacking, and focus behavior.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/toast-notification.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, toast queueing, dismiss and expire behavior, history access, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/toast-notification.png"
+    ]
+  },
+  "name": "Toast notification",
+  "aliases": [
+    "toast",
+    "snackbar",
+    "transient notification",
+    "temporary status message"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Transient non-modal status message",
+  "uiGuidance": [
+    "Render toast notifications in a consistent non-modal region with short status text, clear severity, an optional close control, and at most one concise action.",
+    "Keep the toast stack bounded, avoid covering current task controls, and provide a durable route such as history, notification center, or contextual status for messages users may need after dismissal."
+  ],
+  "uxGuidance": [
+    "Use toast notifications for low-risk, short-lived feedback after an action completes or background work changes state without requiring the user to stop the current task.",
+    "Escalate to inline, section, dialog, notification center, undo, or error-state treatment when the message requires repair, proof, long reading time, several actions, or reliable recovery."
+  ],
+  "uiExamples": {
+    "good": [
+      "Export started appears in the top notification region with a timestamp, close control, and View jobs action that remains available in activity history.",
+      "Saved appears once after a deliberate save action and auto-expires without moving focus from the edited record."
+    ],
+    "bad": [
+      "Five unrelated toasts pile up over the Save and Continue controls.",
+      "A long payment failure and support code are squeezed into a disappearing corner toast."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A completed archive action shows a short toast and a specific Undo action because the prior state can be restored.",
+      "When the export-ready toast expires, the same item remains reachable from the notification history."
+    ],
+    "bad": [
+      "Every autosave tick triggers a toast, training users to ignore real status changes.",
+      "The only explanation for failed sync disappears while the record still looks current."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need brief feedback that an action or background process changed state, but interruptive dialogs or persistent page messages would slow the task.",
+  "solution": "Show a concise non-modal toast in a consistent status region, announce it appropriately, bound its duration and stack behavior, and provide persistent access whenever the message matters after it disappears.",
+  "problemContext": [
+    "A user action succeeds, is queued, or changes low-risk state while the user can keep working.",
+    "A background process such as export, sync, upload, invitation, or archive needs short status feedback.",
+    "The message can be understood quickly and does not need multiple controls, long instructions, or blocking recovery.",
+    "The product has a plan for durable access when the message includes a job, receipt, audit event, undo action, or later result."
+  ],
+  "selectionRules": [
+    "Choose a toast for short non-blocking confirmation, progress handoff, background-job status, or low-risk warning that does not require users to stop the current task.",
+    "Use a persistent inline notification, error state, dialog, banner, or notification center when the message is critical, long, legally important, requires repair, or must remain available.",
+    "Use undo only when the toast action can restore the exact prior state; otherwise label the action as View, Retry, Open jobs, or another truthful next step.",
+    "Keep toast copy specific enough to name the object or process, such as Export started for April invoices, rather than Done or Success.",
+    "Limit each toast to one primary action and move multi-step workflows into a page, panel, dialog, or notification center.",
+    "Cap the visible stack and place newer messages consistently so users are not forced to manage a wall of notifications.",
+    "Provide close behavior for visible toasts and respect reduced-motion or timing needs when animating entry and exit.",
+    "Preserve important expired toast messages in history when users may need to reference or act on them later."
+  ],
+  "requiredStates": [
+    "Idle state with no visible toast and a reachable status or history region when applicable.",
+    "New toast state that announces the message without stealing focus from the current task.",
+    "Stacked state with newest and older messages ordered predictably and capped.",
+    "Actionable toast state with one short action and enough persistence to activate it.",
+    "Dismissed state after the user closes one toast.",
+    "Expired state after time-based dismissal, with durable history for messages that remain relevant.",
+    "Escalated state where critical or long feedback is routed to persistent UI instead of a toast."
+  ],
+  "interactionContract": [
+    "A toast appears because a specific action or system event occurred, not as the only visible structure for the task itself.",
+    "The current page remains operable while the toast is visible.",
+    "The toast does not move keyboard focus unless it contains an action that intentionally receives focus and remains available long enough to use.",
+    "Users can dismiss a visible toast without losing the underlying task state.",
+    "If a toast auto-dismisses, the product either makes the message safely disposable or stores it in a place users can revisit.",
+    "New toasts do not overwrite earlier actionable or important messages without preserving their outcome.",
+    "Critical failures, long instructions, and multi-step recovery are escalated out of the toast layer."
+  ],
+  "implementationChecklist": [
+    "Classify each candidate message by consequence, required action, and whether users may need to revisit it.",
+    "Use a single notification region per viewport and choose placement that does not cover navigation, form submits, chat input, or primary task controls.",
+    "Write a short title or message that names the object, action, and result.",
+    "Use role status for neutral or success updates and alert only for urgent warnings that still do not need persistent recovery.",
+    "Keep an optional action short, object-scoped, and limited to one command.",
+    "Set sensible duration rules by severity and action presence; actionable toasts should persist until dismissed or acted on.",
+    "Queue or cap simultaneous messages, and send older important items to history instead of hiding them silently.",
+    "Make close controls keyboard reachable and give them accessible names that include the toast subject.",
+    "Test with keyboard, screen reader announcements, zoom, reduced motion, slow reading, and repeated background events."
+  ],
+  "commonMisuses": [
+    "Using a toast as the only feedback for payment, save, permission, upload, or security failures.",
+    "Showing repeated autosave confirmations so frequently that users ignore every status message.",
+    "Packing long explanations, links, forms, or multiple buttons into a tiny transient surface.",
+    "Stacking messages until they cover primary actions or content.",
+    "Using vague copy such as Done, Failed, or Updated without naming the affected object.",
+    "Auto-dismissing an Undo action before users can perceive and activate it.",
+    "Moving focus to every toast and disrupting keyboard or screen reader workflows."
+  ],
+  "critiqueQuestions": [
+    "Is this message disposable after a few seconds, or does the user need to revisit it?",
+    "What object, job, or action changed, and does the toast name it?",
+    "Would losing the toast make the current state unsafe, ambiguous, unpaid, unsaved, or unrecoverable?",
+    "Is one concise action enough, or does this need a persistent surface?",
+    "Can keyboard and assistive technology users perceive, dismiss, and act on the toast without a timing trap?",
+    "What happens when several events fire in a row?"
+  ],
+  "useWhen": [
+    "Use for short non-blocking confirmation after explicit actions such as save, copy, send, archive, invite, or queue export.",
+    "Use for background status when users can keep working and later inspect details elsewhere.",
+    "Use for low-risk warnings that do not block progress and do not require extended reading."
+  ],
+  "avoidWhen": [
+    "The message is the only recovery path for a blocking or high-consequence failure.",
+    "Users must read long instructions, compare details, enter data, or choose among several actions.",
+    "The message must remain visible for legal, security, compliance, payment, or data-integrity reasons.",
+    "The status belongs contextually next to a form field, table row, page section, or persistent object state.",
+    "The interface would produce frequent repetitive toasts that distract more than they inform."
+  ],
+  "variants": [
+    "Success toast",
+    "Informational toast",
+    "Warning toast",
+    "Snackbar",
+    "Undo snackbar",
+    "Actionable toast",
+    "Background job toast",
+    "Toast queue",
+    "Notification history handoff"
+  ],
+  "accessibility": [
+    "Expose the toast as a status or alert message according to urgency so assistive technologies can announce it without requiring focus movement.",
+    "Do not make comprehension or action depend on a short timing window when the message matters after dismissal.",
+    "Keep close and action controls keyboard reachable, clearly named, and stable while focused.",
+    "Avoid motion-only meaning and respect reduced-motion preferences for slide or fade transitions.",
+    "Do not cover focused controls, active form fields, or content being read.",
+    "Provide durable access to important messages after auto-dismissal."
+  ],
+  "keyboardBehavior": [
+    "Routine toast appearance does not move focus from the user's current control.",
+    "A visible close button and any single action can be reached by keyboard when the toast is interactive.",
+    "Escape or a close control can dismiss the active toast when that behavior is part of the product convention.",
+    "Focus is not left on a removed action when a toast expires; actionable toasts should persist while focus is inside them.",
+    "History or notification-center access is reachable by keyboard when expired toasts remain relevant."
+  ],
+  "failureModes": [
+    "A disappearing toast hides the only evidence that an important operation failed.",
+    "Toasts stack over controls and block the task they were meant not to interrupt.",
+    "Multiple new toasts overwrite an undo action before the user can activate it.",
+    "Assistive technology users never hear the status change because the region lacks status semantics.",
+    "Focus jumps to every status update, interrupting typing or screen reader navigation.",
+    "The product records no durable history for export-ready or approval-required messages that users need later.",
+    "Generic copy leaves users unable to tell which object was saved, sent, archived, or synced."
+  ],
+  "relatedPatterns": [
+    "toast-only-critical-error",
+    "error-state",
+    "undo",
+    "loading-skeleton",
+    "utility-navigation"
+  ],
+  "comparisons": [
+    "toast-notification-vs-toast-only-critical-error-vs-error-state-vs-undo"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Notification",
+      "url": "https://carbondesignsystem.com/components/notification/usage/",
+      "platform": "web",
+      "notes": "Documents toast notifications as non-modal time-based short messages, including fixed-width placement, concise content, optional close, stacking, auto-dismiss, and alternate access when more time is needed.",
+      "screenshot": "screenshots/patterns/toast-notification.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Design Snackbars",
+      "url": "https://m2.material.io/go/design-snackbar",
+      "platform": "mobile",
+      "notes": "Documents snackbars as temporary non-interruptive process feedback that can include a single action.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Adobe Spectrum Toast",
+      "url": "https://spectrum.adobe.com/page/toast/",
+      "platform": "web",
+      "notes": "Documents toast component usage and presentation for transient in-product status feedback.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon documents toast notification timing, concise content, stacking, dismissal, actionable variants, and alternate access when users need more time."
+    },
+    {
+      "id": "material-design-snackbar",
+      "note": "Material describes snackbars as brief temporary feedback about app processes that should not interrupt the user experience and may include one action."
+    },
+    {
+      "id": "adobe-spectrum-toast",
+      "note": "Spectrum documents toast as a dedicated status-feedback component with status variants and usage guidance for short messages."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports programmatic announcement of status updates without moving focus."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

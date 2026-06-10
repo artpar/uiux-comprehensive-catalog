@@ -1,0 +1,163 @@
+{
+  "id": "inline-validation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a field-level validation pattern with source-backed error-message guidance, preserved invalid input, blur/submit timing, corrected state, explicit distinction from error summary, duplicate audit, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names field-adjacent error placement, preserved typed values, clear correction text, validation timing, programmatic invalid state, and corrected field feedback.",
+    "relatedPatternDistinction": "The entry separates inline validation from error summary by keeping the primary recovery cue beside one field instead of summarising submitted form errors at the top.",
+    "liveDemoBehavior": "The live demo starts with a typed invalid email, reveals the inline message after blur or submit, preserves the value for editing, and shows a corrected state after a valid address is entered.",
+    "comparisonDecisionRules": "The linked inline-validation-vs-error-summary comparison distinguishes local field correction from failed-submit recovery with a top-of-page list and links back to fields.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/inline-validation.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, inline error text, preserved invalid value, and corrected state behavior.",
+    "screenshots": [
+      "screenshots/patterns/inline-validation.png"
+    ]
+  },
+  "name": "Inline validation",
+  "aliases": [
+    "field validation",
+    "inline error"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Error Prevention And Recovery"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to repair one invalid field while the entered value, label, hint, and correction remain in the same local context.",
+  "solution": "Render a field-adjacent validation message only when it helps correction, keep the typed value editable, and describe the exact acceptable format or missing requirement.",
+  "problemContext": [
+    "The user is entering structured data into a known form control.",
+    "The system can identify a problem with that exact control and state the correction briefly."
+  ],
+  "selectionRules": [
+    "Choose inline validation when one field has a correctable format, missing-value, range, or requirement problem.",
+    "Show the message after blur, submit, or another meaningful checkpoint instead of flagging ordinary partial input on every keystroke.",
+    "Use the same field message alongside an error summary when a submitted page has multiple invalid answers."
+  ],
+  "requiredStates": [
+    "Neutral field with label, hint, and no error.",
+    "Invalid field with preserved user value and adjacent correction text.",
+    "Corrected field with the error removed or replaced by a modest success cue.",
+    "Submitted form where the invalid field remains reachable and editable."
+  ],
+  "interactionContract": [
+    "The message names the field problem and the correction in plain language.",
+    "The invalid value remains in the input so the user can edit rather than retype it.",
+    "The input exposes invalid state and its descriptive error text to assistive technology."
+  ],
+  "implementationChecklist": [
+    "Place the error message immediately after the label and hint, or otherwise directly beside the field it describes.",
+    "Use visible text plus an invalid field treatment; do not rely on color, an icon, or a border alone.",
+    "Connect the input to both hint and error text with stable IDs where the platform supports it.",
+    "Keep both passing and failing answers in place when errors are shown.",
+    "Avoid premature validation while users are still entering a value that may become valid."
+  ],
+  "commonMisuses": [
+    "Showing field errors before users have interacted with the control.",
+    "Using vague labels such as Invalid value instead of naming the required correction.",
+    "Clearing or replacing the user's value when validation fails."
+  ],
+  "critiqueQuestions": [
+    "Does the message tell users exactly how to fix this field without leaving the field context?",
+    "Can the user edit the failing value directly from the error state?"
+  ],
+  "useWhen": [
+    "A single field has a specific correctable problem.",
+    "The correction can be explained in one short sentence next to the field."
+  ],
+  "avoidWhen": [
+    "The main recovery task is finding several errors across a submitted page.",
+    "The issue is not tied to one field or cannot be fixed by changing the user's answer."
+  ],
+  "variants": [
+    "On blur validation",
+    "On submit validation",
+    "Password requirement checklist",
+    "Format-specific field error"
+  ],
+  "accessibility": [
+    "Expose invalid state on the input and connect error text to the field description where possible.",
+    "Do not communicate errors by color alone.",
+    "Keep labels, hints, and error text in a reading order that makes the correction understandable."
+  ],
+  "keyboardBehavior": [
+    "Users can tab to the field and edit the preserved value normally.",
+    "Focus should not jump on every validation update.",
+    "Submitting an invalid short form may keep focus on or return focus to the field needing correction."
+  ],
+  "failureModes": [
+    "Error text separated from the field it describes.",
+    "Validation flicker while typing a value that could still become valid.",
+    "Only showing an icon or red border.",
+    "Success messages that obscure the field or interrupt the next input."
+  ],
+  "relatedPatterns": [
+    "error-summary"
+  ],
+  "comparisons": [
+    "inline-validation-vs-error-summary"
+  ],
+  "sources": [
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK error message guidance places validation messages next to fields, preserves answers, and requires clear correction wording."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance is used only to distinguish submitted-page summaries from local inline field recovery."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Field-level validation feedback",
+  "uiGuidance": [
+    "Render a labeled field with hint text, field-adjacent error text, invalid styling, preserved value, and corrected state.",
+    "Connect the inline message visually and programmatically to the same input it describes."
+  ],
+  "uxGuidance": [
+    "Help users correct a specific field without losing or re-entering the value they already typed.",
+    "Time validation after blur, submit, or another useful checkpoint so normal partial input is not punished."
+  ],
+  "uiExamples": {
+    "good": [
+      "Error text appears next to the field with readable spacing, persistent label, hint text, and the invalid value still visible.",
+      "Invalid state uses field-adjacent text and structure, not color alone."
+    ],
+    "bad": [
+      "Only a red border with no message.",
+      "Error message appears far from the field it describes."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Validation appears after blur or submit when it helps correction.",
+      "User input remains editable and preserved while the error is fixed."
+    ],
+    "bad": [
+      "Showing errors before users type.",
+      "Focus jumps on every keystroke or validation flicker."
+    ]
+  },
+  "examples": [
+    {
+      "product": "GOV.UK Design System Error message component",
+      "url": "https://design-system.service.gov.uk/components/error-message/",
+      "platform": "web",
+      "notes": "Documents validation messages next to fields, preserved failing answers, hidden error prefix support, and clear correction text.",
+      "screenshot": "screenshots/patterns/inline-validation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Design System Error summary component",
+      "url": "https://design-system.service.gov.uk/components/error-summary/",
+      "platform": "web",
+      "notes": "Used as the related contrast for top-of-page submitted-form error recovery with links back to fields.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

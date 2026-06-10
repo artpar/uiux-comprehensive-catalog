@@ -1,0 +1,48 @@
+{
+  "id": "step-progress-vs-step-navigation-vs-progress-bar-vs-meter",
+  "title": "Step progress vs step navigation vs progress bar vs meter",
+  "summary": "Use step progress when users need a live status readout of step completion inside a workflow; use step navigation for moving through pages, progress bar for measurable system work, and meter for a read-only bounded scalar value.",
+  "patternIds": [
+    "step-progress",
+    "step-navigation",
+    "progress-bar",
+    "meter"
+  ],
+  "decisionRules": [
+    "Choose step progress when the main question is which workflow stages are complete, current, blocked, skipped, failed, or waiting after validation or system checks.",
+    "Choose step navigation when the step indicator also represents the user's page position and supports moving through a linear multistep form or task route.",
+    "Choose progress bar when the system can report a numeric value for upload, download, import, validation, export, or processing completion.",
+    "Choose meter when the value is a current read-only measurement inside a meaningful known range, such as storage usage, battery, risk, or quota.",
+    "Do not mark a workflow stage complete because the user visited it; completion needs saved answers, accepted documents, passed checks, or another authoritative proof event.",
+    "Use blocked, cannot start, skipped, waiting, failed, and retry labels when a stage is not simply pending, and explain what event will change that state.",
+    "Keep step progress read-only unless the product intentionally combines it with step navigation; if users can activate segments, the availability and focus behavior must match the navigation contract.",
+    "Do not use a percent bar for workflow stages unless the unit is actually numeric system work; five named stages are not the same as 60 percent complete."
+  ],
+  "failureModes": [
+    "A checkout says Payment is complete because the user opened the page, but the card authorization failed.",
+    "A step strip shows five green segments while the current route, heading, and saved state still belong to the second step.",
+    "A dynamic dependent review step is counted in the total before the user triggers it, so later progress appears to move backward.",
+    "A progress bar is used for application steps, hiding which stage is blocked and what validation is needed.",
+    "A step progress display is styled as clickable navigation even though future stages cannot be opened.",
+    "A failed background check appears only as a red segment with no text, retry, or affected-step explanation."
+  ],
+  "sources": [
+    {
+      "id": "uswds-step-indicator-component",
+      "note": "USWDS supports step indicators for multi-page linear processes, current/completed/pending states, separate navigation, headings, and three-or-more step thresholds."
+    },
+    {
+      "id": "carbon-progress-indicator-component",
+      "note": "Carbon supports completed, current, future, optional, disabled, and error states for linear multistep progress indicators."
+    },
+    {
+      "id": "agds-progress-indicator-accessibility",
+      "note": "AgDS supports status labels, cannot-start-yet states, color-independent status changes, and assistive-technology understanding of current and remaining steps."
+    },
+    {
+      "id": "mdn-aria-current",
+      "note": "MDN supports aria-current step semantics for the current item in a multi-step process indicator."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

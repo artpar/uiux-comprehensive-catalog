@@ -1,0 +1,216 @@
+{
+  "id": "in-page-anchor-navigation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a same-page section-jump pattern with source-backed heading-derived links, active section behavior, focus movement, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers long-page use, H2-derived section links, labelled navigation landmarks, active/current section state, same-page hash targets, focus movement to destination headings, sticky or top-of-page placement, short labels, and avoidance on short pages.",
+    "relatedPatternDistinction": "The entry separates in-page anchor navigation from breadcrumbs by current-page section jumps versus page hierarchy, from side navigation by content-section anchors versus local multi-page hierarchy, and from back links by intra-page movement versus previous transaction page return.",
+    "liveDemoBehavior": "The live demo switches among sections on the same article, updates the active in-page link, moves the focus marker to the destination heading, preserves the page context, and contrasts bad anchors whose labels do not match headings or move focus.",
+    "comparisonDecisionRules": "The linked in-page-anchor-navigation-vs-breadcrumbs-vs-side-navigation comparison gives concrete rules for long-page headings, same-page anchors, canonical hierarchy, local multi-page sections, sticky behavior, heading labels, focus movement, and URL hash state.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/in-page-anchor-navigation.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, active same-page section state, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/in-page-anchor-navigation.png"
+    ]
+  },
+  "name": "In-page anchor navigation",
+  "aliases": [
+    "on this page",
+    "jump links",
+    "anchor links",
+    "table of contents",
+    "page contents",
+    "same-page navigation"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Same-page section jump links for long content",
+  "uiGuidance": [
+    "Render a labelled navigation landmark with links to major headings on the current page, using labels that match or clearly summarize the destination sections.",
+    "Keep the anchor list visually tied to the current article or page content, and show an active section state when the page is long enough for scrolling context to matter."
+  ],
+  "uxGuidance": [
+    "Use in-page anchor navigation to help users understand the contents of a long page and jump directly to the section they need without leaving the page.",
+    "After activation, move focus to the destination heading or otherwise make the new section clear, so keyboard and screen-reader users do not remain stranded at the link list."
+  ],
+  "uiExamples": {
+    "good": [
+      "An article starts with an 'On this page' nav linking to Eligibility, Documents, Fees, and After you apply, each matching an H2 on the same page.",
+      "A sticky right-side in-page nav highlights Fees while the Fees heading is in view.",
+      "A narrow layout keeps the jump links near the top of the article and pairs them with a Back to top link for long pages."
+    ],
+    "bad": [
+      "A short page with two paragraphs shows a table of contents that adds more navigation than content.",
+      "Anchor labels say Overview, Details, and More while the headings say Requirements, Costs, and Next steps.",
+      "The anchor list mixes same-page sections with external pages and account tools."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens a long guidance page, chooses Fees, and lands at the Fees heading with the Fees link marked active.",
+      "A user follows a shared hash link and the page clearly indicates which section is being viewed.",
+      "After reading a deep section, a Back to top control or sticky contents list helps the user return to the page outline."
+    ],
+    "bad": [
+      "Clicking a jump link scrolls visually but keyboard focus stays in the contents list.",
+      "The active link remains on Eligibility while the visible heading is Fees.",
+      "A link labelled Documents opens another page, breaking the expectation that contents links stay on the current page."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users on a long page need to understand what sections are available and jump to the section they need without moving to another page or interpreting the content as hierarchy.",
+  "solution": "Provide an 'On this page' style set of same-page anchor links generated from or aligned to major headings, with active section state and focus behavior that confirms the destination section.",
+  "problemContext": [
+    "The page is long enough that scanning headings alone is inefficient.",
+    "The content is one coherent page rather than a set of separate pages or transaction steps.",
+    "Users may arrive with a specific section in mind and need a quick way to reach it."
+  ],
+  "selectionRules": [
+    "Choose in-page anchor navigation when one page has several meaningful sections, usually at least two H2-level destinations and enough length to justify jump links.",
+    "Use only headings or major section destinations on the current page; do not mix external pages, account actions, or local hierarchy pages into the list.",
+    "Keep link labels short, descriptive, and aligned with the destination headings so users can predict the target.",
+    "Move focus to the target heading after activation or ensure the destination is programmatically clear.",
+    "Highlight the current section when the navigation is sticky or when users may lose track during scrolling.",
+    "Avoid in-page anchor navigation on short pages where the list would duplicate visible headings without reducing effort.",
+    "Use side navigation for related pages in a section, breadcrumbs for parent hierarchy, and Back links for transaction return."
+  ],
+  "requiredStates": [
+    "Default state with a labelled same-page navigation list near or beside long content.",
+    "Active section state that matches the heading currently reached or visible.",
+    "Hash-linked or deep-linked state where the correct section is indicated on load.",
+    "Keyboard activation state where focus lands on or near the destination heading.",
+    "Sticky or scrolling state where active section updates as the viewport changes.",
+    "Short-page or insufficient-heading state where the component is omitted."
+  ],
+  "interactionContract": [
+    "Activating an anchor link navigates within the current page to the matching section target.",
+    "The destination heading text and anchor link label remain aligned enough for users to confirm they arrived at the expected section.",
+    "Keyboard focus moves to the destination heading or the section receives an equivalent focus target after activation.",
+    "The URL hash, active link, and visible section do not contradict each other.",
+    "Sticky versions update current-section state as users scroll and do not cover the target heading.",
+    "The anchor list remains separate from breadcrumbs, side navigation, global navigation, and page actions."
+  ],
+  "implementationChecklist": [
+    "Identify the page's major H2 sections and decide whether there is enough content to justify jump links.",
+    "Use a labelled navigation landmark such as 'On this page' or 'Page contents'.",
+    "Generate or maintain anchor hrefs from stable heading IDs and keep labels synchronized with heading text.",
+    "Set scroll-margin or equivalent offset so sticky headers do not hide destination headings.",
+    "Move focus to the destination heading on activation, or make the destination focusable with tabindex when needed.",
+    "Update active state from hash changes and scrolling when the component is sticky.",
+    "Test keyboard, screen-reader, reduced-motion, and narrow-screen behavior."
+  ],
+  "commonMisuses": [
+    "Using in-page anchors as a substitute for side navigation across different pages.",
+    "Adding a contents list to a short page where all headings are already visible.",
+    "Letting anchor labels drift from destination headings.",
+    "Changing the visible section without moving keyboard focus or active state.",
+    "Mixing same-page anchors with external links, global navigation, or account actions.",
+    "Letting sticky headers cover the target heading after a jump."
+  ],
+  "critiqueQuestions": [
+    "Is this one long page, or are these actually separate pages that need side navigation or pagination?",
+    "Do anchor labels match the headings users will see after activation?",
+    "What receives focus after a keyboard user activates a jump link?",
+    "Does the component disappear on short pages or when there are too few meaningful headings?",
+    "Can a shared hash URL open the page with the right section and active state?"
+  ],
+  "useWhen": [
+    "A long content page has several meaningful sections users may want to jump to.",
+    "Users need a quick summary of what the current page contains.",
+    "The page is self-contained and section movement should not change route or page context.",
+    "A sticky contents list or back-to-top pairing would reduce scrolling effort."
+  ],
+  "avoidWhen": [
+    "The page is short enough that the headings are already visible.",
+    "The destinations are separate pages in a local hierarchy.",
+    "The destinations are parent pages in the site hierarchy.",
+    "The user is moving through a transaction or step sequence.",
+    "The link labels cannot be kept synchronized with stable heading IDs."
+  ],
+  "variants": [
+    "Top-of-page contents list",
+    "Sticky side in-page navigation",
+    "Generated heading-based navigation",
+    "Manual jump-link list",
+    "In-page navigation with active section tracking",
+    "In-page navigation paired with Back to top"
+  ],
+  "accessibility": [
+    "Wrap the jump links in a labelled navigation landmark so assistive technology users can find the page contents list.",
+    "Use real links with hrefs targeting stable section IDs on the same page.",
+    "Move focus to the destination heading or make the destination focusable after activation.",
+    "Keep heading levels in a logical order so the anchor list reflects a usable document structure.",
+    "Respect reduced-motion preferences if smooth scrolling is used."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the in-page navigation links in reading order before the long content they summarize.",
+    "Enter activates a link and lands the user at the matching section target.",
+    "After activation, subsequent Tab movement continues from the destination section rather than from the original link list.",
+    "Sticky active-state behavior does not trap focus or require pointer scrolling."
+  ],
+  "failureModes": [
+    "Anchor activation changes scroll position but leaves focus behind.",
+    "Active section highlighting is stale or mismatched with the visible heading.",
+    "Destination headings are hidden under sticky headers.",
+    "Anchor hrefs break after heading text or IDs change.",
+    "The list includes links to other pages and no longer behaves like page contents.",
+    "Too many anchors make the contents list harder to scan than the page itself."
+  ],
+  "relatedPatterns": [
+    "breadcrumbs",
+    "side-navigation",
+    "back-link",
+    "tabs"
+  ],
+  "comparisons": [
+    "in-page-anchor-navigation-vs-breadcrumbs-vs-side-navigation"
+  ],
+  "examples": [
+    {
+      "product": "USWDS In-page navigation",
+      "url": "https://designsystem.digital.gov/components/in-page-navigation/",
+      "platform": "web",
+      "notes": "Documents lengthy-page section navigation, sticky placement beside main content, smooth scrolling, generated heading links, and active-section tracking.",
+      "screenshot": "screenshots/patterns/in-page-anchor-navigation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "VA.gov On this Page",
+      "url": "https://design.va.gov/components/on-this-page",
+      "platform": "web",
+      "notes": "Documents jump links for long pages with multiple H2s, navigation landmarks, heading proximity, and focus movement to destination headings.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "California Design System Page navigation",
+      "url": "https://designsystem.webstandards.ca.gov/components/page-navigation/readme/index.html",
+      "platform": "web",
+      "notes": "Documents page navigation generated from heading selectors and labelled as On this page for long current-page content.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-in-page-navigation",
+      "note": "USWDS documents lengthy-page in-page navigation, same-page scrolling, sticky placement, generated links from main content, and active section highlighting."
+    },
+    {
+      "id": "va-on-this-page-component",
+      "note": "VA documents On this Page jump links for long pages with multiple H2 headings, navigation landmarks, destination focus, and heading label proximity."
+    },
+    {
+      "id": "california-page-navigation",
+      "note": "California Design System supports heading-derived On this page navigation for current-page section movement."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

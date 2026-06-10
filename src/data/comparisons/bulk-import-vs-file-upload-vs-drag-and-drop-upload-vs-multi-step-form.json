@@ -1,0 +1,54 @@
+{
+  "id": "bulk-import-vs-file-upload-vs-drag-and-drop-upload-vs-multi-step-form",
+  "title": "Bulk import vs file upload vs drag-and-drop upload vs multi-step form",
+  "summary": "Use bulk import when a structured file creates or updates many records and needs mapping, validation, repair, confirmation, and an import report; use file upload or drag-and-drop for attachments, and multi-step form for guided single-record entry.",
+  "patternIds": [
+    "bulk-import",
+    "file-upload",
+    "drag-and-drop-upload",
+    "multi-step-form"
+  ],
+  "decisionRules": [
+    "Prefer bulk import when the file contains multiple structured records, not just one attachment, and the product must parse rows into domain objects.",
+    "Prefer file upload when the service needs the original document, image, or spreadsheet as evidence and does not need to map columns into editable records.",
+    "Prefer drag-and-drop upload when dropping files is a convenience enhancement around the same attachment queue, not when users need row repair and import results.",
+    "Prefer multi-step form when one user is entering one record or application through guided pages instead of preparing a spreadsheet offline.",
+    "Bulk import must include a template or format requirements before upload, then expose detected headers, required fields, inferred mappings, unmapped columns, and sample row previews.",
+    "Bulk import must validate before commit: show row numbers, field names, duplicate matches, missing required values, type/date/enum errors, and whether valid rows can proceed while invalid rows are excluded.",
+    "Bulk import must make create/update/merge behavior explicit, including which identifiers match existing records and which blank values overwrite or preserve existing data.",
+    "Bulk import needs a final confirmation that summarizes new, updated, skipped, invalid, duplicate, and warning counts before it changes data.",
+    "Bulk import should produce a result report or error export so users can correct only failed rows instead of rebuilding the entire file.",
+    "Do not represent bulk import as a generic drop zone, because users need mapping, preview, repair, side-effect review, import status, and post-import auditability."
+  ],
+  "failureModes": [
+    "A CSV is accepted like a normal attachment, then silently imports columns into the wrong fields.",
+    "The product starts importing immediately after upload without showing mappings, duplicate rules, or overwrite behavior.",
+    "Errors say invalid file but omit row numbers, column names, required fields, accepted values, or a downloadable error report.",
+    "Blank cells overwrite existing data because the update mode and preserve-empty behavior were not visible.",
+    "The user cannot tell whether valid rows were imported, skipped, queued, or rolled back after some rows fail.",
+    "A large file freezes in a loading state with no progress, cancel path, import history, or recovery from partial failure."
+  ],
+  "sources": [
+    {
+      "id": "smart-interface-bulk-import-ux",
+      "note": "Supports the staged workflow of guardrails, upload, mapping, repair, duplicate handling, and final import summary."
+    },
+    {
+      "id": "hubspot-import-tool",
+      "note": "Supports mapping columns to properties, required-property checks, preview information, mapping statuses, and import error handling."
+    },
+    {
+      "id": "airtable-csv-import-extension",
+      "note": "Supports field mapping, header detection, optional import columns, mapping reset, sample preview, merge settings, and snapshots."
+    },
+    {
+      "id": "zendesk-data-importer",
+      "note": "Supports CSV limits, required headers, create/update import modes, field mapping review, confirmation, irreversible start, and import history."
+    },
+    {
+      "id": "microsoft-viva-file-validation-errors",
+      "note": "Supports unique headers, one source column per target field, type validation, required values, row warnings, and valid-row-only import mode."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

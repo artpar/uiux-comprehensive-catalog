@@ -1,0 +1,57 @@
+{
+  "id": "phone-number-entry-vs-text-input-vs-input-mask-vs-inline-validation-vs-error-summary",
+  "title": "Phone number entry vs text input vs input mask vs inline validation vs error summary",
+  "summary": "Use phone number entry when the product needs a callable or textable contact route with telephone keyboard, purpose text, contact-choice recovery, familiar-format tolerance, review, and optional access confirmation; use text input for ordinary short text, input mask only for narrow fixed formats, inline validation for local correction, and error summary for failed submitted forms.",
+  "patternIds": [
+    "phone-number-entry",
+    "text-input",
+    "input-mask",
+    "inline-validation",
+    "error-summary"
+  ],
+  "decisionRules": [
+    "Prefer phone number entry when the value will be used to call, text, identify, recover, confirm, or route a user through a telephone network.",
+    "Prefer text input when the value is a name, label, username, reference, or contact preference that must not be parsed as a telephone number.",
+    "Prefer input mask only when the service accepts a narrow domestic phone-number format with no international numbers, extensions, short codes, or assistive exceptions; otherwise use tolerant phone number entry with validation after entry.",
+    "Prefer inline validation inside phone number entry for missing number, too few digits, unsupported country code, non-SMS-capable number in an SMS flow, extension handling, or ambiguous contact method.",
+    "Prefer error summary when a submitted appointment, account, or contact form has several errors and users need a top-of-form list that links back to the phone field.",
+    "Use type tel and autocomplete tel for a complete phone number; use tel-country-code, tel-national, tel-area-code, tel-local, or tel-extension only when the product deliberately splits the number into parts.",
+    "Do not use type number because phone numbers are identifiers, not arithmetic values; leading zeros, plus signs, spaces, parentheses, and extensions can be meaningful to users.",
+    "Tell users whether you need UK, international, mobile, landline, SMS-capable, or extension-bearing numbers, and explain when the organization may call or text.",
+    "Allow users to enter familiar formatting and paste from contacts; trim harmless whitespace but avoid silently rewriting the display value or forcing an unfamiliar international format into the field.",
+    "Offer another contact route when users do not have a phone, cannot use one, share one, cannot receive SMS, or need relay, email, post, or support contact.",
+    "Review the exact phone number and contact method before consequential use, and separately store the dialable canonical value used by telephony systems.",
+    "Use phone confirmation only when phone access must be proven; do not force SMS verification for low-risk contact fields or for landline-only users."
+  ],
+  "failureModes": [
+    "A form stores the phone as a number and strips a leading zero or plus sign.",
+    "A domestic mask rejects international numbers, extensions, or pasted numbers with spaces and parentheses.",
+    "A service asks for a phone number without explaining why it is needed or when the user might be contacted.",
+    "A sign-in flow forces SMS verification and blocks users with landlines, shared phones, inaccessible devices, or relay needs.",
+    "A reformatter changes the displayed number so users no longer recognize what they entered.",
+    "A top-of-page error says invalid value without linking back to the phone field or preserving the typed number."
+  ],
+  "sources": [
+    {
+      "id": "govuk-phone-numbers-pattern",
+      "note": "GOV.UK supports only collecting needed phone numbers, contact choice, clear number type and purpose, type tel, autocomplete tel, specific errors, avoiding input masks, and avoiding confusing reformatting."
+    },
+    {
+      "id": "ons-phone-numbers-pattern",
+      "note": "ONS supports clear phone-number type, purpose and contact timing, familiar formats, and missing or incorrect error details above the field."
+    },
+    {
+      "id": "mdn-input-tel",
+      "note": "MDN supports telephone input semantics, no built-in global format validation, mobile telephone keyboards, and fallback to text input."
+    },
+    {
+      "id": "mdn-html-autocomplete-tel",
+      "note": "MDN supports tel autocomplete and component tokens for split telephone number fields."
+    },
+    {
+      "id": "itu-e164-numbering-plan",
+      "note": "ITU E.164 supports canonical international phone-number storage with a 15-digit maximum international number length."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

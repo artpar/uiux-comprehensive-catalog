@@ -1,0 +1,50 @@
+{
+  "id": "query-correction-vs-search-suggestions-vs-no-results-recovery-vs-autocomplete",
+  "title": "Query correction vs search suggestions vs no-results recovery vs autocomplete",
+  "summary": "Use query correction after a submitted query probably contains typos, search suggestions before submission, no-results recovery when valid criteria return nothing, and autocomplete when the user is choosing a known value.",
+  "patternIds": [
+    "query-correction",
+    "search-suggestions",
+    "no-results-recovery",
+    "autocomplete"
+  ],
+  "decisionRules": [
+    "Prefer query correction when the user has already submitted a free-form search and the system has a high-confidence spelling, token, split, join, or phrase correction for that submitted query.",
+    "Prefer search suggestions when the user is still composing the query and suggestions should help phrase possible future searches without implying the current query is wrong.",
+    "Prefer no-results recovery when the query or filters are valid but the result set is empty, so the fix is broadening criteria, removing filters, changing scope, or browsing alternatives rather than correcting spelling.",
+    "Prefer autocomplete when the task is selecting a constrained known entity, code, address, product, person, or command from allowed options before submission.",
+    "Auto-apply corrected results only when confidence is high enough and the interface preserves the original query with a visible search-original path.",
+    "Use a did-you-mean prompt instead of automatic correction when several plausible corrections exist, the domain contains names or codes, or correction confidence is weak.",
+    "Do not route every zero-result query to query correction; if spelling is already valid, keep the original query and use no-results recovery actions.",
+    "Do not treat fuzzy matching or synonym expansion as query correction unless the changed query text is disclosed and reversible.",
+    "Keep correction copy tied to the submitted query, not to every keystroke, hover, autocomplete preview, or filter change.",
+    "Disable or constrain correction for identifiers, SKUs, usernames, legal references, medical terms, acronyms, quoted exact phrases, numeric tokens, and domain vocabulary that users may intentionally search exactly."
+  ],
+  "failureModes": [
+    "The product silently rewrites the search field from benifit appeel to benefit appeal and users lose the original wording.",
+    "A name, code, or acronym is overcorrected into a common word and the interface offers no way to search the original.",
+    "The UI says no results even though a credible spelling correction exists and no did-you-mean path is shown.",
+    "The correction remains active after the user edits the query, producing stale results for a different phrase.",
+    "Autocomplete suggestions are labelled as spelling corrections before the user has submitted a query.",
+    "No-results filter recovery is hidden behind a spelling suggestion even though the spelling is correct and filters caused the empty result set."
+  ],
+  "sources": [
+    {
+      "id": "algolia-typo-tolerance",
+      "note": "Algolia frames typo tolerance around typing mistakes, spelling errors, edit distance, and ranking."
+    },
+    {
+      "id": "elasticsearch-search-suggesters",
+      "note": "Elastic distinguishes term and phrase suggesters for did-you-mean behavior from completion suggesters for autocomplete."
+    },
+    {
+      "id": "google-custom-search-spelling",
+      "note": "Google Custom Search exposes correctedQuery as separate spelling metadata in the search response."
+    },
+    {
+      "id": "microsoft-search-spelling-corrections",
+      "note": "Microsoft Search separates spelling suggestions from modification that returns corrected-query results when the original typo query has no results."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

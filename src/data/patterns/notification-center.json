@@ -1,0 +1,237 @@
+{
+  "id": "notification-center",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a durable user-opened notification drawer pattern with source-backed unread and unseen semantics, filters, grouping, chronological order, mark-read controls, notification preferences, retained history, related-object cleanup, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets notification centers only, including bell or entry-point badge, unseen count versus unread state, chronological and grouped lists, filters, mark-read controls, related-object actions, retained history, preference management, stale item cleanup, suppressed delivery, and escalation to alert, toast, inline message, or banner.",
+    "relatedPatternDistinction": "The entry separates notification center from toast by durable revisitability instead of transient interruption, from alert by asynchronous triage instead of urgent current-task status, from inline message by cross-object inbox scope instead of object-local placement, and from banner by personal notification history instead of broad interface context.",
+    "liveDemoBehavior": "The live demo opens and closes a notification drawer, clears unseen badge count without clearing unread state, filters unread items, marks one item or all items read, opens a related object, suppresses a toast into the center, changes notification preferences, and contrasts stuck badges, lost history, duplicate noise, stale action links, and hidden critical blockers.",
+    "comparisonDecisionRules": "The notification-center-vs-toast-notification-vs-alert-vs-inline-message comparison gives concrete rules for durable history, transient feedback, current-task urgency, object-local context, badge semantics, cleanup, critical blocker escalation, and revisitable proof.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/notification-center.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, an open drawer, All filter, new-count and unread-count split, mark-read actions, quiet-export preference, lost-history misuse, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/notification-center.png"
+    ]
+  },
+  "name": "Notification center",
+  "aliases": [
+    "notification drawer",
+    "notification panel",
+    "notification inbox",
+    "in-app notifications",
+    "notifications tray"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Collaboration And Social Interaction",
+    "Task And Workflow Patterns",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Durable user-opened notification history and action drawer",
+  "uiGuidance": [
+    "Provide a persistent notification entry point, usually a bell or inbox control, with a count that represents new unseen notifications rather than every unread item forever.",
+    "Render the center as a drawer, panel, page, or tray with chronological items, clear read and unread states, filters, timestamps, source labels, and direct actions or links to the related object."
+  ],
+  "uxGuidance": [
+    "Use a notification center when users receive enough asynchronous system or collaboration updates that they need a durable place to review, triage, and act later.",
+    "Design the notification lifecycle deliberately: what creates an item, what increments the badge, what marks it read, what clears it after related work is viewed elsewhere, and what preferences reduce noise."
+  ],
+  "uiExamples": {
+    "good": [
+      "A bell opens a drawer with Unread and All filters, showing comment mentions, approval requests, export results, and background-job failures in newest-first order.",
+      "A notification item shows source, object name, timestamp, read state, one primary action, and a secondary mark-read control."
+    ],
+    "bad": [
+      "A red badge says 42 forever because opening the drawer, reading items, and viewing related work never update the count.",
+      "Expired toast messages are copied into a center with no timestamps, no source, and no route to the affected object."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Opening the notification drawer clears the new-notification badge while unread items remain available for later triage.",
+      "After the user opens the mentioned pull request from another route, the matching notification is marked read or removed from actionable lists."
+    ],
+    "bad": [
+      "A payment failure that blocks the current checkout is only stored in the notification center and never appears in the task.",
+      "Users mark all notifications read and lose the only record of an export job they still need to download."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users receive asynchronous work updates, mentions, background-job results, reminders, and system messages across many objects, but transient toasts, local alerts, or email alone make those messages easy to miss, impossible to triage, or noisy enough to ignore.",
+  "solution": "Create a durable notification center with a stable entry point, explicit unread and unseen semantics, chronological and filterable items, direct routes to related work, preference controls, predictable cleanup, and escalation rules for messages that need immediate in-context treatment.",
+  "problemContext": [
+    "Notifications are generated by system events, collaboration activity, background jobs, reminders, approvals, comments, assignments, or policy checks across multiple objects.",
+    "Users may not be present when a notification is created and may need to inspect it later without searching email or activity logs.",
+    "Some notifications are useful only until the related object is viewed or resolved; others are durable evidence users may need later.",
+    "Users need tools to reduce noise without losing important work, such as unread filters, grouping, preferences, and mark-read controls."
+  ],
+  "selectionRules": [
+    "Choose notification center when messages must be revisitable after toast, push, email, or inline surfaces have disappeared.",
+    "Use it for asynchronous cross-object events such as mentions, review requests, assignment changes, export-ready notices, background-job failures, scheduled reminders, and policy acknowledgements.",
+    "Use toast notification instead for short current-action feedback that can disappear because a durable record is not needed or exists in a job history.",
+    "Use alert instead for urgent current-task conditions that must remain visible until resolved, such as session expiry, unsynced work, or payment hold.",
+    "Use inline message instead when the notification belongs beside one visible object, row, field group, or panel.",
+    "Use banner or site alert instead when the message applies broadly to a product, workspace, service, or public site rather than the user's notification history.",
+    "Separate unseen count from unread state so opening the center can clear the badge without destroying triage state.",
+    "Remove, collapse, or mark notifications read when users view the related object elsewhere, according to the product's cleanup policy."
+  ],
+  "requiredStates": [
+    "Closed entry-point state with zero, new-unseen, and unread-but-seen counts.",
+    "Open drawer or page state with newest-first notifications.",
+    "Unread, read, selected, and actioned item states.",
+    "Unread-only, all, source, urgency, or type filter states.",
+    "Empty state for no notifications and no unread notifications.",
+    "Suppressed-to-center state where a low-disruption notification arrives without a toast.",
+    "Mark-one-read and mark-all-read states.",
+    "Related-object-viewed cleanup state where stale notifications disappear or become read.",
+    "Preference state for muting noisy sources or changing delivery channels.",
+    "Error or offline state where the center cannot refresh but preserved items remain visible."
+  ],
+  "interactionContract": [
+    "The entry point opens the notification center without navigating away from the current task unless the product uses a dedicated full page.",
+    "Opening the center clears the unseen badge count but does not automatically mark every item read unless the product explicitly communicates that policy.",
+    "Each item names the source, event, related object, timestamp, current read state, and one direct destination or action.",
+    "Filters never delete notifications; they only change which items are visible.",
+    "Marking an item read, marking all read, archiving, or clearing a notification has immediate visible feedback and can be understood from the current filter.",
+    "Selecting a notification opens the related object in context and updates notification state predictably.",
+    "Muted sources, suppressed delivery, and channel preferences reduce interruptions without hiding critical current-task blockers."
+  ],
+  "implementationChecklist": [
+    "Define notification types, sources, recipients, delivery channels, retention period, and whether each type increments unseen count.",
+    "Model unseen, unread, read, actioned, archived, suppressed, stale, and expired states separately.",
+    "Design badge behavior for closed center, first open, subsequent opens, and cross-device viewing.",
+    "Sort notifications newest-first by received time and add source, object, timestamp, and urgency metadata.",
+    "Provide filters for unread and high-value sources before adding bulk actions.",
+    "Implement mark one read, mark all read, and optional archive or clear actions with reversible or understandable effects.",
+    "Synchronize notification state when the related object is viewed, resolved, deleted, permission-revoked, or completed elsewhere.",
+    "Provide preferences for noisy sources, delivery channels, digest frequency, and quiet modes while preserving critical in-context alerts.",
+    "Test keyboard opening, focus containment or return, screen-reader labels for badge counts, virtualized long lists, empty filters, offline refresh, and mobile drawer behavior."
+  ],
+  "commonMisuses": [
+    "Treating the badge count, unread count, and total notification count as one number.",
+    "Clearing all unread items just because the drawer opened.",
+    "Deleting notifications when a filter is applied.",
+    "Using the center as the only surface for critical current-task blockers.",
+    "Repeating the same notification every few minutes when the user has not interacted with it.",
+    "Leaving resolved or inaccessible notifications actionable.",
+    "Offering no notification preferences in products that generate frequent asynchronous messages.",
+    "Letting old notifications accumulate without retention, grouping, search, or cleanup rules."
+  ],
+  "critiqueQuestions": [
+    "Which notification types deserve a durable center item instead of only a toast, email, inline message, or activity log entry?",
+    "What exact event increments the badge, and what event clears only the unseen count?",
+    "What makes an item read: opening the center, selecting the item, viewing the related object, or explicit mark-read action?",
+    "What happens when the related object is completed, deleted, archived, or no longer accessible?",
+    "Which sources can users mute, and which critical conditions must still surface in context?",
+    "How long should notifications remain, and where can users find older proof if it expires from the center?"
+  ],
+  "useWhen": [
+    "Users receive multiple asynchronous updates across objects, jobs, collaborators, approvals, or reminders.",
+    "Users need to revisit, triage, filter, or act on notifications after the initial arrival moment.",
+    "The product can maintain notification state, retention, preferences, and related-object cleanup rules.",
+    "Transient and in-context surfaces need a durable companion rather than carrying the whole message burden."
+  ],
+  "avoidWhen": [
+    "The product has only occasional current-action feedback that a toast or inline status can handle.",
+    "The message blocks the current task and must be visible in context now.",
+    "The update belongs beside one visible object or field.",
+    "The message is a broad system, service, workspace, or public-site notice.",
+    "The team cannot maintain read state, cleanup, retention, or preference behavior."
+  ],
+  "variants": [
+    "Bell drawer",
+    "Notification page",
+    "Unread filter",
+    "Grouped notification center",
+    "Actionable notification item",
+    "Suppressed notification center item",
+    "Preference-managed notification center",
+    "Archived notification history"
+  ],
+  "accessibility": [
+    "Give the entry-point control an accessible name that includes new or unread count without relying only on a red dot.",
+    "Announce new notification arrival with status semantics when appropriate, but avoid interrupting users repeatedly for low-priority center items.",
+    "When the drawer opens, place focus on the panel heading or first useful control and return focus to the entry point on close.",
+    "Represent unread state in text and programmatic state, not only color or font weight.",
+    "Make filters, mark-read controls, item actions, and preferences keyboard reachable with visible focus.",
+    "Use headings, list semantics, timestamps, and source labels so screen-reader users can scan long notification sets.",
+    "Avoid automatically moving focus into the center for suppressed notifications."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the notification entry point opens the center.",
+    "Escape closes a drawer-style center and returns focus to the entry point.",
+    "Tab moves through filters, bulk actions, notification items, per-item actions, preferences, and close control in a predictable order.",
+    "Arrow-key shortcuts may move within a list only when documented by native list or menu semantics; Tab remains sufficient.",
+    "Mark-read and filter changes update the visible list without moving focus to a hidden or removed item.",
+    "Selecting an item opens the related object and updates read state before navigation or focus transfer."
+  ],
+  "failureModes": [
+    "Users miss important work because expired toasts had no durable notification-center item.",
+    "Users ignore the center because duplicate low-value messages inflate the badge.",
+    "A critical blocker is hidden in the center and not shown where the task is blocked.",
+    "Opening the drawer destroys unread triage state.",
+    "Read state contradicts the related object because cross-route viewing is not synchronized.",
+    "Screen-reader users hear an unexplained number badge with no label or item state.",
+    "Old notifications keep showing actions for completed, deleted, or inaccessible objects."
+  ],
+  "relatedPatterns": [
+    "toast-notification",
+    "alert",
+    "inline-message",
+    "banner",
+    "site-alert",
+    "search-history"
+  ],
+  "comparisons": [
+    "notification-center-vs-toast-notification-vs-alert-vs-inline-message"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Notifications Pattern",
+      "url": "https://carbondesignsystem.com/patterns/notification-pattern/",
+      "platform": "web",
+      "notes": "Documents notification panels as user-opened centers for system-generated messages, including chronological order, grouping, preferences, and duplicate avoidance.",
+      "screenshot": "screenshots/patterns/notification-center.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Atlassian Cloud Notification Drawer",
+      "url": "https://support.atlassian.com/atlassian-cloud/kb/overview-of-in-app-notifications-in-atlassian-cloud-products/",
+      "platform": "web",
+      "notes": "Documents a cloud-app notification drawer with bell unseen count, read-state distinction, direct notifications, and notification highlighting.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Windows Notification Center UX Guidance",
+      "url": "https://learn.microsoft.com/en-us/windows/apps/develop/notifications/app-notifications/app-notifications-ux-guidance",
+      "platform": "desktop",
+      "notes": "Documents suppressed notifications, contextual activation, Notification Center cleanup, and predictable removal after related content is viewed.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-notification-pattern",
+      "note": "Carbon describes notification panels as user-opened centers for system-generated messages and recommends chronological ordering, grouping, preferences, and avoiding repeated notifications."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon notification usage recommends notification centers when users need to revisit and act on past notifications after transient notifications disappear."
+    },
+    {
+      "id": "atlassian-cloud-notification-drawer",
+      "note": "Atlassian documents notification-drawer unseen count, read-state distinction, direct notification counting, and notification highlighting behavior."
+    },
+    {
+      "id": "microsoft-windows-notification-ux-guidance",
+      "note": "Microsoft documents Notification Center cleanup, suppressed delivery, contextual activation, and predictable removal after users view related content."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

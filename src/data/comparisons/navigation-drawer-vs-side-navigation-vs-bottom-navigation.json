@@ -1,0 +1,48 @@
+{
+  "id": "navigation-drawer-vs-side-navigation-vs-bottom-navigation",
+  "title": "Navigation drawer vs side navigation vs bottom navigation",
+  "summary": "Use a navigation drawer for a dismissible destination sheet, side navigation for persistent local hierarchy, and bottom navigation for a small mobile set of primary destinations.",
+  "patternIds": [
+    "navigation-drawer",
+    "side-navigation",
+    "bottom-navigation"
+  ],
+  "decisionRules": [
+    "Prefer a navigation drawer when users need occasional access to destinations, account switching, or secondary app sections from a constrained screen.",
+    "Prefer side navigation when the same related section links should remain visible beside desktop or tablet content as local hierarchy.",
+    "Prefer bottom navigation when three to five high-frequency mobile destinations need persistent thumb-reachable switching.",
+    "Use a modal drawer when opening navigation should temporarily block the content behind it with a scrim until the user selects an item or dismisses the drawer.",
+    "Do not use a navigation drawer to hide the only path between frequently used primary mobile destinations; use bottom navigation when those destinations are central to every session.",
+    "Do not replace persistent desktop side navigation with a drawer if users repeatedly move among sibling pages in one section.",
+    "Keep drawer items grouped and labeled; do not mix destructive commands, sign out, settings, and unrelated destinations without clear sectioning.",
+    "When the drawer closes after selection, update the active destination, move focus predictably, and preserve the content state the user returns to."
+  ],
+  "failureModes": [
+    "The drawer opens without a visible scrim or close path, leaving users unsure whether content behind it is available.",
+    "The menu icon opens a drawer on some screens and unrelated actions on others.",
+    "Selecting a drawer item changes content but leaves the drawer covering the result.",
+    "The drawer contains every page, utility, and destructive action as an ungrouped list.",
+    "A drawer hides destinations that users need many times per session on mobile.",
+    "A persistent side navigation is collapsed into a drawer on desktop and creates repeated open-close work.",
+    "Focus stays behind the modal drawer or fails to return to the opener after dismissal."
+  ],
+  "sources": [
+    {
+      "id": "material-navigation-drawer",
+      "note": "Material defines modal, dismissible, and permanent navigation drawer behavior, including scrim and dismissal routes."
+    },
+    {
+      "id": "android-compose-navigation-drawer",
+      "note": "Android Compose documents slide-in drawer activation, ModalNavigationDrawer, DrawerState open/close control, and grouped drawer contents."
+    },
+    {
+      "id": "uswds-side-navigation",
+      "note": "USWDS side navigation guidance distinguishes persistent local hierarchy from drawer-like temporary navigation."
+    },
+    {
+      "id": "material-bottom-navigation",
+      "note": "Material bottom navigation guidance distinguishes persistent mobile destination switching from drawer access."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

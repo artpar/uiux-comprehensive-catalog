@@ -1,0 +1,267 @@
+{
+  "id": "address-entry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a structured postal address capture pattern with source-backed guidance for domestic lookup, manual fallback, country-specific fields, secondary unit preservation, browser autofill tokens, field-specific errors, verification exceptions, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers multi-part address fields, address lookup coverage, manual entry fallback, international address variation, secondary unit and organization details, postcode or ZIP tolerance, optional county or region handling, browser autocomplete tokens, address-not-found recovery, correction review, and field-specific errors.",
+    "relatedPatternDistinction": "The entry separates address entry from text input by requiring complete structured address parts, from autocomplete by treating lookup as one optional subflow instead of the whole pattern, from dependent fields by using country and region dependencies inside a broader address workflow, and from review before submit by capturing the address before final answer review.",
+    "liveDemoBehavior": "The rendered exercise searches by postcode, shows multiple matching addresses, selects a flat address, preserves unit details, switches to manual entry, changes country-specific requirements, triggers missing-town and missing-postcode errors, repairs the fields, submits a structured payload, and contrasts a broken one-line lookup that discards apartment data.",
+    "comparisonDecisionRules": "The linked address-entry-vs-text-input-vs-autocomplete-vs-dependent-fields comparison gives concrete rules for complete addresses, one-line text values, lookup autocomplete, local field dependencies, manual fallback, secondary units, international formats, verification exceptions, autofill tokens, and consequential address review.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/address-entry.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, lookup suggestions, selected structured address, manual fallback, country-specific validation, apartment or unit preservation, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/address-entry.png"
+    ]
+  },
+  "name": "Address entry",
+  "aliases": [
+    "postal address form",
+    "mailing address form",
+    "shipping address entry",
+    "billing address entry",
+    "address lookup with manual entry",
+    "structured address fields"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns",
+    "Selection And Choice"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Structured postal or contact address capture flow",
+  "uiGuidance": [
+    "Render address capture as a labelled fieldset or page section with address line, locality, region when needed, postal code, country, and an address lookup only when its coverage is clear.",
+    "Keep lookup suggestions, manual entry fields, address-not-found status, field-specific errors, apartment or unit details, country selector, and reviewable structured summary visible as separate states rather than hiding the address in one opaque field."
+  ],
+  "uxGuidance": [
+    "Use address entry when the service needs a complete address for delivery, billing, correspondence, identity, eligibility, routing, tax, or account records and downstream systems need reliable address parts.",
+    "Let users search, choose, edit, enter manually, change country, and keep a real but unverified address through an explicit review path when lookup or validation data is incomplete."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefits claim asks for postcode lookup, lists matching addresses, includes Enter address manually, and then shows editable address line 1, address line 2, town or city, postcode, and country.",
+      "A shipping checkout expands a selected suggestion into separate fields and keeps Apartment, suite, or unit editable before address validation."
+    ],
+    "bad": [
+      "A form has one full-width Address field with placeholder-only instructions and no country, postcode, apartment, or manual recovery path.",
+      "A lookup silently chooses the first postcode match and shows only a map pin, so the user cannot confirm flat number, locality, or delivery details."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user enters SW1A1AA, sees several addresses, selects Flat 2, adds an organization name, and reviews the stored line, town, postcode, and country parts before continuing.",
+      "A user with an address missing from lookup chooses manual entry, switches country, sees validation rules adapt, and can submit an unverified but reviewed address."
+    ],
+    "bad": [
+      "A user in a new building cannot proceed because the lookup cannot find the postcode and there is no manual entry option.",
+      "A checkout removes Apartment 4B after validation and the parcel is delivered to the wrong household."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Addresses vary by country, building type, delivery route, and verification data, so simplistic fields, forced lookup, or silent normalization can lose critical delivery and contact information.",
+  "solution": "Provide address lookup where useful, always include an editable manual path, capture address parts with country-appropriate labels and validation, preserve secondary details, expose verification corrections, and submit a reviewable structured payload.",
+  "problemContext": [
+    "The address may be used for delivery, billing, correspondence, jurisdiction, eligibility, tax, identity proofing, emergency routing, or service availability.",
+    "Users may have flats, suites, rural routes, military addresses, new builds, international addresses, post-office boxes, care-of details, organization names, or addresses not present in lookup data.",
+    "Address lookup, autocomplete, geocoding, and validation services can be incomplete, region-limited, stale, or capable of suggesting corrections that still need user confirmation.",
+    "Downstream systems often need address components for shipping labels, postal validation, fraud checks, official notices, matching, and customer support."
+  ],
+  "selectionRules": [
+    "Choose address entry when the product needs a complete postal, delivery, billing, contact, or official address rather than one short freeform value.",
+    "Use address lookup as an accelerator for covered regions, not as the only valid path.",
+    "Use multiple text inputs when the product needs separate address parts for validation, delivery, reporting, or integration.",
+    "Use a textarea only when the system genuinely stores an address block and does not need separate parts.",
+    "Use autocomplete as a lookup mechanism only when users still choose a suggestion and can edit the populated address parts.",
+    "Use dependent fields for country-to-state or country-to-postal-code rules inside address entry, not as a replacement for the complete address flow.",
+    "Accept common postal-code spacing, casing, and punctuation variations before showing an error.",
+    "Make optional county, province, state, organization, and line 2 fields truly optional unless the selected country or delivery method requires them.",
+    "Do not force UK, U.S., or domestic address structure on international users.",
+    "Preserve secondary unit, flat, suite, room, floor, care-of, and organization information through lookup, validation, edit, and review.",
+    "Show validation corrections as proposed changes that users can accept, edit, or override when their real address cannot be verified.",
+    "Treat an address change as consequential when it affects delivery, eligibility, taxes, payment, identity, or official correspondence, and route it through review before submit."
+  ],
+  "requiredStates": [
+    "Initial state with country or domestic coverage explained and lookup or manual entry available.",
+    "Lookup query state accepting postal-code spacing, casing, and common punctuation variations.",
+    "Lookup results state showing multiple distinguishable addresses and requiring user selection.",
+    "Address not found state with manual entry and support guidance instead of a dead end.",
+    "Selected address state expanded into editable structured fields.",
+    "Manual entry state with address line, town or city, region when needed, postal code, and country fields.",
+    "Country changed state where labels, required fields, and validation rules adapt and stale region values are cleared or reviewed.",
+    "Secondary unit present state preserving apartment, flat, suite, room, or organization details.",
+    "Field-specific error state for missing line, locality, postal code, or unsupported country.",
+    "Validation correction state showing suggested normalized address and original user entry.",
+    "Override or unverified state that records user confirmation when validation data cannot prove a real address.",
+    "Submitted structured payload state with address parts ready for review or downstream integration."
+  ],
+  "interactionContract": [
+    "Users can start with lookup or choose manual entry before providing a postal code.",
+    "Lookup results are not committed until the user chooses a specific address.",
+    "Selecting a suggestion populates editable fields rather than locking the address.",
+    "Manual entry preserves any previously entered lookup query and address parts where they still apply.",
+    "Changing country updates labels, required fields, postal-code rules, autocomplete tokens, and stale region values together.",
+    "Validation errors identify the exact address part that needs correction and preserve all other typed fields.",
+    "Verification suggestions are shown as review choices, not silent replacements.",
+    "Submitting the address stores structured parts and any verification status needed for review, fulfillment, or support."
+  ],
+  "implementationChecklist": [
+    "Define which address parts are required for each supported country, delivery method, and downstream integration before designing the form.",
+    "Use stable names and browser autocomplete tokens such as address-line1, address-line2, address-level2, postal-code, and country-name for structured fields.",
+    "Provide an address lookup only for regions where its data is suitable, and state that coverage near the lookup control.",
+    "Add a visible Enter manually option before and after failed lookup results.",
+    "Do not store only the display label returned by a lookup provider; map selected or typed values into canonical address parts.",
+    "Keep apartment, suite, flat, unit, floor, building, organization, and care-of details editable after lookup and validation.",
+    "Normalize casing, spacing, and postal-code punctuation only when the user can still see and correct the result.",
+    "Validate line, locality, postal code, region, and country according to the selected country and server-side rules.",
+    "Record validation confidence, correction choice, override reason, and original user entry when address verification can affect fulfillment.",
+    "Test keyboard use, screen reader labels, browser autofill, mobile address keyboards, long addresses, international addresses, address-not-found paths, saved drafts, browser Back, and review-before-submit flows."
+  ],
+  "commonMisuses": [
+    "Forcing every address through a domestic postcode or ZIP lookup.",
+    "Using one single-line text input when the business process needs city, postal code, country, or delivery line separately.",
+    "Discarding apartment, suite, flat, unit, room, floor, or organization details after lookup selection.",
+    "Automatically choosing the first lookup result without explicit selection.",
+    "Treating autocomplete as proof that an address is valid or deliverable.",
+    "Silently replacing user-entered address parts with a geocoded or validated suggestion.",
+    "Making county, state, or region required even when the selected country or postal authority does not require it.",
+    "Rejecting valid postal-code spacing, casing, punctuation, rural route, military, or new-build addresses without override.",
+    "Hiding manual entry until after several failed lookup attempts.",
+    "Using placeholder text as the only field label for address lines."
+  ],
+  "critiqueQuestions": [
+    "Which downstream system needs each captured address part, and which parts are required by country?",
+    "Can users complete the task if the lookup service is unavailable or their address is missing?",
+    "Does the UI preserve apartment, suite, organization, rural route, or care-of details through every state?",
+    "Are lookup suggestions distinguishable enough that users can choose the correct property?",
+    "What happens when validation proposes a correction that conflicts with the user's real address?",
+    "Does changing country update labels, autocomplete tokens, required fields, and validation together?",
+    "Will the captured address be reviewed before a consequential submit action?"
+  ],
+  "useWhen": [
+    "The product needs a complete postal, delivery, billing, service, or official contact address.",
+    "Downstream systems need address parts for fulfillment, eligibility, correspondence, reporting, matching, or support.",
+    "Lookup, validation, or autocomplete can speed entry but cannot be trusted as the only path.",
+    "Users may need to correct, review, or override address data before a consequential transaction."
+  ],
+  "avoidWhen": [
+    "The product only needs one short location label, room name, or delivery note.",
+    "The system intentionally stores an unparsed multi-line address block and never needs component validation.",
+    "The address is only being searched as a known record and no address details are captured.",
+    "The product cannot support manual entry or exception handling for real addresses missing from provider data."
+  ],
+  "variants": [
+    "Multiple address text inputs",
+    "Domestic postcode lookup",
+    "Address autocomplete with editable fields",
+    "Manual address entry",
+    "International address entry",
+    "Billing address",
+    "Shipping address",
+    "Service address",
+    "Address not found recovery",
+    "Address validation correction review",
+    "Apartment or unit detail",
+    "Unverified address override"
+  ],
+  "accessibility": [
+    "Group related address fields with a clear heading or legend that states which address is being requested.",
+    "Use visible labels for every address part; do not rely on placeholders for Address line 1, town, postcode, country, or unit details.",
+    "Associate hints and errors with the specific field that needs correction.",
+    "Ensure lookup suggestions are keyboard reachable, visibly highlighted, and announced with enough context to distinguish similar addresses.",
+    "Keep manual entry available by keyboard and do not hide it behind hover-only or map-only controls.",
+    "Do not rely on color or map pins alone to communicate validation confidence, address-not-found status, or proposed corrections.",
+    "Make long address lines wrap without obscuring edit, change, or validation controls."
+  ],
+  "keyboardBehavior": [
+    "Tab order reaches lookup, manual entry, address fields, country, validation choices, and submit in reading order.",
+    "Arrow keys move through lookup suggestions only while the suggestion list is open.",
+    "Enter selects a highlighted suggestion or submits only when the surrounding form contract is clear.",
+    "Escape closes suggestions without clearing the typed postcode or address query.",
+    "Changing country does not move focus unexpectedly, but status text explains changed requirements.",
+    "After validation errors, focus can move to an error summary or the first invalid address field while preserving all other address parts.",
+    "Manual entry and override actions remain reachable when lookup returns no results."
+  ],
+  "failureModes": [
+    "Lookup downtime blocks address entry because no manual fallback exists.",
+    "A selected address is stored as a provider label rather than structured parts.",
+    "A secondary unit field is hidden after selection, causing apartment or suite delivery failures.",
+    "Country changes leave stale state, ZIP, county, or postcode validation active.",
+    "Address corrections are applied silently and users cannot recover the original address.",
+    "Browser autofill puts data into the wrong fields because autocomplete tokens are missing or mismatched.",
+    "Screen reader users hear several identical Address line labels without the owning address context.",
+    "Long international addresses overflow the review page or are truncated in downstream payloads.",
+    "The product rejects a real address because the validator lacks new-build, rural, military, or nonstandard route data."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "autocomplete",
+    "dependent-fields",
+    "multi-step-form",
+    "review-before-submit",
+    "inline-validation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "address-entry-vs-text-input-vs-autocomplete-vs-dependent-fields"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Addresses",
+      "url": "https://design-system.service.gov.uk/patterns/addresses/",
+      "platform": "web",
+      "notes": "Documents address capture using multiple text inputs, UK address lookup, textarea fallback, manual entry for international or missing lookup addresses, postcode tolerance, optional county guidance, autocomplete attributes, and error messages.",
+      "screenshot": "screenshots/patterns/address-entry.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "U.S. Web Design System Address form",
+      "url": "https://designsystem.digital.gov/templates/form-templates/address-form/",
+      "platform": "web",
+      "notes": "Documents separate U.S. mailing address fields, state and military post options, ZIP code format guidance, Puerto Rico urbanization, and alternatives for international or unparsed addresses.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Google Maps Platform Address Validation for Ecommerce Checkout",
+      "url": "https://developers.google.com/maps/architecture/ecommerce-checkout-address-validation",
+      "platform": "web",
+      "notes": "Documents using autocomplete for capture, expanding into editable fields, validating addresses, handling fix/confirm/accept scenarios, apartment or unit review, and allowing checkout continuation with flagged exceptions.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "USPS Publication 28 Postal Addressing Standards",
+      "url": "https://pe.usps.com/text/pub28/",
+      "platform": "web",
+      "notes": "Documents U.S. postal addressing conventions including delivery address lines, street suffixes, secondary unit designators, ZIP-oriented standards, and compression guidance.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-addresses-pattern",
+      "note": "GOV.UK supports multiple address inputs, UK lookup, manual entry, international fallback, postcode tolerance, optional county handling, autocomplete attributes, and address-specific errors."
+    },
+    {
+      "id": "uswds-address-form",
+      "note": "USWDS supports structured U.S. mailing fields, state and military post selection, ZIP code handling, Puerto Rico urbanization, and caveats for non-U.S. addresses."
+    },
+    {
+      "id": "mdn-html-autocomplete-address",
+      "note": "MDN supports browser autocomplete tokens for structured and multi-line address fields."
+    },
+    {
+      "id": "google-address-validation-checkout",
+      "note": "Google supports editable fields after autocomplete, address validation correction states, unit review, and acceptance logic for imperfect validation."
+    },
+    {
+      "id": "usps-publication-28-addressing",
+      "note": "USPS Publication 28 supports delivery address structure, secondary unit designators, street suffix conventions, and U.S. postal standards."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "session-timeout-warning-vs-exit-warning-vs-autosave-form-vs-permission-denied-state",
+  "title": "Session timeout warning vs exit warning vs autosave form vs permission denied state",
+  "summary": "Session timeout warning protects users before an inactivity or authentication boundary ends the session. Exit warning protects attempted departure, autosave form preserves progress in the background, and permission denied state handles an authorization boundary after access is evaluated.",
+  "patternIds": [
+    "session-timeout-warning",
+    "exit-warning",
+    "autosave-form",
+    "permission-denied-state"
+  ],
+  "decisionRules": [
+    "Use session timeout warning when an authenticated session is approaching idle expiration, absolute expiration, device-lock policy, or required reauthentication and the user still has work or context to preserve.",
+    "Use exit warning when the user attempts to navigate, close, reload, sign out, or leave a surface with unsaved or unsafe work; the trigger is departure, not inactivity.",
+    "Use autosave form when the primary protection is continuous progress persistence that reduces the harm of timeout and can restore work after reauthentication.",
+    "Use permission denied state when the user is signed in but lacks the role, policy, group, share, or license needed for a resource or action.",
+    "A timeout warning should show remaining time, the consequence of expiry, and actions such as Stay signed in, Save draft, Finish now, or Reauthenticate.",
+    "Do not use a timeout warning as a vague security notice with no clock, extension action, preservation statement, or post-expiry path.",
+    "Warn earlier for high-effort tasks, assistive technology needs, long forms, uploads, payments, and public-device sessions where silent expiration causes loss or privacy risk.",
+    "When security policy requires logout, keep the warning honest: allow save or reauthentication only when allowed, and never imply the session can be extended past policy.",
+    "After timeout, route to reauthentication or signed-out state with work restoration when possible; do not present a generic permission or server failure message.",
+    "If autosave failed before the timeout, combine the warning with failed-save recovery instead of claiming the work will be preserved."
+  ],
+  "failureModes": [
+    "A user is logged out after inactivity with no countdown, loses a completed form, and cannot restore it after signing in again.",
+    "The warning says Session expiring soon but gives no remaining time, no extension action, and no statement about saved work.",
+    "Stay signed in resets only the client timer while the server session has already expired.",
+    "A timeout warning appears on every page load even when no authenticated boundary is near.",
+    "The product treats timeout as permission denied, sending users into request-access or retry paths that cannot restore the session.",
+    "A high-security session offers unlimited extension even though policy requires reauthentication or termination."
+  ],
+  "sources": [
+    {
+      "id": "w3c-wcag-timeouts",
+      "note": "W3C documents warning users about inactivity durations that may cause data loss unless data remains preserved."
+    },
+    {
+      "id": "w3c-wcag-reauthenticating",
+      "note": "W3C documents continuing authenticated activity without data loss after reauthentication."
+    },
+    {
+      "id": "owasp-session-management-cheat-sheet",
+      "note": "OWASP documents idle and absolute session timeouts and risk-based timeout durations."
+    },
+    {
+      "id": "nist-sp-800-63b-session-management",
+      "note": "NIST documents inactivity timeout, overall timeout, and reauthentication reset behavior."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

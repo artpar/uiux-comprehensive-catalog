@@ -1,0 +1,50 @@
+{
+  "id": "typeahead-vs-autocomplete-vs-search-suggestions-vs-basic-search",
+  "title": "Typeahead vs autocomplete vs search suggestions vs basic search",
+  "summary": "Use typeahead for live as-you-type result lookup, autocomplete for choosing a known value, search suggestions for query wording help, and basic search for explicit submit-and-results retrieval.",
+  "patternIds": [
+    "typeahead",
+    "autocomplete",
+    "search-suggestions",
+    "basic-search"
+  ],
+  "decisionRules": [
+    "Prefer typeahead when the product should update result previews or entity hits continuously as the user types, before an explicit final search submit.",
+    "Prefer autocomplete when the task is completing or selecting one known value such as a customer, address, product, tag, or code and the selected option becomes the field value.",
+    "Prefer search suggestions when the interface suggests query phrases or likely searches but does not fetch or rank live result hits until the user submits or chooses a suggestion.",
+    "Prefer basic search when users should enter a query and intentionally submit before the result set changes.",
+    "Typeahead should define a minimum character threshold, debounce or request pacing, loading/stalled state, stale-response handling, empty preview, and keyboard navigation for live hits.",
+    "Do not use typeahead when network latency, privacy, cost, or result volatility would make every keystroke search misleading or expensive.",
+    "Do not auto-commit the top typeahead result into the input; selecting a result should be a distinct action from continuing to type.",
+    "Do not label query suggestions as typeahead if the rows are suggested phrases rather than live result hits or structured entities.",
+    "Do not label known-value autocomplete as broad typeahead if arbitrary free-form queries should remain valid.",
+    "When typeahead updates the page around the input, keep typed text, active result, result count, loading state, and final submit behavior synchronized."
+  ],
+  "failureModes": [
+    "Every keystroke fires a remote request with no debounce, causing flickering results and stale rows from older queries.",
+    "The first live result is silently inserted into the input and users submit the wrong entity.",
+    "A typeahead panel shows no minimum-length or loading state, so users think there are no results while the request is still pending.",
+    "Typeahead result hits are mixed with suggested query phrases, recent searches, and ads without source labels.",
+    "Keyboard focus moves into live results while the user is still typing and the input loses text.",
+    "A slow response for ca overwrites newer results for case because stale requests are not ignored."
+  ],
+  "sources": [
+    {
+      "id": "algolia-autocomplete-js",
+      "note": "Algolia documents query state, open panel state, sources, collections, loading or stalled state, and keyboard behavior for as-you-type experiences."
+    },
+    {
+      "id": "elasticsearch-search-as-you-type",
+      "note": "Elastic documents a search_as_you_type field designed for efficient prefix matching as users enter text."
+    },
+    {
+      "id": "carbon-search-pattern",
+      "note": "Carbon search guidance documents type-ahead suggestions, keyboard cycling, Enter selection, Escape dismissal, and result-count behavior."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "WAI-ARIA APG combobox guidance supports accessible popup and keyboard expectations used by typeahead result panels."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

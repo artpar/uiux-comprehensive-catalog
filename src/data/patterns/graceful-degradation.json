@@ -1,0 +1,242 @@
+{
+  "id": "graceful-degradation",
+  "completionStatus": "complete",
+  "completionNotes": "Drafted as a reduced-capability task-preservation pattern with source-backed guidance for HTML-first baselines, failed enhancement layers, unsupported browser or device APIs, dependency outages, preserved data, and comparison boundaries.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names enhanced-available, reduced-capability, core-path-available, unsupported-capability, JavaScript-failed, dependency-degraded, reduced-media, restore-enhancement, saved-work, and no-core-path states with same-surface task preservation rules.",
+    "relatedPatternDistinction": "The entry separates graceful degradation from fallback path by keeping users on the same surface, from offline state by not requiring connectivity loss, from service unavailable page by avoiding whole-route closure, and from retry by preserving baseline controls rather than repeating an operation.",
+    "liveDemoBehavior": "The live demo keeps date fields, location list, file picker, capability status, booking reference, and primary task visible while exercising calendar failure, map failure, drag/drop failure, reduced motion, third-party outage, restored enhancement, no core path, and reset behavior, then contrasts blank widget, feature-only, blocked-submit, hidden-core, fake-success, and upgrade-only failures.",
+    "comparisonDecisionRules": "The graceful-degradation-vs-fallback-path-vs-offline-state-vs-service-unavailable-page comparison gives concrete rules for same-surface reduced capability, alternate-route switching, connectivity mode, whole-service closure, progressive-enhancement boundaries, saved-work handoff, and avoiding service-wide outage treatment for one broken widget.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/graceful-degradation/ and /compare/graceful-degradation-vs-fallback-path-vs-offline-state-vs-service-unavailable-page/ on 2026-06-10. Live check exercised Calendar failed, Map failed, Drag/drop failed, Reduce motion, Third-party down, Restore enhanced, No core path, Reset, Blank widget, Feature-only, Blocked submit, Hidden core, Fake success, and Upgrade only controls. screenshots/patterns/graceful-degradation.png captures Good UI, Bad UI, Good UX, Bad UX, reduced-capability status, preserved date and location fields, no-core state, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/graceful-degradation.png"
+    ]
+  },
+  "name": "Graceful degradation",
+  "aliases": [
+    "degraded mode",
+    "reduced capability mode",
+    "enhancement failure recovery",
+    "baseline experience",
+    "no JavaScript recovery",
+    "feature fallback"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Cross-Device And Physical Interaction",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Reduced-capability same-surface experience that preserves the core task",
+  "uiGuidance": [
+    "Show the baseline controls on the same surface as the failed enhancement: date fields behind a date picker, a location list behind a map, a file input behind drag-and-drop, readable content behind animation, and plain links behind scripted navigation.",
+    "Name the unavailable capability in local status text, then keep the working control, entered values, validation messages, primary action, and saved-work state visible."
+  ],
+  "uxGuidance": [
+    "Use graceful degradation when a richer layer is unavailable but the user can still complete the core task with a simpler interaction on the current page.",
+    "Separate reduced capability from failure: the enhanced experience may be missing, slower, blocked by policy, unsupported by device, or unavailable through a third party, but the task contract should remain clear and honest."
+  ],
+  "uiExamples": {
+    "good": [
+      "An appointment date picker says Calendar unavailable, keeps Day, Month, and Year fields with a format hint, and lets users continue after valid entry.",
+      "A branch finder map says Map view unavailable, keeps a searchable list of locations, distance text, and the Select branch action."
+    ],
+    "bad": [
+      "A failed calendar script leaves an empty rectangle and a disabled Continue button.",
+      "An upload flow requires drag-and-drop and hides the standard file picker from keyboard and touch users."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user on an older browser books an appointment through labeled date fields even though the calendar enhancement never loaded.",
+      "A user blocked from geolocation selects a pickup location from a sorted list without restarting the transaction."
+    ],
+    "bad": [
+      "A user must enable JavaScript to continue even though the server could accept the same date fields.",
+      "A user loses typed answers when a third-party address widget fails and the page reloads into an error."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Modern interfaces often rely on JavaScript, CSS, browser APIs, device sensors, heavy media, third-party widgets, or high network performance, and a single missing layer can block users even when the underlying task has a simpler path.",
+  "solution": "Design the baseline task first, layer enhancements on top, detect unsupported or failed capabilities, expose the reduced-capability state locally, preserve user work, and keep the core submission, selection, reading, or navigation path available whenever it is genuinely possible.",
+  "problemContext": [
+    "The enhanced layer improves convenience, speed, visualization, personalization, or input ergonomics but is not the only way to satisfy the user need.",
+    "Users may have blocked scripts, older browsers, assistive technologies, low-powered devices, strict corporate firewalls, slow networks, disabled motion, missing permissions, or third-party dependencies outside the product team's control.",
+    "The product can submit or complete the core task with ordinary HTML, server validation, text fields, select lists, links, file inputs, static content, or a saved state.",
+    "Some capabilities may be legally, security, or domain required; in those cases the degraded state must explain the blocker rather than pretending the task can continue."
+  ],
+  "selectionRules": [
+    "Choose graceful degradation when users stay on the same surface and the core task continues with fewer capabilities.",
+    "Prefer baseline controls that are always present in the document or reliably rendered by the server before enhancing them with JavaScript or advanced APIs.",
+    "Use feature detection and dependency health rather than browser labels to decide whether to show enhanced or reduced capability behavior.",
+    "Tell users which capability is unavailable only when it affects their task; avoid alarming technical language for harmless cosmetic loss.",
+    "Keep typed values, selected records, uploaded file names, validation results, references, and saved progress intact while switching between enhanced and reduced modes.",
+    "Allow users to retry or restore the enhancement when it is likely to recover, but do not make retrying the enhancement block the baseline path.",
+    "Use fallback path when the user must switch to another channel or method outside the current surface.",
+    "Use offline state when connectivity loss changes what can be cached, saved locally, queued, or synced.",
+    "Use service unavailable page only when the whole service or transaction route is unavailable, not for a single degraded component.",
+    "If no core path exists, state that honestly, explain why the missing capability is required, save work when possible, and provide the next accountable route."
+  ],
+  "requiredStates": [
+    "Enhanced available state with the richer control active.",
+    "Reduced-capability state naming the unavailable enhancement.",
+    "Core path available state with baseline controls and primary action enabled.",
+    "Unsupported browser or device capability state.",
+    "JavaScript unavailable or failed enhancement state.",
+    "Third-party dependency degraded state.",
+    "Heavy media, animation, or low-power reduced state.",
+    "Restore or retry enhancement state that does not erase baseline input.",
+    "Saved-work state when capability changes after user input.",
+    "No core path state explaining why completion is blocked and what accountable route remains."
+  ],
+  "interactionContract": [
+    "The baseline path can complete the same core task or the interface explicitly says why it cannot.",
+    "Enhanced controls mirror their values into baseline controls or share a canonical value so switching modes does not lose work.",
+    "Unavailable capability messages sit next to the affected feature and do not replace the whole page when the rest of the task remains usable.",
+    "The primary action stays enabled when baseline values are valid and only the enhancement is missing.",
+    "Retry enhancement, enable permission, use baseline controls, save work, and contact support are distinct actions with distinct outcomes.",
+    "Reduced mode does not fake success, hide validation, submit partial data, or change eligibility without telling the user."
+  ],
+  "implementationChecklist": [
+    "Define the core task independently from enhancement layers, including minimum input, validation, submit, review, and confirmation requirements.",
+    "Render semantic HTML controls, links, labels, hints, and server validation before JavaScript enhancement attaches richer behavior.",
+    "Map each enhancement dependency to a reduced-capability behavior: calendar to date fields, map to list, drag-and-drop to file input, geolocation to manual search, animation to static content, and widget to direct form fields.",
+    "Add feature detection, timeout handling, dependency error handling, and low-power or reduced-motion checks before enabling enhanced-only controls.",
+    "Preserve canonical values across enhancement failure, restore, reload, browser back, permission denial, and third-party outage.",
+    "Write local status copy that names the affected capability and the working core path without exposing unnecessary implementation detail.",
+    "Test with JavaScript disabled, CSS partially failed, unsupported APIs, blocked third-party scripts, older browsers, keyboard-only input, screen readers, touch devices, reduced motion, slow network, and low memory.",
+    "Instrument degraded-mode entry, successful core completion, enhancement restore, blocked completion, and support handoff so owners see whether an enhancement is harming task completion."
+  ],
+  "commonMisuses": [
+    "Treating JavaScript as mandatory for form submission when server-validated fields could submit the task.",
+    "Leaving a blank widget, spinner, disabled button, or invisible error when an enhancement fails.",
+    "Hiding baseline controls after enhancement loads, then failing to restore them when the enhanced layer breaks.",
+    "Calling a separate support route graceful degradation instead of identifying it as a fallback path.",
+    "Using browser sniffing rather than feature detection and real capability checks.",
+    "Discarding user input when moving between enhanced and reduced modes.",
+    "Claiming completion succeeded when the degraded mode omitted required data."
+  ],
+  "critiqueQuestions": [
+    "What is the smallest working version of this task before enhancements are added?",
+    "Which enhancement dependencies can fail independently, and what remains usable when each one fails?",
+    "Can users complete the same outcome with baseline controls, or does the product need a named fallback path?",
+    "What data must be preserved when enhancement state changes after the user has already interacted?",
+    "Does the UI distinguish unsupported capability, denied permission, slow dependency, offline mode, and whole-service outage?",
+    "How will owners know whether degraded-mode users still complete the task?"
+  ],
+  "useWhen": [
+    "A richer UI control, script, API, media layer, device capability, or third-party widget improves the task but is not essential to the outcome.",
+    "The product can express the core task with standard controls, server-rendered content, or a simpler same-surface interaction.",
+    "Users may reasonably encounter blocked scripts, unsupported APIs, device limits, assistive technology variance, strict firewalls, or low-power conditions."
+  ],
+  "avoidWhen": [
+    "The missing capability is legally, security, or domain required and no simpler route can complete the task.",
+    "The user must leave the current surface for manual review, phone support, paper submission, or another route; that is a fallback path.",
+    "The primary issue is connectivity loss that changes save, sync, stale data, or cached behavior; use offline state.",
+    "The whole service is closed or unavailable; use service unavailable page.",
+    "Reduced mode would silently submit incomplete, stale, or misleading data."
+  ],
+  "variants": [
+    "No-JavaScript baseline",
+    "Calendar-to-date-fields degradation",
+    "Map-to-list degradation",
+    "Geolocation-to-manual-search degradation",
+    "Drag-and-drop-to-file-input degradation",
+    "Animation-to-static-content degradation",
+    "Third-party-widget degradation",
+    "Low-bandwidth reduced media",
+    "Reduced-motion presentation",
+    "No core path available"
+  ],
+  "accessibility": [
+    "Start from semantic controls and labels that remain available before and after enhancement.",
+    "Do not depend on pointer gestures, drag actions, geolocation, animation, canvas, or custom widgets as the only way to complete the task.",
+    "Announce capability changes with visible text or status regions tied to the affected component.",
+    "Keep keyboard order stable when enhanced widgets appear, disappear, or restore.",
+    "Respect reduced motion, zoom, high contrast, assistive technology, and user-disabled scripts without treating them as unsupported users.",
+    "Make no-core-path states explicit when an accessible same-surface route cannot honestly complete the task."
+  ],
+  "keyboardBehavior": [
+    "Baseline controls are reachable in a logical order even when the enhanced control cannot initialize.",
+    "Restoring an enhancement does not steal focus from a field the user is editing.",
+    "Retry enhancement and use baseline controls are separate keyboard-operable actions.",
+    "Disabled enhanced controls are not left in the tab order unless their unavailable state and alternative are clear.",
+    "Drag, map, calendar, and media enhancements all have keyboard-operable baseline alternatives on the same surface."
+  ],
+  "failureModes": [
+    "A failed script leaves a blank widget with no baseline control.",
+    "A required hidden field is only populated by JavaScript, so a valid baseline form cannot submit.",
+    "A third-party widget outage clears entered data and replaces the whole transaction with an error.",
+    "The interface tells users to upgrade their browser without explaining the affected capability or preserving work.",
+    "A feature-only design forces camera, geolocation, drag-and-drop, or animation when text input or selection would work.",
+    "The page treats one failed enhancement as whole-service downtime.",
+    "Reduced mode submits fewer fields and still shows a success confirmation."
+  ],
+  "relatedPatterns": [
+    "fallback-path",
+    "offline-state",
+    "service-unavailable-page",
+    "retry",
+    "error-state",
+    "drag-and-drop-upload",
+    "date-picker",
+    "file-upload"
+  ],
+  "comparisons": [
+    "graceful-degradation-vs-fallback-path-vs-offline-state-vs-service-unavailable-page"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Service Manual progressive enhancement",
+      "url": "https://www.gov.uk/service-manual/technology/using-progressive-enhancement",
+      "platform": "web",
+      "notes": "Documents HTML-first government services, failure reasons for CSS and JavaScript, and keeping core functionality available if JavaScript fails.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Design System accessibility strategy",
+      "url": "https://design-system.service.gov.uk/accessibility/accessibility-strategy/",
+      "platform": "web",
+      "notes": "Documents progressive enhancement as an accessibility principle for GOV.UK styles, components, and patterns.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN graceful degradation",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation",
+      "platform": "web",
+      "notes": "Defines graceful degradation as retaining essential content and functionality in less capable environments.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-progressive-enhancement",
+      "note": "GOV.UK documents baseline HTML, JavaScript failure risks, and preserving core functionality when enhanced layers fail."
+    },
+    {
+      "id": "govuk-design-system-accessibility-strategy",
+      "note": "GOV.UK Design System documents progressive enhancement as part of an accessibility strategy."
+    },
+    {
+      "id": "mdn-graceful-degradation",
+      "note": "MDN defines graceful degradation as retaining essential functionality in older or less capable environments."
+    },
+    {
+      "id": "mdn-progressive-enhancement",
+      "note": "MDN distinguishes progressive enhancement from graceful degradation and describes their relationship."
+    },
+    {
+      "id": "w3c-wcag-client-side-scripting-techniques",
+      "note": "W3C scripting guidance includes graceful script failure when script is unsupported."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

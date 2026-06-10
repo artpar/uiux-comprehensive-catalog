@@ -1,0 +1,50 @@
+{
+  "id": "unsaved-changes-prompt-vs-exit-warning-vs-autosave-form-vs-confirmation-dialog",
+  "title": "Unsaved changes prompt vs exit warning vs autosave form vs confirmation dialog",
+  "summary": "Use an unsaved changes prompt for a focused dirty-editor decision before close, cancel, switch, or replacement. Use exit warning for broader departure, autosave form for background persistence, and confirmation dialog for an explicit consequential command.",
+  "patternIds": [
+    "unsaved-changes-prompt",
+    "exit-warning",
+    "autosave-form",
+    "confirmation-dialog"
+  ],
+  "decisionRules": [
+    "Use unsaved changes prompt when a user tries to close an editor, cancel edit mode, switch records, change tabs, or replace content while the current edit buffer has unsaved local changes.",
+    "Use exit warning when the risky trigger is page departure, browser reload or close, external navigation, route change, Back, or sign out rather than a focused editor-level close or switch.",
+    "Use autosave form when the main solution is continuous background progress persistence and the interface can prove the latest edits are saved or safely retryable before the user leaves.",
+    "Use confirmation dialog when the user invoked a consequential command such as Delete, Cancel application, Send, Publish, or Discard draft; dirty edit-buffer protection is only one specialized confirmation use case.",
+    "An unsaved changes prompt must identify the edited object or fields and separate Save changes, Discard changes, Review changes, and Keep editing where those outcomes are available.",
+    "Do not use an unsaved changes prompt for clean editors, read-only views, or durable drafts that can be resumed without data loss.",
+    "If Save changes fails, the unsaved changes prompt should keep the editor open with values intact; exit warnings and confirmations should not pretend that a failed save completed.",
+    "If the same dirty editor is at risk from both record switching and browser close, use the prompt for in-product switch or close decisions and a conditional beforeunload or exit-warning path for browser-controlled departure.",
+    "If autosave is pending or failed, state that condition in the prompt and prevent closing until save succeeds, retry is chosen, or the user explicitly discards.",
+    "Use Review changes when users may not remember what they edited or when discarding could remove several fields, but do not expose old or private values beyond the user's permission."
+  ],
+  "failureModes": [
+    "A dirty editor switches to another record without naming or preserving unsaved field values.",
+    "A prompt says Are you sure? with OK and Cancel, forcing users to infer whether OK saves, discards, or leaves.",
+    "The editor closes immediately after Save even though the save request is still pending or failed.",
+    "The app shows the same prompt on every close even when the record is already clean.",
+    "A route-level exit warning is reused for a small inline edit and names the wrong destination.",
+    "Autosave says Saved while the prompt still appears because dirty state was not cleared after the latest successful save."
+  ],
+  "sources": [
+    {
+      "id": "mdn-beforeunload-event",
+      "note": "MDN documents unsaved data loss warnings and conditional use of browser leave protection."
+    },
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab Pajamas documents save feedback, failed-save retry, undo, and leave-warning behavior for form changes."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports specific consequence copy and avoiding unnecessary confirmations."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG alertdialog guidance covers modal decisions that interrupt a task and require a response."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

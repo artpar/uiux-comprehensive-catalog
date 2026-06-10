@@ -1,77 +1,213 @@
 {
   "id": "undo",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a post-action recovery pattern with source-backed reversal criteria, saved prior state, visible recovery window, restored and committed outcomes, accessibility requirements, undo-vs-confirmation rules, inspected examples, duplicate audit, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names reversible completed actions, captured prior state, object-specific recovery copy, visible undo affordance, restored outcome, committed outcome, expiration handling, keyboard reachability, and when recovery must be persistent rather than transient.",
+    "relatedPatternDistinction": "The entry separates undo from confirmation dialog by allowing frequent recoverable actions to complete before reversal, from error state by recovering a user action rather than a system failure, and from toast-only feedback by requiring reliable reversal and explicit final status.",
+    "liveDemoBehavior": "The live demo deletes a task row, shows a named recovery panel with Undo task and Commit deletion controls, restores the exact item when undone, records final deletion when committed, and contrasts a bad one-click removal with no recovery path.",
+    "comparisonDecisionRules": "The undo-vs-confirmation-dialog comparison gives concrete rules for exact prior-state recovery, external side effects, frequent cleanup actions, uncommon destructive actions, typed confirmations, prevention by placement, and avoiding double protection for low-risk actions.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/undo.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related link, comparison link, recovery behavior, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/undo.png"
+    ]
+  },
   "name": "Undo",
-  "aliases": ["revert action", "undo snackbar"],
+  "aliases": [
+    "revert action",
+    "undo snackbar",
+    "restore action",
+    "rollback action"
+  ],
   "category": "Error Prevention And Recovery",
-  "secondaryCategories": ["Feedback, Status, And System State"],
-  "platforms": ["web", "mobile", "desktop"],
-  "problem": "Users need a fast way to recover from an action without being blocked before every action.",
-  "solution": "Allow the action to complete, communicate the result, and provide a time-bound or persistent way to reverse it.",
+  "secondaryCategories": [
+    "Feedback, Status, And System State"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to recover from common reversible actions after acting quickly, without being blocked by confirmation prompts before every low-risk command.",
+  "solution": "Let the action complete, preserve the exact prior state, report what changed, expose a clearly labelled recovery control, and resolve to either restored state or committed final state.",
   "problemContext": [
-    "A frequent action can be performed quickly and mistakes are plausible.",
-    "The system can reliably restore the prior state after the action."
+    "The action is frequent enough that pre-action confirmation would slow users down or become automatic.",
+    "Mistakes are plausible because users act quickly, work in lists, use shortcuts, or perform repeated cleanup.",
+    "The system can restore the affected object, value, order, selection, or relationship accurately.",
+    "The action has no irreversible external effect before the recovery window closes."
   ],
   "selectionRules": [
-    "Choose undo when recovery is reliable and the action is frequent enough that confirmation would slow users down.",
-    "Prefer confirmation when the action has irreversible external side effects.",
-    "Use persistent recovery, not a short toast, when the consequence is important or recovery needs time."
+    "Choose undo when the product can restore the exact prior state without data loss or unrecoverable side effects.",
+    "Use undo for frequent archive, dismiss, move, reorder, delete-to-trash, bulk cleanup, and formatting changes where users benefit from acting first.",
+    "Use a persistent restore location instead of a short recovery notice when the consequence is important or users may need more time.",
+    "Use confirmation before the action when money, permissions, production data, emails, webhooks, or permanent deletion cannot be recalled.",
+    "Do not offer undo unless the system has already captured enough state to restore object identity, order, relationships, and visible counts.",
+    "Do not hide undo in a disappearing message if assistive technology users, keyboard users, or distracted users cannot reasonably reach it.",
+    "Use clear feedback when the undo window expires or when the action has been committed permanently."
   ],
   "requiredStates": [
-    "Normal state before the action.",
-    "Action-completed state that clearly communicates what changed.",
-    "Recoverable state with an undo or restore affordance.",
-    "Final state after undo expires or is completed."
+    "Normal state before the user action.",
+    "Completed-but-recoverable state that names what changed and exposes an undo control.",
+    "Restored state after undo returns the exact object, value, order, or selection.",
+    "Committed final state after the recovery window expires or the user confirms finalization.",
+    "Unavailable state when undo cannot be offered because the action has external or irreversible effects.",
+    "Multiple-action state where each recoverable action is either queued, grouped, or clearly scoped."
   ],
   "interactionContract": [
-    "The undo affordance must be reachable by keyboard and visible long enough to use.",
-    "Undo must restore the relevant object, selection, or previous value.",
-    "The system must communicate whether undo succeeded or is no longer available."
+    "The undo affordance appears after the action completes and names what will be restored.",
+    "Undo restores the affected state exactly enough that the user can trust it.",
+    "The recovery control is keyboard reachable and remains available long enough for users to perceive and activate it.",
+    "The interface reports whether the action is recoverable, restored, expired, or permanently committed.",
+    "Focus is not unexpectedly stolen from the user's workflow when a routine recoverable action completes.",
+    "If multiple actions are recoverable, the UI makes the scope of each undo action clear.",
+    "Undo is not offered for effects that have already left the system boundary and cannot be recalled."
   ],
   "implementationChecklist": [
-    "Show what action happened.",
-    "Expose a clearly labeled undo or restore control.",
-    "Preserve enough state to accurately reverse the action.",
-    "Avoid moving focus unexpectedly after routine actions."
+    "Capture the prior object, value, position, relationship, and selection state before applying the action.",
+    "Display a recovery notice close to the action result or in a consistent status region.",
+    "Label the action with the object or operation, such as Undo delete or Restore report.",
+    "Keep the undo control keyboard reachable and visible long enough to use.",
+    "Provide a committed or expired state so users know when recovery is no longer available.",
+    "Restore focus, counts, ordering, and selection predictably after undo.",
+    "Avoid combining undo with pre-action confirmation for the same low-risk routine action.",
+    "Escalate to persistent history, trash, version rollback, or admin recovery when a short recovery window is insufficient.",
+    "Do not claim undo support until integration, storage, notifications, and external effects can actually be reversed."
   ],
   "commonMisuses": [
     "Offering undo for an action that cannot actually be reversed.",
-    "Hiding the undo action in a transient message that disappears too quickly.",
-    "Using undo without confirming that the restored state is accurate."
+    "Showing a recovery control so briefly that users cannot perceive or reach it.",
+    "Restoring only part of the prior state while implying full recovery.",
+    "Using a vague Undo label when several actions could be undone.",
+    "Stealing focus to a transient notice after every routine action.",
+    "Pairing a confirmation dialog and undo for ordinary cleanup actions, adding friction without extra safety."
   ],
   "critiqueQuestions": [
-    "Is recovery reliable enough that the user can act first and fix mistakes afterward?"
+    "What exact state is stored so the action can be reversed?",
+    "Can any external recipient, payment, permission, notification, or webhook still observe the action after undo?",
+    "How will users know whether the action is recoverable, restored, expired, or committed?",
+    "Is the recovery affordance reachable by keyboard and visible long enough?",
+    "What happens when users perform several recoverable actions in a row?",
+    "Would a persistent trash, version history, or rollback log be safer than a short undo notice?"
   ],
   "useWhen": [
     "The action is common and mistakes are likely.",
-    "The system can reliably restore the prior state."
+    "The exact prior state can be restored reliably.",
+    "Pre-action confirmation would slow users down or create habituation.",
+    "The action can be held locally, queued, or reversed before irreversible side effects occur."
   ],
   "avoidWhen": [
-    "The action has external side effects that cannot be reversed.",
-    "The user needs to understand a serious consequence before the action happens."
+    "The action has external side effects that cannot be recalled.",
+    "Recovery would restore only part of the user's lost work.",
+    "The consequence is severe enough that users need to understand it before the action happens.",
+    "The system cannot preserve enough state to restore identity, order, relationships, or permissions.",
+    "A short recovery notice would disappear before affected users can reasonably act."
   ],
-  "variants": ["Toast undo", "Persistent undo history", "Restore from trash", "Version rollback"],
+  "variants": [
+    "Toast undo",
+    "Snackbar undo",
+    "Persistent restore from trash",
+    "Version rollback",
+    "Undo stack",
+    "Redo",
+    "Bulk action undo",
+    "Time-delayed commit"
+  ],
   "accessibility": [
-    "The undo control must be keyboard reachable.",
-    "The recovery option should not disappear before assistive technology users can perceive it."
+    "Make the undo control keyboard reachable and programmatically identifiable.",
+    "Announce the completed action and recovery availability without forcing focus away from the current task.",
+    "Do not make recovery depend only on a fast disappearing visual toast.",
+    "Expose committed, expired, and restored outcomes in a status region.",
+    "Keep labels specific when several actions could be undone.",
+    "Respect reduced-motion preferences for any animated recovery notice."
   ],
   "keyboardBehavior": [
-    "Keyboard shortcuts can supplement visible undo controls.",
-    "Focus should not be unexpectedly stolen after routine actions."
+    "Visible undo controls must be reachable in the normal tab order or through an established command shortcut.",
+    "Common platform shortcuts can supplement visible controls but should not be the only recovery path.",
+    "Routine actions should not move focus unexpectedly to the notice.",
+    "Activating Undo restores the item and leaves focus in a predictable location near the restored object or original trigger.",
+    "If the recovery window expires, keyboard focus must not remain on a removed control."
   ],
   "failureModes": [
-    "Showing an undo action too briefly.",
-    "Pretending an irreversible action can be undone.",
-    "Relying on a toast-only recovery path for critical changes."
+    "Undo action disappears before users can activate it.",
+    "Restored item returns to the wrong list, order, filter, or ownership scope.",
+    "External effects such as email, billing, permissions, or webhooks continue after undo.",
+    "Multiple deletes overwrite the previous undo state without warning.",
+    "The UI reports success before storage rollback has actually completed.",
+    "Users cannot tell whether an action is still recoverable or already final."
   ],
-  "relatedPatterns": ["confirmation-dialog"],
-  "comparisons": ["undo-vs-confirmation-dialog"],
-  "examples": [],
+  "relatedPatterns": [
+    "confirmation-dialog",
+    "toast-only-critical-error"
+  ],
+  "comparisons": [
+    "undo-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "Apple Human Interface Guidelines Undo and redo",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/undo-and-redo",
+      "platform": "desktop",
+      "notes": "Frames undo and redo as expected system-supported reversal mechanisms that help people recover and explore safely.",
+      "screenshot": "screenshots/patterns/undo.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Material Design Snackbars",
+      "url": "https://m2.material.io/go/design-snackbar",
+      "platform": "mobile",
+      "notes": "Shows snackbars with action buttons such as Undo for amending a recent choice.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
   "sources": [
     {
+      "id": "apple-hig-undo-redo",
+      "note": "Apple frames undo and redo as expected reversal mechanisms that support recovery and safe exploration."
+    },
+    {
+      "id": "material-design-snackbar",
+      "note": "Material snackbar guidance includes undo actions for amending recent choices after the action completes."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance recommends undo, feedback, and prevention as alternatives to routine confirmations."
+    },
+    {
       "id": "apple-hig-alerts",
-      "note": "Alert guidance explicitly contrasts undoable destructive actions with cases requiring alerts."
+      "note": "Apple alert guidance distinguishes common undoable destructive actions from uncommon irreversible actions that need alerts."
     }
   ],
   "maturity": "established",
-  "lastVerified": "2026-06-08"
+  "lastVerified": "2026-06-08",
+  "patternType": "ux",
+  "surfaceType": "Post-action recovery behavior",
+  "uiGuidance": [
+    "Show a named recovery affordance after the completed action, such as Undo delete for a specific task, near the result or in a consistent status region.",
+    "Keep the recovery control visible, keyboard reachable, and paired with clear restored or committed status instead of relying on an ambiguous disappearing message."
+  ],
+  "uxGuidance": [
+    "Let users move quickly through frequent reversible actions, then recover from mistakes after seeing the result.",
+    "Use undo only when the product can faithfully restore the prior state and clearly communicate when recovery is no longer available."
+  ],
+  "uiExamples": {
+    "good": [
+      "Deleting Quarterly report removes it from the list and shows a recovery panel saying Quarterly report deleted with an Undo task button.",
+      "The recovery panel also exposes a commit outcome so users can see when the deletion is final."
+    ],
+    "bad": [
+      "A tiny x removes an item with no object-specific recovery label.",
+      "A toast says Done and vanishes without a keyboard reachable undo control."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Undo restores the deleted task to the list and reports Quarterly report restored.",
+      "Committing deletion removes the recovery action and reports that the deletion is final."
+    ],
+    "bad": [
+      "A second delete overwrites the first recoverable item without explaining which action Undo affects.",
+      "The UI promises undo for a side effect that has already notified external recipients."
+    ]
+  }
 }

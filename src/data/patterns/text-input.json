@@ -1,0 +1,223 @@
+{
+  "id": "text-input",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a single-line freeform text entry pattern with source-backed guidance for persistent labels, hint and error association, expected-length width, delayed validation, paste support, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a short single-line freeform answer, persistent label, optional hint, aria-describedby wiring for hint and error, expected answer length and input width, delayed validation, pasted text, disabled and readonly states, and privacy or autocomplete attributes when appropriate.",
+    "relatedPatternDistinction": "The entry separates text input from textarea by short single-line answers versus paragraph or line-break entry, from autocomplete by arbitrary freeform text versus known-value resolution, from select and radio groups by user-authored answers versus predetermined options, and from specialized inputs such as email, password, phone, date, masks, prefixes, and suffixes by domain-specific parsing or privacy behavior.",
+    "liveDemoBehavior": "The rendered exercise lets users type a short reference name, paste a longer answer, submit to trigger required validation only after interaction, restore a valid value, inspect associated hint and error text, and compare a broken hint-inside-field control that validates too early and truncates pasted content.",
+    "comparisonDecisionRules": "The linked text-input-vs-autocomplete-vs-select-vs-radio-group comparison gives concrete rules for short freeform text, known-value completion, finite option selection, visible radio comparison, textarea escalation, specialized field escalation, label-inside-field misuse, delayed validation, and width matching.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/text-input.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, persistent label, hint text, delayed validation, pasted-text handling, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/text-input.png"
+    ]
+  },
+  "name": "Text input",
+  "aliases": [
+    "text field",
+    "single-line input",
+    "freeform text field",
+    "short answer field"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Selection And Choice"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Single-line freeform data-entry control",
+  "uiGuidance": [
+    "Render a persistent label, appropriately sized single-line input, optional hint, visible focus state, and nearby error text that is programmatically associated with the field.",
+    "Size the input to the expected answer length and keep helper, error, disabled, readonly, and success states visually distinct without relying on placeholder text as the instruction."
+  ],
+  "uxGuidance": [
+    "Use text input for short freeform answers that users can type or paste and that cannot be accurately represented as a fixed option choice.",
+    "Let users edit normally, validate after interaction or attempted submit, preserve their typed value after errors, and explain exactly how to fix invalid or missing text."
+  ],
+  "uiExamples": {
+    "good": [
+      "A reference-name field has a visible label, hint, medium width, focus ring, and error message beneath the hint when submitted empty.",
+      "A short-code field uses a narrow width while a project-title field uses a wider input, so the visible size matches the expected answer."
+    ],
+    "bad": [
+      "The only instruction is placeholder text that disappears when the user starts typing.",
+      "A full-width single-line field asks for a detailed explanation, while error text appears far away and is not tied to the field."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user types or pastes a short reference, submits it, and the interface confirms the stored value without changing their wording.",
+      "A user leaves the required field blank, sees an error only after submit, returns to the same field, and their later typed value clears the error."
+    ],
+    "bad": [
+      "Validation fires on the first focus event and blocks typing before the user has had a chance to answer.",
+      "Pasted text is silently truncated or transformed, so the user cannot trust what will be submitted."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to provide a short answer in their own words, but generic fields often hide labels, imply the wrong answer length, validate too early, or lose typed content during error recovery.",
+  "solution": "Provide a labelled single-line input with stable hint and error association, width that matches expected answer length, normal typing and paste behavior, delayed validation, and preserved user-entered text.",
+  "problemContext": [
+    "The answer is short, user-authored, and not reliably predictable as a fixed option.",
+    "The field may be required, optional, readonly, disabled, or returned from the server with a validation error.",
+    "Users may rely on keyboard, screen reader, browser autofill, paste, mobile keyboards, and zoomed layouts."
+  ],
+  "selectionRules": [
+    "Choose text input when the user enters a short freeform value such as a reference, title, identifier, one-line note, or organization name.",
+    "Prefer textarea when line breaks, paragraphs, or long-form review are expected.",
+    "Prefer autocomplete when the typed value should resolve to one known record or constrained option.",
+    "Prefer select or radio group when the valid answer is a finite predetermined choice.",
+    "Use specialized inputs when format-specific behavior matters, such as email, password, phone, date, numeric code, payment card, input mask, prefix, or suffix.",
+    "Show a persistent label; do not rely on placeholder text to communicate the question or required format.",
+    "Match input width to the expected answer length and avoid using field width as decoration.",
+    "Validate after blur or submit, preserve typed content, and associate hint and error text with the input."
+  ],
+  "requiredStates": [
+    "Empty untouched state with persistent label and optional hint.",
+    "Focused state with visible focus indicator.",
+    "Filled valid state showing the typed value exactly as entered.",
+    "Required missing-value error state after attempted submit.",
+    "Invalid format or too-long state with actionable error text.",
+    "Disabled state when the value cannot be changed.",
+    "Readonly state when the value is shown but not editable.",
+    "Autofilled or pasted-value state that remains reviewable before submit."
+  ],
+  "interactionContract": [
+    "Typing, deleting, selection, undo, and paste operate like a native single-line text field.",
+    "The visible label remains available before, during, and after text entry.",
+    "Hint and error text are associated through descriptive relationships when present.",
+    "Submitting a required blank field moves the user to a fixable error without clearing other entered values.",
+    "Changing the value after an error updates status without hiding the label or moving focus unexpectedly.",
+    "Browser autocomplete, autocapitalize, spellcheck, and inputmode are configured only when they match the field purpose."
+  ],
+  "implementationChecklist": [
+    "Use a native input element with a stable id, name, and label element before building a custom field.",
+    "Add hint text near the field and include both hint and error IDs in aria-describedby when they exist.",
+    "Choose type, autocomplete, inputmode, autocapitalize, spellcheck, maxlength, and width based on the specific data being requested.",
+    "Implement required and format validation after interaction or attempted submit, not on initial render.",
+    "Preserve the user's entered value across client validation, server validation, navigation back, and failed submission.",
+    "Test keyboard focus, screen reader label announcement, zoom, mobile orientation, paste, undo, autofill, disabled, readonly, and forced-colors modes.",
+    "Avoid silent trimming, casing, masking, or truncation unless the transformation is previewed and reversible."
+  ],
+  "commonMisuses": [
+    "Using placeholder text as the only label or instruction.",
+    "Using one single-line field for paragraph answers that need textarea behavior.",
+    "Using text input for predetermined choices that should be select, radio, or autocomplete.",
+    "Showing validation before the user interacts with the field.",
+    "Clearing a user's typed value after an error.",
+    "Silently truncating pasted content.",
+    "Using an input width that implies the wrong answer length.",
+    "Marking a disabled field as the only path to completing the task without explaining why it is locked."
+  ],
+  "critiqueQuestions": [
+    "Is the answer genuinely short and freeform, or is it a known choice, long answer, or specialized format?",
+    "Does the label remain visible after typing and is the accessible name the same question users see?",
+    "Does the width imply the right answer length?",
+    "When and how does validation appear, and does it preserve the user's value?",
+    "Can users paste, undo, autofill, and return from errors without losing data?"
+  ],
+  "useWhen": [
+    "The answer is short and user-authored.",
+    "Users may need to paste or edit arbitrary letters, numbers, or symbols.",
+    "The product cannot predict every valid value as a finite option list.",
+    "A native text field gives the expected keyboard, focus, and browser behavior."
+  ],
+  "avoidWhen": [
+    "The answer is a paragraph, comment, address block, or explanation requiring multiple lines.",
+    "The valid values are predetermined and users should choose rather than invent an answer.",
+    "The answer has specialized security, formatting, parsing, or keyboard needs better served by a dedicated input pattern.",
+    "The field is being used to hide a larger form or workflow decision that needs its own page or form pattern."
+  ],
+  "variants": [
+    "Required text input",
+    "Optional text input",
+    "Short code input",
+    "Full-width short answer",
+    "Readonly text input",
+    "Disabled text input",
+    "Text input with hint",
+    "Text input with error",
+    "Text input with browser autofill"
+  ],
+  "accessibility": [
+    "Associate every text input with a visible label or equivalent accessible name that matches the visible question.",
+    "Use aria-describedby or equivalent to connect hint, requirement, and error text to the input.",
+    "Do not use placeholder text as the sole accessible name or instruction.",
+    "Provide visible focus indicators and preserve usability at 200% zoom and mobile orientations.",
+    "Expose error text in text, not just color or iconography.",
+    "Keep disabled and readonly states understandable and do not trap keyboard users."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus into and out of the field in page order.",
+    "Typing enters text without moving focus or auto-submitting.",
+    "Arrow keys, Home, End, Delete, Backspace, selection shortcuts, paste, undo, and redo follow native text editing behavior.",
+    "Enter submits the surrounding form only when that form contract is clear.",
+    "Escape does not clear text unless the product clearly offers a reversible clear action.",
+    "After submit errors, focus can move to the error summary or invalid field without losing the typed value."
+  ],
+  "failureModes": [
+    "Placeholder-only label disappears during entry.",
+    "Validation interrupts the first keystroke or appears before interaction.",
+    "The field is too wide or too narrow for the expected answer.",
+    "Pasted content is silently truncated, reformatted, or rejected without recovery.",
+    "Error text is visually separated from the field or not announced with it.",
+    "A text field accepts arbitrary labels where downstream systems require a known selected ID.",
+    "The disabled state blocks completion without explanation.",
+    "Mobile keyboards, autocorrect, or capitalization corrupt identifiers or codes."
+  ],
+  "relatedPatterns": [
+    "autocomplete",
+    "select",
+    "radio-group",
+    "inline-validation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "text-input-vs-autocomplete-vs-select-vs-radio-group"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Text input",
+      "url": "https://design-system.service.gov.uk/components/text-input/",
+      "platform": "web",
+      "notes": "Documents labelled text input examples with hints, error messages, aria-describedby, autocomplete attributes, and input width variants.",
+      "screenshot": "screenshots/patterns/text-input.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "U.S. Web Design System Text input",
+      "url": "https://designsystem.digital.gov/components/text-input/",
+      "platform": "web",
+      "notes": "Documents freeform text input use, when to choose alternatives, width guidance, delayed validation, placeholder cautions, and accessibility testing.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI-ARIA APG Names and Descriptions",
+      "url": "https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/",
+      "platform": "web",
+      "notes": "Documents accessible-name expectations for focusable inputs and cautions against relying on placeholder fallback naming.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-text-input-component",
+      "note": "GOV.UK text input guidance supports persistent labels, hints, error messages, aria-describedby wiring, autocomplete attributes, and input width variants."
+    },
+    {
+      "id": "uswds-text-input-component",
+      "note": "USWDS guidance supports freeform text input use, delayed validation, field-width matching, paste support, placeholder cautions, and accessibility checks."
+    },
+    {
+      "id": "wai-aria-apg-names-and-descriptions",
+      "note": "WAI-ARIA APG names and descriptions guidance supports accessible naming and avoiding placeholder-only naming for inputs."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

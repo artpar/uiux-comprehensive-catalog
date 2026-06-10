@@ -1,0 +1,246 @@
+{
+  "id": "session-timeout-warning",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed inactivity and reauthentication boundary pattern with guidance for countdowns, extension, save-before-expiry, forced reauthentication, post-timeout restoration, public-device privacy, comparison boundaries, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets authenticated idle, absolute, and reauthentication boundaries, including visible countdowns, authoritative server session checks, policy-valid extension, save draft, forced reauthentication, expired signed-out recovery, private-content hiding, and return-to-task restoration.",
+    "relatedPatternDistinction": "The entry separates session timeout warning from exit warning by system-initiated time or policy boundaries rather than attempted departure, from autosave form by warning and preserving around an authentication boundary rather than saving continuously, and from permission denied state by treating expired authentication as different from missing authorization.",
+    "liveDemoBehavior": "The live demo moves a benefits claim through Active, Early warning, Imminent timeout, Stay signed in, Confirm extension, Save draft, Reauth, Let expire, Reauthenticate, and Restored states, with private-content hiding after expiry, server-confirmed extension copy, saved-reference messaging, and bad-mode controls for no warning, vague timer, client-only extension, data loss, privacy leak, and alert loop.",
+    "comparisonDecisionRules": "The session-timeout-warning-vs-exit-warning-vs-autosave-form-vs-permission-denied-state comparison gives concrete rules for session expiry, attempted departure, continuous save protection, authorization denial, extension limits, reauthentication return, autosave failure at timeout, and avoiding permission or retry messaging for expired sessions.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/session-timeout-warning/ and /compare/session-timeout-warning-vs-exit-warning-vs-autosave-form-vs-permission-denied-state/ on 2026-06-10. Live check exercised Active, Early warning, Imminent, Stay signed in, Confirm extension, Save draft, Reauth, Let expire, Reauthenticate, Restored, No warning, Vague timer, Client only, Data loss, Privacy leak, and Alert loop controls. screenshots/patterns/session-timeout-warning.png captures Good UI, Bad UI, Good UX, Bad UX, countdown copy, saved-reference state, signed-out hidden-private-content state, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/session-timeout-warning.png"
+    ]
+  },
+  "name": "Session timeout warning",
+  "aliases": [
+    "session expiry warning",
+    "idle timeout warning",
+    "inactivity warning",
+    "reauthentication warning",
+    "stay signed in warning",
+    "timeout countdown",
+    "session ending notice"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Authenticated-session expiry and reauthentication boundary warning",
+  "uiGuidance": [
+    "Show a visible countdown or clear expiry time before inactivity, absolute session, or reauthentication limits can interrupt work; place the warning near the current task or as a focused dialog when immediate action is required.",
+    "Offer only policy-valid actions such as Stay signed in, Save draft, Finish now, Reauthenticate, or Sign out, and state what work is saved, local-only, pending, or at risk."
+  ],
+  "uxGuidance": [
+    "Use session timeout warning to balance security, privacy, accessibility, and continuity when an authenticated session is about to expire or require reauthentication.",
+    "Protect user effort by warning before expiry, preserving work where possible, and returning users to the same task after reauthentication instead of treating timeout as a generic failure."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefits form shows Your session will end in 2 minutes, says the draft is saved, and offers Stay signed in, Save and sign out, and Sign out.",
+      "A banking session requires reauthentication, keeps entered transfer details hidden but preserved, and returns to review after the user verifies again."
+    ],
+    "bad": [
+      "The app logs out after 15 minutes with no countdown and clears a long form.",
+      "A banner says Session expiring soon but does not say when, whether work is saved, or how to continue."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pauses while gathering documents, sees the remaining time, extends the session once, then saves the draft before policy requires reauthentication.",
+      "A public-computer user ignores the warning and the product signs out, hides private content, and offers sign-in that restores only the allowed draft state."
+    ],
+    "bad": [
+      "A user returns from a phone call to find the form gone and a generic access denied page.",
+      "A user clicks Stay signed in, but the server session is already expired and the next submit fails without preserving the answers."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Authenticated products can expire idle or long-running sessions without enough warning, causing loss of work, privacy exposure, confusing access errors, duplicate submissions, or failed reauthentication recovery.",
+  "solution": "Track server-backed idle and absolute session boundaries, warn users before expiry with remaining time and consequence copy, provide allowed extension, save, sign-out, or reauthentication actions, preserve recoverable work, and restore users to the intended task after reauthentication.",
+  "problemContext": [
+    "The product has authenticated sessions with idle timeout, absolute timeout, public-device risk, assurance-level requirements, or reauthentication policy.",
+    "Users may be filling forms, reviewing payments, uploading files, editing content, approving records, or reading private data when inactivity occurs.",
+    "A timeout can affect security and privacy as well as task continuity, especially on shared devices or sensitive data surfaces.",
+    "The product can determine the authoritative session boundary from the server or identity provider rather than from a client-only timer."
+  ],
+  "selectionRules": [
+    "Choose session timeout warning when the session is approaching an inactivity, absolute, device-lock, or reauthentication boundary that can interrupt authenticated work.",
+    "Show the warning before the boundary, with enough time for users who need more time to respond, save, or reauthenticate.",
+    "State the remaining time or expiry time, the consequence of expiry, and the status of current work.",
+    "Use a modal or alertdialog when expiry is imminent and the next action must be chosen before continuing; use inline or banner status for earlier, less urgent warnings.",
+    "Use exit warning when the user initiates departure; use session timeout warning when the system initiates a session boundary because of time or policy.",
+    "Use autosave form to preserve progress continuously; still warn when pending or failed saves make timeout risky.",
+    "Use permission denied state when the user is authenticated but lacks authorization, not when the session has expired.",
+    "Do not offer Stay signed in when policy requires reauthentication or absolute termination; offer Save draft, Reauthenticate, or Sign out instead.",
+    "After timeout, route users to sign in or reauthenticate and return to the original task with preserved data where policy and architecture allow.",
+    "Treat public-device and high-risk flows carefully: hide private content after expiry, avoid leaking form values on signed-out pages, and disclose what remains recoverable."
+  ],
+  "requiredStates": [
+    "Active session with no warning.",
+    "Early idle warning with remaining time and current save state.",
+    "Imminent timeout dialog with Stay signed in or policy-valid action.",
+    "Extension in progress state tied to server confirmation.",
+    "Extension succeeded state that resets the displayed timer.",
+    "Extension failed or expired state that routes to reauthentication.",
+    "Absolute timeout or policy-required reauthentication state.",
+    "Saved draft before timeout state.",
+    "Timed-out signed-out state with private content hidden.",
+    "Reauthenticated return state that restores the intended task and preserved work."
+  ],
+  "interactionContract": [
+    "The warning is driven by the authoritative session or identity state, not only a local countdown.",
+    "Remaining time updates are readable and do not steal focus repeatedly.",
+    "Stay signed in, extend session, or reauthenticate actions make a server-confirmed request and update the warning outcome.",
+    "Save draft keeps recoverable work before expiry and tells users whether the save completed, failed, or remains local.",
+    "If the session expires, private content is hidden and the next path is sign in or reauthenticate, not retrying the expired action blindly.",
+    "After successful reauthentication, users return to the same route, step, record, or review state when policy allows.",
+    "The warning never promises preservation or extension that the security policy cannot deliver."
+  ],
+  "implementationChecklist": [
+    "Define idle timeout, absolute timeout, reauthentication threshold, extension limits, public-device behavior, and post-timeout retention policy with security owners.",
+    "Use server or identity-provider expiry information to schedule warnings and verify extension success.",
+    "Choose warning thresholds that leave time to read, save, extend, or reauthenticate, including users who need more time.",
+    "Track work state separately from session state: clean, dirty, pending save, save failed, saved draft, submitted, and unrecoverable.",
+    "Make Stay signed in, Save draft, Reauthenticate, and Sign out distinct actions with clear outcomes.",
+    "Hide or clear sensitive UI after expiry while preserving allowed draft references or return targets.",
+    "Announce imminent timeout and extension results without causing repeated screen reader interruptions.",
+    "Test server-expired token, client clock skew, multiple tabs, backgrounded mobile app, failed extension, absolute timeout, saved draft return, reauthentication return, and shared-device sign-out."
+  ],
+  "commonMisuses": [
+    "Using a client-only timer that disagrees with the server session.",
+    "Showing Session expiring soon without a time, consequence, or action.",
+    "Logging users out without preserving form work that could have been saved.",
+    "Offering unlimited extension where policy requires reauthentication or termination.",
+    "Treating timeout as access denied, not found, generic error, or retryable network failure.",
+    "Leaving private content visible behind a timed-out overlay on shared devices.",
+    "Interrupting users repeatedly with countdown announcements every second."
+  ],
+  "critiqueQuestions": [
+    "Which boundary is approaching: idle timeout, absolute timeout, reauthentication, or sign-out policy?",
+    "Is the displayed countdown tied to the server or identity provider?",
+    "What work is saved, pending, failed, local-only, submitted, or at risk?",
+    "What action is actually allowed: extend, save, reauthenticate, finish, or sign out?",
+    "What happens after expiry to private content and the user's return target?",
+    "Can users who need more time perceive the warning and respond before the session ends?"
+  ],
+  "useWhen": [
+    "An authenticated session can expire because of inactivity, overall lifetime, assurance policy, or reauthentication requirement.",
+    "Timeout could interrupt meaningful work, expose private data, or cause confusing failures.",
+    "The product can warn before expiry and offer at least one honest extension, save, reauthentication, or sign-out path.",
+    "Users need to know whether their progress will survive a timeout."
+  ],
+  "avoidWhen": [
+    "There is no authenticated session boundary and the issue is ordinary navigation away.",
+    "The user lacks authorization while still signed in.",
+    "A background save can fully preserve work and no session-facing action is needed before expiry.",
+    "The message is a broad outage or maintenance notice.",
+    "Security policy requires immediate termination with no user-facing delay; show signed-out recovery instead."
+  ],
+  "variants": [
+    "Idle timeout countdown",
+    "Absolute session timeout warning",
+    "Stay signed in dialog",
+    "Reauthentication required warning",
+    "Save before timeout warning",
+    "Public computer timeout",
+    "Multiple-tab session warning",
+    "Mobile background timeout",
+    "Timed-out return-to-task recovery"
+  ],
+  "accessibility": [
+    "Warn users early enough to respond and avoid relying on a rapidly changing countdown as the only information.",
+    "Use visible text for remaining time, consequence, and action; do not rely on color, motion, or icon-only signals.",
+    "Use polite status updates for early warnings and a focused dialog only when expiry is imminent and action is required.",
+    "Avoid announcing every countdown tick; announce meaningful thresholds and action outcomes.",
+    "Keep Stay signed in, Save draft, Reauthenticate, and Sign out controls keyboard reachable with clear labels.",
+    "After reauthentication, return focus to the task location or recovery message, not the top of an unrelated page."
+  ],
+  "keyboardBehavior": [
+    "Early warning controls appear in normal tab order without moving focus away from the current field.",
+    "An imminent timeout dialog moves focus to the heading or safest action and traps focus only while the dialog is active.",
+    "Escape should not silently dismiss the only warning if expiry is imminent; it may choose Continue working only when policy allows extension.",
+    "Stay signed in, Save draft, Reauthenticate, and Sign out activate with Enter or Space.",
+    "After extension success, focus returns to the previously focused control or a stable status region.",
+    "After timeout and reauthentication, focus returns to the restored task step when possible."
+  ],
+  "failureModes": [
+    "The countdown shows time remaining after the server has already expired the session.",
+    "A user completes a long answer and loses it because timeout was not connected to draft preservation.",
+    "The warning interrupts typing every minute and causes accidental submission or lost focus.",
+    "A reauthentication route drops the return URL, so users land on a dashboard instead of the task.",
+    "Multiple tabs race: one tab extends the session while another still logs the user out.",
+    "A public computer keeps private content visible after session expiry.",
+    "Save before timeout fails, but the warning still says progress is protected."
+  ],
+  "relatedPatterns": [
+    "exit-warning",
+    "autosave-form",
+    "draft-state",
+    "permission-denied-state",
+    "warning-text",
+    "alert"
+  ],
+  "comparisons": [
+    "session-timeout-warning-vs-exit-warning-vs-autosave-form-vs-permission-denied-state"
+  ],
+  "examples": [
+    {
+      "product": "W3C WCAG Timeouts",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/timeouts.html",
+      "platform": "web",
+      "notes": "Documents warning users about inactivity durations that can cause data loss unless data is preserved long enough.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "W3C WCAG Re-authenticating",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/re-authenticating.html",
+      "platform": "web",
+      "notes": "Documents continuing authenticated activity without data loss after reauthentication.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "OWASP Session Management Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "platform": "web",
+      "notes": "Documents idle and absolute timeout guidance and risk-based timeout choices for web applications.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "NIST SP 800-63B Session Management",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b/session/",
+      "platform": "web",
+      "notes": "Documents inactivity timeout, overall timeout, termination, and reauthentication reset behavior.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "w3c-wcag-timeouts",
+      "note": "W3C documents warning users when inactivity can cause data loss."
+    },
+    {
+      "id": "w3c-wcag-reauthenticating",
+      "note": "W3C documents preserving user activity after reauthentication."
+    },
+    {
+      "id": "owasp-session-management-cheat-sheet",
+      "note": "OWASP documents idle and absolute session timeout guidance."
+    },
+    {
+      "id": "nist-sp-800-63b-session-management",
+      "note": "NIST documents inactivity timeout, overall timeout, and reauthentication reset behavior."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

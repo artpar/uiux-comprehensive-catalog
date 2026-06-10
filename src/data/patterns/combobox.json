@@ -1,0 +1,252 @@
+{
+  "id": "combobox",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a popup-owning input widget with source-backed combobox semantics, expanded and collapsed states, active descendant movement, accept and cancel behavior, selected-value synchronization, custom-value policy, stale hidden-value prevention, and distinctions from autocomplete, select, text input, typeahead, search suggestions, and multi-select.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers the one-field plus popup contract, editable and select-only variants, active option movement, accepted option state, cancellation, custom-value policy, stale hidden ID reset, no-result state, invalid unresolved text, and disabled or read-only states.",
+    "relatedPatternDistinction": "The entry separates combobox from autocomplete by treating autocomplete as suggestion behavior, from select by requiring popup ownership and typing or active option management, from text input by requiring a controlled popup and selected value, from typeahead and search suggestions by keeping one selected field value, and from multi-select by allowing only one committed value.",
+    "liveDemoBehavior": "The live demo filters assignee options, opens and closes the popup, moves the active descendant, accepts the active option, cancels without committing, clears stale selected IDs after typing, toggles custom-value permission, validates unresolved text, and contrasts stale hidden-value and focus-loss failures.",
+    "comparisonDecisionRules": "The linked combobox-vs-autocomplete-vs-select-vs-text-input comparison gives concrete rules for popup ownership, known-value completion, native finite selection, arbitrary free text, active descendant exposure, Escape cancellation, selected ID synchronization, and custom-value policy.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/combobox.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, expanded popup state, active option, accepted selection, custom-value validation, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/combobox.png"
+    ]
+  },
+  "name": "Combobox",
+  "aliases": [
+    "combo box",
+    "editable select",
+    "select-only combobox",
+    "input with popup",
+    "filterable single select"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Search, Browse, And Discovery",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Single-value input widget with owned popup",
+  "uiGuidance": [
+    "Render a persistent label, editable or select-only value surface, popup indicator, collapsed and expanded states, option popup, active option, committed selection, clear action when supported, help text, and error text.",
+    "Keep the text value, active option, selected option ID, popup visibility, and submitted value visibly and programmatically synchronized."
+  ],
+  "uxGuidance": [
+    "Use a combobox when users need one value from a large or dynamic option set and benefit from opening a popup, typing to narrow it, or copying/editing the displayed value.",
+    "Make acceptance and cancellation explicit: moving through options should not silently commit a value, and Escape should close the popup without changing the previous accepted selection."
+  ],
+  "uiExamples": {
+    "good": [
+      "An Assignee combobox shows a label, typed text, disclosure button, active option in a listbox, selected-value status, and an error when typed text has no accepted option.",
+      "A Department field opens a list of matching departments, keeps focus in the field while the active option moves, and clearly marks the committed department."
+    ],
+    "bad": [
+      "A custom dropdown displays matching labels but never exposes expanded state, active option, or the controlled popup.",
+      "A visible assignee name changes after typing while an old hidden user ID remains selected for form submission."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user types Ada, moves the active option with Arrow Down, presses Enter to accept Ada Lovelace, then edits the label and sees the selected ID clear until a new option is accepted.",
+      "A user opens a long office list, explores several options, presses Escape, and the previously selected office remains unchanged."
+    ],
+    "bad": [
+      "The component automatically commits the first match as soon as a user types one character.",
+      "A user types a custom team name in a field that only accepts known teams and the form submits a stale previous team ID."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to choose one value from a long, dynamic, or partially known option set, but a plain select is slow to scan and a plain text input cannot expose option ownership, active movement, or a selected value contract.",
+  "solution": "Provide a labelled value field with an associated popup, explicit expanded state, active option movement, option acceptance, cancellation, validation, and a clear custom-value policy.",
+  "problemContext": [
+    "The product needs one submitted value, often with both a human-readable label and an internal option ID.",
+    "The option set is too long, dynamic, or filtered to work well as radio buttons or a simple select.",
+    "Users may know part of the value and need typing to narrow options.",
+    "Opening the popup, navigating options, accepting a value, and cancelling exploration have different meanings.",
+    "The typed string may be different from the last committed option and must not submit a stale selected ID."
+  ],
+  "selectionRules": [
+    "Choose a combobox when a single field controls a popup of allowed or suggested values.",
+    "Use it when users need to type to filter, open the popup to browse, or copy and edit the displayed value.",
+    "Use autocomplete as the behavior inside a combobox when suggestions complete what the user typed.",
+    "Use native select when the choices are few enough to browse directly and typing is unnecessary.",
+    "Use text input when any arbitrary value is valid and there is no popup or selected option to maintain.",
+    "Use multi-select or chip selection when users need more than one committed value.",
+    "Use typeahead or search suggestions when the interaction is open-ended discovery or query formulation rather than choosing one field value.",
+    "Allow custom values only when the domain accepts values outside the list, and show that policy before validation."
+  ],
+  "requiredStates": [
+    "Collapsed empty state with label, help text, and popup affordance.",
+    "Focused collapsed state with current value and selected option status.",
+    "Expanded popup state with controlled listbox, grid, tree, or dialog.",
+    "Filtered option state after typing.",
+    "Active descendant state distinct from committed selection.",
+    "Accepted option state with visible label and synchronized submitted ID.",
+    "Edited-after-selection state where the selected ID is cleared or marked unresolved.",
+    "No matching option state.",
+    "Custom value allowed state.",
+    "Custom value disallowed validation state.",
+    "Escape-cancelled state that preserves the previous accepted value.",
+    "Disabled and read-only states with readable value."
+  ],
+  "interactionContract": [
+    "The combobox element owns or controls its popup with aria-controls when the popup is available.",
+    "aria-expanded reflects whether the popup is visible.",
+    "For listbox, grid, or tree popups, DOM focus remains on the combobox while aria-activedescendant identifies the active option.",
+    "Arrow keys move the active option without breaking normal text editing.",
+    "Enter or pointer selection accepts the active option, updates the visible value, and synchronizes the submitted option ID.",
+    "Escape closes the popup without committing an explored option unless the product has a documented clearing behavior.",
+    "Typing after a committed selection clears or invalidates the selected ID until a new valid option or accepted custom value is chosen.",
+    "Validation distinguishes unresolved typed text from an accepted option and announces any required repair."
+  ],
+  "implementationChecklist": [
+    "Decide whether the combobox is editable or select-only, whether values are restricted to the list, and whether custom values are permitted.",
+    "Define the popup role, option identity, selected-value model, filtering behavior, no-result behavior, and stale-response handling before wiring the component.",
+    "Use a native select when it satisfies the job; build a custom combobox only when popup ownership, filtering, or active option behavior is required.",
+    "Give the field a visible label and ensure its accessible name is distinct from the current value.",
+    "Set aria-expanded, aria-controls, aria-autocomplete when appropriate, and aria-activedescendant for active options in listbox, grid, or tree popups.",
+    "Keep focus management compatible with standard single-line text editing keys and do not capture keys needed for cursor movement, selection, copy, paste, undo, or deletion.",
+    "Clear stale selected IDs whenever typed text diverges from the accepted option unless custom text is explicitly accepted.",
+    "Test pointer, keyboard, screen reader, touch, high zoom, forced colors, slow filtering, no results, invalid text, Escape, Enter, disabled, read-only, and form submission."
+  ],
+  "commonMisuses": [
+    "Using a custom combobox for a short list where native select, radio buttons, or segmented controls would be simpler.",
+    "Treating highlighted, active, and selected states as the same thing.",
+    "Submitting the last selected option ID after the user changes the visible text.",
+    "Moving DOM focus into popup options for an editable combobox and breaking text editing.",
+    "Forcing the first result before the user accepts it.",
+    "Leaving aria-expanded, aria-controls, or aria-activedescendant stale when the popup opens, closes, or filters.",
+    "Allowing arbitrary custom values in a domain that requires a known record."
+  ],
+  "critiqueQuestions": [
+    "Does this field need a popup-owning widget, or is the real need autocomplete behavior, select, text input, or multi-select?",
+    "Can users tell the difference between typed text, active option, and committed selected value?",
+    "What happens to the submitted ID when the user edits the visible value after selecting an option?",
+    "Can keyboard users open, move, accept, cancel, clear, and submit without losing text editing behavior?",
+    "Are custom values allowed, rejected, or accepted only after an explicit action?"
+  ],
+  "useWhen": [
+    "Users choose one value from a large, dynamic, or filterable option set.",
+    "A field must expose an associated popup and a current active option.",
+    "Users need to browse options, type to narrow them, accept one option, and cancel exploration without changing the previous value.",
+    "The product stores both a readable label and a selected option identity."
+  ],
+  "avoidWhen": [
+    "The list is short enough for native select, radio buttons, or segmented controls.",
+    "Any arbitrary text is valid and no popup-owned option is needed.",
+    "Users need to select multiple values.",
+    "The interaction is open-ended search or query suggestions rather than setting one form value.",
+    "The component cannot keep displayed text, active option, selected identity, and submitted value synchronized."
+  ],
+  "variants": [
+    "Editable combobox",
+    "Select-only combobox",
+    "Listbox popup combobox",
+    "Grid popup combobox",
+    "Tree popup combobox",
+    "Dialog popup combobox",
+    "Manual list autocomplete combobox",
+    "Automatic list autocomplete combobox",
+    "Inline autocomplete combobox",
+    "Custom-value combobox"
+  ],
+  "accessibility": [
+    "Expose the value surface with role combobox or a native control that maps correctly to combobox semantics.",
+    "Set aria-expanded to match popup visibility and aria-controls to identify the popup when it is available.",
+    "Use aria-activedescendant for the active option when DOM focus remains on an editable combobox.",
+    "Expose popup options with the correct role and selected state.",
+    "Ensure the field has a visible label, helper text, error text, and accessible name separate from the current value.",
+    "Preserve browser-provided text editing keys in editable comboboxes.",
+    "Announce no matches, invalid unresolved text, accepted selection, and custom-value policy without relying on color alone."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the combobox in the page sequence; popup options are not normally separate Tab stops for listbox, grid, or tree popups.",
+    "Down Arrow opens the popup or moves to the next available option according to the implementation.",
+    "Up Arrow may open the popup at the last option or move to the previous option.",
+    "Alt plus Down Arrow may open the popup without moving focus.",
+    "Enter accepts the active option when one is available.",
+    "Escape closes the popup and returns focus to the combobox without committing an explored option.",
+    "Printable characters type into editable comboboxes and may move focus by first character in select-only comboboxes.",
+    "Backspace, Delete, cursor movement, selection, copy, paste, undo, and redo follow normal single-line editing behavior in editable comboboxes."
+  ],
+  "failureModes": [
+    "The active option is visible but not exposed programmatically, so keyboard and screen reader users cannot perceive the same target.",
+    "aria-expanded remains false while the popup is open.",
+    "aria-activedescendant points to an option that disappeared after filtering.",
+    "The input text, selected label, hidden ID, and submitted value drift apart.",
+    "Escape closes the popup after changing the selected value.",
+    "Typing a custom value is allowed visually but rejected only after form submission without local explanation.",
+    "The component traps focus in the popup or prevents ordinary text selection and editing.",
+    "A long asynchronous result list replaces a newer query's options and commits an old option."
+  ],
+  "relatedPatterns": [
+    "autocomplete",
+    "select",
+    "text-input",
+    "multi-select",
+    "typeahead",
+    "search-suggestions",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "combobox-vs-autocomplete-vs-select-vs-text-input"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Combobox pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
+      "platform": "web",
+      "notes": "Defines the combobox widget contract, editable and select-only variants, popup roles, expanded state, active descendant behavior, Enter acceptance, Escape cancellation, and text editing cautions.",
+      "screenshot": "screenshots/patterns/combobox.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "U.S. Web Design System Combo Box",
+      "url": "https://designsystem.digital.gov/components/combo-box/",
+      "platform": "web",
+      "notes": "Describes combo box use for selecting one item from a large list, filtering options, and choosing select or radio controls for small option sets.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Combo Box",
+      "url": "https://carbondesignsystem.com/components/dropdown/usage/",
+      "platform": "web",
+      "notes": "Describes typing inside the field to find matching options, clearing text, selecting one option, and entering a custom value when permitted.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Ontario Design System Autocomplete component",
+      "url": "https://designsystem.ontario.ca/components/detail/autocomplete.html",
+      "platform": "web",
+      "notes": "Documents role combobox, aria-controls, aria-autocomplete, aria-expanded, option roles, and keyboard or mouse selection for a text field with popup suggestions.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-combobox",
+      "note": "APG defines the combobox widget, popup ownership, aria-expanded, aria-controls, active descendant, Enter acceptance, Escape cancellation, and differences from listbox and menu button patterns."
+    },
+    {
+      "id": "uswds-combo-box-component",
+      "note": "USWDS supports combo box use for selecting one item from a large option set and points to select or radio controls when choices are limited."
+    },
+    {
+      "id": "carbon-combo-box-component",
+      "note": "Carbon documents typing into a combo box field to find matching options, selecting an option, clearing text, and permitting custom values only when appropriate."
+    },
+    {
+      "id": "ontario-design-system-autocomplete",
+      "note": "Ontario guidance documents combobox role, popup connection, expanded state, autocomplete list behavior, option roles, and keyboard or mouse focus management."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

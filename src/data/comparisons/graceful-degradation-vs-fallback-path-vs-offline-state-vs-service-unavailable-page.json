@@ -1,0 +1,50 @@
+{
+  "id": "graceful-degradation-vs-fallback-path-vs-offline-state-vs-service-unavailable-page",
+  "title": "Graceful degradation vs fallback path vs offline state vs service unavailable page",
+  "summary": "Graceful degradation keeps the same task usable on the same surface when an enhancement, browser capability, script, media layer, device API, or third-party widget is missing. Fallback path moves users to a different route, offline state handles connectivity loss, and service unavailable page handles whole-service closure.",
+  "patternIds": [
+    "graceful-degradation",
+    "fallback-path",
+    "offline-state",
+    "service-unavailable-page"
+  ],
+  "decisionRules": [
+    "Use graceful degradation when the current page can still complete its core task after an enhancement layer fails, such as replacing a calendar widget with date fields, a map with a location list, or drag-and-drop with a file input.",
+    "Use fallback path when users must switch to another method, route, support channel, manual review path, or assisted service to complete the outcome.",
+    "Use offline state when the main constraint is connectivity and the experience needs cached content, local saves, sync queues, stale timestamps, reconnect behavior, or read-only mode.",
+    "Use service unavailable page when a whole service, transaction route, or entry point is closed, overloaded, under maintenance, or permanently replaced.",
+    "Graceful degradation must name the unavailable capability, keep user-entered data visible, retain the core action when possible, and avoid implying the enhanced version is required.",
+    "Progressive enhancement is the build strategy that starts from a baseline; graceful degradation is the user-visible reduced-capability state when a richer layer is missing or breaks.",
+    "Do not call a separate support route graceful degradation; once users leave the same surface for manual review, phone support, paper, or another channel, the work is a fallback path.",
+    "Do not call browser-default network failure graceful degradation; when the user loses connection, the owning pattern is offline state or a controlled offline fallback page.",
+    "Do not show a service unavailable page for one broken widget if the rest of the transaction can continue with a simpler control.",
+    "If the core task genuinely cannot be completed without the missing capability, graceful degradation must say which requirement blocks completion and give the safest saved-work or support handoff."
+  ],
+  "failureModes": [
+    "A calendar script fails and leaves a blank panel with no date fields.",
+    "A map widget fails and the location choice disappears even though a list is available.",
+    "Drag-and-drop is required for upload, so keyboard, touch, and older-browser users cannot choose files.",
+    "A Continue button stays disabled because an enhancement did not set a client-side flag, despite valid baseline form values.",
+    "The page tells users to enable JavaScript without preserving fields, explaining the blocked capability, or offering a core route.",
+    "A third-party widget outage is treated as a whole-service outage even though the transaction could continue without the widget."
+  ],
+  "sources": [
+    {
+      "id": "govuk-progressive-enhancement",
+      "note": "GOV.UK documents preserving core functionality when JavaScript, CSS, browser APIs, or third-party dependencies fail."
+    },
+    {
+      "id": "mdn-graceful-degradation",
+      "note": "MDN defines graceful degradation as retaining essential content and functionality in less capable environments."
+    },
+    {
+      "id": "mdn-progressive-enhancement",
+      "note": "MDN distinguishes progressive enhancement from graceful degradation while noting that the approaches can complement each other."
+    },
+    {
+      "id": "w3c-wcag-client-side-scripting-techniques",
+      "note": "W3C scripting guidance documents graceful script failure when client-side script is unsupported."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

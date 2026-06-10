@@ -1,0 +1,48 @@
+{
+  "id": "meter-vs-progress-bar-vs-slider-vs-spinbutton",
+  "title": "Meter vs progress bar vs slider vs spinbutton",
+  "summary": "Use a meter for a read-only scalar value inside a meaningful known range; use a progress bar for task completion, a slider for approximate user adjustment, and a spinbutton for small exact numeric input.",
+  "patternIds": [
+    "meter",
+    "progress-bar",
+    "slider",
+    "spinbutton"
+  ],
+  "decisionRules": [
+    "Choose meter when the value already exists, is read-only in this context, has a meaningful minimum and maximum, and users need to judge whether it is low, normal, high, safe, risky, full, or depleted.",
+    "Choose progress bar when the value represents completion of an active task such as upload, download, validation, processing, or import that moves toward a finish.",
+    "Choose slider when the user is choosing or adjusting one value across a range and relative thumb position is the interaction.",
+    "Choose spinbutton when the user must enter or step a small bounded numeric value such as guests, copies, seats, nights, minutes, or quantity.",
+    "Do not use meter for values without a meaningful maximum such as total users, world population, revenue to date, or all-time requests.",
+    "Do not make a meter interactive; if the user can change the value, use the input control that matches the task.",
+    "Use low, high, and optimum thresholds only when the bands have product meaning, and label those bands so color is not the only cue.",
+    "Use value text when a raw percent is not enough, such as 86 GB of 100 GB used, 50% battery and 6 hours remaining, or credit utilization in the risk zone."
+  ],
+  "failureModes": [
+    "A storage meter is used as a progress bar while files upload, so users think capacity is changing because the upload is completing.",
+    "A CPU usage meter has no maximum, threshold labels, or current units, so the bar is only decoration.",
+    "A meter is styled with a draggable thumb even though it is read-only.",
+    "A quota gauge relies on red, yellow, and green only, leaving users who cannot perceive color without threshold meaning.",
+    "A meter shows 89% risk without explaining whether high is good, bad, or neutral.",
+    "An account ID or transaction number is shown as a meter because it is numeric, even though it is not a scalar measurement."
+  ],
+  "sources": [
+    {
+      "id": "mdn-html-meter",
+      "note": "MDN defines native meter for scalar or fractional values in a known range with value, min, max, low, high, and optimum."
+    },
+    {
+      "id": "mdn-aria-meter-role",
+      "note": "MDN defines ARIA meter as a read-only range value with an accessible name and explicitly separates it from progress."
+    },
+    {
+      "id": "wai-aria-apg-meter-pattern",
+      "note": "APG defines meter semantics, no keyboard interaction, min/max/current values, useful value text, and progressbar distinction."
+    },
+    {
+      "id": "whatwg-html-meter-element",
+      "note": "The HTML Standard defines threshold and optimum constraints plus gauge-region behavior."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "breadcrumbs-vs-tabs-vs-bottom-navigation",
+  "title": "Breadcrumbs vs tabs vs bottom navigation",
+  "summary": "Use breadcrumbs for secondary hierarchy orientation, tabs for peer panels in one page context, and bottom navigation for persistent mobile access to top-level destinations.",
+  "patternIds": ["breadcrumbs", "tabs", "bottom-navigation"],
+  "decisionRules": [
+    "Prefer breadcrumbs when users may land deep in a hierarchical site and need to see or navigate to ancestor pages.",
+    "Prefer tabs when the choices are sibling content panels under the same current page and selecting one should reveal a local panel, not move up the information architecture.",
+    "Prefer bottom navigation on compact mobile screens when three to five high-frequency top-level destinations of similar importance must remain persistently reachable.",
+    "Do not use breadcrumbs to show the user's click path; the trail must represent the canonical parent-child hierarchy for the current page.",
+    "Do not use tabs as breadcrumbs: tab labels are peers, while breadcrumb items form an ordered ancestor path from broad to specific.",
+    "Do not use bottom navigation for deep hierarchy ancestors; it should expose primary destinations, not every parent page of the current item.",
+    "Do not use bottom navigation for commands such as create, edit, delete, filter, or submit; put high-priority commands in a floating action button, toolbar, or local action area.",
+    "When the same app has more destinations or a wider window, adapt bottom navigation to a navigation rail or drawer instead of cramming labels into the bottom bar.",
+    "If users are in a linear task flow, use a progress indicator or step navigation for task progress and keep any breadcrumb tied to the start page's site hierarchy."
+  ],
+  "failureModes": [
+    "Showing browser history or recent clicks as breadcrumb items.",
+    "Making the current breadcrumb look like another ancestor without aria-current or equivalent current-page text.",
+    "Using breadcrumbs on a flat site where the current location is already clear from primary navigation.",
+    "Using tabs for navigation to unrelated routes or parent sections.",
+    "Using bottom navigation and breadcrumbs as competing primary navigation systems on the same narrow mobile screen.",
+    "Adding a center create button as if it were a destination.",
+    "Letting destination switches reset scroll, drafts, filters, or nested navigation state inside each section.",
+    "Letting breadcrumb labels diverge from the destination page titles enough that users cannot predict where links go."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-breadcrumb",
+      "note": "APG defines breadcrumbs as hierarchical parent-page links in a labeled navigation landmark with current-page semantics."
+    },
+    {
+      "id": "govuk-breadcrumbs-component",
+      "note": "GOV.UK distinguishes breadcrumbs for multi-level websites from flat structures and linear journeys."
+    },
+    {
+      "id": "uswds-breadcrumb-component",
+      "note": "USWDS frames breadcrumbs as secondary navigation for current location, parent navigation, and site organization."
+    },
+    {
+      "id": "va-breadcrumbs-component",
+      "note": "VA documents deeper hierarchy use, mobile parent-link collapse, hierarchy over click path, and linear-flow constraints."
+    },
+    {
+      "id": "carbon-tabs-component",
+      "note": "Carbon ties tabs to selected content panels, which distinguishes tabs from hierarchy navigation."
+    },
+    {
+      "id": "android-navigation-ui",
+      "note": "Android navigation guidance distinguishes persistent primary navigation patterns such as bottom navigation from secondary hierarchy aids."
+    },
+    {
+      "id": "android-responsive-navigation",
+      "note": "Android responsive navigation guidance maps compact widths with few items to bottom navigation and larger widths to rails or drawers."
+    },
+    {
+      "id": "material-bottom-navigation",
+      "note": "Material documents bottom navigation as three to five primary mobile destinations, not menus or dialogs."
+    },
+    {
+      "id": "apple-hig-tab-bars",
+      "note": "Apple documents tab bars as persistent top-level app navigation that preserves each section's navigation state and must not be used for actions."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "inaccessible-custom-select-vs-select-vs-autocomplete-vs-multi-select",
+  "title": "Inaccessible custom select vs select vs autocomplete vs multi-select",
+  "summary": "Use native select for simple single-choice lists, autocomplete for searchable known values, multi-select for multiple values, and flag custom dropdowns that do not implement the full accessibility and form contract.",
+  "patternIds": ["inaccessible-custom-select", "select", "autocomplete", "multi-select"],
+  "decisionRules": [
+    "Flag inaccessible custom select when a visual dropdown lacks keyboard opening, option navigation, selected state, focus return, accessible value, or submitted form value.",
+    "Use native select when the user chooses one value from a finite known list and the platform control satisfies labeling, validation, keyboard, and mobile behavior.",
+    "Use a custom listbox-style select only when native select cannot meet a documented requirement and the component exposes label, current value, expanded state, active option, and selected option.",
+    "Use autocomplete when users need to type, filter, or complete a long known list while preserving typed input and suggestion selection rules.",
+    "Use multi-select when users can choose more than one value and need visible selected chips, removal, clear-all, filtering, and multi-value submission.",
+    "Use radio group instead of any dropdown when the list is short and visible comparison or consequence review matters.",
+    "Do not auto-submit or navigate while users arrow through select options or custom listbox options.",
+    "Do not ship a custom dropdown until pointer, keyboard, touch, screen reader, form validation, reset, and server-submission behavior all agree on the selected value."
+  ],
+  "failureModes": [
+    "A fake select updates visual text but submits an empty value.",
+    "Keyboard users cannot open the options or recover focus after closing.",
+    "Screen readers hear a generic clickable element instead of a named choice control.",
+    "A custom dropdown is reused for autocomplete without typed filtering semantics.",
+    "A single-select popup is used for multiple choices but closes after every selection and hides selected values.",
+    "Options are clipped by overflow or portals and cannot be reached at zoom or mobile widths."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG listbox guidance documents keyboard, labeling, selected state, and option behavior for custom listbox-style choices."
+    },
+    {
+      "id": "govuk-select-component",
+      "note": "GOV.UK documents native select labels, hints, errors, selected values, and long-list caution."
+    },
+    {
+      "id": "uswds-select-component",
+      "note": "USWDS documents select use, radio alternatives for short lists, combo-box alternatives for long lists, and no auto-submit."
+    },
+    {
+      "id": "ontario-design-system-autocomplete",
+      "note": "Ontario documents autocomplete with combobox semantics, filtering, keyboard behavior, and known-value selection."
+    },
+    {
+      "id": "carbon-dropdown-multiselect",
+      "note": "Carbon documents multiselect dropdowns with selected tags, removal, filtering, and multiple selection modes."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

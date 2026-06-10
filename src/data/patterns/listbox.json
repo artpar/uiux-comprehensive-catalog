@@ -1,0 +1,231 @@
+{
+  "id": "listbox",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a standalone visible option-list widget with source-backed listbox semantics, single-select and multi-select boundaries, focus-versus-selection behavior, typeahead, Home and End movement, grouped-option constraints, option naming guidance, and distinctions from select, combobox, multi-select, checkbox group, radio group, and command palette.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a visible listbox container, option roles, active focus, selected state, aria-activedescendant, selection-follows-focus tradeoffs, typeahead, Home and End movement, grouped options, disabled or read-only states, long repeated-name hazards, and no nested interactive controls inside options.",
+    "relatedPatternDistinction": "The entry separates listbox from select by keeping options visible instead of collapsed, from combobox by not being owned by a text field or popup trigger, from multi-select by treating several selections as a variant with stricter state exposure, from checkbox and radio groups by using roving option focus, and from command palette by choosing values rather than running commands.",
+    "liveDemoBehavior": "The live demo moves an active option independently from the selected option, supports selection-follows-focus as a visible policy toggle, jumps with Home and End, performs typeahead to Support, selects the active option, validates required selection, and contrasts nested actions, repeated prefixes, and stale focus failures.",
+    "comparisonDecisionRules": "The linked listbox-vs-select-vs-combobox-vs-multi-select comparison gives concrete rules for visible option lists, native closed choice, field-owned popups, selected-set review, interactive row content, typeahead, focus versus selection, long option names, and single versus multiple selection state.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/listbox.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, visible option list, active option, selected option, focus-versus-selection behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/listbox.png"
+    ]
+  },
+  "name": "Listbox",
+  "aliases": [
+    "selection list",
+    "option list",
+    "standalone listbox",
+    "single-select listbox",
+    "multi-select listbox"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Visible selectable option list",
+  "uiGuidance": [
+    "Render a labelled listbox container, visible options, active option styling, selected option state, optional grouped labels, empty or disabled states, and nearby help or error text.",
+    "Keep option content concise and non-interactive; use separate controls outside the listbox for actions such as edit, remove, move, select all, or clear."
+  ],
+  "uxGuidance": [
+    "Use a listbox when users benefit from seeing the available options while moving focus through the list and selecting one or more static values.",
+    "Make the selection model explicit because focus, active option, and selected option may be different states."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Role listbox has a visible label, five role options, one active row, one selected row, concise option names, and a status line explaining whether focus or selection changed.",
+      "A grouped city listbox uses group labels for countries and short city option names instead of repeating the country in every option."
+    ],
+    "bad": [
+      "Each option row contains nested Edit and Delete buttons, making the listbox a broken table of actions.",
+      "Every option starts with the same long prefix such as United Kingdom office location, forcing users to listen through repeated text."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user arrows from Analyst to Support, hears the active option change, then presses Select active option to commit Support.",
+      "A user turns on selection-follows-focus for a low-risk preview list and sees that moving focus now updates the selected value immediately."
+    ],
+    "bad": [
+      "A high-stakes role assignment saves as soon as focus moves while the user is only exploring options.",
+      "A user tries to activate a Delete button inside an option, but assistive technology exposes the row only as one option string."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to choose from a visible set of static options, but collapsed selects hide comparison and generic clickable lists do not expose focus, option count, or selected state.",
+  "solution": "Provide a labelled listbox with option roles, managed active focus, selected state, keyboard navigation, optional typeahead, clear selection policy, and no nested interactive controls inside options.",
+  "problemContext": [
+    "The available values should remain visible while users choose.",
+    "Options are static enough to be represented as selectable choices rather than interactive row content.",
+    "Users need keyboard movement through options and a perceivable selected state.",
+    "The list may be long enough for typeahead, scrolling, Home and End, or grouping.",
+    "The product must decide whether moving focus only previews an option or also selects it."
+  ],
+  "selectionRules": [
+    "Choose a listbox when options should remain visible and users select one or more values from the list itself.",
+    "Use a native select when a compact closed single-choice control is sufficient.",
+    "Use a combobox when the list is a popup controlled by an input or button and the field value owns the interaction.",
+    "Use radio buttons or checkbox groups when the set is short and normal form controls communicate the job with less custom keyboard work.",
+    "Use multi-select when the product pattern is a compact searchable picker with selected chips or a selected-set review surface.",
+    "Use a grid, table, menu, or separate action toolbar when rows need buttons, links, checkboxes, toggles, or editable controls.",
+    "Keep option names short and move repeated category context into group labels or separate controls.",
+    "Make selection-follows-focus opt-in for low-risk preview contexts and avoid it for destructive, expensive, or externally visible changes."
+  ],
+  "requiredStates": [
+    "Empty or initial state with visible label and at least one option.",
+    "Focused listbox state.",
+    "Active option state distinct from selected state.",
+    "Selected option state.",
+    "Selection-follows-focus enabled or disabled policy state.",
+    "Typeahead matched option state.",
+    "First option and last option states for Home and End movement.",
+    "Disabled option state.",
+    "Read-only listbox state.",
+    "Required no-selection validation state.",
+    "Grouped options state when categories are present.",
+    "Scrollable long-list state with preserved active visibility."
+  ],
+  "interactionContract": [
+    "The listbox has a visible label or accessible name and contains or owns every option.",
+    "Each selectable option exposes one selected state using aria-selected or aria-checked consistently.",
+    "Active focus is represented by DOM focus on an option or by aria-activedescendant on the listbox.",
+    "Arrow keys move the active option; Home and End move to list boundaries when supported.",
+    "Typeahead moves focus to the next option whose name starts with the typed character sequence.",
+    "Single-select listboxes select at most one option; multi-select listboxes set aria-multiselectable and expose state on every selectable option.",
+    "Moving focus changes selection only when the interaction model explicitly uses selection-follows-focus.",
+    "Options are not containers for independent interactive controls."
+  ],
+  "implementationChecklist": [
+    "Confirm that users need a visible custom option list instead of native select, radio buttons, checkbox groups, combobox, or multi-select picker.",
+    "Choose single-select or multi-select and document whether selection follows focus.",
+    "Use role listbox on the container and role option on each option, or use a native control that exposes equivalent semantics.",
+    "Give the listbox a visible label with aria-labelledby or an accessible name with aria-label.",
+    "Use aria-activedescendant or roving DOM focus consistently and keep the active option in view.",
+    "Expose aria-selected or aria-checked consistently, and set aria-multiselectable for multi-select lists.",
+    "Implement Arrow keys, Home, End, typeahead, Space or Enter selection, required validation, disabled options, and read-only state.",
+    "Move interactive row actions outside the listbox or choose a grid or table pattern.",
+    "Test keyboard, screen reader, touch, high zoom, forced colors, long option names, repeated prefixes, grouping, scrolling, and dynamic option updates."
+  ],
+  "commonMisuses": [
+    "Using listbox when native select, radio buttons, or checkboxes would do the job with less risk.",
+    "Putting buttons, links, checkboxes, toggles, menus, or form fields inside options.",
+    "Treating focus and selection as identical without deciding whether selection follows focus.",
+    "Using long repeated option labels that hide the distinguishing words.",
+    "Leaving aria-activedescendant pointing to a removed or hidden option.",
+    "Failing to expose unselected state in a multi-select listbox.",
+    "Using a listbox as a command menu where options trigger actions instead of setting a value."
+  ],
+  "critiqueQuestions": [
+    "Do users need the options visible all the time, or is this really a select or combobox?",
+    "Is focus movement separate from selection, and is that policy visible in the UI?",
+    "Are all option names short enough to be understood as one spoken string?",
+    "Do any options contain interactive controls that require a grid, table, menu, or toolbar instead?",
+    "Can keyboard users reach the first option, last option, a typed prefix, disabled options, and validation errors predictably?"
+  ],
+  "useWhen": [
+    "Users choose one option from a visible static list.",
+    "A visible option list supports scanning, preview, or frequent switching better than a collapsed select.",
+    "The list is long enough to benefit from roving focus, typeahead, grouping, or scrolling.",
+    "The product needs a custom listbox because native controls cannot provide the required visible layout."
+  ],
+  "avoidWhen": [
+    "A native select, radio group, or checkbox group can satisfy the interaction.",
+    "The list is a popup controlled by a text field or button.",
+    "Rows need independent buttons, links, menus, checkboxes, or editable fields.",
+    "Options are too long, repeated, or semantically rich to work as a single option name.",
+    "The selection has high-stakes side effects and the design cannot separate focus from committed selection."
+  ],
+  "variants": [
+    "Single-select listbox",
+    "Multi-select listbox",
+    "Scrollable listbox",
+    "Grouped listbox",
+    "Reorderable listbox",
+    "Horizontal listbox",
+    "Listbox with selection follows focus",
+    "Listbox with aria-activedescendant",
+    "Listbox with roving tabindex"
+  ],
+  "accessibility": [
+    "Use role listbox on the container and role option on every selectable item.",
+    "Provide a visible label and connect it with aria-labelledby when possible.",
+    "Use aria-selected or aria-checked consistently; avoid exposing both unless the two states mean different user-visible things.",
+    "Set aria-multiselectable true for multiple selection and expose state on every selectable option.",
+    "Use aria-activedescendant only when the referenced active option exists and is owned by the listbox.",
+    "Do not place interactive descendants inside options because assistive technology treats option content as one name.",
+    "Keep option names concise and move repeated context into labels, groups, or separate controls.",
+    "Expose disabled, read-only, required, invalid, grouped, and scrolled states without relying on color alone."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the listbox or selected option.",
+    "Down Arrow moves focus to the next option.",
+    "Up Arrow moves focus to the previous option.",
+    "Home moves focus to the first option when supported.",
+    "End moves focus to the last option when supported.",
+    "Typing one or more characters moves focus to the next option whose name starts with the typed string.",
+    "Enter or Space selects the active option when selection does not automatically follow focus.",
+    "In multi-select listboxes, Space toggles the focused option and optional Shift or Control shortcuts extend or preserve selection according to the chosen model.",
+    "Escape should not clear committed selection unless the surrounding workflow explicitly defines that behavior."
+  ],
+  "failureModes": [
+    "Screen readers announce only a long flattened option string because semantic headings or controls were placed inside the option.",
+    "Keyboard users cannot tell whether the focused option or selected option will be submitted.",
+    "Selection follows focus in a context where moving through options commits expensive or externally visible changes.",
+    "Options scroll out of view while aria-activedescendant still references them.",
+    "A multi-select listbox omits aria-multiselectable or leaves unselected options without exposed state.",
+    "Repeated prefixes make typeahead and screen reader navigation inefficient.",
+    "Disabled options look unavailable visually but can still be selected by keyboard.",
+    "The listbox is used for commands, navigation links, or row actions rather than option selection."
+  ],
+  "relatedPatterns": [
+    "select",
+    "combobox",
+    "multi-select",
+    "checkbox-group",
+    "radio-group",
+    "command-palette",
+    "inaccessible-custom-select"
+  ],
+  "comparisons": [
+    "listbox-vs-select-vs-combobox-vs-multi-select"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Listbox pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/",
+      "platform": "web",
+      "notes": "Defines listbox option semantics, focus and selection models, typeahead, Home and End, grouped options, multiple selection, aria-activedescendant, and restrictions on interactive content inside options.",
+      "screenshot": "screenshots/patterns/listbox.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN ARIA listbox role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/listbox_role",
+      "platform": "web",
+      "notes": "Documents listbox roles, option state, labels, aria-activedescendant, aria-multiselectable, required and read-only state, native alternatives, and keyboard behavior.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG defines listbox as a visible selectable option list, with single and multi-select behavior, focus versus selection, typeahead, Home and End, grouped options, selection state, and nested-interactive-content limits."
+    },
+    {
+      "id": "mdn-aria-listbox-role",
+      "note": "MDN documents the listbox role, option requirements, aria-selected, aria-activedescendant, aria-multiselectable, required and read-only states, native alternatives, and keyboard behavior."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

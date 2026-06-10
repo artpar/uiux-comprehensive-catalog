@@ -1,0 +1,276 @@
+{
+  "id": "payment-card-entry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a secure payment-card capture pattern with source-backed guidance for card number, expiry, CVC or CID, billing postal code, cardholder name, brand detection, variable length handling, hosted-field capture, tokenized review, wallet fallback, card-specific errors, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers payment-card PAN capture, expiry month and year, CVC or CID, billing postal code, cardholder name, autocomplete tokens, card brand detection, Luhn and expiry checks, CVC length by brand, supported-brand rules, processor tokenization, wallet alternatives, authentication and decline states, masked review, and retention limits for CVC and full card number.",
+    "relatedPatternDistinction": "The entry separates payment card entry from bank details by collecting card-network credentials instead of account-routing identifiers, from input mask by using grouping only as one field behavior, from date input by treating expiry as month and year rather than a full date, and from review before submit by owning secure capture before masked confirmation.",
+    "liveDemoBehavior": "The rendered exercise formats pasted card numbers, detects Visa and American Express, validates Luhn, expiry, CVC length, and postal code, shows tokenized and wallet states, reviews only brand and last four digits, and contrasts a broken full-card textarea that stores PAN and CVC.",
+    "comparisonDecisionRules": "The linked payment-card-entry-vs-bank-details-vs-input-mask-vs-review-before-submit comparison gives concrete rules for card capture, account identifiers, formatting masks, final review, hosted fields, transient CVC handling, card validation, wallet fallback, authentication, decline recovery, and masked card summaries.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/payment-card-entry.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, card number grouping, brand detection, Luhn and expiry errors, CVC length behavior, postal-code validation, tokenized or wallet state, masked review, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/payment-card-entry.png"
+    ]
+  },
+  "name": "Payment card entry",
+  "aliases": [
+    "credit card form",
+    "debit card form",
+    "card payment form",
+    "card details entry",
+    "card number entry",
+    "checkout card form",
+    "secure card capture",
+    "hosted card fields"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Secure card payment capture and verification form",
+  "uiGuidance": [
+    "Render card entry as a secure grouped checkout surface with processor-hosted or payment-element fields for card number, expiry, CVC or CID, billing postal code when required, clear labels, card brand feedback, field errors, wallet options, and a masked review summary.",
+    "Use card-specific autocomplete tokens, input modes, readable grouping, brand marks, and stable helper text without making placeholders the only instruction or showing raw card details after tokenization."
+  ],
+  "uxGuidance": [
+    "Use payment card entry when a user needs to pay with a card or add a card-on-file payment method and the product can protect cardholder data through a payment processor or compliant card-data environment.",
+    "Help users complete the payment by tolerating paste and autofill, detecting supported brands, explaining field and processor errors, offering wallet or authentication recovery paths, and showing only masked card details before charging."
+  ],
+  "uiExamples": {
+    "good": [
+      "A checkout uses hosted fields for Card number, Expiry, CVC, and ZIP code; it detects Visa, accepts pasted spaces, validates expiry, tokenizes the card, and reviews Visa ending 4242 before charge.",
+      "A card-on-file setup offers a wallet button and manual card fields; after tokenization the saved payment method shows brand, last four digits, expiry, and billing ZIP, never the CVC."
+    ],
+    "bad": [
+      "A page asks users to paste card number, expiry, CVC, and billing address into one notes field.",
+      "A review page shows the full card number and CVC so the user can check them before payment."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pastes 4242 4242 4242 4242, sees Visa detected, enters 12/30 and 123, tokenizes the card, and reviews Visa ending 4242 before paying.",
+      "A user enters an American Express card and the form expects a four-digit CID while keeping the card number grouping and last-four review accurate."
+    ],
+    "bad": [
+      "A user enters an expired card and receives only Payment failed after submit with no field-level route back to expiry.",
+      "A user cannot pay because the wallet button is the only available path and their browser does not support that wallet."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Card payment details are high-risk, easy to mistype, brand-specific, and regulated, so ordinary text fields or unsafe review screens can cause failed payments, fraud exposure, and card-data leakage.",
+  "solution": "Collect card details through secure hosted or processor-owned fields, format and validate card-specific parts, support paste, autofill, wallets, authentication and decline recovery, tokenize before review, and show only masked card details once captured.",
+  "problemContext": [
+    "The user is paying by card, adding a card for later use, replacing a card-on-file method, or confirming a card payment at checkout.",
+    "The form may need card number, cardholder name, expiry month and year, CVC or CID, billing ZIP or postal code, billing country, wallet selection, supported brand detection, and authentication outcomes.",
+    "Users copy from physical cards, wallet apps, password managers, browser autofill, or bank apps and may paste spaces, hyphens, or cardholder names in different case.",
+    "Card brands and payment processors can impose different number lengths, CVC lengths, supported brands, billing address needs, authentication requirements, and decline responses.",
+    "Cardholder data and sensitive authentication data require careful scope control, redaction, logging discipline, and clear retention limits."
+  ],
+  "selectionRules": [
+    "Choose payment card entry when the task is to charge a card, verify a card, save a card payment method, or replace a card-on-file credential.",
+    "Use hosted fields, payment elements, or processor-controlled components for PAN and CVC whenever the product does not intentionally own full card-data processing.",
+    "Ask for card number, expiry, and CVC or CID only when needed by the payment flow, and ask for cardholder name or billing postal code when processor, fraud, AVS, tax, or receipt requirements need them.",
+    "Support browser autofill with cc-name, cc-number, cc-exp or month and year tokens, cc-csc, cc-type when exposed, postal-code, transaction-currency, and transaction-amount as appropriate.",
+    "Accept pasted card numbers with spaces or hyphens, then group them for readability without changing the canonical digits.",
+    "Detect card brand and supported brand state from the entered number, but do not use a brand icon as the only validation feedback.",
+    "Validate Luhn or processor-equivalent card number rules, supported length, expiry not in the past, CVC or CID length, and billing postal code before charging.",
+    "Handle unsupported brand, invalid field, requires authentication, declined, processing, tokenized, saved, and succeeded states as distinct user-facing outcomes.",
+    "Offer wallet, Link-style, or payment-request options where available, while keeping manual card entry or another accessible fallback.",
+    "After tokenization or authorization, show only brand, last four digits, expiry when safe, billing postal code, and payment method status on review and receipts.",
+    "Do not store, log, echo, email, chat, screenshot, or analytics-track full card numbers or CVC values.",
+    "Do not treat a card-number mask, expiry date field, or review page as a substitute for secure card capture."
+  ],
+  "requiredStates": [
+    "Initial secure checkout state with amount, accepted card brands, wallet option, card number, expiry, CVC or CID, and billing postal code if required.",
+    "Focused entry state with persistent labels, autocomplete purpose, and helper text that survives placeholder disappearance.",
+    "Pasted card number state where spaces and hyphens are accepted and grouped for review.",
+    "Brand detected state showing supported brand and expected CVC or CID length.",
+    "Unsupported brand state with a clear alternate payment path.",
+    "Invalid card number state with checksum or length correction guidance.",
+    "Expired or impossible expiry state using month and year guidance rather than a full date picker.",
+    "CVC or CID error state that respects three- and four-digit brand differences.",
+    "Billing postal code required or invalid state where processor or country rules require it.",
+    "Tokenized state where raw PAN and CVC are no longer displayed or retained by the app.",
+    "Wallet selected state with network-token or processor-token summary and manual fallback still available.",
+    "Requires authentication, declined, processing, succeeded, and retry states after payment submission.",
+    "Masked review state with brand, last four digits, expiry, amount, billing context, and explicit charge action."
+  ],
+  "interactionContract": [
+    "Users can type, paste, autofill, delete, select, and correct card number, expiry, CVC, and postal code fields without losing entered values.",
+    "Card number grouping helps readability but the canonical value is the digit sequence passed to the processor-hosted field or tokenization call.",
+    "Brand feedback updates as enough digits are entered and changes CVC or CID expectations only when the brand is known.",
+    "Submitting incomplete or invalid details keeps the entered safe-to-display values visible and focuses the first actionable error.",
+    "Processor and wallet states are represented explicitly instead of hidden behind one catch-all payment error.",
+    "Tokenized and saved-card states never redisplay the full PAN or CVC, and later screens cannot recover CVC from the UI.",
+    "A final charge action uses masked card details and amount so users can detect the wrong card before payment."
+  ],
+  "implementationChecklist": [
+    "Select the payment processor, hosted-field or payment-element integration, supported brands, card-on-file rules, wallet support, authentication requirements, billing data, and PCI scope before designing the checkout.",
+    "Use native labels, autocomplete tokens, inputmode values, aria-describedby hints, field-specific errors, and processor-provided accessible states for hosted iframes or embedded elements.",
+    "Normalize paste and display grouping while preserving leading digits and never copying raw PAN or CVC into app-managed state beyond what the processor component requires.",
+    "Implement brand detection, supported-brand decisions, expiry validation, CVC or CID length checks, postal-code requirements, and processor decline or authentication recovery as separate states.",
+    "Redact card details from logs, analytics, replay tools, support transcripts, screenshots, error payloads, local storage, and review pages.",
+    "Show masked review details and amount before charge, and keep receipts or saved methods limited to brand, last four digits, expiry, and billing details that are safe to display.",
+    "Test paste, autofill, mobile keyboards, saved cards, wallets, unsupported brands, American Express CID, variable-length card numbers, expired card, declined card, required authentication, network failure, retry, browser Back, zoom, screen readers, and high contrast."
+  ],
+  "commonMisuses": [
+    "Using one multiline field for card number, expiry, CVC, and billing details.",
+    "Collecting card details through ordinary app-owned inputs when hosted fields or a payment element are required by the intended compliance model.",
+    "Assuming every card number has sixteen digits or every security code has three digits.",
+    "Displaying or storing CVC after authorization.",
+    "Showing a full card number on review, receipt, admin screens, or support tools.",
+    "Blocking paste, autofill, or password-manager card filling.",
+    "Using a wallet button as the only payment path.",
+    "Reporting every card-entry, authentication, decline, or network issue as Payment failed.",
+    "Saving card details before the user has seen a masked review and explicit save or charge action."
+  ],
+  "critiqueQuestions": [
+    "Which processor or hosted component owns PAN and CVC collection?",
+    "Which card brands, number lengths, CVC lengths, billing data, wallets, and authentication paths are supported?",
+    "Can users paste or autofill card details without breaking grouping, validation, or browser security controls?",
+    "How does the UI distinguish invalid fields, unsupported brand, expired card, requires authentication, declined, processing, tokenized, and succeeded states?",
+    "Where could raw PAN or CVC appear in logs, analytics, screenshots, support tools, browser storage, or review pages?",
+    "What exact masked details are shown before charge so users can recognize the card without exposing sensitive data?"
+  ],
+  "useWhen": [
+    "Users need to pay with a credit, debit, prepaid, or network card.",
+    "The product needs to add or update a card-on-file payment method.",
+    "The payment provider supports hosted fields, payment elements, tokenization, or wallet flows that fit the service.",
+    "Users need field-specific recovery before a charge, save, authentication step, or decline retry."
+  ],
+  "avoidWhen": [
+    "The task is to collect bank account identifiers for payout, ACH, direct debit, open banking, or bank transfer.",
+    "The product cannot protect cardholder data or integrate with a compliant processor-owned capture path.",
+    "A wallet, redirect, invoice, purchase order, bank debit, or saved payment method is the required payment route instead of manual card entry.",
+    "The service only needs a non-payment identifier, reference, or billing contact detail.",
+    "The organization cannot prevent raw PAN or CVC from entering logs, analytics, support tools, browser storage, or downstream systems."
+  ],
+  "variants": [
+    "Single-line card element",
+    "Split hosted card fields",
+    "Cardholder name field",
+    "Billing ZIP or postal-code field",
+    "Brand-detected card number",
+    "American Express CID handling",
+    "Variable-length card number",
+    "Wallet or payment request fallback",
+    "Card-on-file setup",
+    "Saved card replacement",
+    "Requires authentication recovery",
+    "Masked card review"
+  ],
+  "accessibility": [
+    "Use visible labels for card number, expiry, CVC or CID, cardholder name, and billing postal code; do not rely on placeholder examples alone.",
+    "Expose input purpose with autocomplete tokens and keep helper text connected to inputs or hosted-field containers.",
+    "Ensure hosted iframes or embedded payment components have focus indicators, names, errors, and screen reader behavior equivalent to native fields.",
+    "Announce brand detection and validation outcomes without interrupting every digit entry.",
+    "Provide text labels for brand, unsupported card, tokenized, wallet, authentication, declined, and processing states rather than relying only on icons or color.",
+    "Move focus to the first field error or error summary on submit while preserving entered values.",
+    "Keep wallet buttons, manual card entry, authentication retry, and alternate payment paths reachable by keyboard."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows wallet option if present, card number, expiry, CVC or CID, billing postal code, optional cardholder name, review, and charge action.",
+    "Typing, deletion, selection, paste, undo, and redo remain as close to native field behavior as the hosted component allows.",
+    "Separators in card number or expiry display do not become separate focus targets.",
+    "Submit with invalid details moves focus to the first actionable error and does not clear safe-to-display values.",
+    "Authentication, wallet confirmation, retry, change card, and cancel paths are keyboard reachable.",
+    "Browser Back and saved checkout sessions restore tokenized or editable states according to security policy without redisplaying CVC."
+  ],
+  "failureModes": [
+    "Full card details leak into application state, logs, analytics, replay tools, screenshots, or support transcripts.",
+    "A valid variable-length card is rejected because the form hard-codes one length.",
+    "American Express CID is rejected because the CVC field only allows three digits.",
+    "A pasted card number with spaces or hyphens fails even though the digits are valid.",
+    "An expired card or invalid CVC is reported only after a charge attempt with no field-level guidance.",
+    "Unsupported card brand is detected only after the user completes every field.",
+    "Wallet selection fails and there is no manual card-entry fallback.",
+    "A review page displays full PAN or CVC, or masks so much that users cannot recognize the card.",
+    "A saved card is used for a later charge without an explicit masked review or current authorization path where required."
+  ],
+  "relatedPatterns": [
+    "bank-details",
+    "input-mask",
+    "inline-validation",
+    "error-summary",
+    "review-before-submit",
+    "text-input",
+    "date-input"
+  ],
+  "comparisons": [
+    "payment-card-entry-vs-bank-details-vs-input-mask-vs-review-before-submit"
+  ],
+  "examples": [
+    {
+      "product": "Stripe Payment Element card test flow",
+      "url": "https://docs.stripe.com/payments/accept-a-payment?api-integration=paymentintents&payment-ui=elements",
+      "platform": "web",
+      "notes": "Documents card test entry with future expiry, CVC, postal code, success, authentication, declined card, and variable-length card scenarios.",
+      "screenshot": "screenshots/patterns/payment-card-entry.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Adyen Card Component",
+      "url": "https://docs.adyen.com/payment-methods/cards/web-component/",
+      "platform": "web",
+      "notes": "Documents configurable cardholder name, billing postal code, brand recognition, CVC masking, expiry limits, field validity, brand, and invalid field events.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Braintree Hosted Fields",
+      "url": "https://developer.paypal.com/braintree/docs/guides/hosted-fields/overview/javascript/v3/",
+      "platform": "web",
+      "notes": "Documents externally hosted card number, CVV, expiration date, and postal code fields for styled checkout pages with SAQ A eligibility.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "PCI DSS payment card data guidance",
+      "url": "https://www.pcisecuritystandards.org/standards/pci-dss/",
+      "platform": "web",
+      "notes": "Documents PCI DSS scope for entities that store, process, or transmit cardholder data or sensitive authentication data.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN payment-card autocomplete tokens",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete",
+      "platform": "web",
+      "notes": "Documents cc-name, cc-number, cc-exp, cc-csc, cc-type, transaction amount, and transaction currency tokens for card forms.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "stripe-payment-element-card-details",
+      "note": "Stripe supports card entry states for future expiry, CVC, postal code, successful payment, authentication, declined payment, and variable-length cards."
+    },
+    {
+      "id": "adyen-card-component",
+      "note": "Adyen supports card brand recognition, holder name, billing postal code, CVC display control, expiry rules, accessible error configuration, and field-level events."
+    },
+    {
+      "id": "braintree-hosted-fields",
+      "note": "Braintree supports hosted card number, CVV, expiration date, and postal code fields for custom-styled checkout pages."
+    },
+    {
+      "id": "pci-dss-payment-card-data",
+      "note": "PCI DSS supports strict treatment for environments that store, process, or transmit payment card account data."
+    },
+    {
+      "id": "pci-card-data-storage-faq",
+      "note": "PCI SSC supports limiting stored cardholder data and not storing card verification codes after authorization."
+    },
+    {
+      "id": "mdn-html-autocomplete-payment-card",
+      "note": "MDN supports payment-card autocomplete tokens and input-purpose identification for card data."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

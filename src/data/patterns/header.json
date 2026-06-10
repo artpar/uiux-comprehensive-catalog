@@ -1,0 +1,228 @@
+{
+  "id": "header",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a current-view header/top app bar pattern with source-backed title, navigation affordance, contextual action, overflow, scroll, comparison, duplicate audit, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers current screen title, back or menu affordance, view-level primary actions, secondary overflow, contextual selection mode, sticky or collapsing behavior, and title-action consistency across route changes.",
+    "relatedPatternDistinction": "The entry separates a header/top app bar from global navigation by current-view commands versus top-level destinations, from bottom navigation by title/action orientation versus mobile destination switching, and from tabs by view actions versus sibling panels.",
+    "liveDemoBehavior": "The live demo changes the current top app bar view, opens and closes overflow, toggles a contextual selection bar, and contrasts a bad bar whose title and action targets drift from the displayed content.",
+    "comparisonDecisionRules": "The linked header-vs-global-navigation-vs-bottom-navigation comparison gives concrete rules for view-level title/actions, global destination navigation, bottom mobile destination switching, contextual bars, overflow, and scroll behavior.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/header.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, overflow behavior, contextual selection mode, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/header.png"
+    ]
+  },
+  "name": "Header / top app bar",
+  "aliases": [
+    "top app bar",
+    "app header",
+    "navigation bar",
+    "toolbar",
+    "top toolbar",
+    "application bar"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Current-view top bar with title, navigation affordance, actions, and overflow",
+  "uiGuidance": [
+    "Render a top surface that clearly identifies the current view, provides one leading navigation affordance when needed, exposes a small number of view-level actions, and groups secondary actions behind a labeled overflow control.",
+    "Keep title, leading control, primary action, overflow, and scroll behavior stable enough that users can predict what the bar controls on every screen."
+  ],
+  "uxGuidance": [
+    "Use the header/top app bar to orient users inside the current view and make the most important safe commands reachable without confusing them with global destinations.",
+    "When selection, search, or editing changes the command set, switch to an explicit contextual bar and provide a clear way back to the normal title/actions."
+  ],
+  "uiExamples": {
+    "good": [
+      "A project detail screen shows Back, Project Apollo, Search, Share, and a More menu for secondary commands.",
+      "Selecting rows changes the bar to 3 selected with Archive, Move, and Clear selection actions.",
+      "On scroll, a large title collapses to a compact title while the back affordance and critical action remain reachable."
+    ],
+    "bad": [
+      "A header shows the app brand, five section links, account settings, export, delete, help, and sign out in one row.",
+      "The title says Reports while the content is Billing and the primary action still exports the previous screen.",
+      "The overflow menu contains the only way to save or recover, but the More icon has no label or predictable grouping."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users switch from Details to Files and the title and primary action change together from Share to Upload.",
+      "Opening More reveals secondary view commands without hiding the current title or back affordance.",
+      "Entering selection mode changes the bar label and actions, then Clear selection restores the original view bar."
+    ],
+    "bad": [
+      "The same Save icon appears in the header on screens where it saves, exports, or opens settings.",
+      "A scroll-collapsing header hides the back control and leaves users trapped deep in a hierarchy.",
+      "A toolbar is used as primary app navigation, so users cannot tell whether buttons are destinations or actions."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to know which screen or view they are in and need fast access to the few navigation and action controls that apply to that current view.",
+  "solution": "Place a consistent top bar above the content that names the current view, gives the correct leading navigation affordance, exposes the highest-priority current-view actions, and moves secondary commands into an accessible overflow.",
+  "problemContext": [
+    "The product has deep screens where brand-level navigation alone does not explain the current view.",
+    "Users need a small set of actions that act on the current view or selected content.",
+    "The same app shell may need normal, search, selection, edit, and narrow-width header states."
+  ],
+  "selectionRules": [
+    "Choose a header/top app bar when each screen needs a current title plus view-level actions such as search, share, edit, save, or overflow.",
+    "Use a leading back, close, menu, or drawer button only when that affordance matches the current navigation structure and will behave consistently.",
+    "Limit visible actions to the most frequent, safe, and screen-specific commands; move lower-priority commands to overflow.",
+    "Use a contextual top app bar when selection or editing changes the available command set for the current content.",
+    "Keep global section links, account utilities, and site-wide navigation visually separate unless the design system explicitly defines a combined shell header.",
+    "Use tabs, segmented controls, side navigation, or global navigation instead when the main job is switching destinations or sibling content rather than acting on the current view."
+  ],
+  "requiredStates": [
+    "Default state with current view title and correct leading affordance.",
+    "Primary action state with one to three visible current-view commands.",
+    "Overflow open state with secondary commands grouped and keyboard reachable.",
+    "Contextual selection or edit state with changed title and changed command set.",
+    "Narrow viewport state where actions collapse without losing critical navigation.",
+    "Scrolled, sticky, or collapsed state that preserves orientation and recovery."
+  ],
+  "interactionContract": [
+    "The title in the bar must match the rendered content or current route.",
+    "The leading affordance must have one predictable meaning within the current navigation level.",
+    "Visible actions must operate on the current view or current selection, not a previous screen.",
+    "Overflow opens a menu of secondary commands, returns focus to its trigger when closed, and does not hide critical recovery.",
+    "Entering contextual mode changes the bar label and actions; leaving contextual mode restores the previous title and actions.",
+    "If the bar sticks, collapses, or scrolls away, users still have an obvious way to identify the view and recover navigation."
+  ],
+  "implementationChecklist": [
+    "Derive the title and leading affordance from route or navigation state rather than static header copy.",
+    "Inventory view-level commands and rank them before deciding which actions are visible versus overflowed.",
+    "Give icon-only actions accessible names and visible labels where the meaning is not universally obvious.",
+    "Implement overflow as a keyboard-accessible menu with Escape dismissal and focus return.",
+    "Define responsive rules for which actions collapse, which remain visible, and how contextual mode behaves.",
+    "Test route changes, scroll collapse, selection mode, and narrow widths for title/action synchronization.",
+    "Keep account, help, product switcher, and global destinations outside the current-view action group."
+  ],
+  "commonMisuses": [
+    "Using the top app bar as a dumping ground for every global destination and account utility.",
+    "Showing stale titles or actions after route changes.",
+    "Putting destructive or rare commands as unlabeled visible icons.",
+    "Changing the meaning of the leading icon between back, menu, and close without clear context.",
+    "Hiding save, cancel, back, or recovery actions in overflow when they are essential to the current task.",
+    "Duplicating the same destinations in a global nav row, top app bar, and bottom navigation."
+  ],
+  "critiqueQuestions": [
+    "Does the title in the bar exactly match the current screen or selected mode?",
+    "Which visible actions are truly frequent and specific to this view?",
+    "Can users predict what the leading icon will do before activating it?",
+    "What happens to title and actions when content scrolls, selection mode starts, or the viewport narrows?",
+    "Are global destinations and account utilities separated from current-view commands?"
+  ],
+  "useWhen": [
+    "A screen needs a current title plus back, close, menu, search, save, share, edit, or overflow actions.",
+    "The product has deep or hierarchical views where users need local orientation inside the app shell.",
+    "Selection, search, or edit mode changes the relevant command set for the current content."
+  ],
+  "avoidWhen": [
+    "The interface only needs top-level destination switching and no current-view actions.",
+    "The page is a public document where a simple site header and page heading are enough.",
+    "The command set is too large to fit without prioritization; use menus, command palette, side panels, or page-level controls.",
+    "A strict linear transaction would be safer with a simpler heading, progress indicator, and explicit continue/back controls."
+  ],
+  "variants": [
+    "Small top app bar",
+    "Center-aligned top app bar",
+    "Medium or large top app bar",
+    "Sticky header",
+    "Collapsing header",
+    "Contextual action bar",
+    "Search header",
+    "Split header with global shell and local top app bar"
+  ],
+  "accessibility": [
+    "Use semantic header, banner, navigation, and button roles only where their landmarks match the page structure.",
+    "Give icon-only actions accessible names and make visible labels available for ambiguous commands.",
+    "Expose expanded state for overflow menus and ensure menu items are keyboard reachable.",
+    "Do not rely on color alone to signal contextual mode, selection count, or disabled actions.",
+    "Keep focus order from leading navigation, title-adjacent controls, visible actions, overflow, then content predictable."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the leading navigation control, visible actions, overflow trigger, overflow items, and then content in a predictable order.",
+    "Enter or Space activates buttons; Escape closes overflow or exits transient contextual UI when appropriate.",
+    "After closing overflow, focus returns to the overflow trigger.",
+    "After route navigation from the leading affordance, focus follows the app's page transition convention.",
+    "Selection mode controls must be reachable and the clear or cancel action must not require pointer input."
+  ],
+  "failureModes": [
+    "Header title and content heading drift apart.",
+    "Actions continue targeting a previous view after navigation.",
+    "Too many visible actions force truncation, wrapping, or hidden tap targets.",
+    "Overflow becomes the only path to save, cancel, recover, or understand destructive consequences.",
+    "Scroll behavior removes orientation or navigation recovery.",
+    "Contextual selection mode has no clear exit.",
+    "Screen-reader users hear unlabeled icons such as button, more, or menu with no target context."
+  ],
+  "relatedPatterns": [
+    "global-navigation",
+    "bottom-navigation",
+    "tabs",
+    "command-palette"
+  ],
+  "comparisons": [
+    "header-vs-global-navigation-vs-bottom-navigation"
+  ],
+  "examples": [
+    {
+      "product": "Material Design Top app bar",
+      "url": "https://m2.material.io/components/app-bars-top",
+      "platform": "mobile",
+      "notes": "Shows top app bars with title, navigation icon, action icons, overflow, scroll, and contextual behavior.",
+      "screenshot": "screenshots/patterns/header.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Android Developers App bars",
+      "url": "https://developer.android.com/develop/ui/compose/components/app-bars",
+      "platform": "mobile",
+      "notes": "Documents app bar variants that host titles, navigation controls, and action items in Compose UI.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon UI shell header",
+      "url": "https://carbondesignsystem.com/components/UI-shell-header/style/",
+      "platform": "web",
+      "notes": "Documents header structure, action dimensions, sticky or scrolling behavior, and responsive collapse into side navigation.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Apple Human Interface Guidelines Toolbars",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/toolbars",
+      "platform": "mobile",
+      "notes": "Describes toolbar content as view title, navigation controls, search, actions, and menus, distinct from tab bars.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-top-app-bar",
+      "note": "Material top app bar guidance defines title, navigation, action icons, overflow, scrolling, and contextual variants."
+    },
+    {
+      "id": "android-compose-app-bars",
+      "note": "Android app bar guidance documents top app bars as containers for title, navigation items, and core action items."
+    },
+    {
+      "id": "carbon-global-header",
+      "note": "Carbon UI shell header style guidance documents header structure, action states, sticky behavior, and responsive collapse."
+    },
+    {
+      "id": "apple-hig-toolbars",
+      "note": "Apple toolbar guidance distinguishes view-level title, navigation, search, actions, and menus from tab-bar destination switching."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

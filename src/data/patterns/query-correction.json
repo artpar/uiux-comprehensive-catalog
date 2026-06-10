@@ -1,0 +1,260 @@
+{
+  "id": "query-correction",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a submitted-query correction pattern with source-backed typo, phrase, split/join, suggestion versus modification, original-query preservation, correction confidence, overcorrection safeguards, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers submitted-query spelling correction, original-query preservation, corrected-query disclosure, did-you-mean versus auto-applied correction, candidate confidence, domain vocabulary exceptions, search-original control, stale correction clearing, and distinction from fuzzy matching or synonyms.",
+    "relatedPatternDistinction": "The entry separates query correction from search suggestions by after-submit correction versus pre-submit phrasing help, from no-results recovery by spelling and term repair versus broader empty-result recovery, from autocomplete by free-form correction versus constrained entity selection, and from highlighting by correction disclosure versus result-match explanation.",
+    "liveDemoBehavior": "The demo submits benifit appeel, applies benefit appeal with visible changed tokens and result count, lets users search the original query, accept the correction back, edit the submitted query, clear correction state, and contrasts a bad silent rewrite that overcorrects a domain code with no revert path.",
+    "comparisonDecisionRules": "The linked query-correction-vs-search-suggestions-vs-no-results-recovery-vs-autocomplete comparison gives concrete rules for after-submit corrections, before-submit suggestions, valid no-result recovery, constrained autocomplete, auto-apply confidence, exact-token exceptions, and reversible original-query behavior.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/query-correction.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, submitted typo, corrected query, original-query path, editable correction state, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/query-correction.png"
+    ]
+  },
+  "name": "Query correction",
+  "aliases": [
+    "did you mean",
+    "spelling correction",
+    "spell correction",
+    "typo correction",
+    "corrected query",
+    "search instead for"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Submitted search query correction and did-you-mean result state",
+  "uiGuidance": [
+    "Show the original submitted query and the corrected query in the result state, for example Showing results for benefit appeal with a Search instead for benifit appeel control.",
+    "Visually identify changed tokens or phrases near the result count, and keep correction actions close to the search field and result summary rather than hiding them in result cards."
+  ],
+  "uxGuidance": [
+    "Use query correction to recover from likely spelling, spacing, transposition, or phrase mistakes after a user submits a free-form search.",
+    "Preserve user agency: auto-apply only high-confidence corrections, offer did-you-mean for weaker candidates, and always allow searching the original wording."
+  ],
+  "uiExamples": {
+    "good": [
+      "A results page says Showing results for benefit appeal, marks benefit and appeal as corrected tokens, and offers Search instead for benifit appeel.",
+      "A did-you-mean banner offers two candidate corrections after a zero-result typo query without overwriting the typed query.",
+      "An exact-code search reports no correction for AB-1047 because codes and quoted terms are configured as exact tokens."
+    ],
+    "bad": [
+      "The search field silently changes benifit appeel to benefit appeal and the original query is gone.",
+      "A person's name, SKU, or legal reference is corrected into a common word with no confidence, source, or revert path.",
+      "Autocomplete suggestions appear before search and are labelled as spelling corrections even though no query was submitted."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user searches benifit appeel, sees corrected results for benefit appeal, checks the changed tokens, and can switch back to the original query.",
+      "A user edits the query after a correction and the correction banner clears instead of showing stale corrected results.",
+      "A user searches an exact policy code and the system avoids typo correction because the token is in the configured exact-match vocabulary."
+    ],
+    "bad": [
+      "The product overcorrects a claimant surname and users cannot get back to the exact original search.",
+      "The UI reports zero results for an obvious typo even though a high-confidence correction is available.",
+      "A correction remains applied after the user changes the query, making the result count belong to old text."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users often submit searches with misspellings, transposed letters, missing spaces, joined words, or uncertain terminology, and a strict result state can hide relevant content or silently rewrite intent.",
+  "solution": "Expose a reversible correction state that either applies a high-confidence corrected query with disclosure or offers did-you-mean candidates while preserving the original submitted query and exact-search path.",
+  "problemContext": [
+    "The product accepts free-form submitted queries over a large content set.",
+    "Search relevance can compute likely spelling, phrase, split, join, or token corrections.",
+    "Some queries contain names, identifiers, codes, acronyms, legal references, or domain terms that must not be overcorrected."
+  ],
+  "selectionRules": [
+    "Choose query correction when correction happens after an explicit search submission, not while the user is merely typing.",
+    "Auto-apply a correction only when the corrected query is high confidence and returns useful results; otherwise show a did-you-mean candidate.",
+    "Always show the original query and provide a direct search-original path when corrected results are displayed.",
+    "Highlight only the changed query tokens or phrases, not every result card, so users can understand what changed.",
+    "Clear or recompute correction state when the user edits the query, changes scope, changes language, or submits again.",
+    "Treat fuzzy matching, synonym expansion, semantic matching, token dropping, and query correction as separate behaviors unless the changed text is explicitly disclosed.",
+    "Avoid correction, reduce tolerance, or require confirmation for codes, SKUs, usernames, product numbers, acronyms, quoted exact phrases, numeric tokens, names, legal terms, medical terms, and domain vocabulary.",
+    "Use no-results recovery rather than query correction when spelling is valid but filters, scope, availability, permissions, or empty data caused the zero-result state.",
+    "Use search suggestions when the user needs help forming a future query before submission; use autocomplete when the user must select a constrained known value.",
+    "Localize correction behavior by language, keyboard, script, stemming, plural rules, and domain vocabulary instead of assuming one global dictionary."
+  ],
+  "requiredStates": [
+    "No correction state when the submitted query is exact or correction confidence is too weak.",
+    "Auto-applied correction state showing corrected results, original query, changed tokens, and search-original action.",
+    "Did-you-mean state showing one or more correction candidates that have not yet been applied.",
+    "Original-query state after the user chooses to search the submitted wording instead of the corrected wording.",
+    "Edited-query state where stale corrections clear and the new submitted query drives the result count.",
+    "Exact-token state where identifiers, codes, quoted phrases, or configured words bypass correction.",
+    "No-results-with-correction state where a correction is offered alongside normal empty-result recovery."
+  ],
+  "interactionContract": [
+    "Submitting a query records the submitted text separately from any corrected query used for results.",
+    "If corrected results are shown, the result summary states which corrected query is active and offers a reversible action to search the original.",
+    "Choosing Search instead for original reruns or reveals results for the original submitted text without changing the user's typed history into the correction.",
+    "Accepting a did-you-mean candidate applies that candidate as the active corrected query and updates the result count.",
+    "Editing or clearing the search field invalidates stale correction metadata until the next explicit submit.",
+    "Correction candidates must be bounded, ranked, and deduplicated so users are not asked to choose from noisy spelling variants.",
+    "Exact-match and sensitive-token rules must be applied before automatic correction changes user intent."
+  ],
+  "implementationChecklist": [
+    "Store submittedQuery, correctedQuery, correctionStatus, confidence, changedTokens, and originalResultCount as distinct state fields.",
+    "Define confidence thresholds for auto-applied correction, did-you-mean suggestion, and no-correction fallback.",
+    "Configure dictionaries, exact words, disabled attributes, numeric-token rules, language analyzers, and domain-specific exceptions before launch.",
+    "Display correction copy in the result summary and keep the search field behavior consistent with whether the user is editing original or corrected text.",
+    "Provide Search original, Accept correction, edit query, and clear correction actions where relevant.",
+    "Log overcorrection events, search-original usage, accepted corrections, no-click corrected results, and zero-result typo queries for relevance tuning.",
+    "Test misspellings, transpositions, missing letters, extra letters, split words, joined words, plural forms, names, acronyms, identifiers, quoted phrases, multiple languages, mobile typos, and stale-response races.",
+    "Keep correction independent from autocomplete suggestions, saved searches, recent searches, highlighting, and no-results recovery actions in the data model."
+  ],
+  "commonMisuses": [
+    "Silently replacing the user's query without saying what changed.",
+    "Treating every fuzzy or semantic match as a corrected query.",
+    "Correcting identifiers, names, acronyms, product codes, or quoted terms that users intended to search exactly.",
+    "Showing only zero results for obvious typos when a strong correction exists.",
+    "Keeping a correction active after the user edits the query or changes scope.",
+    "Labelling pre-submit suggestions as did-you-mean corrections.",
+    "Hiding no-results recovery because a low-confidence correction candidate exists.",
+    "Displaying too many correction candidates with no ranking or explanation."
+  ],
+  "critiqueQuestions": [
+    "Can users see both the original submitted query and the corrected query?",
+    "Is the correction auto-applied only when confidence and result quality justify it?",
+    "Can users search the original wording, accept a candidate, edit the query, and clear stale correction state?",
+    "Which tokens, fields, languages, codes, acronyms, names, numbers, or quoted phrases bypass correction?",
+    "Does the interface distinguish correction from autocomplete, search suggestions, synonym expansion, fuzzy matching, and no-results recovery?",
+    "What telemetry will reveal overcorrection, false positives, and ignored correction suggestions?"
+  ],
+  "useWhen": [
+    "Users submit free-form searches where spelling and typing mistakes commonly block useful results.",
+    "The search system can produce correction candidates with confidence, changed-token metadata, and enough result quality to justify the suggestion.",
+    "The product can preserve the original query and provide a reversible correction path.",
+    "Search vocabulary is broad enough that exact failure would create unnecessary no-result states."
+  ],
+  "avoidWhen": [
+    "The input is a constrained value selector better served by autocomplete.",
+    "Queries are primarily exact identifiers, account numbers, legal citations, SKUs, usernames, or codes.",
+    "Correction quality is too weak to avoid frequent overcorrection and the interface cannot provide a safe original-query path.",
+    "The issue is filters, permissions, scope, or empty data rather than spelling or phrase mistakes.",
+    "The product only needs pre-submit query suggestions and does not run submitted free-form search."
+  ],
+  "variants": [
+    "Auto-applied corrected results",
+    "Did-you-mean suggestion",
+    "Multiple correction candidates",
+    "Search instead for original query",
+    "Phrase correction",
+    "Split or joined token correction",
+    "Exact-token bypass",
+    "Language-specific correction"
+  ],
+  "accessibility": [
+    "Announce correction status and result counts through a polite status region after submission.",
+    "Expose original and corrected query text as real text, not only color or strikethrough.",
+    "Use accessible names for actions such as Search original query benifit appeel and Apply corrected query benefit appeal.",
+    "Do not rely on color alone to identify changed tokens; pair markings with text labels or inline structure.",
+    "Keep correction actions keyboard reachable directly after the search summary.",
+    "When multiple candidates appear, use a list or group with clear labels and selected state."
+  ],
+  "keyboardBehavior": [
+    "Enter in the search field submits the current query and updates correction state only after submission.",
+    "Tab reaches Search original, Apply correction, candidate choices, edit query, and clear controls in a predictable order.",
+    "Escape can dismiss a did-you-mean popup or candidate menu without deleting the typed query.",
+    "After choosing Search original or Apply correction, focus remains near the result summary so the updated state is announced.",
+    "Editing the search input clears stale correction state without moving focus unexpectedly.",
+    "Candidate lists support arrow-key movement only when they use a combobox or listbox interaction; otherwise ordinary buttons are sufficient."
+  ],
+  "failureModes": [
+    "Silent query rewriting breaks user trust and makes exact lookup impossible.",
+    "Overcorrection hides results for names, identifiers, acronyms, legal references, or domain terms.",
+    "Low-confidence candidates create noisy did-you-mean prompts that users learn to ignore.",
+    "Stale correction metadata remains after query edits, scope changes, or language changes.",
+    "Correction competes with no-results recovery instead of complementing it.",
+    "Mobile typo tolerance is too strict, producing avoidable empty results.",
+    "Numeric or alphanumerical token correction changes account numbers, postal codes, policy numbers, or product SKUs.",
+    "The product cannot measure accepted corrections, searched-original actions, or correction abandonment."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "search-suggestions",
+    "no-results-recovery",
+    "autocomplete",
+    "advanced-search",
+    "search-result-highlighting",
+    "search-scope-selector",
+    "recently-searched"
+  ],
+  "comparisons": [
+    "query-correction-vs-search-suggestions-vs-no-results-recovery-vs-autocomplete"
+  ],
+  "examples": [
+    {
+      "product": "Algolia typo tolerance",
+      "url": "https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/",
+      "platform": "web",
+      "notes": "Explains common typing mistakes, edit-distance handling, and ranking impact for typo-tolerant search.",
+      "screenshot": "screenshots/patterns/query-correction.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Elasticsearch term and phrase suggesters",
+      "url": "https://www.elastic.co/guide/en/elasticsearch/reference/9.0/search-suggesters.html",
+      "platform": "web",
+      "notes": "Documents term alternatives, phrase correction, and the difference between did-you-mean suggesters and autocomplete completion.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Google Custom Search correctedQuery",
+      "url": "https://developers.google.com/custom-search/v1/reference/rest/v1/Search",
+      "platform": "web",
+      "notes": "Documents correctedQuery as spelling metadata in the search response.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Microsoft Search spelling corrections",
+      "url": "https://learn.microsoft.com/en-us/graph/search-concept-speller",
+      "platform": "web",
+      "notes": "Documents spelling suggestions and corrected-query result modification options.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "algolia-typo-tolerance",
+      "note": "Algolia describes typo tolerance for spelling errors and typing mistakes using edit distance and ranking."
+    },
+    {
+      "id": "algolia-configure-typo-tolerance",
+      "note": "Algolia documents turning typo tolerance on or off, word length thresholds, numeric-token controls, disabled attributes, and exact words such as acronyms."
+    },
+    {
+      "id": "elasticsearch-search-suggesters",
+      "note": "Elastic documents term and phrase suggesters for corrections and states completion suggester is for autocomplete rather than did-you-mean behavior."
+    },
+    {
+      "id": "typesense-typo-tolerance",
+      "note": "Typesense documents typo thresholds, split and joined token fallback, dropped-token fallback, and controls for numerical or alphanumerical tokens."
+    },
+    {
+      "id": "google-custom-search-spelling",
+      "note": "Google Custom Search exposes a correctedQuery field in spelling metadata."
+    },
+    {
+      "id": "microsoft-search-spelling-corrections",
+      "note": "Microsoft Search separates spelling suggestions from spelling modification that can return results for the corrected query."
+    },
+    {
+      "id": "solr-spell-checking",
+      "note": "Solr SpellCheckComponent provides inline query suggestions and collations but returns suggested queries rather than running them automatically."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

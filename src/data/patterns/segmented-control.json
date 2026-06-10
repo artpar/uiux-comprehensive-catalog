@@ -1,0 +1,180 @@
+{
+  "id": "segmented-control",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a compact local mode switcher with source-backed single-select behavior, local content transformation, one-active-state semantics, and distinctions from tabs, pagination, radio groups, and toggle switches.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names 2-4 closely related local modes, one active segment, adjacent affected content, immediate client-side update, concise labels, no wrapping, and selected toggle-button state.",
+    "relatedPatternDistinction": "The entry separates segmented controls from tabs by changing one local view instead of revealing peer panels, from pagination by not representing ordered page position, from radio groups by staying compact and immediately affecting nearby content, and from toggle switches by offering more than on/off.",
+    "liveDemoBehavior": "The live demo uses a labeled segmented button group, aria-pressed selected state, Arrow Left/Right focus movement, Space/Enter activation, immediate nearby view transformation, and an overflow-disabled state for too many segments.",
+    "comparisonDecisionRules": "The linked tabs-vs-segmented-control-vs-pagination comparison gives concrete rules for content panels, local mode switching, ordered page traversal, hidden content, and compact single-data-set filters.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/segmented-control.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/segmented-control.png"
+    ]
+  },
+  "name": "Segmented control",
+  "aliases": [
+    "segmented button",
+    "mode switcher"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Navigation And Wayfinding"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to switch between a small set of mutually exclusive modes, filters, or views in a compact area.",
+  "solution": "Present adjacent options as a single control with one active segment and immediate local effect.",
+  "problemContext": [
+    "The options alter a local view or setting rather than navigate to separate content sections.",
+    "The choice set is short and benefits from persistent visibility.",
+    "The affected data or view is close enough that users can immediately understand what changed."
+  ],
+  "selectionRules": [
+    "Choose segmented controls for two to four closely related local modes, filters, sort orders, or view presentations.",
+    "Keep labels concise, preferably one word, because the group should not wrap or become a scrolling navigation strip.",
+    "Use tabs when each option exposes a distinct content panel or section.",
+    "Use radio groups when users need fuller option descriptions, validation, or a form answer instead of an immediate local view change.",
+    "Use pagination when the choices represent position in one ordered result set."
+  ],
+  "requiredStates": [
+    "Default selected segment.",
+    "Unselected segment state.",
+    "Focused segment state.",
+    "Changed local view state.",
+    "Disabled or rejected overflow state when too many options are proposed."
+  ],
+  "interactionContract": [
+    "Selecting a segment updates the local mode or filter immediately.",
+    "Exactly one segment is active unless the control is explicitly multi-select.",
+    "The active segment is visually and programmatically clear.",
+    "The affected content sits adjacent to the control and updates without page navigation.",
+    "Keyboard users can move between segments and select a segment without losing context."
+  ],
+  "implementationChecklist": [
+    "Name the group when the meaning is not obvious.",
+    "Expose selected or pressed state for each segment.",
+    "Keep the affected content adjacent.",
+    "Avoid wrapping segments unpredictably.",
+    "Reject or redesign sets that need more than four or five compact labels.",
+    "Avoid mixing icon-only and text segments unless the meaning remains obvious."
+  ],
+  "commonMisuses": [
+    "Using segments for unrelated page navigation.",
+    "Packing too many options into a tiny control.",
+    "Using icons without labels for ambiguous modes.",
+    "Using a segmented control to initiate actions such as add, edit, or delete."
+  ],
+  "critiqueQuestions": [
+    "Is this a compact local mode choice rather than page structure?",
+    "Can users see the affected content change immediately after selecting a segment?"
+  ],
+  "useWhen": [
+    "There are a few mutually exclusive modes.",
+    "The change affects nearby content immediately."
+  ],
+  "avoidWhen": [
+    "Options are full content sections needing tab semantics.",
+    "The set is long or labels cannot fit.",
+    "The choice is a submitted form answer that needs explanations or validation.",
+    "The control would trigger actions rather than changing a view, filter, sort, or mode."
+  ],
+  "variants": [
+    "Two-segment toggle",
+    "View mode switcher",
+    "Filter segment"
+  ],
+  "accessibility": [
+    "Expose selected or pressed state and the group name.",
+    "Do not rely on position or color alone.",
+    "Ensure each segment's accessible name matches its visible label or icon meaning."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the control.",
+    "Arrow keys or normal button tabbing should match the implementation semantics.",
+    "Enter or Space activates the focused segment.",
+    "Tab exits the compact group to the affected content or next control."
+  ],
+  "failureModes": [
+    "Ambiguous icon-only segments.",
+    "Segment changes that affect distant content without notice.",
+    "Treating segments as radio buttons while omitting selection semantics.",
+    "Using segments as top-level navigation or actions.",
+    "Wrapping segments into multiple rows where the group relationship breaks."
+  ],
+  "relatedPatterns": [
+    "tabs",
+    "radio-group"
+  ],
+  "comparisons": [
+    "tabs-vs-segmented-control-vs-pagination"
+  ],
+  "examples": [],
+  "sources": [
+    {
+      "id": "va-segmented-button",
+      "note": "VA documents segmented buttons as 2-4 mutually exclusive filters or view switches for one data set with one option always active."
+    },
+    {
+      "id": "android-segmented-button",
+      "note": "Android documents single-choice and multi-choice segmented button rows, selected state tracking, and a limit for complex or larger sets."
+    },
+    {
+      "id": "fluent-ios-segmented-control",
+      "note": "Fluent iOS documents one selected option in a single context, concise labels, no page navigation, and no wrapping."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Compact mode selector",
+  "uiGuidance": [
+    "Render a compact horizontal group with two to four adjacent segments, one selected state, visible focus, and stable sizing.",
+    "Keep labels concise, avoid mixed icon/text rhythm, and place the changed local content directly below or beside the control."
+  ],
+  "uxGuidance": [
+    "Help users switch a local mode, view, filter, sort, or presentation immediately without navigation or form submission.",
+    "Avoid using segments for unrelated pages, hidden content sections, destructive actions, or choices that need long explanation."
+  ],
+  "uiExamples": {
+    "good": [
+      "Two to four adjacent segments with a clear selected segment, visible focus ring, and readable labels that fit on one row.",
+      "The affected list, chart, or view sits immediately next to the control and visibly changes."
+    ],
+    "bad": [
+      "Many cramped segments with truncated text.",
+      "Icon-only segments whose meaning changes by context or a group that wraps into multiple rows."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Selecting a segment changes a nearby local mode, filter, or view immediately.",
+      "Exactly one segment is active and the previous selection is automatically deselected."
+    ],
+    "bad": [
+      "Using segments for unrelated destinations.",
+      "Changing distant content without indicating what changed or using a segment to execute an action."
+    ]
+  },
+  "examples": [
+    {
+      "product": "VA Design System Button - Segmented",
+      "url": "https://design.va.gov/components/button/button-segmented/",
+      "platform": "web",
+      "notes": "Documents segmented buttons for filtering, sorting, or switching views of one data set with one option always active.",
+      "screenshot": "screenshots/patterns/segmented-control.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Fluent 2 iOS Segmented Control",
+      "url": "https://fluent2.microsoft.design/components/ios/core/segmentedcontrol/usage",
+      "platform": "mobile",
+      "notes": "Documents mutually exclusive single-context segmented controls, concise labels, no wrapping, and avoiding page navigation or actions.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

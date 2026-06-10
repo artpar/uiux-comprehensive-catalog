@@ -1,0 +1,50 @@
+{
+  "id": "file-upload-vs-text-input-vs-single-question-page-vs-multi-step-form",
+  "title": "File upload vs text input vs single-question page vs multi-step form",
+  "summary": "Use file upload when the user must attach a document or media file; use text input for typed values, a single-question page to decide whether evidence is needed, and a multi-step form when upload is one guarded step in a longer journey.",
+  "patternIds": [
+    "file-upload",
+    "text-input",
+    "single-question-page",
+    "multi-step-form"
+  ],
+  "decisionRules": [
+    "Prefer file upload when the service needs the original document, image, scan, certificate, spreadsheet, or media file rather than a typed summary of its contents.",
+    "Prefer text input when the user can provide the needed value directly, such as a reference number from the document, without forcing them to find and attach a file.",
+    "Prefer a single-question page before upload when the first decision is whether the user has evidence, what kind it is, or whether the upload route should appear at all.",
+    "Prefer a multi-step form when file upload depends on earlier eligibility, identity, case type, or review answers and must preserve progress across pages.",
+    "Use a standard file upload before a drag-and-drop uploader when the main requirement is reliable file selection, clear labels, selected filename display, and accessible keyboard operation.",
+    "Reserve drag-and-drop upload for workflows where users commonly move files from a desktop folder and the same area still provides a button or link that opens the file chooser.",
+    "Reserve bulk import for structured records that need parsing, row validation, mapping, partial success handling, and import reports rather than a normal evidence attachment.",
+    "State accepted file types, maximum size, file count, and whether upload happens immediately or only after the surrounding form is submitted.",
+    "Show selected filename, upload progress, uploaded state, remove control, file-specific errors, and retry path before users continue.",
+    "Validate selected files on the server as well as the client because accept filters and filename extensions do not prove safe or valid content."
+  ],
+  "failureModes": [
+    "A service asks for a file when a typed reference number would satisfy the decision and be easier for mobile users.",
+    "The upload label says Attach evidence but the hint never states accepted formats, maximum size, or whether photos are allowed.",
+    "A selected file disappears after an error, forcing the user to browse for the same document again.",
+    "The page says uploaded when the file is only selected locally and the final form submission has not happened.",
+    "Drag-and-drop is the only path, so keyboard, mobile, and assistive technology users cannot add a file.",
+    "A spreadsheet import is treated like a simple file attachment, so row errors and partial imports have no recovery path."
+  ],
+  "sources": [
+    {
+      "id": "govuk-file-upload-component",
+      "note": "GOV.UK supports labelled file upload, hints, errors, multiple selection, count-limit messaging, and improved upload behavior."
+    },
+    {
+      "id": "carbon-file-uploader-component",
+      "note": "Carbon supports button/drop-zone wording, selected filename display, loading, success, uploaded, invalid states, removal, keyboard activation, and focus return."
+    },
+    {
+      "id": "mdn-html-file-input",
+      "note": "MDN supports native file input behavior, accept filters, multiple selection, FileList access, and validation caveats."
+    },
+    {
+      "id": "dwp-file-upload-research",
+      "note": "DWP research supports setting expectations, upload control, timely feedback, mobile edge cases, and clear upload versus submit distinction."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

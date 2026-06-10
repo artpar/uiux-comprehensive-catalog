@@ -1,0 +1,52 @@
+{
+  "id": "conditional-reveal-fields-vs-dependent-fields-vs-radio-group-vs-single-question-page",
+  "title": "Conditional reveal fields vs dependent fields vs radio group vs single-question page",
+  "summary": "Use conditional reveal fields when a selected answer should reveal one directly related follow-up field or short supporting question in the same local context.",
+  "patternIds": [
+    "conditional-reveal-fields",
+    "dependent-fields",
+    "radio-group",
+    "single-question-page"
+  ],
+  "decisionRules": [
+    "Prefer conditional reveal fields when a radio, checkbox, or select answer needs one directly related follow-up field that belongs under that answer.",
+    "Prefer dependent fields when the later control is always part of the form and its valid options, requirement, value, or stale state depend on a controlling value.",
+    "Prefer radio group when users only need to choose one answer and no follow-up field needs to appear under a specific option.",
+    "Prefer single-question page when the follow-up question needs focused reading, branching, page-level validation, or enough content that same-page reveal would overload the first question.",
+    "Revealed content must sit directly under the triggering option so users can understand why it appeared and which answer owns it.",
+    "Limit revealed content to related questions or support information; do not reveal a complete form, a separate submit action, unrelated marketing content, or a different task.",
+    "When the triggering option is deselected, hide the revealed field and either clear its value or mark it excluded from submission so hidden stale answers cannot block or leak.",
+    "If a revealed field is required, require it only while its trigger is selected and show the error on the revealed field, not as a mysterious error on the parent group alone.",
+    "Do not hide a required field behind conditional logic without showing the trigger state and recovery path in an error summary after submit.",
+    "Make reveal and hide changes perceivable to assistive technology users through DOM placement, descriptions, status text, or tested component behavior rather than relying on visual appearance alone.",
+    "Use progressive disclosure or details text for optional explanatory content; use conditional reveal only when the revealed control is part of the answer flow.",
+    "For multiple or nested conditional reveals, consider splitting the flow into pages or a multi-step form so users do not lose track of which answers are currently required."
+  ],
+  "failureModes": [
+    "A hidden required field blocks submit with no visible clue until users guess which answer reveals it.",
+    "A revealed email field remains submitted after the Email checkbox is unchecked.",
+    "A follow-up field appears far from the option that triggered it, so users do not know why it is required.",
+    "A complete subform with its own submit action is revealed inside a radio group.",
+    "Screen reader users are not informed that selecting an option introduced a new follow-up question.",
+    "Nested conditional fields hide stale values that continue to affect validation or eligibility."
+  ],
+  "sources": [
+    {
+      "id": "govuk-conditional-reveal-accessibility",
+      "note": "GOV.UK accessibility research documents conditional reveal fields for radios and checkboxes, related follow-up use, and notification risks for assistive technology users."
+    },
+    {
+      "id": "agriculture-design-system-conditional-reveal",
+      "note": "Agriculture Design System guidance limits conditional reveals to directly related questions or information, placed under the triggering input, and warns against revealing complete forms."
+    },
+    {
+      "id": "govuk-checkboxes-component",
+      "note": "GOV.UK checkbox component documentation includes conditional content that is revealed when a checkbox is checked."
+    },
+    {
+      "id": "govuk-radios-component",
+      "note": "GOV.UK radio guidance anchors the triggering-control side of conditional reveal behavior for single-choice answers."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,273 @@
+{
+  "id": "phone-number-entry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a telephone contact capture pattern with source-backed guidance for necessity, contact choice, clear number type, purpose and timing hints, type tel, autocomplete tel, familiar-format entry, international numbers, extensions, leading-zero preservation, SMS capability, review, optional confirmation, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers collecting phone numbers only when needed, offering other contact methods, stating whether UK, international, mobile, landline, SMS-capable, or extension-bearing numbers are accepted, explaining when calls or texts may happen, using type tel and autocomplete tel, accepting familiar formatting, preserving leading zeros and plus signs, avoiding masks and confusing reformatting, handling extension and E.164 storage separately, field errors, review, and confirmation only when phone access must be proven.",
+    "relatedPatternDistinction": "The entry separates phone number entry from text input by using telephone-specific keyboard, autocomplete, contactability, and dialable-value handling; from input mask by tolerating varied local and international formats instead of forcing one shape; from inline validation by owning phone-specific correction states; from error summary by letting summaries link back after submit; and from email address entry by collecting a synchronous call or SMS route rather than a mailbox.",
+    "liveDemoBehavior": "The rendered exercise accepts pasted UK and international phone numbers, preserves familiar spacing, converts UK numbers to a reviewable backend value, keeps extensions explicit, shows missing and too-short errors, warns when SMS is assumed for a non-SMS route, offers a no-phone contact alternative, reviews the exact number, sends a confirmation code only when access is required, and contrasts a broken domestic mask that strips leading zeros and blocks international numbers.",
+    "comparisonDecisionRules": "The linked phone-number-entry-vs-text-input-vs-input-mask-vs-inline-validation-vs-error-summary comparison gives concrete rules for callable contact capture, ordinary text, narrow fixed masks, local field correction, submitted-form recovery, tel autocomplete tokens, type number avoidance, familiar formatting, contact alternatives, review, and access-confirmation loops.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/phone-number-entry.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, type tel entry, familiar-format preservation, international number handling, extension handling, no-phone alternative, SMS warning, confirmation state, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/phone-number-entry.png"
+    ]
+  },
+  "name": "Phone number entry",
+  "aliases": [
+    "telephone number field",
+    "phone input",
+    "mobile number field",
+    "contact phone field",
+    "telephone contact details",
+    "SMS-capable phone field",
+    "callable number entry"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Callable telephone contact capture field",
+  "uiGuidance": [
+    "Render phone entry as a labelled single-line field with number type in the label or hint, purpose and contact-timing text, type tel, autocomplete tel, field-specific errors, and review of both the user's displayed number and any dialable backend value.",
+    "Keep the typed value familiar and editable; avoid one-shape masks, numeric spinboxes, silent international reformatting, or SMS-only controls unless the product has designed the matching exception paths."
+  ],
+  "uxGuidance": [
+    "Use phone number entry when the product genuinely needs to call, text, verify, route, or recover contact with a user through a phone number.",
+    "Respect that not everyone has or can use a phone by explaining why the number is needed, allowing familiar local or international formatting, preserving meaningful characters, offering other contact routes, and confirming access only when the phone itself is part of the assurance requirement."
+  ],
+  "uiExamples": {
+    "good": [
+      "An appointment service asks for UK mobile or international phone number, says it will call only if the appointment changes, uses type tel and autocomplete tel, and shows the number for review before saving.",
+      "A support form accepts +44 808 157 0192 and 020 7946 0018 ext 204, keeps the user's spacing visible, and records the dialable value separately."
+    ],
+    "bad": [
+      "A form stores phone as a number, removes the leading zero from 07700 900 982, and offers no way to correct the stored value.",
+      "A sign-in flow accepts only a mobile SMS code even when the user entered a landline, shared phone, or cannot access texts."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pastes 07700 900 982, sees it preserved, reviews that calls may go to that number, and can choose email instead.",
+      "A user enters +44 808 157 0192, receives a format-specific error only if the number is too short, and is not forced into a domestic mask."
+    ],
+    "bad": [
+      "A user with an international number cannot type the plus sign because the field uses type number.",
+      "A user enters an extension for a desk phone, but validation strips it and the organization later calls the wrong line."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Phone numbers are contact identifiers with regional formats, leading zeros, plus signs, extensions, SMS capability limits, shared-device privacy risks, and accessibility constraints, so treating them as simple numbers can block contact or harm users.",
+  "solution": "Use a telephone-specific field that states why and what type of number is needed, accepts familiar formatting, preserves display values, validates enough to prevent obvious errors, stores a dialable canonical value separately, offers other contact methods, reviews the value before use, and confirms access only for flows that require it.",
+  "problemContext": [
+    "The service may need a phone number for appointment changes, emergency contact, support callbacks, account recovery, SMS codes, delivery calls, two-way contact, or official records.",
+    "Users may have mobile, landline, VoIP, shared, work, international, relay, extension-based, temporary, or no usable phone access.",
+    "Phone-number formats vary by country and may include leading zeros, plus signs, spaces, parentheses, hyphens, extensions, short codes, and local dialing conventions.",
+    "A callable number, SMS-capable number, reachable person, and phone-access-verified number are separate states.",
+    "Phone contact can expose privacy, cost, accessibility, and safety concerns when the service calls or texts without clear consent."
+  ],
+  "selectionRules": [
+    "Choose phone number entry when the product genuinely needs a telephone route for calls, SMS messages, identity recovery, service contact, delivery coordination, support callbacks, or account verification.",
+    "Do not collect a phone number merely because it is customary; offer another contact route when the user can complete the task without phone contact.",
+    "State whether the field accepts UK, international, mobile, landline, SMS-capable, extension-bearing, or emergency contact numbers.",
+    "Explain why the organization may call or text and when that contact may happen.",
+    "Use type tel and autocomplete tel for one complete phone number, and use component autocomplete tokens only when the design deliberately splits the number into parts.",
+    "Do not use type number, because phone numbers are identifiers and may need leading zeros, plus signs, spaces, parentheses, or extensions.",
+    "Allow paste and familiar local or international formatting, then normalize only for backend routing while keeping the user's displayed value reviewable.",
+    "Avoid input masks unless the accepted number format is narrow, domestic, and proven to exclude international numbers, extensions, and other valid exceptions.",
+    "Validate missing values, too few digits, unsupported country codes, unsupported SMS capability, and extension rules with specific messages next to the field.",
+    "Do not silently rewrite a local number into an international format in the editable field; if a canonical value is stored, show it in review or developer-facing payloads.",
+    "Show the number and contact method on review before saving, calling, texting, or sending a code.",
+    "Use phone or SMS confirmation only when access to that phone must be proven, and include resend, change-number, and alternative-contact paths."
+  ],
+  "requiredStates": [
+    "Initial state with label naming the needed number type, purpose hint, type tel, autocomplete tel, and contact-choice wording.",
+    "Focused state with telephone keyboard support and normal typing, paste, selection, undo, and correction behavior.",
+    "Familiar-format state preserving spaces, parentheses, hyphens, leading zero, plus sign, and country code in the displayed value.",
+    "International number state accepting plus and country code without a domestic mask.",
+    "Extension state keeping extension or desk-routing instructions separate from the main dialable number.",
+    "Missing required number state with a field-specific error and alternate contact route if phone is not essential.",
+    "Too-short or malformed number state with examples that match the accepted number type.",
+    "Unsupported SMS-capable state when the flow needs text messages but the number or preference may only support voice calls.",
+    "No phone or cannot use phone state that offers email, post, relay, support contact, or manual assistance.",
+    "Reviewed number state showing what will be called or texted and how to change it.",
+    "Confirmation pending state when a code or link has been sent to prove phone access.",
+    "Verified phone access state recorded separately from syntactic validity and dialability."
+  ],
+  "interactionContract": [
+    "Users can type, paste, autofill, edit, select, undo, and correct the phone value through native input behavior.",
+    "Submitting an empty or malformed number preserves the typed value and places the correction next to the field or in a linked summary.",
+    "The interface preserves the user's displayed format while the backend derives a separate canonical dialable value when needed.",
+    "Changing the accepted country, contact method, or SMS requirement updates labels, hints, validation, and review copy together.",
+    "Phone entry does not force SMS verification unless the service requires phone access proof and offers change-number, resend, and alternative-contact recovery.",
+    "Review states show the exact value and intended use before phone contact, SMS code, callback, or account recovery is triggered.",
+    "The backend treats format validity, dialability, SMS capability, ownership, and verified access as separate states."
+  ],
+  "implementationChecklist": [
+    "Decide whether the service needs any phone number, which number types are accepted, and which alternatives are allowed before designing the field.",
+    "Use a native input with type tel, autocomplete tel, a visible label, purpose hint, and aria-describedby for hint, error, and status text.",
+    "Use autocomplete component tokens such as tel-country-code, tel-national, tel-area-code, tel-local, or tel-extension only for intentional split-number designs.",
+    "Preserve leading zeros, plus signs, spaces, hyphens, parentheses, and extension markers in the displayed value.",
+    "Normalize a separate canonical value for backend telephony systems, using international rules such as E.164 only when country context is available.",
+    "Validate on client and server for empty value, too few digits, impossible country code, unsupported extension, and SMS-capability mismatch without rejecting valid familiar formatting.",
+    "Avoid masks and type number; test pasted contact-card values, international numbers, shared phones, landlines, relay numbers, extensions, and users with no phone.",
+    "Provide review, change-number, resend, timeout, and alternative-contact recovery paths for confirmation-code flows.",
+    "Audit privacy, consent, cost, and safety copy for calls and texts, especially when phone contact may reveal sensitive service use."
+  ],
+  "commonMisuses": [
+    "Using type number and losing leading zeros or plus signs.",
+    "Hard-coding a domestic mask that blocks international numbers or extensions.",
+    "Collecting phone numbers without a genuine service need.",
+    "Failing to explain why the organization may call or text.",
+    "Forcing SMS verification for users with landlines, shared phones, inaccessible devices, or no phone.",
+    "Silently reformatting numbers so users do not recognize what they entered.",
+    "Rejecting pasted values because they include spaces, parentheses, hyphens, or extension text.",
+    "Treating a syntactically plausible number as proof that the user can receive calls or texts."
+  ],
+  "critiqueQuestions": [
+    "Why does this service need a phone number, and can users choose another contact method?",
+    "Does the label say whether the service needs UK, international, mobile, landline, SMS-capable, or extension-bearing numbers?",
+    "Does the field use type tel and autocomplete tel instead of type number?",
+    "Can users paste and review a number with spaces, plus sign, leading zero, or extension?",
+    "Is the product validating a phone shape, proving dialability, proving SMS capability, or proving access to the device?",
+    "What happens when a user cannot receive SMS or cannot use a phone safely?"
+  ],
+  "useWhen": [
+    "The product must capture a phone number for calls, texts, support callbacks, appointment changes, recovery, delivery coordination, verification, or contact records.",
+    "Users need clear guidance about which phone route to provide and how it will be used.",
+    "The service can preserve, validate, review, and where necessary confirm the number before relying on it.",
+    "The phone field needs telephone keyboard, autocomplete, and contactability handling."
+  ],
+  "avoidWhen": [
+    "The product only needs a name, label, username, reference, or other short text.",
+    "Phone contact is optional and the user has already chosen email, post, in-product notification, or another contact method.",
+    "The service cannot provide an alternative for users without phone access.",
+    "The flow needs an email address, postal address, payment account, password, or one-time code instead.",
+    "Users should choose from verified account contact records rather than type a new number."
+  ],
+  "variants": [
+    "UK phone number",
+    "International phone number",
+    "Mobile phone number",
+    "Landline number",
+    "SMS-capable number",
+    "Phone number with extension",
+    "Callback number",
+    "Emergency contact number",
+    "No-phone alternative contact",
+    "Phone review before submit",
+    "SMS confirmation pending",
+    "Verified phone state"
+  ],
+  "accessibility": [
+    "Use a visible label and hint that state the number type, purpose, and any contact timing.",
+    "Use autocomplete tel to identify the input purpose for autofill and assistive technologies.",
+    "Connect hint, error, SMS warning, and confirmation status text to the field with descriptive relationships.",
+    "Do not rely on placeholder examples or browser validation messages as the only instruction.",
+    "Present phone validity, SMS capability, and confirmation status in text, not only color or icons.",
+    "Offer non-phone contact routes for users who cannot use voice calls or SMS.",
+    "Keep resend, change-number, no-phone, and support actions reachable by keyboard and screen reader."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows the phone field, no-phone or contact-choice action, validation actions, review change action, and confirmation controls.",
+    "Typing, paste, selection, deletion, undo, redo, and autofill use native input behavior.",
+    "Enter submits only when the surrounding form contract is clear.",
+    "Submitting an invalid number moves focus to the error summary or phone field without clearing the value.",
+    "Confirmation-code resend, change-number, and alternative-contact actions are reachable by keyboard.",
+    "The field does not trap focus inside mask slots or force users to jump across fixed separators."
+  ],
+  "failureModes": [
+    "The phone number is stored as a numeric value and loses a leading zero.",
+    "A valid international number is rejected because a domestic mask owns the field.",
+    "The service calls or texts without explaining purpose, timing, or consent.",
+    "A user cannot proceed because they do not have a phone or cannot receive SMS.",
+    "An extension is stripped and the organization cannot reach the right person.",
+    "A screen reader user hears a noisy mask rather than a clear phone-number instruction.",
+    "A syntactically plausible number is treated as verified phone access.",
+    "The displayed value is silently reformatted and the user cannot tell whether it is still their number."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "input-mask",
+    "inline-validation",
+    "error-summary",
+    "review-before-submit",
+    "email-address-entry"
+  ],
+  "comparisons": [
+    "phone-number-entry-vs-text-input-vs-input-mask-vs-inline-validation-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Phone numbers",
+      "url": "https://design-system.service.gov.uk/patterns/phone-numbers/",
+      "platform": "web",
+      "notes": "Documents collecting phone numbers only when needed, contact choice, clear number type and purpose, type tel, autocomplete tel, specific errors, familiar formats, avoiding masks, and avoiding confusing reformatting.",
+      "screenshot": "screenshots/patterns/phone-number-entry.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "ONS Design System Phone numbers",
+      "url": "https://service-manual.ons.gov.uk/design-system/patterns/phone-numbers",
+      "platform": "web",
+      "notes": "Documents clear phone-number type, purpose text, contact timing, familiar format entry, and missing or incorrect error details.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN input type tel",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/tel",
+      "platform": "web",
+      "notes": "Documents telephone input semantics, mobile telephone keyboards, fallback to text input, and absence of built-in global phone-format validation.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "HTML Standard Telephone state",
+      "url": "https://html.spec.whatwg.org/multipage/input.html#telephone-state-(type=tel)",
+      "platform": "web",
+      "notes": "Documents the Telephone state for type tel input behavior.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "ITU-T Recommendation E.164",
+      "url": "https://www.itu.int/ITU-T/worksem/ip-telecoms/e164/e164.pdf",
+      "platform": "web",
+      "notes": "Documents the international public telecommunication numbering plan and 15-digit maximum international number length.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-phone-numbers-pattern",
+      "note": "GOV.UK supports needed-only collection, contact choice, clear UK/international/mobile labels, purpose text, type tel, autocomplete tel, specific errors, familiar formats, avoiding masks, and avoiding confusing reformatting."
+    },
+    {
+      "id": "ons-phone-numbers-pattern",
+      "note": "ONS supports clear phone-number type, why and when contact may happen, familiar formats, format help, and field-level errors."
+    },
+    {
+      "id": "mdn-input-tel",
+      "note": "MDN supports telephone input semantics, mobile telephone keyboards, fallback to text input, and no automatic global phone-format validation."
+    },
+    {
+      "id": "whatwg-input-tel",
+      "note": "WHATWG supports the HTML Telephone state for type tel inputs."
+    },
+    {
+      "id": "mdn-html-autocomplete-tel",
+      "note": "MDN supports tel autocomplete and component tokens for split telephone number fields."
+    },
+    {
+      "id": "itu-e164-numbering-plan",
+      "note": "ITU E.164 supports international telephone numbering and the 15-digit maximum international number length."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

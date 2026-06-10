@@ -1,0 +1,49 @@
+{
+  "id": "utility-navigation-vs-global-navigation-vs-service-navigation",
+  "title": "Utility navigation vs global navigation vs service navigation",
+  "summary": "Use utility navigation for persistent support, account, search, notification, language, switcher, or session controls; use global navigation for top-level product movement; use service navigation for named service sections.",
+  "patternIds": [
+    "utility-navigation",
+    "global-navigation",
+    "service-navigation"
+  ],
+  "decisionRules": [
+    "Prefer utility navigation when the control helps users manage the session, account, support, search, notification, language, or cross-product context rather than choose a content destination.",
+    "Prefer global navigation when the item is one of the product or site's main destinations and should change the current section state.",
+    "Prefer service navigation when the item is a top-level destination inside one named service and should help users understand the service's scope.",
+    "Keep utility navigation visually separated from destination links, usually right-aligned, grouped, or placed in its own header area with a distinct accessible label.",
+    "Do not put sign out, profile, notifications, help, language, or account settings in the same nav list as primary destinations unless they are intentionally labelled as utilities.",
+    "If a utility opens a panel, menu, search tray, or account menu, expose expanded state, close on Escape or outside click, and return focus to the utility trigger.",
+    "If a utility navigates away from the current content, preserve unsaved state or warn before leaving; utilities should not silently reset the active global or service section.",
+    "Use badges only for actionable utility state such as unread notifications, and clear or update them when users inspect the utility.",
+    "On mobile, utility controls may collapse into an overflow or account menu, but they must keep their utility labels and not become indistinguishable from service links.",
+    "When service-level tools such as language selection belong inside service navigation, keep GOV.UK-wide or account-wide tools above them in the more general header layer."
+  ],
+  "failureModes": [
+    "A primary navigation row includes Dashboard, Projects, Help, Sign out, Billing, Profile, and Notifications as equal destinations.",
+    "Activating Help highlights Help as the current product section and leaves the page heading unchanged.",
+    "A notifications icon has an unread badge but opens no reachable list or does not update after inspection.",
+    "Sign out is hidden in an unlabeled overflow menu with no confirmation or clear session boundary.",
+    "Mobile navigation mixes account utilities and service links under a generic Menu label so users cannot tell what scope each link has.",
+    "A utility panel traps focus or cannot be dismissed with Escape."
+  ],
+  "sources": [
+    {
+      "id": "carbon-global-header",
+      "note": "Carbon global header guidance identifies utilities as globally persistent system-level controls and says utility icons should open panels rather than directly navigate."
+    },
+    {
+      "id": "govuk-one-login-service-header",
+      "note": "GOV.UK One Login guidance defines account and sign-out access as a persistent signed-in service header area distinct from service navigation."
+    },
+    {
+      "id": "govuk-navigate-service",
+      "note": "GOV.UK Navigate a service gives ordering rules from GOV.UK-wide tools to service-level tools and page-specific content."
+    },
+    {
+      "id": "uswds-header-component",
+      "note": "USWDS header guidance shows search and primary navigation as separate header surfaces with labelled navigation and keyboard requirements."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

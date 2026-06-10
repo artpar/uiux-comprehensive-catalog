@@ -1,0 +1,180 @@
+{
+  "id": "select",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a compact single-choice select pattern with source-backed sparing-use guidance, native select live behavior, radio/autocomplete distinctions, duplicate audit, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names native select labeling, selected closed value, empty-option use, validation state, limited-space tradeoffs, no auto-submit, and custom listbox keyboard requirements.",
+    "relatedPatternDistinction": "The entry separates select from radio groups by using a collapsed known list when visible comparison is less important, and from autocomplete by keeping choices finite and browseable.",
+    "liveDemoBehavior": "The live demo uses a native select with a longer region list, persistent label and hint, required validation when no region is chosen, selected-value status, and no auto-submit on change.",
+    "comparisonDecisionRules": "The linked radio-group-vs-select comparison distinguishes visible short-list comparison from collapsed moderate-list selection and warns against hiding critical choices.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/select.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, native select labeling, required validation, and selected-value behavior.",
+    "screenshots": [
+      "screenshots/patterns/select.png"
+    ]
+  },
+  "name": "Select",
+  "aliases": [
+    "dropdown select",
+    "single select"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to choose one value from a known list that is too long or secondary to keep fully expanded on the page.",
+  "solution": "Use a native select with a persistent label, optional hint, visible closed value, an empty option only for no selection, and validation that does not auto-submit on change.",
+  "problemContext": [
+    "The option set is known, finite, and moderately sized.",
+    "A compact control is justified because visible comparison of every option is less important than saving space."
+  ],
+  "selectionRules": [
+    "Choose select sparingly for a single choice from a moderate known list when space or task priority justifies collapsing options.",
+    "Prefer radio groups for fewer visible choices when comparison or consequence matters.",
+    "Use autocomplete or combo box behavior when the list is very long, searchable, or hard to scan manually.",
+    "Do not submit or navigate automatically when the selected option changes."
+  ],
+  "requiredStates": [
+    "Closed state with empty option or current selected value.",
+    "Open native option menu or equivalent listbox state.",
+    "Selected option state after the menu closes.",
+    "Required validation error state when no valid option is chosen."
+  ],
+  "interactionContract": [
+    "The selected value remains visible after the menu closes.",
+    "Opening the control reveals the finite options without accepting arbitrary free text.",
+    "Changing selection updates local state without automatically submitting the form.",
+    "A required empty option is not treated as a completed answer."
+  ],
+  "implementationChecklist": [
+    "Use native select when platform behavior satisfies the design.",
+    "Label the control clearly and keep the label visible after a value is selected.",
+    "Include an empty option only for the no-selection state and validate it as incomplete when required.",
+    "Provide hint or error text through descriptive associations when needed.",
+    "Avoid custom selects unless keyboard, focus, selected state, dismissal, and assistive behavior match the native control."
+  ],
+  "commonMisuses": [
+    "Custom select with no keyboard support or hidden selected state.",
+    "Using select to hide two or three obvious choices that should be compared.",
+    "Placeholder-only labels that disappear after selection.",
+    "Auto-submitting the form as soon as a user arrows through options."
+  ],
+  "critiqueQuestions": [
+    "Is collapsing this choice worth the extra interaction cost?",
+    "Would a visible radio group or searchable autocomplete make this list easier to complete?"
+  ],
+  "useWhen": [
+    "The user chooses one option from a moderate known list.",
+    "The selected value matters more than seeing every option constantly."
+  ],
+  "avoidWhen": [
+    "The option set is short and comparison matters.",
+    "Users need to select many values.",
+    "The list is long enough that users need search, filtering, or autocomplete."
+  ],
+  "variants": [
+    "Native select",
+    "Custom listbox select",
+    "Grouped select",
+    "Select with hint and error"
+  ],
+  "accessibility": [
+    "Prefer native semantics or implement equivalent name, role, state, and keyboard behavior.",
+    "Keep labels persistent.",
+    "Associate hints and errors through platform-supported descriptions."
+  ],
+  "keyboardBehavior": [
+    "Native select follows platform-specific keyboard behavior.",
+    "Custom selects must support opening, navigation, selection, and dismissal by keyboard.",
+    "Do not trigger submission while users are navigating options."
+  ],
+  "failureModes": [
+    "Inaccessible custom dropdowns.",
+    "No visible label after selection.",
+    "Option list clipped or hidden from assistive technology.",
+    "Using a select as site navigation or as a multi-select replacement."
+  ],
+  "relatedPatterns": [
+    "radio-group",
+    "autocomplete"
+  ],
+  "comparisons": [
+    "radio-group-vs-select"
+  ],
+  "examples": [],
+  "sources": [
+    {
+      "id": "govuk-select-component",
+      "note": "GOV.UK select guidance supports native labels, hints, errors, selected values, long-list caution, and no preselected answers for questions."
+    },
+    {
+      "id": "uswds-select-component",
+      "note": "USWDS select guidance supports sparing use for about seven to 15 options, persistent labels, no auto-submit, and radio/combo-box alternatives."
+    },
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG listbox guidance documents keyboard, labeling, and selected-state requirements for custom listbox-style select alternatives."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Single-choice dropdown control",
+  "uiGuidance": [
+    "Render a persistent label, hint text, native closed value, finite option list, selected option, and validation state.",
+    "Prefer native select unless custom listbox behavior is truly needed and fully accessible."
+  ],
+  "uxGuidance": [
+    "Help users choose one value from a moderate known list without showing every option permanently.",
+    "Do not hide short critical choices just to save space, and do not auto-submit while users navigate options."
+  ],
+  "uiExamples": {
+    "good": [
+      "Persistent label, hint text, visible selected value, readable options, and clear required validation state.",
+      "Native select is used when custom presentation is not necessary."
+    ],
+    "bad": [
+      "Placeholder as the only label.",
+      "Custom dropdown that looks polished but hides focus and selected state."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can open, scan, choose one value, and review the selected value after close.",
+      "Very long lists use search or autocomplete instead of forcing scrolling."
+    ],
+    "bad": [
+      "Hiding two obvious critical choices in a dropdown.",
+      "Option labels are ambiguous or duplicated without context."
+    ]
+  },
+  "examples": [
+    {
+      "product": "GOV.UK Design System Select component",
+      "url": "https://design-system.service.gov.uk/components/select/",
+      "platform": "web",
+      "notes": "Documents native select labels, hints, errors, selected values, long-list caution, and no pre-selection for answer questions.",
+      "screenshot": "screenshots/patterns/select.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "U.S. Web Design System Select component",
+      "url": "https://designsystem.digital.gov/components/select/",
+      "platform": "web",
+      "notes": "Documents select use for about seven to 15 options in limited space, persistent labels, no auto-submit, and alternatives for short or very long lists.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI-ARIA APG Listbox Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/",
+      "platform": "web",
+      "notes": "Documents accessible keyboard and selected-state behavior for custom listbox-style alternatives when native select is insufficient.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

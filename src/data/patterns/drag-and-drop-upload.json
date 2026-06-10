@@ -1,0 +1,247 @@
+{
+  "id": "drag-and-drop-upload",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a specific drop-zone upload enhancement with source-backed guidance for drag-enter, drag-over, drag-leave, drop accepted, drop rejected, browser default prevention, click fallback, keyboard fallback, pointer cancellation, selected file queue, progress, remove, retry, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a visible drop target, drag-over affordance, rejected non-file drags, release-outside cancellation, browser default prevention, multiple dropped files, click and keyboard fallback, uploaded file list, progress, remove, retry, and no automatic final submission.",
+    "relatedPatternDistinction": "The entry separates drag-and-drop upload from file upload by requiring pointer drop-zone states as an enhancement, from multi-step form by not owning journey progress, from text input by accepting files rather than typed values, and from bulk import by not parsing structured records.",
+    "liveDemoBehavior": "The rendered exercise simulates dragging over the drop zone, leaving to cancel, dropping two files, rejecting a link drag, using click fallback, uploading the queued files, removing a file, and contrasting a broken full-page drop trap.",
+    "comparisonDecisionRules": "The linked drag-and-drop-upload-vs-file-upload-vs-multi-step-form-vs-text-input comparison gives concrete rules for desktop file-manager workflows, reliable file input baseline, journey structure, typed alternatives, fallback requirements, browser default prevention, cancellation, and bulk-import boundaries.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/drag-and-drop-upload.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, drag-over state, cancellation, accepted drop, rejected non-file drag, click fallback, progress, remove, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/drag-and-drop-upload.png"
+    ]
+  },
+  "name": "Drag-and-drop upload",
+  "aliases": [
+    "drop zone upload",
+    "drag upload",
+    "drag and drop file upload",
+    "file drop zone",
+    "drop target uploader",
+    "desktop drop upload"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Cross-Device And Physical Interaction",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Drop-zone file upload enhancement with file input fallback",
+  "uiGuidance": [
+    "Render a large labelled drop zone with clear copy that says users can drag files there or activate a normal file picker, plus visible format, size, and count requirements.",
+    "Change border, background, icon, and status text for drag-enter, valid drag-over, invalid drag-over, drag-leave, dropped, uploading, uploaded, and error states without relying on color alone."
+  ],
+  "uxGuidance": [
+    "Use drag-and-drop upload as an enhancement for users who can drag files from a file manager, while preserving an equivalent click, keyboard, and mobile path.",
+    "Let users cancel by leaving or dropping outside the target, reject non-file or unsupported drags without losing progress, and require review before final submission."
+  ],
+  "uiExamples": {
+    "good": [
+      "A drop zone says Drag bank statements here or choose files, shows PDF/PNG/JPG up to 10 MB, highlights when files hover over it, lists two dropped filenames, and keeps a Choose files button visible.",
+      "A media uploader thickens the drop-zone border on valid drag-over, shows Not supported for a dragged link, and stacks uploaded filenames below the target with remove controls."
+    ],
+    "bad": [
+      "A dashed rectangle says Drop here but has no label, no click fallback, no accepted formats, and no state change while files hover over it.",
+      "The whole page becomes a hidden drop target that opens the dropped file in the browser when users miss the box."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user drags two PDFs over the zone, sees the target activate, drops them, reviews both filenames, removes the wrong one, uploads the remaining file, and then continues.",
+      "A keyboard user activates Choose files in the same drop zone and gets the same queued-file, progress, remove, and retry states as pointer users."
+    ],
+    "bad": [
+      "A user drags a file over the page, misses the small target, and the browser navigates to the file, wiping unsaved answers.",
+      "A mobile user sees only Drag files here and cannot upload because there is no file-picker button or alternate route."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Drag-and-drop upload can make desktop attachment workflows faster, but it fails when the target is ambiguous, the page swallows drops, non-file drags are accepted, or the drop zone replaces accessible file selection.",
+  "solution": "Provide a clear drop zone as an enhancement on top of a real file picker, expose drag states, prevent destructive browser defaults, validate dropped files, allow cancellation and removal, and keep upload progress separate from final submission.",
+  "problemContext": [
+    "Users are likely to have one or more files visible in a desktop file manager and want to move them into the product quickly.",
+    "The same workflow must still work for keyboard, mobile, assistive technology, public-device, and locked-down desktop users.",
+    "Files can be dragged over the wrong part of the page, leave the target, include unsupported types, or include non-file data such as links or text.",
+    "The browser may try to open dropped files unless the app prevents default handling only when file drags are involved.",
+    "The product needs to show queued, uploading, uploaded, failed, removed, and final submit states after a drop."
+  ],
+  "selectionRules": [
+    "Choose drag-and-drop upload when dropping files from a desktop file manager is a common, useful shortcut.",
+    "Use ordinary file upload when the task needs dependable attachment selection without extra drop-zone complexity.",
+    "Use text input when users can type the needed value instead of attaching a file.",
+    "Use multi-step form when the upload is one controlled step in a longer saved journey.",
+    "Use bulk import when the dropped file is structured data requiring mapping, row validation, and an import report.",
+    "Do not make drag-and-drop the only upload path.",
+    "Do not turn the entire page into an invisible drop target unless every drop outcome is clear, cancellable, and recoverable.",
+    "Accept only file drags in the drop zone and reject links, text, unsupported formats, too many files, or oversized files with explicit messages.",
+    "Prevent browser default file navigation only for file drags and only where the app can give users a safe outcome.",
+    "Require review or a separate submit action when a dropped file could affect a high-stakes transaction."
+  ],
+  "requiredStates": [
+    "Idle drop zone with visible label, requirements, and choose-file fallback.",
+    "Drag enter state announcing that files are over the upload area.",
+    "Valid drag-over state showing the target will copy or accept the files.",
+    "Invalid drag-over state for links, text, folders, unsupported formats, or too many files.",
+    "Drag leave or cancelled state that returns the zone to idle without uploading.",
+    "Dropped queue state listing filenames, type, size, and count.",
+    "Uploading state with progress tied to each dropped file or batch.",
+    "Uploaded state with remove or replace controls.",
+    "Rejected drop state with clear recovery and requirements repeated.",
+    "Submitted state that confirms dropped files are included only after final review."
+  ],
+  "interactionContract": [
+    "Dragenter and dragover make the target visibly active only when the incoming data includes files.",
+    "Dragover cancels the browser default action so the drop event can be handled and the cursor can show copy or none.",
+    "Dropping files reads DataTransfer files or items, validates them, and adds accepted files to the same queue used by the file input fallback.",
+    "Dropping links, text, folders, unsupported formats, or too many files keeps existing queued files intact and explains the rejected data.",
+    "Leaving the target before release cancels the drag affordance and does not upload anything.",
+    "Removing a dropped file affects only that file and keeps other queued files and form answers visible.",
+    "Click, keyboard, and file-input selection produce the same selected-file list, progress, validation, remove, retry, and submit behavior as drag-and-drop."
+  ],
+  "implementationChecklist": [
+    "Define accepted file kinds, maximum file size, maximum count, folder policy, duplicate policy, non-file drag policy, upload timing, and final submission boundary.",
+    "Implement the drop target with a real file input or accessible button fallback so activation with Enter, Space, click, touch, and screen readers follows the same code path.",
+    "Handle dragenter, dragover, dragleave, and drop events; prevent default file navigation for file drags and set an appropriate drop effect.",
+    "Process DataTransfer files, reject non-file data safely, validate type, size, and count, and add accepted files to a visible queue.",
+    "Show active, invalid, cancelled, queued, uploading, uploaded, failed, removed, and submitted states near the drop zone.",
+    "Provide remove, replace, retry, and final review controls before submission.",
+    "Test desktop file-manager drags, missed targets, browser Back, keyboard fallback, mobile fallback, screen readers, zoom, slow networks, duplicate files, and unsupported file types."
+  ],
+  "commonMisuses": [
+    "Replacing the normal file chooser with a drop zone that only pointer users can operate.",
+    "Letting dropped files outside the target open in the browser and erase unsaved progress.",
+    "Showing a dashed box that does not change state during drag enter, drag over, or invalid drag.",
+    "Accepting links or text as if they were files.",
+    "Automatically submitting a transaction immediately after drop.",
+    "Clearing all queued files when one dropped file is invalid.",
+    "Using a drop zone for bulk import without mapping, row-level errors, partial success, or import results."
+  ],
+  "critiqueQuestions": [
+    "Do users actually have files available to drag from a desktop file manager?",
+    "What is the equivalent path for keyboard, mobile, screen reader, public-device, and locked-down desktop users?",
+    "What happens if users drag over the page, leave the target, drop outside it, or drop a link instead of a file?",
+    "Can users see which files were accepted, rejected, uploading, uploaded, removed, or still waiting for final submit?",
+    "Does the implementation prevent destructive browser file navigation without hijacking ordinary links and text?",
+    "When should users be allowed to undo, remove, retry, or confirm after a drop?"
+  ],
+  "useWhen": [
+    "Users often upload files from a desktop file manager and benefit from dropping one or more files into a visible target.",
+    "The product can provide a reliable file-picker fallback with the same validation and upload states.",
+    "The upload surface can show drag-over, invalid, cancelled, queued, progress, remove, retry, and final submit states.",
+    "Dropping a file is a shortcut, not the only way to complete the task."
+  ],
+  "avoidWhen": [
+    "The main audience is mobile-only or cannot reasonably drag files from the operating system.",
+    "A normal file input is sufficient and the extra drop-zone states would add confusion.",
+    "The workflow cannot safely prevent missed-drop browser navigation or recover from mistaken drops.",
+    "The file contains structured data that needs bulk import validation and import results.",
+    "The implementation cannot provide keyboard, click, touch, and assistive technology fallback."
+  ],
+  "variants": [
+    "Single-file drop zone",
+    "Multiple-file drop zone",
+    "Image drop zone with preview",
+    "Document drop zone",
+    "Drop zone with click fallback",
+    "Drop zone with batch progress",
+    "Drop zone with rejected-file list",
+    "Drop zone with remove or undo",
+    "Drop zone inside a form step",
+    "Drop zone with server scan state"
+  ],
+  "accessibility": [
+    "Keep a visible label and instructions that name both drag-and-drop and choose-file paths.",
+    "Expose the choose-file fallback as a real button or file input reachable by keyboard.",
+    "Do not rely on deprecated drag-and-drop ARIA attributes for new content.",
+    "Announce meaningful state changes such as files queued, invalid drag, upload failed, and upload complete.",
+    "Keep accepted and rejected filenames available as text, not only thumbnails.",
+    "Ensure a drag can be cancelled by leaving or dropping outside the target without side effects.",
+    "Provide remove, retry, and final submit controls that are keyboard reachable."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the drop zone or choose-file fallback, queued-file remove controls, retry controls, and following form controls.",
+    "Enter or Space on the fallback opens the file picker and produces the same queue behavior as dropping files.",
+    "Keyboard users can remove, retry, and submit queued files without needing pointer drag gestures.",
+    "Focus returns near the drop zone after file selection, rejected file feedback, remove, or retry.",
+    "Escape or leaving the drop target cancels the drag affordance where the platform exposes that interaction.",
+    "A required-upload error can be reached from an error summary and lands focus on the drop-zone instructions or fallback control."
+  ],
+  "failureModes": [
+    "The drop zone is not discoverable because it looks like decoration until a file is already being dragged.",
+    "The page navigates to the dropped file because default browser file handling was not cancelled.",
+    "The drop zone accepts unsupported files and fails only after a long upload attempt.",
+    "Dropping one invalid file clears other valid queued files.",
+    "Screen reader users hear Drag files here but cannot find a real file input or button.",
+    "The drag-over state implies success but the dropped files are silently ignored.",
+    "A dropped file is submitted immediately without review, remove, confirmation, or undo."
+  ],
+  "relatedPatterns": [
+    "file-upload",
+    "text-input",
+    "multi-step-form",
+    "inline-validation",
+    "error-summary",
+    "loading-skeleton"
+  ],
+  "comparisons": [
+    "drag-and-drop-upload-vs-file-upload-vs-multi-step-form-vs-text-input"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Drag and drop file uploader",
+      "url": "https://v10.carbondesignsystem.com/components/file-uploader/usage/",
+      "platform": "web",
+      "notes": "Documents drag-and-drop file uploader as a variant, drop-zone text, activated drop-zone border, click fallback, keyboard activation, focus return, uploaded filename display, removal, loading, and invalid states.",
+      "screenshot": "screenshots/patterns/drag-and-drop-upload.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN File drag and drop",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop",
+      "platform": "web",
+      "notes": "Documents drop-zone markup with a file input fallback, dragover cancellation, drop processing, DataTransferItem files, adding the same behavior to input change, and clear behavior.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Design System File upload",
+      "url": "https://design-system.service.gov.uk/components/file-upload/",
+      "platform": "web",
+      "notes": "Documents improved file upload behavior where users can use Choose file or drag and drop a file into the upload input area, with labels, hints, errors, multiple selection, and translated component text.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "W3C WCAG Technique G210",
+      "url": "https://w3c.github.io/wcag/techniques/general/G210",
+      "platform": "web",
+      "notes": "Documents cancellation and recovery expectations for path-based drag-and-drop actions, including releasing outside the target, confirmation, and undo.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-file-uploader-component",
+      "note": "Carbon supports drag-and-drop uploader variant guidance, drop-zone copy, active border changes, click fallback, keyboard activation, focus return, selected files, removal, and invalid states."
+    },
+    {
+      "id": "mdn-file-drag-and-drop",
+      "note": "MDN supports file drop-zone implementation with file input fallback, dragover cancellation, DataTransferItem files, drop processing, and clear behavior."
+    },
+    {
+      "id": "govuk-file-upload-component",
+      "note": "GOV.UK supports improved file upload behavior with both Choose file and drag-and-drop options, plus labels, hints, errors, and multiple selection."
+    },
+    {
+      "id": "w3c-wcag-pointer-cancellation-drag-drop",
+      "note": "W3C supports drag-and-drop cancellation and recovery expectations for pointer-based drag actions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

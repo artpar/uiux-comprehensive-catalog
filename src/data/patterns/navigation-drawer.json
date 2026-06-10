@@ -1,0 +1,216 @@
+{
+  "id": "navigation-drawer",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a dismissible navigation drawer pattern with source-backed modal sheet behavior, scrim, opener, grouped destinations, close and focus recovery, related-pattern distinctions, comparison rules, duplicate audit, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers slide-in drawer sheets, menu-icon or swipe activation, modal scrim behavior, selected destination state, grouped drawer items, dismissal routes, focus recovery, and responsive replacement with persistent navigation.",
+    "relatedPatternDistinction": "The entry separates navigation drawers from side navigation by dismissible sheet behavior versus persistent local hierarchy, from bottom navigation by occasional destination access versus always-visible mobile switching, and from headers by drawer control versus current-view actions.",
+    "liveDemoBehavior": "The live demo opens a modal drawer from a menu button, shows a scrim, selects a destination, closes the drawer after navigation, preserves content state, and contrasts a bad drawer that has no close path and keeps covering changed content.",
+    "comparisonDecisionRules": "The linked navigation-drawer-vs-side-navigation-vs-bottom-navigation comparison gives concrete rules for modal drawers, persistent side hierarchy, mobile bottom destinations, frequent-destination misuse, grouping, dismissal, and focus return.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/navigation-drawer.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, modal drawer open state, scrim behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/navigation-drawer.png"
+    ]
+  },
+  "name": "Navigation drawer",
+  "aliases": [
+    "drawer navigation",
+    "modal navigation drawer",
+    "hamburger drawer",
+    "app drawer",
+    "side drawer",
+    "dismissible drawer"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Dismissible slide-in navigation sheet",
+  "uiGuidance": [
+    "Render a navigation sheet that enters from the start edge or bottom, is opened by an explicit control, and presents grouped destination items with selected state.",
+    "For modal drawers, dim or block the underlying content with a scrim and provide clear dismissal through item selection, scrim click, Escape, close control, or platform gesture."
+  ],
+  "uxGuidance": [
+    "Use a navigation drawer for destinations that need to be available but not constantly visible, especially on constrained screens or complex apps with secondary sections.",
+    "After a drawer item is chosen, close the drawer, update the active destination, and return focus or reading position predictably so users see the result of navigation."
+  ],
+  "uiExamples": {
+    "good": [
+      "A mobile app bar menu button opens a left modal drawer with Inbox selected, grouped labels, account switcher, and a visible scrim behind it.",
+      "The drawer has a clear title, short destination labels, selected item styling, dividers between groups, and a close route.",
+      "On larger screens, the same destinations can become a standard or permanent drawer when persistent access is useful."
+    ],
+    "bad": [
+      "A hamburger opens a full-height list with no scrim, no close control, and no visible selected destination.",
+      "The drawer mixes folders, account settings, delete account, help, and sign out without grouping or hierarchy.",
+      "A drawer overlays desktop content even though users need to switch between sibling pages repeatedly."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users open the drawer, select Sent, the drawer closes, and Sent becomes the visible destination while Inbox scroll state is preserved.",
+      "Tapping the scrim or pressing Escape dismisses the drawer and returns focus to the menu button.",
+      "A deep link opens content directly without forcing the drawer open, but the drawer still marks the current destination when opened."
+    ],
+    "bad": [
+      "Selecting a drawer item changes the destination behind the sheet but leaves the drawer covering the new page.",
+      "The drawer steals focus while hidden or leaves keyboard users behind the modal scrim.",
+      "Frequently used primary mobile destinations are hidden in the drawer, forcing repeated open-select-close cycles."
+    ]
+  },
+  "platforms": [
+    "mobile",
+    "web",
+    "desktop"
+  ],
+  "problem": "Users need access to app destinations or account sections, but the screen cannot or should not keep every navigation option visible all the time.",
+  "solution": "Provide a controlled navigation drawer that slides in as a sheet, presents grouped destinations with current state, blocks or shares space appropriately, and closes predictably after navigation or dismissal.",
+  "problemContext": [
+    "A mobile or constrained layout has more destinations than can fit in bottom navigation or a top app bar.",
+    "Some destinations are secondary, account-related, or less frequent but still need a stable access point.",
+    "The same navigation structure may be modal on phones and persistent or standard on wider screens."
+  ],
+  "selectionRules": [
+    "Choose a navigation drawer when destinations need occasional access from a constrained layout and can tolerate one extra open step.",
+    "Use a modal drawer when the navigation sheet should temporarily block interaction with the content behind it.",
+    "Use a standard, dismissible, or permanent drawer only when the drawer's relationship to content and layout width is clear.",
+    "Group drawer items by destination type, account, labels, or settings so long lists do not become undifferentiated menus.",
+    "Keep bottom navigation for the most frequent three to five mobile destinations and put overflow or secondary destinations in the drawer only when needed.",
+    "Use persistent side navigation instead of a drawer when desktop users repeatedly navigate within one local section."
+  ],
+  "requiredStates": [
+    "Closed state with a clear opener such as a menu button.",
+    "Opening or open state with drawer sheet, selected destination, and grouped items.",
+    "Modal scrim state that communicates the underlying content is blocked.",
+    "Dismissed state from scrim, Escape, close button, item selection, or platform gesture.",
+    "Selected destination state after the drawer closes.",
+    "Responsive state that changes between modal, dismissible, standard, or permanent behavior without changing labels unexpectedly."
+  ],
+  "interactionContract": [
+    "The opener toggles or opens the drawer and exposes expanded or modal state as appropriate.",
+    "A modal drawer prevents interaction with content behind it until dismissed.",
+    "Selecting a drawer destination closes the drawer and updates the active destination.",
+    "Scrim click, Escape, close controls, or platform gestures dismiss the drawer without changing destination.",
+    "Focus moves into the modal drawer when it opens and returns to the opener or new page heading when it closes.",
+    "The selected drawer item must match the current destination when the drawer is opened after a route change."
+  ],
+  "implementationChecklist": [
+    "Define which destinations belong in the drawer and which deserve persistent bottom, global, or side navigation.",
+    "Provide an explicit opener with an accessible name and consistent placement.",
+    "Render modal drawers with a scrim and dismissal behavior that matches the platform.",
+    "Group long drawer lists with headings or dividers and keep labels short.",
+    "Mark the current destination programmatically and visually.",
+    "Close the drawer after destination activation and verify focus movement.",
+    "Test responsive breakpoints so drawer, side navigation, and bottom navigation do not duplicate the same primary destination set."
+  ],
+  "commonMisuses": [
+    "Hiding the app's most important destinations in a drawer on mobile.",
+    "Leaving a modal drawer open after a destination is selected.",
+    "Providing no scrim, Escape, close control, or outside-dismiss behavior for a modal drawer.",
+    "Using the menu icon for unrelated actions on different screens.",
+    "Mixing destructive account actions with normal destinations without grouping or confirmation.",
+    "Duplicating the same destinations in bottom navigation and a drawer without clear overflow logic."
+  ],
+  "critiqueQuestions": [
+    "Which destinations are frequent enough to stay visible, and which belong in the drawer?",
+    "Can users dismiss the drawer without changing destination?",
+    "Does selecting an item close the drawer and reveal the new destination?",
+    "Does keyboard focus move into and out of the modal drawer predictably?",
+    "Will this drawer become persistent side navigation on larger screens, and are labels consistent across variants?"
+  ],
+  "useWhen": [
+    "A constrained app needs access to more destinations than fit in the visible navigation surface.",
+    "Destinations are useful but not frequent enough to justify bottom navigation slots.",
+    "Account switching, labels, settings, or secondary app sections need a stable menu location."
+  ],
+  "avoidWhen": [
+    "Users need constant visibility of the local hierarchy while working in a section.",
+    "The app has three to five primary mobile destinations that should be bottom navigation.",
+    "The drawer would hide the only way to recover, save, or complete the current task.",
+    "The navigation content is actually a contextual action menu, filter panel, or settings drawer."
+  ],
+  "variants": [
+    "Modal navigation drawer",
+    "Dismissible navigation drawer",
+    "Standard navigation drawer",
+    "Permanent navigation drawer",
+    "Bottom navigation drawer",
+    "Drawer with account switcher",
+    "Drawer with grouped destinations"
+  ],
+  "accessibility": [
+    "Give the opener an accessible name such as Open navigation menu.",
+    "Expose the selected drawer item programmatically.",
+    "Trap or contain focus only while a modal drawer is open, then restore focus on close.",
+    "Ensure scrim, close, Escape, and item-selection dismissal are keyboard operable.",
+    "Do not allow focus to move to obscured content behind a modal drawer."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the opener opens the drawer.",
+    "Tab moves through drawer items and controls while the modal drawer is open.",
+    "Escape closes a modal drawer and returns focus to the opener.",
+    "Enter activates a drawer item, closes the drawer, and moves focus according to route-change conventions.",
+    "Keyboard users can dismiss the drawer without activating a destination."
+  ],
+  "failureModes": [
+    "Drawer opens but underlying content remains interactive.",
+    "Drawer closes without updating selected state.",
+    "Focus is lost behind the scrim or remains in a hidden drawer.",
+    "The drawer list is too long, ungrouped, or full of unrelated utilities.",
+    "The menu opener is missing, inconsistent, or unlabeled.",
+    "Primary mobile destinations are buried behind repeated open-select-close cycles.",
+    "Responsive variants expose different labels for the same destination."
+  ],
+  "relatedPatterns": [
+    "side-navigation",
+    "bottom-navigation",
+    "header",
+    "global-navigation"
+  ],
+  "comparisons": [
+    "navigation-drawer-vs-side-navigation-vs-bottom-navigation"
+  ],
+  "examples": [
+    {
+      "product": "Material Design Navigation drawer",
+      "url": "https://m2.material.io/components/navigation-drawer",
+      "platform": "mobile",
+      "notes": "Documents modal, dismissible, and permanent drawer behavior, destination lists, active items, scrims, and dismissal routes.",
+      "screenshot": "screenshots/patterns/navigation-drawer.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Android Developers Navigation drawer",
+      "url": "https://developer.android.com/develop/ui/compose/components/drawer",
+      "platform": "mobile",
+      "notes": "Documents navigation drawer activation by menu icon or swipe, modal and standard drawer types, DrawerState open/close control, and grouped drawer content.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS Side navigation",
+      "url": "https://designsystem.digital.gov/components/side-navigation/",
+      "platform": "web",
+      "notes": "Used as a contrast source for persistent side navigation rather than a dismissible drawer sheet.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-navigation-drawer",
+      "note": "Material defines navigation drawer variants, destination list anatomy, scrim behavior, and modal dismissal routes."
+    },
+    {
+      "id": "android-compose-navigation-drawer",
+      "note": "Android Compose documents slide-in drawer activation, ModalNavigationDrawer, DrawerState, grouped content, and top-app-bar integration."
+    },
+    {
+      "id": "uswds-side-navigation",
+      "note": "USWDS side navigation guidance supports the distinction between persistent side hierarchy and drawer-style temporary navigation."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

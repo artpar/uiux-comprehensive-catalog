@@ -1,0 +1,58 @@
+{
+  "id": "bank-details-vs-text-input-vs-input-mask-vs-review-before-submit",
+  "title": "Bank details vs text input vs input mask vs review before submit",
+  "summary": "Use bank details when a product must capture account-identification parts for payout, debit, refund, payroll, or payment initiation; use text input for ordinary short values, input mask for formatting a stable field, and review before submit for final verification after capture.",
+  "patternIds": [
+    "bank-details",
+    "text-input",
+    "input-mask",
+    "review-before-submit"
+  ],
+  "decisionRules": [
+    "Prefer bank details when the service must store or verify account holder name, bank or building society account number, routing information such as sort code, and any roll number or regional equivalent.",
+    "Prefer text input only for a single non-financial short answer, such as a payment reference label, because bank-account capture requires multiple fields, validation, privacy handling, and review.",
+    "Prefer input mask only for display grouping or paste cleanup inside one bank-detail field; the mask does not own account holder name, roll-number optionality, account validation, or verification outcomes.",
+    "Prefer review before submit after bank details have been captured when users need to confirm masked or partially shown details before a payout, debit, refund, or payroll update is committed.",
+    "Collect bank details securely inside the product flow; do not move bank account collection into email, chat, attachments, or other unstructured channels.",
+    "Do not ask users to classify bank versus building society accounts when the product can ask for the fields it needs and make roll number optional unless the user has one.",
+    "Use field-specific validation for sort code, account number, routing number, roll number, and account holder name rather than reporting only Payment failed after submit.",
+    "Where account validation or Confirmation of Payee is available, present match, close match, no match, pending, and override states as user-reviewable outcomes rather than silent corrections.",
+    "For ACH, direct debit, or open-banking flows, distinguish manual account details from bank-login or account-selection flows and provide fallback or pending verification states when instant verification is unavailable.",
+    "Mask or summarize stored bank details on later pages, but keep enough recognizable information for users to detect a wrong account before money moves."
+  ],
+  "failureModes": [
+    "A payout form uses one generic Account field, so the account number, sort code, roll number, and holder name cannot be validated or reviewed separately.",
+    "A mask inserts separators but silently stores a different account number, making users unable to check what will be paid.",
+    "A form asks whether the user has a bank or building society account and users choose the wrong path because they do not know the classification.",
+    "A service collects bank details by email or attachment, exposing sensitive account information outside the controlled product flow.",
+    "Account validation returns a close match or pending micro-deposit state but the UI still shows the details as fully verified.",
+    "A review page hides every digit of the account number, so users cannot detect that the wrong account was captured."
+  ],
+  "sources": [
+    {
+      "id": "govuk-bank-details-pattern",
+      "note": "GOV.UK supports secure in-service bank-details collection, account holder name, sort code, account number, optional roll number, no account-type question, and field-specific errors."
+    },
+    {
+      "id": "payuk-sort-code-information",
+      "note": "Pay.UK supports sort codes as routing data for UK payment systems and distinguishes them from generic numeric text."
+    },
+    {
+      "id": "payuk-confirmation-of-payee-faqs",
+      "note": "Pay.UK supports account-name checking using payee name, sort code, and account number for domestic payments."
+    },
+    {
+      "id": "nacha-web-debit-account-validation",
+      "note": "Nacha supports account validation for online ACH debit first use and account-number changes."
+    },
+    {
+      "id": "plaid-auth-microdeposits",
+      "note": "Plaid supports verification states for account and routing details through instant or micro-deposit flows."
+    },
+    {
+      "id": "open-banking-account-selection-pisp",
+      "note": "Open Banking supports account-identification choices such as sort code and account number, roll number, IBAN, saved accounts, and bank redirection."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

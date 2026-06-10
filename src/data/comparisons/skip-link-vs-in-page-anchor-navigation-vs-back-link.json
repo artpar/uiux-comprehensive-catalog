@@ -1,0 +1,49 @@
+{
+  "id": "skip-link-vs-in-page-anchor-navigation-vs-back-link",
+  "title": "Skip link vs in-page anchor navigation vs back link",
+  "summary": "Use skip links to bypass repeated page chrome, in-page anchor navigation to jump among current-page sections, and back links to return one step in a transaction.",
+  "patternIds": [
+    "skip-link",
+    "in-page-anchor-navigation",
+    "back-link"
+  ],
+  "decisionRules": [
+    "Prefer a skip link when keyboard or assistive-technology users would otherwise encounter repeated header, navigation, breadcrumb, filter, or advertising blocks before the primary content.",
+    "Prefer in-page anchor navigation when users need a visible table of contents for several meaningful sections within the current page, not just a bypass around repeated chrome.",
+    "Prefer a back link when the task is returning to the previous transaction page in its last-seen state, not jumping forward to main content on the same page.",
+    "Place the primary skip link before repeated navigation in the focus order, usually immediately after the opening body tag or after required cookie/banner content.",
+    "Make skip links hidden by default only if they become prominent on keyboard focus; do not use display none, hidden, transparent-only, or zero-size techniques that remove or obscure keyboard access.",
+    "Point the skip link to the main content start or page heading and ensure activation moves focus or the browser focus position so the next Tab continues inside the primary content.",
+    "Keep the label destination-oriented, such as Skip to main content, instead of vague text like Skip or Continue.",
+    "Do not wrap the skip link in the header or a nav landmark when that makes it part of the repeated block users are trying to bypass.",
+    "Use additional bypass links only for genuinely large repeated blocks such as long filter panels; too many skip links create another block to skip.",
+    "Do not use a skip link as a replacement for landmarks, headings, sensible source order, visible navigation, or transaction Back behavior."
+  ],
+  "failureModes": [
+    "The first keyboard Tab lands in a 20-item header menu because the skip link appears after the repeated navigation.",
+    "A skip link is hidden with display none, so screen-reader and keyboard users cannot focus it.",
+    "The link scrolls visually to main content but leaves keyboard focus in the header, so the next Tab continues through navigation.",
+    "The target ID is missing or duplicated, so activation changes the URL hash without reaching content.",
+    "A page adds Skip to footer, Skip to search, Skip to filters, Skip to nav, and Skip to content links before every page, creating link clutter.",
+    "A Back link is labelled Skip back even though it leaves the current page and loses the user's form context."
+  ],
+  "sources": [
+    {
+      "id": "w3c-wcag-bypass-blocks",
+      "note": "WCAG 2.4.1 requires a mechanism to bypass repeated content and gives top-of-page skip links, headings, and landmarks as sufficient techniques."
+    },
+    {
+      "id": "govuk-skip-link-component",
+      "note": "GOV.UK requires skip links on pages, places them before repeated navigation, and keeps them visually hidden until keyboard focus."
+    },
+    {
+      "id": "webaim-skip-navigation-links",
+      "note": "WebAIM documents first-item placement, focus visibility, proper focus transfer, and failures caused by inaccessible hiding."
+    },
+    {
+      "id": "scottish-government-skip-link",
+      "note": "Scottish Government guidance recommends Skip to main content wording and describes moving focus to the target on Enter."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

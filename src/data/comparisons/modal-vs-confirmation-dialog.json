@@ -1,25 +1,37 @@
 {
   "id": "modal-vs-confirmation-dialog",
   "title": "Modal dialog vs confirmation dialog",
-  "summary": "A confirmation dialog is a specific modal decision pattern. Not every modal is a confirmation, and not every interruption deserves modal treatment.",
-  "patternIds": ["modal-dialog", "confirmation-dialog"],
+  "summary": "A modal dialog creates a temporary focused mode for a short task. A confirmation dialog is the narrower decision pattern used when a pending action has a meaningful consequence.",
+  "patternIds": [
+    "modal-dialog",
+    "confirmation-dialog"
+  ],
   "decisionRules": [
-    "Use a modal dialog for a focused task that must happen in a separate temporary mode.",
-    "Use a confirmation dialog only when the decision protects against a meaningful consequence.",
-    "Use inline or nonmodal feedback when the message does not require an immediate decision."
+    "Use a modal dialog when the user must complete a short contained task before returning to the page, such as editing one account field or choosing a date.",
+    "Use a confirmation dialog when the only task is deciding whether to continue with a destructive, costly, security-sensitive, or difficult-to-reverse action.",
+    "Use a regular modal form when the user can review or edit values; use confirmation copy when the action consequence is the content being reviewed.",
+    "Use an inline panel, drawer, or page section when background context must remain interactive while the user works.",
+    "Use a full page instead of a modal when the task needs deep navigation, long-form content, autosave, or durable URL history.",
+    "Use a toast, banner, or inline message when the user only needs feedback and should not be blocked from the current page."
   ],
   "failureModes": [
-    "Treating modal as a generic container for any extra content.",
-    "Using vague confirmation copy that fails to name the consequence."
+    "Treating every modal as a confirmation and adding vague Are you sure copy to low-risk editing tasks.",
+    "Using a generic modal shell for destructive actions without naming the object, consequence, and safe cancellation path.",
+    "Leaving background controls usable while the modal is open, so users can change page state behind the focused task.",
+    "Using a modal for long workflows that need navigation, saved progress, or shareable state."
   ],
   "sources": [
     {
-      "id": "wai-aria-apg",
-      "note": "The APG dialog and alert dialog patterns separate modal behavior from alerting semantics."
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "APG defines modal dialog modality, inert background behavior, contained tab sequence, Escape dismissal, and focus return."
     },
     {
       "id": "apple-hig-alerts",
       "note": "Apple guidance frames alerts as interruptive and appropriate only for critical information."
+    },
+    {
+      "id": "atlassian-modal-dialog",
+      "note": "Atlassian frames modal dialogs as layered content requiring user interaction above the page."
     }
   ],
   "lastVerified": "2026-06-08"

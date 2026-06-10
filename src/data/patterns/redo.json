@@ -1,0 +1,216 @@
+{
+  "id": "redo",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a forward edit-history replay pattern with source-backed stack semantics, visible enabled and disabled command states, branch clearing after new edits, target-invalid cautions, redo-vs-undo-vs-draft-state-vs-command-palette rules, inspected examples, duplicate audit coverage, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names no-redo, undo-available, redo-available, redone, branch-cleared, multi-step, and target-invalid states; it also covers operation labels, exact replay, target identity, shortcut parity, and external-effect limits.",
+    "relatedPatternDistinction": "The entry separates redo from undo by reapplying the latest undone operation, from draft state by staying inside an immediate edit stack rather than a durable unpublished version, and from command palette by treating palettes as command access rather than history semantics.",
+    "liveDemoBehavior": "The live demo moves a document heading, pushes the operation to the undo stack, undoes it into the redo stack, redoes the move, clears redo after a new edit, and contrasts missing, stale, wrong-target, hidden-stack, destructive, and keyboard-only failures.",
+    "comparisonDecisionRules": "The redo-vs-undo-vs-draft-state-vs-command-palette comparison gives concrete rules for stack availability, exact replay, branch clearing, stale targets, durable recovery boundaries, and command-palette state consistency.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/redo.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, stack states, branch-clearing controls, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/redo.png"
+    ]
+  },
+  "name": "Redo",
+  "aliases": [
+    "reapply",
+    "redo command",
+    "redo stack",
+    "forward history",
+    "reapply undone change"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ux",
+  "surfaceType": "Forward edit-history replay",
+  "uiGuidance": [
+    "Show Redo as a visible command, menu item, toolbar control, or command-palette row whose enabled state matches the current redo stack.",
+    "Name the operation or target when possible, such as Redo move heading, and show a disabled or unavailable state when no undone operation can be reapplied."
+  ],
+  "uxGuidance": [
+    "Use redo to let users recover from undoing too far without recreating work by hand.",
+    "Treat redo as a valid future branch only until the user makes a new edit or the original target can no longer be replayed reliably."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document toolbar shows Undo and Redo; Redo is disabled until the user undoes Move Summary before Risk.",
+      "After an undo, the history panel lists Redo available: Move Summary before Risk and clears that row when the user makes a new edit."
+    ],
+    "bad": [
+      "A Redo button remains enabled after the user types new content, with no indication that the old future branch is gone.",
+      "Redo is available only through a keyboard shortcut and gives no visible disabled, unavailable, or target-specific state."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user moves a heading, chooses Undo, sees Redo move heading become available, and redoes the same move against the same document outline.",
+      "A user undoes a move, types a new note, and sees the redo stack cleared because the edit history has branched."
+    ],
+    "bad": [
+      "A user undoes a move, selects a different heading, presses Redo, and the product applies the old operation to the wrong target.",
+      "A user returns after reload and the interface still implies redo is available even though the in-memory edit stack is gone."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can undo too far, change their mind after an undo, or need to reapply a reversible edit without reconstructing the work manually.",
+  "solution": "Maintain a redo stack after undo, expose Redo only when a valid undone operation exists, replay the latest undone operation against the same target, and clear or branch that stack when new edits invalidate the future history.",
+  "problemContext": [
+    "The product supports reversible editing, ordering, formatting, drawing, document, layout, or configuration actions.",
+    "Users can issue repeated undo commands and may need to recover from undoing one step too many.",
+    "The system can store enough operation and target state to replay the undone action accurately.",
+    "New edits after undo create a divergent state unless the product has an explicit branching history model."
+  ],
+  "selectionRules": [
+    "Choose redo when the user has just undone a reversible operation and may need to reapply it.",
+    "Expose redo next to undo in editor toolbars, menus, command palettes, or keyboard help when editing workflows are central.",
+    "Disable or hide redo when no undone operation exists, but keep the availability discoverable in command-rich desktop-style products.",
+    "Clear the redo stack when the user makes a new edit after undo unless the product provides explicit branch history.",
+    "Replay the latest undone action in last-in-first-out order and preserve target identity, ordering, selection, and scope.",
+    "Use a history panel, revision history, restore from trash, or draft state when users need long-lived recovery across sessions rather than immediate redo.",
+    "Do not offer redo for operations whose external effects, permissions, payments, emails, or webhooks cannot be safely replayed or recalled.",
+    "Do not make keyboard shortcuts the only redo path in interfaces that also support mouse, touch, or assistive technology workflows."
+  ],
+  "requiredStates": [
+    "No-redo state before any undo has happened.",
+    "Undo-available state after a reversible edit.",
+    "Redo-available state after the user undoes an operation.",
+    "Redone state after the latest undone operation is reapplied.",
+    "Branch-cleared state after a new edit while redo was available.",
+    "Multi-step redo state where repeated Redo replays the redo stack in order.",
+    "Target-invalid state when the original object, selection, or collaborator context can no longer accept replay."
+  ],
+  "interactionContract": [
+    "Redo is unavailable until an undo places an operation on the redo stack.",
+    "Activating Redo replays the most recent undone operation and returns that operation to the undo stack.",
+    "The command label, tooltip, menu item, status row, or history panel identifies the operation when ambiguity is possible.",
+    "A new edit after undo clears redo or creates an explicit branch that users can see and choose.",
+    "Keyboard shortcuts, toolbar controls, menus, and command palette entries reflect the same enabled or disabled state.",
+    "If the original target is deleted, locked, changed by another user, or otherwise invalid, Redo explains why replay is unavailable.",
+    "Redo does not silently repeat unrelated commands or destructive external effects."
+  ],
+  "implementationChecklist": [
+    "Represent undo and redo as separate stacks or equivalent operation history with target identity and scope.",
+    "Push operations from undo to redo only after a successful undo, and push them back to undo after successful redo.",
+    "Clear redo on new edits unless the product intentionally supports visible history branches.",
+    "Keep visible controls, menu labels, command palette rows, shortcut help, and disabled states synchronized with the stack.",
+    "Store enough object, ordering, selection, and collaborator context to reject stale redo rather than applying it to the wrong target.",
+    "Announce redo availability, redone outcomes, cleared branch state, and invalid replay states in a status region.",
+    "Test repeated undo and redo, target deletion, route changes, collaboration updates, keyboard shortcuts, and disabled states."
+  ],
+  "commonMisuses": [
+    "Leaving redo enabled after a new edit invalidates the undone future.",
+    "Applying redo to the current selection instead of the original operation target.",
+    "Treating redo as persistent restore or version rollback without showing durable history.",
+    "Hiding redo behind a shortcut with no visible command state.",
+    "Using Redo to mean repeat last command even when users expect reapply undone change.",
+    "Offering redo for external side effects that cannot be safely replayed."
+  ],
+  "critiqueQuestions": [
+    "What operation enters the redo stack when the user undoes this action?",
+    "What exact event clears redo, and how does the interface tell users that the branch changed?",
+    "Can Redo identify the original target if selection, ordering, permissions, or collaboration state changed?",
+    "Do visible controls and keyboard shortcuts expose the same availability?",
+    "Does Redo reapply an undone action, or is it actually repeat last command, restore from trash, or version rollback?"
+  ],
+  "useWhen": [
+    "Users perform reversible sequences of edits and can undo too far.",
+    "The product can replay an undone operation accurately against the same target.",
+    "A visible command state can show when redo is available, unavailable, cleared, or invalid."
+  ],
+  "avoidWhen": [
+    "The system cannot reliably store or replay the undone operation.",
+    "The action has irreversible external side effects.",
+    "Users need long-lived recovery across sessions, trash, revisions, or drafts rather than immediate stack replay.",
+    "A new edit has already created a divergent history and there is no branch UI."
+  ],
+  "variants": [
+    "Single-step redo",
+    "Multi-step redo",
+    "Toolbar redo",
+    "Menu redo",
+    "Command palette redo",
+    "Keyboard shortcut redo",
+    "Redo with operation label",
+    "Branch-cleared redo",
+    "Invalid target redo"
+  ],
+  "accessibility": [
+    "Expose Redo as a named button, menu item, or command row when editing commands are visible.",
+    "Use disabled states and accessible descriptions so assistive technology users know when no redo is available.",
+    "Announce redone, unavailable, cleared, and target-invalid outcomes through a status region.",
+    "Do not rely only on icon direction, color, or keyboard shortcut memory.",
+    "Make shortcut help reflect platform conventions and any product-specific alternative shortcuts."
+  ],
+  "keyboardBehavior": [
+    "Common platform shortcuts may invoke redo when focus is in an editor context and redo is available.",
+    "Keyboard shortcut activation follows the same redo stack as toolbar, menu, and command-palette activation.",
+    "Disabled redo shortcuts should not trigger unrelated repeat or destructive commands.",
+    "Focus remains in the editing context after successful redo unless a target-invalid message needs attention.",
+    "After a new edit clears redo, shortcut help or command state must no longer imply the old operation is available."
+  ],
+  "failureModes": [
+    "Redo button looks available but does nothing because no redo stack exists.",
+    "Redo silently replays against the wrong selected object.",
+    "Redo survives a route change, reload, or collaboration update without durable history support.",
+    "A new edit fails to clear redo, causing stale operations to overwrite current work.",
+    "The command palette exposes Redo when toolbar and menu controls say it is unavailable.",
+    "Users cannot discover redo because only a platform-specific shortcut exists."
+  ],
+  "relatedPatterns": [
+    "undo",
+    "draft-state",
+    "command-palette"
+  ],
+  "comparisons": [
+    "redo-vs-undo-vs-draft-state-vs-command-palette"
+  ],
+  "examples": [
+    {
+      "product": "Apple Human Interface Guidelines Undo and redo",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/undo-and-redo",
+      "platform": "desktop",
+      "notes": "Frames undo and redo as system-supported reversal mechanisms that help people recover and explore safely.",
+      "screenshot": "screenshots/patterns/redo.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Visual Studio Code default keybindings",
+      "url": "https://code.visualstudio.com/docs/reference/default-keybindings",
+      "platform": "desktop",
+      "notes": "Lists Undo and Redo as editor commands with default platform keyboard shortcuts.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Windows keyboard shortcuts",
+      "url": "https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec",
+      "platform": "desktop",
+      "notes": "Documents redo as redoing typing that was undone with undo in platform shortcut guidance.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-undo-redo",
+      "note": "Apple frames undo and redo as expected reversal mechanisms that support recovery and safe exploration."
+    },
+    {
+      "id": "vscode-default-keybindings",
+      "note": "VS Code exposes undo and redo as command identifiers with platform keyboard shortcuts."
+    },
+    {
+      "id": "microsoft-windows-keyboard-shortcuts",
+      "note": "Microsoft documents redo as redoing typing that was undone with undo."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

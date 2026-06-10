@@ -1,0 +1,46 @@
+{
+  "id": "time-picker-vs-text-input-vs-select-vs-input-mask",
+  "title": "Time picker vs text input vs select vs input mask",
+  "summary": "Use a time picker when users choose a specific clock time from meaningful increments; use text input for unusual or approximate times, select for a few fixed slots, and input mask only for rigid machine-readable time strings.",
+  "patternIds": [
+    "time-picker",
+    "text-input",
+    "select",
+    "input-mask"
+  ],
+  "decisionRules": [
+    "Prefer time picker when the task asks for a specific appointment, meeting, delivery, reminder, or service time from predictable increments.",
+    "Prefer text input when users must enter an approximate, historical, unknown, or freeform time such as around dawn, after lunch, or time of birth from a record.",
+    "Prefer select when there are only a few fixed slots, such as Morning, Afternoon, Evening, or three appointment windows.",
+    "Prefer input mask only when the product requires a rigid HH:mm or HH:mm:ss string and the mask does not block correction, paste, localization, or AM/PM entry.",
+    "Use a visible label and hint that explain filtering, valid time range, minute step, and timezone when those affect scheduling.",
+    "Expose min time, max time, unavailable time, selected time, filtered options, empty query, invalid format, and out-of-hours states.",
+    "Support both 12-hour display with AM/PM and canonical 24-hour storage when the audience expects 12-hour time.",
+    "Show timezone or location whenever the selected time can be interpreted differently across users, stores, offices, or services.",
+    "Do not auto-submit when a time option is highlighted or selected; users often change time choices while scanning nearby slots.",
+    "Validate client and server values against range, step, availability, timezone, and required-field rules before storing the canonical value."
+  ],
+  "failureModes": [
+    "A time picker stores 2:30 without AM/PM or timezone, so users and backend systems interpret different moments.",
+    "A dropdown contains every minute of the day even though the service only accepts 30-minute appointments.",
+    "Filtering 9 shows unrelated times because the option text does not include familiar strings such as 9:00 AM.",
+    "A mask rejects pasted 09:30 or localized input and gives only a format error.",
+    "Selecting a time immediately submits the form before the user can review the date, timezone, or other fields.",
+    "Only the invalid select is styled, but the error text does not say whether hour, minute, AM/PM, timezone, or availability failed."
+  ],
+  "sources": [
+    {
+      "id": "uswds-time-picker-component",
+      "note": "USWDS supports scheduling times from consistent increments, filtering dropdown options, min/max time, minute step, labels, hints, accessibility testing, and no auto-submission."
+    },
+    {
+      "id": "carbon-time-picker-guidance",
+      "note": "Carbon supports time picker anatomy, hour/minute input, AM/PM selector, timezone selector, 12-hour and 24-hour systems, uppercase AM/PM, field-level errors, and internationalization."
+    },
+    {
+      "id": "mdn-html-time-input",
+      "note": "MDN supports native time values, canonical 24-hour HH:mm or HH:mm:ss storage, min/max constraints, step granularity, required validation, and datalist suggestions."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

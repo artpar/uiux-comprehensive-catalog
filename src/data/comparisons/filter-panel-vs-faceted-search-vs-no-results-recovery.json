@@ -1,0 +1,53 @@
+{
+  "id": "filter-panel-vs-faceted-search-vs-no-results-recovery",
+  "title": "Filter panel vs faceted search vs no-results recovery",
+  "summary": "Use a filter panel to expose and apply filtering controls, faceted search to structure a large result-narrowing journey, and no-results recovery after the current search or filters produce an empty set.",
+  "patternIds": [
+    "filter-panel",
+    "faceted-search",
+    "no-results-recovery"
+  ],
+  "decisionRules": [
+    "Prefer a filter panel when the main design problem is where grouped filters live, how users apply them, how collapsed or mobile panels show active counts, and how results stay connected to the controls.",
+    "Prefer faceted search when the design problem is the broader discovery model: which attributes become facets, how combinations narrow a large catalog, and how users understand the result universe.",
+    "Prefer no-results recovery when filtering has already produced an empty or misleading result set and the user needs explanation, preserved criteria, and a direct path to loosen constraints.",
+    "Use a persistent side filter panel on wide layouts when users need frequent edits across several categories while still comparing result cards or result rows.",
+    "Use a collapsed accordion, drawer, or full-screen panel on small layouts only when the closed state still shows the number of active filters and returns users to the result summary after apply.",
+    "Use batch apply when several categories can change together, results are expensive to refresh, or instant reloads would move content while users are still selecting options.",
+    "Use instant filtering only when each selection is lightweight, the result count updates predictably, and clearing an applied chip or single option is expected to take effect immediately.",
+    "Do not use a filter panel as a sort control: sorting changes order while filtering excludes items, so sort state must stay separate from applied filter state.",
+    "Do not rely on filter chips alone when users still need to discover available categories; chips summarize or remove active filters, while the panel exposes selectable criteria.",
+    "Do not hide selected criteria only inside the panel; show active filters, count, and reset controls near the result set so users understand why they are seeing the current results."
+  ],
+  "failureModes": [
+    "A closed mobile filter button says Filters but gives no active count, so users cannot tell that three filters are excluding results.",
+    "A batch panel changes checkbox state without applying, while the result count still describes the previous query and gives no unsaved-change cue.",
+    "Instant filtering reloads the result list after every checkbox and moves focus before users finish selecting related criteria.",
+    "The clear-all action resets search, sort, pagination, and view mode even though the user only asked to clear filters.",
+    "A filter panel is used as local navigation and links users to unrelated pages instead of narrowing the current result set.",
+    "A zero-result state replaces the result list without preserving the active filters that caused the empty set."
+  ],
+  "sources": [
+    {
+      "id": "carbon-filtering-pattern",
+      "note": "Carbon distinguishes single selection, multiselect, multiple categories, batch updates, instant updates, hidden-container indicators, and reset behavior."
+    },
+    {
+      "id": "dwp-filter-component-research",
+      "note": "DWP research emphasizes explicit result state, applied filters near results, clear-all recovery, and synchronization between filter controls and results."
+    },
+    {
+      "id": "visa-product-design-filters",
+      "note": "Visa documents filter panel usage, active indicators, chips, clear-all controls, apply buttons, and mobile filter panel considerations."
+    },
+    {
+      "id": "nsw-design-system-filters",
+      "note": "NSW guidance describes visible and collapsed panels, mobile full-screen filters, active-count indicators, sticky apply controls, and retaining values."
+    },
+    {
+      "id": "moj-design-system-filter",
+      "note": "MOJ filter guidance supports selected filters, clear filters, grouped controls, and apply behavior for lists and search results."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

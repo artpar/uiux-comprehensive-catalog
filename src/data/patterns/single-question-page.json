@@ -1,0 +1,224 @@
+{
+  "id": "single-question-page",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a focused form-page structure with source-backed guidance for one question per page, question-as-heading layout, related-field grouping, Back and Continue behavior, validation recovery, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a whole page devoted to one answer or decision, question-as-heading layout, short explanatory text before the answer, grouped controls that answer the same question, Back and Continue placement, validation timing, answer preservation, and progress context when part of a flow.",
+    "relatedPatternDistinction": "The entry separates single-question page from text input and textarea by page structure versus field controls, from error summary by recovery versus page composition, from single-page forms by focused sequential answers versus grouped scanning, from multi-step forms by page-level step units inside a broader journey, and from wizards by avoiding heavy sequential chrome for a simple question.",
+    "liveDemoBehavior": "The rendered exercise lets users choose an answer on one focused page, continue with validation, go back without losing the answer, reveal related fields on the same question, and compare a broken page that asks multiple unrelated questions and clears state after errors.",
+    "comparisonDecisionRules": "The linked single-question-page-vs-text-input-vs-textarea-vs-error-summary comparison gives concrete rules for page structure, short and long answer controls, page-level error recovery, related-field grouping, single-page-form alternatives, multi-step flow use, wizard escalation, and Back or Continue preservation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/single-question-page.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, one-question heading, Back and Continue controls, answer preservation, validation recovery, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/single-question-page.png"
+    ]
+  },
+  "name": "Single-question page",
+  "aliases": [
+    "question page",
+    "one question per page",
+    "one thing per page",
+    "single question step",
+    "focused form page"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Focused form page for one answer or decision",
+  "uiGuidance": [
+    "Render one clear question as the page heading, optional explanatory text before the answer, one answer area, a primary Continue action, and a Back link or equivalent return path.",
+    "Keep only controls that answer the same question on the page, such as a radio group with a conditional detail field, and place errors directly in the question area with a page-level summary when needed."
+  ],
+  "uxGuidance": [
+    "Use a single-question page when users need to focus on one decision, understand one piece of information, or answer one conceptual question before moving on.",
+    "Preserve the selected or typed answer through Back, Continue, validation, and route changes, and validate only the current question before advancing to the next page."
+  ],
+  "uiExamples": {
+    "good": [
+      "A page heading asks Do you have evidence to upload?, explanatory text sits above a yes/no radio group, Continue follows the answer, and Back returns to the previous service step.",
+      "A date question uses three related fields on the same page because day, month, and year answer one question."
+    ],
+    "bad": [
+      "One page asks for name, address, evidence status, and payment method under a vague Details heading.",
+      "A focused question page has only a field label inside the input, no page heading, no Back path, and an unlabeled next button."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user chooses Yes, sees a follow-up detail field on the same question page, goes Back, returns, and the answer is still selected.",
+      "A user submits without choosing an answer, sees a specific error, selects an option, and Continue advances without losing prior answers."
+    ],
+    "bad": [
+      "A user answers three unrelated questions on one screen and submits, but the error only says fix details without naming the question.",
+      "A user goes Back to check the previous step and the question page clears the answer they already gave."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile"
+  ],
+  "problem": "Users can struggle with dense forms when unrelated questions, unclear headings, hidden progress, early validation, or lost answers make each decision harder than it needs to be.",
+  "solution": "Give one conceptual question its own page with the question as the heading, concise context, the appropriate answer control, predictable Back and Continue actions, focused validation, and preserved answer state.",
+  "problemContext": [
+    "The service is collecting sequential answers, eligibility decisions, or task data where one answer may shape the next screen.",
+    "Users may be on small screens, under stress, using assistive technology, or completing a high-stakes government, finance, health, or support flow.",
+    "The answer may use one field or several related controls, but those controls all answer the same question."
+  ],
+  "selectionRules": [
+    "Choose a single-question page when one conceptual question deserves focused reading and answering before the next task step.",
+    "Use the question text as the page heading when it is the main task on the page.",
+    "Keep related fields together when they answer one question, such as a date split into day, month, and year.",
+    "Prefer a single-page form for short low-risk data sets that users need to scan, compare, or edit together.",
+    "Use single-question pages inside a multi-step form when the broader journey has several ordered pages or sections.",
+    "Avoid wizard framing unless users need a guided sequential tool with strict branching, step locking, or complex progress management.",
+    "Use the appropriate answer control inside the page, such as radio group, checkbox group, text input, textarea, date input, or file upload.",
+    "Validate on Continue or after interaction, preserve the answer, and keep the user on the same question until it is fixable."
+  ],
+  "requiredStates": [
+    "Initial unanswered state with question heading, optional explanation, answer control, Back link, and Continue action.",
+    "Answered state showing the selected or typed answer before submission.",
+    "Conditional detail state when an answer reveals another field that still belongs to the same question.",
+    "Missing-answer error state after Continue with the answer control still available.",
+    "Recovered state after correcting the current question.",
+    "Back-return state with the previous answer restored.",
+    "Loading or saving state when Continue persists the answer before moving to the next page."
+  ],
+  "interactionContract": [
+    "Back returns to the previous page or step without clearing the current answer.",
+    "Continue validates only the current question and moves forward only when the answer is complete enough for the next page.",
+    "Changing an answer updates any related conditional content without navigating unexpectedly.",
+    "Errors identify the question and affected controls, preserve the answer, and keep focus or reading order in a recoverable place.",
+    "The browser Back button and service Back link do not create conflicting histories or duplicate submissions.",
+    "Progress indicators, if present, describe the broader flow without turning the page into a dense wizard dashboard."
+  ],
+  "implementationChecklist": [
+    "Write the page heading as the exact question users need to answer.",
+    "Place any explanation, eligibility context, or privacy note before the answer control.",
+    "Choose the answer control by the data being collected rather than by the page pattern name.",
+    "Group related controls on the same page when they answer one conceptual question.",
+    "Provide Back and Continue actions with consistent placement and labels across the flow.",
+    "Persist the current answer before navigation and restore it after Back, validation, reload, or server errors.",
+    "Add field-level errors and an error summary when the page is submitted with invalid or missing answers.",
+    "Test the page with keyboard, screen reader, zoom, mobile viewport, browser Back, service Back, validation, and conditional answer changes."
+  ],
+  "commonMisuses": [
+    "Putting several unrelated questions on one page and still calling it one thing per page.",
+    "Splitting one answer across several pages when the fields need to be understood together.",
+    "Using the pattern as a substitute for choosing the right field control.",
+    "Adding wizard chrome, progress locking, or branching UI to a simple isolated question.",
+    "Clearing the answer after Back, Continue, validation, or reload.",
+    "Using vague headings such as Details or Step 2 instead of the actual question.",
+    "Showing a generic error that does not name the unanswered question.",
+    "Making users continue through many trivial pages when a short single-page form would be faster and lower risk."
+  ],
+  "critiqueQuestions": [
+    "Is there exactly one conceptual question on this page?",
+    "Does the page heading clearly state the question users are answering?",
+    "Do all controls on the page answer the same question?",
+    "Would users benefit more from scanning these fields together on one page?",
+    "Does Back, browser Back, validation, and Continue preserve the current answer?",
+    "Is the next page determined by this answer, and is that transition understandable?"
+  ],
+  "useWhen": [
+    "One answer or decision should be read and completed without competing form questions.",
+    "A sequential service flow needs reliable answers before deciding the next page.",
+    "Users are likely to complete the task on mobile or with assistive technology.",
+    "Errors and recovery should stay scoped to the current question."
+  ],
+  "avoidWhen": [
+    "Users need to compare or edit several fields together before submitting.",
+    "The page contains unrelated questions that should be split or grouped differently.",
+    "The question is so trivial that separating it adds unnecessary navigation cost.",
+    "The flow cannot preserve answers reliably across Back, Continue, or validation."
+  ],
+  "variants": [
+    "Radio-question page",
+    "Checkbox-question page",
+    "Short-answer question page",
+    "Long-answer question page",
+    "Date-question page",
+    "File-upload question page",
+    "Conditional question page",
+    "Eligibility question page",
+    "Question page with error summary"
+  ],
+  "accessibility": [
+    "Use a single visible h1 that states the question users are answering.",
+    "Associate the answer control with a label or legend that matches the visible question structure.",
+    "Put explanatory text before the control so it is encountered before answering.",
+    "Expose field errors in text and connect them to the affected controls.",
+    "Use an error summary after failed submit when focus starts near the top of the page.",
+    "Keep Back, Continue, and conditional content reachable in logical keyboard and reading order."
+  ],
+  "keyboardBehavior": [
+    "Tab moves from Back or page context through the answer controls and then to Continue in a predictable order.",
+    "Radio, checkbox, text, textarea, date, upload, and other controls keep their native keyboard behavior.",
+    "Enter or Space follows the selected control behavior and does not unexpectedly skip the page.",
+    "Continue is an explicit submit action for the current question.",
+    "After validation, focus moves to the error summary or invalid control without losing the answer.",
+    "Browser Back and service Back both return to the expected previous step without duplicating the current answer."
+  ],
+  "failureModes": [
+    "The page heading is generic and the actual question is hidden as a small field label.",
+    "Multiple unrelated answers share one page, causing broad validation and cognitive overload.",
+    "Related fields are split across pages, so users cannot understand the answer as a whole.",
+    "Continue clears selected or typed values after validation fails.",
+    "The Back link and browser Back lead to different or destructive states.",
+    "Conditional follow-up fields appear without explaining why they belong to the same question.",
+    "The page has wizard progress that overstates complexity or suggests locked steps where none exist.",
+    "Mobile users must scroll past unrelated content before finding the question."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "textarea",
+    "radio-group",
+    "error-summary",
+    "step-navigation"
+  ],
+  "comparisons": [
+    "single-question-page-vs-text-input-vs-textarea-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Question pages",
+      "url": "https://design-system.service.gov.uk/patterns/question-pages/",
+      "platform": "web",
+      "notes": "Documents one-question page structure, question-as-heading examples, explanatory text placement, and grouping related controls on one page.",
+      "screenshot": "screenshots/patterns/single-question-page.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Service Manual Structuring forms",
+      "url": "https://www.gov.uk/service-manual/design/form-structure",
+      "platform": "web",
+      "notes": "Documents one thing per page as a starting point for form structure and clarifies that one question may use more than one field.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Service Manual Designing good questions",
+      "url": "https://www.gov.uk/service-manual/design/designing-good-questions/",
+      "platform": "web",
+      "notes": "Documents plain-language and reframing guidance for questions in services.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-question-pages-pattern",
+      "note": "GOV.UK question-page guidance supports one question per page, question-as-heading layout, explanatory text, and related-control grouping."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance supports one thing per page while distinguishing one question from one field."
+    },
+    {
+      "id": "govuk-designing-good-questions",
+      "note": "GOV.UK good-question guidance supports plain-language question wording and reframing complex form questions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

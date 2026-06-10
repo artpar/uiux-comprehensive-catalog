@@ -1,0 +1,45 @@
+{
+  "id": "tree-selection-vs-listbox-vs-checkbox-group-vs-transfer-list",
+  "title": "Tree selection vs listbox vs checkbox group vs transfer list",
+  "summary": "Use tree selection when users select one or more items from a hierarchy with expandable branches; use listbox for one visible flat option list, checkbox group for a short flat set, and transfer list when items move between source and destination panes.",
+  "patternIds": ["tree-selection", "listbox", "checkbox-group", "transfer-list"],
+  "decisionRules": [
+    "Prefer tree selection when parent-child hierarchy changes what users need to find, reveal, or select, such as folders, nested permissions, product taxonomy, or organization units.",
+    "Prefer listbox when the options are a flat list and expansion, collapse, parent levels, aria-level, or branch selection would add unnecessary custom keyboard behavior.",
+    "Prefer checkbox group when every option can stay visible as a short flat independent set with native checkbox semantics and no tree navigation model.",
+    "Prefer transfer list when users are moving items into a separate selected destination set; tree selection keeps selected nodes in place inside the hierarchy.",
+    "Use tree selection over multi-select only when hierarchy itself is part of the task; do not nest groups merely to save vertical space.",
+    "If parent nodes can be selected, define whether selecting a branch selects descendants, only the branch, or enters a mixed state, and show that policy in the UI.",
+    "Do not put aria-expanded on leaf nodes; reserve expanded and collapsed state for nodes that actually own child treeitems.",
+    "In multi-select trees, keep focus and selection visually distinct; Arrow keys should move focus through visible nodes while Space or an explicit action changes selection.",
+    "Use aria-selected or aria-checked consistently for treeitem state; avoid mixing both unless the two states mean different visible things with separate controls.",
+    "Avoid using tree selection for ordinary site navigation, menus, file tables, or rich row management where disclosure navigation, menu, table, data grid, or tree grid is a better model."
+  ],
+  "failureModes": [
+    "A nested checkbox list is styled like a tree but lacks tree, treeitem, group, expanded state, and Arrow-key focus movement.",
+    "Arrowing through the tree changes selected permissions immediately even though the user is only exploring branches.",
+    "A collapsed parent hides selected children without any selected or mixed indicator on the parent row.",
+    "Leaf nodes expose aria-expanded=false, so assistive technology announces them as collapsible parents.",
+    "A multi-select tree omits aria-multiselectable or leaves unselected selectable treeitems without explicit selected or checked state.",
+    "Filtering or lazy loading changes the visible hierarchy without aria-level, aria-posinset, or status feedback for newly loaded nodes."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-treeview",
+      "note": "APG defines tree view hierarchy, expansion, focus movement, single and multi-select behavior, focus versus selection, typeahead, aria-activedescendant, labels, and selected-state properties."
+    },
+    {
+      "id": "mdn-aria-tree-role",
+      "note": "MDN documents tree role hierarchy, accessible names, aria-expanded placement, aria-multiselectable, focus versus selected state, keyboard navigation, and dynamic node properties."
+    },
+    {
+      "id": "mdn-aria-treeitem-role",
+      "note": "MDN documents treeitem selection with aria-selected or aria-checked, single versus multi-selection constraints, accessible names, group nesting, and JavaScript keyboard requirements."
+    },
+    {
+      "id": "mui-tree-view-selection",
+      "note": "MUI documents practical tree selection modes, checkbox selection, multi-selection, leaf-only selectable items, controlled selected items, and selection-change tracking."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

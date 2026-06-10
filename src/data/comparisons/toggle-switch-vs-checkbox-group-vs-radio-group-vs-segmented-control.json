@@ -1,0 +1,53 @@
+{
+  "id": "toggle-switch-vs-checkbox-group-vs-radio-group-vs-segmented-control",
+  "title": "Toggle switch vs checkbox group vs radio group vs segmented control",
+  "summary": "Use a toggle switch for one immediate reversible on/off setting, a checkbox group for independent submitted choices, a radio group for one visible form answer, and a segmented control for a compact local mode or view.",
+  "patternIds": ["toggle-switch", "checkbox-group", "radio-group", "segmented-control"],
+  "decisionRules": [
+    "Prefer a toggle switch when a single named setting has exactly two states, can be applied immediately, and can be reversed without confirmation.",
+    "Prefer a checkbox group when users answer a form question by selecting zero, one, or several independent options and reviewing those values before submit.",
+    "Prefer a radio group when exactly one visible option must be chosen from a short set, especially when each option needs explanation or validation as a form answer.",
+    "Prefer a segmented control when two to four choices switch a nearby local view, filter, sort, density, or presentation mode rather than controlling a persistent setting.",
+    "Do not use a switch for destructive commands, navigation, legal consent, checkout agreement, one-time actions, or choices that need a confirmation dialog.",
+    "Do not use a switch for three or more values such as off, weekly, and daily; use radios, segmented controls, select, or another choice pattern that exposes every value.",
+    "Do not use a switch when the change is only staged for a later Save button unless the interface clearly uses a checkbox or form control and communicates review-before-submit.",
+    "Keep the switch label stable; only the on/off state, status text, and resulting effect should change after activation.",
+    "Expose switch state programmatically with role switch and aria-checked, or use a native checkbox implementation that accurately reflects the checked value.",
+    "If the service takes time to apply the setting, show pending, failed, unavailable, disabled, or read-only state instead of pretending the setting has already completed."
+  ],
+  "failureModes": [
+    "Using a switch to queue account deletion, file removal, payment, publishing, or another destructive command.",
+    "Changing the label from Enable notifications to Disable notifications so the controlled object becomes unstable.",
+    "Displaying a switch for multi-level choices while hiding the actual options from users.",
+    "Letting a switch appear active even though the required dependency, permission, or backend service is unavailable.",
+    "Using a switch in a submitted form where users expect to review all answers before committing.",
+    "Treating a compact segmented mode switcher as a persistent on/off setting."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-switch",
+      "note": "APG defines switches as binary on/off inputs with stable labels, accessible names, aria-checked state, Space toggling, and optional Enter toggling."
+    },
+    {
+      "id": "carbon-toggle-component",
+      "note": "Carbon states toggles are immediate reversible binary controls for single settings and documents when not to use them for delete, non-binary, or non-instant changes."
+    },
+    {
+      "id": "gnome-hig-switches",
+      "note": "GNOME limits switches to clear on/off features, settings, or hardware and documents delayed-effect and unavailable-state handling."
+    },
+    {
+      "id": "govuk-checkboxes-component",
+      "note": "GOV.UK checkbox guidance is the contrast source for visible one-or-more form answers with fieldset/legend grouping."
+    },
+    {
+      "id": "govuk-radios-component",
+      "note": "GOV.UK radio guidance is the contrast source for one visible choice from a list, group labels, errors, and cautious defaults."
+    },
+    {
+      "id": "va-segmented-button",
+      "note": "VA segmented button guidance is the contrast source for 2-4 mutually exclusive local filters or view switches for one data set."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,201 @@
+{
+  "id": "infinite-spinner",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for unbounded waits that never resolve to content, timeout, fallback, cancellation, or failure recovery, with source-backed loading guidance, a dedicated comparison, unique live demo behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets loading states that continue past a defined wait threshold without naming the operation, preserving context, offering retry, cancellation, cached data, or switching to a failed state.",
+    "relatedPatternDistinction": "The entry separates infinite spinner from loading skeleton by unbounded wait versus bounded structural loading, from error state by unresolved waiting versus confirmed failure, and from toast-only error by hidden delay versus transient failure message.",
+    "liveDemoBehavior": "The live demo shows billing data stuck behind an endless spinner, then contrasts a bounded loading flow that can wait, time out, retry, open cached values, or resolve to data.",
+    "comparisonDecisionRules": "The infinite-spinner-vs-loading-skeleton-vs-error-state comparison gives concrete rules for short indeterminate waits, predictable skeleton layout, long-running progress, timeout thresholds, cached fallback, cancellation, and failure recovery.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed anti-pattern entry.",
+    "manualSpotCheck": "screenshots/patterns/infinite-spinner.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/infinite-spinner.png"
+    ]
+  },
+  "name": "Infinite spinner",
+  "aliases": [
+    "endless loading",
+    "spinner purgatory",
+    "unbounded loading",
+    "permanent busy state"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users are left in an unbounded busy state when a request, save, import, sync, or report generation may never complete and the UI offers no timeout, fallback, cancellation, retry, or failure explanation.",
+  "solution": "Treat the infinite spinner as an anti-pattern: name the operation, bound the wait, preserve the affected context, and transition to progress, content, cached fallback, cancellation, retry, or persistent error recovery.",
+  "problemContext": [
+    "A request can hang, fail silently, be queued for a long time, or lose its completion event.",
+    "The screen or control remains disabled while an indeterminate spinner continues animating.",
+    "Users need to decide whether to wait, retry, cancel, use stale data, leave the flow, or contact support.",
+    "The system can detect elapsed time, retry count, request state, cached data age, or a support reference but does not surface it."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a spinner or busy overlay can continue without a timeout, elapsed status, retry, cancel, fallback, or failure state.",
+    "Use a short indeterminate spinner only for brief waits where completion is expected and the affected action or region is clearly named.",
+    "Use loading skeleton when predictable content structure is pending and will resolve to content, empty, or error within a bounded path.",
+    "Use a determinate progress indicator, step status, or job queue state when the system can expose percent, stages, item counts, or position.",
+    "Use error state when the operation has failed, timed out, lost authorization, or reached a retry limit that requires user recovery.",
+    "Offer cached data, background continuation, cancellation, or support escalation when the user should not be forced to watch an unknown wait."
+  ],
+  "requiredStates": [
+    "Initial pending state that names the operation and affected object.",
+    "Extended-wait state after a defined threshold with elapsed context or reason for delay.",
+    "Timed-out or still-working state with retry, cancel, cached fallback, or background continuation.",
+    "Recovered state after the data, save, import, or report resolves.",
+    "Failed state with persistent recovery and support escalation when retry cannot complete.",
+    "Cancelled or leave-safely state when users can stop waiting without losing work."
+  ],
+  "interactionContract": [
+    "The loading state is tied to a specific region, action, or object instead of freezing the entire interface without explanation.",
+    "The spinner does not remain the only status after the wait threshold; the UI changes copy, available actions, or state.",
+    "Retry, cancel, cached view, background processing, or support controls become available without requiring a page refresh.",
+    "User-entered work, filters, selected files, and billing or report context remain visible or recoverable while the operation waits.",
+    "Assistive technology receives concise status changes and is not left in a permanent busy state.",
+    "A second retry does not loop back to the same endless spinner without changing the recovery options."
+  ],
+  "implementationChecklist": [
+    "Define timeout thresholds per operation type, such as short inline saves, medium data loads, long imports, and background jobs.",
+    "Pair every spinner with text that names what is loading or processing.",
+    "After the threshold, replace or augment the spinner with elapsed status and actions such as Retry, Cancel, Use cached values, Keep working, or Contact support.",
+    "Switch to determinate progress when the backend can expose stages, percent, item counts, or queue position.",
+    "Preserve the affected task context so users can continue, retry, or report the problem without reconstructing their work.",
+    "Instrument stalled requests and retry outcomes so the UI timeout is connected to real system state.",
+    "Remove busy or disabled state when loading resolves, fails, is cancelled, or moves to background processing."
+  ],
+  "commonMisuses": [
+    "Animating a full-page spinner forever after a request times out.",
+    "Replacing a failed API response with a loading state because error handling is missing.",
+    "Disabling the only button with a spinner and no explanation, timeout, or alternate action.",
+    "Showing a skeleton and spinner together while neither resolves to content or error.",
+    "Making users refresh the browser to find out whether a payment, upload, report, or save completed.",
+    "Keeping aria-busy set after the operation has failed or moved to the background."
+  ],
+  "critiqueQuestions": [
+    "What exact UI state appears after the first wait threshold is crossed?",
+    "Can the user safely leave, cancel, retry, or use cached data without losing context?",
+    "Does the spinner name the operation and affected object, or only imply that something somewhere is happening?",
+    "What prevents a failed request from being represented as loading forever?",
+    "Can keyboard and screen reader users discover the timeout and recovery actions?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit loading, saving, syncing, uploading, report generation, billing retrieval, AI generation, and import flows that can hang.",
+    "Use it when generated UI adds a spinner but does not define elapsed, timeout, retry, cancellation, background, cached, or error states."
+  ],
+  "avoidWhen": [
+    "A short spinner is clearly labeled, tied to a specific action, and guaranteed to transition quickly.",
+    "A skeleton, progress bar, job status, or error state already bounds the wait and gives users recovery options.",
+    "The operation continues safely in the background and the user can leave with clear status and a return path."
+  ],
+  "variants": [
+    "Full-page endless spinner",
+    "Button spinner that never resolves",
+    "Indefinite report generation",
+    "Stalled upload overlay",
+    "Permanent aria-busy region",
+    "Skeleton that never resolves",
+    "Queued job with no queue state"
+  ],
+  "accessibility": [
+    "Do not leave a region or page in a permanent busy state after loading has stalled or failed.",
+    "Give progress indicators accessible names that identify the operation or affected region.",
+    "Use aria-busy only while updates are actually pending, and remove or change it when the state resolves, fails, or times out.",
+    "Announce threshold changes such as still working, timed out, retry available, cached data available, or moved to background.",
+    "Keep retry, cancel, cached data, and support actions keyboard reachable after the wait changes state."
+  ],
+  "keyboardBehavior": [
+    "Do not trap focus behind a loading overlay with no cancel or safe exit when the wait can exceed a short threshold.",
+    "If an inline action is disabled during processing, keep adjacent status and alternate actions reachable.",
+    "When timeout occurs, focus remains near the affected region or moves predictably to the recovery controls.",
+    "After retry succeeds, focus moves to the loaded content or completion status.",
+    "After retry fails, focus remains with the persistent recovery state rather than returning to a busy-only control."
+  ],
+  "failureModes": [
+    "Users abandon a task because the interface never changes from loading.",
+    "A failed backend response is hidden behind a permanent spinner.",
+    "Assistive technology users hear that a region is busy but never receive a resolved, failed, or timed-out status.",
+    "The user retries by refreshing and accidentally duplicates a payment, upload, or submission.",
+    "Support cannot diagnose the stall because no reference, elapsed time, or failed operation is surfaced.",
+    "A disabled button spinner prevents cancellation, correction, or navigation."
+  ],
+  "relatedPatterns": [
+    "loading-skeleton",
+    "error-state",
+    "toast-only-critical-error",
+    "disabled-button-no-explanation"
+  ],
+  "comparisons": [
+    "infinite-spinner-vs-loading-skeleton-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Loading",
+      "url": "https://carbondesignsystem.com/components/loading/usage/",
+      "platform": "web",
+      "notes": "Documents labeled loading indicators for wait states, skeleton alternatives for progressive content, and avoiding loading indicators when user interaction is required to proceed.",
+      "screenshot": "screenshots/patterns/infinite-spinner.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "MDN ARIA progressbar role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/progressbar_role",
+      "platform": "web",
+      "notes": "Documents accessible progressbar naming, determinate values, indeterminate progress, and pairing progress with aria-busy for affected regions until loading finishes.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-loading-component",
+      "note": "Carbon documents loading indicators for processing states, recommends labels for context, and points users to alternatives when interaction is required to proceed."
+    },
+    {
+      "id": "mdn-aria-progressbar",
+      "note": "MDN documents progressbar semantics, accessible names, indeterminate progress, determinate values, and aria-busy for related loading regions."
+    },
+    {
+      "id": "nord-skeleton-component",
+      "note": "Nord documents removing busy state after dynamic content loads, supporting the requirement that loading states resolve instead of continuing indefinitely."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Unbounded loading anti-pattern",
+  "uiGuidance": [
+    "Replace an unlabeled endless spinner with a bounded loading surface that names the operation, preserves the affected context, and changes state after the wait threshold.",
+    "Expose retry, cancel, cached data, background continuation, progress detail, or support escalation when the system cannot complete quickly."
+  ],
+  "uxGuidance": [
+    "Help users decide whether to wait, retry, leave safely, use stale data, or escalate instead of forcing them to infer system health from animation alone.",
+    "Design loading as a lifecycle with elapsed, timeout, recovery, cancellation, and failure states, not as a visual loop that can mask broken work."
+  ],
+  "uiExamples": {
+    "good": [
+      "Billing data is loading shows the affected account, elapsed wait, and actions for Retry, Use cached values, and Contact support after timeout.",
+      "A report job starts with indeterminate progress, then switches to queue position or background completion when the wait becomes long."
+    ],
+    "bad": [
+      "A centered spinner animates on a blank page for minutes with no label or escape.",
+      "A Save button turns into a spinner forever, leaving the user unable to cancel, retry, or know whether the save happened."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "The user can wait briefly, see that billing data is delayed, open cached values, retry once, or escalate with a reference.",
+      "If the operation moves to background processing, the UI confirms what will happen next and where to find the result."
+    ],
+    "bad": [
+      "Users refresh the page because the spinner never explains whether the request is still working or broken.",
+      "Assistive technology remains in a busy state without a loaded, timed-out, failed, or cancelled announcement."
+    ]
+  }
+}

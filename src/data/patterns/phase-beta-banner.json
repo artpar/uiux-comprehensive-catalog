@@ -1,0 +1,242 @@
+{
+  "id": "phase-beta-banner",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed service phase and feedback marker with guidance for alpha, private beta, public beta, live removal, header-area placement, route-aware feedback, phase transitions, related-pattern boundaries, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets service maturity signalling only, including Alpha and Beta tag use, private versus public beta access, placement after service navigation or the primary header, service-wide persistence, current-route feedback, phase-transition ownership, and removal when the service moves to live.",
+    "relatedPatternDistinction": "The entry separates phase / beta banner from banner by labelling delivery maturity rather than broad operational context, from notification banner by persisting across service routes rather than appearing before one page H1, from site alert by avoiding urgent public-status messaging, from service navigation by qualifying service maturity rather than moving between sections, and from header by remaining a contextual phase marker below the header area.",
+    "liveDemoBehavior": "The live demo switches a benefits service through Alpha, Private beta, Public beta, Feedback, Transition, and Live removal states, changes Overview, Apply, and Messages routes while preserving the same phase signal, opens feedback with route context, and contrasts Stale beta, Public alpha, Outage misuse, Feature badge, Route-blind feedback, and Dismissible misuse.",
+    "comparisonDecisionRules": "The phase-beta-banner-vs-banner-vs-notification-banner-vs-site-alert comparison gives concrete rules for service maturity labels, broad interface messages, before-heading notices, urgent sitewide alerts, header-area placement, Alpha versus Beta access, live removal, and feedback that preserves the user's place.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reports 125 complete patterns, 0 stubs, 175 missing goal patterns, and 0 duplicate field groups after this pattern is marked complete.",
+    "manualSpotCheck": "Rendered /patterns/phase-beta-banner/ and /compare/phase-beta-banner-vs-banner-vs-notification-banner-vs-site-alert/ on 2026-06-09. Live check exercised Alpha, Private beta, Public beta, Feedback, Transition, Live removal, Overview, Apply, Messages, feedback link, Stale beta, Public alpha, Outage misuse, Feature badge, Route-blind feedback, and Dismissible controls. screenshots/patterns/phase-beta-banner.png captures Good UI, Bad UI, Good UX, Bad UX, route persistence, feedback context, phase record, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/phase-beta-banner.png"
+    ]
+  },
+  "name": "Phase / beta banner",
+  "aliases": [
+    "phase banner",
+    "beta banner",
+    "alpha banner",
+    "service phase banner",
+    "service maturity banner",
+    "prototype banner",
+    "feedback banner"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Disclosure And Attention Management",
+    "Navigation And Wayfinding",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Service phase and feedback marker",
+  "uiGuidance": [
+    "Render a compact phase tag such as Alpha or Beta with a short sentence and feedback link in the service header area, directly after service navigation or the primary header.",
+    "Keep the phase banner visible across all service pages while the service is in that phase, but do not style it as an urgent alert, product announcement, cookie notice, or dismissible marketing banner."
+  ],
+  "uxGuidance": [
+    "Use a phase banner to set expectations that a service is still being worked on and to invite feedback that helps the team improve it.",
+    "Tie the phase label to the actual delivery stage: alpha for limited prototype testing, private beta for invited users, public beta for wider real users before live, and no phase banner once the service is live."
+  ],
+  "uiExamples": {
+    "good": [
+      "A private beta benefits service shows a Beta tag directly below service navigation with Help us improve this service and a feedback link that preserves the current route.",
+      "An alpha prototype shown to invited research participants labels the service Alpha and links to a feedback form about the prototype.",
+      "After passing live assessment, the header no longer shows a beta banner and the feedback route moves to ordinary footer and satisfaction mechanisms."
+    ],
+    "bad": [
+      "A bright sticky Beta pill floats over the form submit button and competes with validation.",
+      "A service outage is announced only through a beta banner, so users miss the current operational problem.",
+      "A production service keeps Beta forever because nobody owns phase removal."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user in public beta sees the service is still improving, reports a problem from the current page, and returns to the same application step.",
+      "A team switches from private beta to public beta only after assessment and updates the banner copy to reflect wider access.",
+      "An alpha research participant understands they are testing a prototype and does not treat the service as a public channel."
+    ],
+    "bad": [
+      "Users give feedback but the link drops them on a generic contact page with no route context.",
+      "A beta banner is hidden after the first visit, so deep-linked users miss the service maturity signal.",
+      "A live service retains a stale Beta label and users assume important functionality may still be experimental."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile"
+  ],
+  "problem": "Users need to know when a service is still being developed and teams need phase-specific feedback, but generic banners, alerts, or badges either overstate urgency, hide service maturity, or detach feedback from the user's current journey.",
+  "solution": "Show a service-wide phase banner with the correct alpha or beta tag, concise maturity copy, and a feedback link that preserves route context; update or remove it when access, assessment, or live status changes.",
+  "problemContext": [
+    "The service is in alpha, private beta, public beta, or another clearly governed pre-live phase.",
+    "Users may enter the service through deep links and need the phase signal before reading page-specific content.",
+    "The team needs to collect on-page feedback about the developing service without interrupting the task.",
+    "The service may have service navigation, a GOV.UK-style header, ordinary broad banners, notification banners, site alerts, and footer feedback routes that must remain semantically separate."
+  ],
+  "selectionRules": [
+    "Choose phase / beta banner when the whole service is in alpha, private beta, or public beta and users need a service-wide maturity signal.",
+    "Use Alpha when the service is a limited prototype or experiment used to test risky assumptions and is not publicly available as a production service.",
+    "Use Beta for private or public beta: invited users first, then wider access after assessment when the team is preparing for live.",
+    "Remove the phase banner when the service passes live assessment or no longer needs a pre-live maturity label.",
+    "Place the banner directly after service navigation or the primary header so it qualifies the service before page content.",
+    "Keep the feedback link short, route-aware, and able to return users to the page they were on.",
+    "Use banner for broad operational context such as maintenance or rollout, not maturity phase.",
+    "Use notification banner for one page-flow notice before the H1, not a service-wide phase marker.",
+    "Use site alert for urgent public status or servicewide disruption that must override normal maturity context.",
+    "Do not make the phase banner sticky, dismissible, modal, or visually dominant enough to obscure forms and current-task messages."
+  ],
+  "requiredStates": [
+    "No phase banner state for live or phase-not-applicable services.",
+    "Alpha state for limited prototype or research-only service.",
+    "Private beta state for invited users and controlled rollout.",
+    "Public beta state for wider access before live.",
+    "Feedback link state that preserves current page or step context.",
+    "Route persistence state where the same phase banner appears on every service page.",
+    "Transition state when alpha changes to beta, private beta changes to public beta, or beta changes to live.",
+    "Coexistence state with service navigation, ordinary banner, notification banner, or site alert without semantic conflict."
+  ],
+  "interactionContract": [
+    "The phase banner appears consistently across all pages in the service while the phase applies.",
+    "The tag text, service phase, access model, and feedback copy stay synchronized with delivery status.",
+    "Activating the feedback link opens a feedback route or email that knows the current page, then lets users return without losing progress.",
+    "The banner does not dismiss permanently because users can arrive on any route and still need phase context.",
+    "The phase banner does not replace urgent alerts, form validation, operational outage notices, or cookie consent controls.",
+    "When the service changes phase, the old phase banner is removed or updated in the same release that changes access and feedback handling."
+  ],
+  "implementationChecklist": [
+    "Confirm the service phase, access model, assessment state, and owner before publishing the banner.",
+    "Place the phase banner in the header area directly after service navigation, or after the primary header when service navigation is absent.",
+    "Write copy that says this is a new or developing service and invites feedback without over-explaining agile delivery.",
+    "Pass current route, service step, locale, and version metadata to the feedback form where appropriate.",
+    "Keep feedback safe for in-progress tasks by preserving drafts, returning to the same step, or opening in a way that does not lose state.",
+    "Define removal rules for moving from alpha to beta, private beta to public beta, public beta to live, and service retirement.",
+    "Test deep links, mobile header wrapping, keyboard order, screen-reader reading order, feedback return flow, and coexistence with urgent site alerts."
+  ],
+  "commonMisuses": [
+    "Using Beta as a decorative badge for a feature rather than the service phase.",
+    "Leaving a stale Beta banner on a live service.",
+    "Showing an alpha service to the public as if it were production ready.",
+    "Putting phase copy in a sticky overlay, modal, toast, notification banner, or footer-only link.",
+    "Using the phase banner for outage, maintenance, validation, deadline, cookie, or account-status messages.",
+    "Making feedback open a generic contact route that loses the current page context.",
+    "Letting the phase banner disappear after dismissal, so deep-linked users miss the maturity signal."
+  ],
+  "critiqueQuestions": [
+    "What phase is the whole service actually in, and who owns changing that label?",
+    "Is this an alpha prototype, private beta, public beta, live service, or feature-level experiment?",
+    "Can users give feedback from the current page without losing their place?",
+    "Should this be a phase banner, broad banner, notification banner, site alert, service navigation, tag, or feedback link?",
+    "What event removes or changes this banner?",
+    "Does the banner appear consistently on deep-linked pages, mobile, and routes with service navigation?"
+  ],
+  "useWhen": [
+    "A service is in alpha, private beta, public beta, or another explicit pre-live phase.",
+    "Users need to understand that the service is still being worked on before they use it.",
+    "The team needs route-aware feedback from users during the phase.",
+    "The service has a header or service navigation area where the maturity marker can appear consistently."
+  ],
+  "avoidWhen": [
+    "The service is live and no longer needs a pre-live phase label.",
+    "Only one feature, experiment, or setting is in beta inside an otherwise live service.",
+    "The message is an outage, maintenance window, deadline, validation error, success outcome, or cookie consent request.",
+    "The service cannot preserve user progress when opening feedback.",
+    "The label would be used as marketing rather than an accurate delivery-phase signal."
+  ],
+  "variants": [
+    "Alpha phase banner",
+    "Private beta phase banner",
+    "Public beta phase banner",
+    "Prototype phase banner",
+    "Feedback-linked phase banner",
+    "Header-integrated phase banner",
+    "Phase transition banner",
+    "No-phase live state"
+  ],
+  "accessibility": [
+    "Place the phase banner in reading order after the header or service navigation and before page-specific content.",
+    "Use a text tag and sentence; do not rely on color alone to communicate Alpha or Beta.",
+    "Make the feedback link keyboard reachable and specific about destination or new-tab behavior.",
+    "Keep the banner compact so it does not obscure focus or push critical content unpredictably at high zoom.",
+    "If the feedback route opens a new tab or external form, communicate that in the link text.",
+    "Avoid repeated assertive announcements; the phase banner is stable service context, not a dynamic alert."
+  ],
+  "keyboardBehavior": [
+    "Tab order reaches header controls, service navigation, phase feedback link, and then page content in that sequence.",
+    "Enter activates the feedback link and preserves route or task context through the feedback flow.",
+    "Returning from feedback restores focus to the page heading, feedback link, or next meaningful control without losing form state.",
+    "The banner does not trap focus, auto-open a dialog, or require dismissal before users can continue.",
+    "When the phase changes, route navigation should not leave focus on a removed banner element."
+  ],
+  "failureModes": [
+    "Users trust an alpha prototype as a public production service.",
+    "Users cannot tell whether a beta service is limited-access private beta or public beta.",
+    "Feedback is too generic to identify which page or step caused the issue.",
+    "The phase banner hides urgent outage or validation messages by occupying the wrong message slot.",
+    "A stale phase label persists after live assessment.",
+    "Mobile wrapping turns the banner into several lines that push the page heading out of view.",
+    "Screen-reader users hear a tag but no explanation or feedback route."
+  ],
+  "relatedPatterns": [
+    "banner",
+    "notification-banner",
+    "site-alert",
+    "service-navigation",
+    "header"
+  ],
+  "comparisons": [
+    "phase-beta-banner-vs-banner-vs-notification-banner-vs-site-alert"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK phase banner",
+      "url": "https://design-system.service.gov.uk/components/phase-banner/",
+      "platform": "web",
+      "notes": "Documents alpha and beta phase tags, header placement after service navigation or GOV.UK header, service-wide display, feedback links, and preserving the user's place.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK alpha phase guidance",
+      "url": "https://www.gov.uk/service-manual/agile-delivery/how-the-alpha-phase-works",
+      "platform": "web",
+      "notes": "Explains alpha as prototype testing of risky assumptions, not public production service availability.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK beta phase guidance",
+      "url": "https://www.gov.uk/service-manual/agile-delivery/how-the-beta-phase-works",
+      "platform": "web",
+      "notes": "Explains private beta, public beta, feedback-led improvement, scaling, and transition to live.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK measuring user satisfaction",
+      "url": "https://www.gov.uk/service-manual/measuring-success/measuring-user-satisfaction",
+      "platform": "web",
+      "notes": "Documents linking in-service feedback from alpha or beta banners and measuring satisfaction through service phases.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-phase-banner-component",
+      "note": "GOV.UK documents phase banners for services still being worked on, alpha or beta tags, service.gov.uk use until live assessment, placement after service navigation or header, service-wide display, feedback links, and preserving the user's place."
+    },
+    {
+      "id": "govuk-alpha-phase-guidance",
+      "note": "GOV.UK Service Manual explains alpha as limited prototype testing of risky assumptions and says alpha services should not be available for public production use."
+    },
+    {
+      "id": "govuk-beta-phase-guidance",
+      "note": "GOV.UK Service Manual explains private and public beta as real service building, feedback collection, controlled scale-up, assessment, and preparation for live."
+    },
+    {
+      "id": "govuk-measuring-user-satisfaction",
+      "note": "GOV.UK Service Manual documents in-service feedback links from alpha or beta banners and phase-specific user satisfaction measurement."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

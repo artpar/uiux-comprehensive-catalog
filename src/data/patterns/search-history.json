@@ -1,0 +1,254 @@
+{
+  "id": "search-history",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an account or workspace search-activity management pattern with source-backed controls for viewing, filtering, deleting one entry, deleting by range, pausing future capture, exposing scope and retention, separating saved searches and viewed records, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers account-scoped search activity, product/source labels, timestamps, query text, range filtering, delete-one, delete-range, clear-all, pause or resume capture, retention copy, sync or managed-account scope, and separation from quick recent-query replay.",
+    "relatedPatternDistinction": "The entry separates search history from recently searched by full activity management versus short inline recall, from saved search by passive activity versus intentional stored criteria, from recently viewed by query events versus opened objects, and from audit log by user privacy controls versus compliance event records.",
+    "liveDemoBehavior": "The demo filters stored search activity by product, deletes a single query, deletes a selected date range, pauses future history capture, restores sample activity, shows account scope and retention, and contrasts a bad history page that mixes saved searches, viewed files, ads, and shared-device queries under one destructive control.",
+    "comparisonDecisionRules": "The linked search-history-vs-recently-searched-vs-saved-search-vs-recently-viewed comparison gives concrete rules for activity management, inline recent-query recall, intentional saved criteria, opened-object history, deletion scope, pause semantics, and account or device scope disclosure.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/search-history.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, account scope, product/date filters, delete-one, delete-range, pause capture, related patterns, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/search-history.png"
+    ]
+  },
+  "name": "Search history",
+  "aliases": [
+    "search activity",
+    "query history",
+    "activity history",
+    "managed search history",
+    "account search history",
+    "search activity controls"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Personalization And Preference",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Search activity management surface with deletion and capture controls",
+  "uiGuidance": [
+    "Render search history as a management page or panel with query text, product or source, account/device/workspace scope, timestamp, and clear controls for filtering and deletion.",
+    "Show pause/resume, delete-one, delete-range, and clear-all controls with explicit copy that says whether the action affects search history only, future capture, old entries, saved searches, viewed items, or recommendations."
+  ],
+  "uxGuidance": [
+    "Use search history when users need to review and control stored search activity across time, products, devices, accounts, or workspaces.",
+    "Treat search history as sensitive activity data: make storage scope, retention, managed-account rules, and deletion consequences explicit before destructive actions."
+  ],
+  "uiExamples": {
+    "good": [
+      "An account activity page lists Gmail, Drive, and web searches with query text, source, device, time, delete-one controls, product filters, date range, and a pause switch.",
+      "A search history management panel says History is on for this workspace account and Delete last 7 days will remove 14 search events only.",
+      "A YouTube-style history page separates Search history from Watch history and offers pause, clear all, and individual removal."
+    ],
+    "bad": [
+      "A button labelled Clear history deletes saved searches, viewed records, and recommendations without naming the affected data.",
+      "The history page shows recent, saved, sponsored, and another user's searches in one undated list.",
+      "A pause toggle hides future suggestions but leaves old sensitive queries visible with no explanation."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user filters search history to Drive searches from last week and deletes two entries without deleting saved searches.",
+      "A user pauses future search history capture and sees that old history remains until they delete it.",
+      "A user deletes all account search history and the interface confirms that recent-search shortcuts are cleared while viewed files remain."
+    ],
+    "bad": [
+      "Users think pausing search history deletes past entries because the interface does not distinguish future capture from stored history.",
+      "A shared kiosk exposes prior user queries because there is no device, account, or session boundary.",
+      "Deleting search history removes named saved searches and saved filters because passive history and intentional saved objects share a destructive action."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Stored search activity can help recall work and personalize results, but without a clear management surface users cannot see what was saved, where it came from, how long it remains, or how to delete or pause it.",
+  "solution": "Provide a scoped search-history management surface that exposes stored query events, filters them by source and time, lets users delete individual entries or ranges, and separates pausing future capture from deleting existing history.",
+  "problemContext": [
+    "Search activity is saved across sessions, products, devices, accounts, workspaces, or managed environments.",
+    "Queries can reveal sensitive work, health, financial, legal, identity, or private intent.",
+    "The product uses search activity for recall, personalization, suggestions, recommendations, analytics, or enterprise productivity."
+  ],
+  "selectionRules": [
+    "Choose search history when the primary task is reviewing or managing stored query activity, not merely rerunning one recent query.",
+    "Show each history entry as a query event with query text, product or source, timestamp, and account/device/workspace scope.",
+    "Provide delete-one, delete-range, clear-all, pause future capture, and resume capture states where history is persistent.",
+    "Explain that pausing future history capture does not delete existing entries unless the user also deletes them.",
+    "Let users filter by source, product, scope, date range, and optionally device when the history spans multiple surfaces.",
+    "Keep search history deletion separate from saved searches, saved filters, recently viewed items, bookmarks, downloads, recommendations, and underlying results.",
+    "Use recently searched for a short inline recency list near a search box; use search history for the management and privacy surface.",
+    "Use saved search when the user intentionally stores criteria for reuse, sharing, alerting, dashboarding, or subscription.",
+    "Use audit log when the history must be immutable, administrative, actor-oriented, and compliance-grade rather than user-controlled activity data.",
+    "Respect managed-account, legal hold, retention, sync, private browsing, signed-out, and shared-device constraints before promising deletion."
+  ],
+  "requiredStates": [
+    "Empty history state with storage scope and next steps.",
+    "Populated history state with query, source, timestamp, and scope for each event.",
+    "Filtered state by product, source, date, scope, or device.",
+    "Delete-one state that removes a single search activity entry only.",
+    "Delete-range or clear-all state with confirmation and affected count.",
+    "Paused state where future searches are not stored but previous entries may remain.",
+    "Managed or synced account state explaining retention, administrator, device, or account boundary.",
+    "Error or unavailable state when history cannot be loaded, deleted, or paused."
+  ],
+  "interactionContract": [
+    "Opening search history shows stored search activity with enough metadata for users to judge sensitivity and scope.",
+    "Deleting one entry removes that history event only and leaves saved searches, viewed items, results, and records intact.",
+    "Deleting a range states the time period, sources, and approximate number of affected entries before confirmation.",
+    "Pausing history affects future capture only and does not imply existing activity has been erased.",
+    "Resuming history makes future capture explicit and should not restore deleted entries.",
+    "Filtering history changes the visible set without changing what will be deleted unless the delete action names the filtered scope.",
+    "History controls must preserve focus, announce deletion and pause outcomes, and avoid hidden hover-only destructive actions."
+  ],
+  "implementationChecklist": [
+    "Define the data model for search activity events separately from recent searches, saved searches, viewed records, and audit events.",
+    "Capture query text, source product, scope, timestamp, account or device identifier, retention class, and deletion eligibility.",
+    "Add filters for date range, source/product, scope, and device where those dimensions exist.",
+    "Implement delete-one, delete-filtered-range, clear-all, pause capture, and resume capture with explicit affected-data copy.",
+    "Show managed-account, legal hold, retention, sync, and signed-out constraints before promising deletion.",
+    "Keep search-history settings and deletion controls keyboard accessible and announce updates through a polite status region.",
+    "Test sensitive queries, shared devices, account switching, private browsing, offline deletion failure, partial deletion, range deletion, pause/resume, and saved-search separation.",
+    "Log deletion, pause, resume, and failed-history actions without storing the sensitive query text in unnecessary telemetry."
+  ],
+  "commonMisuses": [
+    "Using search history as a generic label for a short recently searched dropdown.",
+    "Deleting saved searches, viewed records, bookmarks, or filters when the user only chose to delete search history.",
+    "Letting users pause future history but hiding that old entries remain stored.",
+    "Showing another account's or shared device's sensitive queries without a scope label.",
+    "Omitting product, device, or timestamp metadata from account-wide activity.",
+    "Using vague destructive copy such as clear all without naming the data and range.",
+    "Treating search history as an immutable audit log or compliance record.",
+    "Storing or displaying partial keystrokes that were never submitted as search activity."
+  ],
+  "critiqueQuestions": [
+    "Is this a full management surface or just a short recently searched list?",
+    "Can users tell what account, device, workspace, product, and date each query came from?",
+    "Do delete-one, delete-range, clear-all, pause, and resume actions have different labels and consequences?",
+    "Does pausing history clearly affect only future capture?",
+    "Are saved searches, recently viewed items, and recommendations protected from search-history deletion?",
+    "What retention, managed-account, sync, legal, or shared-device constraints change what deletion means?",
+    "Can users recover from failed deletion or understand partial deletion?"
+  ],
+  "useWhen": [
+    "Search activity persists beyond the current session and users need to inspect or control it.",
+    "History spans multiple sources, products, devices, workspaces, or accounts.",
+    "Search history powers personalization, suggestions, recommendations, or cross-session recall.",
+    "Queries may be sensitive enough that users need deletion, pause, and retention controls."
+  ],
+  "avoidWhen": [
+    "The product only needs a short inline list of recent queries for quick rerun.",
+    "Queries are never stored beyond the current session.",
+    "The organization requires immutable compliance logging rather than user-managed activity controls.",
+    "The data cannot be deleted or paused and the product cannot explain the constraint honestly.",
+    "The task is managing intentional saved criteria rather than passive search activity."
+  ],
+  "variants": [
+    "Account search history",
+    "Workspace search history",
+    "Device-local search history",
+    "Product-specific search history",
+    "Search activity timeline",
+    "Search history privacy controls",
+    "Paused search history",
+    "Auto-delete search history"
+  ],
+  "accessibility": [
+    "Use headings and table or list semantics that expose query, source, date, and scope for each entry.",
+    "Give delete controls accessible names that include the query or date range they affect.",
+    "Announce removed entries, deleted ranges, pause, resume, empty history, and failed deletion through a polite status region.",
+    "Do not hide delete-one or pause controls behind hover-only menus.",
+    "Ensure filter changes and affected-delete counts are visible as text, not only color or icon state.",
+    "Keep confirmation focus inside destructive dialogs and return focus to the initiating control or next history entry."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches source filter, date filter, history toggle, delete-range action, individual delete actions, and restore or retry controls in order.",
+    "Enter activates focused filter, delete, pause, resume, and confirm actions.",
+    "Escape closes confirmation dialogs or menus without deleting history.",
+    "After deleting one entry, focus moves to the next entry, previous entry, or empty-state heading with an announcement.",
+    "After clearing a range, focus remains near the updated result count and status message.",
+    "Changing filters does not move focus away from the control that changed."
+  ],
+  "failureModes": [
+    "Sensitive search activity leaks across shared devices, accounts, or workspaces.",
+    "Users delete the wrong data because history, recent searches, saved searches, and viewed items are mixed.",
+    "Pause and delete are conflated, leaving old entries visible after users think history is gone.",
+    "History deletion fails partially with no status, retry, or explanation.",
+    "Source or date filters are not reflected in destructive action copy.",
+    "Managed-account retention prevents deletion but the UI still promises removal.",
+    "History powers recommendations after deletion because downstream personalization state was not updated or explained.",
+    "Keyboard users cannot delete individual entries or confirm range deletion."
+  ],
+  "relatedPatterns": [
+    "recently-searched",
+    "saved-search",
+    "recently-viewed",
+    "basic-search",
+    "search-suggestions",
+    "search-scope-selector",
+    "query-correction",
+    "recommendations"
+  ],
+  "comparisons": [
+    "search-history-vs-recently-searched-vs-saved-search-vs-recently-viewed"
+  ],
+  "examples": [
+    {
+      "product": "Google Account Workspace search history",
+      "url": "https://support.google.com/accounts/answer/11589072?hl=en",
+      "platform": "web",
+      "notes": "Documents account-managed Workspace search history for Gmail and Drive searches.",
+      "screenshot": "screenshots/patterns/search-history.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Google Search history",
+      "url": "https://support.google.com/websearch/answer/6096136?hl=en",
+      "platform": "web",
+      "notes": "Documents finding, deleting, and managing Google Search history.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Bing search history",
+      "url": "https://support.microsoft.com/en-us/bing/turn-search-history-off-or-on",
+      "platform": "web",
+      "notes": "Documents turning Bing search history off or on and clearing history through the privacy dashboard.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "YouTube search history",
+      "url": "https://support.google.com/youtube/answer/57711?hl=en",
+      "platform": "web",
+      "notes": "Documents viewing, deleting, clearing, and pausing search history.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-account-workspace-search-history",
+      "note": "Google Account Help documents Workspace search history saved in a Google Account and managed by users."
+    },
+    {
+      "id": "google-workspace-search-history",
+      "note": "Google Workspace Admin Help documents Gmail and Drive search-history saving, user controls, and deletion periods."
+    },
+    {
+      "id": "google-search-history-delete",
+      "note": "Google Search Help documents finding, erasing, and managing Google Search history."
+    },
+    {
+      "id": "microsoft-bing-search-history",
+      "note": "Microsoft Support documents turning Bing search history off or on and clearing search history."
+    },
+    {
+      "id": "youtube-search-history",
+      "note": "YouTube Help documents viewing, deleting, clearing, and pausing YouTube search history."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

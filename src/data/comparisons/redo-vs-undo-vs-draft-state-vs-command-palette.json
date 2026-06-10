@@ -1,0 +1,46 @@
+{
+  "id": "redo-vs-undo-vs-draft-state-vs-command-palette",
+  "title": "Redo vs undo vs draft state vs command palette",
+  "summary": "Redo reapplies the most recent undone operation while the edit history branch is still valid. Use undo for reversal, draft state for persistent unpublished versions, and command palette for invoking commands rather than defining history semantics.",
+  "patternIds": [
+    "redo",
+    "undo",
+    "draft-state",
+    "command-palette"
+  ],
+  "decisionRules": [
+    "Use redo when users may undo too far and need to reapply the latest undone operation in the same reversible edit stack.",
+    "Use undo when the immediate need is to reverse a completed operation and preserve the prior state.",
+    "Use draft state when the issue is a durable unpublished object version that can be resumed, compared, discarded, or published across sessions.",
+    "Use command palette when the interface needs a keyboard-first way to discover or run commands; the palette may expose Redo but does not define what can be redone.",
+    "Redo must be unavailable before any undo, available after undo, and cleared or explicitly branched when the user makes a new edit that invalidates the undone future.",
+    "Redo should reapply the exact operation to the same target, selection, order, and scope unless the product can clearly resolve a changed target.",
+    "Do not offer redo for irreversible external effects, production side effects, or stale operations whose original target has changed beyond reliable replay.",
+    "Expose visible menu, toolbar, or status availability in addition to keyboard shortcuts so users can discover whether redo is currently possible.",
+    "If the product stores durable history across reloads, show that history explicitly; do not imply ordinary redo survives route changes, collaboration conflicts, or session resets unless it truly does.",
+    "When redo appears inside a command palette, the command row must reflect the same enabled, disabled, and target-specific state as the rest of the interface."
+  ],
+  "failureModes": [
+    "Redo remains enabled after a new edit creates a different history branch and replays stale work over the user's current state.",
+    "Redo replays an operation against the wrong object because selection or target identity changed after undo.",
+    "Only a hidden keyboard shortcut supports redo, leaving mouse, touch, and assistive technology users without a discoverable path.",
+    "The interface labels redo generically even though several undone operations or scopes exist.",
+    "Redo is treated like restore from trash or draft recovery, causing users to expect long-lived recovery beyond the edit stack.",
+    "A command palette lists Redo as executable even when the editor's history stack says no redo is available."
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-undo-redo",
+      "note": "Apple frames undo and redo as expected reversal mechanisms that support safe exploration and recovery."
+    },
+    {
+      "id": "vscode-default-keybindings",
+      "note": "VS Code exposes undo and redo as command identifiers with platform keyboard shortcuts."
+    },
+    {
+      "id": "microsoft-windows-keyboard-shortcuts",
+      "note": "Microsoft documents redo as redoing typing that was undone and distinguishes it from undo."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

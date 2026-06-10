@@ -1,0 +1,239 @@
+{
+  "id": "inline-edit",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an in-place read-to-edit pattern with source-backed guidance for discoverable edit affordance, local save/cancel, unchanged-save disabling, dirty click-away protection, contextual validation, table sorting and refresh consequences, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers displayed values that switch into local edit controls, edit affordance, one-field or one-row scope, dirty state, unchanged save disabled, cancel restoring the original value, click-away behavior, inline validation, saving and saved states, refresh and sorting consequences, and conflicts with drill-down, row selection, and bulk editing.",
+    "relatedPatternDistinction": "The entry separates inline edit from text input by requiring a read mode and local commit contract, from single-page form by editing one visible value or row instead of a grouped form, from modal dialog by staying in context rather than isolating focus, and from complete complex form by avoiding sectioned dependency review.",
+    "liveDemoBehavior": "The rendered exercise switches a displayed owner value into edit mode, disables save until the value changes, validates a short draft on confirm, restores the original on cancel, warns on dirty click-away, saves in place, and contrasts a broken always-editable table that loses values on sort or forced save.",
+    "comparisonDecisionRules": "The linked inline-edit-vs-text-input-vs-single-page-form-vs-modal-dialog comparison gives concrete rules for in-place edit, ordinary text input, grouped form submission, modal editing, high-impact edit avoidance, dirty-state protection, table sort/filter behavior, and drill-down or bulk-edit conflicts.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/inline-edit.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, read mode, edit mode, local save/cancel, validation, dirty click-away warning, broken table editing, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/inline-edit.png"
+    ]
+  },
+  "name": "Inline edit",
+  "aliases": [
+    "edit in place",
+    "in-place edit",
+    "inline editing",
+    "editable value",
+    "editable row",
+    "editable table cell"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "In-place value or row editing",
+  "uiGuidance": [
+    "Render a read-state value with a visible edit affordance, then replace only that value, cell, or row with the appropriate input and adjacent Save and Cancel controls when edit mode starts.",
+    "Show text states for editable, editing, changed, validation error, saving, saved, and read-only values; do not rely on hover or color alone to reveal editability."
+  ],
+  "uxGuidance": [
+    "Use inline edit when users need to make frequent, low-impact changes to one visible property while preserving surrounding list, table, or record context.",
+    "Keep the edit local: disable save until the draft differs from the original, validate beside the input, preserve the original for cancel, and protect unsaved changes when users click away or navigate."
+  ],
+  "uiExamples": {
+    "good": [
+      "A resource table shows an edit icon beside the owner cell; activating it turns that cell into a text field with Save and Cancel buttons while other cells remain read-only.",
+      "A details page shows a visible Edit label next to an editable display name and keeps non-editable fields as plain read-only values."
+    ],
+    "bad": [
+      "Every table cell is always an input, so users cannot tell which values changed or whether a row is still just being read.",
+      "A displayed value becomes editable only when users click the text, but there is no edit affordance, no cancel button, and no saved state."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user clicks Edit owner, changes the value, sees Save become enabled, enters an invalid short value, fixes it beside the field, saves, and stays on the same row.",
+      "A user starts editing a table cell, clicks another row, sees a dirty-change warning, discards the draft, and the original value is restored."
+    ],
+    "bad": [
+      "A user types a new value and clicks elsewhere; the product silently discards the draft with no warning.",
+      "A user edits a sorted table cell and the row immediately jumps to a different page before the saved value can be confirmed."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Small edits become slow or risky when users must open a separate form for one visible value, or when in-place editing hides whether the value is read-only, changed, saved, invalid, or cancelable.",
+  "solution": "Let a displayed value, table cell, or row switch into a local edit control with a clear edit trigger, Save and Cancel, contextual validation, dirty-state protection, and table refresh or sort behavior that keeps the edited item understandable.",
+  "problemContext": [
+    "The user is viewing a record, list, table, or details page and needs to update one low-impact property.",
+    "Keeping surrounding context visible helps the user choose the right value or compare rows.",
+    "The edit can be committed or canceled independently without reviewing a larger form.",
+    "The system can preserve the original value and reliably report save, validation, and failed-save states."
+  ],
+  "selectionRules": [
+    "Choose inline edit for frequent low-impact edits to one displayed value, table cell, table row, or resource property.",
+    "Use text input instead when the user is already inside a normal form and there is no separate read state.",
+    "Use single-page form when several related values should be reviewed and submitted together.",
+    "Use modal dialog when a short edit needs focused explanation or secondary controls but should not become a whole page.",
+    "Use complete complex form when changes span sections, dependencies, or review-before-save consequences.",
+    "Do not use inline edit for irreversible, high-impact, bulk, or cross-record changes without stronger confirmation or review.",
+    "Avoid inline edit where clicking a value already opens drill-down, selects text, expands a row, or triggers row selection.",
+    "In tables, account for sort, filter, pagination, refresh, row selection, and one-row-at-a-time editing before enabling inline edit.",
+    "Make editability visible through an edit button, icon, hover affordance, or row action with an accessible name.",
+    "Keep Save disabled or clearly unavailable until the draft differs from the original value."
+  ],
+  "requiredStates": [
+    "Read state with displayed value and discoverable edit affordance.",
+    "Read-only or unavailable state for values that cannot be edited.",
+    "Edit mode with focused input and adjacent Save and Cancel controls.",
+    "Unchanged draft state where Save is disabled or explained.",
+    "Dirty draft state where Save is available and Cancel restores the original value.",
+    "Validation error state shown beside the edited input.",
+    "Dirty click-away or navigation state that asks whether to save, discard, or keep editing.",
+    "Saving state that prevents duplicate commit without losing the draft.",
+    "Saved success state that returns to read mode with the new value visible.",
+    "Failed-save state that keeps the input editable and reports recovery."
+  ],
+  "interactionContract": [
+    "Edit changes only the targeted value, cell, or row into edit mode and leaves unrelated content in read mode.",
+    "Only one table row or one conflicting edit scope can be active at a time unless the product explicitly supports batch editing.",
+    "Save commits the changed draft, reports validation errors in place, and returns to read mode only after success.",
+    "Cancel discards the draft and restores the original displayed value.",
+    "Click-away with no changes can exit edit mode; click-away with changes must save, discard, or keep editing by explicit user choice.",
+    "Sorting, filtering, pagination, and refresh should not make the edited item disappear before users can understand the saved result.",
+    "Keyboard users can enter edit mode, move through editable fields, save, cancel, and recover from errors without relying on hover."
+  ],
+  "implementationChecklist": [
+    "Identify which values are editable and which are read-only before adding edit affordances.",
+    "Give every edit trigger and icon-only Save or Cancel control an accessible name.",
+    "Store the original value separately from the draft so Cancel and dirty comparison are reliable.",
+    "Disable Save until the draft differs from the original, or explain why save is unavailable.",
+    "Place validation messages directly beside the edited input and keep the draft editable after errors.",
+    "Implement dirty click-away and route-change handling before enabling inline edit in dense tables.",
+    "Decide how active sort, filter, pagination, and refresh behave after a value changes.",
+    "Prevent conflicts with row drill-down, row selection, text selection, bulk actions, and keyboard shortcuts.",
+    "Test keyboard entry, Escape or Cancel, Enter or Save, focus return, screen reader labels, validation, failed save, and mobile hit targets."
+  ],
+  "commonMisuses": [
+    "Using inline edit for high-impact changes that need a review or confirmation step.",
+    "Making static text secretly editable with no visible affordance.",
+    "Removing Cancel, so users cannot restore the original value.",
+    "Saving every keystroke while presenting the interaction as explicit save/cancel inline edit.",
+    "Letting sorted or filtered rows jump away immediately after the value changes.",
+    "Allowing multiple table rows to enter edit mode when row selection and bulk actions are still active.",
+    "Using inline edit for a large multi-field form that belongs in a page, modal, or complex form.",
+    "Replacing text with an input on hover and blocking users from selecting or copying the displayed text."
+  ],
+  "critiqueQuestions": [
+    "Is the edit low-impact enough to commit locally without broader review?",
+    "Can users discover which values are editable before clicking them?",
+    "What happens to the original value if the user cancels or clicks away?",
+    "Does Save stay disabled until a real change exists?",
+    "Where does validation appear and can users fix it in place?",
+    "Will sorting, filtering, pagination, row selection, or drill-down conflict with edit mode?"
+  ],
+  "useWhen": [
+    "Users frequently update one visible value or one row property.",
+    "Surrounding table, list, or details-page context helps the edit.",
+    "The change is low-impact and can be saved or canceled independently.",
+    "The product can preserve original value, draft value, validation state, and failed-save recovery."
+  ],
+  "avoidWhen": [
+    "The edit affects multiple dependent fields or needs a review step.",
+    "The value is high-risk, irreversible, bulk-applied, or permission-sensitive.",
+    "The displayed value already functions as a link, drill-down target, row selector, or copyable text region.",
+    "The table cannot handle sorting, filtering, pagination, refresh, or one-row edit state predictably.",
+    "The platform cannot provide accessible edit, save, cancel, and validation controls in the available space."
+  ],
+  "variants": [
+    "Inline text edit",
+    "Inline editable table cell",
+    "Inline editable row",
+    "Inline select edit",
+    "Inline textarea edit",
+    "Inline create row",
+    "Inline edit with dirty confirmation",
+    "Inline edit with optimistic save",
+    "Inline edit with server validation",
+    "Inline edit in resource details"
+  ],
+  "accessibility": [
+    "Give edit, save, cancel, confirm, and dismiss controls accessible names, especially when icons are used.",
+    "Do not rely on hover alone to reveal editability; keyboard and touch users need a visible or focus-revealed affordance.",
+    "Move focus into the edited input when edit mode starts and return focus to the edited value or edit trigger after save or cancel.",
+    "Announce validation errors beside the edited input and associate them with the control.",
+    "Expose changed, saving, saved, failed, and read-only states in text or status regions.",
+    "Preserve text selection behavior when clicking or dragging displayed text should select rather than edit.",
+    "Keep table row and cell semantics understandable when a row switches into edit mode."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the edit trigger for editable values and skips values that are genuinely not editable.",
+    "Enter or Space activates the edit trigger and moves focus to the input.",
+    "Tab moves through editable fields, Save, Cancel, and any dirty-warning actions in a predictable order.",
+    "Escape can cancel edit mode only if it follows the same discard contract as Cancel.",
+    "Enter can save single-line inline edits when this does not conflict with input semantics.",
+    "After validation fails, focus stays on or returns to the invalid inline input.",
+    "After save or cancel, focus returns to the edited value or the control that opened edit mode."
+  ],
+  "failureModes": [
+    "The edit affordance appears only on pointer hover and is unreachable by keyboard or touch.",
+    "Cancel does not restore the exact original value.",
+    "Save commits an unchanged draft and creates confusing audit history.",
+    "A failed server save returns to read mode and hides the unsaved draft.",
+    "Dirty click-away silently discards or silently saves changes.",
+    "A table edit changes sorting immediately and the row disappears from the user's viewport.",
+    "Inline edit fights with row links, row selection, or bulk action controls.",
+    "Screen reader users hear only icon names like check and x without save or cancel meaning."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "single-page-form",
+    "modal-dialog",
+    "complete-complex-form",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "inline-edit-vs-text-input-vs-single-page-form-vs-modal-dialog"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian Design System Inline edit",
+      "url": "https://atlassian.design/components/inline-edit",
+      "platform": "web",
+      "notes": "Defines the read-to-edit switch on the same page, which anchors the core inline-edit boundary.",
+      "screenshot": "screenshots/patterns/inline-edit.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Cloudscape Inline edit",
+      "url": "https://cloudscape.design/patterns/resource-management/edit/inline-edit/",
+      "platform": "web",
+      "notes": "Documents editable table cells, confirm and dismiss actions, contextual validation, refresh behavior, and sort-state handling.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "PatternFly Inline Edit",
+      "url": "https://pf3.patternfly.org/v3/pattern-library/forms-and-controls/inline-edit/",
+      "platform": "web",
+      "notes": "Documents list, table, expanded-row, and form inline edit with one-row editing, save/cancel, disabled save until dirty, click-away rules, validation, and restrictions.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-inline-edit-component",
+      "note": "Atlassian defines inline edit as a component that switches between reading and editing on the same page."
+    },
+    {
+      "id": "cloudscape-inline-edit-pattern",
+      "note": "Cloudscape supports inline editing for frequently updated resource properties and table cells, including editable indicators, confirm/dismiss actions, validation, refresh, and sorting behavior."
+    },
+    {
+      "id": "patternfly-inline-edit-pattern",
+      "note": "PatternFly supports save/cancel controls, disabled save until a change exists, one-row editing, dirty click-away confirmation, validation, and restrictions around drill-down and bulk edit."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

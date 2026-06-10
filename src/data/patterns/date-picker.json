@@ -1,0 +1,238 @@
+{
+  "id": "date-picker",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a single-date calendar picker with source-backed guidance for scheduling context, manual text fallback, open calendar state, month navigation, available and unavailable day states, min and max boundaries, focus return, keyboard movement, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers single-date calendar selection, appointment scheduling, day-of-week context, month navigation, available and unavailable days, typed fallback, date-format hints, selected day, today marker, disabled restrictions, and focus recovery.",
+    "relatedPatternDistinction": "The entry separates date picker from date input by requiring calendar context and visible availability, from select by handling calendar adjacency instead of a short option list, from text input by requiring a precise date, and from inline validation by owning the date choice control rather than only error display.",
+    "liveDemoBehavior": "The rendered exercise opens a calendar menu, moves between months, selects available appointment days, blocks weekend choices, preserves a typed date fallback, shows canonical storage, returns feedback after submit, and contrasts a forced birthday calendar.",
+    "comparisonDecisionRules": "The linked date-picker-vs-date-input-vs-select-vs-text-input comparison gives concrete rules for scheduling, known historic dates, fixed slot lists, approximate date wording, manual fallback, disabled-day explanation, focus return, and no auto-submit.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/date-picker.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, open calendar menu, month navigation, unavailable date error, selected date, typed fallback, canonical output, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/date-picker.png"
+    ]
+  },
+  "name": "Date picker",
+  "aliases": [
+    "calendar picker",
+    "single date picker",
+    "appointment date picker",
+    "calendar date selector",
+    "booking date picker"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Selection And Choice",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Single-date text field with attached calendar menu",
+  "uiGuidance": [
+    "Render a labelled date text field with a persistent format hint and a calendar button that opens a month grid aligned to the field.",
+    "Show the current month and year, weekday headings, previous and next month controls, selected date, today marker, unavailable dates, and clear focus styling without relying on color alone."
+  ],
+  "uxGuidance": [
+    "Use a date picker when choosing a date requires calendar context such as weekday, nearby availability, booking windows, deadlines, or recent/future scheduling.",
+    "Let users type a valid date manually, explain blocked dates before submission, preserve the selected value across month navigation, and submit a canonical date only after validation passes."
+  ],
+  "uiExamples": {
+    "good": [
+      "An appointment booking field shows Appointment date, hint mm/dd/yyyy, a calendar button, July 2026 grid, disabled weekends, today marker, and selected July 14 date.",
+      "A hearing scheduler opens the calendar near the current booking window, announces August 2026 after next-month navigation, and keeps the typed field synchronized with the chosen day."
+    ],
+    "bad": [
+      "A date of birth field opens today with no text fallback and forces users to page backward month by month through decades.",
+      "A grid of unlabeled numbers uses pale grey for unavailable dates but still lets users click them before showing a late error."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens the calendar, sees weekends unavailable, moves to August, chooses Tuesday 11 August 2026, and reviews stored value 2026-08-11.",
+      "A keyboard user types 07/16/2026 into the field, tabs to Submit date, and receives the same canonical value as a calendar click."
+    ],
+    "bad": [
+      "A user selects a disabled Saturday because it was only dimmed, then loses their previous month when the error appears.",
+      "A user choosing a birthday must repeatedly open year navigation and cannot simply type the known date."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Scheduling dates often depend on weekdays, nearby alternatives, booking windows, and unavailable days, but a plain field hides that context and a poorly built calendar can block typing, focus, and recovery.",
+  "solution": "Pair a labelled date field with an accessible calendar menu that exposes month navigation, weekday layout, availability restrictions, selected and focused dates, typed fallback, clear validation, and canonical date output.",
+  "problemContext": [
+    "The user is selecting one exact date for an appointment, booking, deadline, publication, reminder, or recent/future event.",
+    "The day of week, closeness to today, or nearby availability affects the user's choice.",
+    "Some dates are unavailable because of weekends, holidays, service windows, min and max dates, or capacity rules.",
+    "Users may prefer either pointer selection from the grid or keyboard entry in the text field.",
+    "The service must synchronize visible local format with a backend-safe canonical date."
+  ],
+  "selectionRules": [
+    "Choose date picker for single-date scheduling when calendar position, weekday, or availability changes the decision.",
+    "Use date input for birthdays, document dates, and other exact remembered dates that users can type faster than they can navigate.",
+    "Use select when there are only a few meaningful date choices, such as three appointment slots or four reporting periods.",
+    "Use text input when approximate wording is acceptable, such as early July or around the end of the month.",
+    "Do not use a calendar picker when the implementation cannot support keyboard navigation, visible labels, typed entry, and focus return.",
+    "Default the open month near the relevant booking window, not always today.",
+    "Show unavailable dates in the grid and explain the rule that makes them unavailable.",
+    "Keep manual date typing available with a persistent format hint.",
+    "Validate typed and picked values against the same min date, max date, and availability rules.",
+    "Avoid automatic form submission when the user selects a day."
+  ],
+  "requiredStates": [
+    "Closed labelled text field with visible date-format hint and calendar button.",
+    "Open calendar menu with month and year heading, weekday row, previous and next controls, and active focus.",
+    "Today state that is visually distinct from selected date.",
+    "Selected date state synchronized with the text field.",
+    "Unavailable date state for weekends, holidays, outside-window days, or capacity limits.",
+    "Typed valid date state that updates the same canonical value as a grid selection.",
+    "Typed invalid format state that explains the expected date format.",
+    "Out-of-window error state for dates before the minimum or after the maximum.",
+    "Month-navigation state that preserves selection and announces the new month.",
+    "Submitted state showing the canonical YYYY-MM-DD value."
+  ],
+  "interactionContract": [
+    "Opening the calendar moves focus to the current, selected, or first available date without losing the labelled input context.",
+    "Previous and next month controls update the grid, heading, available dates, and live status together.",
+    "Clicking or pressing Enter on an available day writes the visible field value and canonical date while leaving the form unsubmitted.",
+    "Unavailable days are skipped or blocked and expose a clear reason such as Weekend unavailable.",
+    "Typing a date in the field is parsed on blur or submit against the same rules as a picked date.",
+    "Escape or a close action returns focus to the input or calendar button without clearing a valid selection.",
+    "Submit validates required value, date format, real calendar date, booking window, and availability before storing the date."
+  ],
+  "implementationChecklist": [
+    "Define the date purpose, allowed range, unavailable-day rules, local display format, canonical storage format, default open month, and whether manual typing is required.",
+    "Build the labelled input, persistent format hint, calendar button, menu, month heading, weekday headings, previous and next month controls, and day buttons with semantic names.",
+    "Represent selected, today, focused, unavailable, out-of-month, open, closed, empty, invalid, and submitted states in design and code.",
+    "Parse typed values flexibly enough for the locale and validate them with the same service rules used by calendar clicks.",
+    "Keep focus order, arrow-key movement, Page Up and Page Down month movement, Home and End week movement, Escape close, and Tab escape behavior testable.",
+    "Announce month changes, selected dates, disabled restrictions, and validation errors to assistive technology.",
+    "Test keyboard-only operation, screen readers, zoom, small viewports, forced colors, localization, server-returned errors, min and max dates, and unavailable dates."
+  ],
+  "commonMisuses": [
+    "Using a calendar picker for a date of birth or other remembered historic date.",
+    "Removing manual date typing and forcing pointer-only calendar selection.",
+    "Showing only disabled colors without text explaining why a date cannot be selected.",
+    "Letting unavailable dates be selected and failing late on submit.",
+    "Auto-submitting the form when a day receives focus or selection.",
+    "Opening every picker on today even when the valid booking window starts months later.",
+    "Dropping focus after a month change or date selection.",
+    "Using locale-specific date formatting in the field while storing ambiguous slash dates on the backend."
+  ],
+  "critiqueQuestions": [
+    "Does the user need weekday or availability context, or would manual date input be faster?",
+    "What month should open first for this task's real booking window?",
+    "Which dates are unavailable and how will the interface explain each restriction?",
+    "Can users type the date, choose it with a pointer, and choose it with the keyboard?",
+    "What happens to focus after opening, navigating months, selecting, closing, and submitting?",
+    "How does the displayed date format map to canonical storage and localization?"
+  ],
+  "useWhen": [
+    "Users are scheduling, booking, planning, or selecting a recent or future date.",
+    "The day of week or nearby dates influence the choice.",
+    "Availability, minimum dates, maximum dates, or blackout dates need to be visible before selection.",
+    "The product can support both calendar grid interaction and manual date typing."
+  ],
+  "avoidWhen": [
+    "Users already know the exact date and do not need calendar context.",
+    "The date is far in the past, such as a birthday or historic document date.",
+    "The answer is approximate, partial, or naturally written as words.",
+    "The valid choices are a short list of named options better handled by select or radio controls.",
+    "The team cannot implement keyboard, screen reader, focus, localization, and disabled-date behavior reliably."
+  ],
+  "variants": [
+    "Appointment date picker",
+    "Booking window picker",
+    "Deadline picker",
+    "Publication date picker",
+    "Calendar picker with disabled weekends",
+    "Calendar picker with min and max dates",
+    "Calendar picker with typed fallback",
+    "Calendar picker with today marker",
+    "Calendar picker with selected date",
+    "Calendar picker with unavailable-date explanation"
+  ],
+  "accessibility": [
+    "Use a visible label and persistent hint for the text field; do not rely only on text inside the field.",
+    "Give the calendar button an accessible name and state that distinguishes opening from closing the menu.",
+    "Expose month, year, weekday, day number, selected state, today state, and disabled state to assistive technology.",
+    "Provide keyboard movement across days, weeks, months, and years without trapping focus.",
+    "Return focus predictably after selection, close, invalid submit, and month navigation.",
+    "Do not submit automatically when a date is highlighted, focused, or selected.",
+    "Announce disabled-date reasons and validation errors in text, not color alone."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the input, calendar button, month controls, active day, and following form controls in a predictable order.",
+    "Enter or Space opens the calendar from the button and selects an available focused day inside the grid.",
+    "Arrow keys move through days and weeks while staying inside the calendar grid.",
+    "Page Up and Page Down move by month, and Shift plus those keys may move by year when supported.",
+    "Home and End move to the beginning and end of the visible week.",
+    "Escape or an explicit close returns focus to the input or calendar button.",
+    "Typing in the text field follows ordinary input behavior and does not require opening the calendar."
+  ],
+  "failureModes": [
+    "The picker is pointer-only and cannot be operated from the keyboard.",
+    "Screen reader users hear only numbers without month, year, selected state, or disabled reasons.",
+    "The open month is far from the useful booking window and forces excessive navigation.",
+    "The text field accepts 02/31/2026 or a blocked weekend because typed and picked validation are inconsistent.",
+    "A selected date is lost when the user opens the next month and returns.",
+    "The component uses color alone to identify today, selected date, or unavailable dates.",
+    "The date writes an ambiguous local string to the backend instead of a canonical date.",
+    "The form submits as soon as a day is focused or clicked, before the user reviews other fields."
+  ],
+  "relatedPatterns": [
+    "date-input",
+    "select",
+    "text-input",
+    "inline-validation",
+    "error-summary",
+    "input-mask"
+  ],
+  "comparisons": [
+    "date-picker-vs-date-input-vs-select-vs-text-input"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Date picker",
+      "url": "https://designsystem.digital.gov/components/date-picker/",
+      "platform": "web",
+      "notes": "Documents single-date picker use for scheduling and day-of-week context, visible format hints, manual typing, min and max dates, keyboard navigation, accessibility status, and no auto-submission.",
+      "screenshot": "screenshots/patterns/date-picker.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Date picker",
+      "url": "https://carbondesignsystem.com/components/date-picker/usage/",
+      "platform": "web",
+      "notes": "Documents calendar picker anatomy including label, date field, format instruction, icon, calendar menu, month and year controls, weekday row, day cells, states, validation, and localization.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "CMS Design System Calendar Picker",
+      "url": "https://design.cms.gov/components/date-field/date-picker/?view=guidance",
+      "platform": "web",
+      "notes": "Documents calendar picker use for recent or future dates and day-of-week relevance, flexible typed formats, memorable-date alternatives, focus return, keyboard navigation, screen reader announcements, and disabled date restrictions.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-date-picker-component",
+      "note": "USWDS date picker guidance supports scheduling use, day-of-week context, manual typing, format hints, min and max dates, keyboard navigation, accessibility tests, and avoiding auto-submission."
+    },
+    {
+      "id": "carbon-date-picker-component",
+      "note": "Carbon date picker guidance supports calendar anatomy, open state, month controls, day grid states, validation, localization, and simple date input distinction."
+    },
+    {
+      "id": "cms-calendar-picker-component",
+      "note": "CMS calendar picker guidance supports future or recent date use, flexible typed entry, memorable-date alternatives, focus return, keyboard support, and disabled restriction announcements."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "input-mask-vs-text-input-vs-inline-validation-vs-autocomplete",
+  "title": "Input mask vs text input vs inline validation vs autocomplete",
+  "summary": "Use an input mask only when a typed value has a stable, predictable character structure that benefits from live grouping or fixed literals while users type.",
+  "patternIds": [
+    "input-mask",
+    "text-input",
+    "inline-validation",
+    "autocomplete"
+  ],
+  "decisionRules": [
+    "Prefer input mask when the accepted value has a stable character pattern, such as grouped card digits, container numbers, serial keys, or fixed-format codes.",
+    "Prefer text input when the value is short and freeform, or when valid answers vary too much for a mask without blocking legitimate users.",
+    "Prefer inline validation when the field should accept normal typing first and then explain a format problem after blur, submit, or another checkpoint.",
+    "Prefer autocomplete when typed characters should resolve to one known record or suggestion instead of being reformatted into a fixed literal pattern.",
+    "A mask must preserve normal editing, paste, selection, deletion, undo, and cursor movement; if those interactions become fragile, use text input plus validation instead.",
+    "Use hint text or helper text to explain complex formats because placeholder-only mask examples disappear or become hard to parse while users type.",
+    "Do not use a mask for email addresses, international phone numbers, company names, identifiers with valid exceptions, or any field where the mask rejects real values.",
+    "Do not use a mask to add a constant currency, unit, or domain string; use a prefix/suffix pattern when the constant value is separate from the typed value.",
+    "Do not combine a mask with a picker that owns the same format; use the picker or a plain text fallback when the picker is the primary entry path.",
+    "Validate the canonical unmasked value on submit and make it clear whether separators are stored, displayed only, or copied with the value."
+  ],
+  "failureModes": [
+    "A fixed phone mask rejects valid international phone numbers.",
+    "Pasting a complete value fails because the mask expects users to type one character at a time.",
+    "The mask inserts separators but the backend stores a different value without telling users.",
+    "Users cannot delete, select, or correct a middle group without the cursor jumping unpredictably.",
+    "A placeholder-only mask disappears during entry and users no longer know the expected grouping.",
+    "A mask is used where autocomplete should resolve to a known record ID."
+  ],
+  "sources": [
+    {
+      "id": "maersk-input-masks",
+      "note": "Maersk distinguishes masks for specific expected formats from prefix/suffix and ordinary inputs, and requires copy/paste and correction not be impaired."
+    },
+    {
+      "id": "sap-fiori-mask-input",
+      "note": "SAP Fiori documents fixed-length mask behavior, label requirements, described guidance, paste formatting, deletion, and avoidance when masks block valid data."
+    },
+    {
+      "id": "microsoft-access-input-masks",
+      "note": "Microsoft documents masks as placeholder and literal-character constraints, including stored-versus-displayed separators and cases where masks are inappropriate."
+    },
+    {
+      "id": "material-design-text-fields",
+      "note": "Material Design documents formatted grouped-character text fields, helper text, error messages, and prefix/suffix alternatives."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

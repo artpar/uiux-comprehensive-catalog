@@ -1,0 +1,245 @@
+{
+  "id": "destructive-action-confirmation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed final destructive commit review with guidance for destructive verb and target labels, loss inventory, dependency blocking, acknowledgement, safe cancellation, commit outcomes, related-pattern boundaries, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets destructive delete, remove, cancel, deactivate, reset, revoke, and permanent erase flows, including destructive verb and target labels, object scope, loss inventory, dependency blocking, acknowledgement, safe keep path, duplicate-submit prevention, and committed outcome status.",
+    "relatedPatternDistinction": "The entry separates destructive action confirmation from confirmation dialog by narrowing to final destructive commit review, from undo by blocking permanent loss before commit rather than recovering routine reversible actions, from warning text by appearing after the destructive command starts rather than before it, from modal dialog by requiring a consequence decision rather than an editing task, and from alert by requiring a user choice.",
+    "liveDemoBehavior": "The live demo opens Delete Payments project, shows dashboards, saved views, shared links, and webhooks, blocks deletion while export jobs run, enables commit only after Stop jobs and acknowledgement, supports Keep project and Escape cancellation, reports single final deletion, and contrasts Vague prompt, Default danger, Reversible action, Hidden scope, Post-commit, and Double submit misuse.",
+    "comparisonDecisionRules": "The destructive-action-confirmation-vs-confirmation-dialog-vs-undo-vs-warning-text comparison gives concrete rules for destructive commands, non-destructive high-consequence decisions, recoverable post-action undo, before-action warning copy, destructive button wording, loss inventory, soft delete to trash, and typed-confirmation escalation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reports 126 complete patterns, 0 stubs, 174 missing goal patterns, and 0 duplicate field groups after this pattern is marked complete.",
+    "manualSpotCheck": "Rendered /patterns/destructive-action-confirmation/ and /compare/destructive-action-confirmation-vs-confirmation-dialog-vs-undo-vs-warning-text/ on 2026-06-09. Live check exercised Delete project, Stop jobs, acknowledgement checkbox, Delete Payments project, Keep project, Show dependency block, Reset, Vague prompt, Default danger, Reversible action, Hidden scope, Post-commit, and Double submit controls. screenshots/patterns/destructive-action-confirmation.png captures Good UI, Bad UI, Good UX, Bad UX, loss inventory, dependency block, safe path, disabled destructive action, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/destructive-action-confirmation.png"
+    ]
+  },
+  "name": "Destructive action confirmation",
+  "aliases": [
+    "delete confirmation",
+    "destructive confirmation",
+    "danger confirmation",
+    "remove confirmation",
+    "cancel subscription confirmation",
+    "deactivate account confirmation",
+    "permanent delete review"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Final destructive commit review",
+  "uiGuidance": [
+    "Render a destructive confirmation after the user invokes a destructive command, with a title and final action button that repeat the destructive verb and target, such as Delete workspace or Cancel subscription.",
+    "Show the affected object, scope, and loss inventory before the final action, including child records, shared links, members, automations, billing, integrations, or external effects when they apply."
+  ],
+  "uxGuidance": [
+    "Use destructive action confirmation to create one informed stop before permanent or externally visible loss, not to slow every routine cleanup action.",
+    "Make the safe path explicit and easy, keep the destructive action unavailable until required review is satisfied, and report whether the object was kept, blocked, or permanently committed."
+  ],
+  "uiExamples": {
+    "good": [
+      "Delete Payments project? lists 4 dashboards, 12 saved views, 3 webhooks, and 8 shared links, offers Keep project, and labels the danger action Delete Payments project.",
+      "Cancel Pro subscription? shows the billing date, lost seats, and export deadline before enabling Cancel subscription after an acknowledgement checkbox.",
+      "Deactivate account? names the account, connected integrations, and recovery window, then sends focus to the safe action first."
+    ],
+    "bad": [
+      "A modal says Are you sure? with OK and Cancel after the user clicks Delete, without naming the project or what disappears.",
+      "A red Delete button is enabled immediately beside a vague statement that cannot be undone.",
+      "A soft archive action opens the same severe deletion confirmation used for permanent account closure."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens Delete workspace, reviews the object count and webhooks, cancels, and returns to the same workspace with nothing changed.",
+      "A user acknowledges permanent deletion, commits it, and receives a final status that the workspace and integrations were removed.",
+      "A user tries to delete a project with running jobs and the confirmation blocks commit until jobs are stopped."
+    ],
+    "bad": [
+      "A user confirms deletion because OK looks like the primary next step, then discovers shared links and child reports were lost.",
+      "A user sees so many confirmations for low-risk cleanup that they skip reading the one that permanently removes production data.",
+      "A user cannot tell whether Cancel means cancel the deletion or cancel the subscription because the labels do not name outcomes."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can permanently delete, remove, deactivate, reset, or cancel valuable objects without understanding exactly what will be lost, especially when the final prompt uses vague labels, hides affected scope, or treats reversible cleanup like irreversible destruction.",
+  "solution": "After a destructive command is invoked, show a focused destructive confirmation that names the target and destructive verb, inventories the loss, offers a safe keep path, requires any needed acknowledgement, blocks unavailable commits, and reports the final outcome.",
+  "problemContext": [
+    "The user has already selected a destructive command such as Delete, Remove, Cancel, Deactivate, Reset, Revoke, or Permanently erase.",
+    "The action can cause permanent data loss, account loss, subscription cancellation, permission removal, key reset, webhook deletion, public-link breakage, or irreversible external effects.",
+    "The product can enumerate the affected object, child objects, relationships, integrations, billing effects, or recovery limits before committing.",
+    "The team must distinguish permanent destruction from reversible archive, trash, dismiss, hide, or undoable cleanup."
+  ],
+  "selectionRules": [
+    "Choose destructive action confirmation when a destructive command needs a final commit review before permanent or externally visible loss.",
+    "Use the destructive verb and target in the title and final button; avoid OK, Yes, Continue, Proceed, and Confirm for the final destructive action.",
+    "List the affected scope in concrete terms: object name, count, child records, members, shared links, integrations, billing, audit, or external systems.",
+    "Keep the safe path first or easiest to reach when cancellation leaves everything unchanged.",
+    "Disable the destructive action until required acknowledgement, dependency resolution, or scope review is complete.",
+    "Use ordinary confirmation dialog for high-consequence decisions that are not mainly destructive.",
+    "Use undo or restore when deletion is actually a reversible trash move and the prior state can be restored faithfully.",
+    "Use warning text before the destructive command when the user only needs consequence copy before starting the delete flow.",
+    "Escalate to typed confirmation for severe broad-scope deletion, workspace or account closure, production data deletion, or security-critical reset."
+  ],
+  "requiredStates": [
+    "Idle state where the destructive command is visible but not committed.",
+    "Review state that names the destructive verb, target object, and affected scope.",
+    "Dependency-blocked state where deletion cannot continue until related jobs, locks, billing, or permissions are resolved.",
+    "Acknowledgement-required state for permanent loss or external effects.",
+    "Safe cancellation state that keeps the object unchanged and returns focus to the destructive trigger or object row.",
+    "Committing state after deliberate confirmation with disabled duplicate submissions.",
+    "Committed outcome state that reports what was permanently removed and where focus or navigation goes next.",
+    "Alternative recovery state where undo, trash restore, archive, or warning text is the more appropriate pattern."
+  ],
+  "interactionContract": [
+    "The confirmation appears only after a user-initiated destructive command.",
+    "The title, body, and final button all refer to the same target and destructive action.",
+    "The confirmation inventory is specific enough for users to decide whether to cancel.",
+    "The safe path closes the confirmation without changing the target object.",
+    "Escape cancels only when the destructive action has not started and cancellation is safe.",
+    "The destructive button cannot be activated until required acknowledgement or dependency checks pass.",
+    "Committing disables duplicate activation and shows a clear in-progress state.",
+    "After cancel, block, or completion, focus returns to the trigger, the preserved object, or a clear post-deletion status."
+  ],
+  "implementationChecklist": [
+    "Identify the destructive verb, target object, owner, and exact irreversible boundary before designing the confirmation.",
+    "Inventory child records, relationships, shared links, integrations, billing effects, audit retention, external notifications, and recovery windows.",
+    "Write the title as a destructive question or statement using the target name.",
+    "Write the final action label as the destructive verb plus object type or object name.",
+    "Write the safe action as the preserved outcome, such as Keep project, Keep subscription, or Do not delete.",
+    "Block commit when dependencies make deletion invalid or when required acknowledgement is incomplete.",
+    "Prevent duplicate destructive submissions while the deletion request is committing.",
+    "Record cancellation, blocked, and committed outcomes in a status region or audit trail where appropriate.",
+    "Review whether undo, restore-from-trash, warning text, or command placement would protect users with less interruption."
+  ],
+  "commonMisuses": [
+    "Using a vague Are you sure prompt that does not name the object, count, or consequence.",
+    "Labelling the destructive commit OK, Yes, Continue, or Confirm.",
+    "Making the destructive action the default Enter target before the user reviews the loss.",
+    "Using the same severe confirmation for reversible archive, hide, dismiss, and move-to-trash actions.",
+    "Omitting child objects, shared links, subscriptions, automations, webhooks, or permissions from the loss inventory.",
+    "Offering undo after an irreversible deletion has already crossed the system boundary.",
+    "Showing the confirmation after the destructive action has already started."
+  ],
+  "critiqueQuestions": [
+    "What exactly will be gone, revoked, cancelled, reset, or deactivated after commit?",
+    "Can the product list enough affected scope to change the user's decision?",
+    "Is this permanent destruction, a reversible trash move, or a routine archive action?",
+    "Does the final button say the destructive verb and target?",
+    "Is the safe action phrased as the preserved outcome?",
+    "What blocks deletion, and how does the confirmation show that block?",
+    "What state receives focus after cancel, block, and commit?"
+  ],
+  "useWhen": [
+    "A user has initiated a destructive command that can permanently remove, revoke, reset, deactivate, or cancel something valuable.",
+    "The system can name the target and enumerate meaningful loss or external effects before final commitment.",
+    "Undo or restore cannot fully recover the prior state, or the recovery path is limited enough that users must decide before commit."
+  ],
+  "avoidWhen": [
+    "The action is a routine reversible archive, hide, dismiss, move, reorder, or trash move.",
+    "A warning before the destructive command is sufficient and no final commit review is needed.",
+    "The decision is consequential but not destructive, such as sending money or sharing private data.",
+    "The confirmation cannot add object, scope, or consequence information beyond the trigger label.",
+    "The action needs a longer dependency-resolution workflow rather than a final yes-or-no commit."
+  ],
+  "variants": [
+    "Permanent delete confirmation",
+    "Bulk delete confirmation",
+    "Subscription cancellation confirmation",
+    "Account deactivation confirmation",
+    "Permission removal confirmation",
+    "API key reset confirmation",
+    "Integration disconnect confirmation",
+    "Dependency-blocked delete confirmation"
+  ],
+  "accessibility": [
+    "Use alertdialog semantics or platform equivalent when the destructive decision requires an immediate response.",
+    "Give the confirmation an accessible name from the visible destructive title.",
+    "Associate the loss inventory as the dialog description or make it reachable immediately after the title.",
+    "Keep focus inside the modal layer while it is open and make the safe action keyboard reachable.",
+    "Do not rely on red styling alone; use destructive labels, consequence text, and status copy.",
+    "Avoid accidental Enter commits by placing initial focus on safe action, acknowledgement, or explanatory content when needed.",
+    "Report blocked, cancelled, committing, and committed outcomes in a status region."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the destructive trigger opens the confirmation rather than committing destruction.",
+    "Tab and Shift+Tab cycle through the confirmation controls while the dialog is open.",
+    "Escape follows the same unchanged-object path as the safe cancel action until commit begins.",
+    "The destructive button remains disabled until acknowledgement or dependency checks are satisfied.",
+    "During committing, duplicate activation is disabled and focus does not move to the background page.",
+    "After cancellation, focus returns to the destructive trigger or preserved object; after deletion, focus moves to a stable status or parent list."
+  ],
+  "failureModes": [
+    "Users delete the wrong object because the confirmation title omits the target name.",
+    "Users underestimate deletion because child records, links, webhooks, or members are not listed.",
+    "Users habituate because low-risk actions use the same destructive confirmation treatment.",
+    "Keyboard users accidentally commit because the destructive action is the first focused control.",
+    "Deletion can be submitted twice while the first request is still committing.",
+    "Cancellation leaves users unsure whether the destructive action was stopped.",
+    "The final status says deleted but background jobs, integrations, or external recipients still reference the removed object."
+  ],
+  "relatedPatterns": [
+    "confirmation-dialog",
+    "undo",
+    "warning-text",
+    "modal-dialog",
+    "alert"
+  ],
+  "comparisons": [
+    "destructive-action-confirmation-vs-confirmation-dialog-vs-undo-vs-warning-text"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian Forge danger modal",
+      "url": "https://developer.atlassian.com/platform/forge/ui-kit/components/modal/",
+      "platform": "web",
+      "notes": "Shows a destructive delete modal with danger appearance, cancellation, and copy about permanent effects and affected child pages.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Maersk dialog component",
+      "url": "https://designsystem.maersk.com/components/dialog/",
+      "platform": "web",
+      "notes": "States that dialogs are disruptive overlays for decisions or acknowledgement and should be used to confirm destructive actions.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Apple Human Interface Guidelines alerts",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/alerts",
+      "platform": "mobile",
+      "notes": "Supports careful treatment of destructive alert actions and avoiding ambiguous OK-style confirmation labels.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-forge-danger-modal",
+      "note": "Atlassian danger modal examples show destructive delete copy, affected child content, cancel, and danger action styling."
+    },
+    {
+      "id": "maersk-dialog-component",
+      "note": "Maersk dialog guidance reserves disruptive dialogs for decisions and explicitly includes destructive-action confirmation."
+    },
+    {
+      "id": "apple-hig-alerts",
+      "note": "Apple alert guidance supports deliberate destructive-action treatment and warns against ambiguous confirmation labels."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports specific consequence information and alternatives such as undo or prevention."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG supplies alertdialog semantics for important modal decisions requiring a response."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

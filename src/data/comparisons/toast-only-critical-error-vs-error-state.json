@@ -1,0 +1,39 @@
+{
+  "id": "toast-only-critical-error-vs-error-state",
+  "title": "Toast-only critical error vs error state",
+  "summary": "Use an error state for blocking or high-consequence failures; treat toast-only critical feedback as an anti-pattern unless a persistent recovery surface remains available.",
+  "patternIds": ["toast-only-critical-error", "error-state"],
+  "decisionRules": [
+    "Choose error state when a failed payment, save, upload, permission check, destructive action, or security step blocks progress or changes whether the current page can be trusted.",
+    "Flag toast-only critical error when the toast is the only place that names the failed action, consequence, support reference, or recovery action.",
+    "Use transient toast feedback only for low-risk confirmation or background status when users do not need to act after the message disappears.",
+    "If a critical failure also triggers a toast, keep a persistent inline, section-level, modal, or page-level error that users can revisit after the toast closes.",
+    "Prefer an error state when users need retry, correction, fallback, undo, support escalation, or proof of whether an operation succeeded.",
+    "Do not auto-dismiss the only explanation for payment failure, failed save, failed delete, failed upload, access denial, or account/security failure.",
+    "Attach the recovery action to the affected object or task; do not make users hunt through a global notification list before they can repair the failure.",
+    "For form-wide or multi-field failures, pair the persistent error state with field-level validation or an error summary instead of relying on a toast."
+  ],
+  "failureModes": [
+    "A payment page shows a brief failure toast and then returns to a normal-looking unpaid invoice with no retry path.",
+    "A failed save clears a draft after a snackbar appears.",
+    "A permission error appears far away from the disabled or failed action.",
+    "A support reference disappears before the user can copy it.",
+    "Every backend exception is routed through the same global toast handler, hiding consequence and recovery differences.",
+    "A screen reader user hears the failure but cannot find a persistent action after the live-region announcement ends."
+  ],
+  "sources": [
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon documents time-based toast behavior, persistent inline behavior, actionable notification alternatives, and the need for users to access messages after auto-dismiss when more time is needed."
+    },
+    {
+      "id": "atlassian-error-messages",
+      "note": "Atlassian documents error copy that gives clear next actions and matches message treatment to the user journey."
+    },
+    {
+      "id": "va-error-messages",
+      "note": "VA documents error and alert messages as clear, direct messages with calls to action that help people resolve the issue."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

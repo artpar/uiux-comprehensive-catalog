@@ -1,0 +1,51 @@
+{
+  "id": "recently-searched-vs-search-suggestions-vs-saved-search-vs-recently-viewed",
+  "title": "Recently searched vs search suggestions vs saved search vs recently viewed",
+  "summary": "Use recently searched for passive submitted-query history, search suggestions for query formulation help, saved search for intentional persisted criteria, and recently viewed for opened item history.",
+  "patternIds": [
+    "recently-searched",
+    "search-suggestions",
+    "saved-search",
+    "recently-viewed"
+  ],
+  "decisionRules": [
+    "Prefer recently searched when the product should show query strings the current user actually submitted so they can rerun or remove them later.",
+    "Prefer search suggestions when the user is still forming a query and the system offers possible terms from popularity, content vocabulary, spelling, or partial input.",
+    "Prefer saved search when the user intentionally names and stores query criteria, scope, filters, sort, sharing, subscriptions, or dashboard behavior for later management.",
+    "Prefer recently viewed when the list contains objects the user opened, such as products, records, files, or cases, rather than search text.",
+    "Recently searched should be ordered by search time, deduplicated by normalized query and scope, and capped or expired so the list remains a short recall aid.",
+    "Do not mix recent searches with promoted queries, saved searches, viewed records, bookmarks, recommendations, or another user's history under one label.",
+    "Expose account, device, workspace, or browser scope when recent queries may appear across sessions or devices.",
+    "Provide remove-one and clear-all controls for recent searches without deleting saved searches, saved filters, viewed records, or underlying search results.",
+    "Store a recent search only after a meaningful submitted query, not after every keystroke, hover, suggestion preview, or empty search box focus.",
+    "When search history is disabled or cleared, hide the section or show an honest empty state rather than filling it with popular searches as if they were personal history."
+  ],
+  "failureModes": [
+    "The recent-search list includes typed characters that were never submitted, so users think partial private terms were saved.",
+    "A saved search object appears in recent searches and users cannot tell whether rerunning it updates a named saved definition.",
+    "A recently viewed record appears as a recent search query, confusing object history with query history.",
+    "Promoted or popular queries are labelled recent searches even though the user never searched them.",
+    "Search history appears on a shared device with no account, browser, or workspace scope label.",
+    "Clear history deletes saved searches or viewed-item history because all personal lists share one destructive action.",
+    "The product keeps showing old sensitive queries after history is turned off or cleared."
+  ],
+  "sources": [
+    {
+      "id": "algolia-autocomplete-recent-searches-plugin",
+      "note": "Algolia documents a plugin specifically for latest searches a user made."
+    },
+    {
+      "id": "algolia-add-recent-searches",
+      "note": "Algolia documents storage keys, limits, submitted-query behavior, selection, linking, and custom storage for recent searches."
+    },
+    {
+      "id": "google-workspace-search-history",
+      "note": "Google Workspace documents user control over search history, Gmail and Drive search-history suggestions, and activity management."
+    },
+    {
+      "id": "algolia-react-instantsearch-recent-searches",
+      "note": "Algolia shows recent searches as a selectable source that updates search UI state after prior submitted queries exist."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

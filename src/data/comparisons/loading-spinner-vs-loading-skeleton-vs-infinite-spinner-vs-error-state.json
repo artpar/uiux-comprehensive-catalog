@@ -1,0 +1,48 @@
+{
+  "id": "loading-spinner-vs-loading-skeleton-vs-infinite-spinner-vs-error-state",
+  "title": "Loading spinner vs loading skeleton vs infinite spinner vs error state",
+  "summary": "Use a loading spinner for a short named indeterminate wait; use a skeleton for predictable content structure, flag infinite spinners when the wait has no boundary, and switch to error state when the operation has failed or timed out.",
+  "patternIds": [
+    "loading-spinner",
+    "loading-skeleton",
+    "infinite-spinner",
+    "error-state"
+  ],
+  "decisionRules": [
+    "Choose loading spinner when a specific action or region is actively processing, progress cannot be measured yet, and the wait is expected to resolve quickly enough that a compact busy indicator is sufficient.",
+    "Choose loading skeleton when the pending result has a predictable visual structure and users benefit from reserved card, row, chart, or text layout while content loads.",
+    "Flag infinite spinner when the spinner can keep running with no named operation, timeout, elapsed status, retry, cancel, cached fallback, background handoff, or failure state.",
+    "Choose error state when the load, save, sync, submit, or fetch has failed, timed out, lost authorization, or reached a retry limit that needs recovery.",
+    "Use determinate progress outside this comparison when the system can expose percent, item count, queue position, or ordered stages instead of an unspecified wait.",
+    "Use a small inline spinner inside or next to the triggering control for button-level waits, and disable only the controls that would duplicate or corrupt the in-flight action.",
+    "Use a component or page overlay spinner only when the affected surface is temporarily unavailable; keep a label nearby that names the exact operation and affected object.",
+    "Do not show spinner and skeleton for the same region; if both appear, they must describe separate operations with separate resolution paths."
+  ],
+  "failureModes": [
+    "A Save button shows a spinner but leaves the original button clickable, creating duplicate submissions.",
+    "A whole page is covered by an unlabeled spinner for a small filter refresh that should only busy the results region.",
+    "A report list shows both skeleton rows and a centered spinner, so users cannot tell which progress signal owns the wait.",
+    "A spinner continues after the request has timed out instead of switching to retry or error recovery.",
+    "A measurable upload uses an indeterminate spinner instead of progress that shows percent, file count, or completion stage.",
+    "A spinner appears with no accessible name, leaving assistive technology users without the operation context."
+  ],
+  "sources": [
+    {
+      "id": "carbon-loading-component",
+      "note": "Carbon supports full-page, component, and inline loading indicators, optional labels, disabled related actions, and skeleton alternatives."
+    },
+    {
+      "id": "material-design-progress-indicators",
+      "note": "Material supports circular indeterminate indicators for unspecified wait time and determinate indicators when completion progress is detectable."
+    },
+    {
+      "id": "mdn-aria-progressbar",
+      "note": "MDN supports accessible names, indeterminate progress semantics, and pairing progress with aria-busy on affected regions."
+    },
+    {
+      "id": "apple-hig-progress-indicators",
+      "note": "Apple supports activity indicators for background operations or constrained spaces where concise indeterminate status is needed."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

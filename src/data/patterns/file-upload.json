@@ -1,0 +1,247 @@
+{
+  "id": "file-upload",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a specific evidence-attachment control with source-backed guidance for accepted file types, file size, selected filename display, upload progress, removal, per-file errors, retry, upload-versus-submit distinction, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers choosing a document or media file, accepted formats, maximum size, file count, selected filename display, local selection versus uploaded state, progress, success, remove, retry, server validation, and preserving the selected file after recoverable errors.",
+    "relatedPatternDistinction": "The entry separates file upload from text input by requiring original files rather than typed values, from single-question page by being the attachment control rather than the routing question, from multi-step form by being one step owner, from drag-and-drop upload by not requiring pointer-based dropping, and from bulk import by not parsing structured records.",
+    "liveDemoBehavior": "The rendered exercise selects a PDF, checks accepted type and size, shows queued, uploading, uploaded, removed, too-large, wrong-type, retry, and final submit states, preserves filename feedback, and contrasts a broken unlabeled chooser that clears the file.",
+    "comparisonDecisionRules": "The linked file-upload-vs-text-input-vs-single-question-page-vs-multi-step-form comparison gives concrete rules for original documents, typed values, evidence-routing pages, guarded multi-step journeys, drag-and-drop boundaries, bulk-import boundaries, upload states, and server validation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/file-upload.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, selected file details, progress, remove, wrong-type error, too-large error, retry, submitted state, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/file-upload.png"
+    ]
+  },
+  "name": "File upload",
+  "aliases": [
+    "file input",
+    "file attachment",
+    "document upload",
+    "evidence upload",
+    "attachment picker",
+    "upload control"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "File selection and attachment control",
+  "uiGuidance": [
+    "Render a visible label, persistent hint, native file chooser or equivalent button, accepted file formats, maximum file size, selected filename, uploaded status, remove control, and field-specific error message.",
+    "Distinguish selected, uploading, uploaded, failed, removed, and submitted states visually and in text so users know whether the file is merely chosen locally or actually attached to the service."
+  ],
+  "uxGuidance": [
+    "Use file upload only when the service needs the original file and make expectations clear before the user opens the file picker.",
+    "Let users select, review, remove, replace, retry, and continue without losing unrelated form answers or confusing upload completion with final submission."
+  ],
+  "uiExamples": {
+    "good": [
+      "An evidence upload field says Upload bank statement, hints PDF, PNG, or JPG up to 10 MB, shows statement.pdf selected, displays upload progress, and offers Remove.",
+      "A passport photo uploader shows the chosen filename, thumbnail-independent file details, an uploaded badge, and an inline error when the file is too large."
+    ],
+    "bad": [
+      "A button labelled Browse sits under Documents with no hint about accepted formats, size limit, or whether the selected file was uploaded.",
+      "A custom upload tile hides the real file input, shows only an icon, and gives no selected filename or remove control."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects bank-statement.pdf, sees it queued, watches progress reach uploaded, removes it to choose another file, then submits after reviewing the rest of the form.",
+      "A user chooses image.heic, sees a precise wrong-type error, keeps the page state, chooses statement.pdf, retries after a simulated network failure, and continues."
+    ],
+    "bad": [
+      "A user selects a 28 MB scan, clicks Continue, and the page reloads with File failed but the selected filename and other answers are gone.",
+      "A user thinks the file is submitted because a local filename appears, but the service never uploads it before the final form submit."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to attach documents, images, or other files, but upload controls often hide requirements, lose selected files after errors, blur the difference between local selection and completed upload, or block keyboard and mobile users.",
+  "solution": "Provide a labelled file upload control that states requirements up front, uses a reliable file chooser, displays selected file details, validates type and size, shows progress and outcome, supports removal and retry, and preserves the surrounding task state.",
+  "problemContext": [
+    "The product needs the original file for evidence, identity, compliance, media review, document processing, or support investigation.",
+    "Users may be on mobile devices, public computers, locked-down desktops, or assistive technology where drag-and-drop may not be available.",
+    "The file may fail because of type, size, malware scanning, password protection, interrupted network, duplicate attachment, or expired session.",
+    "The upload may happen immediately after selection or later with the form submit, and users need to understand which model is active.",
+    "The service must validate selected files server-side even when the client limits accepted extensions or MIME types."
+  ],
+  "selectionRules": [
+    "Choose file upload when the original file itself is needed, not just information from the file.",
+    "Use text input when a typed value, reference number, or explanation can replace the file.",
+    "Use a single-question page before upload when users first need to answer whether they have evidence or which evidence type applies.",
+    "Use a multi-step form when upload depends on earlier answers or is one saved step in a longer journey.",
+    "Use drag-and-drop upload only as an enhancement when button-based file selection remains available.",
+    "Use bulk import when the file contains structured rows that need parsing, mapping, validation, and an import report.",
+    "Avoid asking for an upload unless the file is critical to completing the service.",
+    "State accepted formats, maximum size, count limit, password-protected file policy, and whether photos or scans are acceptable.",
+    "Preserve selected filenames and unrelated answers after recoverable validation or network errors.",
+    "Make the upload-versus-submit boundary explicit when the surrounding form still needs final review."
+  ],
+  "requiredStates": [
+    "Empty labelled state with requirements hint and choose-file action.",
+    "File chooser invoked state with focus returning to the upload control.",
+    "Selected but not uploaded state showing filename, size, type, and remove action.",
+    "Uploading state with progress or pending indicator tied to the file.",
+    "Uploaded state showing successful attachment and replace or remove controls.",
+    "Wrong file type error state with accepted formats repeated.",
+    "File too large error state with maximum size and current file size.",
+    "Upload failed state with retry and keep-file guidance.",
+    "Removed file state confirming no attachment is queued.",
+    "Submitted state clarifying that the upload is included with the completed form."
+  ],
+  "interactionContract": [
+    "Activating the choose-file button opens the platform file picker and returns focus to the invoking control or selected file summary afterward.",
+    "Selecting a file records filename, size, type, and local selected state before upload validation starts.",
+    "Client validation can warn about accepted types and size, but server validation remains authoritative.",
+    "Removing a file clears only that attachment and does not erase other form values.",
+    "Retrying a failed upload keeps the selected filename visible while the retry is pending.",
+    "Submitting the surrounding task is blocked until required uploads are valid or the user chooses an allowed no-file path.",
+    "Status changes are announced without repeatedly reading long filenames or progress updates on every small percentage change."
+  ],
+  "implementationChecklist": [
+    "Define accepted extensions, MIME types, maximum size, count limit, scanning policy, duplicate handling, password-protected file handling, upload timing, and storage outcome before designing the control.",
+    "Use a visible label and persistent hint; connect hint, selected-file summary, status, and error text to the input or upload button.",
+    "Show selected filename, file size, upload state, uploaded result, remove action, retry action, and final included-in-submission state.",
+    "Validate type, size, count, empty required state, duplicate file, interrupted upload, virus scan, and server rejection with specific recoverable messages.",
+    "Keep other answers and selected filenames visible after validation errors and network retries.",
+    "Test keyboard selection, focus return, screen reader announcements, mobile camera/file sources, public-device privacy, browser Back, slow networks, timeout, and unsupported file formats.",
+    "Do not make drag-and-drop the only upload path; keep a normal file chooser available."
+  ],
+  "commonMisuses": [
+    "Asking for a file when a typed reference number or simple answer would be enough.",
+    "Showing selected filename as if the final service submission has already happened.",
+    "Hiding accepted formats and maximum file size until after the user fails.",
+    "Clearing the selected file and unrelated form answers after a recoverable error.",
+    "Using drag-and-drop as the only interaction path.",
+    "Relying on the accept attribute or filename extension as proof that the file is safe or valid.",
+    "Treating structured spreadsheet imports as ordinary attachments with no row-level feedback."
+  ],
+  "critiqueQuestions": [
+    "Why does the service need the original file rather than a typed value?",
+    "What file types, sizes, count limits, password policies, and scanning delays will users encounter?",
+    "Can users tell whether the file is selected locally, uploading, uploaded, failed, removed, or included in final submit?",
+    "What happens if upload fails after the user has filled the rest of the form?",
+    "Can keyboard, screen reader, mobile, and public-computer users complete the upload path without drag-and-drop?",
+    "Does the backend validate the same type, size, count, scan, and required-file rules as the UI?"
+  ],
+  "useWhen": [
+    "The service needs a document, image, scan, spreadsheet, media file, or other original file.",
+    "Users can reasonably access the file on their current device or have a supported alternate route.",
+    "The product can validate files, store or transmit them securely, and explain upload status.",
+    "Users need to review, remove, replace, retry, or confirm attachments before continuing."
+  ],
+  "avoidWhen": [
+    "A typed answer, reference number, checkbox, or declaration would satisfy the task.",
+    "The file is optional decoration rather than critical evidence or content.",
+    "The service cannot support mobile, keyboard, assistive technology, slow network, or failed-upload recovery.",
+    "The workflow actually needs a bulk import with row validation, mapping, and import results.",
+    "The product cannot explain accepted formats, size limits, security scanning, and final submission timing."
+  ],
+  "variants": [
+    "Single file upload",
+    "Multiple file upload",
+    "Evidence upload",
+    "Identity document upload",
+    "Photo upload",
+    "Upload with progress",
+    "Upload with scan pending state",
+    "Upload with retry",
+    "Upload with remove or replace",
+    "Upload before submit"
+  ],
+  "accessibility": [
+    "Use a visible label that names the file purpose, not only Browse or Choose file.",
+    "Keep requirements in persistent hint text and associate them with the file input or upload button.",
+    "Return focus predictably after the native file picker closes.",
+    "Expose selected filename, status, remove action, retry action, and errors to assistive technology.",
+    "Do not rely on color alone for upload progress, failure, success, or required state.",
+    "Avoid progress announcements that overwhelm screen reader users; announce meaningful state changes.",
+    "Provide a keyboard-accessible choose-file path even when drag-and-drop is also supported."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the upload control, selected-file remove button, retry button, and following form controls in order.",
+    "Enter or Space activates the choose-file button or custom upload trigger.",
+    "After file selection or cancellation, focus returns to the control or selected-file summary.",
+    "Enter or Space on Remove clears only the selected file and keeps focus near the upload area.",
+    "Submit with a required upload error moves focus to the upload field or error summary link.",
+    "Drag-and-drop enhancements must not remove normal keyboard file selection."
+  ],
+  "failureModes": [
+    "Users cannot proceed on mobile because the only visible affordance is a desktop-oriented drop zone.",
+    "The file input accepts any file but the server rejects it after a long wait with no preserved filename.",
+    "The interface reports Done when the file is selected locally but not uploaded or submitted.",
+    "A failed upload clears other form answers or returns users to the start of the journey.",
+    "The error says invalid file without naming accepted formats, size, count, password, or scan failure.",
+    "The remove button deletes the server copy immediately without confirmation or undo where that is risky.",
+    "Multiple selected files are visually stacked but screen reader users cannot tell which file has which error."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "single-question-page",
+    "multi-step-form",
+    "inline-validation",
+    "error-summary",
+    "loading-skeleton"
+  ],
+  "comparisons": [
+    "file-upload-vs-text-input-vs-single-question-page-vs-multi-step-form"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System File upload",
+      "url": "https://design-system.service.gov.uk/components/file-upload/",
+      "platform": "web",
+      "notes": "Documents asking for uploads only when critical, labelled input with hint and error support, choosing files, optional drag and drop in the improved component, multiple selection, and specific file-count error wording.",
+      "screenshot": "screenshots/patterns/file-upload.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System File uploader",
+      "url": "https://v10.carbondesignsystem.com/components/file-uploader/usage/",
+      "platform": "web",
+      "notes": "Documents button and drop-zone text, selected filename display, loading, success, uploaded, invalid states, remove action, keyboard activation, focus return, and file-specific error guidance.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN input type=file",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file",
+      "platform": "web",
+      "notes": "Documents native file input, selected FileList behavior, accept type specifiers, multiple selection, capture hints, and validation caveats for file selection.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "DWP Design System file upload research",
+      "url": "https://design-system.dwp.gov.uk/research/file-upload",
+      "platform": "web",
+      "notes": "Research highlights expectations before upload, user control over files, timely feedback, mobile and real-world edge cases, and a clear distinction between uploading and final submission.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-file-upload-component",
+      "note": "GOV.UK supports labelled file upload, hints, errors, critical-use guidance, multiple files, improved upload behavior, and count-limit messaging."
+    },
+    {
+      "id": "carbon-file-uploader-component",
+      "note": "Carbon supports selected filename display, loading, success, uploaded, invalid states, removal, focus return, keyboard activation, and drop-zone boundaries."
+    },
+    {
+      "id": "mdn-html-file-input",
+      "note": "MDN supports native file input behavior, FileList access, accept type specifiers, multiple selection, capture hints, and validation caveats."
+    },
+    {
+      "id": "dwp-file-upload-research",
+      "note": "DWP research supports expectation setting, upload understandability, user control, timely feedback, mobile edge cases, and upload-versus-submit clarity."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

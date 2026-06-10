@@ -1,0 +1,238 @@
+{
+  "id": "input-prefix-suffix",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an affixed text-entry pattern with source-backed guidance for visible units and symbols, descriptive labels, screen reader-hidden affixes, duplicate-affix normalization, canonical typed values, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers constant prefixes and suffixes, common symbols, unit abbreviations, icon affixes, descriptive labels, hidden affix semantics, duplicate typed affixes, canonical value storage, error and success group states, unit changes, and open-ended answer avoidance.",
+    "relatedPatternDistinction": "The entry separates input prefix/suffix from input mask by keeping the affix outside the editable value instead of inserting character groups, from text input by adding a visible constant unit or symbol, from inline validation by clarifying expected value before correction, and from select by not changing the unit choice.",
+    "liveDemoBehavior": "The rendered exercise changes between dollar prefix and percent suffix modes, normalizes values where users type the affix into the field, validates blank and non-positive numeric values, shows the canonical submitted payload without the affix, and contrasts a broken field that hides the unit from labels and stores the visible symbol in the value.",
+    "comparisonDecisionRules": "The linked input-prefix-suffix-vs-input-mask-vs-text-input-vs-inline-validation comparison gives concrete rules for constant affixes, fixed-format masks, ordinary freeform input, post-entry field validation, hidden affix semantics, duplicate-affix tolerance, canonical storage, and unit-changing controls.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/input-prefix-suffix.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, prefix mode, suffix mode, duplicate-affix normalization, canonical value display, validation error, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/input-prefix-suffix.png"
+    ]
+  },
+  "name": "Input prefix/suffix",
+  "aliases": [
+    "input affix",
+    "text field prefix",
+    "text field suffix",
+    "currency prefix",
+    "unit suffix",
+    "affixed input"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Text input with constant visual affix",
+  "uiGuidance": [
+    "Render the prefix before the input or suffix after the input as a non-editable visual affix, with a persistent label or hint that names the unit or symbol in text.",
+    "Style the input and affix as one field group for focus, error, disabled, and success states while keeping the user's editable value separate from the affix."
+  ],
+  "uxGuidance": [
+    "Use a prefix or suffix to reduce ambiguity when users must enter only the value and the unit, currency, percentage, or domain is fixed.",
+    "Tolerate users typing the visible affix into the field by normalizing duplicate symbols or units instead of producing an avoidable error."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Cost, in dollars field shows a dollar prefix outside the input, uses numeric input, and stores only the numeric amount.",
+      "A Weight, in pounds field shows lbs. as a suffix while the label names pounds for people who do not perceive the suffix."
+    ],
+    "bad": [
+      "A field labeled Amount shows a hidden dollar prefix but the label never says dollars.",
+      "A suffix contains a long phrase that wraps into the input and looks like typed text."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user types $1,250 into a field with a dollar prefix and the form normalizes it to 1250 with a clear status message.",
+      "A user switches from dollars to percent and the suffix, label, input mode, validation message, and submitted unit update together."
+    ],
+    "bad": [
+      "A user types lbs after a weight value because they missed the suffix, then gets an error instead of normalization.",
+      "A user enters a non-monetary answer in a dispute-resolution field because the dollar prefix wrongly implied all answers are amounts."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can misunderstand whether a value needs a currency symbol, unit, percentage sign, icon meaning, or domain, while systems often need the stored value without that repeated affix.",
+  "solution": "Show a fixed prefix or suffix outside the editable value, describe its meaning in the label or hint, normalize duplicate typed affixes, validate the clean value, and store a predictable canonical payload.",
+  "problemContext": [
+    "The field asks for a value with a fixed unit, symbol, abbreviation, or icon meaning.",
+    "The affix is common enough to clarify the value without a long explanation.",
+    "The user should enter only the value, not the unit or symbol.",
+    "The backend expects a canonical value and unit rather than an arbitrary combined string.",
+    "Screen reader and voice users still need the unit or symbol in the label or hint because the visual affix may be hidden."
+  ],
+  "selectionRules": [
+    "Choose input prefix/suffix when a common fixed symbol, unit, abbreviation, domain, or icon clarifies what the text input accepts.",
+    "Use ordinary text input when the answer is open-ended or the affix would over-constrain legitimate responses.",
+    "Use input mask when the value itself needs live character grouping, inserted literals, or fixed slots.",
+    "Use inline validation when the field can accept normal text first and only needs a correction message after interaction.",
+    "Use select, radio group, or segmented control when users must choose between multiple units or currencies.",
+    "Use hint text instead of an affix when the explanation requires more than a short, common symbol or abbreviation.",
+    "Keep the affix outside the submitted editable value unless the product explicitly stores a formatted display string.",
+    "Name the unit or symbol in the label or hint because assistive technologies may not announce decorative affixes.",
+    "Allow users to type the visible prefix or suffix and normalize it when unambiguous.",
+    "Place validation state on the whole input group so the affix and text field read as one field."
+  ],
+  "requiredStates": [
+    "Empty state with descriptive label and visible prefix or suffix.",
+    "Focused state where the input and affix read as one field group.",
+    "Filled state with the user's clean value and visible affix.",
+    "Duplicate affix typed state normalized without an unnecessary error.",
+    "Invalid numeric or missing value state with group-level error styling.",
+    "Success state showing accepted canonical value and unit.",
+    "Disabled or readonly state where the affix remains visually associated with the value.",
+    "Changed-unit state when another control changes which affix is active.",
+    "Mobile state with correct keyboard for the clean value.",
+    "Assistive state where the label or hint communicates the affix meaning."
+  ],
+  "interactionContract": [
+    "The affix is visible near the input but not editable as part of the field value.",
+    "Typing, paste, selection, undo, and deletion affect only the user's value, not the affix.",
+    "If the user types the same affix, the system normalizes it or preserves the value with a clear, fixable message.",
+    "Submitting validates the canonical value and unit together.",
+    "Errors and success states apply to the input group, not only the inner input border.",
+    "Changing unit mode updates the label, hint, affix, validation, and payload together.",
+    "Copying the field value has a documented behavior: clean value only or formatted value, but not inconsistent by field."
+  ],
+  "implementationChecklist": [
+    "Define the clean value, affix text or icon, unit metadata, submitted payload, accepted duplicate-affix forms, and copy behavior.",
+    "Put the affix outside the input element and keep it visually grouped with the control.",
+    "Use a visible label or hint that names the unit, currency, percentage, or icon meaning in text.",
+    "Set inputmode, type, pattern, width, autocomplete, and validation for the clean value without the affix.",
+    "Normalize common duplicate inputs such as $1200, 1200 dollars, 12%, or 12 percent when the affix already represents that unit.",
+    "Apply error, success, disabled, readonly, and focus styles to the whole input group.",
+    "Test screen readers, voice input, paste, browser autofill, mobile keyboards, forced colors, zoom, RTL layouts, and backend parsing."
+  ],
+  "commonMisuses": [
+    "Relying on a visually hidden or decorative affix as the only way users know the unit.",
+    "Rejecting values that include the same prefix or suffix users saw next to the field.",
+    "Using a prefix or suffix for an open-ended answer that may not use that unit.",
+    "Putting long explanatory copy in the affix instead of the hint.",
+    "Storing the affix in one payload but stripping it in another.",
+    "Using a static suffix when users can change the unit elsewhere.",
+    "Making an icon affix ambiguous without a text label or hint."
+  ],
+  "critiqueQuestions": [
+    "Is the affix a fixed, common symbol or unit that users will understand?",
+    "Does the label or hint communicate the same meaning without relying on the visible affix?",
+    "What happens when users type or paste the affix into the value?",
+    "What exact value and unit does the backend receive?",
+    "Would a mask, picker, unit select, hint, or ordinary text input be less ambiguous?",
+    "Do error and disabled states visually include the affix?"
+  ],
+  "useWhen": [
+    "The value has a fixed currency, unit, percentage, domain, or commonly understood icon.",
+    "Users should enter only the clean value while the UI clarifies what that value means.",
+    "The affix reduces mental load without replacing the label or hint.",
+    "The product can normalize duplicate typed affixes and store a consistent payload."
+  ],
+  "avoidWhen": [
+    "The answer is open-ended or may not use the shown unit.",
+    "The unit or currency is user-selectable and needs its own control.",
+    "The affix needs a long explanation or is not commonly understood.",
+    "The implementation cannot communicate the affix meaning to assistive technology users.",
+    "The backend cannot distinguish clean value, unit, and formatted display value."
+  ],
+  "variants": [
+    "Currency prefix",
+    "Percentage suffix",
+    "Weight suffix",
+    "Length suffix",
+    "Email domain suffix",
+    "Icon prefix",
+    "Password visibility suffix",
+    "Error state affixed input",
+    "Success state affixed input",
+    "Unit-switching affixed input"
+  ],
+  "accessibility": [
+    "Do not rely on the visual affix alone; include the unit or symbol meaning in the label or hint.",
+    "If affixes are hidden from screen readers, ensure the accessible name and description remain complete.",
+    "Keep the affix visually grouped with the input at high zoom and in forced colors.",
+    "Use text labels for ambiguous icon affixes or avoid the icon.",
+    "Associate errors and hints with the input and style the whole group for invalid state.",
+    "Ensure voice input users can dictate values without needing to speak hidden decoration."
+  ],
+  "keyboardBehavior": [
+    "Tab focuses the input, not the static prefix or suffix.",
+    "Typing, deleting, selection, paste, undo, and redo affect only the editable value.",
+    "Arrow keys do not move focus into the affix.",
+    "Submit with an invalid value moves focus to the error summary or the affixed input without losing the typed value.",
+    "If the suffix includes an action, such as password visibility, it must be a separate reachable control with a clear label.",
+    "Unit-changing controls before or after the field must have predictable tab order and update the affix without moving focus unexpectedly."
+  ],
+  "failureModes": [
+    "Screen reader users hear only Amount while sighted users see a dollar prefix.",
+    "The form rejects a value that includes the visible affix instead of normalizing it.",
+    "Users mistake the suffix for editable text or think it will be submitted as part of their answer.",
+    "An affix wraps, overlaps, or separates from the input on mobile.",
+    "The stored value includes a currency symbol even though downstream calculations expect a number.",
+    "A static suffix conflicts with a separately selected unit.",
+    "An icon prefix is interpreted differently by different users.",
+    "Error styling applies only to the input and leaves the affix looking valid."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "input-mask",
+    "inline-validation",
+    "select",
+    "error-summary"
+  ],
+  "comparisons": [
+    "input-prefix-suffix-vs-input-mask-vs-text-input-vs-inline-validation"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Input prefix/suffix",
+      "url": "https://designsystem.digital.gov/components/input-prefix-suffix/",
+      "platform": "web",
+      "notes": "Documents prefix and suffix use for symbols, abbreviations, units, icons, hidden screen reader treatment, descriptive labels, validation group states, and common alternatives.",
+      "screenshot": "screenshots/patterns/input-prefix-suffix.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Design System Text input prefix and suffix",
+      "url": "https://design-system.service.gov.uk/components/text-input/",
+      "platform": "web",
+      "notes": "Documents currency prefix and suffix examples, label and hint requirements, outside-input placement, screen reader cautions, and tolerant validation if users type the affix.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Design Text fields",
+      "url": "https://m1.material.io/components/text-fields.html",
+      "platform": "web",
+      "notes": "Documents prefixes and suffixes for currency, weight, email domains, and time zones as formatted text-field variants.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-input-prefix-suffix-component",
+      "note": "USWDS supports affixes for common symbols, units, abbreviations, and icons, with descriptive labels because affixes are hidden from screen readers."
+    },
+    {
+      "id": "govuk-text-input-prefix-suffix",
+      "note": "GOV.UK supports prefix and suffix placement outside the input, label and hint requirements, screen reader cautions, and validation tolerance for typed affixes."
+    },
+    {
+      "id": "material-design-text-fields",
+      "note": "Material Design supports prefixes and suffixes as formatted text-field elements for units, currency, domains, and time zones."
+    },
+    {
+      "id": "maersk-input-masks",
+      "note": "Maersk supports the boundary that prefix/suffix is preferred over a mask when a constant value is grouped with the typed value."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

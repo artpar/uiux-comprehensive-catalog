@@ -1,0 +1,43 @@
+{
+  "id": "inline-message-vs-toast-notification-vs-error-state-vs-inline-validation",
+  "title": "Inline message vs toast notification vs error state vs inline validation",
+  "summary": "Use an inline message for persistent contextual status beside one object or section; use toast for disposable transient feedback, error state for blocked recovery, and inline validation for one field's correction.",
+  "patternIds": ["inline-message", "toast-notification", "error-state", "inline-validation"],
+  "decisionRules": [
+    "Choose inline message when the feedback belongs beside a visible row, panel, step, card, table section, or task area and users may need to read it while continuing nearby work.",
+    "Choose toast notification when the message is short, non-blocking, and safely disposable or recoverable from history after a few seconds.",
+    "Choose error state when expected content, saving, sync, payment, permission, or computation failed and the affected area needs persistent recovery controls.",
+    "Choose inline validation when the message is tied to one input value and tells users exactly how to correct that field.",
+    "Use inline message for contextual warnings such as selected customers missing billing contacts, export limitations, draft conflict notes, or local success that should stay near the affected object.",
+    "Do not use inline message as a detached page banner; if the message affects the whole page, service, or site, use the appropriate page-level or global feedback surface.",
+    "Do not place a large troubleshooting workflow inside an inline message; include one local action or disclosure and route deeper repair to an error state, panel, page, or dialog.",
+    "Announce dynamic inline messages as status or alert according to urgency without moving focus unless the user requested the message or must act immediately."
+  ],
+  "failureModes": [
+    "A warning about one table row appears at the top of the page, so users cannot tell which item is affected.",
+    "A field-format correction is shown as a section message instead of being attached to the input.",
+    "A blocking load failure is reduced to a small inline note without retry or fallback.",
+    "A success toast disappears even though users need to copy the generated reference beside the object.",
+    "A local message contains several unrelated links, long support instructions, and multi-step form fields.",
+    "A dynamic inline warning appears visually but is not announced to assistive technology."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-inline-message",
+      "note": "Atlassian defines inline message as a way to indicate important information or action availability in context."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon distinguishes inline notifications from toast and modal variants and places inline notifications in task flows near related content."
+    },
+    {
+      "id": "react-spectrum-inline-alert",
+      "note": "React Spectrum describes inline alerts as non-modal messages associated with objects in a view."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing dynamically added messages without taking focus."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

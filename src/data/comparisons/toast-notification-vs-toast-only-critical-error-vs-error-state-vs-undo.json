@@ -1,0 +1,39 @@
+{
+  "id": "toast-notification-vs-toast-only-critical-error-vs-error-state-vs-undo",
+  "title": "Toast notification vs toast-only critical error vs error state vs undo",
+  "summary": "Use a toast notification for brief non-blocking feedback; use error state for recoverable failures, undo for reversible completed actions, and treat toast-only critical errors as a failure of persistence and recovery.",
+  "patternIds": ["toast-notification", "toast-only-critical-error", "error-state", "undo"],
+  "decisionRules": [
+    "Choose toast notification when the user has just completed a low-risk action, background work changed state, or a short status update is useful without blocking the current task.",
+    "Choose error state when the message names a failed load, save, payment, permission, upload, or destructive operation that users must inspect or repair after the moment passes.",
+    "Choose undo when the product can restore the exact prior state of a completed reversible action and the toast or snackbar is carrying a specific recovery control.",
+    "Flag toast-only critical error when the disappearing message is the only place that explains failure consequence, support reference, retry path, or unpaid/unsaved state.",
+    "Use a notification center, activity log, or inline status when users may need to revisit the message after auto-dismissal, such as export-ready, approval-required, or compliance notices.",
+    "Limit toast actions to one short contextual action such as Undo or View; move multi-step resolution, form correction, or support instructions into a persistent surface.",
+    "Do not stack unrelated toasts indefinitely; cap visible messages, preserve recency order, and avoid covering primary controls or assistive technology focus targets.",
+    "Announce toast status without stealing focus unless the toast contains an action that must be operated immediately and remains available long enough to use safely."
+  ],
+  "failureModes": [
+    "A save success toast appears for every keystroke and overwhelms the page with repeated confirmations.",
+    "A failed payment toast disappears and leaves no persistent invoice recovery path.",
+    "An Undo action vanishes before keyboard or screen reader users can reach it.",
+    "Several export-ready messages stack over the primary submit button and hide the current task.",
+    "The toast says Done without naming the object, action, or resulting state.",
+    "A long compliance notice is squeezed into a two-line toast instead of a durable message surface."
+  ],
+  "sources": [
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon distinguishes toast, inline, actionable, and callout notification variants, including toast timing, short content, dismissal, and alternate access when more time is needed."
+    },
+    {
+      "id": "material-design-snackbar",
+      "note": "Material describes snackbars as temporary non-interruptive process feedback that can include one action."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing status changes without requiring focus movement."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

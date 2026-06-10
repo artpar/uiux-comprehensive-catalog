@@ -1,0 +1,249 @@
+{
+  "id": "transfer-list",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a dual-list transfer pattern with source-backed shuttle behavior, two labelled panes, selected counts, add and remove actions, disabled move states, selected-pane ordering, min and max validation, keyboard and focus expectations, mobile constraints, and distinctions from multi-select, listbox, checkbox group, and drag-and-drop-only collection movement.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers available and selected panes, listbox option selection, selected counts, add, remove, add-all, remove-all, move-up, move-down, min and max validation, required locked items, disabled action buttons, live status messages, focus placement after moves, filtering the source pane, high-zoom stacking, and desktop versus mobile constraints.",
+    "relatedPatternDistinction": "The entry separates transfer list from multi-select by requiring a visible source-to-destination move model and ordered destination review, from listbox by using two coordinated listboxes and transfer actions, from checkbox group by handling larger or ordered sets, and from drag and drop by requiring explicit keyboard-accessible move controls.",
+    "liveDemoBehavior": "The live demo selects permissions in the available pane, moves them to the selected pane, removes a selected permission, reorders the destination pane, blocks disabled move buttons when no item is selected, validates a minimum selected count, and contrasts a broken version with hidden selected values, no counts, and pointer-only dragging.",
+    "comparisonDecisionRules": "The linked transfer-list-vs-multi-select-vs-listbox-vs-checkbox-group comparison gives concrete rules for two-pane transfer, compact selected chips, single visible listbox selection, short checkbox sets, ordered destination lists, disabled actions, filtering, mobile constraints, and keyboard-accessible reordering.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/transfer-list.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, two labelled panes, selected counts, move controls, reorder controls, disabled action state, validation feedback, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/transfer-list.png"
+    ]
+  },
+  "name": "Transfer list",
+  "aliases": [
+    "dual listbox",
+    "dueling picklist",
+    "shuttle",
+    "list shuttle",
+    "dual list selector",
+    "two-pane picker"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Two-pane item transfer and selected-set review",
+  "uiGuidance": [
+    "Render two clearly labelled panes for available items and selected items, with item counts, selected-row state, disabled move state, and action buttons positioned between or near the panes.",
+    "Show the destination list as the submitted set; include reorder controls, locked required items, validation text, and live status without hiding selected values inside a collapsed field."
+  ],
+  "uxGuidance": [
+    "Use a transfer list when users must build a selected set by moving items from one visible collection to another and then review what will be submitted.",
+    "Make each move reversible and explicit by preserving selection, keeping focus predictable, announcing completed moves, and disabling impossible add, remove, or reorder actions."
+  ],
+  "uiExamples": {
+    "good": [
+      "A permissions editor shows Available permissions on the left, Selected permissions on the right, selected counts in both headers, Add and Remove buttons between panes, and Move up and Move down controls for selected permissions.",
+      "A dashboard setup flow shows required selected modules as locked rows in the destination pane and disables Remove for those rows while still allowing optional modules to move.",
+      "At high zoom, a transfer list stacks the two panes vertically and changes right-left arrows to add-remove wording so the move direction remains understandable."
+    ],
+    "bad": [
+      "A form shows one long source list and a tiny submitted count, so users cannot review which items were moved before saving.",
+      "A dual listbox keeps Add enabled when no item is selected and silently does nothing when activated.",
+      "The selected pane supports drag reordering only, with no buttons, keyboard path, position feedback, or fallback."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects Billing and Audit logs, activates Add, hears that two permissions moved to Selected, and focus stays in a useful place for adding another permission.",
+      "A user selects Export in the destination pane, activates Move up, and the status confirms its new position before the set is saved.",
+      "A user tries to save with one selected permission where two are required and receives an inline validation message without losing selected items."
+    ],
+    "bad": [
+      "A user removes the only required item and the form waits until final submit to reveal the selected set is invalid.",
+      "A user filters the available list and previously selected destination items disappear from the submitted value.",
+      "A keyboard user can select source items but cannot activate the pointer-only drag target needed to move them."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop"
+  ],
+  "problem": "Users need to build and review a selected set from a larger available set, but ordinary multi-select controls hide the destination set, and one listbox does not show what has moved out of the source collection.",
+  "solution": "Provide two labelled list panes with explicit add, remove, bulk, and reorder actions, selected counts, validation, disabled button states, live feedback, and focus management so users can move items reversibly and review the final selected set.",
+  "problemContext": [
+    "The user must compare available and selected items at the same time.",
+    "Selected items are submitted, persisted, ordered, required, capped, or otherwise treated differently from available items.",
+    "Users may need to add or remove more than one item in a batch.",
+    "The item set is too large or structured for a short checkbox group but the selected set needs more review than compact chips provide.",
+    "Keyboard users need explicit controls for movement and ordering rather than pointer-only drag and drop."
+  ],
+  "selectionRules": [
+    "Choose transfer list when the interface has a source collection and a destination collection, and moving items between them is the core task.",
+    "Use multi-select when users only need to choose several values from a compact picker and can review selected chips or tags without seeing the full available set.",
+    "Use a standalone listbox when the task is selecting within one visible list, not moving items between two lists.",
+    "Use checkbox group when all options are few enough to remain visible and order does not matter.",
+    "Use data grid, table, or collection management when rows have independent actions, columns, rich metadata, or bulk operations beyond move and reorder.",
+    "Provide filter or search for long source panes, but never let filtering hide or clear the selected destination set.",
+    "Use selected-pane reorder controls only when order is persisted or meaningful; avoid adding reorder chrome to unordered sets.",
+    "Avoid transfer list on mobile unless the two-pane interaction is replaced with a step, stacked panes, or review screen that preserves add, remove, and selected-set review."
+  ],
+  "requiredStates": [
+    "Available list initial state with label, count, and selectable options.",
+    "Selected list initial state with label, count, empty message, or existing selected items.",
+    "One or more source items selected for transfer.",
+    "One or more destination items selected for removal or reorder.",
+    "Add and remove controls enabled only when a valid selection exists.",
+    "Add all and remove all controls when bulk transfer is supported.",
+    "Destination item first and last states for reorder control disabling.",
+    "Required locked selected item state.",
+    "Minimum, maximum, required, and empty-selected-set validation states.",
+    "Live confirmation after add, remove, bulk move, or reorder.",
+    "Filtered source list state that preserves selected destination items.",
+    "Stacked high-zoom layout state with direction labels that still make sense."
+  ],
+  "interactionContract": [
+    "Each pane has a visible label and accessible name that describes whether it contains available or selected items.",
+    "Items in each pane expose option selection state, and multi-select panes expose multi-selection semantics when custom listbox roles are used.",
+    "Add moves selected source items to the selected pane and removes them from the available pane unless the product explicitly uses a copy model.",
+    "Remove moves selected destination items back to the available pane unless the item is locked, required, or otherwise non-removable.",
+    "Move-up and move-down controls affect only selected destination items and are disabled at the relevant boundary.",
+    "Disabled controls communicate why no action is available and do not fire silent no-op changes.",
+    "After a move, focus lands on a remaining nearby option or a relevant action button, and a live region announces what changed.",
+    "Validation preserves both panes, selected items, focusable controls, and the user's current selections."
+  ],
+  "implementationChecklist": [
+    "Confirm that users really need a source and destination model instead of checkbox group, multi-select, listbox, or table management.",
+    "Label both panes, include counts, and make the selected pane read as the final submitted set.",
+    "Use native select multiple or accessible listbox semantics with aria-multiselectable, aria-selected, visible focus, and typeahead where appropriate.",
+    "Implement Add, Remove, optional Add all and Remove all, and optional Move up and Move down controls with disabled states tied to current selection.",
+    "Preserve selected destination items during filtering, validation, async refresh, route changes, and save errors.",
+    "Announce add, remove, and reorder results in a live region and keep focus on the moved item or the nearest useful remaining item.",
+    "Handle min, max, required, locked item, duplicate label, empty source, empty destination, and long-list states.",
+    "Test keyboard, screen reader, high zoom above 200 percent, forced colors, touch fallback, localization, long item names, and bulk move performance."
+  ],
+  "commonMisuses": [
+    "Using transfer list for a short yes-or-no set that should be checkboxes.",
+    "Using transfer list for one required value that should be select, radio group, or combobox.",
+    "Hiding selected values behind a count instead of showing the destination pane.",
+    "Leaving move buttons enabled when no source or destination item is selected.",
+    "Making drag and drop the only way to transfer or reorder items.",
+    "Clearing selected items when filtering or refreshing the available list.",
+    "Using arrow icons without text or accessible names, especially in stacked or high-zoom layouts.",
+    "Persisting selected order while providing no keyboard-accessible reorder controls."
+  ],
+  "critiqueQuestions": [
+    "Do users need to see both available and selected sets at the same time?",
+    "Is the selected pane clearly the set that will be saved or submitted?",
+    "Do move buttons, counts, locked items, and validation explain what can and cannot change right now?",
+    "Can keyboard users add, remove, bulk move, and reorder without drag and drop?",
+    "Does filtering or async loading preserve the selected destination list?"
+  ],
+  "useWhen": [
+    "Users build a selected set by moving items from an available collection to a selected collection.",
+    "The selected set needs review, ordering, count limits, locked required items, or explicit add and remove actions.",
+    "Users commonly move more than one item and need reversible batch actions.",
+    "The available list is too large for a checkbox group but the selected set needs more structure than chips."
+  ],
+  "avoidWhen": [
+    "The option set is short enough for a checkbox group.",
+    "Users choose exactly one value.",
+    "The selected values can be handled by a compact multi-select with chips and no ordered destination pane.",
+    "The primary task is editing rows, running commands, or navigating to destinations.",
+    "The surface is small or mobile-first and cannot provide a usable stacked transfer flow."
+  ],
+  "variants": [
+    "Basic transfer list",
+    "Enhanced transfer list with select all",
+    "Dual listbox",
+    "Dueling picklist",
+    "Transfer list with ordering",
+    "Transfer list with locked required items",
+    "Filtered transfer list",
+    "Stacked high-zoom transfer list",
+    "Transfer list with add-all and remove-all"
+  ],
+  "accessibility": [
+    "Give each list pane a visible label and programmatic accessible name.",
+    "Expose selectable items with native multiple select or listbox option semantics and selected state.",
+    "Set aria-multiselectable when custom listboxes allow multiple selected options.",
+    "Use text labels or accessible names for Add, Remove, Add all, Remove all, Move up, and Move down controls.",
+    "Disable move and reorder controls when there is no valid current action, and avoid silent no-op activation.",
+    "Use a live region to confirm add, remove, bulk, and reorder operations.",
+    "Keep focus predictable after moves, especially when the focused item no longer exists in its original pane.",
+    "Provide keyboard-accessible reorder controls when order is meaningful; drag and drop may be additive but not the only path.",
+    "At high zoom or stacked layouts, use directional wording that still matches the visual flow."
+  ],
+  "keyboardBehavior": [
+    "Tab moves between source list, transfer controls, destination list, reorder controls, validation, and save controls.",
+    "Arrow keys move active focus within a listbox or native list according to the chosen list model.",
+    "Space or platform multi-select shortcuts toggle item selection in custom multi-select listboxes.",
+    "Enter or Space on Add moves selected source items to the destination pane.",
+    "Enter or Space on Remove moves selected destination items back to the source pane.",
+    "Enter or Space on Move up or Move down reorders the selected destination item when the boundary permits it.",
+    "Typeahead moves focus to matching items in long panes when custom listbox behavior supports it.",
+    "After a move, focus should remain near the moved item, the nearest remaining option, or the control that performed the action with status feedback.",
+    "Escape should not clear the selected destination set unless the surrounding workflow explicitly defines cancellation."
+  ],
+  "failureModes": [
+    "The destination set is represented only by a number and cannot be reviewed.",
+    "Move buttons fire silently with no selection or move the wrong pane because direction is icon-only.",
+    "Destination order is saved but keyboard users cannot reorder items.",
+    "Filtering the source pane removes selected destination items from the submitted payload.",
+    "Required or locked items can be removed without warning and only fail at final submit.",
+    "The component exposes two visual lists but no accessible labels, selected state, or live confirmation.",
+    "The pattern is used for ordinary navigation, commands, or single-choice form fields.",
+    "Long item names wrap awkwardly and hide the selected state, count, or action controls."
+  ],
+  "relatedPatterns": [
+    "multi-select",
+    "listbox",
+    "checkbox-group",
+    "combobox",
+    "drag-and-drop-upload"
+  ],
+  "comparisons": [
+    "transfer-list-vs-multi-select-vs-listbox-vs-checkbox-group"
+  ],
+  "examples": [
+    {
+      "product": "MUI Transfer List",
+      "url": "https://mui.com/material-ui/react-transfer-list/",
+      "platform": "web",
+      "notes": "Defines transfer list or shuttle behavior for moving one or more list items between lists, shows move-all and enhanced select-all variants with selected counters, and notes desktop and limited-option constraints.",
+      "screenshot": "screenshots/patterns/transfer-list.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Salesforce Lightning Dual Listbox",
+      "url": "https://developer.salesforce.com/docs/platform/lightning-component-reference/guide/lightning-dual-listbox.html",
+      "platform": "web",
+      "notes": "Documents two side-by-side listboxes, selected order persistence, reordering, min and max validation, disabled move buttons, keyboard shortcuts, typeahead, and high-zoom stacking.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WAI-ARIA APG Rearrangeable Listbox Example",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/examples/listbox-rearrangeable/",
+      "platform": "web",
+      "notes": "Shows add, remove, and reorder actions around listboxes, with aria-keyshortcuts, aria-activedescendant focus management, live-region confirmations, and focus placement after moves.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mui-transfer-list",
+      "note": "MUI defines transfer list or shuttle behavior as moving one or more list items between lists and documents move-all, select-all, counters, and desktop limitations."
+    },
+    {
+      "id": "salesforce-lightning-dual-listbox",
+      "note": "Salesforce documents two listboxes, selected-order persistence, reordering, min and max validation, disabled move controls, keyboard shortcuts, typeahead, and high-zoom stacking."
+    },
+    {
+      "id": "wai-aria-apg-listbox-rearrangeable",
+      "note": "APG rearrangeable listbox examples show add, remove, reorder, aria-keyshortcuts, aria-activedescendant, focus placement after moves, and live-region confirmations."
+    },
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG listbox guidance covers option roles, selected state, multiple selection, aria-multiselectable, keyboard movement, typeahead, and accessible option naming."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

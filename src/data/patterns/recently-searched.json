@@ -1,0 +1,251 @@
+{
+  "id": "recently-searched",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a passive submitted-query history pattern with source-backed recency ordering, query and scope identity, remove-one and clear-all controls, search-history on/off behavior, privacy scope, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers submitted-query capture, newest-first ordering, normalized deduplication, query and scope display, bounded count, remove-one, clear-all, history off state, account or device scope, and separation from saved searches or viewed items.",
+    "relatedPatternDistinction": "The entry separates recently searched from search suggestions by past submitted queries versus possible future query wording, from saved search by passive history versus intentional named criteria, from recently viewed by query text versus opened objects, and from basic search by history replay versus current retrieval.",
+    "liveDemoBehavior": "The demo submits new queries into newest-first history, reruns a previous query with its scope and current count, removes one query, clears all history, restores sample history, turns history capture off, and contrasts a bad list mixing ads, saved searches, viewed records, and shared-device queries.",
+    "comparisonDecisionRules": "The linked recently-searched-vs-search-suggestions-vs-saved-search-vs-recently-viewed comparison gives concrete rules for submitted query history, query formulation suggestions, intentional persisted criteria, opened-item history, scope labels, removal controls, and history-off states.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/recently-searched.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, submitted-query history, rerun, remove-one, clear-all, history toggle, related patterns, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/recently-searched.png"
+    ]
+  },
+  "name": "Recently searched",
+  "aliases": [
+    "recent searches",
+    "search history",
+    "recent query history",
+    "previous searches",
+    "last searches",
+    "search recall list"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Personalization And Preference",
+    "Trust, Safety, And Privacy",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Passive history of submitted search queries that can be rerun",
+  "uiGuidance": [
+    "Render recently searched as a labelled list of query strings the current user actually submitted, ordered newest first, with query text, scope or source, timestamp, and a clear affordance to rerun each query.",
+    "Place remove-one, clear-all, and search-history on/off controls near the list, and distinguish recent queries from search suggestions, saved searches, recently viewed items, recommendations, and promoted queries."
+  ],
+  "uxGuidance": [
+    "Use recently searched to help users recall and repeat prior search paths without recreating exact wording, especially in large search surfaces where the same query may be useful later.",
+    "Treat search history as personal and potentially sensitive; disclose account, browser, workspace, or device scope and let users remove or stop storing it without deleting saved searches or viewed records."
+  ],
+  "uiExamples": {
+    "good": [
+      "A knowledge search box opens to Recently searched with benefit appeal deadline, housing evidence upload, and debt advice appointment, each showing scope, time, result count, and a remove control.",
+      "A Gmail or Drive search surface shows suggestions from search history only when search history is on for the user.",
+      "A product search autocomplete separates Recent searches from Popular searches and Query suggestions with distinct headings."
+    ],
+    "bad": [
+      "A list called Recent includes promoted queries, saved searches, recently viewed suppliers, and another user's sensitive query.",
+      "The product records every keystroke in the search box as history before the user submits a query.",
+      "Clear recent searches also deletes named saved searches and saved filters because all search-related lists share one destructive action."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user reruns benefit appeal deadline from recent searches and returns to the current result set without creating or modifying a saved search.",
+      "A user removes housing evidence upload from recent searches, and only that query disappears while saved searches and viewed records remain intact.",
+      "A user turns search history off; new searches still run, but no new queries are added to the recent list."
+    ],
+    "bad": [
+      "A shared kiosk shows a prior user's health search because the list has no account or device boundary.",
+      "Users think a recent search is a managed saved search and expect it to update dashboard alerts.",
+      "A popular query appears under Recently searched, making users think someone using their account searched for it."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users often need to repeat or refine a query they already submitted, but without a clear recent-search history they must remember exact wording or confuse passive query history with saved searches, suggestions, recommendations, or opened items.",
+  "solution": "Provide a scoped, bounded recent-search list that records meaningful submitted queries, orders them by recency, reruns them predictably, and gives users removal, clearing, history-off, and privacy controls.",
+  "problemContext": [
+    "The product has search boxes that users revisit over time, across sessions, or within a long task.",
+    "Query wording matters enough that recalling an earlier submitted query saves effort.",
+    "Search terms can reveal sensitive intent, work, health, finances, legal concerns, customers, or private projects."
+  ],
+  "selectionRules": [
+    "Choose recently searched when entries should be query strings the current user actually submitted, not possible suggestions or opened objects.",
+    "Capture only meaningful submitted searches such as Enter, Search button, or selected recent-query rerun, not each keystroke or focus event.",
+    "Order by most recent search time, deduplicate by normalized query plus scope, and move repeated searches to the top instead of duplicating them.",
+    "Show enough context to rerun safely, including query text, scope, source, timestamp, and optionally current result count.",
+    "Provide remove-one and clear-all controls that affect recent query history only.",
+    "Expose search-history state and account, browser, device, or workspace scope when history can sync or persist across sessions.",
+    "Hide the list or show an empty history state when no trustworthy recent searches exist rather than substituting popular searches under the same label.",
+    "Use search suggestions when the user needs help forming a future query; use saved search when the user intentionally stores named criteria; use recently viewed when the history is opened items.",
+    "Expire, cap, or avoid storing sensitive queries when the search surface is shared, signed out, regulated, or privacy-sensitive.",
+    "Keep recent searches separate from autocomplete for constrained values such as people, addresses, codes, products, or entities."
+  ],
+  "requiredStates": [
+    "Empty or hidden state before any qualifying query has been submitted.",
+    "Populated state with newest-first query history, scope, and timestamp.",
+    "Rerun state where selecting a recent query restores query text and search scope.",
+    "Remove-one state that deletes a single query from history only.",
+    "Clear-all state that removes all visible recent queries for the stated scope.",
+    "History off state where searches still run but new queries are not stored.",
+    "Synced or account-scoped state when history can appear across devices or sessions.",
+    "Sensitive or shared-surface state where history is hidden, short-lived, or explicitly disabled."
+  ],
+  "interactionContract": [
+    "Submitting a qualifying search writes or updates a recent-search entry for the current scope when history is on.",
+    "Selecting a recent search reruns that query and scope, updates recency, and preserves the distinction from saved searches.",
+    "Removing a recent search deletes only the query-history entry, not saved searches, saved filters, viewed items, results, or records.",
+    "Clearing recent searches removes visible query history for the stated account, browser, device, or workspace scope.",
+    "Turning search history off prevents future queries from being stored while still allowing search to run.",
+    "The component must not show another user's queries unless a shared account or sync scope is explicit and controllable.",
+    "Popular searches, recommendations, promoted queries, and query suggestions must not be labelled as recently searched unless they came from the user's submitted history."
+  ],
+  "implementationChecklist": [
+    "Define the event that stores a recent query, such as explicit search submit or selected recent-query rerun.",
+    "Normalize query text and scope for deduplication while preserving the display string users recognize.",
+    "Store scope, timestamp, and optional result count metadata so users can distinguish similar queries.",
+    "Enforce a visible count limit and retention period appropriate to the device, account, and sensitivity of the surface.",
+    "Provide remove-one and clear-all actions with copy that says search history rather than saved search or results.",
+    "Respect signed-out mode, private browsing, managed-device settings, account sync, consent, and search-history off state.",
+    "Separate Recent searches, Popular searches, Suggestions, Saved searches, and Recently viewed with headings and data-model boundaries.",
+    "Refresh or clearly mark result counts when a recent query is rerun so stale counts do not mislead users.",
+    "Test keyboard selection, removal focus, clear-all recovery, history-off behavior, mobile layout, shared-device privacy, and duplicate query handling."
+  ],
+  "commonMisuses": [
+    "Recording unsubmitted keystrokes as search history.",
+    "Mixing recent searches with popular searches, promotions, saved searches, recent views, recommendations, or bookmarks.",
+    "Showing private queries on shared devices or signed-out public surfaces.",
+    "Providing no way to remove a single embarrassing or sensitive query.",
+    "Clearing saved searches or saved filters when the user only meant to clear recent search history.",
+    "Duplicating the same query every time it is rerun.",
+    "Hiding search-history settings while using synced account activity.",
+    "Showing old result counts as if they are current."
+  ],
+  "critiqueQuestions": [
+    "What exact action qualifies a query as recently searched?",
+    "Can users tell whether an entry is passive history, a suggestion, a saved search, or a viewed item?",
+    "What account, browser, device, workspace, or session scope does this history use?",
+    "Can users remove one query and clear all history without deleting saved searches?",
+    "Does turning history off stop future storage while preserving the ability to search?",
+    "How are sensitive, signed-out, shared-device, or managed-account searches handled?",
+    "Does rerunning a recent search restore the right query text, scope, filters, and current result count?"
+  ],
+  "useWhen": [
+    "Users revisit a search surface and benefit from rerunning recent query wording.",
+    "Queries are submitted often enough that a short recency list saves effort.",
+    "The product can store query history with clear scope, retention, and removal controls.",
+    "Recent query history is useful but not important enough to require intentional saved-search management."
+  ],
+  "avoidWhen": [
+    "The search surface is public, shared, signed out, or privacy-sensitive and cannot provide clear controls.",
+    "Users need managed, named, shared, subscribed, or dashboard-backed search criteria.",
+    "The product only needs possible query suggestions or popular searches before the user has searched.",
+    "The task is choosing a known entity through autocomplete rather than rerunning free-form query text.",
+    "The content set is small enough that repeating exact query wording has little value."
+  ],
+  "variants": [
+    "Local recent searches",
+    "Account-synced recent searches",
+    "Session recent searches",
+    "Workspace search history",
+    "Recent query chips",
+    "Search history suggestions",
+    "Recent searches in autocomplete",
+    "Private recent searches"
+  ],
+  "accessibility": [
+    "Use a heading or labelled region that identifies the list as recent search history.",
+    "Expose query text, scope, timestamp, and result count as text, not only icons.",
+    "Give remove controls accessible names that include the query being removed.",
+    "Announce removed, cleared, restored, and history-off states through a polite status region.",
+    "Do not hide removal or history controls behind hover-only menus.",
+    "Keep Recent searches, Suggestions, Popular searches, and Saved searches as distinct groups when combined in one popup."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the search field, submit action, history toggle, clear action, recent query buttons, and remove controls in a predictable order.",
+    "Enter submits the current query from the search field and activates a focused recent-query button when focus is on the history row.",
+    "Escape can close a recent-search popup without clearing the typed query when the pattern appears inside autocomplete.",
+    "After removing a query, focus moves to the next recent query, previous query, or section heading with an announcement.",
+    "After clearing all history, focus remains near the empty state or restore path rather than jumping to the page top.",
+    "Turning history on or off does not steal focus from the toggle."
+  ],
+  "failureModes": [
+    "Private queries leak on shared devices or synced accounts.",
+    "Recent searches become another suggestion channel filled with popular or promoted terms.",
+    "Users cannot tell whether selecting an entry reruns a query, opens a record, or changes a saved search.",
+    "Search history stores partial typed strings that users never submitted.",
+    "The list grows too long and becomes a noisy archive instead of a short recall aid.",
+    "Clearing recent searches destroys saved searches, filters, bookmarks, or viewed history.",
+    "Repeated queries duplicate rather than moving to the top.",
+    "Rerun state uses stale scope or result counts."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "search-suggestions",
+    "saved-search",
+    "recently-viewed",
+    "autocomplete",
+    "search-scope-selector",
+    "no-results-recovery",
+    "recommendations"
+  ],
+  "comparisons": [
+    "recently-searched-vs-search-suggestions-vs-saved-search-vs-recently-viewed"
+  ],
+  "examples": [
+    {
+      "product": "Algolia Autocomplete recent searches plugin",
+      "url": "https://www.algolia.com/doc/ui-libraries/autocomplete/api-reference/autocomplete-plugin-recent-searches",
+      "platform": "web",
+      "notes": "Documents displaying the latest searches a user made with local or custom storage.",
+      "screenshot": "screenshots/patterns/recently-searched.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Algolia Add recent searches guide",
+      "url": "https://www.algolia.com/doc/guides/solutions/gallery/recent-searches",
+      "platform": "web",
+      "notes": "Documents recent searches in autocomplete, submitted-query capture, storage key, limit, linking, selection, and custom storage.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Google Workspace search history",
+      "url": "https://support.google.com/a/answer/11194328?hl=en",
+      "platform": "web",
+      "notes": "Documents Gmail and Drive search-history suggestions with user controls for turning history on or off and managing saved activity.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Algolia React InstantSearch recent searches",
+      "url": "https://www.algolia.com/doc/ui-libraries/autocomplete/integrations/with-react-instantsearch/",
+      "platform": "web",
+      "notes": "Shows recent searches after prior submitted queries and selecting a recent query to update search UI state.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "algolia-autocomplete-recent-searches-plugin",
+      "note": "Algolia defines recent searches as the latest searches a user made and supports local or custom storage."
+    },
+    {
+      "id": "algolia-add-recent-searches",
+      "note": "Algolia documents recent-search storage keys, visible limits, submitted-query behavior, selection, linking, and custom storage."
+    },
+    {
+      "id": "google-workspace-search-history",
+      "note": "Google Workspace documents search-history suggestions, user on/off control, saved activity management, and deletion periods for Gmail and Drive search."
+    },
+    {
+      "id": "algolia-react-instantsearch-recent-searches",
+      "note": "Algolia shows recent searches as selectable autocomplete entries that update search UI state only after prior submitted queries exist."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

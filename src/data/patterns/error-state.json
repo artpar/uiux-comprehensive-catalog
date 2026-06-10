@@ -1,0 +1,203 @@
+{
+  "id": "error-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a recoverable failure surface with source-backed failed-content context, persistent messaging, retry/fallback/escalation actions, input preservation, and comparison guidance against empty, no-results, loading, validation, and toast-only handling.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names failed load/save/sync/permission causes, affected object context, persistent placement, user-language copy, retry/fallback/support actions, preserved draft/input state, technical-detail disclosure, and recovered/escalated states.",
+    "relatedPatternDistinction": "The entry separates error state from empty state by failure versus legitimate absence, from no-results by system failure versus user criteria, from loading skeleton by resolved failure versus pending resolution, and from toast-only critical error by persistent recoverability versus transient disappearance.",
+    "liveDemoBehavior": "The live demo preserves a report filter after load failure, shows a persistent section error with retry/cached/support actions, transitions through retrying to recovered content, and contrasts a bad transient error that clears work.",
+    "comparisonDecisionRules": "The empty-state-vs-no-results-recovery-vs-error-state comparison gives concrete rules for expected absence, criteria-caused absence, load/save/sync failures, context preservation, retry/fallback/escalation, and avoiding transient toasts for blocking failures.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/error-state.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/error-state.png"
+    ]
+  },
+  "name": "Error state",
+  "aliases": [
+    "failure state",
+    "recoverable error",
+    "failed content state",
+    "section error"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users expected content, saving, sync, or progress, but the system failed and they need to understand what failed, what remains safe, and how to recover.",
+  "solution": "Keep the failure visible near the affected content or task, explain it in user terms, preserve user context, and offer a recovery path such as retry, edit, fallback, cached data, or support escalation.",
+  "problemContext": [
+    "Data may fail to load, save, validate, sync, authorize, or compute.",
+    "Users need confidence that the system did not silently lose their work or show stale data as current.",
+    "The product can identify enough of the failure cause to choose a specific recovery path."
+  ],
+  "selectionRules": [
+    "Choose error state when expected content or task progress is blocked by system, network, permission, validation, save, sync, or computation failure.",
+    "Keep the affected object, form, query, or section context visible whenever it helps users recover.",
+    "Offer recovery that matches the failure cause: retry for transient failures, edit for user-correctable data, cached view for read-only fallback, or support escalation for unrecoverable failures.",
+    "Preserve user-entered data and current criteria unless the recovery action explicitly resets them.",
+    "Use persistent inline or section-level presentation for blocking failures; reserve transient toasts for non-blocking status.",
+    "Expose technical identifiers only as support details, not as the main explanation."
+  ],
+  "requiredStates": [
+    "Normal expected state before failure.",
+    "Pending or retrying state after recovery action starts.",
+    "Failed state with affected content, cause, and recovery action.",
+    "Recovered state after retry or fallback succeeds.",
+    "Escalated state with support reference or next contact path.",
+    "Preserved-draft or preserved-query state after save/load failure."
+  ],
+  "interactionContract": [
+    "The error remains visible until resolved, intentionally dismissed, replaced by recovered content, or escalated.",
+    "Recovery controls communicate what they will attempt before activation.",
+    "User-entered data, filters, scroll context, and unsaved work are preserved where possible.",
+    "Retry shows an in-progress state and then either recovered content or a still-failed message.",
+    "Support escalation includes enough reference detail to help without dumping stack traces into the primary UI.",
+    "Users are not allowed to trust stale or partial content unless it is clearly labeled as cached or partial."
+  ],
+  "implementationChecklist": [
+    "Describe the failed action, object, or content area in the heading.",
+    "Write the cause and next step in user terms before exposing technical detail.",
+    "Provide retry, edit, cached data, offline, or support action according to the failure cause.",
+    "Preserve user input, query, filters, and drafts after failed save or load.",
+    "Render blocking failures persistently near the affected content or in a page-level error region.",
+    "Use alert or status semantics for newly appearing critical errors.",
+    "Keep diagnostic IDs collapsible or secondary for support use."
+  ],
+  "commonMisuses": [
+    "Using a transient toast for critical errors.",
+    "Showing generic copy such as Something went wrong without recovery.",
+    "Clearing user input after a failed save.",
+    "Replacing failed expected content with an empty state.",
+    "Letting users keep interacting with stale content without warning.",
+    "Showing raw stack traces or service names as the main message."
+  ],
+  "critiqueQuestions": [
+    "Can the user tell exactly what failed and what remains safe?",
+    "Does the recovery action match the failure cause instead of offering a generic retry for everything?",
+    "Will user work, filters, or draft content survive the failure and recovery attempt?"
+  ],
+  "useWhen": [
+    "A system or task failure blocks expected content or action.",
+    "Recovery, fallback, correction, or escalation is possible.",
+    "The failure affects a specific page, section, item, form, or workflow state users need to trust."
+  ],
+  "avoidWhen": [
+    "Nothing exists yet and the state is expected.",
+    "The absence is caused by user search criteria.",
+    "The system is still loading and has not resolved success, empty, or failure.",
+    "The issue is a field-level validation error that should be handled inline and in an error summary.",
+    "The message is non-blocking and can safely be shown as a notification."
+  ],
+  "variants": [
+    "Inline section error",
+    "Full-page error",
+    "Retryable card error",
+    "Failed save state",
+    "Cached fallback error",
+    "Permission failure",
+    "Offline error"
+  ],
+  "accessibility": [
+    "Use appropriate alert or status semantics for newly appearing critical errors.",
+    "Do not rely on color alone to indicate failure.",
+    "Keep the error heading, explanation, and recovery actions in logical reading order.",
+    "Associate field-level failures with affected controls when the error is form-specific.",
+    "Avoid moving focus away from the failed section unless doing so helps recovery."
+  ],
+  "keyboardBehavior": [
+    "Retry, fallback, edit, and support actions are reachable by keyboard.",
+    "Focus management should not hide the failed field, draft, or section.",
+    "After retry succeeds, focus should move to recovered content or a clear success status.",
+    "After retry fails again, focus should remain near the persistent error and recovery controls."
+  ],
+  "failureModes": [
+    "Transient critical errors.",
+    "No retry, fallback, edit, or escalation path.",
+    "Technical jargon that does not map to user action.",
+    "Silent failure after a save or sync action.",
+    "Retry loops with no state change or support path.",
+    "Data loss caused by clearing drafts after an error."
+  ],
+  "relatedPatterns": [
+    "empty-state",
+    "no-results-recovery",
+    "toast-only-critical-error",
+    "loading-skeleton"
+  ],
+  "comparisons": [
+    "empty-state-vs-no-results-recovery-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian Error Messages",
+      "url": "https://atlassian.design/foundations/content/designing-messages/error-messages",
+      "platform": "web",
+      "notes": "Documents user-centered error content with specific recovery-oriented calls to action and treatment matched to context.",
+      "screenshot": "screenshots/patterns/error-state.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon Notification",
+      "url": "https://carbondesignsystem.com/components/notification/usage/",
+      "platform": "web",
+      "notes": "Documents inline, actionable, toast, and modal notification choices for surfacing errors and actions near relevant content.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-error-messages",
+      "note": "Atlassian documents direct error copy, specific action labels, and matching error treatment to journey context."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon documents inline, actionable, toast, and modal notification treatment, including when messages need actions or more detail."
+    },
+    {
+      "id": "va-error-messages",
+      "note": "VA documents clear, direct error messages with calls to action that tell people what to do next."
+    },
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK documents preserving entered answers and writing clear correction text for user-correctable errors."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Recoverable failure surface",
+  "uiGuidance": [
+    "Render a persistent error region near the affected content with a specific failure heading, plain-language cause, preserved context, and recovery actions.",
+    "Pair visual emphasis with text and iconography, keep diagnostic detail secondary, and distinguish retrying, recovered, cached, and escalated states."
+  ],
+  "uxGuidance": [
+    "Help users recover when expected loading, saving, validation, sync, permission, or computation fails without losing their work.",
+    "Match the next action to the failure cause: retry transient failures, edit correctable input, use cached fallback for read-only continuity, or provide support reference when recovery is outside the UI."
+  ],
+  "uiExamples": {
+    "good": [
+      "Reports could not load appears in the report section with the saved filter, Retry, Use cached data, and Contact support actions.",
+      "A failed save state keeps the draft visible and labels the support reference separately from the user-facing explanation."
+    ],
+    "bad": [
+      "Tiny transient toast for a blocking failure.",
+      "Technical stack trace or vague Something went wrong message as the main UI."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "User input and filter context are preserved after failure, and retry returns to recovered content or a clear still-failed state.",
+      "Support escalation includes a reference ID while keeping the user's draft intact."
+    ],
+    "bad": [
+      "Clearing work after save failure.",
+      "Letting users keep interacting with stale content without warning."
+    ]
+  }
+}

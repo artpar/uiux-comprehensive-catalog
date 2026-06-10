@@ -1,0 +1,242 @@
+{
+  "id": "button-group",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a visible related-command group with source-backed guidance for action hierarchy, primary and secondary emphasis, responsive stacking, grouping semantics, disabled and processing states, destructive separation, and distinctions from segmented controls, menu buttons, confirmation dialogs, navigation bars, and icon-only toolbars.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers small visible groups of related commands, one local task scope, primary and secondary hierarchy, source order, responsive vertical stacking, group naming, disabled and processing feedback, destructive separation, icon consistency, and when to move overflow commands elsewhere.",
+    "relatedPatternDistinction": "The entry separates button group from segmented control by command activation versus selected local mode, from menu button by visible peer actions versus hidden secondary commands, from confirmation dialog by action choice versus consequence review, and from icon-only ambiguous action by requiring labels and object scope.",
+    "liveDemoBehavior": "The live demo saves a draft, continues after saving, blocks Continue until a draft exists, runs Reset through a separated danger action, restores the group, and contrasts double-primary, mixed-scope, hidden-reason, and destructive-adjacent failures.",
+    "comparisonDecisionRules": "The linked button-group-vs-segmented-control-vs-menu-button-vs-confirmation-dialog comparison gives concrete rules for visible peer actions, local mode selection, hidden secondary menus, high-risk review, hierarchy, destructive separation, responsive stacking, and disabled-state explanation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/button-group.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related visible actions, hierarchy, disabled reason, separated danger action, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/button-group.png"
+    ]
+  },
+  "name": "Button group",
+  "aliases": [
+    "action button group",
+    "button row",
+    "form action group",
+    "footer action group",
+    "grouped commands"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Grouped visible action buttons",
+  "uiGuidance": [
+    "Render a small group of visibly related action buttons with one clear scope, one dominant primary action when needed, lower-emphasis alternatives, consistent labels, visible focus, and stable spacing.",
+    "Keep the group readable across narrow screens by stacking deliberately, preserving source order, keeping hit targets intact, and separating destructive or risky actions from safe forward movement."
+  ],
+  "uxGuidance": [
+    "Use a button group when users need to choose between a few related commands at the same workflow moment, such as saving, continuing, going back, cancelling, applying, resetting, or exporting in one local task.",
+    "Make hierarchy, availability, result feedback, and risk clear before activation so users do not have to guess which action is recommended or why a command is unavailable."
+  ],
+  "uiExamples": {
+    "good": [
+      "A form footer shows Save draft, Continue, and Cancel as one named action group, with Continue primary only after required work is saved.",
+      "A filter panel footer groups Apply filters and Reset filters while keeping Export outside the submit path."
+    ],
+    "bad": [
+      "A footer contains Save, Continue, Delete, Help, View report, and Open settings as identical primary buttons.",
+      "A mobile button row turns actions into unlabeled icons and reorders Cancel before Continue without explanation."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user saves a draft, sees Continue become available, then continues without losing the saved status or action hierarchy.",
+      "A user chooses Reset changes from a separated danger action and receives a clear reset result instead of accidentally resetting beside Continue."
+    ],
+    "bad": [
+      "A disabled Continue button gives no reason, so the user repeatedly presses Save, Cancel, and Back to find a path forward.",
+      "A destructive Delete button sits beside Continue with the same emphasis and no review, causing input mistakes."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to choose between a few related commands in one workflow moment, but loose button rows can imply false relationships, create competing primary actions, hide blocked states, and place destructive commands too close to safe progress.",
+  "solution": "Group only related action buttons, name the group when needed, define one local scope, establish clear emphasis order, explain unavailable commands, preserve responsive order, and separate high-risk commands from safe navigation or submission actions.",
+  "problemContext": [
+    "A form, dialog, card, toolbar section, panel footer, wizard step, or result area has multiple commands that belong to one local task.",
+    "Users must distinguish the recommended next action from alternatives such as save draft, cancel, back, skip, reset, export, or delete.",
+    "The actions are visible commands, not selected values, view modes, or hidden menu items.",
+    "The group must survive mobile stacking, high zoom, keyboard focus, processing states, and disabled dependencies without losing action meaning."
+  ],
+  "selectionRules": [
+    "Choose a button group when two to four actions are contextually related and should be considered together at one workflow moment.",
+    "Use a segmented control when the buttons represent mutually exclusive modes or views and need a persistent selected state.",
+    "Use a menu button when secondary commands are numerous, lower priority, or contextual enough to hide behind a named trigger.",
+    "Use confirmation dialog after a clearly labelled dangerous action is chosen and the consequence needs review before commitment.",
+    "Use text links or navigation patterns when the controls are destinations rather than commands.",
+    "Avoid placing destructive actions directly beside safe forward actions unless visual separation, wording, confirmation, or undo makes the risk clear.",
+    "Keep one primary action unless the workflow intentionally presents equal choices with no recommended path.",
+    "Move low-frequency or unrelated commands out of the group rather than adding more buttons to a crowded row."
+  ],
+  "requiredStates": [
+    "Default group with a clear label or surrounding context.",
+    "Primary, secondary, tertiary, and danger visual hierarchy when those roles are present.",
+    "Focused state for each button in source order.",
+    "Hover or pressed state for pointer and touch feedback.",
+    "Disabled or unavailable state with visible reason.",
+    "Processing state after activation that prevents duplicate submission.",
+    "Successful action status that names the command that ran.",
+    "Responsive stacked state preserving action order and readable labels.",
+    "Separated destructive action state.",
+    "Long label and high-zoom state without clipped text."
+  ],
+  "interactionContract": [
+    "Each button performs a command immediately or starts a named flow; buttons in the group do not represent persistent selected values unless the component is intentionally a segmented or toggle group.",
+    "The group has one local scope and a programmatic grouping when surrounding context is insufficient.",
+    "Button labels use verbs and objects that match the result message, accessible name, and logged action.",
+    "The primary action is visually dominant only when it is the recommended next action.",
+    "Disabled commands are either temporarily blocked with a reason or removed until relevant.",
+    "Processing actions prevent duplicate activation and announce progress or completion.",
+    "Destructive actions are visually separated, lower-emphasis unless explicitly primary, and routed to confirmation, undo, or clear recovery when needed.",
+    "Keyboard users tab through buttons in the same order that visual layout implies; Enter and Space activate the focused button.",
+    "Responsive stacking keeps safe progression, cancellation, and danger relationships understandable."
+  ],
+  "implementationChecklist": [
+    "Inventory each command and remove actions that do not share the same local task scope.",
+    "Choose the primary action and make secondary alternatives lower emphasis.",
+    "Place danger actions away from safe forward actions or put them behind confirmation or undo.",
+    "Use real button elements for commands and reserve links for navigation.",
+    "Wrap the group in a list, role group, or toolbar only when that grouping communicates the relationship accurately.",
+    "Keep visible labels, accessible names, icons, and result status aligned.",
+    "Explain disabled states through helper text, inline status, or dependency messaging.",
+    "Prevent duplicate activation during processing and restore the button state after completion or error.",
+    "Test source order, mobile stacking, high zoom, forced colors, focus rings, touch targets, and localization."
+  ],
+  "commonMisuses": [
+    "Putting unrelated actions into one row because the layout has space.",
+    "Using two or more high-emphasis buttons that compete for the same next step.",
+    "Mixing destructive and non-destructive actions with identical visual weight.",
+    "Using button groups as page navigation or content links.",
+    "Giving command buttons aria-pressed selected state when they are not toggles or modes.",
+    "Disabling the primary button without explaining the unmet condition.",
+    "Replacing text labels with icons at small widths.",
+    "Letting responsive wrapping reorder actions unpredictably."
+  ],
+  "critiqueQuestions": [
+    "Do all buttons in the group share one local task scope and workflow moment?",
+    "Is the recommended action visually clear without creating two competing primary commands?",
+    "Can users tell why an unavailable command is blocked and what fixes it?",
+    "Are destructive commands separated from safe progression and backed by confirmation, undo, or recovery?",
+    "Will source order, visible order, and keyboard order remain understandable on mobile and at high zoom?"
+  ],
+  "useWhen": [
+    "A form, dialog, panel, card, or workflow footer needs two to four related visible commands.",
+    "Users need to compare primary, secondary, cancel, back, reset, skip, apply, or export commands in the same task context.",
+    "The commands are frequent or important enough to stay visible instead of hiding behind a menu."
+  ],
+  "avoidWhen": [
+    "The controls are mutually exclusive view modes that need a selected state.",
+    "The commands are unrelated, numerous, or low priority enough to require an action menu or toolbar overflow.",
+    "The controls navigate between destinations rather than executing commands.",
+    "A single primary action is enough and alternatives would add hesitation.",
+    "The group would place a destructive command beside safe progress without meaningful separation or review."
+  ],
+  "variants": [
+    "Form footer action group",
+    "Dialog action group",
+    "Wizard back and continue group",
+    "Panel apply and reset group",
+    "Card action group",
+    "Toolbar action cluster",
+    "Stacked mobile button group",
+    "Danger-separated button group",
+    "Processing button group"
+  ],
+  "accessibility": [
+    "Use native button elements for actions so Enter and Space activation, disabled behavior, and focus work predictably.",
+    "Use role group, a list, or role toolbar only when the grouping relationship or toolbar behavior is meaningful.",
+    "Give the group an accessible name when surrounding text does not explain the shared scope.",
+    "Do not use aria-pressed for ordinary command buttons; reserve it for toggle buttons whose label remains stable.",
+    "Keep disabled reasons and processing status available to screen reader users through nearby text or live regions.",
+    "Maintain visible focus, sufficient contrast between emphasis levels, and full labels at high zoom.",
+    "When icons appear in grouped buttons, use them consistently and keep text labels or precise accessible names."
+  ],
+  "keyboardBehavior": [
+    "Tab moves to each enabled button in source order unless the group is intentionally implemented as a toolbar with toolbar keyboard behavior.",
+    "Enter or Space activates the focused command button.",
+    "Disabled buttons cannot be activated and their blocked reason is discoverable nearby.",
+    "After activation, focus stays on the button, moves to the next workflow step, or lands on confirmation or status according to the command result.",
+    "During processing, duplicate activation is blocked and completion or failure is announced.",
+    "Responsive stacking does not change the logical focus order unexpectedly."
+  ],
+  "failureModes": [
+    "Users hesitate because Save, Submit, Continue, and Next are all high-emphasis buttons in the same group.",
+    "A Cancel or Delete action is accidentally triggered because it is visually adjacent to Continue with no separation.",
+    "The group includes commands with different scopes, so one button affects the form, another opens account settings, and another filters unrelated content.",
+    "The primary action is disabled but no text explains that saving a draft will unlock it.",
+    "Mobile layout swaps button order, causing muscle-memory mistakes between safe and dangerous actions.",
+    "Screen readers hear a sequence of unrelated buttons because the group has no label and the surrounding context is weak.",
+    "A processing submit button can be clicked repeatedly and creates duplicate records.",
+    "Icons are used for only some buttons, drawing false emphasis and making the row harder to scan."
+  ],
+  "relatedPatterns": [
+    "segmented-control",
+    "menu-button",
+    "confirmation-dialog",
+    "icon-only-ambiguous-action",
+    "disabled-button-no-explanation",
+    "undo",
+    "modal-dialog",
+    "single-page-form",
+    "multi-step-form"
+  ],
+  "comparisons": [
+    "button-group-vs-segmented-control-vs-menu-button-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Button group",
+      "url": "https://designsystem.digital.gov/components/button-group/",
+      "platform": "web",
+      "notes": "Documents default and segmented button groups, related-action usage, Back and Continue examples, responsive stacking, grouping semantics, and avoiding unrelated or destructive action mixing.",
+      "screenshot": "screenshots/patterns/button-group.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Button",
+      "url": "https://carbondesignsystem.com/components/button/usage/",
+      "platform": "web",
+      "notes": "Documents grouping related calls to action, one high-emphasis button in a group, primary and secondary placement, recommended combinations, stacked groups, and icon consistency.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WAI-ARIA APG Button pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
+      "platform": "web",
+      "notes": "Documents button activation, disabled state, toggle-button aria-pressed state, and the distinction between command buttons and toggle buttons.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-button-group",
+      "note": "USWDS documents button groups for related actions, Back and Continue flows, group semantics, responsive stacking, and cautions against unrelated or destructive action mixing."
+    },
+    {
+      "id": "carbon-button-component",
+      "note": "Carbon documents button hierarchy, related calls to action, primary and secondary placement, group combinations, stacked button groups, and icon consistency."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "APG button guidance distinguishes command buttons from toggle buttons with aria-pressed and documents disabled action state."
+    },
+    {
+      "id": "material-design-buttons",
+      "note": "Material documents button variants, icon and text combinations, and common button treatments used in grouped action contexts."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

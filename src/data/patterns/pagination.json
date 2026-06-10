@@ -1,0 +1,187 @@
+{
+  "id": "pagination",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an ordered-result paging pattern with source-backed current-page, previous/next, edge-state, filter-preservation, result-range, and comparison guidance.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names ordered collections, current page with aria-current, previous/next edge states, result range, stable page controls, ellipsis/slot limits, filter and sort preservation, and out-of-range recovery.",
+    "relatedPatternDistinction": "The entry separates pagination from tabs by representing ordered slices of one collection rather than sibling panels, from segmented controls by changing result position rather than local view mode, and from faceted search by preserving filters while moving pages.",
+    "liveDemoBehavior": "The live demo uses a labeled pagination nav, current page aria-current, disabled previous/next edge states, page range status, loading feedback after page changes, preserved filter/sort state, and out-of-range recovery.",
+    "comparisonDecisionRules": "The linked tabs-vs-segmented-control-vs-pagination comparison gives concrete rules for sibling panels, compact local modes, ordered page traversal, edge states, and filter preservation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/pagination.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/pagination.png"
+    ]
+  },
+  "name": "Pagination",
+  "aliases": [
+    "paged results",
+    "page navigation"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Data Display And Exploration"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to move through a long ordered collection without loading or scanning everything at once.",
+  "solution": "Split the collection into stable pages with current page, previous, next, and reachable page controls.",
+  "problemContext": [
+    "The collection is too large for one screen or one request.",
+    "Users need a sense of position in a result set.",
+    "Users may need to keep the same query, filters, sort, or page size while moving through results."
+  ],
+  "selectionRules": [
+    "Choose pagination when result order, bounded position, and resumability matter.",
+    "Show current page, previous, next, first/last or nearby page controls, and disabled or hidden edge behavior clearly.",
+    "Preserve query, filters, sort, and page size while moving between pages.",
+    "Use filtering or search first when users are trying to find a specific item rather than browse positionally.",
+    "Use load more or infinite scroll only when users do not need stable page position, footer access, or shareable page state."
+  ],
+  "requiredStates": [
+    "First page with disabled previous control.",
+    "Middle page with previous and next available.",
+    "Last page with disabled next control.",
+    "Loading state after requesting another page.",
+    "Current page state exposed with aria-current.",
+    "Out-of-range or empty page recovery after filters change."
+  ],
+  "interactionContract": [
+    "Changing page updates the collection while preserving the user's query or filters.",
+    "The current page is exposed visually and programmatically.",
+    "Users can move by keyboard without losing context.",
+    "Previous and next move one page relative to the current page and become unavailable at collection edges.",
+    "Result count or range communicates what slice of the collection is visible."
+  ],
+  "implementationChecklist": [
+    "Persist filters and sort while paging.",
+    "Label previous, next, and numeric page controls.",
+    "Handle empty or out-of-range pages.",
+    "Avoid shifting page controls while content loads.",
+    "Use aria-current=\"page\" on exactly one current page control in a pagination set.",
+    "Keep pagination visually near the content it controls."
+  ],
+  "commonMisuses": [
+    "Using pagination for a tiny collection.",
+    "Resetting filters when moving pages.",
+    "Hiding the current page or total position.",
+    "Using page numbers for unrelated topics or sibling sections.",
+    "Making previous or next appear available when there is no page in that direction."
+  ],
+  "critiqueQuestions": [
+    "Does paging help users orient in the collection, or would search and filters solve the task better?",
+    "Can users tell which results they are seeing and whether their filters persisted?"
+  ],
+  "useWhen": [
+    "The collection has many ordered results.",
+    "Users may need to resume at a known page or position."
+  ],
+  "avoidWhen": [
+    "Users need uninterrupted reading or comparison.",
+    "The result set is small enough to show at once.",
+    "The choices are sibling content panels rather than ordered slices.",
+    "The result order is unstable enough that page numbers will mislead users."
+  ],
+  "variants": [
+    "Numbered pagination",
+    "Previous and next only",
+    "Cursor pagination",
+    "Load more"
+  ],
+  "accessibility": [
+    "Use a labeled navigation region.",
+    "Expose the current page with aria-current or equivalent text.",
+    "Give previous, next, numeric, first, last, and ellipsis controls accessible names."
+  ],
+  "keyboardBehavior": [
+    "Controls follow normal button or link focus order.",
+    "Disabled edge controls are not misleadingly focusable.",
+    "After page changes, preserve context and announce the updated result range or count."
+  ],
+  "failureModes": [
+    "Changing page without updating URL or state when shareability matters.",
+    "Using infinite scroll where users need footer access.",
+    "Moving focus to the top without notice after every page change.",
+    "Resetting page filters or sort on next/previous.",
+    "Leaving users stranded on an empty out-of-range page after filters change."
+  ],
+  "relatedPatterns": [
+    "tabs",
+    "faceted-search"
+  ],
+  "comparisons": [
+    "tabs-vs-segmented-control-vs-pagination"
+  ],
+  "examples": [],
+  "sources": [
+    {
+      "id": "govuk-pagination-component",
+      "note": "GOV.UK documents previous/next, current page with aria-current, pagination landmarks, ellipses, and applying filters or sorts to the whole list."
+    },
+    {
+      "id": "uswds-pagination-component",
+      "note": "USWDS documents bounded sets, current page highlighting, first/current/previous/next/last visibility, and edge behavior."
+    },
+    {
+      "id": "carbon-pagination-component",
+      "note": "Carbon documents placing pagination under related table or page content, current-page information, item ranges, and responsive behavior."
+    },
+    {
+      "id": "mdn-aria-current",
+      "note": "MDN documents aria-current=\"page\" for pagination links and limiting current state to one item in a related set."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Paged navigation control",
+  "uiGuidance": [
+    "Render a labeled pagination nav near the affected results with current page, previous, next, nearby pages, optional first/last or ellipsis, and clear disabled edge states.",
+    "Show result range, total count, and preserved query/filter/sort context so users understand what slice they are viewing."
+  ],
+  "uxGuidance": [
+    "Help users move through an ordered result set with a stable sense of position, progress, and returnability.",
+    "Preserve query, filters, sort, page size, and focus context while changing pages; recover clearly from out-of-range pages."
+  ],
+  "uiExamples": {
+    "good": [
+      "Current page, previous/next, disabled edges, page numbers, result range, and total count are visually clear.",
+      "Controls stay stable while loading and remain near the results they paginate."
+    ],
+    "bad": [
+      "Tiny numbers with no current state.",
+      "Pagination jumps around as pages load or separates controls from the result list."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users move through pages while query, filters, and sort persist.",
+      "Current position is clear enough to resume, share, or recover after changing filters."
+    ],
+    "bad": [
+      "Changing page resets filters.",
+      "Using pagination where users need side-by-side comparison across pages or stable footer access is required."
+    ]
+  },
+  "examples": [
+    {
+      "product": "GOV.UK Design System Pagination",
+      "url": "https://design-system.service.gov.uk/components/pagination/",
+      "platform": "web",
+      "notes": "Shows current page, previous and next links, page numbers, ellipses, and filtering/sorting behavior for paginated lists.",
+      "screenshot": "screenshots/patterns/pagination.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "U.S. Web Design System Pagination",
+      "url": "https://designsystem.digital.gov/components/pagination/",
+      "platform": "web",
+      "notes": "Shows bounded pagination rules, current page highlighting, previous/next edge behavior, and accessibility guidance.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

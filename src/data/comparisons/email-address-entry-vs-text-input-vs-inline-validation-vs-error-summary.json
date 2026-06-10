@@ -1,0 +1,54 @@
+{
+  "id": "email-address-entry-vs-text-input-vs-inline-validation-vs-error-summary",
+  "title": "Email address entry vs text input vs inline validation vs error summary",
+  "summary": "Use email address entry when the product needs a contactable email address with email-specific keyboard, autocomplete, validation, typo recovery, review, and optional access confirmation; use text input for ordinary short text, inline validation for local correction, and error summary for submitted-form recovery.",
+  "patternIds": [
+    "email-address-entry",
+    "text-input",
+    "inline-validation",
+    "error-summary"
+  ],
+  "decisionRules": [
+    "Prefer email address entry when the value will be used to send receipts, notifications, account recovery links, sign-in identifiers, invitations, or verification messages.",
+    "Prefer text input when the value is an ordinary label, username, reference, organization name, or note that should not be parsed, autofilled, or validated as an email address.",
+    "Prefer inline validation inside email address entry for missing value, malformed address, repeated whitespace, unsupported multiple-address entry, provider typo warning, or unreachable confirmation state tied to this one field.",
+    "Prefer error summary when a submitted account, checkout, or contact form has several errors and users need a top-of-form list that links back to the email field.",
+    "Use type email, autocomplete email, spellcheck false, visible label, and enough width for users to review most addresses, while still validating on the server.",
+    "Allow paste and browser autofill; do not split the local part and domain into separate fields or block plus tags, subdomains, long addresses, or uncommon domains merely because they look unfamiliar.",
+    "Warn on likely provider typos such as homtail.com or gmial.com, but let users keep the value because uncommon domains can be genuine.",
+    "Confirm the entered address back to users on a review page or local summary when email is used for receipts, notifications, recovery, or account access.",
+    "Use an email confirmation loop only when access to that mailbox is essential, such as account activation or password reset; avoid it for low-consequence contact fields.",
+    "Do not ask users to repeat the email address unless research for this service shows it reduces errors; review and change usually create less friction."
+  ],
+  "failureModes": [
+    "A form uses a plain text input and mobile users do not get the email keyboard or email autofill.",
+    "The field blocks paste or plus-addressing, so users cannot use their real address or password-manager-stored identity.",
+    "A regex rejects a valid long or uncommon domain address that the service could have delivered to.",
+    "The form silently corrects gmial.com to gmail.com and sends sensitive mail to the wrong address.",
+    "A product requires email confirmation for a low-risk receipt and causes avoidable abandonment.",
+    "A top-of-page error says invalid value without linking back to the email field or preserving the typed address."
+  ],
+  "sources": [
+    {
+      "id": "govuk-email-addresses-pattern",
+      "note": "GOV.UK supports type email, autocomplete email, spellcheck false, paste support, 254-character capacity, visible width guidance, typo warnings with proceed option, review, and confirmation loops only when access is essential."
+    },
+    {
+      "id": "ons-email-addresses-pattern",
+      "note": "ONS supports purpose text, type email, autocomplete email, paste support, check-answers review, and confirmation only when research supports it."
+    },
+    {
+      "id": "mdn-input-email",
+      "note": "MDN supports email input semantics, browser format validation, supported attributes, and multiple-address handling with the multiple attribute."
+    },
+    {
+      "id": "whatwg-input-email",
+      "note": "WHATWG supports the email input state, valid email address grammar, type mismatch constraint validation, multiple-address handling, and applicable email input attributes."
+    },
+    {
+      "id": "mdn-html-autocomplete-email",
+      "note": "MDN supports the email autocomplete token and input-purpose identification."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

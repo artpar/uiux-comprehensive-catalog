@@ -1,0 +1,238 @@
+{
+  "id": "date-input",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as manual exact-date entry with source-backed guidance for grouped day-month-year fields, legends, valid example hints, month-name tolerance, no automatic focus jumps, birth-date autocomplete, part-specific validation, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers exact known dates, grouped day-month-year fields, fieldset and legend semantics, valid example hints, numeric input mode, month-name normalization, birthday autocomplete attributes, impossible-date validation, date-range boundaries, and no automatic focus jumps.",
+    "relatedPatternDistinction": "The entry separates date input from date pickers by supporting remembered or findable exact dates instead of calendar exploration, from input mask by preserving part-level editing and month-name tolerance instead of rigid format slots, from text input by structuring date parts, and from select by avoiding long arbitrary year lists.",
+    "liveDemoBehavior": "The rendered exercise accepts numeric and month-name input, normalizes Jan to 01, validates missing year and impossible dates, preserves each typed part, shows a canonical ISO date, compares a forced picker recommendation, and contrasts a broken auto-tabbed masked date field.",
+    "comparisonDecisionRules": "The linked date-input-vs-input-mask-vs-text-input-vs-select comparison gives concrete rules for known exact dates, calendar scheduling, fixed masks, fuzzy text answers, constrained selects, grouped legends, no auto-tabbing, month-name tolerance, group errors, and birthday autocomplete.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/date-input.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, day-month-year grouping, month-name normalization, impossible-date error, missing-part error, canonical ISO output, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/date-input.png"
+    ]
+  },
+  "name": "Date input",
+  "aliases": [
+    "manual date input",
+    "memorable date",
+    "day month year input",
+    "split date fields",
+    "date of birth input"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Grouped manual exact-date entry",
+  "uiGuidance": [
+    "Render day, month, and year as separate text inputs inside one fieldset with a legend that asks the full date question and a hint containing a valid example date.",
+    "Size day and month fields for short values, year for four digits, keep labels visible for each part, and apply error styling to the group and any failing part."
+  ],
+  "uxGuidance": [
+    "Use date input when users already know the exact date or can look it up without needing calendar context.",
+    "Preserve every typed part, tolerate common month names, normalize to a canonical date only after validation, and explain exactly which part is missing, impossible, or out of range."
+  ],
+  "uiExamples": {
+    "good": [
+      "A passport issued question uses a fieldset legend, hint example 27 3 2007, separate Day, Month, and Year labels, numeric input mode, and a group error that names the missing year.",
+      "A date of birth field uses bday-day, bday-month, and bday-year autocomplete attributes and still lets users type 7 Jan 1984."
+    ],
+    "bad": [
+      "A single date field shows DD/MM/YYYY inside the input and removes the only instruction when users start typing.",
+      "Three tiny boxes auto-advance focus after two characters and announce only Day, Month, Year without the date question."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user types 7 Jan 1984, sees month normalized to 01, submits, and reviews canonical value 1984-01-07.",
+      "A user enters 31 2 2026, sees an impossible-date error, fixes only the day, and keeps the month and year values."
+    ],
+    "bad": [
+      "A user pastes a known birth date into a masked field and the interface discards separators and jumps focus unpredictably.",
+      "A user must open a calendar and navigate decades to enter a birthday they already know."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users often know an exact date, but a single ambiguous field, rigid mask, long year selector, or calendar widget can make entry slower, harder to correct, or inaccessible.",
+  "solution": "Ask the date question once, group visible day/month/year fields under that question, provide a valid example, accept common month forms, validate parts together, preserve typed values, and submit a canonical date only after validation passes.",
+  "problemContext": [
+    "The date is exact and already known, memorable, or easy to look up from a document.",
+    "The service needs day, month, and year rather than an approximate period or scheduling availability.",
+    "Users may type numeric dates, month names, leading zeros, pasted values, or partially complete values.",
+    "The form needs precise error recovery for missing day, missing month, missing year, impossible dates, and dates outside allowed ranges.",
+    "Birth-date entry may benefit from browser autocomplete attributes that identify day, month, and year separately."
+  ],
+  "selectionRules": [
+    "Choose date input for exact dates users already know or can find quickly.",
+    "Use a date picker for scheduling, availability, date-range exploration, or tasks where calendar context helps decision making.",
+    "Use ordinary text input for approximate answers such as Spring 2026, about 10 years ago, or unknown month.",
+    "Use select only when the valid date part values are a small meaningful set, not for arbitrary historic years.",
+    "Do not use an input mask that blocks month names, paste, correction, or part-specific validation.",
+    "Use a single question in the legend and separate labels for Day, Month, and Year.",
+    "Use an example date that is valid for the requested date and follows local order.",
+    "Accept full and abbreviated month names where users may type them.",
+    "Validate complete date semantics, not only numeric field lengths.",
+    "Use birth-date autocomplete attributes only for the user's own date of birth."
+  ],
+  "requiredStates": [
+    "Empty untouched grouped date fields with legend, hint, and visible part labels.",
+    "Focused day, month, or year field without auto-advancing to the next part.",
+    "Partially filled date that preserves other parts while the user edits one part.",
+    "Month-name typed state normalized for validation and canonical storage.",
+    "Missing day, month, or year error state naming the missing part.",
+    "Impossible date error state for combinations such as 31 February.",
+    "Out-of-range error state when the date violates service bounds.",
+    "Valid submitted state showing canonical ISO date and original visible parts.",
+    "Birth-date autocomplete state when collecting the user's own date of birth.",
+    "Mobile numeric keyboard state for numeric day, month, and year entry."
+  ],
+  "interactionContract": [
+    "Typing, paste, selection, deletion, undo, and correction happen inside each part without automatic focus movement.",
+    "Tab follows normal page order from day to month to year and then to the next control.",
+    "The legend gives the full date question; Day, Month, and Year labels identify each part.",
+    "Hints and errors are associated with the grouped date control and failing parts where possible.",
+    "Month names and abbreviations are accepted when unambiguous and normalized for validation.",
+    "Submitting validates missing parts, numeric ranges, month names, impossible dates, and service date bounds together.",
+    "A successful submission stores a canonical date such as YYYY-MM-DD while preserving visible local part order."
+  ],
+  "implementationChecklist": [
+    "Define the date being requested, expected order, allowed range, accepted month names, canonical storage format, and whether birth-date autocomplete applies.",
+    "Build a fieldset with a legend, hint, and three labelled text inputs for day, month, and year.",
+    "Use inputmode numeric for numeric fields while keeping text input behavior flexible enough for editing and paste.",
+    "Do not automatically tab between date parts; let keyboard and assistive technology users control focus.",
+    "Validate missing parts, impossible dates, leap years, range boundaries, and future or past constraints on client and server.",
+    "Keep typed values visible after validation errors and put errors near the group before the part inputs.",
+    "Test screen readers, keyboard tab order, voice input, paste, browser autofill, mobile keyboards, localization, zoom, and server-returned errors."
+  ],
+  "commonMisuses": [
+    "Using one freeform field with disappearing format instructions.",
+    "Using a date picker for a birthday or document date users already know.",
+    "Auto-tabbing between day, month, and year fields.",
+    "Rejecting month names even though users naturally type Jan or January.",
+    "Validating only field length and accepting impossible dates.",
+    "Showing Invalid date without saying which part needs correction.",
+    "Using a year dropdown with hundreds of options.",
+    "Applying birthday autocomplete attributes to dates that are not the user's own birthday."
+  ],
+  "critiqueQuestions": [
+    "Does the user already know this exact date, or do they need calendar context?",
+    "Will the example date be valid and unambiguous for this question?",
+    "Can users type month names, paste, and correct one part without focus jumps?",
+    "Which part-specific and semantic date errors can occur?",
+    "What canonical date does the backend receive, and how are local date orders handled?",
+    "Should this be approximate text, a date picker, or a range control instead?"
+  ],
+  "useWhen": [
+    "Users already know the exact date or can look it up easily.",
+    "The service needs day, month, and year as one date answer.",
+    "Users benefit from fast keyboard entry and part-specific correction.",
+    "The product can validate impossible dates and preserve typed parts."
+  ],
+  "avoidWhen": [
+    "Users are unlikely to know the exact date.",
+    "Users need to schedule against availability or compare calendar days.",
+    "The answer is approximate, partial, or naturally expressed in words.",
+    "The valid choices are a small controlled set better represented by select or radio options.",
+    "The implementation cannot group the fields accessibly or validate dates semantically."
+  ],
+  "variants": [
+    "Known document date",
+    "Date of birth",
+    "Memorable date",
+    "Past event date",
+    "Future deadline date",
+    "Date input with month-name tolerance",
+    "Date input with birth-date autocomplete",
+    "Date input with missing-part error",
+    "Date input with impossible-date error",
+    "Date input with range validation"
+  ],
+  "accessibility": [
+    "Group the three inputs in a fieldset with a legend that states the full date question.",
+    "Use visible labels for Day, Month, and Year and do not rely on format text inside the fields.",
+    "Associate the hint and group error with the date input group.",
+    "Do not automatically move focus between fields.",
+    "Use autocomplete attributes only where they accurately identify the user's own date information.",
+    "Keep error text specific enough for screen reader and keyboard users to know which part to fix."
+  ],
+  "keyboardBehavior": [
+    "Tab moves from day to month to year in normal order.",
+    "Typing two digits does not move focus automatically.",
+    "Arrow keys, selection, Backspace, Delete, copy, paste, undo, and redo behave like ordinary text inputs.",
+    "Submit with an error returns focus to the group or first failing part without clearing other parts.",
+    "Month-name entry does not require a picker or mouse interaction.",
+    "Escape does not clear the date unless a separate reversible clear action is provided."
+  ],
+  "failureModes": [
+    "Screen reader users hear Day, Month, Year without hearing the date question.",
+    "Auto-tabbing causes users to overwrite another part while correcting the date.",
+    "A mask rejects paste or month names and gives only a format error.",
+    "The service stores 03/04/2026 ambiguously without resolving local order.",
+    "The form accepts 31 February because it validates only numeric ranges.",
+    "Errors clear valid parts and force users to retype the whole date.",
+    "A calendar widget makes known historic dates slow to enter.",
+    "Autocomplete fills the wrong date because attributes were used for a date that is not the user's birthday."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "input-mask",
+    "select",
+    "inline-validation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "date-input-vs-input-mask-vs-text-input-vs-select"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Date input",
+      "url": "https://design-system.service.gov.uk/components/date-input/",
+      "platform": "web",
+      "notes": "Documents date input for known dates with grouped day, month, and year fields, fieldset legend, valid hint examples, month-name tolerance, no automatic tabbing, autocomplete attributes, and error states.",
+      "screenshot": "screenshots/patterns/date-input.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "NHS Digital Service Manual Date input",
+      "url": "https://service-manual.nhs.uk/design-system/components/date-input",
+      "platform": "web",
+      "notes": "Documents NHS date input for exact known dates with grouped fields, legend, hint, birthday autocomplete attributes, inputmode numeric, and error handling.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "U.S. Web Design System Memorable date",
+      "url": "https://designsystem.digital.gov/components/memorable-date/",
+      "platform": "web",
+      "notes": "Documents manual month, day, and year entry for memorable dates and advises considering a date picker for scheduling tasks.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-date-input-component",
+      "note": "GOV.UK date input guidance supports known-date use, grouped fields, fieldset legends, examples, month-name tolerance, no auto-tabbing, and errors."
+    },
+    {
+      "id": "nhs-date-input-component",
+      "note": "NHS date input guidance supports exact-date entry, grouped fields, birth-date autocomplete, numeric input mode, and error handling."
+    },
+    {
+      "id": "uswds-memorable-date-component",
+      "note": "USWDS memorable date guidance supports manual date-part entry and distinguishes scheduling tasks that may need a date picker."
+    },
+    {
+      "id": "microsoft-access-input-masks",
+      "note": "Microsoft input-mask guidance helps distinguish rigid placeholder masks from flexible date-part entry."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

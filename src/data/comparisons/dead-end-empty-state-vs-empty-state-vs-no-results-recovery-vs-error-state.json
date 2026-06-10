@@ -1,0 +1,58 @@
+{
+  "id": "dead-end-empty-state-vs-empty-state-vs-no-results-recovery-vs-error-state",
+  "title": "Dead-end empty state vs empty state vs no-results recovery vs error state",
+  "summary": "Flag dead-end empty state when the UI is blank or actionless. Replace it with empty state, no-results recovery, or error state according to the proven cause.",
+  "patternIds": [
+    "dead-end-empty-state",
+    "empty-state",
+    "no-results-recovery",
+    "error-state"
+  ],
+  "decisionRules": [
+    "Flag dead-end empty state when the page, table, list, dashboard, or panel has no object name, no cause, no valid next action, or no safe escape.",
+    "Use empty state when the absence is legitimate: first use, no created objects, no imported data, setup not complete, or permission-limited access with an explainable request path.",
+    "Use no-results recovery when user-controlled query, filters, sort, or browse criteria produced zero visible items; keep the criteria visible and offer remove-one, clear-all, broaden, or suggested-query actions.",
+    "Use error state when expected content failed to load, save, sync, authorize, or compute; preserve context and offer retry, fallback, correction, or support escalation.",
+    "Do not treat decorative art plus vague copy as a complete empty state unless the object, cause, and action are still clear without the illustration.",
+    "Do not show create, import, retry, restore, or clear controls unless the current user can use them and the action changes state predictably.",
+    "When the cause is not known yet, show loading, timeout, retry, or diagnostic feedback instead of rendering a blank resolved state.",
+    "After deletion or cleanup, choose restore, create/import, or navigation based on whether the empty result is intentional and recoverable.",
+    "If privacy or security prevents disclosing object existence, avoid a dead end by giving a safe generic explanation and navigation or request-access path."
+  ],
+  "failureModes": [
+    "Blank surface with no text, no count, no action, and no status.",
+    "Empty-state copy shown for a failed API request.",
+    "No-results shown without visible filters or query.",
+    "Create action shown to a read-only user.",
+    "Disabled button presented as the only next step.",
+    "Focus remains on a removed row or inert blank panel after the list becomes empty.",
+    "Same generic empty copy used for first-use, filtered, permission, loading, and error causes."
+  ],
+  "sources": [
+    {
+      "id": "carbon-empty-states-pattern",
+      "note": "Carbon distinguishes no-data, user-action no-results, and error-management states."
+    },
+    {
+      "id": "atlassian-empty-state",
+      "note": "Atlassian documents empty-state variants for explanation, action, permission, filtered, and error situations."
+    },
+    {
+      "id": "sap-fiori-illustrated-message",
+      "note": "SAP Fiori documents matching title, description, optional action, and illustration to the situation."
+    },
+    {
+      "id": "polaris-empty-state",
+      "note": "Polaris documents focused empty-state explanation with primary and optional secondary actions."
+    },
+    {
+      "id": "maersk-handling-no-results",
+      "note": "Maersk guidance supports visible no-results feedback and recovery actions after search and filtering."
+    },
+    {
+      "id": "atlassian-error-messages",
+      "note": "Atlassian error guidance supports direct copy and specific recovery actions for failed states."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

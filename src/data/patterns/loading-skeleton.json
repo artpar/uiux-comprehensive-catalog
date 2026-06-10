@@ -1,0 +1,203 @@
+{
+  "id": "loading-skeleton",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a bounded predictable-content loading skeleton with source-backed layout reservation, busy semantics, non-interactive skeleton blocks, reduced-motion handling, and transitions to loaded, empty, or error states.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names predictable asynchronous content shape, reserved dimensions, aria-busy loading regions, non-interactive skeleton blocks, reduced-motion handling, no fake readable text, no mixed progress indicators, and bounded transitions to content, empty, or error.",
+    "relatedPatternDistinction": "The entry separates loading skeleton from empty state by pending unresolved data versus confirmed legitimate absence, from error state by unresolved wait versus confirmed failure, from progress bars by unknown duration layout loading versus measurable progress, and from infinite spinner by bounded structural loading.",
+    "liveDemoBehavior": "The live demo starts in aria-busy skeleton rows that match the final report cards, then resolves to loaded content, empty state, or error state; the bad demo exposes focusable fake loading buttons and an indefinite loading message.",
+    "comparisonDecisionRules": "The loading-skeleton-vs-empty-state-vs-error-state comparison gives concrete rules for pending predictable layout, confirmed absence, confirmed failure, indefinite skeletons, focusable fake loading rows, mixed progress signals, and layout mismatch.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/loading-skeleton.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/loading-skeleton.png"
+    ]
+  },
+  "name": "Loading skeleton",
+  "aliases": [
+    "skeleton screen",
+    "content placeholder",
+    "skeleton loader"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Data Display And Exploration"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to know that predictable content is still loading while the layout stays stable and placeholders are not mistaken for real, interactive content.",
+  "solution": "Reserve the approximate final content structure with neutral non-interactive placeholders, mark the region busy, then replace the skeleton with loaded content, empty state, or error state on a bounded path.",
+  "problemContext": [
+    "Content loads asynchronously and has a predictable final shape such as cards, rows, profile blocks, charts, or media tiles.",
+    "A blank screen or centered spinner would not show where content will appear or would allow avoidable layout shift.",
+    "The system can distinguish loading from loaded, empty, failed, and timed-out states."
+  ],
+  "selectionRules": [
+    "Choose skeletons when the final content layout is known enough to reserve stable space.",
+    "Use skeletons for dynamic content regions rather than standalone buttons, inputs, or controls.",
+    "Keep skeletons neutral and abstract so they do not look like real text, fake data, or tappable controls.",
+    "Mark the loading region busy or provide a concise status so assistive technology does not treat placeholders as content.",
+    "Transition to loaded content, empty state, error state, or cancelled state on a bounded timeline.",
+    "Respect reduced-motion preferences when using shimmer or pulse animation.",
+    "Use progress bars, inline loading, or explicit job status instead when progress is measurable or the task blocks action."
+  ],
+  "requiredStates": [
+    "Initial skeleton placeholder state with region marked busy.",
+    "Loaded state where real content replaces placeholders without layout jump.",
+    "Resolved empty state after successful loading returns no content.",
+    "Failure or timeout state after loading cannot complete.",
+    "Reduced-motion state for animated skeletons.",
+    "Refresh or partial-loading state where existing content remains trustworthy while only new areas are busy."
+  ],
+  "interactionContract": [
+    "Skeleton placeholders are not focusable, clickable, selectable, or announced as real content.",
+    "The placeholder geometry approximates the loaded content closely enough to reduce layout shift.",
+    "The loading region communicates pending status without announcing every placeholder row.",
+    "Loading cannot continue indefinitely without switching to error, timeout, or support messaging.",
+    "Existing user focus remains stable while new content loads unless focus movement is required after completion.",
+    "When loaded content arrives, busy state is removed and real controls become available."
+  ],
+  "implementationChecklist": [
+    "Reserve stable dimensions for every skeleton region.",
+    "Match skeleton row, card, media, and text proportions to the final content density.",
+    "Avoid fake readable text and fake interactive controls.",
+    "Use aria-busy or equivalent status for the affected region.",
+    "Remove busy state when content, empty, or error state resolves.",
+    "Add timeout or failure handling so skeletons do not run forever.",
+    "Honor prefers-reduced-motion when animating shimmer or pulse.",
+    "Do not combine skeletons with competing spinners unless each indicator applies to a clearly different region."
+  ],
+  "commonMisuses": [
+    "Showing skeletons forever.",
+    "Using skeletons for unknown layout shapes.",
+    "Making placeholders look like tappable content.",
+    "Showing skeleton after a no-results or empty response is already known.",
+    "Leaving shimmer animation on for reduced-motion users.",
+    "Loading into a layout that has little relationship to the placeholder."
+  ],
+  "critiqueQuestions": [
+    "Does this placeholder communicate pending structure without pretending content exists?",
+    "What exact state replaces the skeleton if loading succeeds, returns empty, fails, or times out?",
+    "Can keyboard and screen reader users avoid interacting with placeholder-only content?"
+  ],
+  "useWhen": [
+    "The content shape is predictable.",
+    "Loading is short or bounded enough that the placeholder meaning remains clear.",
+    "Users benefit from knowing where asynchronous content will appear."
+  ],
+  "avoidWhen": [
+    "The system cannot predict the content layout.",
+    "A specific progress indicator or blocking message is required.",
+    "The operation is long-running and users need job progress, queue position, or cancellation.",
+    "The result is already known to be empty, failed, or filtered out.",
+    "The placeholder would look like a disabled control users try to interact with."
+  ],
+  "variants": [
+    "Card skeleton",
+    "Table row skeleton",
+    "Text skeleton",
+    "Media skeleton",
+    "Chart skeleton",
+    "Partial-region skeleton",
+    "Reduced-motion static skeleton"
+  ],
+  "accessibility": [
+    "Mark the loading region busy or provide concise status text.",
+    "Avoid announcing every skeleton row as content.",
+    "Do not place keyboard focus inside placeholder-only controls.",
+    "Respect reduced-motion preferences for shimmer or pulse animation.",
+    "Remove busy state when the region resolves to loaded, empty, or error."
+  ],
+  "keyboardBehavior": [
+    "Do not place keyboard focus inside placeholder-only controls.",
+    "Keep existing focus stable while content loads.",
+    "Make real controls focusable only after data resolves.",
+    "If loading fails, focus should remain near or move predictably to the persistent error state."
+  ],
+  "failureModes": [
+    "Infinite placeholder with no error state.",
+    "Large layout shift after content arrives.",
+    "Animated shimmer that ignores reduced motion.",
+    "Focusable skeleton rows or fake buttons.",
+    "Showing skeleton and spinner for the same region.",
+    "Replacing skeleton with no-results or empty copy without preserving the criteria/context that produced it."
+  ],
+  "relatedPatterns": [
+    "empty-state",
+    "error-state",
+    "infinite-spinner"
+  ],
+  "comparisons": [
+    "loading-skeleton-vs-empty-state-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Loading",
+      "url": "https://carbondesignsystem.com/components/loading/usage/",
+      "platform": "web",
+      "notes": "Distinguishes loading indicators from skeleton states for progressively displayed content.",
+      "screenshot": "screenshots/patterns/loading-skeleton.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Nord Design System Skeleton",
+      "url": "https://nordhealth.design/components/skeleton",
+      "platform": "web",
+      "notes": "Documents dynamic-content skeleton use, aria-busy, and removing busy state after content loads.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-loading-component",
+      "note": "Carbon distinguishes loading indicators and skeleton states, recommending skeleton states for progressively displayed content."
+    },
+    {
+      "id": "sap-fiori-skeleton-loading",
+      "note": "SAP Fiori documents skeleton loading as a screen loading progress indicator and warns against mixed progress indicators."
+    },
+    {
+      "id": "nord-skeleton-component",
+      "note": "Nord documents dynamic-content skeletons, aria-busy regions, and removing busy state after load."
+    },
+    {
+      "id": "rei-cedar-skeleton",
+      "note": "Cedar documents skeletons for regions, not specific interactive elements, and reduced-motion behavior."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Bounded content loading placeholder",
+  "uiGuidance": [
+    "Render neutral skeleton blocks that reserve the final content structure without fake readable text, fake controls, or focusable placeholder elements.",
+    "Keep skeleton dimensions stable, mark the affected region busy, and use subtle or reduced-motion-respecting animation only while loading is unresolved."
+  ],
+  "uxGuidance": [
+    "Reduce uncertainty and layout shift while predictable content loads, then resolve clearly to real content, empty state, or error state.",
+    "Use skeletons for short bounded waits and switch to explicit progress, cancellation, or error recovery when the wait becomes long or fails."
+  ],
+  "uiExamples": {
+    "good": [
+      "Three report-card placeholders match the final card heights and are replaced by real cards without shifting the panel.",
+      "The loading region is marked busy and placeholders are plain shapes with no readable fake labels or focusable buttons."
+    ],
+    "bad": [
+      "Skeleton rows look like clickable report cards and receive focus before content exists.",
+      "A spinner and skeleton compete for the same region while the final content appears in a different layout."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users see that reports are pending, then can switch the demo to loaded, empty, or error outcomes on a bounded path.",
+      "If loading fails, the UI moves to a persistent error state instead of continuing shimmer forever."
+    ],
+    "bad": [
+      "Skeleton never resolves.",
+      "Keyboard focus enters placeholder-only controls or users tap fake rows that are not real content."
+    ]
+  }
+}

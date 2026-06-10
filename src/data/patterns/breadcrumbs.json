@@ -1,0 +1,187 @@
+{
+  "id": "breadcrumbs",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a hierarchy-orientation pattern with source-backed ancestor path, current-page semantics, flat-site and linear-flow exclusions, comparison guidance, and breadcrumb-specific demo behavior.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names canonical parent-child hierarchy, ancestor links, current-page semantics, placement before main content, deep-link orientation, mobile parent-link collapse, and exclusion from flat sites or linear progress flows.",
+    "relatedPatternDistinction": "The entry separates breadcrumbs from tabs by hierarchy path versus peer panels, from bottom navigation by secondary ancestor navigation versus primary mobile destinations, and from step navigation by site hierarchy versus task progress.",
+    "liveDemoBehavior": "The live demo renders a labeled breadcrumb nav with ordered crumbs, ancestor links, current page aria-current, upward navigation that trims the hierarchy, a deep-link restore action, and a bad example that wrongly records click history.",
+    "comparisonDecisionRules": "The breadcrumbs-vs-tabs-vs-bottom-navigation comparison gives concrete rules for hierarchy orientation, peer content panels, persistent mobile destinations, click-history misuse, and linear-flow exclusions.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/breadcrumbs.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/breadcrumbs.png"
+    ]
+  },
+  "name": "Breadcrumbs",
+  "aliases": [
+    "breadcrumb trail",
+    "hierarchy path",
+    "ancestor trail"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Data Display And Exploration"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users land inside a nested information architecture and need to understand where the current page sits without retracing their path.",
+  "solution": "Show a canonical ancestor trail from the broadest relevant parent to the current page, with ancestor links and a clear current-page item.",
+  "problemContext": [
+    "The product has a parent-child information architecture deeper than one or two obvious levels.",
+    "Users can arrive at interior pages from search, external links, saved URLs, or notifications.",
+    "The current page title alone does not show which section or parent collection owns the page."
+  ],
+  "selectionRules": [
+    "Choose breadcrumbs when the current page has meaningful ancestor pages that help users orient and move upward.",
+    "Use the canonical site or product hierarchy, not the user's click path, recent history, or task progress.",
+    "Keep each ancestor crumb tied to a real destination whose page title or label matches the crumb.",
+    "Place breadcrumbs consistently near the top of the page before the main content they orient.",
+    "On small screens, collapse cautiously to the immediate parent only when the full trail would crowd the layout."
+  ],
+  "requiredStates": [
+    "Interior page with full ancestor trail.",
+    "Ancestor links that navigate to parent levels.",
+    "Current page item identified visually and programmatically.",
+    "Long-label or narrow-screen state that preserves at least the direct parent destination.",
+    "Linear-flow state where the breadcrumb remains tied to the site hierarchy instead of advancing step by step."
+  ],
+  "interactionContract": [
+    "Activating an ancestor crumb moves to that ancestor page without implying a back-in-history action.",
+    "The trail remains stable for the same URL no matter how the user arrived.",
+    "The current item is not confused with another parent link; when it is a link, it exposes aria-current=\"page\".",
+    "Separators are visual only and are not announced as extra links or destinations."
+  ],
+  "implementationChecklist": [
+    "Use a navigation landmark with an accessible name such as Breadcrumb.",
+    "Render crumbs as an ordered list in hierarchy order from broad to specific.",
+    "Link ancestor crumbs to real parent destinations and keep labels aligned with destination page titles.",
+    "Expose the current page with aria-current or equivalent current-page text.",
+    "Hide decorative separators from assistive technology.",
+    "Do not replace primary navigation, task progress, or a back link with breadcrumbs."
+  ],
+  "commonMisuses": [
+    "Showing browsing history instead of hierarchy.",
+    "Using breadcrumbs on a flat app where no ancestor path exists.",
+    "Using breadcrumbs to show steps in a form or checkout journey.",
+    "Duplicating primary navigation with a long list of unrelated destinations.",
+    "Collapsing away the direct parent link users need most."
+  ],
+  "critiqueQuestions": [
+    "Would this same URL show the same breadcrumb trail if the user arrived from search, a notification, or a saved link?",
+    "Does every crumb represent a parent destination users can understand before activating it?",
+    "Would a tab, step indicator, side navigation, or bottom navigation better represent the relationship being shown?"
+  ],
+  "useWhen": [
+    "Pages sit inside a clear parent-child hierarchy.",
+    "Users frequently land on deep pages from outside the normal navigation path.",
+    "Users need quick upward movement to parent sections or collections."
+  ],
+  "avoidWhen": [
+    "The app has a flat structure with no meaningful parent levels.",
+    "The flow is linear task progress rather than site hierarchy.",
+    "Primary navigation already makes the current location and parent section obvious.",
+    "The supposed trail would be generated from recent clicks or browser history."
+  ],
+  "variants": [
+    "Full breadcrumb trail",
+    "Collapsed middle crumbs",
+    "Mobile direct-parent breadcrumb",
+    "Current-page-linked breadcrumb"
+  ],
+  "accessibility": [
+    "Place the trail in a labeled nav element.",
+    "Use an ordered list so assistive technology can convey item count and order.",
+    "Mark the current page with aria-current=\"page\" when the current crumb is a link, or use equivalent current-page text when it is not.",
+    "Keep separators decorative and hidden from screen readers."
+  ],
+  "keyboardBehavior": [
+    "Ancestor links follow normal link focus and activation behavior.",
+    "Current-page behavior is predictable: either it is not focusable or, if linked, it is clearly marked current.",
+    "Collapsed breadcrumb controls must be reachable and must not hide the direct parent destination."
+  ],
+  "failureModes": [
+    "Displaying previous clicks as breadcrumbs.",
+    "Hiding the only useful parent link behind a collapsed menu.",
+    "Using vague labels such as Back or More instead of destination names.",
+    "Making separators or icons part of the accessible link text.",
+    "Letting the breadcrumb change as users advance through a linear form step."
+  ],
+  "relatedPatterns": [
+    "tabs",
+    "bottom-navigation"
+  ],
+  "comparisons": [
+    "breadcrumbs-vs-tabs-vs-bottom-navigation"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Breadcrumbs",
+      "url": "https://design-system.service.gov.uk/components/breadcrumbs/",
+      "platform": "web",
+      "notes": "Shows a multi-level breadcrumb trail for websites with multiple levels and documents flat-site and linear-journey exclusions.",
+      "screenshot": "screenshots/patterns/breadcrumbs.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "U.S. Web Design System Breadcrumb",
+      "url": "https://designsystem.digital.gov/components/breadcrumb/",
+      "platform": "web",
+      "notes": "Shows default, metadata, and wrapping breadcrumb examples with ordered list markup and current-page semantics.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-breadcrumb",
+      "note": "APG documents hierarchical parent-page links, labeled navigation landmarks, and aria-current behavior for the current page."
+    },
+    {
+      "id": "govuk-breadcrumbs-component",
+      "note": "GOV.UK documents multi-level site use, flat-site and linear-journey exclusions, placement before main content, and home-to-parent trails."
+    },
+    {
+      "id": "uswds-breadcrumb-component",
+      "note": "USWDS documents current-location orientation, parent navigation, ordered-list markup, current-page semantics, and mobile/truncation guidance."
+    },
+    {
+      "id": "va-breadcrumbs-component",
+      "note": "VA documents deeper hierarchy thresholds, consistent placement, mobile parent-link collapse, hierarchy-not-click-path behavior, and linear-flow constraints."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Hierarchy orientation navigation",
+  "uiGuidance": [
+    "Render a labeled breadcrumb nav as an ordered hierarchy from the broadest relevant ancestor to the current page, with real ancestor links and a distinct current-page item.",
+    "Keep separators decorative, preserve meaningful labels, and collapse only in ways that keep the direct parent reachable on narrow screens."
+  ],
+  "uxGuidance": [
+    "Orient users who arrive deep in a site by exposing the canonical parent-child relationship for the current page.",
+    "Let users move upward to parent sections without relying on browser Back, click history, or a linear step indicator."
+  ],
+  "uiExamples": {
+    "good": [
+      "Home, Projects, Migration, and Runbook appear in hierarchy order with ancestor links and Runbook marked current.",
+      "A mobile variant keeps the direct parent link visible instead of hiding every meaningful ancestor."
+    ],
+    "bad": [
+      "Recent clicks are displayed as if they were the page hierarchy.",
+      "The trail is a row of vague labels such as Back, More, and Current with no current-page semantics."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Opening a saved deep link still shows the same parent path and lets users jump to Migration or Projects.",
+      "In a form flow, the breadcrumb stays anchored to the starting page's site hierarchy while progress is shown separately."
+    ],
+    "bad": [
+      "The breadcrumb changes after every click, so the same page shows different trails for different users.",
+      "Users try to move up to a parent section but the crumb returns them to the previous history entry instead."
+    ]
+  }
+}

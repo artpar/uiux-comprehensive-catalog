@@ -1,0 +1,58 @@
+{
+  "id": "payment-card-entry-vs-bank-details-vs-input-mask-vs-review-before-submit",
+  "title": "Payment card entry vs bank details vs input mask vs review before submit",
+  "summary": "Use payment card entry when a checkout must collect card-network credentials through secure hosted or processor-owned fields; use bank details for account-to-account identifiers, input masks only for field formatting, and review before submit for masked confirmation after capture.",
+  "patternIds": [
+    "payment-card-entry",
+    "bank-details",
+    "input-mask",
+    "review-before-submit"
+  ],
+  "decisionRules": [
+    "Prefer payment card entry when the user is paying by card and the flow needs card number, expiry, CVC or CID, billing postal code, supported brand detection, processor tokenization, wallet fallback, and card-specific decline or authentication recovery.",
+    "Prefer bank details when the product needs routing and account identifiers for payout, debit, refund, payroll, or account-to-account payment; do not reuse card-entry fields for sort codes, routing numbers, account numbers, IBANs, or roll numbers.",
+    "Prefer input mask only for local grouping inside card number or expiry fields; a mask does not own card brand rules, Luhn checks, variable PAN length, CVC length by brand, billing postal code checks, PCI handling, tokenization, or payment outcome states.",
+    "Prefer review before submit after the processor has accepted or tokenized the card details when users need to confirm the amount, card brand, last four digits, billing address, and terms before the charge is placed.",
+    "Use hosted fields, a payment element, or another processor-controlled capture surface for primary account number and CVC whenever possible so raw card data does not pass through product logs, analytics, support tools, or application servers.",
+    "Keep CVC collection transient: ask for it only when needed to authorize or verify the card and never show it on review, receipts, saved-payment lists, or later card-on-file screens.",
+    "Support pasted card numbers with spaces or hyphens, browser autofill tokens, mobile numeric keyboards, and wallet options, while keeping a manual card fallback for users who cannot use a wallet.",
+    "Validate card number format and checksum, expiry month and year, CVC or CID length, billing postal code where required, and unsupported brands before attempting the charge.",
+    "Show processor outcomes distinctly: invalid field, unsupported brand, requires authentication, declined, processing, tokenized, and succeeded should not collapse into a single payment failed message.",
+    "On review and saved states, show only brand, last four digits, expiry when safe to show, token or payment method status, and billing details needed for recognition; never redisplay the full PAN or CVC."
+  ],
+  "failureModes": [
+    "A checkout asks for all card details in a textarea, so the full PAN and CVC can be copied into logs, support tickets, or browser history.",
+    "A rigid mask assumes every card has sixteen digits and rejects variable-length cards or different CVC lengths.",
+    "The page formats a card number but never detects unsupported brands, expired cards, bad CVC length, postal-code requirements, processor declines, or required authentication.",
+    "A saved-card review screen shows the full card number or CVC instead of a masked brand and last-four summary.",
+    "A wallet button replaces manual card entry entirely and blocks users whose device, browser, account, or payment method cannot use that wallet.",
+    "The final confirmation hides the amount, card ending, billing country, or terms, so users cannot detect that the wrong card or payment path will be charged."
+  ],
+  "sources": [
+    {
+      "id": "stripe-payment-element-card-details",
+      "note": "Stripe supports future expiry, CVC, billing postal code, success, authentication, declined cards, and variable-length card test behavior for Payment Element card entry."
+    },
+    {
+      "id": "adyen-card-component",
+      "note": "Adyen supports recognized card brands, cardholder name, billing postal code configuration, expiry checks, CVC masking, screen reader error behavior, brand detection, and invalid-field events."
+    },
+    {
+      "id": "braintree-hosted-fields",
+      "note": "Braintree supports hosted card number, CVV, expiration date, and postal code fields for SAQ A-eligible checkout capture."
+    },
+    {
+      "id": "pci-dss-payment-card-data",
+      "note": "PCI DSS supports the distinction between cardholder data and sensitive authentication data in environments that store, process, or transmit payment card data."
+    },
+    {
+      "id": "pci-card-data-storage-faq",
+      "note": "PCI SSC supports limiting stored cardholder data and not storing card verification codes after authorization."
+    },
+    {
+      "id": "mdn-html-autocomplete-payment-card",
+      "note": "MDN supports card-specific autocomplete tokens for cardholder name, card number, expiry, security code, card type, currency, and amount."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

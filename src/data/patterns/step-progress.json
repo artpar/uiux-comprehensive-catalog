@@ -1,0 +1,260 @@
+{
+  "id": "step-progress",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a workflow-stage status readout pattern with source-backed guidance for current, completed, pending, blocked, skipped, failed, waiting, and dynamic dependent step states, clear proof events, read-only versus navigable boundaries, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets workflow-stage status displays for checkout, onboarding, application, import, review, setup, and approval flows, including proof-based completion, current step semantics, blocked and failed states, skipped optional steps, waiting checks, dynamic dependent steps, compact mobile variants, and color-independent labels.",
+    "relatedPatternDistinction": "The entry separates step progress from step navigation by status reporting versus route movement, from progress bar by named workflow stages versus numeric system completion, from meter by task lifecycle status versus scalar range reading, and from multi-step form or wizard by being the indicator rather than the owning flow.",
+    "liveDemoBehavior": "The live demo moves an onboarding review through current, saved, blocked, failed, waiting, skipped, inserted, and compact states, exposes aria-current step behavior, and contrasts bad behavior such as visited-equals-complete, clickable locked segments, changing totals, percent misuse, color-only errors, and stale completed status.",
+    "comparisonDecisionRules": "The step-progress-vs-step-navigation-vs-progress-bar-vs-meter comparison gives concrete rules for stage-status readouts, route navigation, measurable system operations, bounded scalar gauges, proof-based completion, dynamic dependent steps, read-only boundaries, and percent-bar misuse.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/step-progress/ and /compare/step-progress-vs-step-navigation-vs-progress-bar-vs-meter/ on 2026-06-09. Live check exercised Current, Waiting, Blocked, Failed, Skipped, Inserted, Compact, Visited, Clickable locks, Changing total, Percent bar, Color only, and Stale controls. screenshots/patterns/step-progress.png captures Good UI, Bad UI, Good UX, Bad UX, completed/current/waiting/blocked/pending states, proof-based completion text, visited-as-complete misuse, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/step-progress.png"
+    ]
+  },
+  "name": "Step progress",
+  "aliases": [
+    "progress stepper",
+    "step status indicator",
+    "workflow progress",
+    "stage progress",
+    "process progress indicator",
+    "checkout step status",
+    "onboarding progress tracker"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding",
+    "Input And Data Entry",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Workflow-stage status indicator",
+  "uiGuidance": [
+    "Show a compact ordered status readout for named stages with distinct completed, current, pending, blocked, skipped, waiting, and failed treatments that include text or icon cues beyond color.",
+    "Pair the visual step strip with a nearby status sentence such as Step 3 of 6, Documents waiting for review, so compact or icon-only variants still communicate the current stage."
+  ],
+  "uxGuidance": [
+    "Use step progress when users need to monitor how a workflow is advancing across named stages and which proof event changed each stage, especially when some stages depend on validation, review, upload, or approval.",
+    "Keep stage status synchronized with saved data and backend events; never treat visiting a step, scrolling past a section, or clicking Next as completion unless the required work was accepted."
+  ],
+  "uiExamples": {
+    "good": [
+      "An onboarding status strip shows Profile completed, Documents current, Compliance waiting, Review blocked, and Finish locked with text labels for each state.",
+      "A checkout side rail marks Shipping saved, Payment failed, Review not available, and Confirmation pending while the page heading says Step 3 of 5: Payment.",
+      "A mobile compact header says 2 of 6 complete, current step Documents, next Compliance check, with an All steps button for the full list."
+    ],
+    "bad": [
+      "All visited steps turn green even though required documents failed server validation.",
+      "Future segments look like active buttons but do nothing or silently jump over prerequisites.",
+      "A five-stage application is replaced by a 60% bar, hiding that Background check is waiting and Review is blocked."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "After the user uploads a document, Documents changes to Waiting for review instead of Complete until the file scan and reviewer check pass.",
+      "A dependent Tax details step appears only after the user selects self-employed and is announced as an inserted required step without making earlier counts look wrong.",
+      "A failed Payment stage keeps the user on the payment route, exposes Retry card authorization, and prevents Review from appearing available."
+    ],
+    "bad": [
+      "The step progress says Review ready while the address step contains unsaved edits that would change shipping tax.",
+      "A skipped optional step is hidden from the sequence, so users cannot tell why the total count changed.",
+      "Screen reader users hear only current page text and never receive the failed, blocked, or waiting status shown in the strip."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users in a workflow can lose track of which named stages are accepted, blocked, waiting, skipped, or failed when a simple current page label hides status changes that happen after validation, upload, review, or system checks.",
+  "solution": "Render a step progress indicator that reports the current workflow-stage status from authoritative state, labels every non-default state, identifies the current step with step semantics, explains blocked or failed stages, and updates only when the underlying proof event changes.",
+  "problemContext": [
+    "The workflow has named stages whose statuses matter independently of the current page.",
+    "Some stages may wait on validation, document review, payment authorization, eligibility checks, approval, or background processing.",
+    "Users may return later and need a snapshot of what is done, what is current, what is blocked, and what cannot start yet.",
+    "The product may show the indicator inside a broader form, wizard, checkout, import, onboarding, or approval flow without making the indicator own the whole flow."
+  ],
+  "selectionRules": [
+    "Choose step progress when users need status for named workflow stages, not only a route position.",
+    "Mark a stage complete only after saved data, accepted upload, passed validation, approved review, or another defined proof event exists.",
+    "Use waiting status when a stage is in progress outside the current page, such as document scan, compliance review, payment authorization, or approval.",
+    "Use blocked or cannot-start status when a future stage depends on a prior answer, upload, permission, or system check, and provide the reason nearby.",
+    "Use skipped status for optional or inapplicable stages so users can distinguish deliberate omission from missing work.",
+    "Use failed status on the stage that owns the failure and keep recovery actions close to the failed stage or current page.",
+    "Use step navigation when the indicator is primarily how users move between pages in a linear journey.",
+    "Use progress bar when the underlying progress is numeric system work with a reliable total.",
+    "Use meter when users need to interpret a current value inside a bounded range.",
+    "Avoid fixed totals when dependent stages can appear or disappear; disclose inserted stages or show required versus optional groups."
+  ],
+  "requiredStates": [
+    "Not started or pending stage.",
+    "Current stage with aria-current step or equivalent current-step semantics.",
+    "Completed stage with the proof event reflected in text.",
+    "Waiting stage for review, scan, authorization, approval, or another external event.",
+    "Blocked or cannot-start stage with a visible reason.",
+    "Failed stage with recovery route or retry action.",
+    "Skipped or not-applicable stage for deliberate omissions.",
+    "Dynamic dependent stage inserted after a qualifying answer.",
+    "Compact responsive state that preserves current step and total or remaining context."
+  ],
+  "interactionContract": [
+    "The indicator reads from the same workflow state that controls route availability, validation, saved answers, and submission gates.",
+    "Only one step is current at a time and the current item is exposed with current-step semantics.",
+    "Completed stages retain enough text to explain what proof made them complete, such as Saved, Accepted, Approved, or Authorized.",
+    "Blocked and failed stages expose the reason and recovery path instead of relying on a red segment alone.",
+    "If the indicator is read-only, segments do not look clickable; if segments are navigable, unavailable stages explain why they cannot open.",
+    "Dynamic or conditional stages do not silently rewrite history; newly required stages are introduced with text that explains why they appeared.",
+    "Status changes are announced at meaningful transitions such as failed, ready, waiting, unblocked, or complete."
+  ],
+  "implementationChecklist": [
+    "Define each stage ID, label, status vocabulary, proof event, owning route, recovery action, and dependency before rendering the indicator.",
+    "Represent steps as an ordered list or equivalent semantic structure and expose the current step with aria-current=\"step\" when appropriate.",
+    "Keep the current step label, page heading, saved state, and route state synchronized after every Continue, Back, retry, upload, review, and background event.",
+    "Pair icons and colors with text labels such as Complete, Current, Waiting, Blocked, Failed, Skipped, or Cannot start yet.",
+    "Make read-only segments visually noninteractive, or implement keyboard focus and activation only for stages that users can actually open.",
+    "Handle conditional stages by grouping them, inserting them with a reason, or excluding them from the total until they are required.",
+    "Test revisiting after refresh, failed server validation, asynchronous completion, optional-stage skipping, inserted dependent stages, narrow layouts, keyboard traversal, and screen-reader announcements."
+  ],
+  "commonMisuses": [
+    "Treating visited pages as completed stages.",
+    "Using the indicator as the only page heading or only explanation of current status.",
+    "Showing all future stages as clickable when prerequisites are missing.",
+    "Hiding blocked, waiting, skipped, or failed states behind color alone.",
+    "Using a percent progress bar for named workflow stages.",
+    "Changing the total number of steps without explaining the dependent condition.",
+    "Letting the visual step status drift from saved answers, server validation, or route state."
+  ],
+  "critiqueQuestions": [
+    "What event proves each stage is complete?",
+    "Is this indicator reporting status, enabling navigation, or trying to do both?",
+    "Which stage owns each validation error, failed check, waiting review, and retry action?",
+    "Can users tell the difference between pending, blocked, waiting, skipped, and failed without color?",
+    "How will conditional stages appear without making the total feel dishonest?",
+    "Does the page heading, route, focus target, and current-step status all identify the same stage?"
+  ],
+  "useWhen": [
+    "A workflow has several named stages and users need to understand current, completed, pending, blocked, failed, waiting, or skipped status.",
+    "Stage completion depends on validation, saved data, upload acceptance, review, authorization, or approval.",
+    "Users may pause and return later to understand what remains before submission or finish.",
+    "The status display needs to be visible inside a broader form, wizard, checkout, onboarding, import, or approval flow."
+  ],
+  "avoidWhen": [
+    "The flow has only one or two simple screens and progress status adds no decision value.",
+    "Users need a full navigation component for moving between pages rather than a status readout.",
+    "The work is numeric system progress such as bytes, rows, files, or processing percentage.",
+    "The value is a scalar resource level such as storage, risk, battery, capacity, or quota.",
+    "The set of stages is so volatile that an honest list cannot be shown without confusing users."
+  ],
+  "variants": [
+    "Read-only step status strip",
+    "Interactive progress stepper",
+    "Vertical stage timeline",
+    "Mobile compact step progress",
+    "Waiting-review step progress",
+    "Blocked-stage progress",
+    "Failed-step progress",
+    "Skipped optional-step progress",
+    "Dynamic dependent-step progress",
+    "Checkout progress status"
+  ],
+  "accessibility": [
+    "Expose the current stage with aria-current=\"step\" or equivalent platform semantics and mark only one step current.",
+    "Use clear labels for each step and include status text such as Completed, Current, Waiting, Blocked, Failed, Skipped, or Cannot start yet.",
+    "Do not rely on color alone; status icons, text, and accessible names must communicate the same state.",
+    "If unavailable stages are visible, explain why they cannot start and avoid disabled styling that removes necessary context.",
+    "Announce meaningful stage-status changes with a status region or page-level message without interrupting every minor background tick.",
+    "Keep focus behavior predictable after status changes; move focus to the current heading or recovery action only when the workflow changes page or error ownership."
+  ],
+  "keyboardBehavior": [
+    "Read-only step progress is skipped in the tab order unless a segment exposes details or help.",
+    "Interactive completed or available stages are reachable in logical order with visible focus and descriptive labels.",
+    "Unavailable stages are either not focusable or are focusable only when the explanation is useful and clearly announced.",
+    "Retry, review, upload, authorize, and fix actions for failed or blocked stages appear in normal tab order near the affected status.",
+    "After a stage becomes current, focus moves to the page heading or first required control according to the owning flow."
+  ],
+  "failureModes": [
+    "Users believe a stage is done because it is green, but the proof event never occurred.",
+    "A failed server check is shown only as a colored segment and users cannot find the recovery action.",
+    "Future stages look selectable but reject activation without explanation.",
+    "A new conditional stage appears and shifts the count from Step 3 of 5 to Step 3 of 6 without context.",
+    "Assistive technology reports the page heading but not the blocked or waiting status shown visually.",
+    "The step progress display continues showing Complete after a user edits an earlier answer that invalidates later review.",
+    "A numeric bar hides stage names, so users cannot tell which prerequisite prevents completion."
+  ],
+  "relatedPatterns": [
+    "step-navigation",
+    "progress-bar",
+    "meter",
+    "multi-step-form",
+    "wizard",
+    "process-list"
+  ],
+  "comparisons": [
+    "step-progress-vs-step-navigation-vs-progress-bar-vs-meter"
+  ],
+  "examples": [
+    {
+      "product": "USWDS Step indicator",
+      "url": "https://designsystem.digital.gov/components/step-indicator/",
+      "platform": "web",
+      "notes": "Documents progress through a multi-step process, completed/current/not-completed segments, explicit step headings, separate navigation, current-step treatment, pending contrast, short labels, and short-flow avoidance.",
+      "screenshot": "screenshots/patterns/step-progress.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Progress indicator",
+      "url": "https://carbondesignsystem.com/components/progress-indicator/usage/",
+      "platform": "web",
+      "notes": "Documents linear multistep progress indicators with current, complete, future, optional, disabled, invalid, and error states plus validation-related progression guidance.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Agriculture Design System Progress indicator accessibility",
+      "url": "https://design-system.agriculture.gov.au/components/progress-indicator/accessibility",
+      "platform": "web",
+      "notes": "Documents step status requirements, status labels beyond color, cannot-start-yet treatment, screen-reader understanding of current and remaining steps, and explanatory alerts for blocked steps.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN aria-current Attribute",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current",
+      "platform": "web",
+      "notes": "Documents aria-current=\"step\" for the current item in a multi-step process and the requirement to mark only one related item current.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "SAP Fiori for Android Step Progress Indicator",
+      "url": "https://www.sap.com/design-system/fiori-design-android/ui-elements/components/step-progress-indicator/usage",
+      "platform": "mobile",
+      "notes": "Documents mobile step progress usage with short labels, dependent dynamic steps, horizontal and vertical views, scrollable continuation cues, and avoiding misleading total counts for dynamic steps.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-step-indicator-component",
+      "note": "USWDS supports multi-step progress indicators with completed, current, and not-completed states, separate navigation, explicit headings, short labels, and linear-process boundaries."
+    },
+    {
+      "id": "carbon-progress-indicator-component",
+      "note": "Carbon supports progress indicators with current, completed, future, optional, disabled, invalid, and error states for linear multistep workflows."
+    },
+    {
+      "id": "agds-progress-indicator-accessibility",
+      "note": "AgDS supports color-independent status labels, cannot-start-yet states, explanatory blocked-step alerts, and assistive-technology status understanding."
+    },
+    {
+      "id": "mdn-aria-current",
+      "note": "MDN supports aria-current=\"step\" for current-step semantics and the rule that only one item in a related set should be marked current."
+    },
+    {
+      "id": "sap-fiori-android-step-progress-indicator",
+      "note": "SAP Fiori supports mobile step progress indicators with short labels, dynamic dependent steps, and guidance not to count dynamic steps in totals prematurely."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

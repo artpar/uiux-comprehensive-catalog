@@ -1,0 +1,200 @@
+{
+  "id": "empty-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a legitimate-absence state with source-backed first-use, configured-empty, permission/setup, action availability, and no-results/error/loading distinctions.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names legitimate no-data causes, first-use and configured-empty states, permission/setup prerequisites, primary and secondary action rules, optional illustration scope, post-action transition, and loading/no-results/error exclusions.",
+    "relatedPatternDistinction": "The entry separates empty state from no-results recovery by system content versus user criteria, from error state by legitimate absence versus failure, and from loading skeleton by resolved blank state versus unresolved loading.",
+    "liveDemoBehavior": "The live demo lets users switch between first-use, permission, and created-content states; create/import actions update the empty surface, while the bad demo shows a blank panel with no cause or next step.",
+    "comparisonDecisionRules": "The empty-state-vs-no-results-recovery-vs-error-state comparison gives concrete rules for legitimate absence, filter-caused absence, system failure, permission/setup gaps, deletion cleanup, and loading uncertainty.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/empty-state.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/empty-state.png"
+    ]
+  },
+  "name": "Empty state",
+  "aliases": [
+    "blank slate",
+    "first-use empty state",
+    "no data state",
+    "zero state"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users encounter a resolved content area where no objects are available and need to know whether that is expected, why it happened, and what action is possible now.",
+  "solution": "Explain the legitimate absence in context, name the missing object or prerequisite, and provide one useful next step such as create, import, configure, request access, or view an example.",
+  "problemContext": [
+    "A list, dashboard, workspace, inbox, or collection can legitimately contain no objects.",
+    "The user may be arriving for the first time, after cleanup, before configuration, or without permission to create content.",
+    "The system has already resolved that this is not loading, search no-results, or an unexpected load failure."
+  ],
+  "selectionRules": [
+    "Choose empty state only after the system knows the area is legitimately empty rather than loading, filtered, or failed.",
+    "Name the exact object, collection, or prerequisite that is absent.",
+    "Offer one primary action only when the user can complete it in the current role or context.",
+    "Use secondary actions for import, sample data, docs, or request access only when they clarify the next path instead of competing.",
+    "Tailor copy to first-use, configured-empty, deleted-all, permission, or setup states instead of using one welcome message everywhere.",
+    "Keep optional illustrations small and explanatory; they must not replace cause, consequence, or action text."
+  ],
+  "requiredStates": [
+    "First-use empty state before any objects exist.",
+    "Configured but currently empty state after cleanup or deletion.",
+    "Permission-limited state where creation is unavailable and request-access or explanation is shown.",
+    "Prerequisite or setup-empty state where configuration must happen before data appears.",
+    "Post-action state after creating or importing the first object.",
+    "Loading-resolved transition so the empty state appears only after data status is known."
+  ],
+  "interactionContract": [
+    "The empty state identifies what is absent and why the absence is expected.",
+    "Primary action moves users toward the first meaningful object or prerequisite.",
+    "Unavailable actions are replaced with explanation or request-access paths instead of disabled mystery controls.",
+    "The state disappears or changes once content exists.",
+    "If the absence came from search or filters, the UI switches to no-results recovery rather than first-use empty copy.",
+    "If content should exist but failed to load, the UI switches to an error state with retry or fallback."
+  ],
+  "implementationChecklist": [
+    "Gate empty-state rendering behind a resolved data status.",
+    "Name the missing object type in the heading.",
+    "Explain the most likely legitimate cause in one short sentence.",
+    "Provide one primary next action when the user has permission.",
+    "Use secondary actions only for clearly distinct paths such as import, sample data, docs, or request access.",
+    "Track first-use, permission, setup, and cleanup variants separately.",
+    "Do not hide table headers, filters, or context users need to understand what is empty."
+  ],
+  "commonMisuses": [
+    "Showing a blank page with no explanation.",
+    "Using marketing copy instead of a task-specific next step.",
+    "Telling users to create something they do not have permission to create.",
+    "Showing empty state while content is still loading.",
+    "Using first-use onboarding when filters produced zero matches.",
+    "Replacing an error or offline condition with cheerful empty copy."
+  ],
+  "critiqueQuestions": [
+    "Can users tell what object is missing and whether the absence is expected?",
+    "Is the primary action available to this user right now?",
+    "Would the same surface become no-results, error, loading, or permission messaging under a different cause?"
+  ],
+  "useWhen": [
+    "The product area can legitimately contain no user data.",
+    "A next setup, creation, import, sample, or access-request action is available or explainable.",
+    "The system has resolved the loading state and confirmed that no objects exist for this context."
+  ],
+  "avoidWhen": [
+    "The absence was caused by filters or search.",
+    "The system failed to load expected data.",
+    "The content is still loading or being computed.",
+    "The user lacks permission and there is no safe action or explanation to offer.",
+    "The page is intentionally hidden for privacy or policy reasons and should not disclose object existence."
+  ],
+  "variants": [
+    "First-run empty state",
+    "Configured but empty state",
+    "Permission empty state",
+    "Setup required empty state",
+    "Deleted-all empty state",
+    "Sample-data empty state"
+  ],
+  "accessibility": [
+    "Keep the message in normal reading order near the empty region it explains.",
+    "Ensure the primary action has a descriptive label such as Create project or Import CSV.",
+    "Do not rely on illustration alone to communicate the cause.",
+    "If the empty state appears after async loading, announce the resolved status with a polite live region when appropriate."
+  ],
+  "keyboardBehavior": [
+    "Primary and secondary actions follow normal button or link behavior.",
+    "Focus should reach the empty state action naturally after the region heading.",
+    "When creation or import completes, focus should move to the new content or a confirmation that content now exists.",
+    "Disabled or unavailable actions should be replaced with reachable explanatory text or request-access controls."
+  ],
+  "failureModes": [
+    "No action path from first use.",
+    "Incorrectly implying user fault.",
+    "Showing empty state while content is still loading.",
+    "Offering a primary action that fails because of missing permissions.",
+    "Using the same blank-state copy for first use, cleared content, and search no-results.",
+    "Letting an illustration dominate so users miss the object name and next step."
+  ],
+  "relatedPatterns": [
+    "no-results-recovery",
+    "error-state",
+    "loading-skeleton"
+  ],
+  "comparisons": [
+    "empty-state-vs-no-results-recovery-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Empty States",
+      "url": "https://carbondesignsystem.com/patterns/empty-states-pattern/",
+      "platform": "web",
+      "notes": "Distinguishes no-data, user-action no-results, and error-management empty states, which supports the catalog distinction.",
+      "screenshot": "screenshots/patterns/empty-state.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Shopify Polaris Empty State",
+      "url": "https://polaris.shopify.com/components/empty-state",
+      "platform": "web",
+      "notes": "Shows focused empty-state copy with primary action, optional secondary action, and illustration that supports the task.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-empty-states-pattern",
+      "note": "Carbon distinguishes no-data, user-action no-results, and error-management empty states and describes matching the state to cause."
+    },
+    {
+      "id": "atlassian-empty-state",
+      "note": "Atlassian documents empty states with explanation, action, and variants for permission, filtered, and error causes."
+    },
+    {
+      "id": "sap-fiori-illustrated-message",
+      "note": "SAP Fiori documents contextual empty/message states with situation-matched title, description, illustration, and optional actions."
+    },
+    {
+      "id": "polaris-empty-state",
+      "note": "Polaris documents empty states for missing content or first-use setup with focused explanation, illustration, and primary/secondary actions."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Resolved no-data content surface",
+  "uiGuidance": [
+    "Render a resolved no-data region with a specific heading, cause text, one primary action when available, optional secondary path, and restrained illustration or icon support.",
+    "Keep surrounding context such as table title, filters, or workspace name visible so users know exactly what is empty."
+  ],
+  "uxGuidance": [
+    "Help users distinguish legitimate absence from loading, no-results, error, permission, and setup conditions before offering a next step.",
+    "Move users toward the first useful object or prerequisite, and replace unavailable actions with permission or configuration guidance."
+  ],
+  "uiExamples": {
+    "good": [
+      "No projects yet heading, short explanation, Create project primary button, Import CSV secondary button, and visible workspace context.",
+      "Permission variant explains that projects exist only after an admin grants access and offers Request access instead of Create."
+    ],
+    "bad": [
+      "A blank white table body with no text, object name, or action.",
+      "Oversized decorative art and vague welcome copy that hides the task."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can create the first project, import existing work, or request access depending on the actual cause.",
+      "After creating content, the empty state is replaced by the first row and focus moves to the new item."
+    ],
+    "bad": [
+      "The same empty message appears for loading, search no-results, permission denial, and service failure.",
+      "A primary Create button is shown to a read-only user and fails after activation."
+    ]
+  }
+}

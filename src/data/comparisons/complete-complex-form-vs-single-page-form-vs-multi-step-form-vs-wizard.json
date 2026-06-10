@@ -1,0 +1,48 @@
+{
+  "id": "complete-complex-form-vs-single-page-form-vs-multi-step-form-vs-wizard",
+  "title": "Complete complex form vs single-page form vs multi-step form vs wizard",
+  "summary": "Use a complete complex form when a product configuration has many related sections that must stay inspectable together, with section status, cross-section validation, draft preservation, and a review-ready save contract.",
+  "patternIds": [
+    "complete-complex-form",
+    "single-page-form",
+    "multi-step-form",
+    "wizard"
+  ],
+  "decisionRules": [
+    "Prefer a complete complex form when related settings, policies, permissions, or enterprise configuration fields need one inspectable editing surface rather than a short one-page submit or a sequential transaction.",
+    "Prefer a single-page form when the field set is compact, related, low branching, and can be reviewed comfortably before one submit without section navigation.",
+    "Prefer a multi-step form when users are completing a long transaction across saved pages and each page has a clear answer-collection role, especially for applications, checkout, compliance, or public-service journeys.",
+    "Prefer a wizard when the product must guide a setup, import, or creation task through dependent steps with a final finish action, step-specific tests, generated previews, or cancel semantics.",
+    "A complete complex form should expose section names, section status, current section, validation errors, stale review state, and save readiness without making users infer progress from scroll position.",
+    "Keep related controls grouped with headings, fieldsets, legends, persistent labels, helper text, and aligned validation messages; do not compress the form into a spreadsheet-like grid of abbreviations.",
+    "Use cross-section validation when one section changes the requirement or meaning of another section, and preserve all entered values when moving to an error-owning section.",
+    "Provide an error summary that points to the affected section or field group, then show the field-level error beside the owning input.",
+    "Mark required or optional fields according to the dominant pattern in that product form; for long product configuration forms, required labels are often clearer when most fields are optional.",
+    "Do not use a complete complex form when research shows users need one thing per page, heavy branching, mobile-first recovery, or per-answer autosave; use multi-step or single-question pages instead.",
+    "Use progressive disclosure inside a section only for secondary settings; do not hide required fields, dependencies, section status, or save-blocking errors behind collapsed advanced panels.",
+    "Before save, offer review or summary behavior for high-risk settings so users can inspect dependencies and section status without leaving the form."
+  ],
+  "failureModes": [
+    "A dense grid of unrelated settings is called a complex form but has no section ownership, labels, validation recovery, or review state.",
+    "The product splits tightly related settings across pages, so users cannot compare a threshold in one section with the approval rule it changes.",
+    "A wizard is used for ordinary settings editing, adding blocked future steps and cancel behavior when users only needed a sectioned configuration surface.",
+    "A long public-service form is kept on one page even though one-question pages, branching, and saved answers would reduce errors.",
+    "Cross-section dependencies fail silently, letting users save a policy where one section contradicts another.",
+    "Error messages appear only at the top of the form, forcing users to search through many sections without field-level ownership."
+  ],
+  "sources": [
+    {
+      "id": "carbon-form-component",
+      "note": "Carbon form guidance distinguishes longer product-oriented complex forms from simple forms and documents layout, labels, required indicators, helper text, and validation states."
+    },
+    {
+      "id": "uswds-form-templates",
+      "note": "USWDS form-template guidance supports DOM order matching visual order, fieldsets, legends, required indicators, vertical layout, and validation aligned with inputs."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance provides the counterweight: start with one thing per page and only merge fields when research and task context support it."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

@@ -1,0 +1,245 @@
+{
+  "id": "time-picker",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a specific clock-time selector with source-backed guidance for filtered time options, minute increments, min and max bounds, AM/PM selection, timezone selection, canonical 24-hour storage, field-specific errors, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers specific clock times, consistent increments, option filtering, 12-hour display, AM/PM selection, timezone selection, min and max bounds, step validation, unavailable slots, canonical 24-hour values, and no automatic submission.",
+    "relatedPatternDistinction": "The entry separates time picker from text input by constraining schedulable clock times, from select by supporting filtering and many nearby increments, from input mask by keeping correction and localization flexible, and from date picker by selecting time of day rather than calendar days.",
+    "liveDemoBehavior": "The rendered exercise filters 30-minute appointment slots, selects 9:30 AM, switches timezone, converts to canonical 24-hour time, rejects out-of-hours and off-step values, preserves typed edits, and contrasts a broken unlabeled masked time.",
+    "comparisonDecisionRules": "The linked time-picker-vs-text-input-vs-select-vs-input-mask comparison gives concrete rules for schedulable times, freeform historical times, fixed slot lists, rigid strings, AM/PM, timezone, increments, unavailable times, and no auto-submit.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/time-picker.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, filtered options, selected time, AM/PM selector, timezone selector, invalid step error, out-of-hours error, canonical output, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/time-picker.png"
+    ]
+  },
+  "name": "Time picker",
+  "aliases": [
+    "time selector",
+    "appointment time picker",
+    "clock time picker",
+    "time combobox",
+    "time slot picker"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Selection And Choice",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Time input with filtered slot list, period selector, and timezone selector",
+  "uiGuidance": [
+    "Render a labelled time field with persistent hint text, filtered time suggestions, clear selected state, AM/PM control when using 12-hour display, and timezone control when interpretation depends on location.",
+    "Show allowed hours, minute increments, unavailable slots, selected time, invalid field, and canonical stored value without relying on the typed display string alone."
+  ],
+  "uxGuidance": [
+    "Use a time picker when users are scheduling or choosing a specific clock time from predictable increments such as 15-minute or 30-minute appointments.",
+    "Let users type to filter familiar option strings, choose with keyboard or pointer, correct AM/PM and timezone independently, and submit only after validation confirms range, step, and availability."
+  ],
+  "uiExamples": {
+    "good": [
+      "An appointment time field shows a label, hint that typing filters 30-minute slots, a 9:30 AM selected option, AM/PM selector, Eastern timezone selector, and canonical value 09:30:00.",
+      "A store pickup time picker disables unavailable 12:00 PM and 12:30 PM slots while preserving visible 30-minute increments around them."
+    ],
+    "bad": [
+      "A single field labelled Time accepts 930 and silently stores it without AM/PM, timezone, or validation message.",
+      "A dropdown lists 1,440 minute-by-minute options even though appointments are only available every half hour."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user types 9, filters the list to 9:00 AM and 9:30 AM, chooses 9:30 AM, selects Eastern time, and submits canonical value 09:30:00 America/New_York.",
+      "A user enters 09:45 for a 30-minute appointment schedule, sees a step error, fixes only the minutes, and keeps the selected timezone."
+    ],
+    "bad": [
+      "A user chooses 2:00 from a list and the service books 2:00 AM because no period selector or timezone context was shown.",
+      "A historical time-of-birth field forces a scheduling dropdown even though the user needs to type the exact recorded time."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Scheduling workflows need precise clock times, but plain text can hide invalid increments and ambiguous periods while oversized dropdowns or masks make nearby time selection slow, inaccessible, or easy to misinterpret.",
+  "solution": "Provide a labelled time picker that filters familiar time strings, presents valid increments, separates AM/PM and timezone when needed, validates range and step rules, blocks unavailable slots, and stores an unambiguous canonical time.",
+  "problemContext": [
+    "The user is choosing a specific time for an appointment, meeting, reminder, delivery, pickup, service window, or deadline.",
+    "The product accepts times only in consistent increments such as 5, 15, or 30 minutes.",
+    "The meaning of the time may depend on AM/PM, locale, timezone, store, office, or service location.",
+    "Some time slots may be unavailable because of operating hours, capacity, holidays, or staffing.",
+    "The backend needs a normalized 24-hour value even when the UI uses localized 12-hour display."
+  ],
+  "selectionRules": [
+    "Choose time picker when users need a specific schedulable clock time from predictable increments.",
+    "Use text input when the answer is approximate, historical, unknown, or naturally written in words.",
+    "Use select or radio controls when the only valid choices are broad windows such as Morning, Afternoon, or Evening.",
+    "Use input mask only when a strict time code is required and the interaction still supports paste, correction, and clear errors.",
+    "Do not use a date picker or date range picker to collect time of day unless date and time are deliberately combined in one workflow.",
+    "Use 12-hour display with an explicit AM/PM control when that is familiar to the audience.",
+    "Use 24-hour display when the domain expects it, such as transportation, operations, healthcare, or international scheduling.",
+    "Show timezone or location whenever the same displayed time could refer to different moments.",
+    "Make increments match real availability, not arbitrary minute lists.",
+    "Validate required value, time format, min time, max time, step increment, unavailable slots, AM/PM, and timezone before submission."
+  ],
+  "requiredStates": [
+    "Empty labelled time field with persistent hint and optional timezone default.",
+    "Focused typed-query state that filters available time options.",
+    "Open suggestion list with valid increments and unavailable slots distinguished.",
+    "Selected time state synchronized with AM/PM and timezone selectors.",
+    "Manual typed value state that preserves user edits before validation.",
+    "Invalid format error state for values that are not parseable times.",
+    "Off-step error state for times outside the configured increment.",
+    "Out-of-hours error state for times before minimum or after maximum.",
+    "Unavailable slot error state for capacity-blocked times.",
+    "Submitted state showing canonical 24-hour time and timezone."
+  ],
+  "interactionContract": [
+    "Typing filters option strings without erasing the raw typed value.",
+    "Arrow keys move through filtered options and Enter commits the highlighted option.",
+    "Selecting an option writes the display time but does not submit the surrounding form.",
+    "Changing AM/PM updates the canonical value without changing typed minutes.",
+    "Changing timezone preserves local time unless the workflow explicitly converts across zones.",
+    "Submitting validates format, hour range, minute increment, unavailable slots, AM/PM, timezone, and required state together.",
+    "Errors identify the failing factor, such as minutes must be 00 or 30, time is outside clinic hours, or choose a timezone."
+  ],
+  "implementationChecklist": [
+    "Define the time purpose, accepted increments, minimum time, maximum time, unavailable slots, locale display, AM/PM policy, timezone policy, and canonical storage format.",
+    "Build a labelled input or combobox with persistent hint text, filtered suggestions, selected option, empty query state, unavailable option state, AM/PM selector, and timezone selector when required.",
+    "Generate option labels with familiar strings such as 9:00 AM while storing canonical leading-zero 24-hour values.",
+    "Validate typed and selected values with the same range, step, availability, timezone, and required-field rules on client and server.",
+    "Keep user-entered values visible after validation errors and mark only the field or selector that caused the error.",
+    "Test keyboard filtering, screen readers, browser autofill, mobile time keyboards, localization, 12-hour and 24-hour formats, timezone changes, unavailable slots, and server-returned errors.",
+    "Avoid automatic submission or result refresh when a user highlights, filters, or selects a time."
+  ],
+  "commonMisuses": [
+    "Using a minute-by-minute dropdown for a schedule that only accepts 30-minute increments.",
+    "Storing 2:00 without AM/PM or timezone context.",
+    "Using a rigid mask that rejects valid localized entry or paste.",
+    "Auto-submitting when a time option is selected.",
+    "Showing only HH:mm text to users who expect 12-hour time with AM and PM.",
+    "Applying the same error style to every field instead of naming hour, minute, period, timezone, range, or availability failure.",
+    "Forcing a picker for exact historic times that users need to type from a document."
+  ],
+  "critiqueQuestions": [
+    "Is the user scheduling a future service time, or entering a remembered or historical exact time?",
+    "What increments are actually bookable, and how will unavailable slots be represented?",
+    "Does the audience expect 12-hour time, 24-hour time, or both?",
+    "Which timezone or location gives meaning to this time?",
+    "Can users type, filter, select, correct, paste, and submit without losing their value?",
+    "What canonical time string does the backend receive?"
+  ],
+  "useWhen": [
+    "Users choose appointment, meeting, delivery, pickup, reminder, or service times.",
+    "Valid times follow predictable increments or availability rules.",
+    "Users benefit from filtering nearby times rather than typing from scratch.",
+    "The product can store a canonical time and validate range, step, period, and timezone."
+  ],
+  "avoidWhen": [
+    "The answer is approximate, relative, unknown, or naturally expressed in words.",
+    "Users are entering a historical exact time from a document and need unrestricted typing.",
+    "Only broad windows or a few fixed slots are allowed.",
+    "The implementation cannot handle keyboard filtering, labels, errors, AM/PM, timezone, and canonical storage reliably."
+  ],
+  "variants": [
+    "Appointment time picker",
+    "Meeting time picker",
+    "Delivery time picker",
+    "Pickup time picker",
+    "Time picker with AM/PM selector",
+    "Time picker with timezone selector",
+    "Time picker with 15-minute increments",
+    "Time picker with 30-minute increments",
+    "Time picker with unavailable slots",
+    "Time picker with canonical 24-hour storage"
+  ],
+  "accessibility": [
+    "Use a visible label and persistent hint that explain filtering, increments, and time range.",
+    "Expose filtered option count, selected option, unavailable options, and error text to assistive technology.",
+    "Keep AM/PM and timezone selectors labelled separately when they are separate controls.",
+    "Do not auto-submit when a time option is highlighted or selected.",
+    "Mark only the invalid field or selector when hour, minute, AM/PM, or timezone fails validation.",
+    "Provide keyboard access for filtering, opening, moving through options, selecting, clearing, and submitting.",
+    "Do not use color alone to distinguish unavailable or selected time slots."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the time input, AM/PM selector, timezone selector, filtered option list, and following form controls in a predictable order.",
+    "Typing filters the option list while leaving ordinary text editing, selection, copy, paste, undo, and redo available.",
+    "Arrow keys move through visible time options when the list is open.",
+    "Enter selects the highlighted time option; Escape closes the list without clearing the typed value.",
+    "Changing AM/PM or timezone does not move focus unexpectedly.",
+    "Submit with an error returns focus to the failing time field or selector and preserves other valid factors."
+  ],
+  "failureModes": [
+    "Screen reader users hear time values but not whether the option is unavailable or selected.",
+    "The picker stores a localized display string instead of a leading-zero 24-hour value.",
+    "Step validation rounds a user-entered time without telling them which value was stored.",
+    "Timezone changes silently convert the local time to a different wall-clock time.",
+    "Filtering hides all options but gives no empty-query recovery.",
+    "The form accepts 09:45 even though appointments are available only on the hour and half hour.",
+    "The control rejects 12:00 PM or 00:00 because AM/PM and 24-hour parsing were mixed incorrectly."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "select",
+    "input-mask",
+    "date-picker",
+    "inline-validation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "time-picker-vs-text-input-vs-select-vs-input-mask"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Time picker",
+      "url": "https://designsystem.digital.gov/components/time-picker/",
+      "platform": "web",
+      "notes": "Documents scheduling use, common consistent increments, dropdown filtering, option strings familiar to users, labels, hint text, min/max time, minute step, default values, accessibility testing, and no auto-submission.",
+      "screenshot": "screenshots/patterns/time-picker.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Time picker guidance",
+      "url": "https://carbondesignsystem.com/components/date-picker/usage/",
+      "platform": "web",
+      "notes": "Documents time picker anatomy, hour and minute input, AM/PM selector, timezone selector, 12-hour and 24-hour time systems, uppercase AM/PM, timezone specificity, field-level validation, and internationalization.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN input type=time",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/time",
+      "platform": "web",
+      "notes": "Documents native time input, 24-hour canonical HH:mm or HH:mm:ss values with leading zeros, min and max, step granularity, required validation, datalist suggestions, and server-side validation needs.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Shopify POS UI Extensions TimePicker",
+      "url": "https://shopify.dev/docs/api/pos-ui-extensions/latest/polaris-web-components/forms/time-picker",
+      "platform": "web",
+      "notes": "Documents interactive time selection with value stored as leading-zero 24-hour HH:mm:ss, following HTML time input value format regardless of UI presentation.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-time-picker-component",
+      "note": "USWDS time picker guidance supports scheduling times from consistent increments, filtering, familiar option strings, min/max time, minute step, labels, hints, accessibility testing, and no auto-submission."
+    },
+    {
+      "id": "carbon-time-picker-guidance",
+      "note": "Carbon time picker guidance supports hour/minute input, AM/PM selection, timezone selection, 12-hour and 24-hour formats, field-specific errors, and internationalization."
+    },
+    {
+      "id": "mdn-html-time-input",
+      "note": "MDN supports native time input value format, leading-zero 24-hour canonical values, min/max constraints, step granularity, datalist suggestions, and validation limits."
+    },
+    {
+      "id": "shopify-pos-time-picker-component",
+      "note": "Shopify supports interactive time selection and canonical leading-zero 24-hour HH:mm:ss storage aligned with HTML time input values."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,228 @@
+{
+  "id": "mega-menu",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a large top-level disclosure navigation pattern with source-backed deep-hierarchy thresholds, grouped panel content, disclosure and keyboard behavior, responsive fallback, distinctions from global navigation and drawers, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers large grouped submenu panels, deep hierarchy thresholds, top-level trigger behavior, aria-expanded state, hover forgiveness, Escape and outside-click dismissal, utility separation, responsive parity, and hidden-link focus management.",
+    "relatedPatternDistinction": "The entry separates mega menus from global navigation by disclosure-panel depth versus persistent top-level links, from navigation drawers by header-anchored panels versus off-canvas containers, from side navigation by discovery before navigation versus local hierarchy after arrival, and from service navigation by broad IA groups versus one named service.",
+    "liveDemoBehavior": "The live demo opens a Products mega panel, switches grouped columns, selects a destination, closes on Escape, preserves destination parity in a mobile drawer preview, and contrasts a broken hover-only panel with hidden focusable links, utilities, and unrelated sections.",
+    "comparisonDecisionRules": "The linked mega-menu-vs-global-navigation-vs-navigation-drawer comparison gives concrete rules for deep hierarchy, top-level movement, off-canvas navigation, link thresholds, utility separation, disclosure behavior, mobile parity, and local hierarchy ownership.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/mega-menu.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, open grouped mega panel, dismissal behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/mega-menu.png"
+    ]
+  },
+  "name": "Mega menu",
+  "aliases": [
+    "megamenu",
+    "mega navigation",
+    "large dropdown navigation",
+    "flyout navigation panel",
+    "header mega panel"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Disclosure And Attention Management",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Large grouped disclosure panel under top-level navigation",
+  "uiGuidance": [
+    "Use a mega menu as a wide disclosure panel attached to a top-level navigation item, with grouped headings, scannable link columns, and a clear relationship to the trigger that opened it.",
+    "Keep the panel focused on one navigation section; separate utilities, account actions, search, and unrelated service links from destination groups."
+  ],
+  "uxGuidance": [
+    "Use mega menus to expose a deep hierarchy before users commit to a destination, reducing drill-down when a section has many related pages.",
+    "Make opening, closing, and keyboard movement predictable: explicit trigger state, Escape dismissal, outside-click dismissal, visible focus, and no focusable hidden links."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Products trigger opens a full-width panel with grouped columns for Build, Operate, Analyze, and Govern, each with concise links and one highlighted featured destination.",
+      "A government services header uses a mega menu only for a section with many child pages and keeps search, language, and sign-in controls outside the panel.",
+      "A mobile breakpoint turns each mega-menu section into stacked accordion groups with the same destinations available."
+    ],
+    "bad": [
+      "A mega menu opens for a section that only has three links, adding a large empty panel instead of a simple dropdown.",
+      "The panel mixes Products, Help, Billing, Sign out, promotional cards, and unrelated external links under one trigger.",
+      "Collapsed panels stay in the tab order, so keyboard users traverse invisible links."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens Products, scans grouped links, selects Data pipeline, and the panel closes while the destination becomes the current section.",
+      "A keyboard user opens the panel with Enter, moves through visible links, presses Escape, and focus returns to the Products trigger.",
+      "A pointer user moves diagonally from the trigger to a lower-column link and the panel remains open long enough to avoid accidental closure."
+    ],
+    "bad": [
+      "The panel appears only on hover, closes while the pointer crosses a gap, and forces the user to restart navigation.",
+      "A user expects the Products trigger to navigate to a landing page, but it only opens a panel with no fallback link.",
+      "Desktop has product links in the mega menu, while mobile hides half of them inside an unlabeled drawer."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users on large sites or products need to understand and choose among many related destinations without drilling through multiple pages or being overwhelmed by an unstructured site map.",
+  "solution": "Provide a scoped mega menu from a top-level navigation trigger when a section has enough child destinations to justify a wide grouped panel, with clear grouping, accessible disclosure behavior, and responsive destination parity.",
+  "problemContext": [
+    "The information architecture has a few top-level sections, but at least one section has many child destinations.",
+    "Users need to compare related destinations before navigating.",
+    "The product or site has enough horizontal space on desktop and a planned equivalent interaction on small screens."
+  ],
+  "selectionRules": [
+    "Choose a mega menu when a top-level section has a deep hierarchy or more links than a basic dropdown can comfortably present.",
+    "Keep the number of top-level triggers small enough that the header still scans as primary navigation.",
+    "Group links by user-understandable categories, not internal ownership or database structure.",
+    "Use a simple dropdown, landing page, side navigation, or search when the section has too few links for a mega menu.",
+    "Keep utility links and account actions outside the panel unless the trigger specifically represents those tools.",
+    "Provide an explicit trigger state with aria-expanded and ensure collapsed panel links are not focusable.",
+    "Close the panel on Escape, outside click, selecting a destination, or activating the trigger again.",
+    "Provide a mobile equivalent that preserves the same destinations in a drawer, accordion, or stacked disclosure structure."
+  ],
+  "requiredStates": [
+    "Closed state with a clear top-level trigger and visible submenu indicator.",
+    "Open panel state with grouped columns and visible focusable links.",
+    "Active destination state after a link is selected and the panel closes.",
+    "Keyboard dismissal state where Escape closes the panel and returns focus to the trigger.",
+    "Pointer forgiveness state where diagonal movement into the panel does not immediately close it.",
+    "Responsive state where the same groups and links are available in mobile navigation.",
+    "No-JavaScript or fallback state where parent destinations remain reachable."
+  ],
+  "interactionContract": [
+    "Activating a mega-menu trigger opens the panel and updates aria-expanded on that trigger.",
+    "Only one mega panel is open at a time unless the design deliberately supports side-by-side comparison.",
+    "Hidden panel links are removed from the tab order and accessibility tree or otherwise made unavailable until the panel opens.",
+    "Selecting a destination closes the panel and navigates or updates the current destination state.",
+    "Escape closes the panel and restores focus to the trigger that opened it.",
+    "Hover behavior is forgiving and never the only way to open or use the menu.",
+    "The responsive version exposes the same destination set as desktop."
+  ],
+  "implementationChecklist": [
+    "Audit the IA first and confirm which top-level sections actually need large grouped panels.",
+    "Write group headings and link labels from user language, keeping repeated words out of every link where a group label can carry the context.",
+    "Use button semantics for triggers that only open panels; use a separate link when the parent also has a destination page.",
+    "Set aria-expanded on the trigger and keep panel visibility synchronized with focus, pointer, route, and viewport changes.",
+    "Hide collapsed-panel links from keyboard focus and screen readers.",
+    "Implement Escape, outside-click, trigger-toggle, destination-selection, and viewport-change closing behavior.",
+    "Test diagonal pointer movement, keyboard order, screen reader announcement, mobile parity, and destination-current state."
+  ],
+  "commonMisuses": [
+    "Using a mega menu as a complete site map.",
+    "Opening a huge panel for a shallow section.",
+    "Mixing utilities, account actions, and unrelated marketing links with navigation destinations.",
+    "Relying on hover alone for access.",
+    "Leaving hidden links focusable when the panel is closed.",
+    "Dropping or renaming destinations at mobile breakpoints.",
+    "Using ARIA menu roles for ordinary site navigation links."
+  ],
+  "critiqueQuestions": [
+    "Which top-level section has enough child destinations to justify a mega menu?",
+    "Can users predict what is inside the panel from the trigger label?",
+    "Are group headings based on user tasks rather than internal teams?",
+    "What is the exact keyboard path to open, choose, and dismiss the panel?",
+    "Does mobile expose the same destinations without a second hidden IA?"
+  ],
+  "useWhen": [
+    "A top-level navigation section has many related child destinations.",
+    "Users need to scan or compare destinations before choosing one.",
+    "The IA can be grouped into a few clear columns or sections.",
+    "There is a tested responsive equivalent for small screens."
+  ],
+  "avoidWhen": [
+    "The section has only a few child links.",
+    "The panel would become a site map or dumping ground.",
+    "The menu would contain actions rather than navigation destinations.",
+    "The team cannot support keyboard, focus, hover, and mobile behavior correctly.",
+    "Users need persistent local context after choosing a destination; side navigation may be better there."
+  ],
+  "variants": [
+    "Basic header mega menu",
+    "Extended header mega menu",
+    "Full-width mega panel",
+    "Grouped column mega menu",
+    "Featured link mega menu",
+    "Responsive accordion mega menu",
+    "Disclosure-button mega menu"
+  ],
+  "accessibility": [
+    "Use a labeled navigation landmark and disclosure buttons for triggers that open panels.",
+    "Expose expanded and collapsed state programmatically with aria-expanded.",
+    "Do not use ARIA menu or menubar roles for ordinary site navigation unless implementing the full application-menu interaction model.",
+    "Ensure hidden panel content is not reachable by Tab or screen reader navigation while closed.",
+    "Provide another way to reach submenu destinations, such as parent landing pages or repeated links.",
+    "Make focus visible in both trigger row and panel links."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches each top-level trigger in order without entering closed panels.",
+    "Enter or Space opens a closed panel trigger and can close an open one.",
+    "Escape closes the open panel and returns focus to its trigger.",
+    "Tab moves through only visible links in the open panel and then to the next logical control.",
+    "Optional arrow-key support must not replace standard Tab and Enter behavior for site navigation."
+  ],
+  "failureModes": [
+    "Hover-only access prevents keyboard and touch users from opening the panel.",
+    "The pointer path from trigger to panel is unforgiving and closes the menu accidentally.",
+    "Collapsed links remain focusable and confuse keyboard users.",
+    "The trigger is both a link and an opener with no clear way to reach the parent destination.",
+    "Panel content duplicates global navigation, side navigation, and utility navigation.",
+    "Mobile loses destinations or buries them under unlabeled groups.",
+    "The panel is so large it hides the page context and becomes a modal without modal behavior."
+  ],
+  "relatedPatterns": [
+    "global-navigation",
+    "navigation-drawer",
+    "side-navigation",
+    "service-navigation",
+    "in-page-anchor-navigation"
+  ],
+  "comparisons": [
+    "mega-menu-vs-global-navigation-vs-navigation-drawer"
+  ],
+  "examples": [
+    {
+      "product": "USWDS Header megamenu variants",
+      "url": "https://designsystem.digital.gov/components/header/",
+      "platform": "web",
+      "notes": "Documents basic and extended header megamenu variants, deep hierarchy thresholds, and when to choose simpler dropdowns instead.",
+      "screenshot": "screenshots/patterns/mega-menu.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI Fly-out Menus tutorial",
+      "url": "https://www.w3.org/WAI/tutorials/menus/flyout/",
+      "platform": "web",
+      "notes": "Documents submenu indication, aria-expanded, mouse delay, keyboard behavior, and parent or button toggle patterns for site fly-out navigation.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI-ARIA APG Disclosure Navigation Menu",
+      "url": "https://wai-website.netlify.app/aria/apg/patterns/disclosure/examples/disclosure-navigation/",
+      "platform": "web",
+      "notes": "Documents disclosure navigation and warns that ordinary site navigation should not use ARIA menu roles unless it implements the expected widget behavior.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-header-component",
+      "note": "USWDS documents basic and extended header megamenu variants for deep hierarchy and recommends basic dropdowns when there is not enough content."
+    },
+    {
+      "id": "wai-flyout-menus",
+      "note": "WAI documents fly-out navigation behavior, submenu indicators, aria-expanded, pointer delay, keyboard access, and alternate access to submenu items."
+    },
+    {
+      "id": "wai-apg-disclosure-navigation",
+      "note": "APG documents disclosure navigation and explains why typical site navigation should avoid ARIA menu roles."
+    },
+    {
+      "id": "carbon-global-header",
+      "note": "Carbon header guidance supports product navigation submenus, utility separation, and responsive collapse into panels."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

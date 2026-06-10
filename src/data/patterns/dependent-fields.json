@@ -1,0 +1,246 @@
+{
+  "id": "dependent-fields",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a same-form dependency pattern with source-backed guidance for controlling fields, dependent options, stale-value clearing, prerequisite messaging, disabled-state cautions, server-side rule parity, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers controlling fields, dependent fields, filtered option sets, requirement changes, stale downstream values, clear-on-parent-change behavior, disabled or unavailable prerequisites, loading dependent values, same-record constraints, many-to-many caveats, and backend validation parity.",
+    "relatedPatternDistinction": "The entry separates dependent fields from select by adding an upstream controller, from inline validation by recomputing another field rather than only correcting itself, from complete complex form by focusing on one local dependency pair or chain, and from conditional reveal fields by filtering or invalidating a downstream control rather than only showing a related question.",
+    "liveDemoBehavior": "The rendered exercise changes an incident category, updates the subcategory option list, clears stale subcategory values, explains unavailable prerequisites, validates the dependency pair, simulates async option loading, and contrasts a broken form that keeps an invalid subcategory after the parent changes.",
+    "comparisonDecisionRules": "The linked dependent-fields-vs-select-vs-inline-validation-vs-complete-complex-form comparison gives concrete rules for controlling values, ordinary selects, local validation, sectioned dependency review, stale clearing, disabled-state explanation, conditional-reveal boundaries, and backend enforcement.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/dependent-fields.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, controlling field, dependent field, stale clearing, unavailable prerequisite, validation error, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/dependent-fields.png"
+    ]
+  },
+  "name": "Dependent fields",
+  "aliases": [
+    "field dependency",
+    "dependent picklist",
+    "dependent dropdown",
+    "controlling field",
+    "controlled field",
+    "cascading fields",
+    "parent child fields"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Selection And Choice",
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Controlling and dependent form fields",
+  "uiGuidance": [
+    "Place the controlling field before the dependent field, label both clearly, and explain the dependency in helper text such as Choose a category first to see valid subcategories.",
+    "When the controlling value changes, update the dependent options, requirement label, helper text, stale-value status, loading state, and validation message together so the downstream field never looks independently valid."
+  ],
+  "uxGuidance": [
+    "Use dependent fields to prevent impossible combinations and guide users through valid answer pairs without forcing them to learn backend data rules.",
+    "Treat a changed controlling answer as a data integrity event: clear, preserve-as-stale, or require review of any downstream value that no longer matches the new parent."
+  ],
+  "uiExamples": {
+    "good": [
+      "An incident form asks Category first, then Subcategory shows only options for that category and says why it was cleared after Category changed.",
+      "A product request form shows Region, then Site; Site is available only after Region is selected and uses helper text instead of a silent disabled select."
+    ],
+    "bad": [
+      "A Subcategory dropdown appears disabled at page load with no explanation of which Category unlocks it.",
+      "Changing Category from Network to Facilities leaves VPN selected as Subcategory and the form still shows no error."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user chooses Hardware, selects Laptop, switches Category to Network, sees Laptop cleared, and chooses VPN from the new valid list before submitting.",
+      "A user tries to submit before choosing Category and the form points to Category first, explaining that Subcategory depends on it."
+    ],
+    "bad": [
+      "A user submits a record with Category Facilities and Subcategory VPN because the stale dependent value was hidden but not cleared.",
+      "A user tabs to a disabled dependent field before the controlling field and hears no reason it cannot be used."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Forms with related fields produce invalid, confusing, or stale data when users can choose downstream values before the upstream answer that defines which values are possible.",
+  "solution": "Model the relationship explicitly with a controlling field and a dependent field that updates options, availability, requirement, helper text, validation, and stale-value recovery whenever the controlling answer changes.",
+  "problemContext": [
+    "A field's valid values, requirement, label, helper text, or validation depend on another answer in the same form or record.",
+    "The downstream field represents a constrained subset such as category/subcategory, country/state, product/model, group/assignee, region/site, or type/detail.",
+    "Changing the upstream answer can make an existing downstream answer invalid, ambiguous, hidden, or no longer required.",
+    "The product can enforce the dependency in the data model or server validation, not only in client-side display logic."
+  ],
+  "selectionRules": [
+    "Choose dependent fields when one answer controls another field's valid choices, requirement, editability, helper text, or validation.",
+    "Use an ordinary select when all users see the same finite option set and no upstream answer changes that set.",
+    "Use conditional reveal fields when the main behavior is showing an extra related question after an answer, not filtering an always-owned downstream field.",
+    "Use inline validation when the problem is only a single field's own invalid value, not a mismatch between controlling and dependent values.",
+    "Use complete complex form when dependencies span multiple sections, high-risk rules, review state, or several stale downstream fields.",
+    "Make the dependency understandable before users interact with the dependent field.",
+    "Clear the dependent value automatically when the new controlling value makes it invalid, or mark it stale and require an explicit review choice.",
+    "Do not silently keep, hide, or submit a dependent answer that no longer belongs to the controlling answer.",
+    "Avoid true disabled controls unless the prerequisite is stated and the control remains discoverable; consider enabled validation or aria-disabled behavior when users need feedback.",
+    "Keep dependency rules in backend validation, import, API, and saved-draft recovery paths so stale pairs cannot bypass the UI."
+  ],
+  "requiredStates": [
+    "No controlling answer selected, with dependent field unavailable or empty and prerequisite helper text.",
+    "Controlling answer selected, with dependent options filtered to the valid subset.",
+    "Dependent answer selected and valid for the current controlling answer.",
+    "Controlling answer changed, causing previous dependent value to clear or become explicitly stale.",
+    "Dependent options loading after an async controlling change.",
+    "No valid dependent options for the selected controlling value.",
+    "Required dependency error when the controlling field or dependent field is missing.",
+    "Invalid pair error when a stale dependent value no longer matches the controlling field.",
+    "Submitted valid state that includes both controlling and dependent answers.",
+    "Server-rejected state when persisted data violates the dependency rule."
+  ],
+  "interactionContract": [
+    "Users encounter the controlling field before the dependent field in reading and tab order.",
+    "Changing the controlling field recomputes the dependent options immediately or shows a loading state until they are ready.",
+    "If the current dependent value is no longer valid, the UI clears it or marks it stale before submit.",
+    "The dependent field communicates which controlling value currently governs it.",
+    "Submitting without a valid pair points first to the controlling field when the dependency cannot be evaluated.",
+    "Errors name both fields when the pair is incompatible.",
+    "Reloading a saved draft revalidates the pair against current dependency rules."
+  ],
+  "implementationChecklist": [
+    "Define the controlling field, dependent field, valid value matrix, requirement rules, defaults, empty states, and no-options states before building the UI.",
+    "Keep the controlling and dependent values as separate model fields; do not infer one from a display label that can drift.",
+    "Clear, mark stale, or require confirmation when a controlling change invalidates the dependent value.",
+    "Update helper text, required labels, option list, aria descriptions, and validation messages in the same state transition.",
+    "Add loading and retry behavior if dependent options are fetched asynchronously.",
+    "Validate the dependency on submit, save, import, API write, and draft resume.",
+    "Test keyboard order, screen reader descriptions, no-option states, stale clearing, browser Back, saved drafts, API-submitted stale values, and mobile reflow."
+  ],
+  "commonMisuses": [
+    "Leaving a stale dependent value selected after the controlling field changes.",
+    "Disabling the dependent field with no explanation of the prerequisite.",
+    "Putting the dependent field before its controller in DOM or tab order.",
+    "Using dependent fields to hide independent options that users need to compare.",
+    "Only filtering options client-side while the backend accepts invalid pairs.",
+    "Clearing a user's downstream answer without any status message after a parent change.",
+    "Treating many-to-many or permission-based dependencies as a simple one-parent dropdown without fallback."
+  ],
+  "critiqueQuestions": [
+    "Which field controls this dependent field, and can users see that relationship?",
+    "What happens to a dependent value when the controlling answer changes?",
+    "Can the backend reject stale or impossible field pairs?",
+    "Does the dependent field need a no-options, loading, permission, or unavailable state?",
+    "Would a simple conditional reveal, ordinary select, or section-level complex form be clearer?",
+    "Are disabled states explained to keyboard and screen reader users?"
+  ],
+  "useWhen": [
+    "A downstream field's valid values or requirement depend on a previous answer.",
+    "Filtering dependent choices prevents invalid combinations and reduces scanning burden.",
+    "The relationship is understandable enough to explain near the fields.",
+    "The system can enforce the same dependency rules outside the visible UI."
+  ],
+  "avoidWhen": [
+    "The choices are independent and users need to compare them together.",
+    "The downstream question should simply be hidden until a related answer is selected.",
+    "The dependency spans many sections and requires review before save.",
+    "The product cannot reliably clear, mark stale, or reject invalid dependent values.",
+    "The dependency rules are opaque, volatile, or permission-based without a clear loading or fallback state."
+  ],
+  "variants": [
+    "Category and subcategory fields",
+    "Country and state fields",
+    "Product type and model fields",
+    "Assignment group and assignee fields",
+    "Region and site fields",
+    "Checkbox-controlled dependent picklist",
+    "Async dependent options",
+    "Dependent required field",
+    "Stale dependent value warning",
+    "No dependent options available"
+  ],
+  "accessibility": [
+    "Keep controlling and dependent fields in logical DOM order and use labels, hints, and descriptions that name the relationship.",
+    "If the dependent field is unavailable, explain the prerequisite in text and avoid relying only on a disabled attribute that cannot receive focus.",
+    "Announce option-list updates, stale clearing, and no-options states through nearby status text or field descriptions where practical.",
+    "Connect errors to both the controlling and dependent fields when the pair is invalid.",
+    "Do not communicate dependency solely with indentation, color, icons, or disappearing options.",
+    "Ensure loading, retry, and no-options states are keyboard reachable and do not trap focus."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the controlling field before the dependent field.",
+    "Changing the controlling select updates the dependent field without moving focus unexpectedly.",
+    "If the dependent value is cleared, focus stays stable and a status message explains the change.",
+    "Users can reach prerequisite help and dependent-field errors by keyboard.",
+    "Submit with an invalid pair moves focus to an error summary or the first field needed to repair the dependency.",
+    "Async loading does not trap focus inside a disabled dependent control."
+  ],
+  "failureModes": [
+    "A stale dependent value is submitted with a new controlling value.",
+    "The dependent field looks optional even though it becomes required after the controlling answer.",
+    "The option list updates but the selected value, helper text, or error message still belongs to the old parent.",
+    "A disabled dependent field cannot receive focus and has no explanation.",
+    "The UI clears a dependent answer silently, making users think data was lost.",
+    "The form accepts invalid pairs through saved drafts, API writes, browser Back, or import.",
+    "A no-options state is treated as a validation error even though the selected controller legitimately has no child values.",
+    "Nested dependencies create a chain of hidden stale values with no review step."
+  ],
+  "relatedPatterns": [
+    "select",
+    "inline-validation",
+    "complete-complex-form",
+    "single-question-page",
+    "multi-step-form"
+  ],
+  "comparisons": [
+    "dependent-fields-vs-select-vs-inline-validation-vs-complete-complex-form"
+  ],
+  "examples": [
+    {
+      "product": "ServiceNow Dependent field",
+      "url": "https://www.servicenow.com/docs/r/platform-administration/t_MakingAFieldDependent.html",
+      "platform": "web",
+      "notes": "Documents choice or reference fields whose options depend on another same-table field, including category-to-subcategory behavior and dependency constraints.",
+      "screenshot": "screenshots/patterns/dependent-fields.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Salesforce Dependent Picklists",
+      "url": "https://trailhead.salesforce.com/content/learn/modules/picklist_admin/picklist_admin_start",
+      "platform": "web",
+      "notes": "Documents dependent picklists filtering one picklist's values based on a controlling picklist or checkbox to guide users and improve data integrity.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "USWDS Form component",
+      "url": "https://designsystem.digital.gov/components/form/",
+      "platform": "web",
+      "notes": "Documents disabled-state cautions, prerequisite explanation, validation alignment, fieldset and legend grouping, and required-field communication.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Radios conditional content",
+      "url": "https://design-system.service.gov.uk/components/radios/",
+      "platform": "web",
+      "notes": "Used as a boundary source: simple conditional reveal asks a related question after a radio answer, while dependent fields filter or invalidate another control's values.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "servicenow-dependent-field",
+      "note": "ServiceNow supports dependent choice and reference fields where the selected controlling value determines available dependent options."
+    },
+    {
+      "id": "salesforce-dependent-picklists",
+      "note": "Salesforce supports dependent picklists based on controlling picklists or checkboxes to narrow valid values and improve data integrity."
+    },
+    {
+      "id": "uswds-form-component",
+      "note": "USWDS supports explaining disabled states, aligning validation with inputs, and preserving accessible form order for dependent controls."
+    },
+    {
+      "id": "govuk-radios-component",
+      "note": "GOV.UK conditional radio guidance anchors the distinction between simple conditional reveal and dependent option/value management."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

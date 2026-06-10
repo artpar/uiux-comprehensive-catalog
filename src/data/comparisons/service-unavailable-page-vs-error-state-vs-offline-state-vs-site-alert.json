@@ -1,0 +1,48 @@
+{
+  "id": "service-unavailable-page-vs-error-state-vs-offline-state-vs-site-alert",
+  "title": "Service unavailable page vs error state vs offline state vs site alert",
+  "summary": "Use a service unavailable page when the whole service, route, or transaction entry point is closed or cannot handle requests; use error state for a scoped failed operation, offline state for client connectivity loss, and site alert for a notice before or around an outage while the service may still be reachable.",
+  "patternIds": [
+    "service-unavailable-page",
+    "error-state",
+    "offline-state",
+    "site-alert"
+  ],
+  "decisionRules": [
+    "Choose service unavailable page when users cannot use the service entry point, transaction, account area, or route because the service is intentionally closed, under maintenance, overloaded, shuttered, or temporarily not ready to handle requests.",
+    "Choose error state when a specific section, query, save, upload, payment, or resource operation failed but the surrounding service shell remains available and recovery can happen in place.",
+    "Choose offline state when the user's device or browser lacks network connectivity but cached content, local work, queue status, or reconnect behavior can still be explained inside the product.",
+    "Choose site alert when users should be warned before, during, or after a broad incident while they can still navigate or complete some tasks; escalate to service unavailable page once the affected service cannot be used.",
+    "A service unavailable page must name the service, the unavailable scope, whether the outage is planned, unexpected, partial, or permanent, and when or how users should return when that is known.",
+    "Include saved-work status for interrupted transactions: saved answers, unsaved answers, session expiry, retry safety, and what users must redo after the service returns.",
+    "Provide alternate channels when the service supports urgent needs, statutory deadlines, payments, health, benefits, reporting, or time-limited tasks.",
+    "Do not use a progress bar, loading spinner, or auto-refresh loop for a service that is closed; those imply active progress rather than an unavailable service state."
+  ],
+  "failureModes": [
+    "A 503 page says only Service unavailable and leaves users unsure whether to retry now, later today, tomorrow, or by another channel.",
+    "A scoped failed save opens a full service-unavailable page even though only one form submission failed and the rest of the service is usable.",
+    "A device offline state is mislabeled as service unavailable, so users blame the service instead of reconnecting or using cached work.",
+    "A scheduled outage remains as a small site alert after the transaction entry point is already closed, so users keep trying blocked paths.",
+    "A page claims work is saved but does not distinguish saved answers, unsaved answers, or how long saved work is retained.",
+    "A permanent closure does not link to the replacement service, phone route, or support contact."
+  ],
+  "sources": [
+    {
+      "id": "govuk-service-unavailable-pages",
+      "note": "GOV.UK documents service unavailable pages for planned closure, return timing, saved answers, replacement services, and offline support."
+    },
+    {
+      "id": "mdn-http-503-service-unavailable",
+      "note": "MDN documents 503 as temporary server-not-ready status with maintenance or overload causes, Retry-After timing, support links, request IDs, and cache caution."
+    },
+    {
+      "id": "ons-error-status-pages",
+      "note": "ONS documents unexpected service-problem pages, saved answers, contact routes, and escalation to maintenance notice when problems cannot be fixed quickly."
+    },
+    {
+      "id": "moj-outage-banner",
+      "note": "MOJ documents outage banners for scheduled outages before a whole platform or service becomes unavailable."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

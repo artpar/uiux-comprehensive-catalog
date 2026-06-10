@@ -1,0 +1,43 @@
+{
+  "id": "notification-banner-vs-banner-vs-alert-vs-error-summary",
+  "title": "Notification banner vs banner vs alert vs error summary",
+  "summary": "Use a notification banner for a service/page-flow notice immediately before the H1; use a banner for broader interface scope, an alert for urgent current-task status, and an error summary for submitted form validation recovery.",
+  "patternIds": ["notification-banner", "banner", "alert", "error-summary"],
+  "decisionRules": [
+    "Choose notification banner when the message belongs in the page content flow immediately before the H1 and is about a service problem, personal deadline, elsewhere-in-service event, or previous-page outcome.",
+    "Choose banner when the message needs to persist across a product, account, workspace, public service, or whole section rather than a single landing-page moment.",
+    "Choose alert when an urgent condition dynamically affects the current task, such as session expiry, lost connection, payment hold, or unsafe continuation.",
+    "Choose error summary when form submission fails and users need a top-of-form list of linked validation errors plus matching field messages.",
+    "Use a success notification banner after a previous-page action only when the overall journey continues; use a confirmation page when the service journey is finished.",
+    "Do not show a notification banner and error summary together on a failed-submit page; the error summary has priority because it identifies the fields users must repair.",
+    "Do not use notification banner for product-wide maintenance that must remain visible across several sections; that is banner scope and needs route-aware lifecycle rules.",
+    "Do not use alert semantics for every neutral notification banner; reserve assertive treatment for dynamic or success outcomes whose timing warrants immediate notice."
+  ],
+  "failureModes": [
+    "A deadline notice sits in a sidebar below the page heading, so users begin the page without seeing the service obligation.",
+    "A validation failure appears as a notification banner with no links to the invalid answers.",
+    "A previous-page success confirmation is sent as a toast and expires before the redirect target loads.",
+    "A workspace outage is repeated as separate notification banners on every page instead of one scoped banner.",
+    "An urgent lost-connection warning is treated as a calm before-heading notice and missed while the user keeps editing.",
+    "A finished application flow shows a notification banner instead of a confirmation page with reference and next-step information."
+  ],
+  "sources": [
+    {
+      "id": "govuk-notification-banner-component",
+      "note": "GOV.UK defines notification-banner use, before-H1 placement, neutral and success variants, single-banner priority, and validation-error exclusion."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports using linked summaries for submitted form validation instead of notification banners."
+    },
+    {
+      "id": "carbon-notification-pattern",
+      "note": "Carbon notification guidance supports matching surface disruptiveness to notification priority, context, persistence, and next-step requirements."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports exposing important status changes programmatically without unnecessary focus movement."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "progress-bar-vs-loading-spinner-vs-loading-skeleton-vs-step-navigation",
+  "title": "Progress bar vs loading spinner vs loading skeleton vs step navigation",
+  "summary": "Use a progress bar when system progress is measurable; use a spinner for a short unknown wait, a skeleton for predictable pending content layout, and step navigation for user-driven task milestones.",
+  "patternIds": [
+    "progress-bar",
+    "loading-spinner",
+    "loading-skeleton",
+    "step-navigation"
+  ],
+  "decisionRules": [
+    "Choose progress bar when the system can expose percent complete, bytes transferred, item count, row count, batch count, or a bounded operation stage that moves toward a known finish.",
+    "Choose loading spinner when the operation is active but progress cannot yet be calculated and the expected wait is short enough for a compact indeterminate indicator.",
+    "Choose loading skeleton when the pending result has predictable layout and the user benefits from reserved card, row, or text structure before content arrives.",
+    "Choose step navigation when progress comes from a person completing named journey steps, not from system work such as upload, download, validation, processing, or import.",
+    "Do not show a percent bar if the value is fabricated, jumps backward, resets during one operation, or reaches 100% before the operation can honestly finish.",
+    "Switch from spinner or indeterminate bar to progress bar when the backend exposes enough information to report a meaningful value.",
+    "Switch from progress bar to success, error, retry, cancel, or background job status when the operation completes, fails, stalls, or is no longer worth blocking the current surface.",
+    "Use a progress bar inside the smallest affected scope: file row, import card, report job panel, dialog, or page region; do not block unrelated work unless the whole surface depends on the operation."
+  ],
+  "failureModes": [
+    "An upload bar reaches 100% while server scanning is still running, so users leave before the attachment is accepted.",
+    "A progress bar counts upward with no file size, row count, or stage data and then snaps backward after a retry.",
+    "A batch import has a measurable valid-row count but uses only a spinner, hiding whether work is moving.",
+    "A progress bar is used as a checkout stepper, confusing system processing with user task progress.",
+    "The label is far from the bar, so users cannot tell whether it belongs to the file upload, report export, or page load.",
+    "A failed operation leaves the bar active instead of showing a persistent error and recovery path."
+  ],
+  "sources": [
+    {
+      "id": "carbon-progress-bar-component",
+      "note": "Carbon supports progress bars for downloads, uploads, data processing, percent or ratio helper text, labels near the bar, and active/success/error states."
+    },
+    {
+      "id": "material-design-progress-indicators",
+      "note": "Material distinguishes linear and circular progress indicators and supports determinate mode when completion can be detected."
+    },
+    {
+      "id": "mdn-aria-progressbar",
+      "note": "MDN defines progressbar names, min/max/current values, indeterminate handling, and aria-busy relationships for affected regions."
+    },
+    {
+      "id": "carbon-progress-indicator-component",
+      "note": "Carbon progress indicator guidance supports the distinction between system operation bars and step-based task progress indicators."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

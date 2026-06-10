@@ -1,0 +1,51 @@
+{
+  "id": "recommendations-vs-related-links-vs-recently-viewed-vs-browse-by-category",
+  "title": "Recommendations vs related links vs recently viewed vs browse by category",
+  "summary": "Use recommendations when the system ranks suggested items from context, behavior, item similarity, popularity, or model output; related links when editors curate onward destinations from the current page; recently viewed when the list is the user's actual history; and browse by category when users choose from a taxonomy.",
+  "patternIds": [
+    "recommendations",
+    "related-links",
+    "recently-viewed",
+    "browse-by-category"
+  ],
+  "decisionRules": [
+    "Prefer recommendations when the product predicts or ranks items that may be useful now, such as related products, next services, frequently bought together items, trending content, or personalized suggestions.",
+    "Prefer related links when a content owner can name a small set of optional onward pages that are relevant from this exact page without using personal behavior or model ranking.",
+    "Prefer recently viewed when every entry is an item the current user actually opened, ordered by recency, with remove and clear history controls.",
+    "Prefer browse by category when users need a stable taxonomy of topics, services, products, or content types and want to choose their path rather than accept ranked suggestions.",
+    "Recommendations should expose the basis for each item with labels such as Because you saved this, Frequently bought together, Trending in this category, or Editorial fallback.",
+    "Do not label recommendations as recently viewed, saved, or required unless the user actually performed that action or the task requires the item.",
+    "Separate sponsored, promoted, manual, editorial, and model-generated recommendations so users can judge commercial influence and data source.",
+    "When personal data is used, provide controls for feedback, dismissal, activity source, history, personalization, and reset; related links and taxonomy pages usually need editorial maintenance controls instead.",
+    "When recommendation data is weak, use a labelled cold-start fallback such as popular in this category or curated by editors rather than fabricating personalized reasons.",
+    "Filter out unavailable, permission-restricted, out-of-stock, already-in-cart, duplicate, and repeatedly dismissed items before treating the recommendation set as complete."
+  ],
+  "failureModes": [
+    "A generated recommendation rail is marked complete because it renders cards, but no item has a reason, source, dismissal path, or availability check.",
+    "The product mixes ads, recents, saved items, editorial links, and algorithmic suggestions under one vague heading.",
+    "A recommendation says Based on your activity without giving users control over activity history or personalization.",
+    "Cold-start users see fake personalized copy instead of a clear popular, trending, or editorial fallback.",
+    "Related links are replaced with model output that includes stale or weakly related pages no editor has reviewed.",
+    "Recently viewed history includes predicted items the user never opened, damaging trust and privacy expectations.",
+    "A taxonomy page is reduced to a recommendation carousel, so users cannot inspect the full category structure."
+  ],
+  "sources": [
+    {
+      "id": "youtube-recommendation-controls",
+      "note": "YouTube documents explicit feedback and activity controls for recommendations."
+    },
+    {
+      "id": "shopify-search-discovery-product-recommendations",
+      "note": "Shopify distinguishes related and complementary products, generated recommendations, manual choices, and eligibility requirements."
+    },
+    {
+      "id": "algolia-recommend-overview",
+      "note": "Algolia documents recommendation models, input signals, event requirements, and retraining behavior."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Microsoft Human-AI guidelines support explanation, correction, dismissal, and user control for AI-supported suggestions."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

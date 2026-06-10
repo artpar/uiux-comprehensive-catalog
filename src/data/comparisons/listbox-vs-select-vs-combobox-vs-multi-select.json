@@ -1,0 +1,37 @@
+{
+  "id": "listbox-vs-select-vs-combobox-vs-multi-select",
+  "title": "Listbox vs select vs combobox vs multi-select",
+  "summary": "Use a listbox when options should stay visible as a selectable list with managed focus and selected state; use select for native compact single choice, combobox for a field-owned popup, and multi-select for compact long-list selection with a reviewable selected set.",
+  "patternIds": ["listbox", "select", "combobox", "multi-select"],
+  "decisionRules": [
+    "Prefer a listbox when the option set must remain visible and the core interaction is moving focus through options, selecting one option, and reviewing the selected row without opening a popup.",
+    "Prefer native select when one known value can be chosen from a compact closed control and the platform's built-in keyboard, focus, and mobile behavior are acceptable.",
+    "Prefer combobox when a value field controls a popup, users need to type or open suggestions from that field, and acceptance or cancellation is part of the contract.",
+    "Prefer multi-select when users need several selected values, selected chips or a selected-set summary, and repeated toggling without losing already chosen values.",
+    "Use a standalone listbox instead of radio buttons only when the list is long enough that roving focus, typeahead, scrolling, grouping, or compact row presentation is worth the custom interaction cost.",
+    "Do not put buttons, links, checkboxes, menus, or editable controls inside listbox options; use a grid, table, menu, checkbox group, or separate toolbar when rows need independent actions.",
+    "Keep active focus and selected state distinct unless the single-select listbox intentionally uses selection-follows-focus and the consequence of changing selection is lightweight.",
+    "Use typeahead and Home or End for longer listboxes so keyboard users can move quickly without listening through every repeated option prefix.",
+    "Avoid long repeated option names; split country, category, or parent labels into separate controls or groups when each option starts with the same words.",
+    "Use aria-selected or aria-checked consistently for option state; do not mix both meanings in the same listbox unless the interface exposes two genuinely separate states."
+  ],
+  "failureModes": [
+    "A listbox option contains nested Edit and Delete buttons, so assistive technology users cannot interact with the row actions.",
+    "Moving focus immediately saves a high-stakes selection even though the user was only exploring options.",
+    "All option names start with the same long prefix, forcing screen reader users to hear repeated text before the distinguishing word.",
+    "The visible active row changes but aria-activedescendant or DOM focus remains on a stale option.",
+    "A multi-select listbox omits aria-multiselectable and does not expose selected state on unselected options.",
+    "A closed native-select job is rebuilt as a custom listbox without matching platform keyboard and mobile behavior."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG defines visible listbox options, single and multiple selection, focus versus selection, typeahead, Home and End, aria-selected or aria-checked, option groups, and restrictions on interactive content inside options."
+    },
+    {
+      "id": "mdn-aria-listbox-role",
+      "note": "MDN documents listbox roles, option state, aria-activedescendant, aria-multiselectable, readonly and required states, keyboard behavior, and native alternatives."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "permission-denied-state-vs-error-state-vs-empty-state-vs-disabled-button-no-explanation",
+  "title": "Permission denied state vs error state vs empty state vs disabled button no explanation",
+  "summary": "Use permission denied state when a known account, role, policy, or share setting blocks an object or action; use error state for operation failure, empty state for legitimate absence, and disabled-button-no-explanation as the anti-pattern to replace with visible access guidance.",
+  "patternIds": [
+    "permission-denied-state",
+    "error-state",
+    "empty-state",
+    "disabled-button-no-explanation"
+  ],
+  "decisionRules": [
+    "Choose permission denied state when the current authenticated account lacks the role, group membership, share grant, license, policy exception, or admin approval required to view, edit, publish, export, delete, invite, approve, or manage a resource.",
+    "Choose error state when a request, load, save, payment, sync, or background job failed even though the user appears authorized to attempt the operation.",
+    "Choose empty state when the collection or workspace has no content yet, or when a permission-limited collection can safely say no visible items without naming a blocked object.",
+    "Treat disabled-button-no-explanation as an anti-pattern when a blocked action only appears as an inactive control; replace it with inline, page-level, or modal access guidance that says why the action is unavailable and what recovery exists.",
+    "Name the blocked object or action only when policy allows the user to know it exists; otherwise use a no-disclosure access message that avoids leaking titles, owners, counts, or paths.",
+    "State the current account, team, role, or permission level when that helps users self-correct, such as switching accounts or requesting editor access instead of viewer access.",
+    "Provide a concrete recovery path such as request access, contact owner, switch account, join team, use read-only view, return to allowed area, or open an access request status.",
+    "Show request outcomes separately from the denial: sent, pending, approved, declined, expired, owner unavailable, or blocked by organization policy."
+  ],
+  "failureModes": [
+    "A private report shows a generic server error and sends users into a retry loop even though the server has already returned an authorization denial.",
+    "A known document is presented as an empty folder, so the user cannot request access or check whether they are signed into the wrong account.",
+    "A publish button is disabled without naming the missing Admin role or offering an owner-assisted path.",
+    "A denial page leaks the confidential document title to a user who should not know that the document exists.",
+    "A request access form submits but never shows whether the owner received, approved, declined, or left the request pending.",
+    "A user with viewer access loses the safe read-only view when only the edit action should be blocked."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-sharepoint-access-requests",
+      "note": "SharePoint access requests include owner notification, approve or decline decisions, and selecting permission levels."
+    },
+    {
+      "id": "google-drive-file-access-requests",
+      "note": "Google Drive access guidance covers You need access, request access, owner decisions, pending outcomes, account switching, and policy limits."
+    },
+    {
+      "id": "github-repository-roles",
+      "note": "GitHub repository roles document action-specific permission levels and role boundaries."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

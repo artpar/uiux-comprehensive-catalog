@@ -1,81 +1,218 @@
 {
   "id": "confirmation-dialog",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a consequence-focused alert dialog pattern with source-backed use criteria, named object and scope, safe cancellation, destructive action labelling, typed-confirmation escalation, undo distinction, inspected examples, comparison rules, duplicate audit, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names consequential pre-action decisions, affected object and scope, irreversible or costly outcomes, safe default cancellation, descriptive destructive labels, typed confirmation for severe scope, and avoidance of routine low-risk prompts.",
+    "relatedPatternDistinction": "The entry separates confirmation dialog from modal dialog by consequence decision versus focused editing task, from undo by pre-action blocking versus post-action recovery, from alert by requiring a response, and from error summary by prevention before commitment rather than correction after validation.",
+    "liveDemoBehavior": "The live demo opens a delete-archive alert dialog, requires typing DELETE before the destructive action enables, supports safe cancel and Escape paths, returns focus to the trigger, and contrasts a vague one-click popup that deletes without naming the consequence.",
+    "comparisonDecisionRules": "The undo-vs-confirmation-dialog and modal-vs-confirmation-dialog comparisons give concrete rules for reversible recovery, permanent data loss, external side effects, frequent actions, typed confirmations, focused modal tasks, and nonblocking alternatives.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/confirmation-dialog.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison links, typed confirmation behavior, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/confirmation-dialog.png"
+    ]
+  },
   "name": "Confirmation dialog",
-  "aliases": ["confirm dialog", "destructive confirmation"],
+  "aliases": [
+    "confirm dialog",
+    "destructive confirmation",
+    "alert dialog confirmation",
+    "typed confirmation"
+  ],
   "category": "Error Prevention And Recovery",
-  "secondaryCategories": ["Disclosure And Attention Management"],
-  "platforms": ["web", "mobile", "desktop"],
-  "problem": "Users can accidentally trigger irreversible or high-consequence actions.",
-  "solution": "Interrupt the action with a focused confirmation step that clearly names the consequence and offers a safe cancellation path.",
+  "secondaryCategories": [
+    "Disclosure And Attention Management"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can accidentally start consequential actions that are costly, security-sensitive, externally visible, or impossible to recover after commitment.",
+  "solution": "Interrupt the requested action with an alert-style decision that names the object, scope, and consequence, makes cancellation safe and easy, and requires an explicit confirming action before commitment.",
   "problemContext": [
-    "A user is about to commit an action with meaningful consequence.",
-    "The system cannot fully reverse the action after completion."
+    "The user has already invoked an action and the product must verify intent before committing it.",
+    "The consequence is destructive, costly, privacy-affecting, security-sensitive, externally visible, or difficult to reverse.",
+    "A simple undo path cannot reliably restore the prior state after the action completes.",
+    "The dialog can add information that might reasonably cause the user to cancel."
   ],
   "selectionRules": [
-    "Choose confirmation when the consequence is destructive, costly, security-sensitive, or irreversible.",
-    "Prefer undo when the system can safely restore the prior state.",
-    "Avoid confirmation for routine actions because repeated prompts create automatic confirmation behavior."
+    "Choose confirmation when the action has a clear reason not to proceed and the user may change their mind after seeing the consequence.",
+    "Prefer undo when the exact prior state can be restored reliably after a frequent low-risk action.",
+    "Prefer prevention when the action is dangerous mainly because it is placed too close to routine controls.",
+    "Use a typed confirmation or equivalent extra step for broad account, workspace, production-data, or permission deletion.",
+    "Do not confirm ordinary save, archive, dismiss, filter, navigation, or low-risk edits that users perform repeatedly.",
+    "Do not use confirmation copy to teach users about a feature; use inline education, preview, or feedback instead.",
+    "Use a regular modal task when the user needs to edit values, not merely decide whether the consequence should happen."
   ],
   "requiredStates": [
-    "Pre-action state with an explicit triggering control.",
-    "Decision state that names the object and consequence.",
-    "Cancelled state that leaves the object unchanged.",
-    "Confirmed state that reports the outcome."
+    "Pre-action state with an explicit consequential trigger.",
+    "Decision state that names the affected object, scope, and irreversible or costly consequence.",
+    "Safe cancellation state that leaves the object unchanged and returns focus to the trigger.",
+    "Blocked destructive state before required typed text or safety condition is satisfied.",
+    "Confirmed committing state after the user deliberately activates the destructive action.",
+    "Outcome state that reports deletion, cancellation, or policy-blocked status.",
+    "Repeated-action state that avoids prompting for routine reversible actions."
   ],
   "interactionContract": [
-    "The dialog must make the safe path and destructive path unambiguous.",
-    "Keyboard users must be able to cancel without activating the destructive action.",
-    "The final action label should describe the consequence, not say OK."
+    "The confirmation appears only after a user-initiated action, not as surprise interruption unrelated to the current command.",
+    "The dialog has alertdialog semantics or equivalent platform behavior when it communicates an urgent decision that requires a response.",
+    "The title, description, and final action label name what will happen, not just ask Are you sure.",
+    "The safe path is always reachable by keyboard and pointer before the destructive path is committed.",
+    "Escape cancels when cancellation is safe and follows the same unchanged-object path as the cancel button.",
+    "The destructive action is disabled or unavailable until any required typed confirmation, checkbox, or acknowledgement is satisfied.",
+    "Closing after cancel or completion returns focus to the trigger or to the next logical outcome location.",
+    "The dialog is not repeated for high-frequency actions where users will learn to dismiss it automatically."
   ],
   "implementationChecklist": [
-    "Name the affected object or scope.",
-    "Use a specific destructive action label such as Delete project.",
-    "Include a safe cancel action.",
-    "Avoid making the destructive action the default for accidental keypresses."
+    "Name the affected object, count, or scope in the title or main instruction.",
+    "Explain the consequence once, including whether recovery, audit, billing, permissions, or external recipients are affected.",
+    "Use a safe cancel label that explains the safe outcome, such as Keep archive or Cancel deletion.",
+    "Use a destructive action label that contains the verb and object, such as Delete archive.",
+    "Avoid OK, Yes, No, and Cancel-only button pairs when they force users to reinterpret the question.",
+    "Keep the safe action reachable by default and avoid committing destruction from an accidental Enter key.",
+    "Require typed text or a deliberate extra step for severe or broad-scope deletion.",
+    "Return focus predictably after cancel, Escape, and completion.",
+    "Track whether frequent prompts are being dismissed unread and replace them with undo or prevention when possible."
   ],
   "commonMisuses": [
-    "Using vague OK and Cancel labels for irreversible actions.",
-    "Asking for confirmation after every routine click.",
-    "Using confirmation when undo would produce a faster and safer flow."
+    "Asking users to confirm every routine action until they stop reading.",
+    "Using vague Are you sure copy without object, scope, or consequence.",
+    "Making the destructive action the easiest accidental target.",
+    "Using confirmation instead of undo for fast reversible actions.",
+    "Using undo language for irreversible actions that cannot truly be restored.",
+    "Showing an alert dialog that only educates, advertises, or repeats what the trigger already said."
   ],
   "critiqueQuestions": [
-    "Can the action be made undoable instead of interrupting the user before it happens?"
+    "What information in this dialog could reasonably make a user cancel?",
+    "Can the action be safely undone instead of blocked beforehand?",
+    "Does the destructive button say exactly what will happen?",
+    "Is the safe path reachable without interpreting a double negative?",
+    "Is the action frequent enough that this prompt will become automatic?",
+    "Does the dialog name the object, count, permission, cost, recipient, or external system affected?"
   ],
   "useWhen": [
-    "The action is destructive, irreversible, costly, or security-sensitive.",
-    "Undo or recovery is not available."
+    "The action is destructive, irreversible, costly, security-sensitive, privacy-affecting, or externally visible.",
+    "Undo or recovery cannot reliably restore the prior state.",
+    "The dialog can present consequence information the user did not already see at the trigger.",
+    "A typed or extra-step confirmation is warranted by broad scope or severe impact."
   ],
   "avoidWhen": [
     "The action is routine and easily reversible.",
-    "The dialog only asks users to confirm something they already intentionally selected."
+    "The trigger label and surrounding UI already make the low-risk consequence clear.",
+    "Undo, prevention, preview, or clearer command placement would protect users with less interruption.",
+    "The dialog only asks users to confirm an action they just clearly selected and adds no new reason to cancel.",
+    "The action needs editable inputs or a multi-step workflow rather than a yes-or-no consequence decision."
   ],
-  "variants": ["Delete confirmation", "Purchase confirmation", "Permission escalation", "Typed confirmation"],
+  "variants": [
+    "Delete confirmation",
+    "Typed deletion confirmation",
+    "Unsaved-changes confirmation",
+    "Purchase confirmation",
+    "Permission escalation confirmation",
+    "Security-sensitive confirmation",
+    "Bulk destructive confirmation"
+  ],
   "accessibility": [
-    "The destructive action label should be explicit and distinguishable from cancel.",
-    "Initial focus should support safe decision-making rather than accidental confirmation."
+    "Use alertdialog semantics or platform equivalent when the decision is urgent and requires a response.",
+    "Provide an accessible name from the visible decision title.",
+    "Associate the consequence text as the dialog description.",
+    "Move focus into the dialog when it opens and keep focus within the modal layer.",
+    "Make the safe cancellation path easy to reach by keyboard.",
+    "Do not enable the destructive action until typed confirmation or acknowledgement requirements are met.",
+    "Return focus to the trigger or a clear outcome location after closing."
   ],
   "keyboardBehavior": [
-    "Escape should cancel when cancellation is safe.",
-    "Keyboard focus order should expose the consequence text before final action where possible."
+    "Enter or Space on the destructive trigger opens the confirmation; it should not commit the final action directly.",
+    "Initial focus should support safe decision-making, often the typed confirmation field, a non-destructive action, or the explanatory content for severe decisions.",
+    "Tab and Shift+Tab cycle through the alert dialog controls while it is open.",
+    "Escape cancels when cancellation is safe.",
+    "The destructive action remains disabled until required typed text or acknowledgement is valid.",
+    "After cancel, Escape, or completion, focus returns to the trigger or to the resulting status if the trigger no longer exists."
   ],
   "failureModes": [
-    "Vague labels such as OK and Cancel for destructive outcomes.",
-    "Overuse that trains users to confirm automatically.",
-    "Making the destructive action visually easier than cancellation."
+    "Habituation from confirming frequent low-risk actions.",
+    "Vague OK or Yes labels that hide the consequence.",
+    "Consequence text that repeats the button label instead of explaining what changes.",
+    "Confirmation shown after an action has already committed.",
+    "Danger action enabled before required typed confirmation matches.",
+    "No safe keyboard path to cancel.",
+    "Pre-action confirmation used where post-action undo would be faster and safer."
   ],
-  "relatedPatterns": ["modal-dialog", "undo"],
-  "comparisons": ["undo-vs-confirmation-dialog", "modal-vs-confirmation-dialog"],
-  "examples": [],
+  "relatedPatterns": [
+    "modal-dialog",
+    "undo"
+  ],
+  "comparisons": [
+    "undo-vs-confirmation-dialog",
+    "modal-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Alert and Message Dialogs Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/",
+      "platform": "web",
+      "notes": "Documents alert dialogs as modal interruptions for important messages that require a response.",
+      "screenshot": "screenshots/patterns/confirmation-dialog.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Microsoft Windows UX Guide Confirmations",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/uxguide/mess-confirm",
+      "platform": "desktop",
+      "notes": "Documents confirmation criteria, avoidance of unnecessary prompts, undo alternatives, and the need for specific consequence information.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
   "sources": [
     {
       "id": "apple-hig-alerts",
-      "note": "Alert guidance recommends alerts for uncommon destructive actions that cannot be undone."
+      "note": "Apple alert guidance distinguishes uncommon destructive actions that cannot be undone from common undoable actions."
     },
     {
-      "id": "wai-aria-apg",
-      "note": "Alert dialog guidance covers interruptive modal decisions."
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG defines alert dialogs as modal interruptions for important messages that require a response."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance explains when confirmations are justified and when prevention, undo, or feedback are better."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Modal dialog guidance supplies the underlying focus containment, Escape, inert background, and focus-return behavior for confirmation dialogs."
     }
   ],
   "maturity": "established",
-  "lastVerified": "2026-06-08"
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Consequential alert decision",
+  "uiGuidance": [
+    "Render an alert-style modal decision with a specific title, consequence description, safe cancellation, and a destructive action label that names the object or scope.",
+    "Escalate severe broad-scope actions with typed confirmation or another deliberate step before enabling the destructive action."
+  ],
+  "uxGuidance": [
+    "Interrupt users only when the action has a meaningful consequence that cannot be safely recovered afterward.",
+    "Use confirmation to create an informed decision point, not a reflexive second click after every routine action."
+  ],
+  "uiExamples": {
+    "good": [
+      "Delete Research archive? explains that 14 notes and shared links will be permanently removed, offers Keep archive, and labels the danger action Delete archive.",
+      "A typed DELETE field keeps Delete archive disabled until the user deliberately matches the required text."
+    ],
+    "bad": [
+      "A popup says Are you sure? with OK and Cancel but does not name the project, notes, or irreversible outcome.",
+      "The red destructive action is enabled immediately and sits where users expect the routine primary button."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Cancel, Escape, and Keep archive leave the archive unchanged and return focus to Delete archive.",
+      "Typing DELETE enables the final action, then the outcome reports that deletion was deliberately confirmed."
+    ],
+    "bad": [
+      "Every archive, filter, and dismiss action opens the same confirmation until users click through automatically.",
+      "A one-click OK popup deletes the archive without explaining recovery limits or affected shared links."
+    ]
+  }
 }

@@ -1,0 +1,225 @@
+{
+  "id": "single-page-form",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a short related multi-field form pattern with source-backed guidance for grouped sections, required and optional indicators, one-route submission, multi-field validation recovery, draft preservation, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a complete short form on one page, grouped related fields, clear form heading, required and optional indicators, one submit action, aligned validation, summary links, fieldset and legend grouping, DOM order matching visual order, and preservation of all entered values.",
+    "relatedPatternDistinction": "The entry separates single-page form from single-question page by grouped scanning and editing versus one focused answer, from text input by page-level form structure versus a field control, from error summary by form composition versus recovery aid, and from multi-step forms or wizards by avoiding unnecessary page sequencing for short related tasks.",
+    "liveDemoBehavior": "The rendered exercise lets users edit several related contact fields together, submit once, see multi-field errors without losing values, jump back to field groups, fill a quick valid sample, save, and compare a broken long mixed form that hides required rules and clears values after errors.",
+    "comparisonDecisionRules": "The linked single-page-form-vs-single-question-page-vs-error-summary-vs-text-input comparison gives concrete rules for short related field sets, focused question pages, summary recovery, text input controls, grouped sections, long branched flow avoidance, required indicators, value preservation, and DOM order.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/single-page-form.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, grouped fields, required and optional indicators, one submit action, multi-field validation recovery, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/single-page-form.png"
+    ]
+  },
+  "name": "Single-page form",
+  "aliases": [
+    "one-page form",
+    "single-step form",
+    "short form",
+    "profile edit form",
+    "all fields on one page"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Short related multi-field submission page",
+  "uiGuidance": [
+    "Render a clear form heading, short instruction, required or optional indicator explanation, grouped related fields, one primary submit action, and a visible error summary only after failed submit.",
+    "Use a simple vertical field order with fieldsets and legends for related groups, aligning validation messages with the fields they describe and keeping visual order the same as DOM order."
+  ],
+  "uxGuidance": [
+    "Use a single-page form when users benefit from seeing, comparing, and editing a small related set of fields before one submission.",
+    "Preserve every entered value after validation, let users correct fields in place, and avoid unnecessary page-by-page navigation when the task is short and low branching."
+  ],
+  "uiExamples": {
+    "good": [
+      "A contact-details form shows one heading, a required-field note, grouped name and contact fields, communication preference radios, aligned field errors, and a Save details button at the end.",
+      "An account profile edit page keeps related fields in one vertical order so users can compare email, phone, and notification preference before saving."
+    ],
+    "bad": [
+      "A long application with eligibility, address history, uploads, and payment fields is dumped onto one scrolling page.",
+      "Required fields are marked only by color, sections have no headings, and a disabled submit button gives no recovery path."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user edits email and phone together, submits, sees two linked errors, fixes both without losing the preference selection, and saves the whole form once.",
+      "A user reviews all contact details before submitting because the fields are short, related, and visible in one scan."
+    ],
+    "bad": [
+      "A user submits a mixed form, sees a generic red banner, scrolls through many unrelated fields, and cannot find which answers failed.",
+      "A validation failure clears completed fields, forcing the user to re-enter unrelated information."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Short related data-entry tasks become slower and more error-prone when users must hop across unnecessary pages, cannot compare related values, or lose multiple entered fields after validation.",
+  "solution": "Put a small coherent set of related fields on one page with clear grouping, required and optional labelling, one submit action, linked validation recovery, and preservation of all entered values.",
+  "problemContext": [
+    "The form collects a compact set of related details, such as profile, contact, shipping, sign-in, or preferences.",
+    "Users need to compare or revise multiple answers together before committing them.",
+    "The task has limited branching and can preserve all entered values on one route."
+  ],
+  "selectionRules": [
+    "Choose a single-page form when the task has a short related set of fields that users should review together.",
+    "Prefer single-question pages when each answer needs focused reading, mobile-first recovery, branching, or per-page autosave.",
+    "Prefer multi-step forms when fields are numerous, high-stakes, logically separated into sections, or too long for reliable one-page recovery.",
+    "Use a wizard only when the sequence is guided, stateful, and dependent on previous answers.",
+    "Group related controls with fieldsets, legends, headings, or section labels rather than presenting one undifferentiated list.",
+    "Explain required and optional conventions before the first field and use native required attributes where appropriate.",
+    "Use an error summary plus field-level messages when failed submit can produce more than one error.",
+    "Preserve all field values after client or server validation and keep the submit action at the end of the reviewed form."
+  ],
+  "requiredStates": [
+    "Initial empty state with form heading, instruction, required or optional indicator explanation, grouped fields, and submit action.",
+    "Partially completed state where users can compare values across related fields before saving.",
+    "Submitting state that prevents duplicate submit without hiding entered values.",
+    "Failed-submit state with linked error summary and matching field-level messages.",
+    "Corrected state where fixed fields clear their errors while other values remain intact.",
+    "Successful submit state that confirms the whole form was saved or sent.",
+    "Disabled or unavailable-field state with explanation and recovery path when a field cannot be edited."
+  ],
+  "interactionContract": [
+    "Tab order follows the same top-to-bottom order users see on screen.",
+    "Submit validates the whole form once and reports every actionable error without clearing valid fields.",
+    "Error summary links move users to the affected field, fieldset, or first invalid control in a group.",
+    "Inline messages sit next to the fields they describe and match summary wording.",
+    "Editing one field after submit does not reset unrelated fields or hide their entered values.",
+    "A secondary cancel, reset, or back action is visually and behaviorally distinct from the primary submit."
+  ],
+  "implementationChecklist": [
+    "Inventory the fields and remove questions that are not needed to complete the service.",
+    "Confirm the remaining fields are related enough to scan and submit together on one page.",
+    "Use a single-column layout unless research proves a different layout does not harm reading or keyboard order.",
+    "Wrap related radio, checkbox, date, or grouped controls in fieldsets with legends.",
+    "Label required and optional fields consistently before users start the form.",
+    "Place one primary submit action after the last field and avoid disabled submit unless the disabled reason is explained.",
+    "Implement an error summary for failed submit and preserve every entered value across client and server validation.",
+    "Test keyboard order, screen reader group labels, zoom, mobile scrolling, validation, browser autofill, reload, and server-error recovery."
+  ],
+  "commonMisuses": [
+    "Using one page for a long complex application just to avoid designing steps.",
+    "Splitting a compact related edit task into many pages so users cannot compare values.",
+    "Mixing unrelated tasks, such as contact details, payment, uploads, and legal acceptance, under one submit button.",
+    "Using placeholder text instead of persistent labels inside a multi-field form.",
+    "Showing only a generic error banner after submit.",
+    "Clearing all values after one field fails validation.",
+    "Reordering fields visually with CSS so keyboard and screen-reader users encounter a different sequence.",
+    "Disabling submit or required fields without an explanation or recovery path."
+  ],
+  "critiqueQuestions": [
+    "Are all fields on this page related to one small task outcome?",
+    "Do users need to compare or edit these answers together before submitting?",
+    "Would splitting this into pages reduce error recovery, branching, or mobile effort?",
+    "Are required and optional conventions clear before the first field?",
+    "Does failed submit preserve all values and link each error to the exact field or group?",
+    "Does keyboard and screen-reader order match the visual field order?"
+  ],
+  "useWhen": [
+    "A compact set of related fields should be reviewed together before one submit.",
+    "The task is low branching and does not need per-answer routing.",
+    "Users are likely to edit more than one value in one session.",
+    "All entered values can be preserved reliably after validation or server errors."
+  ],
+  "avoidWhen": [
+    "The form is long, high-stakes, branched, or too hard to recover from on one page.",
+    "Each answer deserves focused explanation or determines the next page.",
+    "Users cannot complete the page comfortably on mobile without excessive scrolling.",
+    "The product cannot preserve all entered values after validation failure."
+  ],
+  "variants": [
+    "Contact details form",
+    "Profile edit form",
+    "Sign-in form",
+    "Password reset form",
+    "Preference form",
+    "Shipping details form",
+    "Short internal admin form",
+    "Single-page form with error summary",
+    "Single-page form with grouped fieldsets"
+  ],
+  "accessibility": [
+    "Keep field order in the DOM the same as the visible order.",
+    "Use fieldsets and legends for related controls, especially radio and checkbox groups.",
+    "Use persistent labels for every field and do not rely on placeholders.",
+    "Explain required and optional indicators in text before the fields.",
+    "Align validation messages with the affected fields and include a linked summary after failed submit when needed.",
+    "Avoid disabled controls for normal completion paths; if unavailable controls are necessary, explain why and how to proceed."
+  ],
+  "keyboardBehavior": [
+    "Tab moves through fields, grouped controls, help links, and submit in visible order.",
+    "Native field controls keep their expected keyboard behavior.",
+    "Enter submits only when users are in a control where form submission is expected.",
+    "After failed submit, focus moves to the error summary or first invalid field without clearing values.",
+    "Error summary links move focus to the affected field or group.",
+    "Escape does not reset the form unless a separate reversible cancel flow is offered."
+  ],
+  "failureModes": [
+    "One page contains too many unrelated fields for users to scan or recover from.",
+    "Two-column layout causes keyboard focus to jump in an unexpected order.",
+    "Required fields are not identified until after submit.",
+    "A generic banner says fix errors without linking to fields.",
+    "A failed server response clears valid entries along with invalid ones.",
+    "A reset button sits near submit and clears the form accidentally.",
+    "Disabled required fields block completion without explanatory text.",
+    "Mobile users lose context because the form has no section headings or summary recovery."
+  ],
+  "relatedPatterns": [
+    "single-question-page",
+    "text-input",
+    "textarea",
+    "radio-group",
+    "error-summary"
+  ],
+  "comparisons": [
+    "single-page-form-vs-single-question-page-vs-error-summary-vs-text-input"
+  ],
+  "examples": [
+    {
+      "product": "USWDS Form templates",
+      "url": "https://designsystem.digital.gov/templates/form-templates/",
+      "platform": "web",
+      "notes": "Documents multi-control form accessibility guidance, including proper order, fieldsets, legends, vertical layout, required indicators, validation messages, and disabled-state cautions.",
+      "screenshot": "screenshots/patterns/single-page-form.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS Form component",
+      "url": "https://designsystem.digital.gov/components/form",
+      "platform": "web",
+      "notes": "Documents forms as page-level information entry and points multi-control forms to form-template accessibility guidance.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Service Manual Structuring forms",
+      "url": "https://www.gov.uk/service-manual/design/form-structure",
+      "platform": "web",
+      "notes": "Documents one thing per page as a starting point while acknowledging user research can justify merging pages for repeated or internal tasks.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-form-templates",
+      "note": "USWDS form-template guidance supports multi-control form accessibility, field grouping, required indicators, validation alignment, and vertical field order."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance supports starting with one thing per page and merging pages when user research shows that is better for the task."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports linked recovery for failed single-page form submissions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

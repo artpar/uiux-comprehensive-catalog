@@ -1,0 +1,238 @@
+{
+  "id": "fallback-path",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a user-directed alternate completion route pattern with source-backed guidance for manual entry, assisted support, controlled fallback pages, preserved context, return-to-primary behavior, and comparison boundaries.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names primary-available, primary-blocked, fallback-offered, fallback-selected, fallback-in-progress, return-to-primary, fallback-completed, fallback-unavailable, data-loss prevention, and assisted-support states; it also covers carried-over data, references, timing, tradeoffs, and handoff ownership.",
+    "relatedPatternDistinction": "The entry separates fallback path from retry by changing route or method instead of repeating the same operation, from error state by defining the alternate route rather than the failure surface, from service unavailable page by applying to a primary-path blockage rather than whole-service closure, and from offline state by not requiring connectivity loss.",
+    "liveDemoBehavior": "The live demo blocks an address lookup, offers manual entry and assisted support with the application reference retained, carries the postcode into manual entry, returns to lookup without data loss, completes the fallback route, handles no-fallback truthfully, and contrasts dead-end, retry-loop, hidden-manual, data-loss, no-reference, and false-path failures.",
+    "comparisonDecisionRules": "The fallback-path-vs-retry-vs-error-state-vs-service-unavailable-page comparison gives concrete rules for alternate-route selection, retry boundaries, failure-surface ownership, whole-service outages, carried-over data, completion contracts, support references, and avoiding dead-end downloads or homepage links.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/fallback-path/ and /compare/fallback-path-vs-retry-vs-error-state-vs-service-unavailable-page/ on 2026-06-10. Live check exercised Manual entry, Return to lookup, Complete fallback, Assisted route, No fallback, Reset, Dead end, Retry loop, Hidden manual, Data loss, No reference, and False path controls. screenshots/patterns/fallback-path.png captures Good UI, Bad UI, Good UX, Bad UX, manual fallback state, carried-over reference, false-path misuse, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/fallback-path.png"
+    ]
+  },
+  "name": "Fallback path",
+  "aliases": [
+    "alternate path",
+    "backup route",
+    "manual fallback",
+    "assisted route",
+    "alternate completion route",
+    "fallback journey"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State",
+    "Trust, Safety, And Privacy",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "User-directed alternate route when the primary path cannot complete",
+  "uiGuidance": [
+    "Place the alternate route beside the blocked primary path with a label that names what changes, such as Enter address manually, Use cached report, Call support with reference, or Continue with paper evidence.",
+    "Show what carries over into the fallback: application reference, entered data, uploaded files, selected filters, eligibility answers, deadline, and which steps still need completion."
+  ],
+  "uxGuidance": [
+    "Use a fallback path when the primary route is unavailable, unsuitable, unsupported, or repeatedly failing, and users still need a credible way to complete the task.",
+    "Preserve context, explain capability tradeoffs, keep return-to-primary possible where useful, and make the fallback route complete the same user outcome or clearly state the remaining handoff."
+  ],
+  "uiExamples": {
+    "good": [
+      "An address lookup says We could not find this address, keeps postcode SW1A 1AA visible, and offers Enter address manually, Try another postcode, and Get help with reference APP-2048.",
+      "A service dependency outage panel says Identity check unavailable, shows saved application answers, and offers Upload documents for manual review with expected review time."
+    ],
+    "bad": [
+      "A lookup returns No matches and only shows Search again, even though manual address entry is supported.",
+      "A download form link is presented as a fallback but does not say whether the user can submit it, track it, or preserve the current application reference."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user whose address is missing from the lookup switches to manual entry with the postcode and application reference retained, completes the same application, and can return to lookup without losing typed fields.",
+      "A user who cannot complete the online flow gets a phone or webchat route with the same reference and a clear list of information needed to finish the service."
+    ],
+    "bad": [
+      "A user tries the same failed lookup five times because the manual route is hidden until after repeated failure.",
+      "A fallback route clears uploaded evidence and silently restarts the application from the beginning."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can be blocked by a lookup miss, unavailable dependency, unsupported device, digital exclusion, missing record, file or identity check problem, or channel constraint even though the task still needs a way to complete.",
+  "solution": "Offer an explicit alternate route that names the changed method, preserves useful context, explains tradeoffs and timing, lets users return or continue safely, and proves whether the fallback still completes the same outcome or becomes a support handoff.",
+  "problemContext": [
+    "The primary route depends on search, lookup, verification, payment, upload, network, JavaScript, device capability, third-party service, account access, or user digital confidence.",
+    "The product has a credible alternate route such as manual entry, evidence upload, phone support, webchat, cached data, branch office, paper form, later handoff, or replacement service.",
+    "Users may have already entered data or gathered evidence that must not be lost when switching paths.",
+    "The alternate route may have different timing, eligibility, tracking, privacy, support, or proof requirements that users need before committing."
+  ],
+  "selectionRules": [
+    "Choose fallback path when the user needs an alternate way to finish the same task after the primary method is blocked, unsupported, unavailable, or unsuitable.",
+    "Offer fallback before repeated failure traps users; do not require users to fail several times before seeing a manual or assisted route.",
+    "Name the fallback by method and outcome, not vague copy such as Other options or Continue.",
+    "Preserve entered data, selected records, uploads, payment state, application reference, and deadline context across the switch whenever technically and legally possible.",
+    "Explain tradeoffs such as slower review, manual evidence check, limited availability, support hours, offline submission, or missing automatic validation.",
+    "Keep the primary path available to retry or return to when it remains useful, but separate retrying the same action from switching to a different route.",
+    "Use error state to explain the failed condition; use fallback path for the alternate route that changes how users continue.",
+    "Use service unavailable page when an entire service route is closed; include fallback path there only when users can complete by another channel.",
+    "Use offline state when connection loss changes what users can do locally; include fallback path only when cached, local, or alternate-channel completion is actually supported.",
+    "Do not present a link as a fallback unless it has a real completion, submission, tracking, or support contract."
+  ],
+  "requiredStates": [
+    "Primary path available state.",
+    "Primary path blocked or unsupported state with cause.",
+    "Fallback offered state with method, scope, and tradeoff.",
+    "Fallback selected state showing what data carries over.",
+    "Fallback in-progress state with changed fields, evidence, channel, or support handoff.",
+    "Return-to-primary state when switching back is safe.",
+    "Fallback completed state with confirmation or next step.",
+    "Fallback unavailable state that explains why no alternate route exists.",
+    "Data-loss prevention state before leaving or restarting the current path.",
+    "Assisted-support state with reference, contact route, hours, and information needed."
+  ],
+  "interactionContract": [
+    "The fallback path is a different route to the same user outcome or an explicitly named support handoff, not another attempt at the same failing operation.",
+    "Users can see what will happen to their current data before switching paths.",
+    "The fallback route carries forward a stable reference or clearly explains why the user must start a separate process.",
+    "The UI distinguishes Try again, edit input, switch to manual entry, contact support, download form, and return later actions.",
+    "If the fallback has reduced validation, slower review, limited hours, or extra evidence, that tradeoff is visible before users choose it.",
+    "If no credible fallback exists, the page says so directly and gives the safest next step instead of inventing a dead-end route.",
+    "Switching paths does not silently clear user work, create duplicate submissions, or change eligibility decisions."
+  ],
+  "implementationChecklist": [
+    "Map each primary-route dependency to whether a real fallback exists, who owns it, and what outcome it can complete.",
+    "Define the data handoff contract: retained fields, dropped fields, uploaded files, references, timestamps, consents, and audit trail.",
+    "Write fallback labels that name both method and outcome, such as Enter address manually or Upload documents for manual review.",
+    "Store a stable reference before switching to support, paper, offline, or manual review channels.",
+    "Show expected timing, support hours, proof requirements, privacy implications, and tracking behavior for slower or assisted paths.",
+    "Provide a safe return-to-primary control where switching back can preserve work and reduce unnecessary manual processing.",
+    "Instrument fallback selection, completion, abandonment, return-to-primary, and support demand so owners can identify failing primary paths.",
+    "Test no-match lookup, JavaScript failure, unsupported file/device, third-party outage, support closed, duplicate submission, back button, refresh, mobile width, keyboard flow, and screen readers."
+  ],
+  "commonMisuses": [
+    "Hiding manual entry or support until users repeatedly fail.",
+    "Calling Retry a fallback even though it repeats the same broken operation.",
+    "Offering a download or phone number without an application reference or completion contract.",
+    "Clearing typed data, selected files, or uploaded evidence when users switch paths.",
+    "Using a fallback path to avoid fixing a primary route that fails for many users.",
+    "Giving a fallback that changes eligibility, price, deadline, or privacy without saying so.",
+    "Showing no fallback when a known alternate channel exists."
+  ],
+  "critiqueQuestions": [
+    "What primary path can fail or be unsuitable, and what exact route lets users continue?",
+    "Does the fallback complete the same task, or is it only a support handoff?",
+    "Which data, uploads, consents, and references carry over when users switch?",
+    "What timing, validation, privacy, deadline, or support-hour tradeoffs change?",
+    "Can users return to the primary path without losing work?",
+    "How will the team know the fallback is being used because the primary path is broken?"
+  ],
+  "useWhen": [
+    "A primary lookup, verification, upload, payment, search, device feature, online-only step, or channel can fail while the user still needs to finish.",
+    "A real alternate route exists and can preserve enough context to be trustworthy.",
+    "Users need to choose between trying the primary route again and switching to a different method."
+  ],
+  "avoidWhen": [
+    "The only honest next step is retrying the same operation after a transient failure.",
+    "The whole service is closed and no alternate channel can complete the task.",
+    "The user must correct invalid data before any path can continue.",
+    "The proposed fallback would lose work, duplicate submissions, or change the outcome without explicit consent.",
+    "The alternate route is only decorative and has no owner, tracking, or completion path."
+  ],
+  "variants": [
+    "Manual entry fallback",
+    "Assisted digital support route",
+    "Fallback evidence upload",
+    "Paper or downloadable form route",
+    "Alternate channel handoff",
+    "Cached-data fallback",
+    "Fallback page after offline failure",
+    "Primary dependency unavailable fallback",
+    "Return to primary route",
+    "No fallback available"
+  ],
+  "accessibility": [
+    "Make the fallback option visible near the blocked control or step, not only in help text or after mouse hover.",
+    "Use specific link and button names that describe the alternate method and outcome.",
+    "Announce path changes, carried-over data, and remaining steps through visible status text or live regions.",
+    "Keep focus on the fallback heading or first changed field after switching routes.",
+    "Support keyboard and assistive technology users through both primary and fallback paths, including manual fields, contact links, and file/evidence alternatives.",
+    "Do not make phone, chat, or in-person support the only accessible path when the online path can be repaired."
+  ],
+  "keyboardBehavior": [
+    "Fallback actions appear after the failed primary control and before unrelated navigation in tab order.",
+    "Activating a fallback moves focus to a heading or field that names the new route.",
+    "Back and return-to-primary controls preserve user work or warn before data would be lost.",
+    "Keyboard users can review carried-over data, expected timing, and support reference before continuing.",
+    "If support contact opens a dialog, chat, mail client, or phone link, focus and return behavior are explicit."
+  ],
+  "failureModes": [
+    "The only visible action repeats the failing lookup or request.",
+    "The manual path exists but is hidden behind help text or a support article.",
+    "The fallback loses the application reference, uploaded files, or typed fields.",
+    "The fallback route completes a different outcome than the primary path promised.",
+    "Users cannot tell whether they should retry, switch to fallback, contact support, or wait.",
+    "A support route receives calls without the reference or information needed to continue.",
+    "The fallback becomes the main path because the primary dependency is unreliable, but product owners do not measure it."
+  ],
+  "relatedPatterns": [
+    "retry",
+    "error-state",
+    "service-unavailable-page",
+    "offline-state",
+    "address-entry",
+    "no-results-recovery"
+  ],
+  "comparisons": [
+    "fallback-path-vs-retry-vs-error-state-vs-service-unavailable-page"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK addresses pattern",
+      "url": "https://design-system.service.gov.uk/patterns/addresses/",
+      "platform": "web",
+      "notes": "Documents address lookup with manual entry for international addresses or records missing from lookup results.",
+      "screenshot": "screenshots/patterns/fallback-path.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK assisted digital support",
+      "url": "https://www.gov.uk/service-manual/helping-people-to-use-your-service/designing-assisted-digital",
+      "platform": "web",
+      "notes": "Documents in-person, telephone, and webchat support routes for users who cannot use online services independently.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "web.dev offline fallback page",
+      "url": "https://web.dev/articles/offline-fallback-page",
+      "platform": "web",
+      "notes": "Documents controlled fallback pages with reconnect actions instead of browser-default network failure pages.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-addresses-pattern",
+      "note": "GOV.UK documents manual address entry as an alternative when lookup coverage is incomplete."
+    },
+    {
+      "id": "govuk-assisted-digital-support",
+      "note": "GOV.UK documents assisted digital support by phone, webchat, or in person for users who cannot complete online services independently."
+    },
+    {
+      "id": "webdev-offline-fallback-page",
+      "note": "web.dev documents controlled fallback pages with manual reconnect rather than a browser default failure."
+    },
+    {
+      "id": "w3c-wcag-multiple-ways",
+      "note": "W3C documents the accessibility goal of giving users more than one way to locate content."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

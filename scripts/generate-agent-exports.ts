@@ -39,15 +39,28 @@ function bullets(items: string[]) {
   return items.map((item) => `- ${item}`).join("\n");
 }
 
+function formatPatternType(value: PatternEntry["patternType"]) {
+  if (value === "ui") return "UI";
+  if (value === "ux") return "UX";
+  return "UI + UX";
+}
+
 function compactPattern(pattern: PatternEntry) {
   return {
     id: pattern.id,
+    completionStatus: pattern.completionStatus,
     name: pattern.name,
     category: pattern.category,
+    patternType: pattern.patternType,
+    surfaceType: pattern.surfaceType,
     maturity: pattern.maturity,
     platforms: pattern.platforms,
     problem: pattern.problem,
     solution: pattern.solution,
+    uiGuidance: pattern.uiGuidance,
+    uxGuidance: pattern.uxGuidance,
+    uiExamples: pattern.uiExamples,
+    uxExamples: pattern.uxExamples,
     problemContext: pattern.problemContext,
     selectionRules: pattern.selectionRules,
     requiredStates: pattern.requiredStates,
@@ -62,15 +75,42 @@ function compactPattern(pattern: PatternEntry) {
 }
 
 function patternsMarkdown(patterns: PatternEntry[]) {
+  if (patterns.length === 0) {
+    return `# UI/UX Pattern Guidance For LLM Agents
+
+No patterns are currently marked complete. Stub entries are intentionally excluded from agent guidance so schema-valid placeholders are not counted as implementation-ready catalog content.
+`;
+  }
+
   const sections = patterns.map((pattern) => `## ${pattern.name} (${pattern.id})
 
 Category: ${pattern.category}
+Pattern type: ${formatPatternType(pattern.patternType)}
+Surface type: ${pattern.surfaceType}
 Maturity: ${pattern.maturity}
 Platforms: ${pattern.platforms.join(", ")}
 
 Problem: ${pattern.problem}
 
 Solution: ${pattern.solution}
+
+UI guidance:
+${bullets(pattern.uiGuidance)}
+
+Good UI examples:
+${bullets(pattern.uiExamples.good)}
+
+Bad UI examples:
+${bullets(pattern.uiExamples.bad)}
+
+UX guidance:
+${bullets(pattern.uxGuidance)}
+
+Good UX examples:
+${bullets(pattern.uxExamples.good)}
+
+Bad UX examples:
+${bullets(pattern.uxExamples.bad)}
 
 Choose this when:
 ${bullets(pattern.selectionRules)}
@@ -100,6 +140,13 @@ ${sections.join("\n")}
 }
 
 function decisionGuideMarkdown(patterns: PatternEntry[]) {
+  if (patterns.length === 0) {
+    return `# Agent UI/UX Decision Guide
+
+No patterns are currently marked complete. Run the completion audit and add manual spot-check evidence before publishing decision guidance.
+`;
+  }
+
   const byId = new Map(patterns.map((pattern) => [pattern.id, pattern]));
   const pick = (ids: string[]) => ids.map((id) => byId.get(id)).filter((pattern): pattern is PatternEntry => Boolean(pattern));
   const groups = [
@@ -152,6 +199,13 @@ ${sections.join("\n")}
 
 function antiPatternMarkdown(patterns: PatternEntry[]) {
   const antiPatterns = patterns.filter((pattern) => pattern.maturity === "anti-pattern");
+  if (antiPatterns.length === 0) {
+    return `# Anti-Pattern Checklist For LLM Agents
+
+No anti-patterns are currently marked complete. Stub entries are intentionally excluded from the generated checklist.
+`;
+  }
+
   const sections = antiPatterns.map((pattern) => `## ${pattern.name} (${pattern.id})
 
 Detect when:
@@ -176,14 +230,25 @@ ${sections.join("\n")}
 }
 
 const patterns = await loadPatterns();
+const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
 await mkdir(outputDir, { recursive: true });
 
 await writeFile(
   path.join(outputDir, "patterns.json"),
-  `${JSON.stringify({ patterns: patterns.map(compactPattern) }, null, 2)}\n`
+  `${JSON.stringify(
+    {
+      counts: {
+        complete: completePatterns.length,
+        stub: patterns.length - completePatterns.length
+      },
+      patterns: completePatterns.map(compactPattern)
+    },
+    null,
+    2
+  )}\n`
 );
-await writeFile(path.join(outputDir, "patterns.md"), patternsMarkdown(patterns));
-await writeFile(path.join(outputDir, "decision-guide.md"), decisionGuideMarkdown(patterns));
-await writeFile(path.join(outputDir, "anti-pattern-checklist.md"), antiPatternMarkdown(patterns));
+await writeFile(path.join(outputDir, "patterns.md"), patternsMarkdown(completePatterns));
+await writeFile(path.join(outputDir, "decision-guide.md"), decisionGuideMarkdown(completePatterns));
+await writeFile(path.join(outputDir, "anti-pattern-checklist.md"), antiPatternMarkdown(completePatterns));
 
-console.log(`Generated agent exports for ${patterns.length} patterns.`);
+console.log(`Generated agent exports for ${completePatterns.length} complete patterns; excluded ${patterns.length - completePatterns.length} stubs.`);

@@ -1,0 +1,45 @@
+{
+  "id": "menu-button-vs-command-palette-vs-select-vs-confirmation-dialog",
+  "title": "Menu button vs command palette vs select vs confirmation dialog",
+  "summary": "Use a menu button for a short local set of contextual actions, a command palette for broad searchable product commands, a select for choosing one form value, and a confirmation dialog for reviewing high-risk consequences after an action has been chosen.",
+  "patternIds": ["menu-button", "command-palette", "select", "confirmation-dialog"],
+  "decisionRules": [
+    "Prefer a menu button when one named trigger needs to reveal a compact set of local actions or command-like links tied to the current object, row, toolbar, or view.",
+    "Prefer a command palette when the command set is broad, searchable, shortcut-driven, cross-product, or mixed with distant navigation and object switching.",
+    "Prefer a select when the user is choosing a value for a labelled field and the result should be submitted or stored as data rather than executed as a command.",
+    "Prefer a confirmation dialog after a destructive or externally visible menu item is chosen and the user must review object, consequence, and recovery before the action runs.",
+    "Use visible buttons instead of a menu button when there are only one or two frequent safe actions and hiding them would make the workflow slower.",
+    "Do not use a menu button as a drawer, rich popover, editable form, table, or long browse surface; route those jobs to panels, dialogs, pages, listboxes, or search patterns.",
+    "A menu button trigger needs a clear name, aria-haspopup, synchronized expanded state, and reliable focus return; a select needs value state and form labeling; a confirmation dialog needs modal focus and consequence copy.",
+    "Menu items should be verbs or destinations with enough object context; select options should be values; command palette rows should explain scope and command type.",
+    "Keep destructive menu items separated or visually marked, but do not rely on color alone; confirmation or undo handles the consequence after the menu item is selected.",
+    "If the design depends on filtering, ranking, recents, shortcuts, or natural language matching, it has moved beyond a menu button into command palette territory."
+  ],
+  "failureModes": [
+    "A More button contains a long searchable product command list, so users cannot predict scope or find commands efficiently.",
+    "A menu button is used to choose a form value, but activation immediately commits without value review, validation, or field semantics.",
+    "A destructive Archive item runs directly from an overflow menu and users never see the affected object, count, or recovery path.",
+    "A command palette is used for a small row action set, forcing users into a modal search flow for local commands.",
+    "A select is rebuilt as an ARIA menu, so users hear command semantics when the actual task is choosing a value.",
+    "The trigger is an unlabeled icon with stale aria-expanded state and focus never returns after Escape."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-menu-button",
+      "note": "APG defines menu button trigger semantics, expanded state, controlled menu popup, and opening keyboard behavior."
+    },
+    {
+      "id": "wai-aria-apg-menu-menubar",
+      "note": "APG defines menu composite keyboard behavior, item roles, disabled items, separators, activation, Escape dismissal, and focus return."
+    },
+    {
+      "id": "mdn-aria-menu-role",
+      "note": "MDN documents menu role expectations for action-oriented composite widgets and distinguishes them from arbitrary page content."
+    },
+    {
+      "id": "adobe-spectrum-menu",
+      "note": "Spectrum documents menu anatomy, item labeling, descriptions, disabled and unavailable states, sections, keyboard focus, text wrapping, and keyboard interactions."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

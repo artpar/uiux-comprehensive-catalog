@@ -1,0 +1,253 @@
+{
+  "id": "advanced-search",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a fielded Boolean query-construction pattern with source-backed clause, operator, query preview, parse validation, result-count preview, search history, expert-syntax, and basic-search fallback guidance plus related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers building precise queries from fields, operators, values, Boolean joiners, grouping, exact phrases, date ranges, exclusions, query previews, parse validation, result-count previews, search history, and syntax repair.",
+    "relatedPatternDistinction": "The entry separates advanced search from basic search by constructing multi-clause query semantics, from filter panel by building pre-submit query logic instead of post-result controls, from search scope selector by not choosing the corpus, and from saved search by not primarily preserving a reusable query.",
+    "liveDemoBehavior": "The live demo lets users add and remove fielded clauses, switch AND to OR, see a generated query preview, preview result counts, reset a malformed clause, and contrasts bad behavior that hides syntax, accepts impossible operators, and returns zero results for a parse error.",
+    "comparisonDecisionRules": "The linked advanced-search-vs-basic-search-vs-filter-panel-vs-search-scope-selector comparison gives concrete rules for fielded clauses, plain query entry, filter panels, corpus selection, syntax validation, history preservation, and clause semantics.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/advanced-search.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, clause builder, query preview, result-count preview, syntax repair, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/advanced-search.png"
+    ]
+  },
+  "name": "Advanced search",
+  "aliases": [
+    "advanced query builder",
+    "fielded search",
+    "Boolean search",
+    "query builder",
+    "search syntax builder",
+    "expert search",
+    "structured search",
+    "search operators"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Input And Data Entry",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Structured query builder for fielded, Boolean, grouped, or syntax-backed searches",
+  "uiGuidance": [
+    "Render advanced search as a labelled query-construction surface with visible field, operator, value, and Boolean join controls, plus a readable query preview that shows what will run.",
+    "Show parse errors, incompatible field/operator combinations, generated syntax, result-count preview, and clear actions near the clause they affect rather than only after a failed result page."
+  ],
+  "uxGuidance": [
+    "Use advanced search when users need precise retrieval across multiple fields, date ranges, exact phrases, exclusions, functions, prior searches, or grouped Boolean conditions.",
+    "Preserve the query while users switch between builder and raw syntax views, and provide a safe path back to basic search without silently discarding expert clauses."
+  ],
+  "uiExamples": {
+    "good": [
+      "A research database builder lets users choose Title/Abstract, enter a term, add it with AND or OR, preview the generated query, and see a count before leaving the page.",
+      "A work item search page shows clauses for Project equals Benefits, Status not Done, and Assignee equals current user, with the JQL preview visible below the builder.",
+      "A mail search dialog exposes From, Subject, Has attachment, Date range, and exact phrase fields while also showing the operator query it will run."
+    ],
+    "bad": [
+      "A button named Advanced search opens the same one-line keyword input with a larger border.",
+      "The builder shows unlabeled dropdowns for fld1, op2, and val without explaining the user-facing field or allowed values.",
+      "A raw syntax box accepts unmatched quotes and invalid field names, then returns no results with no parse error."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user adds Author contains Patel OR Journal equals Pediatrics, previews 28 matches, and saves the finished query after confirming the generated syntax.",
+      "A user enters an unsupported operator for Date and gets an inline repair message that offers Before, After, or Between without losing the date value.",
+      "A user combines search history entries #1 AND #2, edits the query preview, and returns to results with the same clauses encoded in the URL."
+    ],
+    "bad": [
+      "A user changes AND to OR but the UI does not show grouping, causing a much broader query than intended.",
+      "A user switches from raw syntax to form mode and the product drops the NOT clause because the form cannot represent it.",
+      "A user previews a query count, changes the scope selector, and the stale count remains as if the same corpus was searched."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to retrieve a precise set of records, messages, files, citations, issues, or code results, but ordinary keyword search and visible filters cannot express fielded conditions, Boolean logic, grouping, or expert syntax safely.",
+  "solution": "Provide an advanced search builder or syntax surface that exposes field/operator/value clauses, Boolean joining, query preview, validation, result-count preview, history, and recovery from unsupported syntax before users commit to a search.",
+  "problemContext": [
+    "The search backend supports fielded queries, operators, Boolean logic, exact phrases, date ranges, functions, history references, qualifiers, regular expressions, or other expert syntax.",
+    "Users need precision, repeatability, auditing, or shareability that cannot be achieved with one keyword box and a few post-result filters.",
+    "Small syntax mistakes can return no results, too many results, or confidentially broad results, so the interface must help users inspect and repair the query."
+  ],
+  "selectionRules": [
+    "Choose advanced search when users must combine multiple search clauses before execution, such as field plus operator plus value joined by AND, OR, or NOT.",
+    "Use a builder when users know the concepts but not the exact query syntax; use raw syntax when expert users need full control that a form cannot represent.",
+    "Show generated syntax or a readable query preview for every builder state so users can verify field names, grouping, phrase matching, exclusions, and date ranges.",
+    "Validate field/operator compatibility before running the query, especially for dates, numeric ranges, controlled values, functions, and exact-phrase syntax.",
+    "Offer result-count preview or add-to-history actions when users need to compare query alternatives before opening a full result page.",
+    "Keep search scope, filters, sort order, and saved query identity separate from advanced clauses so changing one does not silently mutate the others.",
+    "Use filter panel instead when all criteria are visible controls that narrow an already returned result set without Boolean grouping or query syntax.",
+    "Use saved search when the primary task is naming, sharing, rerunning, or alerting on a query that already exists.",
+    "Use query correction when the main failure is a misspelled term, not a malformed fielded query.",
+    "Use browse by category when users are exploring a known taxonomy rather than constructing a precise retrieval expression."
+  ],
+  "requiredStates": [
+    "Empty builder state with field, operator, value, and Boolean controls labelled.",
+    "Partially built query state with a generated preview and clear next action.",
+    "Valid query state with result-count preview or ready-to-search status.",
+    "Invalid syntax state for unmatched quotes, unsupported operators, missing values, or broken grouping.",
+    "Unsupported field/operator state with suggested alternatives.",
+    "Builder-to-raw-syntax state that preserves representable clauses and warns about clauses the builder cannot represent.",
+    "Search history state where previous queries can be combined or copied.",
+    "No-results state that keeps the full query visible and offers clause-level repair.",
+    "Deep-linked or saved state that restores clauses, raw syntax, scope, filters, and sort separately."
+  ],
+  "interactionContract": [
+    "Adding a clause appends a visible field, operator, value, and joiner to the canonical query state.",
+    "Removing a clause updates the generated query, result-count preview, and validation state without clearing unrelated clauses.",
+    "Changing Boolean joiners or grouping updates the preview immediately so users can see whether the query became broader or narrower.",
+    "The product must not execute malformed syntax as a silent zero-result query when it can detect a missing value, unmatched quote, invalid field, or unsupported operator.",
+    "Switching between builder and raw syntax preserves all query meaning that both modes can represent and explicitly warns before dropping anything.",
+    "Submitting an advanced query includes its clauses in the URL, history entry, saved search, export, or audit trail when those features exist.",
+    "Result-count preview belongs to the same query, scope, and filters currently shown; stale previews must be marked pending or cleared."
+  ],
+  "implementationChecklist": [
+    "Define the searchable fields, user-facing labels, allowed operators, value types, autocomplete sources, and backend syntax for each clause type.",
+    "Model the query as structured data first, then serialize to backend syntax so the UI can validate, preview, restore, and edit clauses reliably.",
+    "Provide explicit controls for AND, OR, NOT, grouping, exact phrase, date range, field selection, and value entry only where the backend supports them.",
+    "Show generated syntax or a plain-language query summary before submission.",
+    "Validate missing values, unsupported field/operator pairs, unmatched quotes, malformed dates, unsafe wildcards, and grouping errors before running.",
+    "Add a result-count preview or add-to-history option when users compare query variants.",
+    "Preserve raw query text when parsing fails so users can repair rather than retype.",
+    "Keep advanced search state shareable through URL parameters, saved searches, or history when users need to resume or collaborate.",
+    "Test expert syntax, builder mode, invalid syntax, history combination, mobile layout, keyboard order, screen reader labels, and no-results repair."
+  ],
+  "commonMisuses": [
+    "Calling a simple filter drawer advanced search without supporting clauses, Boolean logic, or query preview.",
+    "Hiding generated syntax so users cannot inspect exactly what the builder will submit.",
+    "Returning zero results for parse errors instead of showing the broken clause.",
+    "Mixing search scope, filters, sort, and advanced clauses into one opaque text string with no recoverable controls.",
+    "Using backend-only field names in the UI without user-facing labels.",
+    "Discarding raw syntax when switching to a builder that cannot represent the query."
+  ],
+  "critiqueQuestions": [
+    "What makes this search advanced: fields, operators, Boolean logic, grouping, history, syntax, or result-count preview?",
+    "Can users inspect the exact query before it runs?",
+    "How does the UI distinguish malformed syntax from a valid query that has no results?",
+    "Which field/operator combinations are allowed, and where are invalid combinations blocked or repaired?",
+    "What happens when users switch between basic, builder, and raw syntax modes?",
+    "Are scope, filters, sort, saved-search name, and advanced clauses stored separately enough to avoid stale counts or lost criteria?"
+  ],
+  "useWhen": [
+    "Expert or repeat users need precise retrieval across fields, operators, phrases, dates, ranges, exclusions, functions, or prior search history.",
+    "Search results have operational, legal, clinical, engineering, or audit consequences and users need inspectable query logic.",
+    "The system supports backend query syntax that users may need to see, edit, share, save, or debug.",
+    "Users compare query alternatives and need result counts before committing to a result page."
+  ],
+  "avoidWhen": [
+    "Most users only need one keyword box and a ranked result list.",
+    "Criteria are simple post-result filters that can be exposed as a filter panel.",
+    "The product only has one searchable corpus and no fielded query semantics.",
+    "The query grammar is unstable, undocumented, or cannot be explained in user-facing terms.",
+    "The task is browsing a taxonomy, category tree, or curated recommendations rather than constructing a precise query."
+  ],
+  "variants": [
+    "Field/operator/value query builder",
+    "Raw syntax advanced search",
+    "Boolean clause builder",
+    "Search history combiner",
+    "Query preview with result count",
+    "Date-range advanced search",
+    "Exact-phrase and exclusion search",
+    "Regular expression search",
+    "Saved advanced query",
+    "Builder and expert mode toggle"
+  ],
+  "accessibility": [
+    "Label each field, operator, value input, Boolean joiner, grouping control, generated query, and validation message with stable accessible names.",
+    "Use native form controls where possible and group each clause so screen reader users can understand which operator and value belong together.",
+    "Announce result-count preview changes and parse errors through a polite status region without moving focus unexpectedly.",
+    "Do not rely on syntax color alone to explain valid, invalid, grouped, or excluded clauses.",
+    "Keep remove-clause and reorder-clause controls keyboard reachable and named with the affected clause.",
+    "When exposing raw syntax, provide plain-language help for supported fields, operators, quoting, grouping, and examples."
+  ],
+  "keyboardBehavior": [
+    "Tab moves through field, operator, value, joiner, add, preview, search, and history controls in construction order.",
+    "Enter in a value field can add the clause when that is the documented form behavior; it should not submit a malformed query unexpectedly.",
+    "Arrow keys operate native selects or segmented Boolean controls according to their semantics.",
+    "Escape closes field or value suggestion menus without clearing the current clause.",
+    "After adding or removing a clause, focus moves to the next logical field or remains on a clear status point rather than jumping to results.",
+    "Errors link or move focus to the first invalid clause when users submit a malformed query."
+  ],
+  "failureModes": [
+    "Advanced search becomes a second basic search box with no additional query power.",
+    "Users cannot tell whether AND, OR, or parentheses will be interpreted before the query runs.",
+    "The UI creates syntax the backend rejects.",
+    "The backend accepts malformed text as a literal query and users misread zero results as proof that nothing exists.",
+    "A result-count preview belongs to an old query after users edit clauses.",
+    "Switching modes loses exclusions, functions, history references, or exact phrases.",
+    "Mobile layouts hide validation or generated query preview below the submit button."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "filter-panel",
+    "search-scope-selector",
+    "saved-search",
+    "saved-filter",
+    "search-result-highlighting",
+    "filter-chips",
+    "no-results-recovery",
+    "sort-controls"
+  ],
+  "comparisons": [
+    "advanced-search-vs-basic-search-vs-filter-panel-vs-search-scope-selector"
+  ],
+  "examples": [
+    {
+      "product": "PubMed Advanced Search Builder",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/help/#advanced-search",
+      "platform": "web",
+      "notes": "Shows field selection, Boolean add actions, query box construction, index browsing, result-count preview in history, history combination, and search details.",
+      "screenshot": "screenshots/patterns/advanced-search.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Jira Cloud advanced search",
+      "url": "https://support.atlassian.com/jira-service-management-cloud/docs/what-is-advanced-search-in-jira-cloud/",
+      "platform": "web",
+      "notes": "Documents JQL clauses built from fields, operators, values, functions, and keywords for precise work item retrieval.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GitHub Code Search syntax",
+      "url": "https://docs.github.com/en/search-github/github-code-search/understanding-github-code-search-syntax",
+      "platform": "web",
+      "notes": "Documents exact strings, Boolean operations, qualifiers, parentheses, regular expressions, and syntax spacing rules for advanced code queries.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Gmail search operators",
+      "url": "https://support.google.com/mail/answer/7190?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents user-facing operators for from, to, subject, date, category, attachment, filename, grouping, exact phrase, status, and size constraints.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pubmed-advanced-search-builder",
+      "note": "PubMed documents advanced builder fields, Boolean add actions, indexes, history, result-count preview, and search details."
+    },
+    {
+      "id": "jira-cloud-advanced-search-jql",
+      "note": "Jira documents advanced search through JQL fields, operators, values, functions, and keywords."
+    },
+    {
+      "id": "github-code-search-syntax",
+      "note": "GitHub documents advanced code search syntax including exact strings, Boolean logic, qualifiers, parentheses, and regular expressions."
+    },
+    {
+      "id": "gmail-search-operators",
+      "note": "Gmail documents advanced search operators, grouping, exact phrases, fielded constraints, status constraints, and attachment constraints."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

@@ -1,0 +1,243 @@
+{
+  "id": "permission-recovery",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed access recovery workflow after an authorization boundary, with guidance for role request, reason capture, owner routing, pending and duplicate handling, approved and declined outcomes, wrong-account switching, policy escalation, safe fallback, retry-after-grant, comparison boundaries, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets permission recovery after denial, including original blocked task preservation, current account, current role, requested role, reason entry, owner or admin destination, request ID, pending state, duplicate request prevention, approval, decline, wrong-account switching, policy block, safe fallback, and retry or resume only after authorization changes.",
+    "relatedPatternDistinction": "The entry separates permission recovery from permission denied state by making recovery the request and outcome lifecycle after the boundary is explained, from session timeout warning by treating authorization grants rather than authentication expiry, from retry by allowing retry only after access changes, and from error state by avoiding transient-failure treatment for unchanged denials.",
+    "liveDemoBehavior": "The live demo shows a blocked quarterly report with Good UI, Bad UI, Good UX, and Bad UX panels. The Good UX controls exercise Start, Choose role, Add reason, Send request, Pending, Approved, Retry after grant, Declined, Switch account, and Policy block, including a disabled retry until approval, pending duplicate prevention, resumed original task, policy escalation, and safe fallback. The Bad UX controls exercise Retry loop, False grant, Duplicate, Hidden owner, Policy loop, and Leak details failure paths.",
+    "comparisonDecisionRules": "The permission-recovery-vs-permission-denied-state-vs-session-timeout-warning-vs-retry comparison gives concrete rules for choosing permission recovery when a denied user can request or regain access, permission denied state for explaining the authorization boundary, session timeout warning for authentication expiry, and retry only for repeatable authorized operations or after a permission change.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/permission-recovery/ and /compare/permission-recovery-vs-permission-denied-state-vs-session-timeout-warning-vs-retry/ on 2026-06-10. Live check exercised Start, Choose role, Add reason, Send request, Pending, Approved, Retry after grant, Declined, Switch account, Policy block, Retry loop, False grant, Duplicate, Hidden owner, Policy loop, and Leak details controls. screenshots/patterns/permission-recovery.png captures Good UI, Bad UI, Good UX, Bad UX, role request, owner route, request timeline, retry guard, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/permission-recovery.png"
+    ]
+  },
+  "name": "Permission recovery",
+  "aliases": [
+    "access recovery",
+    "request access workflow",
+    "recover permissions",
+    "permission request lifecycle",
+    "access request flow",
+    "owner approval recovery",
+    "wrong account access recovery",
+    "role request workflow"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Collaboration And Social Interaction",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Guided workflow for regaining or routing around missing access",
+  "uiGuidance": [
+    "Show a recovery workspace after denial with the current account, current role, requested role, safe owner or admin destination, request reason, policy limits, status timeline, and original blocked task.",
+    "Separate request submission, pending owner decision, approved access, declined access, wrong-account switch, policy escalation, and safe fallback actions so users do not confuse recovery with repeated retry."
+  ],
+  "uxGuidance": [
+    "Use permission recovery when users can take a concrete step to regain access, use another identity, request a different role, escalate a policy block, or continue with a safe fallback after an authorization denial.",
+    "Preserve the original intent and return path, avoid duplicate requests, expose request status and outcomes, and retry the original action only after the authorization state has actually changed."
+  ],
+  "uiExamples": {
+    "good": [
+      "A restricted report recovery panel shows alex@northwind.example lacks Finance viewer access, lets the user request Viewer or Editor with a reason, names Priya as the approver, shows request ACC-2048 as pending, and returns to the report after approval.",
+      "A file access screen detects the file is already shared with another signed-in account and offers Switch to northwind-finance@example.com before sending a new request.",
+      "A repository settings page says Maintain role cannot edit secrets, explains Admin is required, offers Contact admins with the setting path attached, and leaves read-only repository navigation available."
+    ],
+    "bad": [
+      "A blocked report only has Retry, so the user repeats the same denied request.",
+      "A request access form says Done immediately and never shows whether an owner approved, declined, or even received the request.",
+      "A policy-blocked file keeps offering Request access even though organization policy prevents external sharing."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user requests Finance viewer access with a reason, sees the request is pending with Priya, receives approval, opens the report from the same recovery panel, and lands back on the original report.",
+      "A user tries to request access for the wrong account, switches to a signed-in account that already has the share grant, and returns to the file without creating a duplicate owner request.",
+      "A developer blocked by repository role sees Admin is required for secrets, sends a request to repository admins with the setting path, and keeps using read-only settings while waiting."
+    ],
+    "bad": [
+      "A user repeatedly clicks Retry on a permission denial because the UI treats authorization as a transient load failure.",
+      "A user submits three access requests because the first request's pending state disappears after reload.",
+      "A user waits for an owner who cannot grant access because the product hid the policy block and escalation path."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users cannot complete blocked work when the product stops at access denied, loses the original task, repeats denied requests, hides request ownership or status, or offers request paths that cannot actually change the permission.",
+  "solution": "Provide a permission recovery workflow that preserves the blocked task, identifies the current identity and missing access, gathers the requested role and reason, routes to an authorized owner or admin, tracks pending and final outcomes, supports wrong-account switching, and retries or resumes only after access changes.",
+  "problemContext": [
+    "The product has already determined that authorization, role membership, sharing, policy, license, or owner approval blocks a known task.",
+    "The user has a viable recovery path such as request access, switch account, choose a lower-risk fallback, contact an owner, ask an admin, join a group, or escalate a policy exception.",
+    "The request may have asynchronous states: sent, pending, duplicate, approved, declined, expired, owner unavailable, or policy blocked.",
+    "The product must preserve least-privilege and no-disclosure rules while giving users enough state to recover without support guesswork."
+  ],
+  "selectionRules": [
+    "Choose permission recovery when the interface needs to guide users through request, approval, switch-account, policy, fallback, or retry-after-grant steps after a permission denial.",
+    "Use permission denied state for the durable blocked access message itself; permission recovery is the workflow that follows when recovery actions are possible.",
+    "Use session timeout warning when authentication expired or is about to expire; use permission recovery when the user is authenticated but lacks authorization.",
+    "Use retry only after a permission or role change has happened; retrying the same denied request is not recovery.",
+    "Use error state when an operation failed despite adequate authorization, not when the required role or share grant is missing.",
+    "Name the original blocked task and return destination when policy allows, so successful recovery resumes the user's intent.",
+    "Collect only access-relevant information such as requested role, reason, duration, account, workspace, object, owner, and policy exception.",
+    "Show duplicate request, pending request, approved, declined, expired, owner unavailable, and policy-blocked outcomes distinctly.",
+    "Offer wrong-account switching before owner requests when another signed-in account already has access.",
+    "Do not promise access before an authorized owner, admin, policy engine, or entitlement system grants it."
+  ],
+  "requiredStates": [
+    "Recovery start state with original blocked task and current account.",
+    "Requested role selection state.",
+    "Reason or justification entry state.",
+    "Owner or admin routing state.",
+    "Request sent state with request ID and destination.",
+    "Pending request state that prevents duplicates.",
+    "Approved state with retry or reopen original task.",
+    "Declined state with safe fallback or escalation.",
+    "Wrong-account switch state with return path.",
+    "Policy-blocked or owner-unavailable state with support-safe escalation."
+  ],
+  "interactionContract": [
+    "The recovery workflow opens from a known permission denial and keeps the original object or action attached when safe to reveal.",
+    "Submitting a request records requester account, requested role, reason, target, owner or admin destination, timestamp, and request ID.",
+    "A duplicate request reopens the existing pending state instead of sending another owner notification.",
+    "Switch account returns to the intended object or action after authentication when possible.",
+    "Approval changes the available actions and lets users retry, reopen, or resume the original task.",
+    "Decline, expiry, policy block, and owner-unavailable states explain what will not change through retry and offer safe alternatives.",
+    "No-disclosure policies suppress restricted object metadata while still allowing neutral account, support, or policy recovery.",
+    "Notification or email outcomes deep-link back to the recovery state instead of losing the request context."
+  ],
+  "implementationChecklist": [
+    "Model permission recovery separately from unauthenticated, not found, operation failure, validation failure, and empty-content states.",
+    "Store recovery state with denied action, target object, requestability, current account, current role, requested role, owner visibility, policy limit, request ID, status, and return URL.",
+    "Implement role selection, reason entry, request submission, duplicate-request detection, pending status, cancel or update request, approval, decline, expiry, and escalation flows.",
+    "Detect wrong-account cases and preserve the intended resource through account switching.",
+    "Route owner-unavailable and policy-blocked states to admins, support, or allowed fallback instead of resending impossible requests.",
+    "Keep safe fallback tasks such as read-only view, copy ID, open allowed dashboard, or contact manager available while recovery is pending.",
+    "Test owner approval, owner decline, duplicate request, reload during pending, notification return, wrong account, policy block, no-disclosure, request expiration, keyboard access, and screen reader status announcements."
+  ],
+  "commonMisuses": [
+    "Offering Retry for an unchanged authorization denial.",
+    "Treating request submission as access approval.",
+    "Hiding pending request status and sending duplicate owner notifications.",
+    "Letting users request a role that the target owner cannot grant.",
+    "Losing the original blocked task after approval.",
+    "Exposing restricted object details in request history or notifications.",
+    "Blocking safe read-only or fallback work while access is pending."
+  ],
+  "critiqueQuestions": [
+    "What exact role, share grant, license, or policy change would recover the task?",
+    "Who can approve it, and is that destination safe to reveal?",
+    "Can the user switch to an account that already has access before requesting new access?",
+    "What prevents duplicate requests while a decision is pending?",
+    "How does the user resume the original blocked task after approval?",
+    "What happens when access is declined, expired, owner-unavailable, or policy-blocked?"
+  ],
+  "useWhen": [
+    "A denied user can request access, switch accounts, ask an admin, join a group, or use a safe fallback to continue.",
+    "The request or approval lifecycle matters after the initial permission denied state.",
+    "The product can track access request status and return users to the original task after approval.",
+    "Policy or ownership rules may require escalation, expiry, or a different requested role."
+  ],
+  "avoidWhen": [
+    "The product only needs to state that access is denied and no recovery path exists.",
+    "The user is unauthenticated and the next step is sign-in or session extension.",
+    "The blocked resource must be hidden behind a neutral not-found response with no request path.",
+    "The operation failed for network, server, validation, or data reasons after permission was granted.",
+    "The product cannot route, track, or honor access requests from this surface."
+  ],
+  "variants": [
+    "Request access workflow",
+    "Pending permission request",
+    "Access approved resume",
+    "Access declined escalation",
+    "Wrong-account recovery",
+    "Role upgrade request",
+    "Owner approval workflow",
+    "Policy exception request",
+    "Read-only fallback recovery",
+    "Duplicate request recovery"
+  ],
+  "accessibility": [
+    "Move focus to the recovery heading when the workflow opens from a denial.",
+    "Use text labels for current account, requested role, owner destination, status, and policy outcome rather than lock icons alone.",
+    "Associate requested-role controls, reason fields, validation messages, and submit buttons with accessible labels.",
+    "Announce request sent, pending, approved, declined, expired, and policy-blocked updates through a polite status region.",
+    "Keep switch account, request access, cancel request, open fallback, contact owner, and resume task controls keyboard reachable.",
+    "In no-disclosure variants, avoid restricted object details in headings, browser title, accessible names, request messages, and notification text."
+  ],
+  "keyboardBehavior": [
+    "Focus starts on the recovery title or first required recovery input.",
+    "Tab order moves through current account, requested role, reason, owner or admin destination, submit, fallback, and cancel actions.",
+    "After submit, focus moves to the pending status and duplicate-request prevention controls.",
+    "After approval, focus moves to the resume original task action.",
+    "After decline or policy block, focus moves to the safe fallback or escalation action.",
+    "Switch-account return restores focus near the formerly blocked object or action when possible."
+  ],
+  "failureModes": [
+    "Retry loops send the same unauthorized request because no role changed.",
+    "A request disappears after reload, so users submit duplicate requests.",
+    "The owner receives a vague request without requested role, reason, account, target, or timestamp.",
+    "Approval succeeds but users land on a dashboard instead of the original blocked resource.",
+    "A declined request still shows Request access as the primary action with no escalation or fallback.",
+    "Policy-blocked sharing still routes to an owner who cannot grant it.",
+    "Notification text leaks a restricted object title to a user who should not know it exists."
+  ],
+  "relatedPatterns": [
+    "permission-denied-state",
+    "session-timeout-warning",
+    "retry",
+    "error-state",
+    "notification-center",
+    "warning-text",
+    "confirmation-dialog",
+    "empty-state"
+  ],
+  "comparisons": [
+    "permission-recovery-vs-permission-denied-state-vs-session-timeout-warning-vs-retry"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft SharePoint access requests",
+      "url": "https://support.microsoft.com/en-us/office/set-up-and-manage-access-requests-94b26e0b-2822-49d4-929a-8455698654b3",
+      "platform": "web",
+      "notes": "Documents access request settings, owner notification, approving or declining requests, assigning permission levels, request history, and site-owner authority.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Google Drive file access",
+      "url": "https://support.google.com/drive?p=requesting_access",
+      "platform": "web",
+      "notes": "Documents You need access, viewer/commenter/editor levels, requesting access with a reason, owner decision notifications, pending outcomes, wrong-account checks, and policy limits.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GitHub repository roles",
+      "url": "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization",
+      "platform": "web",
+      "notes": "Documents repository role levels and action-specific boundaries that support role upgrade and admin-contact recovery paths.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-sharepoint-access-requests",
+      "note": "SharePoint documents owner-routed access requests, approve or decline outcomes, permission-level assignment, request history, and site-owner authority."
+    },
+    {
+      "id": "google-drive-file-access-requests",
+      "note": "Google Drive documents request access with a reason, owner decisions, pending outcomes, wrong-account recovery, role levels, and policy limits."
+    },
+    {
+      "id": "github-repository-roles",
+      "note": "GitHub documents role-based repository boundaries that support action-specific role upgrade and admin-contact recovery paths."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

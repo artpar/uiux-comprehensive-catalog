@@ -1,0 +1,62 @@
+{
+  "id": "empty-state-vs-no-results-recovery-vs-error-state",
+  "title": "Empty state vs no-results recovery vs error state",
+  "summary": "Use an empty state when nothing exists yet, no-results recovery when filters or search excluded everything, and an error state when the system failed to produce expected content.",
+  "patternIds": ["empty-state", "no-results-recovery", "error-state"],
+  "decisionRules": [
+    "Prefer empty state when the content area is legitimately blank because nothing has been created, imported, configured, or made available yet.",
+    "Prefer no-results recovery when content exists in the system but the user's query, filters, or sort criteria excluded every item.",
+    "Prefer error state when expected content cannot be loaded, saved, or computed because a request, service, permission, or validation path failed.",
+    "Do not show an empty state while data is still unresolved; use loading skeleton or progress feedback until the system knows whether the area is empty.",
+    "For permission or setup gaps, keep the empty state only if the absence is expected and explain the prerequisite instead of offering an action the user cannot perform.",
+    "For destructive cleanup or deletion, confirm the area is intentionally empty and offer restoration, creation, or import only when those actions are available.",
+    "For search pages, keep the user's query and filters visible and offer recovery actions; do not replace no-results with first-use onboarding copy.",
+    "For load, save, sync, or permission failures, keep the affected content or draft context visible and offer retry, edit, fallback, or support escalation that matches the cause.",
+    "Do not use a transient toast for a blocking failure that changes whether the page can be trusted; keep the error visible until recovery, dismissal, or escalation is complete."
+  ],
+  "failureModes": [
+    "Showing a blank area with no cause or next step.",
+    "Telling users there are no results when the real cause is a system failure.",
+    "Treating first-use emptiness as an error.",
+    "Offering create or import actions to users without permission.",
+    "Showing the empty state before the first data request finishes.",
+    "Using cheerful onboarding copy after users intentionally deleted or filtered content.",
+    "Clearing user-entered work after a failed save.",
+    "Showing only Something went wrong with no affected object, retry, fallback, or support path."
+  ],
+  "sources": [
+    {
+      "id": "carbon-empty-states-pattern",
+      "note": "Carbon distinguishes no-data empty states, user-action no-results states, and error-management empty states."
+    },
+    {
+      "id": "atlassian-empty-state",
+      "note": "Atlassian documents empty states with explanation, next actions, and variants for permission, filtered, and error situations."
+    },
+    {
+      "id": "sap-fiori-illustrated-message",
+      "note": "SAP Fiori documents contextual illustrated message states with title, description, optional actions, and situation-matched content."
+    },
+    {
+      "id": "atlassian-error-messages",
+      "note": "Atlassian documents direct error messages with specific calls to action and message treatment matched to journey context."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon distinguishes inline, toast, actionable, and modal notification treatments for messages near affected content."
+    },
+    {
+      "id": "va-error-messages",
+      "note": "VA documents clear, direct error messages with calls to action that tell users how to resolve the issue."
+    },
+    {
+      "id": "maersk-handling-no-results",
+      "note": "Maersk guidance focuses no-results treatment on clear feedback and recovery after search or filtering reaches a dead end."
+    },
+    {
+      "id": "govuk-design-system-patterns",
+      "note": "GOV.UK service patterns emphasize clear task state, recovery, and accessible error handling."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

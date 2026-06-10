@@ -1,0 +1,45 @@
+{
+  "id": "transfer-list-vs-multi-select-vs-listbox-vs-checkbox-group",
+  "title": "Transfer list vs multi-select vs listbox vs checkbox group",
+  "summary": "Use a transfer list when users must move items between two visible sets and review the destination set, multi-select for compact long-list picking, listbox for one visible selectable list, and checkbox group for short independent choices.",
+  "patternIds": ["transfer-list", "multi-select", "listbox", "checkbox-group"],
+  "decisionRules": [
+    "Prefer transfer list when the task is explicitly moving items from an available set to a selected set and users need to compare both sets while they work.",
+    "Prefer transfer list over multi-select when the selected set has its own order, minimum or maximum count, required locked items, or a separate destination label such as Selected permissions or Chosen upgrades.",
+    "Prefer multi-select when the main burden is finding several values in a long or remote option set and the selected values can be reviewed as chips or tags outside a compact picker.",
+    "Prefer a standalone listbox when users choose or inspect options within one list and there is no destination list or transfer action.",
+    "Prefer checkbox group when the option set is short enough to keep every independent choice visible without shuttle buttons, counters, source and destination panes, or custom listbox focus management.",
+    "Do not use transfer list on narrow mobile views unless the design provides a stacked equivalent with clear add, remove, and destination-review actions.",
+    "Use disabled move and reorder buttons to communicate unavailable actions; do not hide the controls or let empty selections trigger no-op moves.",
+    "When selected item order matters, provide explicit move-up and move-down controls and announce the new position instead of relying only on drag and drop.",
+    "When many available items exist, add filtering or grouping to the source pane without hiding already selected destination items.",
+    "Avoid transfer list when users only need a yes-or-no toggle, one value, or a command action; those jobs belong to switch, select, radio, button, or menu patterns."
+  ],
+  "failureModes": [
+    "Users move items to the right pane but cannot tell which values will be submitted because selected counts, pane labels, or review state are missing.",
+    "The selected pane order is persisted but there is no keyboard-accessible way to move selected items up or down.",
+    "Move buttons remain enabled when no source item is selected, so users repeatedly activate controls that cannot change anything.",
+    "Filtering the available pane removes selected items from the destination pane and silently changes the submitted value.",
+    "A compact multi-select job is forced into two large panes, making a simple tag picker slower and harder on small screens.",
+    "A source list and destination list expose options without aria-selected, aria-multiselectable, accessible labels, or live-region feedback after moves."
+  ],
+  "sources": [
+    {
+      "id": "mui-transfer-list",
+      "note": "MUI defines transfer list or shuttle behavior as moving one or more items between lists and documents move-all, select-all, counters, and desktop limitations."
+    },
+    {
+      "id": "salesforce-lightning-dual-listbox",
+      "note": "Salesforce documents two listboxes, move buttons, selected order persistence, min and max validation, disabled controls, keyboard shortcuts, typeahead, and high-zoom stacking."
+    },
+    {
+      "id": "wai-aria-apg-listbox-rearrangeable",
+      "note": "APG rearrangeable listbox examples cover add, remove, reorder, aria-activedescendant, shortcuts, focus placement after moves, and live-region confirmations."
+    },
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG listbox guidance covers option roles, multi-selection, aria-multiselectable, selected state, keyboard movement, typeahead, and restrictions on interactive option descendants."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

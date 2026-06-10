@@ -1,0 +1,257 @@
+{
+  "id": "menu-button",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a button-controlled action menu pattern with source-backed trigger semantics, popup menu roles, roving focus behavior, Escape dismissal, focus return, disabled and destructive item handling, and distinctions from command palette, select, listbox, dialog, header overflow, global navigation, and ambiguous icon actions.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a named trigger, aria-haspopup, aria-expanded, optional aria-controls, role menu popup, menuitem roles, roving focus or aria-activedescendant, active item, disabled item, separator, destructive item handoff, typeahead, Arrow key movement, Enter or Space activation, Escape dismissal, outside dismissal, and focus return.",
+    "relatedPatternDistinction": "The entry separates menu button from command palette by local short command sets versus searchable product-wide command execution, from select and listbox by actions rather than values, from confirmation dialog by consequence review after a command is chosen, from header and global navigation by local trigger-popup behavior, and from icon-only ambiguous actions by requiring a named trigger and named menu items.",
+    "liveDemoBehavior": "The live demo opens a named Report actions menu, moves the active item down and up, focuses items in the popup, activates safe actions, blocks an unavailable item, sends Archive report to confirmation review, supports Escape close, returns focus to the trigger, and contrasts hover-only stale-expanded behavior with mixed controls inside a popup.",
+    "comparisonDecisionRules": "The linked menu-button-vs-command-palette-vs-select-vs-confirmation-dialog comparison gives concrete rules for short local action menus, broad searchable command execution, value selection, and high-risk consequence review.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/menu-button.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, named trigger, opened menu, active item, disabled item, destructive handoff, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/menu-button.png"
+    ]
+  },
+  "name": "Menu button",
+  "aliases": [
+    "action menu button",
+    "overflow menu button",
+    "dropdown action button",
+    "more actions button",
+    "menu trigger"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Button-controlled popup menu of actions or links",
+  "uiGuidance": [
+    "Render a named button trigger, visible opened state, controlled popup, menu items, active item styling, disabled item state, separator or section grouping, and a safe way to distinguish destructive commands.",
+    "Keep menu items as clear verbs or destinations, keep the menu compact, and avoid placing arbitrary forms, long content, nested page layouts, or primary task completion inside the popup."
+  ],
+  "uxGuidance": [
+    "Use a menu button when users need to reveal a short contextual set of commands or links from a single trigger without leaving the current object or toolbar context.",
+    "Make dismissal, activation, focus return, unavailable actions, and high-risk command handoff predictable so the menu behaves like a command chooser rather than a hidden form."
+  ],
+  "uiExamples": {
+    "good": [
+      "A table row has a Report actions button that opens a compact menu with Open, Rename, Duplicate, Archive, and an unavailable Export item.",
+      "A toolbar has a More actions button with secondary commands grouped after visible primary actions and a separator before destructive commands.",
+      "A navigation menu button opens a short list of destination links and returns focus to the trigger when dismissed."
+    ],
+    "bad": [
+      "An unlabeled ellipsis opens a loose panel of buttons, inputs, links, toggles, and destructive commands with no active item.",
+      "A primary Save action is hidden behind More while lower-priority icons remain visible.",
+      "Hover opens the menu but keyboard focus stays on the page and aria-expanded remains false."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens Report actions, arrows to Duplicate report, activates it, and focus returns to the Report actions trigger with a status update.",
+      "A user arrows to Archive report and the menu closes into a confirmation flow instead of archiving directly.",
+      "A user presses Escape while focus is in the menu and returns to the trigger without losing the current row context."
+    ],
+    "bad": [
+      "A user tabs into a menu and lands in a text input because the menu contains unrelated form controls.",
+      "A user hovers over an ellipsis, the panel opens visually, but keyboard users cannot reach the first item or dismiss it with Escape.",
+      "A destructive menu item runs immediately from a compact overflow menu without confirmation, undo, or object context."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need access to a short set of contextual commands, but showing every secondary action as a visible button crowds the interface and hiding commands behind unnamed popups breaks predictability.",
+  "solution": "Provide a named button that controls a menu of actions or links, exposes expanded state, moves focus into the menu, supports composite keyboard navigation, activates one command at a time, and returns focus to the trigger on close.",
+  "problemContext": [
+    "An object, row, card, toolbar, or header has more actions than should be visible at once.",
+    "The commands are contextual and short enough to scan without search.",
+    "Users need to know whether each item runs an action, opens a destination, is unavailable, or requires a confirmation step.",
+    "The popup should be transient and dismissible without committing a value.",
+    "The interaction must work for pointer, keyboard, touch, and assistive technology users."
+  ],
+  "selectionRules": [
+    "Choose a menu button when one trigger reveals a short local set of actions or command-like links.",
+    "Use a command palette when the command set is broad, searchable, cross-product, shortcut-driven, or includes navigation across distant areas.",
+    "Use a select, listbox, radio group, or checkbox group when users are choosing values for a form field rather than invoking commands.",
+    "Use a confirmation dialog after a high-risk menu item is chosen when the user must review object, consequence, and recovery before the action runs.",
+    "Use visible buttons instead of a menu when there are only one or two frequent safe actions and hiding them would slow the task.",
+    "Use a header or global navigation pattern when the main design problem is screen orientation or top-level destination switching, not a local trigger-popup widget.",
+    "Do not use an unnamed icon as the only clue for unfamiliar actions; the trigger and every item need an accessible name that explains the target or outcome.",
+    "Keep menu content to menu items, optional sections, separators, shortcuts, descriptions, and selection indicators; move forms, complex editors, tables, and long content into dialogs, popovers, panels, or pages."
+  ],
+  "requiredStates": [
+    "Closed trigger state with visible or accessible name.",
+    "Open state with aria-expanded true and a controlled menu.",
+    "First active item after opening from Enter, Space, or Down Arrow.",
+    "Last active item after opening from Up Arrow.",
+    "Hover and keyboard focus state for each menu item.",
+    "Activated safe command state with menu closed and focus returned.",
+    "Escape dismissed state with no command committed.",
+    "Outside-click or blur dismissal state.",
+    "Disabled or unavailable menu item state.",
+    "Destructive or high-risk command state that opens confirmation or recovery.",
+    "Grouped section or separator state when commands have different scopes.",
+    "Long label, narrow viewport, and forced-colors states."
+  ],
+  "interactionContract": [
+    "The trigger is a button or equivalent control with a clear name, aria-haspopup set to menu or true, and aria-expanded synchronized with visibility.",
+    "The popup has role menu, is labelled by the trigger or a clear menu label, and contains only menuitem, menuitemcheckbox, menuitemradio, group, and separator semantics as appropriate.",
+    "Opening the menu moves focus to a menu item or sets aria-activedescendant to the active item.",
+    "Arrow keys move the active item inside the menu and do not scroll the page while the menu owns focus.",
+    "Enter or Space activates the focused menu item or toggles menu item selection according to the item role.",
+    "Escape closes the menu and returns focus to the trigger.",
+    "Tab leaves the transient menu by closing it and continuing in the page focus order.",
+    "Disabled items are perceivable as unavailable and cannot be activated.",
+    "Destructive items either open a confirmation or provide an immediate recovery path instead of running silently from a small menu.",
+    "The menu closes after normal command activation unless the item intentionally opens a submenu or toggles a menuitemcheckbox or menuitemradio state."
+  ],
+  "implementationChecklist": [
+    "Inventory the commands and keep only a short contextual set in the menu.",
+    "Give the trigger a visible label when possible, or a precise accessible name such as Report actions when space requires an icon.",
+    "Set aria-haspopup, aria-expanded, and aria-controls consistently with the popup state.",
+    "Use role menu plus menuitem roles only when implementing composite menu keyboard behavior; use simpler links or buttons when a normal disclosure list is enough.",
+    "Move focus into the menu on open, track one active item, and return focus to the trigger on Escape, outside dismissal, or activation.",
+    "Implement Arrow Up, Arrow Down, Home, End, typeahead when useful, Enter, Space, Escape, pointer activation, and touch activation.",
+    "Expose disabled, checked, destructive, shortcut, description, and section states in text and semantics, not only color.",
+    "Route destructive menu items into confirmation, undo, or recovery flows with the affected object still visible.",
+    "Test screen reader announcements, keyboard focus, zoom, narrow width, forced colors, touch hit area, portal placement, clipping, and scroll containers."
+  ],
+  "commonMisuses": [
+    "Using a menu button for long value selection that should be a select, listbox, combobox, or multi-select.",
+    "Using role menu for ordinary page navigation or a simple list of links without implementing menu keyboard behavior.",
+    "Opening only on hover or closing before keyboard users can reach the first item.",
+    "Leaving aria-expanded stale after the menu opens or closes.",
+    "Putting inputs, sliders, date pickers, editable tables, or large explanatory content inside the menu.",
+    "Hiding primary or emergency recovery actions in a compact overflow menu.",
+    "Using identical item labels such as Open, Open, Open without object context.",
+    "Running destructive commands from the menu without confirmation, undo, or object-specific feedback."
+  ],
+  "critiqueQuestions": [
+    "Is this a short local command set, or does the user need searchable product-wide commands?",
+    "Can users predict what the trigger controls before opening it?",
+    "Are item labels verbs or destinations with enough object context?",
+    "Does keyboard focus move into the menu, move between items, and return to the trigger on close?",
+    "Are disabled, destructive, and selected items exposed without relying on color alone?",
+    "Is any form, editor, long content, or high-risk review hiding inside a widget that should be a dialog, panel, or page?"
+  ],
+  "useWhen": [
+    "A local object or toolbar has three to eight secondary commands.",
+    "Commands are contextual and do not require search to find.",
+    "Visible primary actions should remain uncluttered while lower-priority commands stay reachable.",
+    "A named trigger can accurately describe the menu's scope."
+  ],
+  "avoidWhen": [
+    "The job is choosing a form value, selecting several values, or browsing a long list.",
+    "The command set is broad enough to require search, ranking, shortcuts, or cross-product scope.",
+    "The action is primary, time-critical, or safety-critical and should be visible.",
+    "The popup needs forms, rich previews, editable content, or multi-step review.",
+    "The implementation cannot provide reliable focus management and keyboard navigation."
+  ],
+  "variants": [
+    "Text menu button",
+    "Icon menu button with accessible name",
+    "Overflow menu button",
+    "Split button with adjacent menu trigger",
+    "Navigation menu button",
+    "Context menu trigger",
+    "Menu button with menuitemcheckbox",
+    "Menu button with menuitemradio",
+    "Menu button with grouped sections"
+  ],
+  "accessibility": [
+    "Use an actual button for the trigger when possible.",
+    "Set aria-haspopup to menu or true and keep aria-expanded synchronized with the visible menu state.",
+    "Use aria-controls when the controlled menu has a stable element ID.",
+    "Label the menu by the trigger or another clear accessible name.",
+    "Use role menu only when the popup behaves as an ARIA menu; otherwise prefer normal buttons, links, disclosure, or dialog semantics.",
+    "Use role menuitem, menuitemcheckbox, or menuitemradio for items and aria-disabled for unavailable items.",
+    "Manage focus with roving tabindex or aria-activedescendant and ensure the visual active item matches the accessibility tree.",
+    "Return focus to the trigger on Escape, close, and completed activation.",
+    "Keep labels, disabled reasons, destructive consequences, shortcuts, and section meaning available to screen reader users."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the trigger opens the menu and focuses the first menu item.",
+    "Down Arrow on the trigger may open the menu and focus the first item.",
+    "Up Arrow on the trigger may open the menu and focus the last item.",
+    "Down Arrow in the menu moves to the next item, optionally wrapping.",
+    "Up Arrow in the menu moves to the previous item, optionally wrapping.",
+    "Home and End move to the first and last item when implemented.",
+    "Printable character keys may move to the next item whose label starts with that character.",
+    "Enter or Space activates the active item unless the item is disabled.",
+    "Escape closes the menu and returns focus to the trigger.",
+    "Tab closes the menu and moves focus to the next focusable page element."
+  ],
+  "failureModes": [
+    "Screen readers hear button More with no object or scope, so users cannot tell which actions will appear.",
+    "The menu opens visually but focus remains behind it and Arrow keys scroll the page.",
+    "The trigger says aria-expanded false while the popup is visible.",
+    "A disabled item can still be activated by keyboard or pointer.",
+    "A menu item deletes or archives the wrong object because row context is not preserved.",
+    "The menu contains form controls that break composite menu navigation.",
+    "A clipped or portal-rendered menu appears away from its trigger without a clear relationship.",
+    "Pointer users can hover open the menu, but touch and keyboard users cannot open, close, or activate it."
+  ],
+  "relatedPatterns": [
+    "command-palette",
+    "select",
+    "listbox",
+    "modal-dialog",
+    "confirmation-dialog",
+    "header",
+    "global-navigation",
+    "icon-only-ambiguous-action"
+  ],
+  "comparisons": [
+    "menu-button-vs-command-palette-vs-select-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Menu Button pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/",
+      "platform": "web",
+      "notes": "Defines menu button trigger semantics, opened-state attributes, menu role popup, and keyboard opening behavior.",
+      "screenshot": "screenshots/patterns/menu-button.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WAI-ARIA APG Menu and Menubar pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/",
+      "platform": "web",
+      "notes": "Defines menu composite roles, focus movement, activation, disabled items, separators, Escape dismissal, and focus return.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Adobe Spectrum Menu",
+      "url": "https://spectrum.adobe.com/page/menu/",
+      "platform": "web",
+      "notes": "Shows menu item labels, descriptions, values, disabled and unavailable states, section dividers, keyboard focus, text wrapping, and menu trigger sizing.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-menu-button",
+      "note": "APG defines menu button trigger semantics, aria-haspopup, aria-expanded, optional aria-controls, role menu popup, and trigger keyboard behavior."
+    },
+    {
+      "id": "wai-aria-apg-menu-menubar",
+      "note": "APG defines menu focus movement, item roles, disabled items, separators, Enter and Space activation, Escape dismissal, focus return, and roving focus or aria-activedescendant."
+    },
+    {
+      "id": "mdn-aria-menu-role",
+      "note": "MDN documents the menu role as a composite command widget with menuitem descendants, focus management, labeling, disabled state, and keyboard expectations."
+    },
+    {
+      "id": "adobe-spectrum-menu",
+      "note": "Spectrum documents menu anatomy, trigger relationship, item labels, descriptions, disabled and unavailable states, sections, keyboard focus, text wrapping, and keyboard interactions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

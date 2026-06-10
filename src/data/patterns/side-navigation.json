@@ -1,0 +1,215 @@
+{
+  "id": "side-navigation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a local hierarchical side navigation pattern with source-backed current-page state, expanded parent behavior, hierarchy depth limits, related-pattern distinctions, comparison rules, duplicate audit, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers side-mounted local hierarchy, current-page indication, expanded parent groups, one-to-three-level depth, short labels, scroll behavior, selected borders, and avoiding duplicate global navigation.",
+    "relatedPatternDistinction": "The entry separates side navigation from global navigation by local section scope versus product-wide destinations, from tabs by multi-page hierarchy versus sibling panels, and from navigation drawers by persistent visible placement versus dismissible sheets.",
+    "liveDemoBehavior": "The live demo switches between side-nav items, preserves open parent groups, highlights the current child page, warns when the current page is hidden by collapsed parents, and contrasts a bad sidebar that mixes unrelated product destinations.",
+    "comparisonDecisionRules": "The linked side-navigation-vs-global-navigation-vs-tabs comparison gives concrete rules for local hierarchy, global destinations, shallow tab panels, desktop drawer misuse, current-page state, and excessive hierarchy depth.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/side-navigation.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, active child state, parent expansion, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/side-navigation.png"
+    ]
+  },
+  "name": "Side navigation",
+  "aliases": [
+    "left navigation",
+    "local navigation",
+    "section navigation",
+    "sidebar navigation",
+    "side nav",
+    "left panel navigation"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent local hierarchy at the side of content",
+  "uiGuidance": [
+    "Render a vertical navigation region beside the main content that exposes the current area's parent, child, and optional grandchild pages with a clear active indicator.",
+    "Keep the side navigation visually subordinate to global navigation and structurally tied to the content section it controls."
+  ],
+  "uxGuidance": [
+    "Use side navigation to help users move within a complex section without losing the current page's position in that section.",
+    "Keep active ancestors expanded and labels short so users can scan nearby pages without reopening navigation or interpreting a hidden hierarchy."
+  ],
+  "uiExamples": {
+    "good": [
+      "A settings page shows Account, Billing, Team, and Security in a left rail with Security expanded and Audit log marked as current.",
+      "The active item has a text label, selected border, and semantic current state rather than color alone.",
+      "The page heading matches the active side-nav item while the global header remains separate above it."
+    ],
+    "bad": [
+      "A sidebar mixes Dashboard, Reports, Sign out, Help, Team, API, Billing, and Marketing with no section grouping.",
+      "The side navigation highlights Settings while the page heading is Audit log.",
+      "A collapsed Security parent hides the current Audit log page."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users open Billing, switch to Invoices, then return to Security and see the Security group still expanded.",
+      "Deep-linked users land on Audit log with Security expanded and Audit log visibly current.",
+      "Keyboard users tab through the side navigation, activate a child page, and land in content whose heading matches the selection."
+    ],
+    "bad": [
+      "Users must reopen a drawer every time they move between sibling pages in the same desktop section.",
+      "The current page disappears because only top-level parents are shown until hovered.",
+      "Clicking a side-nav item resets local filters and scroll state without warning."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users working inside a complex area need to see where the current page sits in that area's hierarchy and move to nearby pages without returning to global navigation or search.",
+  "solution": "Provide persistent side navigation scoped to the current area, with short hierarchical labels, expanded active ancestors, an unmistakable current-page state, and predictable behavior across route changes and viewport changes.",
+  "problemContext": [
+    "A section has enough related pages that page-level links or tabs become too shallow.",
+    "Users often move among sibling and child pages inside one product area.",
+    "The product already has global navigation, so local hierarchy needs a secondary but persistent place."
+  ],
+  "selectionRules": [
+    "Choose side navigation when users need persistent access to related pages in one section or area.",
+    "Keep the hierarchy to one to three visible levels; deeper structures need information architecture cleanup, search, or another navigation model.",
+    "Show the current page and expand its parent chain on deep links and route changes.",
+    "Use short labels derived from page titles rather than full marketing or legal headings.",
+    "Keep global destinations, account utilities, and sign-out controls out of local side navigation.",
+    "Use tabs instead when the destinations are shallow sibling panels for one object, and use a drawer when the navigation must be dismissible on constrained screens."
+  ],
+  "requiredStates": [
+    "Default state with the local section hierarchy visible beside content.",
+    "Current page state that matches the content heading and route.",
+    "Expanded parent state when a child or grandchild page is active.",
+    "Collapsed parent state that does not hide the user's current location.",
+    "Scrollable long-list state with current item still reachable and visible.",
+    "Responsive state that turns into a drawer or menu only when space requires it."
+  ],
+  "interactionContract": [
+    "Activating a side-nav item changes the local page and updates current-page semantics.",
+    "The current item's parent chain remains visible after navigation and direct deep links.",
+    "Collapsing a parent with the current page either remains blocked, keeps a current summary visible, or clearly indicates the hidden current page.",
+    "Side navigation does not reset unrelated local filters, drafts, or scroll state unless the route change requires it and the user is warned.",
+    "Keyboard focus moves through parent toggles and child links in reading order, then proceeds to main content.",
+    "Responsive drawer variants restore focus to the opener when dismissed and keep the same local hierarchy."
+  ],
+  "implementationChecklist": [
+    "Derive side-nav structure from the current section's information architecture rather than the full product route table.",
+    "Use a labeled navigation landmark and mark the current page programmatically.",
+    "Expand active ancestors on first render, direct links, and back/forward navigation.",
+    "Limit nesting depth and test whether users can find lower items without excessive scrolling.",
+    "Keep side navigation visually separate from global navigation and page actions.",
+    "Define responsive behavior for when the side nav becomes a drawer, collapses to a menu, or moves below the heading.",
+    "Preserve local page state where appropriate when users move between sibling pages."
+  ],
+  "commonMisuses": [
+    "Duplicating global navigation links in the side navigation.",
+    "Letting the highlighted item drift from the page heading or route.",
+    "Hiding the active child under a collapsed parent.",
+    "Building a five-level tree that users cannot scan.",
+    "Using side navigation for one or two pages that do not need hierarchy.",
+    "Replacing persistent desktop side navigation with a hamburger drawer that users must reopen for every sibling page."
+  ],
+  "critiqueQuestions": [
+    "Is this side navigation scoped to one section, or is it a second global nav?",
+    "Can a deep-linked user see the current page and its parent without clicking?",
+    "Are labels short enough to scan in a narrow side column?",
+    "What happens to current state when a parent is collapsed or the viewport narrows?",
+    "Would tabs, breadcrumbs, in-page navigation, or global navigation better match the user's movement?"
+  ],
+  "useWhen": [
+    "A product area has several related pages arranged in a visible hierarchy.",
+    "Users need to move repeatedly among siblings and children in one section.",
+    "Deep-linked users need local context that breadcrumbs alone do not make actionable."
+  ],
+  "avoidWhen": [
+    "The product only has a few pages and does not need a hierarchy.",
+    "The destinations are top-level product areas that belong in global navigation.",
+    "The options are sibling panels inside one page and should be tabs or segmented controls.",
+    "The navigation must be temporary or dismissible because screen space is severely constrained."
+  ],
+  "variants": [
+    "Fixed left side navigation",
+    "Section side navigation",
+    "Nested side navigation",
+    "Collapsible side navigation",
+    "Side navigation with icons",
+    "Responsive side navigation drawer"
+  ],
+  "accessibility": [
+    "Use a labeled navigation landmark that distinguishes local side navigation from primary navigation.",
+    "Expose the current page or current location programmatically, not only through color or border.",
+    "Ensure parent toggles announce expanded or collapsed state.",
+    "Keep focus visible and do not trap focus in persistent side navigation.",
+    "Avoid CSS-only reordering that changes visual order without matching DOM and focus order."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches parent toggles, visible child links, and then main content in a predictable order.",
+    "Enter activates links; Enter or Space toggles collapsible parent groups.",
+    "Escape closes responsive drawer variants and returns focus to the opener.",
+    "The active child remains reachable by keyboard after route changes and parent expansion.",
+    "Long side navigation should not require keyboard users to traverse unrelated global links before content on every page."
+  ],
+  "failureModes": [
+    "Side navigation becomes a duplicate global navigation system.",
+    "Current state is missing, stale, or hidden inside a collapsed parent.",
+    "The hierarchy is too deep or too long to scan.",
+    "Responsive behavior removes items or changes labels across breakpoints.",
+    "Keyboard order differs from visual order.",
+    "Users lose local filters or scroll position when moving between sibling pages.",
+    "The side nav consumes too much width and squeezes the primary content."
+  ],
+  "relatedPatterns": [
+    "global-navigation",
+    "header",
+    "tabs",
+    "breadcrumbs"
+  ],
+  "comparisons": [
+    "side-navigation-vs-global-navigation-vs-tabs"
+  ],
+  "examples": [
+    {
+      "product": "USWDS Side navigation",
+      "url": "https://designsystem.digital.gov/components/side-navigation/",
+      "platform": "web",
+      "notes": "Documents side navigation for one-to-three-level hierarchy, sub-navigation within a section, current page display, short labels, and accessibility testing.",
+      "screenshot": "screenshots/patterns/side-navigation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon UI Shell left panel",
+      "url": "https://carbondesignsystem.com/components/UI-shell-left-panel/style/",
+      "platform": "web",
+      "notes": "Documents fixed left panel placement, side-nav widths, link heights, submenu indentation, selected border, and icon sizes.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Material Design navigation drawer",
+      "url": "https://m2.material.io/components/navigation-drawer",
+      "platform": "mobile",
+      "notes": "Used as a contrast source for side navigation that becomes dismissible or drawer-based on constrained layouts.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-side-navigation",
+      "note": "USWDS defines side navigation as hierarchical side-of-page sub-navigation with one to three levels, active current page state, and short labels."
+    },
+    {
+      "id": "carbon-ui-shell-left-panel",
+      "note": "Carbon documents fixed left-panel side-nav structure, selected indicators, indentation, and full-height placement."
+    },
+    {
+      "id": "material-navigation-drawer",
+      "note": "Material navigation drawer guidance clarifies the drawer variant and focus management when side navigation is dismissible."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

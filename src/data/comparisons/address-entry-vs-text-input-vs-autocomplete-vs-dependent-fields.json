@@ -1,0 +1,54 @@
+{
+  "id": "address-entry-vs-text-input-vs-autocomplete-vs-dependent-fields",
+  "title": "Address entry vs text input vs autocomplete vs dependent fields",
+  "summary": "Use address entry when a service must capture a deliverable or contact address as structured, reviewable parts; use text input for one short freeform value, autocomplete for resolving a known suggestion, and dependent fields for a local country-to-region or type-to-detail relationship.",
+  "patternIds": [
+    "address-entry",
+    "text-input",
+    "autocomplete",
+    "dependent-fields"
+  ],
+  "decisionRules": [
+    "Prefer address entry when the user must provide a postal, delivery, billing, service, or eligibility address that downstream systems need as line, locality, region, postal code, and country parts.",
+    "Prefer text input only for one short address-like value such as a building name, room number, or delivery reference when the product does not need a complete address.",
+    "Prefer autocomplete when the main interaction is selecting one known record from suggestions; an address lookup may use autocomplete internally, but it still needs editable address fields and a manual path.",
+    "Prefer dependent fields when the only problem is a controlling answer changing a downstream option set, such as country changing state or province, rather than capturing the whole address.",
+    "Use a lookup for domestic addresses only when it clearly states the coverage, accepts common postal-code formats, lets users choose among similar addresses, and offers manual entry when the record is missing.",
+    "Keep address line 2, apartment, flat, unit, building, or organization details available and reviewable; do not discard secondary address information after lookup selection.",
+    "Use country-specific labels and validation, and avoid forcing a UK postcode, U.S. ZIP code, county, state, or province field on addresses from countries that do not use that part.",
+    "Validate required address parts with field-specific errors, but allow users to proceed through a review or exception path when a real address cannot be verified by the lookup provider.",
+    "Apply browser autocomplete tokens to individual address fields when the fields are structured, or street-address when the product intentionally accepts a single multi-line address block.",
+    "Route consequential address changes to review before submit when the address affects payment, delivery, eligibility, identity, tax, or official correspondence."
+  ],
+  "failureModes": [
+    "A checkout treats the first lookup result as final and ships to the wrong flat because the user never chose a specific address.",
+    "A service forces every user through a postcode lookup even when international, rural, new-build, or privacy-sensitive addresses are not listed.",
+    "A one-line field stores an address blob, so downstream mail, tax, validation, and customer support systems cannot tell town, postcode, or country apart.",
+    "Changing the country leaves a stale state field and postcode rule active, causing valid international addresses to fail validation.",
+    "The form silently removes apartment, suite, organization, or care-of details that are needed for successful delivery.",
+    "The address verifier replaces user-entered text without showing the proposed correction and without letting the user keep a real but unverified address."
+  ],
+  "sources": [
+    {
+      "id": "govuk-addresses-pattern",
+      "note": "GOV.UK documents multiple address inputs, UK address lookup, manual fallback, postcode tolerance, optional county guidance, and field-specific errors."
+    },
+    {
+      "id": "uswds-address-form",
+      "note": "USWDS documents separate U.S. mailing address parts, ZIP handling, Puerto Rico urbanization, and non-U.S. caveats."
+    },
+    {
+      "id": "mdn-html-autocomplete-address",
+      "note": "MDN documents address autocomplete tokens for structured address fields and multi-line street-address fields."
+    },
+    {
+      "id": "google-address-validation-checkout",
+      "note": "Google distinguishes autocomplete from validation and recommends editable expanded fields, unit review, correction, confirmation, and acceptance logic."
+    },
+    {
+      "id": "usps-publication-28-addressing",
+      "note": "USPS Publication 28 supports delivery-oriented address parts, secondary unit designators, and ZIP-related mailing conventions."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

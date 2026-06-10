@@ -1,0 +1,41 @@
+{
+  "id": "combobox-vs-autocomplete-vs-select-vs-text-input",
+  "title": "Combobox vs autocomplete vs select vs text input",
+  "summary": "Use a combobox when one field owns a popup and the interaction depends on expanded state, active option movement, acceptance, cancellation, and selected-value synchronization; use autocomplete for known-value completion behavior, select for short finite choices, and text input for arbitrary free text.",
+  "patternIds": ["combobox", "autocomplete", "select", "text-input"],
+  "decisionRules": [
+    "Prefer a combobox when users type or open a popup from a single field and must be able to move an active option, accept it, cancel without committing, and keep the submitted value synchronized with the visible label.",
+    "Prefer autocomplete when the product problem is completing a known value from suggestions, especially when the suggestion behavior matters more than the broader widget contract.",
+    "Prefer select when the option set is short or moderate, every choice can be shown directly by the native control, and users do not need to type to filter or copy the value from an editable field.",
+    "Prefer text input when arbitrary free text is valid and there is no controlled popup, selected option ID, active descendant, or allowed-value contract to maintain.",
+    "Use combobox instead of select when more than a handful of choices make scrolling inefficient and typing a partial label is the fastest path to one choice.",
+    "Do not auto-commit the first matching option in a manual combobox; the visible typed text and hidden selected value must remain different until the user accepts a specific option.",
+    "Expose aria-expanded, aria-controls, and aria-activedescendant when the popup is visible so keyboard and assistive technology users can perceive the same active option as sighted pointer users.",
+    "Close the popup with Escape without changing the previous committed value, unless the product explicitly documents a clearing behavior and announces it before submission.",
+    "Allow custom values only when the domain permits values outside the list; otherwise validate unresolved typed text as not selected and clear stale selected IDs after edits.",
+    "Use multi-select or chip selection instead when users must keep several values at once; a single-value combobox should not hide multiple committed choices inside one text value."
+  ],
+  "failureModes": [
+    "The user edits the visible label after selecting an option, but the old hidden ID is still submitted.",
+    "The popup appears visually but aria-expanded stays false and no controlled popup is exposed.",
+    "Arrow keys move DOM focus into arbitrary buttons, so the user loses text editing and active option context.",
+    "The first filtered result is committed as soon as the user types, replacing input the user never accepted.",
+    "Escape closes the popup after silently changing the selected value.",
+    "A short country or status list is rebuilt as a custom combobox instead of using a native select."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-combobox",
+      "note": "APG defines combobox popup ownership, editable and select-only behavior, expanded state, active descendant movement, Enter acceptance, Escape cancellation, and differences from listbox and menu button patterns."
+    },
+    {
+      "id": "uswds-combo-box-component",
+      "note": "USWDS recommends combo box for large option sets and suggests select or radio controls when choices are limited."
+    },
+    {
+      "id": "carbon-combo-box-component",
+      "note": "Carbon distinguishes combo box from dropdown by letting users type to filter a long or not-predefined list and optionally provide a custom value."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

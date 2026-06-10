@@ -1,0 +1,232 @@
+{
+  "id": "progress-bar",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a measurable system-operation progress pattern with source-backed guidance for determinate values, labels, helper text, active/success/error states, scoped busy regions, honest percent and count reporting, transition rules, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets measurable system operations such as upload, download, export, validation, report generation, file transfer, and batch processing, including percent values, item counts, byte counts, labels, helper text, success, error, cancellation, retry, background handoff, and avoiding fabricated progress.",
+    "relatedPatternDistinction": "The entry separates progress bar from loading spinner by measurable progress versus unknown short wait, from loading skeleton by bounded operation status versus reserved content structure, from step navigation by system work versus user-completed task milestones, and from file upload or bulk import by being the progress feedback component rather than the full upload or import workflow.",
+    "liveDemoBehavior": "The live demo tracks an evidence upload and processing job through 12%, 64%, complete, error, cancel, and background states, updates accessible progress values and helper text, and contrasts unlabeled, fake 100%, backward reset, wrong-scope, and stuck-at-99% misuse.",
+    "comparisonDecisionRules": "The progress-bar-vs-loading-spinner-vs-loading-skeleton-vs-step-navigation comparison gives concrete rules for measurable system work, unknown short waits, predictable layout loading, user step progress, switching from indeterminate to determinate, scope, terminal states, and fabricated percentage failure.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/progress-bar/ and /compare/progress-bar-vs-loading-spinner-vs-loading-skeleton-vs-step-navigation/ on 2026-06-09. Live check exercised 12%, 64%, Complete, Error, Cancel, Background, Unlabeled, Fake 100%, Reset, Wrong scope, and Stuck 99% controls. screenshots/patterns/progress-bar.png captures Good UI, Bad UI, Good UX, Bad UX, determinate percent values, byte helper text, network-error handoff, premature 100% misuse, stuck 99% misuse, state notes, and accessible progress values; the route check verified related links and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/progress-bar.png"
+    ]
+  },
+  "name": "Progress bar",
+  "aliases": [
+    "linear progress",
+    "determinate progress",
+    "upload progress",
+    "download progress",
+    "processing progress",
+    "completion bar",
+    "job progress"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Input And Data Entry",
+    "Error Prevention And Recovery",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Measurable system-operation progress indicator",
+  "uiGuidance": [
+    "Show a labeled bar with a track, filled value, and nearby helper text that reports the measurable unit such as percent, bytes, rows, files, records, or stages.",
+    "Keep the label close to the bar, keep the value outside the fill for readability, and use distinct active, success, paused, cancelled, and error states without relying on color alone."
+  ],
+  "uxGuidance": [
+    "Use a progress bar when the system can honestly report movement toward a known finish and users need to decide whether to wait, cancel, retry, continue elsewhere, or return later.",
+    "Advance the bar monotonically for one operation, resolve it to success or failure, and switch to a spinner, background job, or error state when progress cannot be measured anymore."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document upload card says Uploading evidence.zip, shows 64%, 32 of 50 MB, a Cancel action, and keeps the rest of the form usable.",
+      "A CSV import job shows Validating rows, 840 of 1200 records checked, a progress bar at 70%, and a View issues action when warnings appear."
+    ],
+    "bad": [
+      "A blue bar fills across the top of the page with no label, no percent, and no affected object.",
+      "A progress bar reads 100% complete while virus scanning and server acceptance are still pending.",
+      "The same upload jumps from 80% back to 25% after retry without explaining that a new operation started."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user uploads evidence.zip, sees progress move from 12% to 64%, cancels before commit, retries after a network error, and gets a completed receipt only after server processing succeeds.",
+      "A long report export reaches 42%, offers Move to background, then sends users to job history while preserving the current dashboard."
+    ],
+    "bad": [
+      "A fake progress bar inches to 99% for minutes with no elapsed time, cancel, retry, or background option.",
+      "A download bar jumps to 100%, disappears, and then shows Download failed in a toast with no retry or saved context."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users waiting for uploads, downloads, exports, imports, scans, saves, or batch processing need trustworthy progress, but dishonest or poorly scoped bars can overpromise completion, hide failure, or make users abandon work too early.",
+  "solution": "Show a scoped, accessible progress bar only when progress can be measured against a known operation, keep label and value near the bar, update it monotonically, expose useful units and recovery actions, and transition to success, error, cancellation, or background status when the operation changes state.",
+  "problemContext": [
+    "The operation has a known total such as file bytes, records, items, stages, or server-reported completion percentage.",
+    "Users may need to keep working, cancel, retry, move the job to background, or decide whether a wait is acceptable.",
+    "The product must distinguish client transfer, server processing, scanning, validation, commit, and final acceptance.",
+    "Progress may be local, remote, batched, queued, or multi-stage, and each stage may expose different measurement quality."
+  ],
+  "selectionRules": [
+    "Choose progress bar when the system can report a meaningful value toward a bounded operation.",
+    "Use percent when the total is stable and the value maps cleanly to 0 through 100.",
+    "Use count helper text such as 840 of 1200 rows when counts are more useful than a bare percent.",
+    "Use byte helper text for upload, download, or file transfer when users recognize the file size.",
+    "Use stage text such as Uploading, Scanning, Processing, or Finalizing when one visible bar spans multiple system phases.",
+    "Use loading spinner when the operation is active but progress cannot yet be detected and the expected wait is short.",
+    "Use loading skeleton when users are waiting for predictable content layout rather than monitoring an operation.",
+    "Use step navigation when people move through task milestones and completion depends on user action or validation.",
+    "Use error state when the operation has failed, timed out, or cannot continue from the current value.",
+    "Do not use a progress bar when values are guessed, decorative, manually advanced by user steps, or likely to move backward during one operation."
+  ],
+  "requiredStates": [
+    "Idle state before the operation starts.",
+    "Active determinate state with label, value, and helper text.",
+    "Indeterminate handoff state only while measurement is not yet available.",
+    "Paused or waiting state when the system needs network, permission, queue, or user action.",
+    "Cancelled state that explains what was stopped and what data remains.",
+    "Success state after the operation is truly complete, including server acceptance when relevant.",
+    "Error state with retained value, reason, retry, cancel, support, or report actions.",
+    "Background state for long work that continues after the current surface is closed."
+  ],
+  "interactionContract": [
+    "The progress bar appears only after the operation starts and is scoped to the affected file, job, card, dialog, or page region.",
+    "The label identifies the operation and affected object, such as Uploading evidence.zip or Validating 1200 rows.",
+    "The value advances monotonically during one operation unless a new operation clearly starts with a new label or reset explanation.",
+    "The bar does not reach 100% until the user-facing operation is actually complete, including server-side processing when that matters.",
+    "Cancel, retry, pause, resume, or move-to-background actions are available when the operation duration or risk justifies them.",
+    "Unrelated work remains available unless the entire surface depends on the operation.",
+    "Assistive technology receives an accessible name, current value, min/max, useful value text when percent is insufficient, and a resolved or failed state."
+  ],
+  "implementationChecklist": [
+    "Define the measurable unit, total, stages, ownership of truth, update frequency, timeout threshold, cancellation policy, retry behavior, background behavior, and terminal states before rendering the bar.",
+    "Use native progress where practical or recreate progressbar semantics with accessible name, minimum, maximum, current value, and useful value text.",
+    "Keep label, bar, helper text, status, and actions visually grouped and programmatically related to the affected region.",
+    "Throttle announcements so assistive technology users are not interrupted on every small percentage change.",
+    "Keep progress monotonic within a single operation and explain any reset as a new attempt, resumed job, or new stage.",
+    "Separate upload transfer, server processing, scanning, validation, and final acceptance when 100% transfer is not the same as done.",
+    "Show success, error, cancelled, paused, or background states after progress stops instead of leaving an active bar on screen.",
+    "Test slow network, failed network, retry, page refresh, background job return, multiple simultaneous jobs, reduced motion, and screen reader value announcements."
+  ],
+  "commonMisuses": [
+    "Fabricating progress values just to make users feel movement.",
+    "Letting a bar reach 100% before server processing, virus scanning, validation, or commit is done.",
+    "Using one page-level bar for several unrelated operations.",
+    "Resetting a bar backward without explaining that a new attempt or stage began.",
+    "Hiding the label or placing it far away from the bar.",
+    "Using a progress bar for user journey steps rather than system operation progress.",
+    "Leaving the bar active after failure instead of showing recovery."
+  ],
+  "critiqueQuestions": [
+    "What exact operation owns this bar, and what unit is being measured?",
+    "Can the backend or client honestly report the value, or is the bar pretending?",
+    "What does 100% mean: transfer finished, processing finished, scan passed, data committed, or user-visible result ready?",
+    "What should users do if the bar stalls, fails, or takes longer than expected?",
+    "Does the bar belong to the smallest affected region, and can unrelated work continue?",
+    "How will screen reader users hear the label, value, and terminal state without excessive announcements?"
+  ],
+  "useWhen": [
+    "A system operation has a measurable total or bounded progress value.",
+    "Users benefit from knowing how much work has completed or remains.",
+    "The operation may take long enough that waiting, cancelling, retrying, or leaving safely matters.",
+    "The product can report honest active, success, error, cancelled, paused, or background states."
+  ],
+  "avoidWhen": [
+    "Progress cannot be measured or would be guessed.",
+    "The wait is short and only needs scoped activity feedback.",
+    "Users are waiting for predictable content structure to load.",
+    "Progress is based on user journey steps rather than system work.",
+    "The operation has already failed or needs recovery rather than more progress."
+  ],
+  "variants": [
+    "Determinate linear progress bar",
+    "Indeterminate-to-determinate progress bar",
+    "File upload progress",
+    "Download progress",
+    "Import validation progress",
+    "Report generation progress",
+    "Batch job progress",
+    "Inline table-row progress",
+    "Container-scoped progress"
+  ],
+  "accessibility": [
+    "Provide an accessible name that identifies the operation and affected object.",
+    "Expose current, minimum, and maximum values for determinate progress.",
+    "Use useful value text when percent alone is not meaningful, such as 840 of 1200 rows checked.",
+    "Use aria-busy on the affected region only while the operation is active, and clear it when success, error, cancellation, or background state appears.",
+    "Do not put essential text only inside the bar fill; keep label and helper text readable outside the track.",
+    "Avoid excessive live announcements; announce meaningful thresholds, pauses, errors, and completion."
+  ],
+  "keyboardBehavior": [
+    "The progress bar itself is usually read-only and should not receive focus unless the platform component requires it.",
+    "Cancel, retry, pause, resume, details, report, and background actions are reachable in normal tab order.",
+    "When an operation completes, focus remains stable unless the task flow needs to move to a receipt, result, or error recovery.",
+    "When progress fails, focus remains near the affected job or moves to the persistent recovery region.",
+    "Keyboard users can continue unrelated work if the progress is scoped to a nonblocking region."
+  ],
+  "failureModes": [
+    "Users leave after 100% transfer even though server processing later rejects the file.",
+    "Users retry unnecessarily because the bar stalls at 99% with no elapsed status or recovery.",
+    "Screen reader users hear a progressbar value but not what file or job it belongs to.",
+    "A page-level bar suggests the whole app is busy when only one report is exporting.",
+    "Progress resets backward and users think their work was lost.",
+    "A failed import keeps showing active progress instead of row-level error recovery."
+  ],
+  "relatedPatterns": [
+    "loading-spinner",
+    "loading-skeleton",
+    "step-navigation",
+    "file-upload",
+    "bulk-import"
+  ],
+  "comparisons": [
+    "progress-bar-vs-loading-spinner-vs-loading-skeleton-vs-step-navigation"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Progress bar",
+      "url": "https://carbondesignsystem.com/components/progress-bar/usage/",
+      "platform": "web",
+      "notes": "Documents progress bars for downloads, uploads, data processing, quantitative progress, determinate and indeterminate modes, labels, helper text, active/success/error states, related region semantics, and loading or skeleton alternatives.",
+      "screenshot": "screenshots/patterns/progress-bar.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Design Progress indicators",
+      "url": "https://m2.material.io/components/progress-indicators/web",
+      "platform": "web",
+      "notes": "Documents linear and circular progress indicators, determinate and indeterminate modes, and switching from indeterminate to determinate when progress can be detected.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN ARIA Progressbar role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/progressbar_role",
+      "platform": "web",
+      "notes": "Documents progressbar accessible names, current values, min/max defaults, indeterminate handling, useful value text, native progress preference, and aria-busy relationship with loading regions.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-progress-bar-component",
+      "note": "Carbon supports progress bars for measurable system operations, labels, helper values, determinate and indeterminate modes, active/success/error states, region busy semantics, and alternatives."
+    },
+    {
+      "id": "material-design-progress-indicators",
+      "note": "Material supports linear progress indicators, determinate mode when completion is detectable, and indeterminate-to-determinate transitions."
+    },
+    {
+      "id": "mdn-aria-progressbar",
+      "note": "MDN supports accessible progressbar names, current values, min/max defaults, value text, native progress preference, and aria-busy relationships."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "inline-edit-vs-text-input-vs-single-page-form-vs-modal-dialog",
+  "title": "Inline edit vs text input vs single-page form vs modal dialog",
+  "summary": "Use inline edit when a displayed value can switch into a local edit control in place, with explicit save/cancel, validation, and dirty-state protection while the surrounding context remains visible.",
+  "patternIds": [
+    "inline-edit",
+    "text-input",
+    "single-page-form",
+    "modal-dialog"
+  ],
+  "decisionRules": [
+    "Prefer inline edit when users frequently update one displayed value or one table row and need to keep the surrounding record, list, or table context visible.",
+    "Prefer a text input when the field is already part of a normal form and does not need a separate read mode, edit trigger, local confirm, or local cancel.",
+    "Prefer a single-page form when users must edit several related fields together and submit them as one reviewed set.",
+    "Prefer a modal dialog when the edit needs a short contained task, extra explanation, or focus isolation but should not take over the whole page.",
+    "Do not use inline edit for high-impact changes that need a summary of consequences, multi-field dependency review, or irreversible save confirmation.",
+    "Make editable values discoverable with an edit button, edit icon, hover affordance, or row action; do not rely on users guessing that static text can be clicked.",
+    "Inline edit must expose read mode, edit mode, dirty state, validation error, saving or submitted state, saved success, cancel, and failed-save recovery.",
+    "Disable or explain save until the value actually changed, and keep cancel available so users can return to the original displayed value.",
+    "When users click away with no changes, exiting edit mode can be safe; when unsaved changes exist, ask whether to save, discard, or keep editing.",
+    "In tables, allow only the intended row or cell to enter edit mode, preserve other row selections, and handle sort, filter, pagination, and refresh so the edited row does not vanish unexpectedly.",
+    "Use contextual validation beside the edited input; do not move users to a separate page or detached error summary for a one-cell edit.",
+    "Avoid inline edit when the same interaction would conflict with drill-down links, row selection, text selection, bulk actions, or dense keyboard navigation."
+  ],
+  "failureModes": [
+    "Static values look editable only after accidental click, so users cannot discover the behavior.",
+    "A value switches into edit mode but has no visible cancel path back to the original value.",
+    "Clicking away from a dirty inline edit silently discards the draft.",
+    "A table resort or filter immediately moves the edited row before users can confirm the change.",
+    "Inline edit is used for a multi-field configuration that needs section status, dependency validation, and review before save.",
+    "Every cell in a dense table is always editable, causing accidental changes, unclear focus order, and no record of what will be saved."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-inline-edit-component",
+      "note": "Atlassian defines inline edit as switching between reading and editing on the same page."
+    },
+    {
+      "id": "cloudscape-inline-edit-pattern",
+      "note": "Cloudscape supports editable indicators, confirm/dismiss actions, contextual validation, refresh, and sorting behavior for inline table cell edits."
+    },
+    {
+      "id": "patternfly-inline-edit-pattern",
+      "note": "PatternFly supports one-row editing, save/cancel controls, disabled save until a change exists, dirty click-away confirmation, validation, and limits on drill-down or bulk edit."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

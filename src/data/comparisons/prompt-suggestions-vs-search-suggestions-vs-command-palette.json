@@ -1,0 +1,46 @@
+{
+  "id": "prompt-suggestions-vs-search-suggestions-vs-command-palette",
+  "title": "Prompt suggestions vs search suggestions vs command palette",
+  "summary": "Use prompt suggestions to help users form AI requests. Use search suggestions to help users phrase retrieval queries. Use a command palette to execute commands or jump to destinations.",
+  "patternIds": [
+    "prompt-suggestions",
+    "search-suggestions",
+    "command-palette"
+  ],
+  "decisionRules": [
+    "Prefer prompt suggestions when the next step is an editable natural-language AI request and the user needs examples of supported capabilities.",
+    "Prefer search suggestions when the next step is a query for content retrieval, results, or browsing and the user can still submit a free-form query.",
+    "Prefer a command palette when selecting a row executes an app command, opens a destination, changes mode, or performs an action with a defined scope.",
+    "Do not use prompt suggestions for fixed required inputs; use a form or structured workflow when the task needs specific fields, validation, or approval.",
+    "Do not use a command palette for AI prompt starters unless each row's consequence, scope, and side effect are explicit before activation.",
+    "If selecting text would immediately run an AI task, label it as an action and add review or approval for consequential output; if it loads editable text, label it as a prompt starter.",
+    "Prompt suggestions must disclose capability boundaries such as selected text required, available sources, unsupported languages, or missing permissions.",
+    "Search suggestions can be stale or low confidence without being dangerous; prompt suggestions that overpromise model access, grounding, or certainty can produce misplaced trust and should be hidden or rewritten."
+  ],
+  "failureModes": [
+    "Using generic prompt chips that could belong to any AI product and reveal no supported capability.",
+    "Auto-submitting a suggested prompt before the user can edit missing context.",
+    "Treating an app command such as delete workspace as a harmless suggested prompt.",
+    "Using search suggestions for known-value completion where autocomplete would be clearer.",
+    "Showing saved or shared prompts after the model, agent tools, source access, or permissions changed."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-copilot-prompt-gallery",
+      "note": "Prompt Gallery documentation supports suggested, saved, shared, and team prompts for AI request discovery."
+    },
+    {
+      "id": "microsoft-copilot-studio-suggested-prompts",
+      "note": "Suggested prompts documentation supports starter prompts that appear before a new agent chat."
+    },
+    {
+      "id": "carbon-search-pattern",
+      "note": "Carbon search guidance supports query suggestions and type-ahead behavior for search formulation."
+    },
+    {
+      "id": "github-command-palette",
+      "note": "GitHub command palette documentation supports the command execution and destination-jump side of the comparison."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

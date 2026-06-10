@@ -1,0 +1,48 @@
+{
+  "id": "offline-state-vs-error-state-vs-loading-spinner-vs-progress-bar",
+  "title": "Offline state vs error state vs loading spinner vs progress bar",
+  "summary": "Use offline state when connectivity changes what can be read, edited, queued, or synced; use error state for confirmed failures, spinner for short indeterminate waits, and progress bar for measurable operations.",
+  "patternIds": [
+    "offline-state",
+    "error-state",
+    "loading-spinner",
+    "progress-bar"
+  ],
+  "decisionRules": [
+    "Choose offline state when the device or app cannot reach the network and users need to know which cached data, local edits, queued actions, and retry paths remain available.",
+    "Choose error state when a specific load, save, submit, permission, validation, sync, or computation attempt has failed and the affected object needs persistent recovery.",
+    "Choose loading spinner when a named action or region is actively working for a short indeterminate wait and has not yet resolved to offline, success, failure, or progress.",
+    "Choose progress bar when the system can report a meaningful numeric value for upload, download, import, export, validation, or processing work.",
+    "Do not replace an offline mode with a blank error page when cached content, local drafts, read-only history, or queued saves can still be useful.",
+    "Do not claim work is saved online while offline; label it as saved on this device, queued, waiting to sync, or sync failed.",
+    "Use offline state at the smallest honest scope: whole app, page, panel, record, action, or field, depending on what connectivity actually blocks.",
+    "When connection returns, transition from offline to syncing, synced, conflict, or failed state instead of silently hiding queued changes."
+  ],
+  "failureModes": [
+    "A disconnected form says Saved even though the answer exists only on the device and may conflict later.",
+    "The app shows a browser-style offline page even though the dashboard, drafts, and help articles were cached.",
+    "All controls are disabled because the network is gone, including safe read-only navigation and local editing.",
+    "A spinner runs forever during connection loss instead of switching to offline state with retry and cached data.",
+    "A progress bar pretends to upload while the request is queued locally with no network.",
+    "The app reconnects and clears the offline banner without syncing queued changes or surfacing conflicts."
+  ],
+  "sources": [
+    {
+      "id": "material-design-offline-states",
+      "note": "Material supports explicit offline feature behavior, no-internet labeling, slow/intermittent connection planning, and offline-capable affordances."
+    },
+    {
+      "id": "webdev-offline-ux-design-guidelines",
+      "note": "web.dev supports educating users about what changes offline and visibly distinguishing local save from online save."
+    },
+    {
+      "id": "webdev-offline-fallback-page",
+      "note": "web.dev supports cached offline fallback pages, manual reconnect, online-event reload, and server reachability polling."
+    },
+    {
+      "id": "mdn-pwa-offline-background-operation",
+      "note": "MDN supports service workers, Cache API, offline fallback, and background operations for intermittent connectivity."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

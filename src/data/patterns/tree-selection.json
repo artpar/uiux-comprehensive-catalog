@@ -1,0 +1,257 @@
+{
+  "id": "tree-selection",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a hierarchical selection tree pattern with source-backed tree and treeitem semantics, expanded and collapsed branch behavior, focus versus selected state, multi-select and checkbox tree models, branch mixed state, leaf-only selection, typeahead, dynamic-level requirements, and distinctions from listbox, checkbox group, transfer list, navigation tree, tree grid, and nested menus.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers role tree, role treeitem, group nesting, labelled tree containers, aria-expanded on parent nodes only, aria-multiselectable, aria-selected or aria-checked state, branch selected and mixed states, leaf-only selection, active focus, roving tabindex or aria-activedescendant, Right and Left Arrow expansion, Up and Down movement, Home and End, typeahead, collapsed selected-descendant summaries, dynamic aria-level and position metadata, and lazy-loading status.",
+    "relatedPatternDistinction": "The entry separates tree selection from listbox by requiring hierarchy and branch expansion, from checkbox group by supporting nested levels and tree keyboard navigation, from transfer list by selecting in place rather than moving items to a destination pane, from combobox by not being a field-owned popup, and from navigation drawer by selecting values rather than moving between app destinations.",
+    "liveDemoBehavior": "The live demo expands and collapses a permission tree, moves focus independently from selected state, toggles selected leaves with Space, shows a parent mixed state when some children are selected, selects a branch's descendants, typeaheads to Audit, and contrasts broken nested checkboxes with hidden selected children, leaf nodes announced as expandable, and focus movement that changes selection.",
+    "comparisonDecisionRules": "The linked tree-selection-vs-listbox-vs-checkbox-group-vs-transfer-list comparison gives concrete rules for hierarchy-driven selection, flat option lists, short checkbox groups, source-to-destination transfer, branch mixed states, aria-expanded placement, focus versus selection, and non-tree alternatives.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/tree-selection.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, expanded branch, collapsed branch, selected leaf, mixed parent, active focus, branch selection behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/tree-selection.png"
+    ]
+  },
+  "name": "Tree selection",
+  "aliases": [
+    "tree view selection",
+    "hierarchical picker",
+    "checkbox tree",
+    "permission tree",
+    "taxonomy tree",
+    "folder picker"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Input And Data Entry",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Hierarchical expandable selection tree",
+  "uiGuidance": [
+    "Render a labelled tree with visible levels, branch expanders, parent versus leaf styling, active focus, selected or checked state, parent mixed state, and a summary for selected descendants hidden inside collapsed branches.",
+    "Keep tree rows focused on hierarchy and selection state; move row actions, rich metadata, editable fields, and tabular columns to adjacent panels, toolbars, tables, data grids, or tree grids."
+  ],
+  "uxGuidance": [
+    "Use tree selection when users need to choose one or more items from a meaningful hierarchy and the parent-child structure helps them find, understand, or batch-select nodes.",
+    "Make exploration safe by separating focus from selection, preserving selected descendants when branches collapse, supporting predictable Arrow-key expansion, and explaining whether selecting a branch affects its children."
+  ],
+  "uiExamples": {
+    "good": [
+      "A permissions picker shows Workspace, Reports, Billing, and Security branches with disclosure controls, selected leaf nodes, a mixed Reports parent, and a selected-count summary on collapsed parents.",
+      "A folder picker marks folders as expandable treeitems and files as leaf treeitems without aria-expanded, while the active row has a distinct focus ring separate from selected rows.",
+      "A taxonomy selector allows leaf-only selection and hides checkboxes on nonselectable category nodes while preserving the tree's level indentation and keyboard model."
+    ],
+    "bad": [
+      "A nested checkbox list uses indentation but no tree role, no active row, no branch expanded state, and no keyboard model beyond tabbing through every checkbox.",
+      "A collapsed branch hides selected children with no mixed or selected descendant indicator on the parent row.",
+      "Every leaf item exposes aria-expanded=false, causing assistive technology to announce files or products as collapsible folders."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user focuses Reports, presses Right Arrow to open it, moves to Monthly revenue, presses Space to select it, and the Reports parent becomes mixed.",
+      "A user collapses Reports after selecting a child and still sees a selected-descendant badge on the collapsed parent.",
+      "A user types A to jump to Audit logs, selects the node, and the active focus remains visibly separate from the selected set."
+    ],
+    "bad": [
+      "A user arrows through the permission tree to explore branches and accidentally changes selected permissions because selection follows focus in a multi-select tree.",
+      "A user selects a parent branch but cannot tell whether children were selected, partially selected, or left unchanged.",
+      "A user expands a lazily loaded branch and screen reader users hear new nodes with no level, position, or loading status."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop"
+  ],
+  "problem": "Users need to select items from a hierarchy, but flat lists hide parent-child context, and ordinary nested checkboxes do not provide expand/collapse state, tree keyboard navigation, focus management, or selected-descendant feedback.",
+  "solution": "Provide a labelled tree selection widget with expandable branches, selectable treeitems, explicit selected or checked state, mixed parent state when needed, focus independent from selection, keyboard navigation, typeahead, and clear rules for branch and leaf selection.",
+  "problemContext": [
+    "The choices are naturally hierarchical, such as folders, permissions, taxonomy categories, organization units, product groups, or nested settings.",
+    "Users need to expand and collapse branches to control detail while preserving selected nodes.",
+    "Selecting a parent may imply selecting descendants, selecting only the parent, or showing a mixed state; the product must define that rule.",
+    "Users may need to select several nodes while exploring the hierarchy without accidental selection changes.",
+    "The hierarchy can be large enough to require typeahead, lazy loading, selected-count summaries, or dynamic position metadata."
+  ],
+  "selectionRules": [
+    "Choose tree selection when hierarchy is meaningful to the user's selection task and the parent-child relationship changes how options are found or interpreted.",
+    "Use listbox when options are flat and users only need a visible selectable list without branch expansion.",
+    "Use checkbox group when the option set is short, flat, and independent enough for native checkboxes.",
+    "Use transfer list when users need to move selected items into a separate destination pane for review or ordering.",
+    "Use tree grid when rows need columns, editable cells, row actions, sorting, or tabular comparison.",
+    "Use navigation tree only when selecting a node changes page location rather than choosing values for a form or operation.",
+    "Use aria-selected or aria-checked consistently; choose checkbox-style visual treatment when branch and mixed state are central.",
+    "Avoid tree selection when hierarchy is used only to compress a long flat list; use search, grouping, filters, or autocomplete instead."
+  ],
+  "requiredStates": [
+    "Initial tree state with visible label and root-level nodes.",
+    "Expanded parent node with visible child group.",
+    "Collapsed parent node with hidden child group.",
+    "Focused active treeitem state distinct from selected state.",
+    "Selected leaf node state.",
+    "Unselected selectable node state.",
+    "Mixed or partially selected parent state.",
+    "Selected collapsed branch summary state.",
+    "Nonselectable branch or leaf state.",
+    "Single-select and multi-select policy states.",
+    "Typeahead matched node state.",
+    "Lazy-loading branch state with loading feedback and eventual level and position metadata.",
+    "Required empty-tree-selection validation state with selected branches and collapsed descendants preserved."
+  ],
+  "interactionContract": [
+    "The tree container has role tree and a visible label referenced by aria-labelledby or an accessible name.",
+    "Each selectable node has role treeitem and exposes selected state with either aria-selected or aria-checked, used consistently across the tree.",
+    "Parent nodes that own children expose aria-expanded true or false; leaf nodes do not expose aria-expanded.",
+    "Child collections are grouped with role group or an equivalent owned treeitem relationship.",
+    "In multi-select trees, the tree exposes aria-multiselectable and focus movement does not alter selection unless the user explicitly toggles selection.",
+    "Right Arrow opens a closed parent or moves from an open parent to its first child; Left Arrow closes an open parent or moves focus to the parent from a child.",
+    "Up and Down Arrow move through visible treeitems only; hidden collapsed descendants are not reachable.",
+    "Space toggles the focused selectable node, and branch selection rules update child and parent mixed states predictably.",
+    "Typeahead moves focus to the next visible matching node without changing selection.",
+    "Collapsed branches with selected descendants remain visibly marked so users do not lose track of hidden selections."
+  ],
+  "implementationChecklist": [
+    "Confirm that hierarchy is essential to selection rather than presentation grouping or navigation.",
+    "Define whether users can select branches, leaves only, multiple nodes, ranges, or entire subtrees.",
+    "Choose either aria-selected or aria-checked for selectable treeitems and keep visual state aligned with the accessibility tree.",
+    "Implement role tree, role treeitem, group nesting, accessible labels, aria-expanded only on parents, and aria-multiselectable when multiple nodes can be selected.",
+    "Implement roving tabindex or aria-activedescendant, visible focus, Arrow-key expansion and movement, Home, End, typeahead, Space selection, and optional range selection.",
+    "Show selected-descendant state on collapsed parents and mixed state when a branch has only some selected descendants.",
+    "Preserve selected nodes during collapse, filtering, async loading, validation, route changes, and save errors.",
+    "For dynamically loaded or virtualized trees, maintain aria-level, aria-setsize, aria-posinset, loading status, and stable active descendant IDs.",
+    "Test keyboard, screen reader, high zoom, forced colors, long labels, deep nesting, collapsed selected branches, branch selection, leaf-only policy, and touch fallback."
+  ],
+  "commonMisuses": [
+    "Using tree selection for a flat list where listbox, checkbox group, or multi-select would be simpler.",
+    "Styling nested checkboxes as a tree without tree keyboard behavior or expanded state.",
+    "Letting focus movement change multi-selection while users are only exploring nodes.",
+    "Putting aria-expanded on leaf nodes.",
+    "Mixing aria-selected and aria-checked with the same meaning in one tree.",
+    "Hiding selected children inside collapsed branches with no parent summary or mixed state.",
+    "Using tree selection for ordinary site navigation or menu commands.",
+    "Putting independent buttons, menus, or editable fields inside treeitems instead of using a tree grid or adjacent actions."
+  ],
+  "critiqueQuestions": [
+    "Is the hierarchy meaningful to the selection decision, or is this a flat list with indentation?",
+    "Can users tell which row has focus versus which nodes are selected?",
+    "What happens when users select a parent branch: descendants selected, branch only, mixed, or blocked?",
+    "Are selected descendants still visible through parent state after a branch collapses?",
+    "Can keyboard users expand, collapse, move, typeahead, select, and validate without tabbing through every node?"
+  ],
+  "useWhen": [
+    "Users choose one or more values from a meaningful hierarchy.",
+    "Parent-child context helps users find, understand, or batch-select nodes.",
+    "The tree needs expand and collapse behavior while preserving selected descendants.",
+    "The selected set may include branches, leaves, or mixed branch state."
+  ],
+  "avoidWhen": [
+    "The options are flat or only loosely grouped.",
+    "A short checkbox group, listbox, select, combobox, or multi-select can satisfy the task.",
+    "Rows need tabular columns, rich metadata, inline editing, or independent row actions.",
+    "The component is normal website navigation or a menu of commands.",
+    "The team cannot implement tree keyboard navigation, focus management, and selected-descendant feedback."
+  ],
+  "variants": [
+    "Single-select tree",
+    "Multi-select tree",
+    "Checkbox tree",
+    "Leaf-only selection tree",
+    "Branch-and-descendant selection tree",
+    "Lazy-loaded tree",
+    "Virtualized tree",
+    "Navigation tree",
+    "Folder picker",
+    "Permission tree"
+  ],
+  "accessibility": [
+    "Use role tree on the container and provide an accessible name.",
+    "Use role treeitem for every node and role group for child collections when needed.",
+    "Use aria-expanded only on nodes with child treeitems.",
+    "Use aria-selected or aria-checked consistently for selectable nodes and expose false on selectable unselected nodes.",
+    "Set aria-multiselectable true when more than one node can be selected.",
+    "Keep focus and selection visually distinct in multi-select trees.",
+    "Use roving tabindex or aria-activedescendant with stable IDs and visible focus.",
+    "For dynamic or virtualized trees, expose aria-level, aria-setsize, and aria-posinset where browser computation cannot cover the full set.",
+    "Do not rely on indentation or color alone to communicate hierarchy, selected state, mixed state, or focus."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus into and out of the tree as one composite widget.",
+    "Down Arrow moves focus to the next visible treeitem.",
+    "Up Arrow moves focus to the previous visible treeitem.",
+    "Right Arrow opens a closed parent, or moves focus to the first child of an open parent.",
+    "Left Arrow closes an open parent, or moves focus from a child to its parent.",
+    "Home moves focus to the first visible node.",
+    "End moves focus to the last visible node.",
+    "Typeahead moves focus to the next visible node whose name starts with the typed string.",
+    "Space toggles selection for the focused selectable node in the recommended multi-select model.",
+    "Enter performs the node's default action, such as opening a parent or selecting a leaf when that is the documented policy.",
+    "Control plus A may select all visible or all selectable nodes when select-all is an important function."
+  ],
+  "failureModes": [
+    "Collapsed selected descendants become invisible and unannounced.",
+    "Focus and selection use the same visual treatment in a multi-select tree.",
+    "Leaf nodes announce as expandable because aria-expanded is applied everywhere.",
+    "Arrow keys scroll the page or tab through every checkbox instead of moving through visible treeitems.",
+    "Branch selection toggles descendants inconsistently and leaves parent mixed state stale.",
+    "Lazy-loaded nodes appear without level, set size, position, or loading feedback.",
+    "Nested row actions break treeitem naming and keyboard expectations.",
+    "The tree is used as a visual sitemap for ordinary links without the full tree navigation contract."
+  ],
+  "relatedPatterns": [
+    "listbox",
+    "checkbox-group",
+    "multi-select",
+    "transfer-list",
+    "combobox",
+    "navigation-drawer"
+  ],
+  "comparisons": [
+    "tree-selection-vs-listbox-vs-checkbox-group-vs-transfer-list"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Tree View Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/treeview/",
+      "platform": "web",
+      "notes": "Defines hierarchical tree view behavior, expandable parent nodes, single and multi-selection, focus versus selection, keyboard navigation, typeahead, aria-activedescendant, aria-multiselectable, and selected-state properties.",
+      "screenshot": "screenshots/patterns/tree-selection.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN ARIA tree role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role",
+      "platform": "web",
+      "notes": "Documents tree hierarchy, treeitem descendants, accessible naming, aria-expanded on parent nodes, aria-multiselectable, focus versus selected state, keyboard behavior, and dynamic node metadata.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MUI X Tree View selection",
+      "url": "https://mui.com/x/react-tree-view/simple-tree-view/selection/",
+      "platform": "web",
+      "notes": "Documents single selection, multi-selection, checkbox selection, disabled selection, leaf-only selectable items, controlled selected items, and selection change callbacks.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-treeview",
+      "note": "APG defines tree view hierarchy, expansion, focus movement, single and multi-select behavior, focus versus selection, typeahead, aria-activedescendant, labels, and selected-state properties."
+    },
+    {
+      "id": "mdn-aria-tree-role",
+      "note": "MDN documents tree role hierarchy, accessible names, aria-expanded placement, aria-multiselectable, focus versus selected state, keyboard navigation, and dynamic node properties."
+    },
+    {
+      "id": "mdn-aria-treeitem-role",
+      "note": "MDN documents treeitem selection with aria-selected or aria-checked, single versus multi-selection constraints, accessible names, group nesting, and JavaScript keyboard requirements."
+    },
+    {
+      "id": "mui-tree-view-selection",
+      "note": "MUI documents practical tree selection modes, checkbox selection, multi-selection, leaf-only selectable items, controlled selected items, and selection-change tracking."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "disabled-button-no-explanation-vs-inline-validation-vs-error-summary",
+  "title": "Disabled button with no explanation vs inline validation vs error summary",
+  "summary": "Use visible requirements or validation recovery instead of an unexplained disabled action; choose inline validation for local field repair and error summary for submitted multi-error recovery.",
+  "patternIds": ["disabled-button-no-explanation", "inline-validation", "error-summary"],
+  "decisionRules": [
+    "Flag disabled button with no explanation when an unavailable action does not show the missing requirement, permission limit, system lock, quota, dependency, or recovery path near the control.",
+    "Use visible requirement text or a checklist when users can become eligible by entering a value, accepting terms, requesting access, completing setup, or waiting for a named system state.",
+    "Use enabled submit with validation when blocking the button would prevent users from learning which form requirement remains unmet.",
+    "Use inline validation when one field has a local correctable problem such as missing value, format, range, or password requirement.",
+    "Use error summary after submitted validation returns multiple errors, cross-field errors, server-side validation, or errors below the current viewport.",
+    "For permission-gated actions, show the role or owner who can resolve the block and provide Request access, Contact admin, or read-only explanation.",
+    "For short processing states, disabling can prevent duplicate submit only when the button or nearby status says the action is processing and then resolves to success or failure.",
+    "Do not put the only explanation in a hover-only tooltip attached to a disabled control because keyboard and touch users may never reach it."
+  ],
+  "failureModes": [
+    "Users cannot tell which requirement blocks Continue.",
+    "A disabled button hides field errors until users guess the missing inputs.",
+    "A permission problem looks like invalid form data.",
+    "A tooltip on an inert control is the only explanation.",
+    "A submitted form shows only a disabled action instead of linked errors.",
+    "The button remains disabled after requirements change because eligibility feedback is disconnected from the form state."
+  ],
+  "sources": [
+    {
+      "id": "govuk-button-component",
+      "note": "GOV.UK button guidance documents disabled button behavior and visible feedback for slow post-action states."
+    },
+    {
+      "id": "va-button-component",
+      "note": "VA.gov button guidance strongly restricts disabled controls and treats post-action processing as the main acceptable disabled state."
+    },
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK error message guidance supports field-adjacent correction text when a local answer blocks progress."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports top-of-form linked recovery after failed submit."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

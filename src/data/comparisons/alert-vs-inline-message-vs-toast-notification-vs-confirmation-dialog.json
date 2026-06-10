@@ -1,0 +1,43 @@
+{
+  "id": "alert-vs-inline-message-vs-toast-notification-vs-confirmation-dialog",
+  "title": "Alert vs inline message vs toast notification vs confirmation dialog",
+  "summary": "Use an alert for urgent current-task status that needs immediate notice without taking focus; use inline message for object-local feedback, toast for disposable transient feedback, and confirmation dialog when users must choose before a consequential action proceeds.",
+  "patternIds": ["alert", "inline-message", "toast-notification", "confirmation-dialog"],
+  "decisionRules": [
+    "Choose alert when a current task has a time-sensitive warning, error, or high-priority status change that should be noticed immediately but does not require a modal response.",
+    "Choose inline message when the same warning belongs to a visible row, field group, card, table section, or panel and users need to keep seeing it beside that object.",
+    "Choose toast notification when the message is short, low consequence, safely transient, and recoverable from history if it expires.",
+    "Choose confirmation dialog when the system needs a deliberate user response before a destructive, irreversible, permission-changing, or high-cost action continues.",
+    "Use alert for session expiration, lost connection, unsaved changes at risk, payment hold, upload rejection, or submission-blocking status that affects the current page or task.",
+    "Do not use alert for product-wide or service-wide notices that belong in a banner or site alert, and do not use it for notification-center messages users can review later.",
+    "Do not put multi-step troubleshooting inside an alert; show the urgent fact, the consequence, and one direct next step, then route longer recovery to a page, panel, error state, or dialog.",
+    "Use role alert only for dynamically appearing urgent text; use status or region for lower-urgency advisory updates, and use alertdialog when the user is expected to close or answer the interruption."
+  ],
+  "failureModes": [
+    "A session-expiration warning appears as a toast and disappears before the user can save work.",
+    "A row-specific invoice warning is promoted to a page alert, so users cannot tell which row is affected.",
+    "A destructive delete action is announced as an alert but proceeds without a confirmation decision.",
+    "A nonurgent success message uses assertive alert semantics, interrupting screen reader users while they type.",
+    "A product-wide maintenance notice is placed in the task area as an alert and repeats on every step.",
+    "The alert names a severity but not the affected object, consequence, or next step."
+  ],
+  "sources": [
+    {
+      "id": "uswds-alert-component",
+      "note": "USWDS defines alert use for status and validation messages, recommends next-step copy, and distinguishes destructive actions that need confirmation."
+    },
+    {
+      "id": "mdn-aria-alert-role",
+      "note": "MDN defines ARIA alert as an assertive live-region role for important time-sensitive text that does not require focus or interaction."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon distinguishes inline, toast, actionable, callout, banner, notification panel, and modal notification surfaces by placement, duration, and interaction."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports notifying assistive technology users of important status changes without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

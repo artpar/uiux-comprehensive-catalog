@@ -1,0 +1,50 @@
+{
+  "id": "conflict-resolution-vs-conflict-state-vs-review-before-submit-vs-autosave-recovery",
+  "title": "Conflict resolution vs conflict state vs review before submit vs autosave recovery",
+  "summary": "Conflict resolution is the guided decision workflow after a conflict is detected. Conflict state signals and preserves competing versions, review before submit checks the user's own answers before final commit, and autosave recovery preserves work after failed or uncertain saving.",
+  "patternIds": [
+    "conflict-resolution",
+    "conflict-state",
+    "review-before-submit",
+    "autosave-recovery"
+  ],
+  "decisionRules": [
+    "Use conflict resolution when users must step through one or more detected conflicts, decide what survives, preview the resolved result, and commit or defer decisions.",
+    "Use conflict state when the main UI task is to expose that competing valid versions exist, preserve both values, and route users toward a resolution path.",
+    "Use review before submit when the user is checking their own captured answers before final submission and no external source, collaborator, branch, server, or import row is competing.",
+    "Use autosave recovery when a background save failed, stalled, expired, or became uncertain and the first job is to preserve or restore the latest local work before a resolution workflow exists.",
+    "Conflict resolution should show unresolved count, current conflict position, source labels, decision controls, resolved preview, skipped or copied items, and final commit state.",
+    "Conflict state can show Keep mine or Keep server actions for a single conflict, but a multi-conflict or audited decision sequence needs a conflict resolution workflow.",
+    "Review before submit can link users back to change an answer; conflict resolution must preserve both competing values until the chosen result is committed.",
+    "Autosave recovery may hand off to conflict resolution when local and server values both changed and the user must choose or merge them.",
+    "Do not use generic Retry, Accept all, or newest timestamp wins for conflict resolution; users need to inspect what will be kept and discarded.",
+    "Do not clear conflict badges or saved-state warnings until the resolved value is accepted by the server, document, import job, or repository."
+  ],
+  "failureModes": [
+    "A conflict state says Review needed but opens a page with no ordered list of conflicts or final commit review.",
+    "A review page asks users to check answers but hides that another source changed the same field.",
+    "Autosave recovery compares versions but commits one side without a resolution decision.",
+    "A conflict resolver enables Commit while required conflicts remain skipped or invalid.",
+    "A bulk Accept all action discards local, collaborator, or target-branch values without showing a final summary.",
+    "A resolved preview is accepted in the browser but the server rejects it and the UI still clears the conflict."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-confluence-concurrent-editing",
+      "note": "Confluence supports overlap conflict display and user choices after concurrent editing."
+    },
+    {
+      "id": "microsoft-office-coauthoring-conflicts",
+      "note": "Microsoft Office supports conflict navigation and accept or reject decisions during recovered-change review."
+    },
+    {
+      "id": "gitlab-merge-conflicts",
+      "note": "GitLab supports Use ours and Use theirs choices, inline editing, commit messages, and manual conflict resolution boundaries."
+    },
+    {
+      "id": "va-autosave-component",
+      "note": "VA.gov autosave evidence helps distinguish failed-save preservation from true conflict resolution."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

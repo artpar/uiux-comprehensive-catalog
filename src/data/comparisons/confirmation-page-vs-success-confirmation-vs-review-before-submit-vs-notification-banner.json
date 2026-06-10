@@ -1,0 +1,48 @@
+{
+  "id": "confirmation-page-vs-success-confirmation-vs-review-before-submit-vs-notification-banner",
+  "title": "Confirmation page vs success confirmation vs review before submit vs notification banner",
+  "summary": "Use a confirmation page as the final endpoint after a transaction; use success confirmation for durable proof inside an ongoing task, review before submit before commit, and notification banner for previous-page outcomes while the journey continues.",
+  "patternIds": [
+    "confirmation-page",
+    "success-confirmation",
+    "review-before-submit",
+    "notification-banner"
+  ],
+  "decisionRules": [
+    "Choose confirmation page when the whole transaction is committed and users need a durable endpoint with completion heading, reference, what happens next, contact or tracking path, and a way to keep a record.",
+    "Choose success confirmation when the user remains in the same task surface after a saved, uploaded, copied, or configured item and needs proof near the changed object rather than a new endpoint page.",
+    "Choose review before submit before data is committed, when users need Change links, captured-answer summaries, and final action copy before the post-submit receipt exists.",
+    "Choose notification banner when a previous-page action succeeded but the user has navigated to a page where the journey continues and the message belongs before the next page heading.",
+    "Route payment, application, booking, survey, account-closure, and publication flows to a confirmation page when there is no further required step in the current transaction.",
+    "Do not keep pre-submit edit links on a confirmation page; after commit, recovery should move to contact, track, amend, cancel, or start-again paths that match the service rules.",
+    "Do not replace a confirmation page with a toast or in-context success message when users may bookmark, print, quote, screenshot, or later return to the receipt.",
+    "Do not use a confirmation page for service failure, permission denial, validation recovery, or guidance-only content; route those to error, status, permission, or guide pages."
+  ],
+  "failureModes": [
+    "A completed application lands on the dashboard with a toast, so users cannot find the reference number later.",
+    "A confirmation page still shows Change links from review, implying submitted answers can be edited directly.",
+    "A review page says Application complete before the user has pressed the final submit action.",
+    "A success banner appears before an H1 after navigation but omits the endpoint receipt and next-step timing.",
+    "The page lists many competing cards and calls to action, so users cannot tell whether anything else is required.",
+    "A permission denial is styled as a green completion page, making users think the request succeeded."
+  ],
+  "sources": [
+    {
+      "id": "govuk-confirmation-pages-pattern",
+      "note": "Supports confirmation pages at transaction end with reference, what happens next, contacts, useful onward links, feedback, save-record behavior, and bookmarked returns."
+    },
+    {
+      "id": "nhs-confirmation-page-pattern",
+      "note": "Supports a green completion panel, next-step timing, optional reference number, submitted-detail summaries, and restraint to avoid overwhelming users."
+    },
+    {
+      "id": "ons-confirmation-page-pattern",
+      "note": "Supports survey endpoint confirmation and avoids using confirmation pages for service problems, permission denial, or further guidance."
+    },
+    {
+      "id": "govuk-notification-banner-component",
+      "note": "Supports the boundary between previous-page success banners and final transaction confirmation pages."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

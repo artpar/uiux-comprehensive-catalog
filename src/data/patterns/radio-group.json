@@ -1,0 +1,178 @@
+{
+  "id": "radio-group",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a single-choice radio group pattern with source-backed fieldset/legend guidance, native radio live behavior, select and checkbox distinctions, duplicate audit, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names mutually exclusive visible options, fieldset and legend grouping, clickable labels, vertical spacing, cautious defaults, group-level validation, and native keyboard behavior.",
+    "relatedPatternDistinction": "The entry separates radio groups from select controls by requiring visible comparison for short important choices, and from checkbox groups by enforcing exactly one selected option.",
+    "liveDemoBehavior": "The live demo uses native radio inputs, keeps all options visible, changes one selected plan at a time, validates the group when no option is selected, and shows the selected value.",
+    "comparisonDecisionRules": "The linked radio-group-vs-select comparison distinguishes visible short-list comparison from collapsed moderate-list selection and warns against hiding critical choices.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/radio-group.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, native radio labels, one-at-a-time selection, and group validation behavior.",
+    "screenshots": [
+      "screenshots/patterns/radio-group.png"
+    ]
+  },
+  "name": "Radio group",
+  "aliases": [
+    "radio buttons",
+    "single choice group"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to make one mutually exclusive choice from a short set while seeing every available option before deciding.",
+  "solution": "Show a labeled group of native radio inputs with visible options, clickable labels, optional hints, one selected value at a time, and group-level validation when required.",
+  "problemContext": [
+    "The option set is short, stable, and mutually exclusive.",
+    "Seeing every choice helps users compare plans, answer a question, or avoid missing a consequential option."
+  ],
+  "selectionRules": [
+    "Choose radio groups when the user must choose one option from a short visible set.",
+    "Make the group question explicit with a legend and keep each option label directly clickable.",
+    "Avoid pre-selecting a consequential option unless there is strong evidence that a default is safe and expected.",
+    "Use select only when the option list is longer, familiar, or secondary enough to collapse."
+  ],
+  "requiredStates": [
+    "No selection state for required unanswered groups.",
+    "Exactly one selected option state.",
+    "Focused radio option state.",
+    "Group-level validation error when a required choice is missing."
+  ],
+  "interactionContract": [
+    "Only one option in the named group can be selected at a time.",
+    "The fieldset legend explains the decision being made.",
+    "Selection, focus, and required error state remain visible and programmatically exposed."
+  ],
+  "implementationChecklist": [
+    "Use native radio inputs where possible before reaching for a custom radiogroup implementation.",
+    "Group related options with a fieldset and legend or an equivalent accessible name.",
+    "Keep option labels concise, distinct, and large enough to select through the label text.",
+    "List options vertically when comparison or touch selection matters.",
+    "Show required errors at the group level without clearing a user's existing choice."
+  ],
+  "commonMisuses": [
+    "Using radios for independent choices where several answers can be true.",
+    "Hiding a short critical set inside a select just to save vertical space.",
+    "Omitting the group legend so users hear options without the question.",
+    "Pre-selecting a paid, destructive, or biased option without clear evidence."
+  ],
+  "critiqueQuestions": [
+    "Is this one mutually exclusive decision with a short enough list to show?",
+    "Would hiding these options in a collapsed control make comparison or error recovery worse?"
+  ],
+  "useWhen": [
+    "Users must choose exactly one option.",
+    "There are roughly two to seven meaningful options that benefit from visible comparison."
+  ],
+  "avoidWhen": [
+    "Users can choose multiple options.",
+    "The option list is long, searchable, or too low priority to keep expanded."
+  ],
+  "variants": [
+    "Vertical radios",
+    "Tile radios",
+    "Inline yes/no radios",
+    "Radios with conditional reveal"
+  ],
+  "accessibility": [
+    "Use a programmatic group label through fieldset/legend or an accessible radiogroup name.",
+    "Expose checked, focused, disabled, and required error states.",
+    "Associate each label with its radio input so the label is a reliable click target."
+  ],
+  "keyboardBehavior": [
+    "Tab enters and leaves the radio group predictably.",
+    "Arrow keys move between options in native or APG-compatible radio groups.",
+    "Space selects the focused radio option when it is not already selected."
+  ],
+  "failureModes": [
+    "Custom buttons without radio semantics or keyboard behavior.",
+    "No visible selected state.",
+    "Defaulting to a consequential choice without user intent.",
+    "Allowing several options in the group to appear active at once."
+  ],
+  "relatedPatterns": [
+    "select",
+    "checkbox-group"
+  ],
+  "comparisons": [
+    "radio-group-vs-select"
+  ],
+  "examples": [],
+  "sources": [
+    {
+      "id": "govuk-radios-component",
+      "note": "GOV.UK radios guidance supports one option from a list, fieldset/legend grouping, no careless preselection, and group-level errors."
+    },
+    {
+      "id": "uswds-radio-buttons-component",
+      "note": "USWDS radio button guidance supports mutually exclusive choices, label click targets, vertical layout, spacing, and cautious defaults."
+    },
+    {
+      "id": "wai-aria-apg-radio-group",
+      "note": "APG radio group guidance documents keyboard behavior, roles, checked state, labels, and descriptions for custom implementations."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Single-choice form control",
+  "uiGuidance": [
+    "Render a fieldset/legend with visible native radio options, selected state, focus state, optional hints, and group-level validation.",
+    "Keep short mutually exclusive choices visible instead of collapsing them into a dropdown."
+  ],
+  "uxGuidance": [
+    "Help users compare the available options and choose exactly one without opening an extra control.",
+    "Avoid biased defaults and do not hide critical short choices inside a collapsed dropdown."
+  ],
+  "uiExamples": {
+    "good": [
+      "Visible native radio options with a clear legend, selected state, focus state, and helper text.",
+      "Vertical spacing supports comparison and touch selection without making options feel unrelated."
+    ],
+    "bad": [
+      "Custom circles that do not show focus or selected state clearly.",
+      "Radio options laid out like unrelated buttons with no group label."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Exactly one option is selected at a time and labels are clickable.",
+      "Required errors apply to the whole group and do not erase a user's existing selection."
+    ],
+    "bad": [
+      "Using radios for choices where multiple selections are allowed.",
+      "Defaulting to a consequential choice without user intent."
+    ]
+  },
+  "examples": [
+    {
+      "product": "GOV.UK Design System Radios component",
+      "url": "https://design-system.service.gov.uk/components/radios/",
+      "platform": "web",
+      "notes": "Documents single-choice radio groups, fieldset and legend grouping, no careless pre-selection, hints, and group-level error messages.",
+      "screenshot": "screenshots/patterns/radio-group.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "U.S. Web Design System Radio buttons component",
+      "url": "https://designsystem.digital.gov/components/radio-buttons/",
+      "platform": "web",
+      "notes": "Documents mutually exclusive radio choices, clickable labels, vertical lists, spacing, cautious defaults, and fieldset/legend accessibility.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI-ARIA APG Radio Group Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/radio/",
+      "platform": "web",
+      "notes": "Documents expected radio group keyboard interaction, roles, checked state, labels, and described-by behavior for custom implementations.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

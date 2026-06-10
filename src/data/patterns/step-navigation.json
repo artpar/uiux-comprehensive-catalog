@@ -1,0 +1,222 @@
+{
+  "id": "step-navigation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a linear task-progress pattern with source-backed current/completed/upcoming states, validation-gated movement, short labels, distinctions from Back links, breadcrumbs, pagination, and in-page anchors, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers linear multistep forms or tasks, three-or-more step thresholds, current/completed/upcoming and error states, short labels, separate Back and Continue controls, validation before completion, optional step treatment, and avoiding conditional or nonlinear journeys.",
+    "relatedPatternDistinction": "The entry separates step navigation from Back links by whole-journey progress versus one-step return, from pagination by task milestones versus collection pages, from breadcrumbs by task progress versus hierarchy, and from in-page anchors by cross-screen task state versus same-page section jumps.",
+    "liveDemoBehavior": "The live demo advances through a five-step application, validates the current step before continuing, marks only validated steps complete, locks future steps until prerequisites are met, lets completed steps be revisited without losing answers, and contrasts a broken stepper that skips required steps and misreports progress.",
+    "comparisonDecisionRules": "The linked step-navigation-vs-back-link-vs-pagination comparison gives concrete rules for linear tasks, previous-page return, result paging, future-step gating, validation, conditional-step risk, placement, and current-state semantics.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/step-navigation.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, validated step progression, locked future steps, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/step-navigation.png"
+    ]
+  },
+  "name": "Step navigation / step indicator",
+  "aliases": [
+    "step indicator",
+    "progress indicator",
+    "stepper",
+    "wizard progress",
+    "checkout progress",
+    "multistep progress"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Input And Data Entry",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Linear multistep task progress indicator",
+  "uiGuidance": [
+    "Show a compact ordered list of named steps near the task heading, with visually distinct completed, current, upcoming, optional, and error states.",
+    "Keep labels short and task-specific; pair the indicator with an explicit step heading such as 'Step 2 of 5: Contact details' rather than relying on the strip alone."
+  ],
+  "uxGuidance": [
+    "Use step navigation to reduce uncertainty in long linear tasks by showing where users are, what is done, and what remains.",
+    "Treat completion as validated task progress, not page visitation; keep Back and Continue controls separate and preserve answers when users revisit completed steps."
+  ],
+  "uiExamples": {
+    "good": [
+      "A five-step application shows Eligibility complete, Contact details current, Documents upcoming, Review upcoming, and Submit upcoming, with the current step emphasized and a matching page heading.",
+      "A checkout uses short labels such as Cart, Shipping, Payment, Review, and Confirmation with a visible error marker only on the invalid Payment step.",
+      "A vertical progress indicator in a side panel shows completed checkmarks, current half-filled marker, optional helper text, and future steps in lower emphasis."
+    ],
+    "bad": [
+      "A two-page form adds a large stepper that consumes space without explaining meaningful progress.",
+      "All future steps look clickable and complete even though required earlier fields are blank.",
+      "A breadcrumb trail for Home, Benefits, Apply, and Contact is styled as a stepper, confusing hierarchy with task progress."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "After a user enters valid contact details and continues, Contact details becomes complete and Documents becomes current.",
+      "A user returns to a completed step, edits an answer, and the later Review step updates without clearing unrelated data.",
+      "An invalid upload marks Documents with an error state and keeps the user on that step until the issue is fixed."
+    ],
+    "bad": [
+      "Clicking Review skips Documents, clears the contact form, and then blocks final submission without explaining the skipped prerequisite.",
+      "The indicator says Step 4 of 5 while the page content and route still show Step 2.",
+      "A conditional journey inserts a new step after users start, making the fixed step count wrong."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users completing a long task across multiple screens need to understand their current position, what is already complete, and what remains without confusing progress with hierarchy or result paging.",
+  "solution": "Provide a source-backed step indicator for linear tasks with three or more meaningful steps, validated completion states, a matching step heading, and separate Back and Continue controls that preserve entered data.",
+  "problemContext": [
+    "The task spans several screens and users may worry about how much work remains.",
+    "The steps have a stable order that can be explained before or during the task.",
+    "Users must complete or validate information before moving safely to later steps."
+  ],
+  "selectionRules": [
+    "Choose step navigation when a form, checkout, onboarding, or application has three or more high-level linear steps.",
+    "Use it to communicate completed, current, upcoming, optional, and error states; do not use it as ordinary site navigation.",
+    "Show the current step in the indicator and in the page heading, and keep those labels synchronized with the route or task state.",
+    "Keep Back and Continue controls separate from the indicator unless the product deliberately supports interactive step navigation.",
+    "Allow navigation to completed steps only when previous data can be preserved and revisited safely.",
+    "Lock, disable, or explain future steps until prerequisites are complete; never let users skip required validation silently.",
+    "Avoid a step indicator for fewer than three steps, nonlinear tasks, highly conditional step counts, or same-page content sections.",
+    "Use a task list or process list when users need a detailed overview of many tasks that can be completed out of order."
+  ],
+  "requiredStates": [
+    "Default state with completed, current, and upcoming steps.",
+    "Current step heading with step number and total step count.",
+    "Validated completion state after the user successfully continues.",
+    "Future step blocked or unavailable state before prerequisites are met.",
+    "Completed step revisit state with previous answers preserved.",
+    "Error state on the affected step when validation fails.",
+    "Responsive compact state with labels shortened or counters used when space is limited."
+  ],
+  "interactionContract": [
+    "The current indicator segment always matches the visible page, route, and task heading.",
+    "A step becomes complete only after required information for that step is valid or saved.",
+    "Back and Continue move through the linear journey and preserve previously entered answers where valid.",
+    "Completed steps may be revisited if the product supports editing; future steps remain unavailable until prerequisites are satisfied.",
+    "Optional steps are labeled as optional and do not block progress when skipped.",
+    "If a step has an error, the indicator shows the error state and the page provides field-level or inline recovery guidance."
+  ],
+  "implementationChecklist": [
+    "Model steps as task milestones with stable IDs, labels, route ownership, prerequisites, completion status, and optional or error metadata.",
+    "Render the indicator near the task heading and include a text heading that states the current step number, total, and label.",
+    "Use semantic ordered-list or equivalent step semantics, and apply aria-current to the current labeled step.",
+    "Validate the current step before marking it complete or unlocking later steps.",
+    "Preserve answers when users go back or revisit completed steps, and recompute downstream status when earlier answers change.",
+    "Keep labels short, responsive, and readable; use counters or omitted labels only when the heading still communicates the current step.",
+    "Test keyboard operation, focus order, visible focus, screen reader status text, and mobile wrapping."
+  ],
+  "commonMisuses": [
+    "Using a step indicator as breadcrumbs, tabs, side navigation, or pagination.",
+    "Marking steps complete because they were visited rather than validated.",
+    "Letting users jump to unavailable future steps without saved prerequisites.",
+    "Showing a fixed step count for a journey whose steps change based on answers.",
+    "Hiding the actual page heading and expecting the indicator to serve as the only title.",
+    "Using vague labels such as Details, More, Next, or Processing that do not explain what the step accomplishes."
+  ],
+  "critiqueQuestions": [
+    "Are these stable task milestones, or are they hierarchy pages, result pages, or same-page sections?",
+    "What proof marks a step complete, and what happens if a completed answer changes later?",
+    "Can the user revisit completed steps without losing data or invalidating hidden downstream answers?",
+    "Will future-step links be locked, explained, or removed until prerequisites are complete?",
+    "Does the current route, heading, and indicator all name the same step?"
+  ],
+  "useWhen": [
+    "A linear form, application, checkout, or setup flow has three or more meaningful steps.",
+    "Users benefit from knowing total progress and remaining work.",
+    "Steps have stable labels and a mostly stable order.",
+    "Each step can report completion, current, upcoming, optional, or error status honestly."
+  ],
+  "avoidWhen": [
+    "The journey has only one or two screens.",
+    "Steps can be completed in any order or the set of steps changes substantially based on answers.",
+    "The user needs parent hierarchy, same-page section jumps, or result-page traversal.",
+    "The product cannot preserve or validate data when users move between steps."
+  ],
+  "variants": [
+    "Horizontal step indicator",
+    "Vertical progress indicator",
+    "Counter-only step indicator",
+    "Interactive stepper for revisiting completed steps",
+    "Non-interactive progress indicator with separate navigation buttons",
+    "Mobile compact step progress",
+    "Error-state step indicator",
+    "Optional-step indicator"
+  ],
+  "accessibility": [
+    "Use aria-current on the current labeled step and include hidden or visible status text for completed, current, upcoming, optional, and error states.",
+    "Do not rely on color alone; combine shape, text, icon, or status copy with accessible contrast.",
+    "Use the correct page heading level for the current step and ensure the indicator does not replace the page title.",
+    "If the indicator is interactive, make each available step keyboard focusable with visible focus and explain unavailable future steps.",
+    "Keep disabled future steps honest: if users need to perceive them, do not use disabled styling that removes them from assistive technology without alternate text."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches interactive completed steps, Back, Continue, and current form controls in a predictable order.",
+    "Enter or Space activates an available step button when the indicator is interactive.",
+    "Arrow-key movement may be supported for an interactive progress indicator if the component documents that behavior.",
+    "Unavailable future steps are skipped or announced as unavailable with an explanation, not silently focused.",
+    "After Continue or Back, focus moves to the new step heading or first invalid field according to the validation outcome."
+  ],
+  "failureModes": [
+    "Current step, route, and heading drift out of sync.",
+    "The indicator unlocks future steps before required data is valid.",
+    "Revisiting a completed step clears answers or leaves downstream answers inconsistent.",
+    "The number of steps changes after users start and the progress count becomes dishonest.",
+    "Error states appear only in the indicator without field-level recovery.",
+    "Short or unordered tasks are burdened by heavy progress UI.",
+    "A hierarchy trail, tab set, or result pagination is mislabeled as task progress."
+  ],
+  "relatedPatterns": [
+    "back-link",
+    "pagination",
+    "breadcrumbs",
+    "in-page-anchor-navigation"
+  ],
+  "comparisons": [
+    "step-navigation-vs-back-link-vs-pagination"
+  ],
+  "examples": [
+    {
+      "product": "USWDS Step indicator",
+      "url": "https://designsystem.digital.gov/components/step-indicator/",
+      "platform": "web",
+      "notes": "Documents multi-page linear form/process use, three-or-more step thresholds, separate navigation, explicit headings, aria-current, and current/completed/pending states.",
+      "screenshot": "screenshots/patterns/step-navigation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon Progress indicator",
+      "url": "https://carbondesignsystem.com/components/progress-indicator/usage/",
+      "platform": "web",
+      "notes": "Documents linear multistep task progress, completed/current/future/error states, validation before progress, short labels, and interactive behavior.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Material Design Steppers",
+      "url": "https://m1.material.io/components/steppers.html",
+      "platform": "web",
+      "notes": "Documents numbered stepper progress through logical steps, editable and non-editable variants, optional steps, and short-form misuse guidance.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-step-indicator-component",
+      "note": "USWDS defines step indicators for multi-page linear forms or processes with three or more high-level steps and requires separate navigation plus current-step semantics."
+    },
+    {
+      "id": "carbon-progress-indicator-component",
+      "note": "Carbon defines progress indicators for linear multistep tasks with completed, current, future, optional, disabled, and error states plus validation guidance."
+    },
+    {
+      "id": "material-design-steppers-component",
+      "note": "Material defines steppers as progress through logical numbered steps with editable, non-editable, optional, mobile, horizontal, vertical, linear, and non-linear variants."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

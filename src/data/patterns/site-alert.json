@@ -1,0 +1,231 @@
+{
+  "id": "site-alert",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an urgent sitewide top-of-page message pattern with source-backed every-page scope, public emergency and service-status use cases, full-width placement, one-alert priority, dynamic update semantics, dismissal/versioning rules, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets site alerts only, including urgent public or servicewide scope, every-page display, full-width top placement, emergency versus informational treatment, single-alert priority, related-link lists, update timestamps, dynamic ARIA role choice, safe dismissal, and removal after the condition ends.",
+    "relatedPatternDistinction": "The entry separates site alert from banner by whole-site scope instead of product or workspace scope, from notification banner by top-of-site placement instead of before-H1 page-flow placement, and from alert by sitewide public status instead of current-task status.",
+    "liveDemoBehavior": "The live demo switches between emergency, service outage, informational, and resolved states; moves across Home, Apply, Status, and Help pages while the site alert persists; reveals a related update list; changes dynamic update semantics; dismisses only safe informational alerts; and contrasts home-only, stacked, validation, stale, and overcolored misuse.",
+    "comparisonDecisionRules": "The site-alert-vs-banner-vs-notification-banner-vs-alert comparison gives concrete rules for every-page sitewide scope, product or workspace scope, before-H1 page-flow scope, current-task urgency, one-alert priority, validation avoidance, emergency treatment, and versioned dismissal.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/site-alert.png was inspected after rendering and shows Good UX, Bad UX, emergency updated site alert above the Apply route, active route controls, stacked site-alert misuse, state-to-inspect, keyboard/access, and avoid-generating evidence; the live route was also exercised through Home, Apply, informational dismissal, emergency dynamic alert role, expanded update list, validation misuse, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/site-alert.png"
+    ]
+  },
+  "name": "Site alert",
+  "aliases": [
+    "sitewide alert",
+    "emergency site alert",
+    "global public alert",
+    "service status alert",
+    "top-of-site alert"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Disclosure And Attention Management",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Urgent full-width sitewide alert near the top of every page",
+  "uiGuidance": [
+    "Render the site alert as a full-width message near the top of the site, before ordinary navigation or page content users might otherwise start from.",
+    "Use one clear heading, concise body text, restrained severity styling, and a short list of related links or updates when several urgent sitewide facts need to be grouped."
+  ],
+  "uxGuidance": [
+    "Use a site alert when urgent public or servicewide information must be obvious and findable from any page, including deep links, refreshes, and routes outside the home page.",
+    "Define alert ownership, audience, start and end conditions, update cadence, dismissal policy, and escalation path before publishing it across the whole site."
+  ],
+  "uiExamples": {
+    "good": [
+      "A public benefits site shows Emergency office closures at the very top of every page, with affected offices, updated time, and a link to alternate service channels.",
+      "A sitewide service outage notice appears full-width above the site header and includes a short related-links list for status, phone service, and appointment rescheduling."
+    ],
+    "bad": [
+      "The emergency message appears only on the home page, so users who land on Apply or Help do not see it.",
+      "Three large red alerts stack above the header, mixing closure, newsletter, and one form error."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user enters through a bookmarked application-status page and still sees the same closure alert before using the service.",
+      "When a new evacuation update is pushed mid-session, the site alert announces the update and records the new timestamp."
+    ],
+    "bad": [
+      "Users dismiss a critical emergency alert once and never see a later update because dismissal is not versioned.",
+      "A workspace-only maintenance message is published as a public site alert and alarms users who are not affected."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile"
+  ],
+  "problem": "Users may enter a site from any page during an urgent public or servicewide condition, and ordinary banners, page alerts, toasts, or home-page announcements can miss deep-linked users or hide the urgency inside local context.",
+  "solution": "Publish one full-width site alert near the top of every affected page, state the urgent condition and public consequence, include the most useful route to details or alternatives, announce dynamic updates with the right ARIA role, and retire or version the alert when the condition changes.",
+  "problemContext": [
+    "The message applies to the whole public site, service, agency property, or critical operating channel rather than one workspace, record, form, or route.",
+    "Users can arrive through search, bookmarks, shared links, notifications, or deep links and still need the warning before using the site.",
+    "The condition is urgent, time-sensitive, public, or operationally critical enough to appear above ordinary navigation and page content.",
+    "The message may need updates, timestamps, or grouped related links while the same sitewide condition remains active."
+  ],
+  "selectionRules": [
+    "Choose site alert when urgent sitewide information must appear by default on every affected page near the top of the site.",
+    "Use emergency treatment for public safety, closures, evacuation, payment suspension, system outage, or other high-consequence service availability messages.",
+    "Use informational site-alert treatment for important sitewide operating status that is not an emergency but still must be seen across the site.",
+    "Use banner instead when the message is broad but limited to a product, account, workspace, section, or official identity scope.",
+    "Use notification banner instead when the message belongs immediately before the H1 in one service page flow.",
+    "Use alert instead when a current task dynamically changes and users need immediate notice inside that task.",
+    "Use error summary and field messages instead for submitted form validation errors.",
+    "Show one site alert per affected site scope; combine related urgent facts into a short list rather than stacking multiple site alerts.",
+    "Let users dismiss only noncritical site alerts or alerts that remain recoverable from a stable status page, and store dismissal by alert id, version, audience, and site scope."
+  ],
+  "requiredStates": [
+    "No-site-alert state when no urgent sitewide condition applies.",
+    "Emergency site alert visible at the top of every affected page.",
+    "Informational site alert for non-emergency servicewide operating status.",
+    "Slim site alert for a short urgent message with a single detail link.",
+    "Expanded or list state for several related urgent updates inside one alert.",
+    "Dynamic update state with changed timestamp and appropriate alert or status semantics.",
+    "Dismissed state for safe informational alerts, versioned so new urgent updates reappear.",
+    "Resolved state where the alert is removed or replaced by a low-impact status page reference."
+  ],
+  "interactionContract": [
+    "The site alert appears before ordinary page content and is reachable from any affected route, not just the home page.",
+    "The alert heading names the sitewide condition rather than a generic severity label.",
+    "The body states who is affected, what users should do now, when it was updated, and where to get details.",
+    "Related links are grouped inside the same alert when multiple urgent facts share one sitewide condition.",
+    "The alert does not stack with unrelated marketing, validation, or page-flow messages.",
+    "Dynamic emergency updates use alert semantics sparingly; advisory updates use status or labelled region semantics.",
+    "Dismissal never hides unresolved critical conditions permanently and never suppresses newer alert versions."
+  ],
+  "implementationChecklist": [
+    "Define the alert's site scope, audience, severity, owner, start time, update cadence, expiry condition, and fallback channel.",
+    "Place the alert in the site shell above page-specific content and test deep-linked pages, not only the home page.",
+    "Write a short heading that names the urgent condition, such as Emergency office closures or Online applications unavailable.",
+    "Include updated time, affected areas, immediate next step, and one stable link to more detail or alternate contact.",
+    "Combine related sitewide facts into one list or expandable detail region instead of stacking separate alerts.",
+    "Choose role alert only for important dynamic changes that need immediate attention; use status or labelled region for advisory updates.",
+    "Version dismissal state by alert id, update version, audience, and site scope, and disable dismissal for unresolved critical conditions.",
+    "Test mobile wrapping, zoom, keyboard reachability, screen-reader landmark labels, skip-link order, route transitions, cache invalidation, and resolution removal."
+  ],
+  "commonMisuses": [
+    "Showing a sitewide emergency only on the home page.",
+    "Using a site alert for form validation, task success, local workflow feedback, or one account issue.",
+    "Stacking multiple unrelated site alerts at the top of every page.",
+    "Using bright emergency styling for routine announcements, newsletters, or low-impact notices.",
+    "Letting users permanently dismiss a critical unresolved alert.",
+    "Leaving a stale emergency alert after the condition has ended.",
+    "Changing site-alert content mid-session without a programmatic status or alert announcement when the update is important."
+  ],
+  "critiqueQuestions": [
+    "Does this message truly apply across every affected page, including deep links?",
+    "Is the condition urgent enough to sit above ordinary site navigation and page content?",
+    "Should this be a site alert, a product banner, a before-H1 notification banner, a current-task alert, or an error summary?",
+    "What single highest-priority site alert should users see right now?",
+    "Who owns the update timestamp, expiry, alternate contact route, and resolution notice?",
+    "Can users dismiss it safely, and what update version should make it reappear?"
+  ],
+  "useWhen": [
+    "Urgent public, safety, operating-status, outage, closure, or availability information applies to the whole site or service.",
+    "Users may enter from any route and need the message before using the site.",
+    "One top-of-site message can communicate the condition and route users to details or alternatives.",
+    "The organization can maintain start, update, dismissal, and expiry rules."
+  ],
+  "avoidWhen": [
+    "The message applies only to one product workspace, account, section, page flow, field, row, or task.",
+    "The message is form validation, task completion, or a previous-page outcome.",
+    "The update is routine marketing, feature rollout, newsletter, or low-consequence content.",
+    "Multiple unrelated alerts would need to compete at the top of the site.",
+    "No owner can keep the alert current or remove it when the condition ends."
+  ],
+  "variants": [
+    "Emergency site alert",
+    "Informational site alert",
+    "Slim site alert",
+    "Expandable site alert",
+    "Dismissible site alert",
+    "Dynamic update site alert",
+    "Related-links site alert"
+  ],
+  "accessibility": [
+    "Give the site alert a descriptive aria-label or labelledby value so it appears clearly in landmark navigation.",
+    "Use role alert only for urgent dynamic changes that demand immediate attention, because assertive announcements interrupt workflow.",
+    "Use role status or a labelled region for advisory sitewide messages that appear on page load or update less urgently.",
+    "Fully remove inactive alerts instead of visually hiding them for later reuse.",
+    "Do not rely on red, orange, icons, or top placement alone; include visible text that names the urgent condition and next step.",
+    "Keep alert links and dismiss controls keyboard reachable in reading order before page-specific content.",
+    "Avoid stacked assertive alerts and test high zoom so the alert does not obscure navigation or page headings."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches site-alert links, details, and safe dismiss controls before ordinary page controls.",
+    "Enter or Space opens an expandable related-update list without moving the alert away from the top of the site.",
+    "Dismissal, when safe, removes the alert and moves focus to the next meaningful site control or a stable status message.",
+    "Route changes preserve active site-alert visibility and do not reset focus into the alert unless a new urgent dynamic update appears.",
+    "Skip links and landmarks keep a coherent order when the site alert is inserted before navigation or page content."
+  ],
+  "failureModes": [
+    "Deep-linked users miss critical sitewide information because the alert exists only on the home page.",
+    "Users ignore the alert area because unrelated messages are stacked there every day.",
+    "A critical alert is dismissed permanently and later updates never reappear.",
+    "A nonurgent announcement uses emergency colors and creates unnecessary alarm.",
+    "Assistive technology users cannot find the alert because it lacks a descriptive label.",
+    "A dynamic emergency update changes visually but is not announced programmatically.",
+    "The alert remains after the outage, closure, or safety condition has ended."
+  ],
+  "relatedPatterns": [
+    "banner",
+    "notification-banner",
+    "alert",
+    "error-summary",
+    "inline-message",
+    "toast-notification"
+  ],
+  "comparisons": [
+    "site-alert-vs-banner-vs-notification-banner-vs-alert"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Site Alert",
+      "url": "https://designsystem.digital.gov/components/site-alert/",
+      "platform": "web",
+      "notes": "Documents urgent sitewide alerts, every-page display, top placement, stacking avoidance, dynamic ARIA roles, and emergency or informational variants.",
+      "screenshot": "screenshots/patterns/site-alert.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "NCI Design System Site Alert",
+      "url": "https://designsystem.cancer.gov/components/site-alert",
+      "platform": "web",
+      "notes": "Documents standard and slim site alerts, emergency and info modifiers, optional close and expand behavior, and top-of-page sitewide placement.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WCAG 2.2 Status Messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Explains programmatic exposure of status changes without requiring focus movement, supporting dynamic site-alert update semantics.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-site-alert-component",
+      "note": "USWDS defines site alerts for urgent sitewide information, critical system notifications, every-page display, full-width top placement, stacking avoidance, color restraint, labelled regions, and dynamic ARIA roles."
+    },
+    {
+      "id": "nci-site-alert-component",
+      "note": "NCI documents site-alert standard, slim, emergency, info, close, and expand variants plus top-of-page placement and combining related messages."
+    },
+    {
+      "id": "uswds-alert-component",
+      "note": "USWDS alert guidance supports separating page-level task alerts and validation messages from sitewide alert announcements."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports programmatic announcement of important dynamic site-alert updates without unnecessary focus movement."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

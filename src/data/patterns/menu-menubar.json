@@ -1,0 +1,259 @@
+{
+  "id": "menu-menubar",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a persistent application menu and menubar pattern with source-backed composite roles, top-level command grouping, submenu ownership, roving focus, Arrow key behavior, checked and disabled menu item state, Escape dismissal, focus return, and distinctions from menu button, mega menu, global navigation, command palette, select, listbox, and header overflow.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers persistent menubar structure, role menubar and role menu, menuitem, menuitemcheckbox, menuitemradio, group, separator, aria-haspopup, aria-expanded, aria-checked, aria-disabled, aria-orientation, roving tabindex or aria-activedescendant, top-level Arrow movement, submenu opening, nested submenu return, typeahead, Home and End movement, Escape dismissal, Tab exit, and disabled item focusability.",
+    "relatedPatternDistinction": "The entry separates menu and menubar from menu button by persistent multi-group command bars versus one local trigger, from mega menu by application commands versus large navigation panels, from global navigation by commands versus destinations, from command palette by visible stable command groups versus searchable command discovery, and from select or listbox by invoking functions rather than choosing field values.",
+    "liveDemoBehavior": "The live demo moves across File, Edit, View, and Insert top-level items, opens submenus, moves through command items, toggles a menuitemcheckbox, blocks a disabled Paste item while keeping it visible, opens a nested Theme submenu, activates a command, and closes with Escape back to the editor context while the bad demo mixes site links, form controls, stale expanded state, and hidden focusable items.",
+    "comparisonDecisionRules": "The linked menu-menubar-vs-menu-button-vs-mega-menu-vs-global-navigation comparison gives concrete rules for persistent application command bars, local popup menus, grouped navigation disclosure, and global section movement.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/menu-menubar.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, persistent menubar, open submenu, nested submenu behavior, checked item state, disabled item state, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/menu-menubar.png"
+    ]
+  },
+  "name": "Menu / menubar",
+  "aliases": [
+    "application menu",
+    "command menu",
+    "menu bar",
+    "desktop-style menu",
+    "pull-down menu",
+    "submenu"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Disclosure And Attention Management",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent composite command bar with menus and submenus",
+  "uiGuidance": [
+    "Render a labelled command menubar with stable top-level command groups, visible focused item, open submenu, menu items, checked items, disabled items, separators, shortcut hints, and nested submenu indicators.",
+    "Keep the menubar focused on application commands and command state; do not use desktop menu semantics for ordinary site navigation, page link lists, or large promotional panels."
+  ],
+  "uxGuidance": [
+    "Use a menu or menubar when users benefit from a stable command system that organizes many related functions into predictable groups such as File, Edit, View, Insert, and Format.",
+    "Make command discovery and execution predictable by preserving the command hierarchy, supporting arrow-key movement, showing unavailable commands, exposing checked state, and returning focus to the invoking context."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document editor exposes File, Edit, View, and Insert as a persistent menubar, with Save, Rename, Export, Undo, Paste unavailable, Show comments checked, and Theme as a nested submenu.",
+      "A data-grid application has a Commands menubar with Row, Column, View, and Tools groups, each using separators and disabled items to explain command availability.",
+      "An enterprise desktop web app uses a vertical menubar for a canvas with command groups and sets aria-orientation to vertical."
+    ],
+    "bad": [
+      "A marketing site header marks Home, Products, Blog, Pricing, and Sign out as a menubar but behaves like normal links.",
+      "The menu contains search fields, sliders, toggles, and date pickers inside menuitem rows instead of command items or checkable menu items.",
+      "Collapsed submenus remain focusable and aria-expanded says true after the submenu disappears."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user tabs into File, presses Right Arrow to Edit, Down Arrow to open Edit commands, arrows to Undo, activates it, and focus returns to the editor canvas.",
+      "A user opens View, toggles Show comments, and the menuitemcheckbox state remains checked until toggled again.",
+      "A user opens View, moves into Theme, opens the nested submenu, chooses High contrast, and returns to the parent command context predictably."
+    ],
+    "bad": [
+      "A user expects Right Arrow to move from File to Edit, but the page scrolls because focus is not managed as a composite widget.",
+      "A disabled Paste command is removed entirely, so users cannot tell that paste exists but depends on clipboard content.",
+      "A user presses Escape from a submenu and focus jumps to the browser chrome instead of the parent menu item or editor context."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop"
+  ],
+  "problem": "Complex applications may have many stable commands, but scattering those commands across buttons, popovers, and hidden shortcuts makes discovery, grouping, disabled state, and keyboard execution unpredictable.",
+  "solution": "Provide a persistent menu or menubar with top-level command groups, managed composite focus, submenus, checked and disabled command state, predictable keyboard navigation, activation, dismissal, and focus return.",
+  "problemContext": [
+    "The product behaves like an application or editor with many stable commands.",
+    "Commands need grouping by intent such as file operations, editing, viewing, insertion, formatting, or tools.",
+    "Users benefit from seeing command categories persistently while the submenu content stays compact.",
+    "Some commands are unavailable, checked, or open nested submenus depending on current context.",
+    "Keyboard users need a desktop-style interaction model that does not require tabbing through every submenu item from the page."
+  ],
+  "selectionRules": [
+    "Choose a menu or menubar when the interface has a stable, application-like command hierarchy that users revisit frequently.",
+    "Use a menu button when a single local trigger reveals a short command list for one object, row, or toolbar.",
+    "Use command palette when commands need search, ranking, fuzzy matching, recents, or cross-product discovery.",
+    "Use global navigation, tabs, side navigation, or mega menu when the primary job is choosing destinations rather than invoking commands.",
+    "Use select, listbox, radio group, checkbox group, or multi-select when the user is choosing values for data, filters, or preferences rather than executing commands.",
+    "Use menuitemcheckbox or menuitemradio for command state that belongs inside the menu, not a nested checkbox, toggle, or radio control.",
+    "Keep disabled commands visible when their existence matters, expose aria-disabled, and do not allow activation.",
+    "Avoid ARIA menu and menubar roles unless the implementation supports the full composite keyboard model."
+  ],
+  "requiredStates": [
+    "Persistent closed menubar state with labelled top-level command groups.",
+    "Focused top-level menuitem state.",
+    "Open submenu state connected to its parent menuitem with aria-haspopup and aria-expanded.",
+    "Focused submenu item state.",
+    "Nested submenu open state with parent item focus return.",
+    "Activated command state with menu closed and focus returned to the invoking context.",
+    "Checked menuitemcheckbox or menuitemradio state.",
+    "Disabled but focusable menu item state.",
+    "Separator or group state for command sections.",
+    "Typeahead, Home, and End movement state.",
+    "Escape dismissed state.",
+    "Tab exit state with all menus closed.",
+    "Horizontal and vertical orientation states where applicable."
+  ],
+  "interactionContract": [
+    "The persistent bar has role menubar and a visible label or accessible name.",
+    "Top-level command items use menuitem, menuitemcheckbox, or menuitemradio roles and are managed with roving tabindex or aria-activedescendant.",
+    "A parent menuitem with a submenu exposes aria-haspopup and synchronized aria-expanded state.",
+    "Submenus use role menu and are labelled by or otherwise connected to the parent item that opened them.",
+    "Right and Left Arrow move between top-level items in a horizontal menubar; Down and Up Arrow open or move inside vertical submenus.",
+    "Enter or Space activates a command, toggles checked state, or opens a submenu according to the item role.",
+    "Escape closes the current menu and returns focus to the parent menuitem, menubar item, or invoking context.",
+    "Tab exits the composite widget and closes open menus rather than moving through every hidden command.",
+    "Disabled menu items remain focusable when following the application-menu model but cannot activate.",
+    "Hidden submenus are not reachable by keyboard or assistive technology while closed."
+  ],
+  "implementationChecklist": [
+    "Confirm this is an application command system, not ordinary navigation or a one-off overflow menu.",
+    "Inventory command groups and keep top-level labels stable, short, and task-recognizable.",
+    "Use role menubar for the persistent command bar and role menu for submenus only when implementing composite keyboard behavior.",
+    "Implement roving tabindex or aria-activedescendant so one item owns focus at a time.",
+    "Expose aria-haspopup and aria-expanded on items that open submenus and aria-checked on checkable menu items.",
+    "Implement Right, Left, Down, Up, Home, End, printable-character typeahead, Enter, Space, Escape, and Tab exit behavior.",
+    "Keep disabled commands visible when they teach availability, expose aria-disabled, and prevent activation.",
+    "Use separators and groups to keep command sections scannable without creating focus stops.",
+    "Test nested submenus, screen reader announcements, shortcut conflicts, high zoom, forced colors, pointer hover, touch fallback, route changes, and focus return to the editing context."
+  ],
+  "commonMisuses": [
+    "Using role menubar for a normal website header or product navigation row.",
+    "Using a menubar when one menu button or visible toolbar actions would be simpler.",
+    "Putting form controls, sliders, date pickers, editable fields, or arbitrary cards inside menuitem rows.",
+    "Leaving hidden submenu items in the tab order.",
+    "Letting aria-expanded drift away from the visible submenu state.",
+    "Making disabled commands unfocusable or invisible when users need to understand unavailable capabilities.",
+    "Using hover as the only way to open submenus.",
+    "Overriding browser, operating-system, or assistive-technology shortcuts with custom menu shortcuts."
+  ],
+  "critiqueQuestions": [
+    "Is this truly a persistent application command system, or is it navigation, a toolbar, or a local overflow?",
+    "Can users move between top-level command groups with Arrow keys without tabbing through every submenu item?",
+    "Do checkable and disabled commands expose state through menu item semantics rather than nested controls?",
+    "Does Escape close the correct level and return focus to the parent command or invoking context?",
+    "Are hidden submenus removed from focus and screen reader reach while closed?"
+  ],
+  "useWhen": [
+    "A complex application or editor has many stable commands organized into known groups.",
+    "Users need desktop-style keyboard command discovery and execution.",
+    "Commands have disabled, checked, or nested submenu state that should remain discoverable.",
+    "The command hierarchy is important enough to stay visible as a persistent bar."
+  ],
+  "avoidWhen": [
+    "The interface is ordinary site or product navigation.",
+    "A short local action list can be handled by a menu button or visible buttons.",
+    "Users need to choose form values rather than invoke commands.",
+    "The command set is broad, dynamic, or search-heavy enough for command palette.",
+    "The team cannot support composite focus, keyboard movement, submenu ownership, and focus return."
+  ],
+  "variants": [
+    "Horizontal application menubar",
+    "Vertical menubar",
+    "Context menu",
+    "Nested submenu",
+    "Menu with menuitemcheckbox",
+    "Menu with menuitemradio",
+    "Menu with separators",
+    "Menu with shortcut hints",
+    "Editor menubar"
+  ],
+  "accessibility": [
+    "Use role menubar for a persistent application command bar and role menu for submenus.",
+    "Give the menubar an accessible name with aria-label or aria-labelledby.",
+    "Use menuitem, menuitemcheckbox, and menuitemradio for items; expose aria-checked for checkable items.",
+    "Expose aria-haspopup and aria-expanded on items that open submenus.",
+    "Use aria-disabled for disabled commands and prevent activation.",
+    "Use aria-orientation when the menubar orientation is vertical or when a menu orientation differs from defaults.",
+    "Manage focus with roving tabindex or aria-activedescendant and keep visual focus aligned with the accessibility tree.",
+    "Keep group and separator elements non-focusable.",
+    "Avoid custom keyboard shortcuts that conflict with browser, operating-system, or assistive-technology shortcuts."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus into the menubar and places focus on the first or remembered top-level item.",
+    "Right Arrow moves to the next top-level item in a horizontal menubar, optionally wrapping.",
+    "Left Arrow moves to the previous top-level item in a horizontal menubar, optionally wrapping.",
+    "Down Arrow opens a submenu from a top-level item and places focus on its first item.",
+    "Up Arrow may open a submenu from a top-level item and place focus on its last item.",
+    "Down and Up Arrow move within an open vertical menu, optionally wrapping.",
+    "Right Arrow opens a nested submenu from a parent menuitem or moves to the next menubar item when no nested submenu applies.",
+    "Left Arrow closes a nested submenu and returns focus to the parent item, or moves to the previous menubar item.",
+    "Home and End move to the first and last item in the current menu or menubar when wrapping is not used.",
+    "Printable characters move focus to the next item whose label begins with the typed character.",
+    "Enter or Space activates a command, toggles a checkable item, or opens a submenu according to the item role.",
+    "Escape closes the current menu and returns focus to the parent item or invoking context.",
+    "Tab exits the composite widget and closes all open menus."
+  ],
+  "failureModes": [
+    "A menubar announces command semantics but behaves like a normal link row.",
+    "Arrow keys scroll the page instead of moving focus between commands.",
+    "Hidden submenu items remain focusable when their parent menu is closed.",
+    "A checkable command is implemented as a nested checkbox control inside a menuitem.",
+    "A disabled command can still be activated by keyboard or pointer.",
+    "Escape closes the whole application surface instead of one submenu level.",
+    "Nested submenus open without a clear parent relationship or focus return.",
+    "Top-level command groups are renamed or reordered per page, so users cannot build command memory."
+  ],
+  "relatedPatterns": [
+    "menu-button",
+    "mega-menu",
+    "global-navigation",
+    "header",
+    "command-palette",
+    "select",
+    "listbox"
+  ],
+  "comparisons": [
+    "menu-menubar-vs-menu-button-vs-mega-menu-vs-global-navigation"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Menu and Menubar pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/",
+      "platform": "web",
+      "notes": "Defines application menu and menubar roles, keyboard behavior, submenu ownership, checked and disabled item state, separators, groups, focus management, and labeling.",
+      "screenshot": "screenshots/patterns/menu-menubar.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN ARIA menubar role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/menubar_role",
+      "platform": "web",
+      "notes": "Documents persistent menubar structure, focusable menu items, roving tabindex, accessible naming, orientation, disabled focusability, submenus, and keyboard interactions.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Adobe Spectrum Menu",
+      "url": "https://spectrum.adobe.com/page/menu/",
+      "platform": "web",
+      "notes": "Shows menu anatomy, section dividers, keyboard focus, disabled and unavailable states, checkable selection styles, descriptions, values, and text wrapping.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-menu-menubar",
+      "note": "APG defines menu and menubar as application command widgets with composite focus, top-level and submenu keyboard behavior, item roles, disabled state, checked state, groups, separators, labeling, and orientation."
+    },
+    {
+      "id": "mdn-aria-menubar-role",
+      "note": "MDN documents menubar as a persistent horizontal command surface with focusable menu items, roving tabindex, submenus, accessible naming, orientation, disabled item focusability, and keyboard behavior."
+    },
+    {
+      "id": "mdn-aria-menu-role",
+      "note": "MDN distinguishes ARIA menu from generic site navigation and documents action-oriented menu semantics, item roles, disabled state, separators, labeling, and focus management."
+    },
+    {
+      "id": "adobe-spectrum-menu",
+      "note": "Spectrum documents menu item labels, descriptions, values, unavailable and disabled states, sections, dividers, checkable selection states, keyboard focus, text wrapping, and keyboard interactions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

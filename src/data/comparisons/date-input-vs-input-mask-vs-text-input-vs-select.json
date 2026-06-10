@@ -1,0 +1,50 @@
+{
+  "id": "date-input-vs-input-mask-vs-text-input-vs-select",
+  "title": "Date input vs input mask vs text input vs select",
+  "summary": "Use date input for exact known dates entered as day, month, and year; use input mask for fixed-format codes, text input for ordinary one-line text, and select only for constrained date parts or known option sets.",
+  "patternIds": [
+    "date-input",
+    "input-mask",
+    "text-input",
+    "select"
+  ],
+  "decisionRules": [
+    "Prefer date input when users already know the exact date or can look it up and the task needs day, month, and year as separate understandable parts.",
+    "Prefer a date picker outside this comparison when users are scheduling, comparing availability, or choosing from calendar context rather than recalling a known date.",
+    "Prefer input mask only when the value is a fixed-format identifier; do not mask dates if it prevents month-name entry, partial recovery, or clear part-specific errors.",
+    "Prefer text input when the answer is a short non-date value or when the product accepts fuzzy wording such as a season, month name only, or approximate period.",
+    "Prefer select for a small finite set such as month names, school years, or appointment slots, not for arbitrary birth dates or historical dates.",
+    "Ask a single date question in a fieldset with a legend, separate labels for day, month, and year, and an example date that matches the requested date.",
+    "Do not automatically move focus between day, month, and year because it conflicts with normal keyboard editing, paste, screen readers, and correction.",
+    "Accept common month-name forms when users type them in the month field, then normalize to a canonical numeric month for storage.",
+    "Show group-level errors that name the missing, impossible, or out-of-range part while preserving every typed part for correction.",
+    "Use birthday autocomplete attributes only when asking for the user's own date of birth, not for every date field."
+  ],
+  "failureModes": [
+    "A date mask rejects a user who types Jan for the month even though the intended component should tolerate month names.",
+    "A calendar picker is forced on users who already know their date of birth and just need fast keyboard entry.",
+    "Three inputs are shown without a fieldset or legend, so assistive technology users hear isolated Day, Month, Year labels without the actual question.",
+    "The form auto-tabs after two digits and makes it hard to correct a day or paste a copied date.",
+    "The product reports only Invalid date without naming whether day, month, year, range, or impossible-date validation failed.",
+    "A select control makes users scroll through hundreds of years instead of typing a known date."
+  ],
+  "sources": [
+    {
+      "id": "govuk-date-input-component",
+      "note": "GOV.UK documents known-date use, grouped day/month/year fields, valid example hints, month-name tolerance, no automatic tabbing, and errors."
+    },
+    {
+      "id": "nhs-date-input-component",
+      "note": "NHS documents exact-date entry with grouped date parts, birth-date autocomplete, numeric input mode, and error handling."
+    },
+    {
+      "id": "uswds-memorable-date-component",
+      "note": "USWDS memorable date guidance supports manual date-part entry and distinguishes scheduling tasks that may need a date picker."
+    },
+    {
+      "id": "microsoft-access-input-masks",
+      "note": "Microsoft documents masks as fixed placeholder and literal-character constraints, including date-picker conflict warnings."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

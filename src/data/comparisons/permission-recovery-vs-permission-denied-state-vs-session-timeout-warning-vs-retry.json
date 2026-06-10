@@ -1,0 +1,50 @@
+{
+  "id": "permission-recovery-vs-permission-denied-state-vs-session-timeout-warning-vs-retry",
+  "title": "Permission recovery vs permission denied state vs session timeout warning vs retry",
+  "summary": "Permission recovery is the request, approval, account-switch, and fallback workflow after authorization blocks a task. Permission denied state explains the boundary, session timeout warning handles authentication expiry, and retry repeats a failed operation only when repetition can change the result.",
+  "patternIds": [
+    "permission-recovery",
+    "permission-denied-state",
+    "session-timeout-warning",
+    "retry"
+  ],
+  "decisionRules": [
+    "Use permission recovery when a denied user can request a role, switch to an authorized account, contact an owner, escalate a policy block, or resume the original task after access changes.",
+    "Use permission denied state when the interface mainly needs to explain that the current account lacks the role, share, license, policy exception, or approval required for an object or action.",
+    "Use session timeout warning when authentication is expiring or expired; do not send users into access request flows when reauthentication is the recovery.",
+    "Use retry when the same authorized operation may succeed after a transient failure; do not use retry for unchanged authorization denials.",
+    "Permission recovery must track request ID, requested role, reason, owner or admin destination, pending status, approved or declined outcome, and return path to the blocked task.",
+    "Permission denied state may include Request access, but it does not replace the full request lifecycle when owner decisions, duplicate prevention, and resume behavior matter.",
+    "Session timeout warning preserves in-progress work and identity continuity; permission recovery preserves task intent while the authorization grant changes.",
+    "Retry can appear after approval or role refresh, but only because the permission state changed, not because the original denial should be repeated blindly.",
+    "Do not promise access when the request is only sent, pending, policy-blocked, or declined.",
+    "Do not expose restricted object titles, owner names, paths, or notification text in permission recovery when no-disclosure policy applies."
+  ],
+  "failureModes": [
+    "A denied user clicks Retry repeatedly because the UI never offers request access, switch account, or owner escalation.",
+    "A permission denied message sends a request but loses pending status after reload, producing duplicate owner notifications.",
+    "A session timeout is treated as missing permission, so users request access instead of reauthenticating and preserving work.",
+    "A retry button appears after a declined access request even though no authorization state has changed.",
+    "A request says access granted before an owner or policy engine approves it.",
+    "A recovery notification leaks a restricted file title to an account that should not know the file exists."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-sharepoint-access-requests",
+      "note": "SharePoint access requests include owner notification, approve or decline decisions, permission levels, request history, and site-owner authority."
+    },
+    {
+      "id": "google-drive-file-access-requests",
+      "note": "Google Drive file access guidance covers request reasons, owner decisions, pending outcomes, account switching, and policy limits."
+    },
+    {
+      "id": "github-repository-roles",
+      "note": "GitHub repository roles document action-specific role boundaries for role upgrade and admin-contact recovery."
+    },
+    {
+      "id": "w3c-wcag-reauthenticating",
+      "note": "Reauthentication guidance helps distinguish session recovery from authorization recovery."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

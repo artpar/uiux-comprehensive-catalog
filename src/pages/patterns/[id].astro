@@ -13,6 +13,12 @@ function isComparison(value: ComparisonEntry | undefined): value is ComparisonEn
   return Boolean(value);
 }
 
+function formatPatternType(value: PatternEntry["patternType"]) {
+  if (value === "ui") return "UI";
+  if (value === "ux") return "UX";
+  return "UI + UX";
+}
+
 export function getStaticPaths() {
   return patterns.map((pattern) => ({
     params: { id: pattern.id },
@@ -32,8 +38,11 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
   <section class="pattern-titlebar">
     <div>
       <div class="pill-list">
+        <span>{formatPatternType(pattern.patternType)}</span>
+        <span>{pattern.surfaceType}</span>
         <span>{pattern.category}</span>
         <span>{pattern.maturity}</span>
+        <span>{pattern.completionStatus}</span>
         {pattern.platforms.map((platform) => <span>{platform}</span>)}
       </div>
       <h1>{pattern.name}</h1>
@@ -53,6 +62,8 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
     <aside class="sticky-demo pattern-sidebar">
       <section class="detail-panel compact-panel">
         <h2>Decision Snapshot</h2>
+        <p><strong>Type:</strong> {formatPatternType(pattern.patternType)} - {pattern.surfaceType}</p>
+        <p><strong>Status:</strong> {pattern.completionStatus}. {pattern.completionNotes}</p>
         <p><strong>Use:</strong> {pattern.useWhen[0]}</p>
         <p><strong>Avoid:</strong> {pattern.avoidWhen[0]}</p>
         <p><strong>Confidence:</strong> {pattern.sources.length} source-backed claims, verified {pattern.lastVerified}</p>
@@ -99,8 +110,46 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
         <p><strong>Solution:</strong> {pattern.solution}</p>
       </section>
 
-      <section class="guidance-block agent-panel">
-        <h2>Full Agent Decision Guidance</h2>
+      <section class="guidance-block ui-ux-split">
+        <h2>UI vs UX</h2>
+        <div>
+          <section>
+            <h3>UI</h3>
+            <p>What the user sees and manipulates.</p>
+            <h4>Good UI</h4>
+            <ul>
+              {pattern.uiExamples.good.map((item) => <li>{item}</li>)}
+            </ul>
+            <h4>Bad UI</h4>
+            <ul>
+              {pattern.uiExamples.bad.map((item) => <li>{item}</li>)}
+            </ul>
+            <h4>UI guidance</h4>
+            <ul>
+              {pattern.uiGuidance.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+          <section>
+            <h3>UX</h3>
+            <p>How the interaction helps the user complete the task.</p>
+            <h4>Good UX</h4>
+            <ul>
+              {pattern.uxExamples.good.map((item) => <li>{item}</li>)}
+            </ul>
+            <h4>Bad UX</h4>
+            <ul>
+              {pattern.uxExamples.bad.map((item) => <li>{item}</li>)}
+            </ul>
+            <h4>UX guidance</h4>
+            <ul>
+              {pattern.uxGuidance.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        </div>
+      </section>
+
+      <details class="guidance-block guidance-details agent-panel">
+        <summary>Full Agent Decision Guidance</summary>
         <h3>Problem Context</h3>
         <ul>
           {pattern.problemContext.map((item) => <li>{item}</li>)}
@@ -135,80 +184,83 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
         <ul>
           {pattern.critiqueQuestions.map((item) => <li>{item}</li>)}
         </ul>
-      </section>
+      </details>
 
-      <section class="guidance-block">
-        <h2>Use When</h2>
-        <ul>
-          {pattern.useWhen.map((item) => <li>{item}</li>)}
-        </ul>
-      </section>
-
-      <section class="guidance-block">
-        <h2>Avoid When</h2>
-        <ul>
-          {pattern.avoidWhen.map((item) => <li>{item}</li>)}
-        </ul>
-      </section>
-
-      {pattern.failureModes.length > 0 && (
-        <section class="guidance-block">
-          <h2>Failure Modes</h2>
+      <section class="reference-grid" aria-label="Pattern reference">
+        <details class="guidance-block guidance-details">
+          <summary>Use When</summary>
           <ul>
-            {pattern.failureModes.map((item) => <li>{item}</li>)}
+            {pattern.useWhen.map((item) => <li>{item}</li>)}
           </ul>
-        </section>
-      )}
+        </details>
 
-      {pattern.accessibility.length > 0 && (
-        <section class="guidance-block">
-          <h2>Accessibility</h2>
+        <details class="guidance-block guidance-details">
+          <summary>Avoid When</summary>
           <ul>
-            {pattern.accessibility.map((item) => <li>{item}</li>)}
+            {pattern.avoidWhen.map((item) => <li>{item}</li>)}
           </ul>
-        </section>
-      )}
+        </details>
 
-      {pattern.keyboardBehavior.length > 0 && (
-        <section class="guidance-block">
-          <h2>Keyboard Behavior</h2>
+        {pattern.failureModes.length > 0 && (
+          <details class="guidance-block guidance-details">
+            <summary>Failure Modes</summary>
+            <ul>
+              {pattern.failureModes.map((item) => <li>{item}</li>)}
+            </ul>
+          </details>
+        )}
+
+        {pattern.accessibility.length > 0 && (
+          <details class="guidance-block guidance-details">
+            <summary>Accessibility</summary>
+            <ul>
+              {pattern.accessibility.map((item) => <li>{item}</li>)}
+            </ul>
+          </details>
+        )}
+
+        {pattern.keyboardBehavior.length > 0 && (
+          <details class="guidance-block guidance-details">
+            <summary>Keyboard Behavior</summary>
+            <ul>
+              {pattern.keyboardBehavior.map((item) => <li>{item}</li>)}
+            </ul>
+          </details>
+        )}
+
+        <details class="guidance-block guidance-details">
+          <summary>Aliases</summary>
+          <div class="pill-list">
+            {pattern.aliases.length ? pattern.aliases.map((alias) => <span>{alias}</span>) : <span>None</span>}
+          </div>
+        </details>
+
+        {pattern.variants.length > 0 && (
+          <details class="guidance-block guidance-details">
+            <summary>Variants</summary>
+            <ul>
+              {pattern.variants.map((item) => <li>{item}</li>)}
+            </ul>
+          </details>
+        )}
+
+        <details class="guidance-block guidance-details">
+          <summary>Sources</summary>
           <ul>
-            {pattern.keyboardBehavior.map((item) => <li>{item}</li>)}
+            {sourceRefs.map(({ ref, source }) => (
+              <li>
+                {source ? <a href={withBase(`/sources/${source.id}/`)}>{source.name}</a> : ref.id}
+                <br />
+                <span>{ref.note}</span>
+              </li>
+            ))}
           </ul>
+        </details>
+
+        <section class="guidance-block verification-strip">
+          <h2>Verification</h2>
+          <p>Last verified: {pattern.lastVerified}</p>
         </section>
-      )}
-      <section class="guidance-block">
-        <h2>Aliases</h2>
-        <div class="pill-list">
-          {pattern.aliases.length ? pattern.aliases.map((alias) => <span>{alias}</span>) : <span>None</span>}
-        </div>
-      </section>
-
-      {pattern.variants.length > 0 && (
-        <section class="guidance-block">
-          <h2>Variants</h2>
-          <ul>
-            {pattern.variants.map((item) => <li>{item}</li>)}
-          </ul>
-        </section>
-      )}
-
-      <section class="guidance-block">
-        <h2>Sources</h2>
-        <ul>
-          {sourceRefs.map(({ ref, source }) => (
-            <li>
-              {source ? <a href={withBase(`/sources/${source.id}/`)}>{source.name}</a> : ref.id}
-              <br />
-              <span>{ref.note}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section class="guidance-block">
-        <h2>Verification</h2>
-        <p>Last verified: {pattern.lastVerified}</p>
       </section>
     </div>
   </div>

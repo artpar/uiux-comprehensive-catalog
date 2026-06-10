@@ -1,0 +1,50 @@
+{
+  "id": "saved-search-vs-basic-search-vs-filter-panel-vs-recently-viewed",
+  "title": "Saved search vs basic search vs filter panel vs recently viewed",
+  "summary": "Use saved search when users need to persist and rerun named search criteria, basic search for one-off retrieval, filter panels for current-session narrowing, and recently viewed for passive history.",
+  "patternIds": [
+    "saved-search",
+    "basic-search",
+    "filter-panel",
+    "recently-viewed"
+  ],
+  "decisionRules": [
+    "Prefer saved search when users repeatedly run the same query, filters, sort, and scope and need a named object they can rerun later.",
+    "Prefer basic search when the user needs a one-off query box, result count, and recovery path without creating a reusable saved object.",
+    "Prefer a filter panel when the design problem is exposing selectable criteria for the current result set rather than storing those criteria for future sessions.",
+    "Prefer recently viewed when the system passively lists items the user opened; recently viewed should not imply the user intentionally saved a query.",
+    "Saved search should persist criteria, not a frozen result snapshot, because the result list can change as new matching records are created or old records change.",
+    "Saved search needs ownership, visibility, naming, and management states, especially when the search can be private, shared, favorited, subscribed to, copied, edited, or deleted.",
+    "Use saved filter as a narrower future pattern when users store a reusable filter set without a text query, ranking, scope, notification, or saved result-view identity.",
+    "Do not hide saved-search execution behind browser bookmarks because product state such as permissions, result counts, subscriptions, stale fields, or changed query language needs product feedback.",
+    "When a saved search is edited, show whether the user is updating the saved criteria, saving a copy, or temporarily modifying the current run.",
+    "When saved searches are shared, expose who can view or edit them and avoid leaking private query names, sensitive criteria, or result counts across permission boundaries."
+  ],
+  "failureModes": [
+    "The Save search action stores only the current result IDs, so newly matching records never appear when users rerun it.",
+    "A saved search is renamed or edited with no owner, visibility, or last-run state, so teams cannot tell whether it is safe to use.",
+    "A user changes criteria after opening a saved search and accidentally overwrites the shared version instead of saving a copy.",
+    "Private saved search names or result counts appear in a shared sidebar to users who cannot access the underlying criteria.",
+    "Saved searches, recent searches, filters, and bookmarks are mixed in one unlabelled list.",
+    "An alert subscription keeps emailing stale results after the saved criteria were deleted or lost permissions."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-jira-saved-search",
+      "note": "Jira documents saved searches as named filters with ownership, privacy, sharing, starring, sidebar access, and rerun behavior."
+    },
+    {
+      "id": "atlassian-jira-save-search-filter",
+      "note": "Jira documents favorites, scheduled emails, export, reporting, dashboard, and management affordances for saved searches."
+    },
+    {
+      "id": "github-issues-saved-views",
+      "note": "GitHub documents saved views with query criteria, title, description, custom icon, and edit, duplicate, delete lifecycle."
+    },
+    {
+      "id": "azure-devops-managed-queries",
+      "note": "Azure Boards documents My Queries, Shared Queries, favorites, folders, and permissions for saved work item queries."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

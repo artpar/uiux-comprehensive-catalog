@@ -1,0 +1,57 @@
+{
+  "id": "tabs-vs-segmented-control-vs-pagination",
+  "title": "Tabs vs segmented control vs pagination",
+  "summary": "Use tabs for sibling content panels in one page context, segmented controls for local mode or presentation choices, and pagination for moving through one ordered collection split across pages.",
+  "patternIds": ["tabs", "segmented-control", "pagination"],
+  "decisionRules": [
+    "Prefer tabs when each choice reveals a peer content panel under the same parent task and only one panel should be visible at a time.",
+    "Prefer segmented controls when two to four closely related choices change a compact mode, filter, density, sort, or presentation of the same nearby content rather than revealing a separate panel.",
+    "Prefer pagination when users move through an ordered result set or record collection where page position, previous/next, current page, result range, and total pages matter.",
+    "Do not use tabs when users must compare panels side by side or read every panel in sequence; use headings, a table of contents, or separate visible sections instead.",
+    "Do not use segmented controls for deep navigation or hidden content panels; they should change an immediate local state.",
+    "Do not use segmented controls for actions like add, edit, delete, or submit; use buttons or menus for commands.",
+    "Do not use pagination for sibling topics; page numbers imply ordered slices of one collection, not independent sections.",
+    "Do not use pagination if changing page would reset query, filters, sort, or page size; preserve those controls or use a simpler result list."
+  ],
+  "failureModes": [
+    "Using tabs as links to unrelated destinations.",
+    "Using segmented controls for deep navigation.",
+    "Using pagination when users need comparison across hidden pages.",
+    "Letting tabs destroy draft panel state when users switch away.",
+    "Using tabs for a required multi-step workflow without completion status.",
+    "Allowing a segmented control to wrap into multiple rows or affect distant content with no visible update.",
+    "Resetting filters, sort, or scroll context when a user moves to the next page.",
+    "Showing active previous or next controls at the first or last page."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-tabs",
+      "note": "APG defines tablist, tab, tabpanel, selected state, panel ownership, and keyboard behavior for tabbed content."
+    },
+    {
+      "id": "govuk-tabs-component",
+      "note": "GOV.UK explains tabs as related sections shown one at a time and cautions against page navigation, sequential content, and comparison-heavy use."
+    },
+    {
+      "id": "carbon-tabs-component",
+      "note": "Carbon distinguishes tab variants and emphasizes the connection between selected tabs and their content panel."
+    },
+    {
+      "id": "va-segmented-button",
+      "note": "VA defines segmented buttons as 2-4 mutually exclusive filters or view switches for one data set, with one option always active."
+    },
+    {
+      "id": "fluent-ios-segmented-control",
+      "note": "Fluent distinguishes segmented controls from page navigation and actions, and cautions against wrapping or unclear mixed labels."
+    },
+    {
+      "id": "govuk-pagination-component",
+      "note": "GOV.UK documents current pages, previous and next links, ellipses, and applying filter or sort changes to the whole paginated list."
+    },
+    {
+      "id": "uswds-pagination-component",
+      "note": "USWDS documents bounded pagination, current-page highlighting, previous/next edge behavior, and consistent slot display."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

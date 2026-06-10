@@ -1,0 +1,200 @@
+{
+  "id": "toggle-switch",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an immediate binary setting control with source-backed on/off semantics, stable label rules, pending and unavailable states, clear distinctions from checkboxes, radios, segmented controls, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names one controlled setting, exactly two states, immediate reversible application, stable labels, accessible switch state, pending and failed application handling, disabled dependency state, and read-only review state.",
+    "relatedPatternDistinction": "The entry separates toggle switches from checkbox groups by immediate setting application instead of submitted multi-choice answers, from radio groups by binary on/off state instead of one visible answer from a set, and from segmented controls by controlling a setting instead of switching a local mode or view.",
+    "liveDemoBehavior": "The live demo exposes role switch and aria-checked, toggles a notification setting immediately, preserves the label while status changes, shows delayed pending application, blocks changes when a dependency is disabled, and contrasts destructive and three-state misuse.",
+    "comparisonDecisionRules": "The linked toggle-switch-vs-checkbox-group-vs-radio-group-vs-segmented-control comparison gives concrete rules for binary settings, submitted choices, visible single-choice answers, compact local mode switching, destructive actions, non-binary values, staged form saves, stable labels, and pending backend state.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/toggle-switch.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, immediate on/off state, pending and disabled states, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/toggle-switch.png"
+    ]
+  },
+  "name": "Toggle switch",
+  "aliases": [
+    "switch",
+    "toggle",
+    "on off switch"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to turn one setting, feature, preference, or hardware-like option on or off and understand whether the change has taken effect.",
+  "solution": "Present one stable label with a binary switch state, immediate reversible application, visible state text when helpful, and explicit pending, unavailable, disabled, or read-only states when the setting cannot simply flip.",
+  "problemContext": [
+    "The controlled item has clear on/off logic and the label can describe the same object in both states.",
+    "Changing the setting is low risk, reversible, and expected to apply immediately.",
+    "Users benefit from seeing the current state before deciding whether to change it."
+  ],
+  "selectionRules": [
+    "Choose a toggle switch for a single setting with exactly two states that can be applied immediately.",
+    "Keep the label stable, noun-based, and focused on the object being controlled rather than changing between action verbs.",
+    "Show state text, effect text, or a status announcement when the effect is not obvious from the switch position alone.",
+    "Use a checkbox group when the value is a submitted form answer or one of several independent choices users should review before commit.",
+    "Use a radio group, segmented control, select, or another explicit choice pattern for three or more values.",
+    "Use a button, menu item, or confirmation dialog for commands, destructive actions, and one-time operations."
+  ],
+  "requiredStates": [
+    "Off state.",
+    "On state.",
+    "Focused state.",
+    "Pending or applying state when activation takes time.",
+    "Disabled or unavailable state when a dependency, permission, or prerequisite blocks changes.",
+    "Read-only state when the value can be reviewed but not changed.",
+    "Failed application state when the service could not apply the requested setting."
+  ],
+  "interactionContract": [
+    "Activating the switch changes only the named setting between on and off.",
+    "The state applies immediately unless a visible pending state explains the delay.",
+    "The change is reversible without requiring additional confirmation.",
+    "The accessible name remains stable while aria-checked or native checked state communicates the current value.",
+    "Unavailable, disabled, read-only, pending, and failed states do not masquerade as successful on/off changes."
+  ],
+  "implementationChecklist": [
+    "Use a native checkbox styled as a switch or a button with role switch and aria-checked.",
+    "Associate a visible label and optional description with the switch.",
+    "Keep the visible label stable across state changes.",
+    "Expose on, off, focus, disabled, read-only, pending, and failed states through text, semantics, and visual styling.",
+    "Use Space and, where supported, Enter to toggle custom switch implementations.",
+    "Announce asynchronous changes through status text and reconcile the switch if the backend rejects the update.",
+    "Keep the hit target large enough to activate through either the switch or its associated label."
+  ],
+  "commonMisuses": [
+    "Using a switch to delete, publish, pay, submit, or trigger another one-time command.",
+    "Hiding three or more options behind a binary-looking control.",
+    "Changing the label after activation so users hear a different control name.",
+    "Using a switch for legal consent, terms agreement, or a form answer that should be reviewed before submit.",
+    "Showing an enabled-looking switch when dependencies, permissions, or service state prevent changes."
+  ],
+  "critiqueQuestions": [
+    "Can the setting honestly be described as on or off?",
+    "Does the change apply immediately and remain reversible?",
+    "Would users expect to review this value with other form answers before committing it?"
+  ],
+  "useWhen": [
+    "A single setting, feature, preference, or hardware-like control has two clear states.",
+    "The setting can take effect immediately or can clearly show a short pending state.",
+    "The change is reversible and low risk."
+  ],
+  "avoidWhen": [
+    "The action is destructive, one-time, legal, financial, or needs confirmation.",
+    "There are more than two possible values.",
+    "The value is part of a submitted form answer that should wait for Save or Continue.",
+    "The label cannot explain both states without changing after activation."
+  ],
+  "variants": [
+    "Settings switch",
+    "Inline table-row switch",
+    "Feature flag switch",
+    "Hardware control switch",
+    "Read-only switch state"
+  ],
+  "accessibility": [
+    "Use role switch with aria-checked or a native checkbox implementation that exposes the checked state.",
+    "Provide a stable accessible name and associate any explanatory text through description semantics.",
+    "Do not rely on color, position, or animation alone to communicate on, off, pending, disabled, read-only, or failed state.",
+    "Keep disabled and read-only states understandable to assistive technology users."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the switch when it is interactive.",
+    "Space toggles the focused switch.",
+    "Enter may toggle custom switch implementations when the platform convention supports it.",
+    "Tab moves away from the switch without losing the changed state."
+  ],
+  "failureModes": [
+    "The switch looks on while the service is still offline.",
+    "Backend failure silently reverts or leaves the interface in a contradictory state.",
+    "Disabled dependencies are not explained.",
+    "The label changes from Enable to Disable and the accessible name becomes unstable.",
+    "The switch is used as a destructive command or navigation trigger.",
+    "Three-state or multi-frequency choices are collapsed into one binary control."
+  ],
+  "relatedPatterns": [
+    "checkbox-group",
+    "radio-group",
+    "segmented-control"
+  ],
+  "comparisons": [
+    "toggle-switch-vs-checkbox-group-vs-radio-group-vs-segmented-control"
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-switch",
+      "note": "APG switch guidance defines binary on/off semantics, stable labels, accessible names, aria-checked state, and keyboard toggling expectations."
+    },
+    {
+      "id": "carbon-toggle-component",
+      "note": "Carbon toggle guidance supports immediate reversible binary setting changes and documents on, off, focus, disabled, read-only, skeleton, label, state text, and click target behavior."
+    },
+    {
+      "id": "gnome-hig-switches",
+      "note": "GNOME switch guidance limits switches to clear on/off features, settings, or hardware and documents delayed effect and unavailable-state handling."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09",
+  "patternType": "ui-ux",
+  "surfaceType": "Immediate binary setting control",
+  "uiGuidance": [
+    "Render one switch with a stable visible label, clear on/off state, visible focus, accessible state, and optional state text when the effect is not obvious.",
+    "Include pending, failed, unavailable, disabled, and read-only styling so asynchronous or blocked settings are not confused with successful state changes."
+  ],
+  "uxGuidance": [
+    "Let users change one reversible setting immediately and understand the applied effect.",
+    "Avoid using switches for commands, destructive work, multi-value choices, consent, or staged form answers that should wait for a Save or Continue action."
+  ],
+  "uiExamples": {
+    "good": [
+      "A notifications switch with a stable Notifications label, On or Off state text, large hit target, visible focus, and immediate applied effect.",
+      "A disabled switch paired with dependency text that explains why the setting is unavailable."
+    ],
+    "bad": [
+      "A red switch labelled Delete account that behaves like an instant destructive command.",
+      "A switch whose label changes from Enable emails to Disable emails after activation."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Turning the switch on immediately enables the setting and announces the applied effect.",
+      "A delayed backend update shows pending state, then either confirms the setting or explains the failure and reconciles the switch."
+    ],
+    "bad": [
+      "A switch appears to change but requires a hidden Save button before anything happens.",
+      "Off, weekly, and daily notification choices are forced into one binary switch."
+    ]
+  },
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Switch Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/switch/",
+      "platform": "web",
+      "notes": "Documents switch semantics, stable labels, accessible names, aria-checked state, Space toggling, and optional Enter toggling.",
+      "screenshot": "screenshots/patterns/toggle-switch.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Toggle",
+      "url": "https://carbondesignsystem.com/components/toggle/usage/",
+      "platform": "web",
+      "notes": "Documents immediate reversible binary use, when not to use toggles, state text, clickable areas, and disabled/read-only states.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GNOME Human Interface Guidelines Switches",
+      "url": "https://developer.gnome.org/hig/patterns/controls/switches.html",
+      "platform": "desktop",
+      "notes": "Documents clear on/off control use, noun labels, delayed-effect indication, and insensitive state when a feature is unavailable.",
+      "checkedAt": "2026-06-09"
+    }
+  ]
+}

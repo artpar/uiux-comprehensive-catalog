@@ -8,6 +8,12 @@ function isPattern(value: PatternEntry | undefined): value is PatternEntry {
   return Boolean(value);
 }
 
+function formatPatternType(value: PatternEntry["patternType"]) {
+  if (value === "ui") return "UI";
+  if (value === "ux") return "UX";
+  return "UI + UX";
+}
+
 export function getStaticPaths() {
   return comparisons.map((comparison) => ({
     params: { id: comparison.id },
@@ -19,6 +25,34 @@ const { comparison } = Astro.props;
 const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(isPattern);
 const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
 const dimensions = [
+  {
+    label: "UI or UX",
+    value: (pattern: PatternEntry) => `${formatPatternType(pattern.patternType)} - ${pattern.surfaceType}`
+  },
+  {
+    label: "UI guidance",
+    value: (pattern: PatternEntry) => pattern.uiGuidance[0]
+  },
+  {
+    label: "UX guidance",
+    value: (pattern: PatternEntry) => pattern.uxGuidance[0]
+  },
+  {
+    label: "Good UI",
+    value: (pattern: PatternEntry) => pattern.uiExamples.good[0]
+  },
+  {
+    label: "Bad UI",
+    value: (pattern: PatternEntry) => pattern.uiExamples.bad[0]
+  },
+  {
+    label: "Good UX",
+    value: (pattern: PatternEntry) => pattern.uxExamples.good[0]
+  },
+  {
+    label: "Bad UX",
+    value: (pattern: PatternEntry) => pattern.uxExamples.bad[0]
+  },
   {
     label: "Best fit",
     value: (pattern: PatternEntry) => pattern.useWhen[0] ?? pattern.selectionRules[0]
@@ -91,6 +125,21 @@ const dimensions = [
         ))}
       </tbody>
     </table>
+    <div class="compare-mobile-cards" aria-label="Decision dimensions by pattern">
+      {comparedPatterns.map((pattern) => (
+        <article>
+          <h3>{pattern.name}</h3>
+          <dl>
+            {dimensions.map((dimension) => (
+              <div>
+                <dt>{dimension.label}</dt>
+                <dd>{dimension.value(pattern)}</dd>
+              </div>
+            ))}
+          </dl>
+        </article>
+      ))}
+    </div>
   </section>
 
   <div class="detail-grid">

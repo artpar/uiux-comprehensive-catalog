@@ -1,0 +1,245 @@
+{
+  "id": "saved-search",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a persisted-query pattern with source-backed save, run, rename, copy, edit, favorite, share, private/public visibility, alert subscription, changed-result, and stale-permission guidance plus related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers saving named search criteria, rerunning current results, query ownership, visibility, sharing, favorites, subscriptions, edit versus copy decisions, stale criteria, changed result counts, private criteria, and management states.",
+    "relatedPatternDistinction": "The entry separates saved search from basic search by persistence and management lifecycle, from filter panels by storing a reusable query object rather than exposing current controls, from recently viewed by requiring intentional save, from sort controls by preserving order criteria rather than only ordering, and from saved filters by including full query, scope, sort, sharing, and notification semantics.",
+    "liveDemoBehavior": "The live demo names the current query, saves it with private visibility, reruns saved searches from a managed list, shows updated result counts, toggles sharing and alerts, preserves criteria, warns when criteria changed after a saved run, and contrasts bad behavior that stores only static result IDs.",
+    "comparisonDecisionRules": "The linked saved-search-vs-basic-search-vs-filter-panel-vs-recently-viewed comparison gives concrete rules for persistent criteria, one-off retrieval, current-session filtering, passive history, result snapshots, edit/copy lifecycle, sharing, permissions, and saved-filter boundaries.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/saved-search.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, named saved search, rerun behavior, criteria preservation, visibility or alert controls, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/saved-search.png"
+    ]
+  },
+  "name": "Saved search",
+  "aliases": [
+    "saved query",
+    "saved view",
+    "saved search filter",
+    "managed query",
+    "favorite search",
+    "search subscription",
+    "query shortcut"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Personalization And Preference",
+    "Data Display And Exploration",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persisted named search criteria for rerunning a dynamic result set",
+  "uiGuidance": [
+    "Render Save search near the active query and result summary, and show exactly which query text, filters, scope, and sort will be stored.",
+    "List saved searches with names, ownership or visibility, favorite state, last-run or updated metadata, and clear actions for Run, Edit, Copy, Share, Subscribe, and Delete."
+  ],
+  "uxGuidance": [
+    "Use saved search when users repeatedly need the same dynamic result set and must rerun it without rebuilding query, filters, sort, and scope.",
+    "Preserve the distinction between running a saved search temporarily and updating the saved criteria, especially when a saved search is shared or subscribed to."
+  ],
+  "uiExamples": {
+    "good": [
+      "A search results page shows Save search beside the result count, opens a naming dialog, and previews query, filters, scope, and sort before saving.",
+      "A saved-search sidebar groups My searches and Shared searches, with favorite stars and private/shared badges.",
+      "An opened saved search displays its name, owner, visibility, criteria summary, result count, and actions to edit, duplicate, subscribe, or delete."
+    ],
+    "bad": [
+      "A star icon saves an unnamed search with no confirmation or criteria summary.",
+      "Saved searches, recently searched terms, browser bookmarks, and saved filters are mixed in one list called Saved.",
+      "A shared saved search looks identical to a private one and gives no clue who can see or edit it."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user saves a search for Open renewal risks, returns next week, reruns it, and sees newly matching cases included.",
+      "A user edits criteria from a shared saved search and is asked whether to update the shared search or save a copy.",
+      "A user subscribes to a saved search and can see the schedule, owner, and criteria that will drive future alerts."
+    ],
+    "bad": [
+      "Saving search stores only the current three results, so future matching records are missing.",
+      "A temporary filter change overwrites a team saved search without warning.",
+      "Deleting a saved search leaves dashboard cards, alerts, or sidebar links broken with no explanation."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users repeatedly reconstruct the same search criteria, but saved-search UI often hides what is stored, whether results are dynamic, who owns it, and whether edits affect a private or shared search.",
+  "solution": "Provide a named saved-search object that stores query criteria rather than result snapshots, exposes ownership and visibility, reruns against current data, supports favorite/share/subscribe/edit/copy/delete lifecycle actions, and clearly separates temporary changes from updates to the saved criteria.",
+  "problemContext": [
+    "The product has large search, issue, work item, document, case, ticket, inbox, or audit-log result sets.",
+    "Users return to the same criteria over time, across sessions, or across teams.",
+    "Saved searches can become shared operational artifacts that drive dashboards, alerts, queues, exports, and team workflows."
+  ],
+  "selectionRules": [
+    "Choose saved search when users need to store and rerun a named query or criteria set across sessions.",
+    "Use saved search when results should remain dynamic and include records that match the saved criteria in the future.",
+    "Show Save search only after there is meaningful criteria to preserve, such as query text, filters, scope, sort, or advanced clauses.",
+    "Use clear names and criteria summaries so users can recognize what will run before they open or subscribe to a saved search.",
+    "Expose owner, privacy, shared audience, favorite state, last updated, and alert subscription state when saved searches can affect teams.",
+    "Ask whether to update the saved search or save a copy when users change criteria after opening an existing saved search.",
+    "Use recently searched for passive query history and recently viewed for opened items; neither should look like an intentionally saved search.",
+    "Use filter panel controls when users are still building current criteria rather than managing a persisted query object.",
+    "Use saved filter as a separate pattern when users save only reusable filter values without query text, result scope, sort, alert, or shared saved-view lifecycle."
+  ],
+  "requiredStates": [
+    "Unsaved current search with Save search available only when criteria are meaningful.",
+    "Save dialog or inline form with name, criteria summary, visibility, and optional description.",
+    "Saved search selected state with name, result count, criteria summary, owner, visibility, and management actions.",
+    "Modified-from-saved state where current criteria no longer match the saved definition.",
+    "Shared or private state with clear audience and edit permissions.",
+    "Subscribed alert state with schedule and unsubscribe path.",
+    "Deleted or unavailable saved search state with explanation and recovery path.",
+    "Empty saved-search list state with a path back to create one from active search criteria."
+  ],
+  "interactionContract": [
+    "Saving stores query criteria, filters, sort, and scope as a reusable definition, not just the current result IDs.",
+    "Running a saved search loads its criteria, updates the result count against current data, and visibly marks the active saved search.",
+    "Changing criteria after running a saved search creates a modified state until the user updates the saved search, saves a copy, or discards changes.",
+    "Sharing exposes who can view, run, edit, copy, subscribe to, or delete the saved search.",
+    "Favorites affect quick access only and do not change query criteria or sharing.",
+    "Subscriptions or alerts use the saved criteria and show enough schedule and ownership detail to audit future notifications.",
+    "Deleting or losing permission to a saved search removes it from quick access while preserving understandable recovery or explanation."
+  ],
+  "implementationChecklist": [
+    "Capture the canonical search representation, including query text, filters, sort, scope, and advanced syntax.",
+    "Show a criteria preview before save and in the saved-search detail header.",
+    "Require a meaningful name and prevent duplicate names from becoming indistinguishable.",
+    "Store owner, visibility, shared audience, favorite state, description, updated time, and alert subscription state.",
+    "Provide explicit Run, Edit, Save copy, Share, Subscribe, Favorite, Rename, and Delete paths where those actions exist.",
+    "Warn before overwriting a shared saved search or changing criteria that drive alerts, dashboards, queues, or exports.",
+    "Use permission-aware lists so private saved search names, criteria, and result counts do not leak.",
+    "Show result counts as current data, and explain when counts differ from the last run because matching records changed."
+  ],
+  "commonMisuses": [
+    "Saving static result IDs instead of reusable criteria.",
+    "Using a star or bookmark as the only save action without showing name, criteria, owner, or visibility.",
+    "Overwriting a shared search when the user intended a temporary refinement.",
+    "Mixing saved searches with search history, recently viewed items, saved filters, and browser bookmarks.",
+    "Letting subscriptions, dashboards, or exports depend on saved searches without showing the underlying criteria.",
+    "Leaking private saved-search names or result counts in shared sidebars, dashboards, or notification lists."
+  ],
+  "critiqueQuestions": [
+    "Can users tell exactly which query, filters, sort, and scope will be saved?",
+    "Does rerunning the saved search use current data rather than an old result snapshot?",
+    "Is it clear whether the search is private, shared, favorited, subscribed, or owned by someone else?",
+    "When criteria change, does the UI distinguish update saved search from save copy and temporary run?",
+    "Can users manage stale, deleted, duplicated, or permission-denied saved searches without breaking their workflow?",
+    "Are saved searches visually separate from recent searches, recently viewed records, saved filters, and bookmarks?"
+  ],
+  "useWhen": [
+    "Users repeat the same search criteria across sessions or operational cycles.",
+    "Saved criteria need to be shared, favorited, subscribed to, exported, or displayed on dashboards.",
+    "The result set changes over time and users expect the saved search to rerun against current data.",
+    "Users need a personal or team shortcut to a complex query that would be tedious to rebuild."
+  ],
+  "avoidWhen": [
+    "The query is a one-off lookup that users will not need again.",
+    "The product cannot persist criteria securely or explain who can access the saved search.",
+    "Users are only saving display preferences or a reusable filter preset without query or result-view semantics.",
+    "The list is small enough that recent searches, bookmarks, or manual scanning solve the problem.",
+    "The saved object would expose sensitive criteria, names, or result counts across permission boundaries."
+  ],
+  "variants": [
+    "Private saved search",
+    "Shared saved search",
+    "Favorite saved search",
+    "Saved view",
+    "Managed query",
+    "Subscribed saved search",
+    "Dashboard-backed saved search",
+    "Copied saved search",
+    "System saved search"
+  ],
+  "accessibility": [
+    "Use labelled form fields for saved-search name, description, visibility, and subscription settings.",
+    "Announce save, update, copy, delete, and rerun outcomes through a stable status region.",
+    "Expose the active saved search name and modified state in text, not only through selected styling.",
+    "Keep management actions keyboard reachable and name destructive actions with the saved-search name.",
+    "When opening a save or share dialog, move focus into the dialog and return it to the triggering control after completion.",
+    "Do not rely on star icons alone for favorite state; include accessible pressed state or text."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches Save search after the criteria controls and before the result list when saving the current search is available.",
+    "Enter submits the save form only after required naming and visibility fields are valid.",
+    "Running a saved search from a list loads criteria and moves focus to the result summary or keeps focus on the selected saved-search item with an announcement.",
+    "After editing criteria from a saved search, keyboard users can reach Update saved search, Save a copy, and Discard changes in a predictable order.",
+    "Delete confirmation returns focus to the saved-search list or replacement active search."
+  ],
+  "failureModes": [
+    "Saved search reruns outdated result IDs rather than criteria.",
+    "Users cannot tell whether they are editing a private search, shared search, or temporary copy.",
+    "Shared saved search criteria leak sensitive project names, user names, or result counts.",
+    "Alert subscriptions continue after criteria, permissions, or ownership changed.",
+    "Saved search names collide and users choose the wrong operational queue.",
+    "A saved search depends on fields that were renamed, removed, or no longer available.",
+    "Dashboard cards or team queues break after the saved search is deleted without warning."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "filter-panel",
+    "sort-controls",
+    "recently-viewed",
+    "search-suggestions",
+    "command-palette",
+    "no-results-recovery"
+  ],
+  "comparisons": [
+    "saved-search-vs-basic-search-vs-filter-panel-vs-recently-viewed"
+  ],
+  "examples": [
+    {
+      "product": "Jira saved search filters",
+      "url": "https://support.atlassian.com/jira-software-cloud/docs/what-is-a-saved-search/",
+      "platform": "web",
+      "notes": "Documents saving search criteria as filters, naming them, owning them, privacy and sharing, starred filters, sidebar access, and rerunning filters.",
+      "screenshot": "screenshots/patterns/saved-search.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Jira save search as filter",
+      "url": "https://support.atlassian.com/jira-software-cloud/docs/save-your-search-as-a-filter/",
+      "platform": "web",
+      "notes": "Documents share, email, favorite, scheduled subscription, export, report, dashboard, and management behaviors for saved searches.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GitHub saved views",
+      "url": "https://docs.github.com/en/enterprise-cloud@latest/issues/tracking-your-work-with-issues/using-issues/viewing-all-of-your-issues-and-pull-requests",
+      "platform": "web",
+      "notes": "Documents saved views for issues and pull requests, including query, title, description, custom icon, edit, duplicate, and delete.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Azure Boards managed queries",
+      "url": "https://learn.microsoft.com/en-us/azure/devops/boards/queries/about-managed-queries?view=azure-devops",
+      "platform": "web",
+      "notes": "Documents My Queries, Shared Queries, favorites, folders, permissions, and shared query visibility.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-jira-saved-search",
+      "note": "Jira documents saved searches as named filters with ownership, privacy, sharing, starring, sidebar access, and rerun behavior."
+    },
+    {
+      "id": "atlassian-jira-save-search-filter",
+      "note": "Jira documents share, email, favorite, scheduled subscription, export, report, dashboard, and management affordances for saved searches."
+    },
+    {
+      "id": "github-issues-saved-views",
+      "note": "GitHub documents saved views with titles, descriptions, custom icons, query criteria, and edit, duplicate, delete lifecycle."
+    },
+    {
+      "id": "azure-devops-managed-queries",
+      "note": "Azure Boards documents My Queries, Shared Queries, favorites, folders, permissions, and personal versus shared saved queries."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

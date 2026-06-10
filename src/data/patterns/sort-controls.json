@@ -1,0 +1,239 @@
+{
+  "id": "sort-controls",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a result-ordering control pattern with source-backed option labels, implicit update behavior, table-header sorting, whole-result-set semantics, pagination reset rules, formatted-value sorting, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers Sort by controls, sortable table headers, active sort indicators, default order, ascending and descending states, whole-result-set sorting, query and filter preservation, pagination reset, formatted numeric and date values, loading feedback, and responsive placement.",
+    "relatedPatternDistinction": "The entry separates sort controls from filter chips and filter panels by reordering the same result set instead of changing membership, from pagination by changing ordering rather than page position, from segmented controls by avoiding local mode switching, and from select by treating the value as an immediately applied result-state control.",
+    "liveDemoBehavior": "The live demo changes between relevance, due date, amount, and name order, announces the active order, preserves search and filters, resets page position after sort changes, toggles a sortable column header, and contrasts a bad control that mixes filters into sort options and sorts dates as display strings.",
+    "comparisonDecisionRules": "The linked sort-controls-vs-filter-chips-vs-filter-panel-vs-pagination comparison gives concrete rules for ordering versus inclusion, table header versus Sort by controls, whole-set sorting, page reset, search and filter preservation, formatted-value sorting, and accessibility state.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/sort-controls.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, active sort state, whole-set result order, preserved query and filters, pagination reset, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/sort-controls.png"
+    ]
+  },
+  "name": "Sort controls",
+  "aliases": [
+    "sort by",
+    "sort dropdown",
+    "sort menu",
+    "sortable column header",
+    "order by",
+    "sort order",
+    "result ordering"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Selection And Choice"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Control for changing the order of an existing result set",
+  "uiGuidance": [
+    "Place the active sort control above or inside the result region it affects, with a visible label such as Sort by and an option name that includes both the attribute and direction.",
+    "For table sorting, make sortable column headers visibly interactive and show the current sorted column and direction without relying on color alone."
+  ],
+  "uxGuidance": [
+    "Use sort controls when users need to rearrange the same matching results by a meaningful attribute while preserving the current search query, filters, page size, and view context.",
+    "Apply sorting to the full result set, not only the visible page, and announce the new order or result summary when the order changes."
+  ],
+  "uiExamples": {
+    "good": [
+      "A search results page shows Sort by with options like Relevance, Due date (oldest first), and Amount (highest first) above the results.",
+      "A data table marks the active Due date column with a descending indicator and keeps unsorted columns visually available as sortable headers.",
+      "A mobile list stacks the Sort by label above a full-width select while keeping active filters and result count nearby."
+    ],
+    "bad": [
+      "A menu labelled Sort contains Status: Open, Last 30 days, and Owner, which are filters rather than ordering rules.",
+      "A table header changes row order without any active icon, aria-sort state, or result announcement.",
+      "Sort options are labelled only Newest and A-Z when users cannot tell whether date, name, update time, or relevance is being sorted."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user searches for case, changes Sort by from Relevance to Due date (oldest first), and the same filtered records reorder while the query and filters remain.",
+      "A user on page 3 changes the sort order, returns to page 1 with a clear message that the whole result set was reordered, and can page forward in the new order.",
+      "A user sorts a table date column and gets chronological order because the implementation sorts by raw date values rather than display text."
+    ],
+    "bad": [
+      "Changing sort clears the search box and removes active filters.",
+      "Sorting page 2 only rearranges the visible rows and leaves earlier pages in the previous order.",
+      "Dates sort alphabetically, so 10/1/2024 appears before 2/20/2025 in a newest-first list."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to change which relevant item appears first, but result ordering is often hidden, confused with filtering, applied only to the current page, or implemented with misleading labels and inaccessible table states.",
+  "solution": "Provide a labelled sort control or sortable header that names the sorted attribute and direction, applies to the full current result set, preserves unrelated search and filter state, communicates the active order, and sorts formatted values by their real underlying values.",
+  "problemContext": [
+    "The page already has a result set, list, card grid, table, inbox, history, or search result collection.",
+    "Users can complete different tasks depending on which ordering is most useful, such as newest first, closest first, highest priority first, or alphabetical order.",
+    "Sorting often appears near search, filters, pagination, table headers, and saved views, so the control must make clear that it changes order rather than inclusion."
+  ],
+  "selectionRules": [
+    "Choose sort controls when the same result set can be usefully ordered by two or more meaningful attributes.",
+    "Use a separate Sort by control for search results, cards, inboxes, histories, and lists where the sortable attributes are not table column headers.",
+    "Use sortable column headers when the sortable attribute is visible as a table column and users compare row values directly.",
+    "Default to the order users expect for the task, such as relevance for search, newest first for activity, nearest first for location, or due soon for deadlines.",
+    "Name each option with both the attribute and method, such as Date updated (newest first) or Amount (highest first), when a direction-only label would be ambiguous.",
+    "Reset to the first page or clearly explain page position when the sort order changes in paginated results.",
+    "Preserve active query, filters, page size, view density, and selected saved view when users change only the sort order.",
+    "Use filters instead when users need to include or exclude records by status, category, date range, team, owner, or other criteria.",
+    "Avoid sort controls when there is only one obvious order or when changing order would not help users understand or act on the list."
+  ],
+  "requiredStates": [
+    "Default sort state that identifies the initial order and why it is appropriate.",
+    "Active sort state with visible attribute and direction.",
+    "Alternate direction state for reversible attributes such as date, name, amount, priority, or distance.",
+    "Loading or updating state when remote sorting takes noticeable time.",
+    "Unavailable state when a column or option cannot sort the current data.",
+    "Paginated state showing that the new order applies to the whole set and not only the visible page."
+  ],
+  "interactionContract": [
+    "Changing a Sort by select applies the new order to the full current result set and keeps unrelated query and filter state intact.",
+    "Changing sort in a paginated list returns users to page 1 or announces the new page position in the reordered set.",
+    "A sortable column header toggles between supported directions and updates the visible header state, aria-sort state, and result order together.",
+    "Formatted numbers, dates, file sizes, percentages, and month names sort by raw comparable values rather than by display strings.",
+    "If sorting requires a network request, keep the prior context visible while announcing that results are being reordered."
+  ],
+  "implementationChecklist": [
+    "Define the default sort attribute and direction for each result type instead of inheriting arbitrary database order.",
+    "Write option labels that include the attribute and ordering method when there is any ambiguity.",
+    "Keep sort controls visually separate from filters and active-filter chips.",
+    "For table sorting, expose the active column and direction through visible icons or text and accessible state.",
+    "Apply sorting before pagination so every page reflects the same global order.",
+    "Use raw sortable values for dates, currencies, percentages, file sizes, and localized labels.",
+    "Announce result order changes in a stable status region or result summary.",
+    "Preserve query, filters, page size, selected view, and view density across sort changes."
+  ],
+  "commonMisuses": [
+    "Putting filtering criteria such as date ranges, status, category, or owner inside a sort menu.",
+    "Labelling options only Newest, Oldest, A-Z, or Z-A when the attribute being sorted is unclear.",
+    "Sorting only the current visible page instead of the full result set.",
+    "Resetting search query, filters, page size, or view density when users change sort.",
+    "Sorting formatted dates, money, month names, or percentages as plain text.",
+    "Using a segmented control for many sort options or long option labels that need a labelled select."
+  ],
+  "critiqueQuestions": [
+    "Can users tell what attribute is sorted and in which direction?",
+    "Does the sort change the order of the same records, or is it accidentally filtering membership?",
+    "Does the sort apply before pagination and preserve query, filters, page size, and saved view?",
+    "If this is a table, are sortable headers visible, keyboard reachable, and exposed with current sort state?",
+    "Are dates, numbers, currencies, percentages, and localized labels sorted by raw values rather than display strings?",
+    "Does the result summary or live region announce the changed order without moving focus unexpectedly?"
+  ],
+  "useWhen": [
+    "Users need to compare or act on a result set in different orders.",
+    "There are at least two meaningful ordering options and no single order satisfies all user tasks.",
+    "The result set is long enough that first, next, newest, closest, highest, or alphabetic order changes task success.",
+    "A table exposes columns that users naturally expect to sort by."
+  ],
+  "avoidWhen": [
+    "Users need to narrow which records are shown rather than change their order.",
+    "The list has only one credible order, such as a fixed workflow sequence or legal order.",
+    "The result set is too small for ordering to matter.",
+    "The control would duplicate an existing table header sort with the same attribute and direction.",
+    "The options are really display modes, scopes, or categories rather than ordering methods."
+  ],
+  "variants": [
+    "Sort by select",
+    "Sortable table column header",
+    "Ascending and descending toggle",
+    "Default relevance sort",
+    "Date sort",
+    "Distance sort",
+    "Priority sort",
+    "Amount sort",
+    "Mobile full-width sort control"
+  ],
+  "accessibility": [
+    "Use a native select, radio group, or correctly implemented menu button for standalone sort controls.",
+    "For sortable table headers, expose current sort state with aria-sort or equivalent semantics and keep the header button keyboard reachable.",
+    "Announce order changes through the result summary or a polite live region.",
+    "Do not rely on arrow icon direction alone; ensure the option label or accessible name conveys the attribute and direction.",
+    "Keep focus on the sort control or move it predictably to the result summary only when that behavior is documented.",
+    "Ensure responsive sort controls do not truncate the longest option label."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the Sort by control before the result set it affects.",
+    "Changing a select value applies the order without requiring users to hunt for a separate hidden button when the contract is implicit submission.",
+    "Sortable table headers are reachable as buttons or native sortable header controls and can be toggled with Enter or Space.",
+    "After a sort update, focus remains stable while a live region announces the new order.",
+    "Keyboard users can continue through pagination or results in the newly sorted order."
+  ],
+  "failureModes": [
+    "Users choose a sort option expecting fewer results because the menu contains filter-like labels.",
+    "The sorted indicator is invisible until hover, so keyboard and touch users cannot identify current order.",
+    "Changing sort on page 3 creates a confusing empty or repeated page because pagination was not recalculated.",
+    "Results reload without preserving active filters or search query.",
+    "Formatted dates or amounts appear in an order that contradicts the chosen label.",
+    "Remote sort latency leaves stale rows visible with no updating state or announcement."
+  ],
+  "relatedPatterns": [
+    "filter-chips",
+    "filter-panel",
+    "basic-search",
+    "pagination",
+    "segmented-control",
+    "select",
+    "no-results-recovery"
+  ],
+  "comparisons": [
+    "sort-controls-vs-filter-chips-vs-filter-panel-vs-pagination"
+  ],
+  "examples": [
+    {
+      "product": "VA.gov Sort",
+      "url": "https://design.va.gov/components/sort/",
+      "platform": "web",
+      "notes": "Documents Sort by controls for result lists, implicit submission, page reset, persistence, placement with search and filters, and clear attribute-direction option labels.",
+      "screenshot": "screenshots/patterns/sort-controls.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS sortable table",
+      "url": "https://designsystem.digital.gov/components/table/",
+      "platform": "web",
+      "notes": "Documents sortable table headers, aria-sort defaults, live announcement regions, and raw data-sort values for formatted cells.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon data table sorting",
+      "url": "https://carbondesignsystem.com/components/data-table/usage/",
+      "platform": "web",
+      "notes": "Documents sorted, unsorted, sorted-up, and sorted-down table header states with visible arrow indicators.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Maersk table sorting",
+      "url": "https://designsystem.maersk.com/components/table/",
+      "platform": "web",
+      "notes": "Documents clickable headers with active sort suffix icons and ascending, descending, and unsorted table modes.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "va-sort-component",
+      "note": "VA documents dedicated result-list sorting, implicit submission, whole-set sorting, page reset, persistence, placement, and option labelling."
+    },
+    {
+      "id": "uswds-table-component",
+      "note": "USWDS documents table sort accessibility, aria-sort state, live announcements, and raw sortable values."
+    },
+    {
+      "id": "carbon-data-table-component",
+      "note": "Carbon documents sortable table header states, indicators, and interaction placement inside data tables."
+    },
+    {
+      "id": "maersk-table-component",
+      "note": "Maersk documents clickable sorting headers, active suffix icons, and unsorted, ascending, and descending table modes."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

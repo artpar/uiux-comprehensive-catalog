@@ -1,0 +1,229 @@
+{
+  "id": "notification-banner",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a page-flow service notification pattern with source-backed before-heading placement, service-problem, personal-deadline, and previous-page outcome use cases, validation-error exclusion, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets notification banners placed immediately before a page heading for information not directly part of the page task, including service problems, personal deadlines, previous-page outcomes, one-message priority, success semantics, focus behavior, and exclusion from form validation recovery.",
+    "relatedPatternDistinction": "The entry separates notification banner from banner by page-flow placement and short service-journey scope instead of broad cross-section persistence, from alert by non-modal page-load notice instead of urgent current-task interruption, and from error summary by avoiding submitted-form validation errors.",
+    "liveDemoBehavior": "The live demo switches between uploaded evidence, approaching deadline, service delay, and no-banner states; moves between landing pages while preserving before-heading placement; reveals concise details; uses success alert semantics only for previous-page outcomes; and contrasts validation, hidden, transient, and stale misuse.",
+    "comparisonDecisionRules": "The notification-banner-vs-banner-vs-alert-vs-error-summary comparison gives concrete rules for page-heading placement, broader interface scope, current-task urgency, submitted-form recovery, validation exclusion, single-banner priority, and success outcome handling.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/notification-banner.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, before-heading deadline notice with detail, hidden-placement misuse, active state controls, related links, comparison link, and source-backed guidance; the live route was also exercised through upload success, deadline, service-delay, no-banner, evidence-record, payments-page, validation, hidden, toast, global, and stale states.",
+    "screenshots": [
+      "screenshots/patterns/notification-banner.png"
+    ]
+  },
+  "name": "Notification banner",
+  "aliases": [
+    "service notification banner",
+    "page notification banner",
+    "page-flow banner",
+    "before-heading notice",
+    "success notification banner"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Disclosure And Attention Management",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Page-flow service notification before the H1",
+  "uiGuidance": [
+    "Render one notification banner in the page content column immediately before the page H1, using the same width as the surrounding service content.",
+    "Give the banner a short labelled header such as Important or Success, concise content, and at most one relevant link or action that points to the related service item."
+  ],
+  "uxGuidance": [
+    "Use notification banners sparingly for information users need before interpreting the page but that is not the main task content on that page.",
+    "Reserve the pattern for service-wide problems, personal deadlines or obligations elsewhere in the service, and outcomes from a previous page when the journey continues rather than ends."
+  ],
+  "uiExamples": {
+    "good": [
+      "A case-management page shows an Important notification banner immediately before Manage evidence, saying evidence upload may be delayed and linking to service status.",
+      "After a user uploads evidence, the next page shows a Success notification banner before the H1 confirming Evidence uploaded and linking to View evidence."
+    ],
+    "bad": [
+      "A validation error appears in a notification banner at the top of the page with no links to the invalid fields.",
+      "A success toast appears in the corner after redirect and disappears before the user can verify which evidence was uploaded."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user lands on Evidence overview and sees the upload confirmation before the page heading, then can continue the unfinished service journey.",
+      "A deadline notice tells the user they must respond by 17 June 2026 and links to the exact task elsewhere in the service."
+    ],
+    "bad": [
+      "The same upload confirmation remains on unrelated pages after the user has already reviewed the evidence record.",
+      "An outage that affects every workspace is repeated as a page-level notification banner instead of one broader service or product banner."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile"
+  ],
+  "problem": "Users sometimes need service-context information, a personal deadline, or a previous-page outcome before reading the next page, but ordinary page content, toasts, or broad product banners either make the message too local, too temporary, or too wide in scope.",
+  "solution": "Place one concise notification banner immediately before the page heading, state the service condition or outcome, provide a direct link when useful, choose calm region semantics for page-load notices and alert semantics only for success outcomes that should receive focus, then remove it when the page-flow reason ends.",
+  "problemContext": [
+    "The message is important to the service journey but not directly part of the page's main task content.",
+    "Users may arrive after a redirect from a previous page and need confirmation before continuing the journey.",
+    "A service problem, personal deadline, overdue action, or elsewhere-in-service event affects how users interpret the page.",
+    "The message can be handled with one short banner before the H1 rather than a modal, stacked banner set, or long status panel."
+  ],
+  "selectionRules": [
+    "Choose notification banner when a service message should be seen immediately before the page heading and before users interpret that page.",
+    "Use the neutral version for service problems, delays, deadlines, overdue actions, or elsewhere-in-service information that is not a direct validation or current-task error.",
+    "Use the success version only to confirm an outcome from the previous page while the user has not finished the overall service journey.",
+    "Use banner instead when the message must persist across a whole product, account, workspace, or multi-section interface rather than one page-flow moment.",
+    "Use alert instead when an urgent condition dynamically affects the current task and needs immediate notice without moving users into a confirmation page.",
+    "Use error summary instead for submitted form validation errors, including multiple field errors that need links to specific inputs.",
+    "Use inline message or warning text instead when the information is directly about content, controls, or a task section already visible on the page.",
+    "Show no more than one notification banner per page; combine closely related messages or show only the highest-priority one."
+  ],
+  "requiredStates": [
+    "No-banner state when no service-context notice or previous-page outcome applies.",
+    "Neutral Important state for service problem, deadline, overdue action, or elsewhere-in-service information.",
+    "Success state for an outcome from the previous page when users continue the journey.",
+    "Linked action state where a single link or button takes users to the affected application, evidence record, payment, or status details.",
+    "Detail state for a short explanation that clarifies why the message appears before the heading.",
+    "Resolved state after the deadline passes, service delay ends, or the previous-page outcome has been acknowledged through the next step.",
+    "Priority state where a validation error summary replaces the notification banner on failed submit."
+  ],
+  "interactionContract": [
+    "The banner appears before the page H1 and in the same content width as the heading and body text.",
+    "The banner title communicates category or outcome, while the body names the specific service condition, deadline, or previous-page result.",
+    "The banner does not stack with an error summary; failed-submit pages show the error summary instead.",
+    "The neutral banner uses labelled region semantics so users can navigate to it without being interrupted.",
+    "A success notification that appears after a user action may receive focus or alert treatment only when that helps confirm the previous-page outcome.",
+    "Any link or action in the banner goes directly to the affected service item, status page, deadline task, or uploaded record.",
+    "The banner disappears when the service condition, deadline relevance, or redirect-outcome reason no longer applies."
+  ],
+  "implementationChecklist": [
+    "Define whether the notice is a service problem, personal obligation, deadline, elsewhere-in-service event, or previous-page outcome.",
+    "Place the component immediately before the H1 in the page template, aligned to the same content grid as headings and body text.",
+    "Select neutral or success presentation from the user consequence, not from brand color preference.",
+    "Write copy that says what happened, who is affected, and the single next step or link if one exists.",
+    "Suppress the notification banner when a form submission on the same page produces an error summary.",
+    "Prevent multiple notification banners on one page by merging related content or applying explicit priority.",
+    "Expire previous-page success banners after the landing page has been read, the linked record is opened, or the user moves outside the related flow.",
+    "Test deep links, redirects, browser back, narrow widths, zoom, heading order, focus movement for success, and screen-reader navigation by region label."
+  ],
+  "commonMisuses": [
+    "Using a notification banner for field validation errors instead of an error summary and field-level messages.",
+    "Showing several notification banners before the same heading.",
+    "Putting the banner after the H1, in a sidebar, or above unrelated global chrome where users cannot connect it to the page flow.",
+    "Using it as a product-wide outage banner that needs to persist across many sections.",
+    "Leaving a previous-page success banner visible after users navigate to unrelated pages.",
+    "Auto-expiring a confirmation that users need to inspect after a redirect.",
+    "Writing only Important or Success without the affected service item, date, or next step."
+  ],
+  "critiqueQuestions": [
+    "Does this message need to appear immediately before the page heading, or does it belong in the page content, a broader banner, an alert, or an error summary?",
+    "Is the notice about a service problem, personal deadline, elsewhere-in-service event, or previous-page outcome?",
+    "Would users still need this message after navigating to a different section or returning later?",
+    "Is there already a failed-submit error summary that should replace the notification banner?",
+    "What event removes the banner: condition resolved, deadline passed, landing page viewed, linked record opened, or flow completed?",
+    "Does the banner contain one clear route to the affected item rather than several competing actions?"
+  ],
+  "useWhen": [
+    "A message should be encountered before the page H1 but is not the page's main task content.",
+    "A service problem, deadline, overdue action, or elsewhere-in-service event affects the user's next interpretation of the page.",
+    "A user has just completed an action on a previous page and needs confirmation while continuing the same service journey.",
+    "One concise page-flow notice is enough, with no modal decision and no broad cross-section persistence."
+  ],
+  "avoidWhen": [
+    "The message is a submitted-form validation error or field correction.",
+    "The message applies across an entire product, account, workspace, public site, or many unrelated sections.",
+    "The condition urgently affects the current task and needs immediate dynamic notice.",
+    "The information is directly part of the page's main content and belongs inline.",
+    "The journey is finished and users need a full confirmation page instead of continuing.",
+    "Several unrelated notices would compete before the same heading."
+  ],
+  "variants": [
+    "Neutral notification banner",
+    "Success notification banner",
+    "Service-problem notice",
+    "Deadline notice",
+    "Elsewhere-in-service notice",
+    "Previous-page outcome notice",
+    "Linked notification banner"
+  ],
+  "accessibility": [
+    "Use a labelled region for neutral page-load notification banners so screen-reader users can navigate to the notice.",
+    "Use alert or focus movement only for success outcomes that appear after an action and need immediate confirmation.",
+    "Keep the banner in reading order immediately before the H1 so it qualifies the page before users hear or see the heading.",
+    "Do not rely on color, header text, or position alone; include visible copy that names the service condition and affected user action.",
+    "Avoid multiple banners and repeated assertive announcements that interrupt the beginning of every page.",
+    "Ensure banner links are keyboard reachable before the H1 and have labels that make sense outside the surrounding sentence."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches banner links or actions before moving to page-level controls that follow the H1.",
+    "Success banners that receive focus after a redirect expose the confirmation and then allow normal Tab movement to the page heading and next task.",
+    "A detail toggle, when provided, opens inline without moving the banner away from its before-heading position.",
+    "If the banner is removed after the user follows its link or clears the condition, focus lands on the destination heading or next meaningful control.",
+    "The banner does not trap focus, open an unsolicited modal, or create separate keyboard order outside the page content column."
+  ],
+  "failureModes": [
+    "Users miss a personal deadline because the notice appears after the heading or below the visible task controls.",
+    "Users cannot recover from validation errors because the notification banner has no links to invalid fields.",
+    "A previous-page success message disappears in a toast before users can verify what happened.",
+    "A broad outage is repeated on every page as separate notification banners instead of one scoped banner.",
+    "Assistive technology users are interrupted by assertive page-load notices that are not urgent outcomes.",
+    "Stale success confirmation remains after users leave the related flow and undermines trust in the current page.",
+    "Multiple notification banners make it unclear which message has priority before the page heading."
+  ],
+  "relatedPatterns": [
+    "banner",
+    "alert",
+    "error-summary",
+    "inline-message",
+    "toast-notification",
+    "service-navigation"
+  ],
+  "comparisons": [
+    "notification-banner-vs-banner-vs-alert-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Notification Banner",
+      "url": "https://design-system.service.gov.uk/components/notification-banner/",
+      "platform": "web",
+      "notes": "Documents notification banners for service problems, deadlines, previous-page outcomes, before-H1 placement, role choice, one-banner priority, and validation-error exclusion.",
+      "screenshot": "screenshots/patterns/notification-banner.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Notifications Pattern",
+      "url": "https://carbondesignsystem.com/patterns/notification-pattern/",
+      "platform": "web",
+      "notes": "Documents notification principles around relevance, timing, context, priority, next steps, persistence, and avoiding timed dismissal for important messages.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WCAG 2.2 Status Messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Explains programmatic exposure of status changes without requiring focus movement, supporting calmer semantics for nonurgent page-load notices.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-notification-banner-component",
+      "note": "GOV.UK defines notification banner use for service-wide problems, personal deadlines, previous-page outcomes, before-H1 placement, role selection, sparing use, and validation-error avoidance."
+    },
+    {
+      "id": "carbon-notification-pattern",
+      "note": "Carbon notification guidance supports matching notification type and disruptiveness to user goal, urgency, context, persistence, and next-step clarity."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon notification usage distinguishes inline, toast, actionable, banner, panel, and modal notifications by placement, duration, and interaction burden."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing important status changes programmatically without moving focus when the message does not require focus."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

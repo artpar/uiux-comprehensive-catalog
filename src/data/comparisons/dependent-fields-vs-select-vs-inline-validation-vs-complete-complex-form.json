@@ -1,0 +1,52 @@
+{
+  "id": "dependent-fields-vs-select-vs-inline-validation-vs-complete-complex-form",
+  "title": "Dependent fields vs select vs inline validation vs complete complex form",
+  "summary": "Use dependent fields when one completed controlling answer determines which later field values are valid, available, required, cleared, or stale.",
+  "patternIds": [
+    "dependent-fields",
+    "select",
+    "inline-validation",
+    "complete-complex-form"
+  ],
+  "decisionRules": [
+    "Prefer dependent fields when a controlling field narrows a dependent field's options, requirement, value, availability, validation, or stale state on the same form record.",
+    "Prefer select when the user only needs to choose one value from a finite list and no other field changes that list after selection.",
+    "Prefer inline validation when one field's own value is wrong and can be corrected locally without recomputing another field's available choices.",
+    "Prefer complete complex form when dependency rules span several sections and users need section status, cross-section validation, review, and error-summary navigation.",
+    "Dependent fields must show which upstream answer controls the downstream field and must update helper text, options, required status, and error state when that answer changes.",
+    "When the controlling answer changes, clear or mark stale any dependent value that is no longer valid; do not silently keep an incompatible downstream answer.",
+    "Keep dependent fields in logical reading order after their controlling field, unless the product gives a clear summary of the dependency and recovery path.",
+    "Avoid a disabled dependent control with no explanation; if it cannot be used yet, explain the prerequisite and keep it discoverable to keyboard and assistive technology users.",
+    "Use conditional reveal when the downstream question should appear only after a related answer, but use dependent fields when the downstream control remains part of the form and its options or validity depend on another value.",
+    "Do not model independent choices as dependent just to reduce visible options; users should still be able to compare independent answers when comparison matters.",
+    "Server-side validation must enforce the same dependency rules as the UI because stale or incompatible dependent values can arrive through reloads, APIs, or browser manipulation.",
+    "If dependency rules are many-to-many, nested, asynchronous, permission-based, or opaque, show loading, unavailable, conflict, and fallback states rather than pretending a simple parent-child select is enough."
+  ],
+  "failureModes": [
+    "A subcategory remains selected after category changes, so the submitted record contains an impossible pair.",
+    "The dependent field is disabled without saying which controlling field must be answered first.",
+    "Options update visually but the error text still describes the old controlling answer.",
+    "A many-to-many dependency is forced into a one-parent select, hiding valid options.",
+    "A dependent field appears before its controlling field in the reading order, so keyboard and screen reader users encounter a blocked field first.",
+    "Client-side dependency filtering is bypassed and the backend accepts an incompatible controlled value."
+  ],
+  "sources": [
+    {
+      "id": "servicenow-dependent-field",
+      "note": "ServiceNow documents choice and reference fields whose available values depend on another same-table field, including category-to-subcategory behavior and many-to-many caveats."
+    },
+    {
+      "id": "salesforce-dependent-picklists",
+      "note": "Salesforce documents dependent picklists filtering one picklist based on a controlling value to guide users, save UI space, and improve data integrity."
+    },
+    {
+      "id": "uswds-form-component",
+      "note": "USWDS form guidance anchors disabled-state and validation-accessibility requirements for dependent controls that are unavailable until prerequisites are met."
+    },
+    {
+      "id": "govuk-radios-component",
+      "note": "GOV.UK radio guidance provides the boundary for simple conditional reveal, which is different from option filtering and stale dependent-value management."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

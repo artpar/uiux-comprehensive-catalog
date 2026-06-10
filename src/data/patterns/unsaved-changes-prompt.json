@@ -1,0 +1,240 @@
+{
+  "id": "unsaved-changes-prompt",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed dirty-editor decision prompt with guidance for changed-field evidence, close and record-switch attempts, review, save-before-close, failed save, discard, keep-editing preservation, clean-state suppression, related-pattern boundaries, comparison rules, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets dirty local edit buffers during close, cancel, object switch, tab switch, edit-mode exit, or replacement actions, including changed-field summaries, saved baselines, intended target, Review changes, Save changes, save-in-progress, failed-save preservation, Discard changes, Keep editing, and clean-state suppression.",
+    "relatedPatternDistinction": "The entry separates unsaved changes prompt from exit warning by focusing on editor-level close, cancel, switch, and replacement decisions instead of broad page or browser departure, from autosave form by requiring a decision when background saving has not made the buffer safe, from autosave recovery by preceding failed-save recovery unless saving fails inside the prompt, from draft state by avoiding durable unpublished object lifecycle, and from confirmation dialog by specializing the consequence to dirty edit-buffer loss.",
+    "liveDemoBehavior": "The live demo edits a billing contact, tracks phone and department against saved baselines, opens a prompt for Close editor and Switch record, shows Review changes before and after values, runs Save changes with Finish save and Fail save branches, preserves values on Keep editing, resets values on Discard changes, suppresses the prompt on Clean close, and contrasts vague labels, pending close, clean prompt, field loss, no-stay, wrong-scope, and toast-only failures.",
+    "comparisonDecisionRules": "The unsaved-changes-prompt-vs-exit-warning-vs-autosave-form-vs-confirmation-dialog comparison gives concrete rules for dirty editor close, cancel, switch, and replacement, broader departure warnings, continuous background saving, explicit consequential commands, failed-save handling, clean-editor suppression, in-product versus browser-controlled risk, pending autosave, and review-change privacy.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/unsaved-changes-prompt/ and /compare/unsaved-changes-prompt-vs-exit-warning-vs-autosave-form-vs-confirmation-dialog/ on 2026-06-10. Live check exercised Make dirty, Close editor, Review changes, Save changes, Finish save, Fail save, Switch record, Keep editing, Discard changes, Clean close, Vague, Pending close, Clean prompt, Field loss, No stay, Wrong scope, and Toast only controls. screenshots/patterns/unsaved-changes-prompt.png captures Good UI, Bad UI, Good UX, Bad UX, dirty-field tracking, prompt choices, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/unsaved-changes-prompt.png"
+    ]
+  },
+  "name": "Unsaved changes prompt",
+  "aliases": [
+    "dirty changes prompt",
+    "save changes dialog",
+    "discard changes prompt",
+    "unsaved edit confirmation",
+    "close editor prompt",
+    "cancel edit prompt"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Dirty-editor decision prompt before closing, canceling, switching, or replacing unsaved edits",
+  "uiGuidance": [
+    "Show a focused prompt when users try to close, cancel, switch records, replace content, or leave edit mode while current edits are dirty and not yet recoverable.",
+    "Name the edited object, summarize what changed, and offer distinct Save changes, Discard changes, Review changes, and Keep editing choices when the system can support them."
+  ],
+  "uxGuidance": [
+    "Use an unsaved changes prompt to protect local edits at the moment a user is about to abandon or replace them inside the product.",
+    "Treat the prompt as a decision about the current edit buffer: saving must complete before the close or switch continues, discarding must be deliberate, and staying must preserve every typed value."
+  ],
+  "uiExamples": {
+    "good": [
+      "A profile editor close button opens Save changes to Billing contact?, lists edited phone and department fields, and offers Keep editing, Review changes, Save changes, or Discard changes.",
+      "A report detail page blocks switching to another report while the current report has unsaved title and filter edits, then continues to the requested report only after save or discard succeeds."
+    ],
+    "bad": [
+      "A modal says Are you sure? when the user clicks Cancel, with OK and Cancel labels that do not say whether edits will be saved or discarded.",
+      "A tab switch silently replaces the dirty editor with a different record and loses the user's typed notes."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user edits two fields, clicks Close, reviews the changed fields in the prompt, saves, and the editor closes only after the saved state is confirmed.",
+      "A user chooses Keep editing from the prompt and returns to the same dirty editor with focus near the close control and all unsaved values intact."
+    ],
+    "bad": [
+      "A user chooses Save, the request fails, and the editor still closes as though the latest values were safe.",
+      "A prompt appears for every close action even when no field changed, so users stop reading the actual discard warning."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users can close an editor, cancel a modal, switch objects, replace selections, or exit edit mode while local changes are dirty, causing accidental loss or uncertainty about whether the latest values were saved.",
+  "solution": "Track the dirty edit buffer, intercept abandonment or replacement actions, present a specific save-discard-stay decision with changed-field evidence, complete or fail saving before continuing, and clear the prompt only when the edit buffer is safe, intentionally discarded, or still preserved.",
+  "problemContext": [
+    "The surface has editable values that can differ from the last saved record.",
+    "A close, cancel, object switch, tab switch, mode switch, replace, or route action can remove the current edit buffer.",
+    "The product can identify the object and at least a useful summary of changed fields.",
+    "Users need to choose whether to keep editing, save first, review changes, or intentionally discard local edits."
+  ],
+  "selectionRules": [
+    "Choose unsaved changes prompt when a user action inside the product would abandon or replace dirty local edits before they are saved.",
+    "Use exit warning when the trigger is broader page, browser, route, reload, external-link, or sign-out departure rather than a focused editor close or object switch.",
+    "Use autosave form when reliable background saving makes abandonment safe or when the main job is continuous progress persistence.",
+    "Use autosave recovery when saving has already failed or become uncertain and users need retry, copy, compare, or restore evidence.",
+    "Use draft state when the unsaved work is a durable unpublished object that can be resumed later from lists or deep links.",
+    "Use confirmation dialog for explicit consequential commands such as Delete, Cancel application, or Discard draft; an unsaved changes prompt is specifically about dirty edit-buffer loss.",
+    "Show the prompt only when dirty state is real; do not prompt for clean editors, read-only views, or recoverable drafts already saved elsewhere.",
+    "If Save changes is offered, keep the prompt open or show a saving state until the save succeeds; do not close the editor after failed save.",
+    "If Discard changes is offered, label it as discard and identify the affected object or fields.",
+    "Offer Review changes when users may need to inspect field-level differences before deciding."
+  ],
+  "requiredStates": [
+    "Clean editor state with no prompt.",
+    "Dirty editor state with changed-field tracking.",
+    "Close, cancel, object switch, or mode switch attempted state.",
+    "Prompt open with object name and changed-field summary.",
+    "Review changes state showing before and after values or changed sections.",
+    "Save in progress state that blocks duplicate close or switch actions.",
+    "Save failed state that keeps the editor open with values intact.",
+    "Saved and continue state that closes or switches after success.",
+    "Discarded state that clears the dirty buffer intentionally.",
+    "Keep editing state that returns focus and preserves values."
+  ],
+  "interactionContract": [
+    "Opening the prompt never clears the dirty values.",
+    "Keep editing closes the prompt, preserves all local values, and returns focus to the editor or triggering control.",
+    "Review changes shows what changed before the user saves or discards.",
+    "Save changes sends the current dirty values once, disables duplicate save and discard while saving, and continues only after success.",
+    "A failed save leaves the prompt or editor visible, explains the failure, and keeps the unsaved values editable.",
+    "Discard changes requires a deliberate action and clears only the named dirty buffer.",
+    "After save, discard, or reset to clean state, the same close or switch action does not prompt again."
+  ],
+  "implementationChecklist": [
+    "Track dirty state from actual field values, not from opening an editor.",
+    "Store changed field names, original values when safe to show, current values, target close or switch action, and save request state.",
+    "Intercept close, cancel, record switch, tab switch, inline edit exit, modal dismissal, replacement, and route actions that would destroy the dirty buffer.",
+    "Use explicit button labels such as Keep editing, Review changes, Save changes, and Discard changes.",
+    "Make save idempotent or disable repeated save while a request is in flight.",
+    "Keep values in memory and visible after save failure.",
+    "Clear dirty state after confirmed save, explicit discard, reset, or successful autosave that truly covers the latest values.",
+    "Test clean close, dirty close, object switch, failed save, double activation, discard, review, keyboard Escape, focus return, screen reader labels, and mobile dismissal gestures."
+  ],
+  "commonMisuses": [
+    "Prompting when nothing changed.",
+    "Using OK and Cancel labels that hide whether edits will be saved, discarded, or preserved.",
+    "Closing after Save even when the save request failed.",
+    "Discarding all editor state when only one embedded panel was dirty.",
+    "Showing a warning but omitting a way to keep editing.",
+    "Replacing the dirty object during a tab or record switch without a save or discard decision.",
+    "Relying on a disappearing toast to say edits were not saved."
+  ],
+  "critiqueQuestions": [
+    "What exact object or fields are dirty?",
+    "Which user actions can destroy or replace the dirty edit buffer?",
+    "Can users inspect changed fields before deciding?",
+    "Does Save complete before close, cancel, or switch continues?",
+    "What happens when Save fails or the user activates Save twice?",
+    "Does Keep editing preserve values and return focus predictably?",
+    "Does the prompt disappear for clean state?"
+  ],
+  "useWhen": [
+    "A close, cancel, switch, or edit-mode exit would discard unsaved local changes.",
+    "The editor can identify changed fields or sections and keep them available while the decision is made.",
+    "Users need an explicit choice between saving, discarding, reviewing, and continuing to edit.",
+    "Autosave, draft, or recovery mechanisms do not already make the current dirty buffer safe."
+  ],
+  "avoidWhen": [
+    "There are no actual unsaved changes.",
+    "Every latest change is already saved or safely recoverable.",
+    "The problem is broad browser or route departure covered by exit warning.",
+    "The task is a destructive command unrelated to local dirty edits.",
+    "A durable draft lifecycle is the main user model."
+  ],
+  "variants": [
+    "Close editor unsaved prompt",
+    "Cancel edit unsaved prompt",
+    "Switch record unsaved prompt",
+    "Switch tab unsaved prompt",
+    "Discard local changes prompt",
+    "Review unsaved changes prompt",
+    "Save before close prompt",
+    "Failed save before close prompt"
+  ],
+  "accessibility": [
+    "Use dialog or alertdialog semantics when the prompt interrupts the current task and requires a response.",
+    "Give the prompt an accessible name that includes the object or action, such as Save changes to Billing contact?",
+    "Associate the changed-field summary with the dialog description.",
+    "Move focus into the prompt and return focus to the triggering close, cancel, or editor control after Keep editing.",
+    "Use explicit action labels; do not rely on color, icon-only controls, or OK and Cancel.",
+    "Announce save in progress, save failed, saved, and discarded states through status text.",
+    "Keep Review changes, Save changes, Discard changes, and Keep editing reachable by keyboard."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on close, cancel, switch, or replace opens the prompt when dirty state exists.",
+    "Initial focus supports safe decision-making, usually Keep editing or the prompt heading for severe loss.",
+    "Tab and Shift+Tab stay within the prompt while it is open.",
+    "Escape follows the safe Keep editing path unless the platform convention requires a visible close control with the same effect.",
+    "Save changes disables duplicate activation while saving and leaves focus stable.",
+    "After failed save, focus moves to or remains near the failure message and recovery actions.",
+    "After discard or saved close, focus moves to the destination or stable outcome state."
+  ],
+  "failureModes": [
+    "A clean editor still prompts on close and trains users to ignore warnings.",
+    "A dirty editor closes before the save request finishes.",
+    "A failed save clears the local fields.",
+    "The prompt says Leave page even though the user is only switching records inside the editor.",
+    "Review changes exposes private old values to someone without permission to view them.",
+    "A mobile swipe dismisses the editor without running the dirty-check path.",
+    "The prompt stays active after the latest values are saved."
+  ],
+  "relatedPatterns": [
+    "exit-warning",
+    "autosave-form",
+    "autosave-recovery",
+    "draft-state",
+    "confirmation-dialog",
+    "inline-edit"
+  ],
+  "comparisons": [
+    "unsaved-changes-prompt-vs-exit-warning-vs-autosave-form-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "MDN beforeunload event",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event",
+      "platform": "web",
+      "notes": "Documents unsaved data loss warnings and the need to attach leave protection only while unsaved changes exist.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GitLab Pajamas Saving and feedback",
+      "url": "https://design.gitlab.com/patterns/saving-and-feedback/",
+      "platform": "web",
+      "notes": "Documents save feedback, failed-save retry, undo, leave-page warnings, and avoiding misleading saved states.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Windows UX Guide Confirmations",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/uxguide/mess-confirm",
+      "platform": "desktop",
+      "notes": "Documents when confirmations are justified, alternatives such as undo or prevention, and the need for specific consequence information.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-beforeunload-event",
+      "note": "MDN documents warning users about unsaved data loss and limiting listeners to actual unsaved-change conditions."
+    },
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab Pajamas documents save feedback, failed-save recovery, undo, and leave warnings for unsaved form changes."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports specific consequence information and avoiding unnecessary prompts."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG alertdialog guidance covers modal interruptions that require a response."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

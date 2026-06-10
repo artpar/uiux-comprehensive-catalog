@@ -1,0 +1,226 @@
+{
+  "id": "inline-message",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a contextual in-flow feedback pattern with source-backed placement, persistence, status semantics, one local action, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets object-adjacent and section-adjacent messages, persistent local placement, tone, one local action or detail disclosure, status announcement, dismissal/resolution, and escalation rules for field, section, page, and transient alternatives.",
+    "relatedPatternDistinction": "The entry separates inline message from toast notification by in-flow persistence, from error state by not replacing a failed content region, from inline validation by not correcting one field value, and from error summary by not summarizing submitted-form errors.",
+    "liveDemoBehavior": "The live demo anchors billing-contact, export-warning, and sent-success messages to a selected invoice row, reveals local detail, resolves the message, and contrasts detached, vague, field-like, and blocking-message misuse.",
+    "comparisonDecisionRules": "The inline-message-vs-toast-notification-vs-error-state-vs-inline-validation comparison gives concrete rules for contextual placement, transient feedback, blocked recovery, field correction, local actions, escalation, and status announcements.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/inline-message.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, row-anchored message behavior, local detail reveal, related links, comparison link, and source-backed guidance; the live route was also exercised through resolved state.",
+    "screenshots": [
+      "screenshots/patterns/inline-message.png"
+    ]
+  },
+  "name": "Inline message",
+  "aliases": [
+    "inline notification",
+    "contextual message",
+    "section message",
+    "inline alert"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Contextual in-flow feedback",
+  "uiGuidance": [
+    "Render the message inside the same row, card, panel, form section, or task region that it describes, with a clear tone, concise title, body text, and at most one local action or detail disclosure.",
+    "Keep the message visible until the local condition is resolved, dismissed when safe, or replaced by a more appropriate error state, page-level message, or notification history item."
+  ],
+  "uxGuidance": [
+    "Use inline messages when users need contextual feedback while continuing nearby work, such as a row-level warning, section-level success, local policy note, or task-specific next step.",
+    "Escalate away from inline messages when users must fix a field value, recover a failed content area, review page-wide consequences, or act on a message after leaving the local context."
+  ],
+  "uiExamples": {
+    "good": [
+      "An invoice row shows Missing billing contact directly beneath the affected customer with Add contact as the only action.",
+      "A report panel shows Export limited to filtered rows next to the export controls, with a small Details disclosure."
+    ],
+    "bad": [
+      "A vague Important message appears above the whole page with no object reference.",
+      "A section message contains a full support workflow, several links, and unrelated settings controls."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can reveal why export is limited, add the missing contact, and see the local message resolve without losing table context.",
+      "A successful send message remains beside the invoice long enough to copy the generated reference."
+    ],
+    "bad": [
+      "The message disappears like a toast even though users still need the invoice reference.",
+      "A field-format error is shown at section level, forcing users to infer which input is wrong."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need status, warning, success, or next-step information that belongs to a specific visible object or section, and a transient or page-level message would disconnect it from the affected context.",
+  "solution": "Place a concise persistent message inside the relevant local context, expose the right urgency semantics, offer at most one local action or detail toggle, and remove or update it when that local condition changes.",
+  "problemContext": [
+    "A row, card, panel, step, table section, or task area has a condition users must understand while working there.",
+    "The information is broader than one input's validation text but narrower than a page, service, or site-wide message.",
+    "Users need the message to remain near the affected object until they inspect, resolve, dismiss, or navigate away from that context.",
+    "The condition can be communicated in a short title and body without opening a modal or replacing the whole content region."
+  ],
+  "selectionRules": [
+    "Choose inline message when the message's subject is a visible local object or section and the feedback should stay attached to it.",
+    "Use inline validation instead when the message corrects one specific input value or missing field answer.",
+    "Use error state instead when the expected content or action has failed and the affected area needs retry, fallback, preserved context, or support escalation.",
+    "Use toast notification instead when the message can safely expire or be handled from notification history without staying in the local layout.",
+    "Keep the message concise enough for users to scan while working; move long explanations to a detail disclosure, help page, or support flow.",
+    "Include one local action only when it directly resolves or clarifies the local condition.",
+    "Allow dismissal only when the underlying condition is informational or safely recoverable elsewhere.",
+    "Use page-level or global feedback when the issue applies beyond the local row, panel, step, or section."
+  ],
+  "requiredStates": [
+    "Neutral local context with no message.",
+    "Informational inline message attached to the relevant object or section.",
+    "Warning or error-tone inline message for a local condition that does not replace the whole section.",
+    "Actionable inline message with one local action or disclosure.",
+    "Expanded detail state when the message needs a short explanation without leaving context.",
+    "Resolved state after the local condition changes.",
+    "Escalated state when the message becomes a field validation issue, error state, page message, or notification-center item."
+  ],
+  "interactionContract": [
+    "The message appears in the visual and reading order near the object or section it describes.",
+    "The message title names the local subject, not only the severity.",
+    "The local context remains usable while the message is visible unless the message explicitly disables a local action with a reason.",
+    "Dynamic message appearance is announced as status or alert according to urgency without stealing focus by default.",
+    "A detail toggle reveals only information required to understand the local condition.",
+    "A local action changes, resolves, or opens the specific object or section referenced by the message.",
+    "The message is removed, updated, or downgraded when the underlying local condition resolves."
+  ],
+  "implementationChecklist": [
+    "Identify the exact row, card, panel, step, or section the message belongs to before choosing placement.",
+    "Use a short title that names the object or condition, followed by one concise sentence of body text.",
+    "Choose status, warning, success, or error tone from consequence, not visual variety.",
+    "Keep the message in the local layout so zoom, wrapping, and responsive changes do not detach it from the affected object.",
+    "Use role status for routine updates and role alert for urgent local warnings that appear dynamically.",
+    "Connect local controls to the message with description or labelled-by relationships when the message changes whether an action is available.",
+    "Keep action labels specific, such as Add billing contact, View sync details, or Copy reference.",
+    "Test the resolved, dismissed, expanded, repeated, and narrow-screen states."
+  ],
+  "commonMisuses": [
+    "Using an inline message for a single field error that should be connected to that input.",
+    "Placing a local warning at the top of the page or inside a global banner.",
+    "Using a toast for context users must reference beside an object.",
+    "Replacing a full error state with a small inline note after content fails to load.",
+    "Putting several unrelated actions or long instructions inside the message.",
+    "Relying on color or icon alone to communicate warning, success, or error tone.",
+    "Letting the message persist after the affected object or condition is resolved."
+  ],
+  "critiqueQuestions": [
+    "Can users tell which row, panel, step, or object this message describes?",
+    "Does the message remain available as long as the local condition matters?",
+    "Would this be clearer as field validation, a section error state, a toast, or a page-level message?",
+    "Is there only one local action, and does it resolve or explain the message?",
+    "Will assistive technology users hear the message without losing their current task position?",
+    "What happens after the user resolves, dismisses, expands, or revisits the affected object?"
+  ],
+  "useWhen": [
+    "A visible object or section has local status, warning, success, or next-step information.",
+    "Users need the message near the affected context while continuing the task.",
+    "The message is shorter than a help flow and narrower than a page-wide notification."
+  ],
+  "avoidWhen": [
+    "The message is a one-field validation correction.",
+    "The affected content failed and needs a full recovery state.",
+    "The message is safely transient and does not need to remain in local context.",
+    "The issue applies to the whole page, service, site, account, or session.",
+    "The content needs several actions, a form, or extended troubleshooting."
+  ],
+  "variants": [
+    "Row-level inline message",
+    "Section message",
+    "Inline warning",
+    "Inline success message",
+    "Inline informational message",
+    "Actionable inline message",
+    "Expandable inline detail",
+    "Dismissible local message"
+  ],
+  "accessibility": [
+    "Keep the message in the reading order near the context it describes.",
+    "Use status or alert semantics according to urgency when the message appears dynamically.",
+    "Do not rely on color, icon, or position alone; include visible text that names the condition.",
+    "Associate affected controls with the message when it changes availability, consequence, or next steps.",
+    "Avoid moving focus unless the user requested the message or the local condition blocks the current action.",
+    "Ensure expanded detail and local actions are keyboard reachable and have stable names."
+  ],
+  "keyboardBehavior": [
+    "Routine message appearance does not move focus from the user's current control.",
+    "The message's action or detail toggle appears in normal tab order after the related local content.",
+    "Dismissing or resolving the message leaves focus on a predictable nearby control.",
+    "If the message disables a local action, keyboard users can reach the reason or an alternate action.",
+    "When expanded detail closes, focus returns to the toggle or next meaningful local control."
+  ],
+  "failureModes": [
+    "Users cannot identify the affected object because the message is detached from context.",
+    "A small inline note hides a blocking failure that needs recovery.",
+    "A field error is announced at section level with no connection to the input.",
+    "A local success message disappears before users can copy the reference or confirm the object.",
+    "Screen reader users miss a dynamic message because it has no status semantics.",
+    "The message creates layout shift that separates controls from their labels or table rows.",
+    "Dismissal hides an unresolved condition with no way to rediscover it."
+  ],
+  "relatedPatterns": [
+    "toast-notification",
+    "error-state",
+    "inline-validation",
+    "error-summary",
+    "toast-only-critical-error"
+  ],
+  "comparisons": [
+    "inline-message-vs-toast-notification-vs-error-state-vs-inline-validation"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian Inline Message",
+      "url": "https://atlassian.design/components/inline-message",
+      "platform": "web",
+      "notes": "Documents inline message as a contextual way to show that important information is available or an action is required.",
+      "screenshot": "screenshots/patterns/inline-message.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Notification",
+      "url": "https://carbondesignsystem.com/components/notification/usage/",
+      "platform": "web",
+      "notes": "Documents inline notifications as task-flow messages that appear near primary content and persist until dismissed or resolved.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "React Spectrum InlineAlert",
+      "url": "https://react-spectrum.adobe.com/v3/InlineAlert.html",
+      "platform": "web",
+      "notes": "Documents inline alerts as non-modal messages associated with objects in a view.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-inline-message",
+      "note": "Atlassian defines inline message as local messaging for important information availability or required action."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon describes inline notifications as task-flow messages, positioned near primary content, with persistence until dismissal or resolution."
+    },
+    {
+      "id": "react-spectrum-inline-alert",
+      "note": "React Spectrum defines inline alerts as non-modal messages associated with objects in a view."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing status changes without changing the user's context."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

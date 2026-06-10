@@ -1,0 +1,49 @@
+{
+  "id": "slider-vs-text-input-vs-select-vs-toggle-switch",
+  "title": "Slider vs text input vs select vs toggle switch",
+  "summary": "Use a slider for one adjustable value along a bounded range when relative position matters; use text input for precise numeric entry, select for a short fixed set, and toggle switch for binary on/off settings.",
+  "patternIds": ["slider", "text-input", "select", "toggle-switch"],
+  "decisionRules": [
+    "Prefer a slider when users adjust one value inside a known minimum and maximum and can understand the choice by relative position, intensity, or coarse increments.",
+    "Prefer text input when users need an exact value, large range, unusual number, pasted value, currency amount, account value, or value with validation rules that must be typed precisely.",
+    "Prefer select when the set is finite and labeled, especially if options are names rather than numeric positions or if there are only a few fixed choices.",
+    "Prefer a toggle switch when the control has exactly two states and applying the setting immediately is clearer than selecting a numeric point.",
+    "Do not use a single-value slider when users need to choose a lower and upper boundary; that requires range-slider behavior with two values and collision rules.",
+    "Do not use a slider for one of three named options; radio groups, segmented controls, or select controls make those options easier to compare.",
+    "Do not use a slider for very large ranges unless users can type an exact value, use sensible steps, or otherwise avoid tedious thumb movement.",
+    "Show the label, current value, unit, min and max, step size when relevant, disabled/read-only state, and warning or error feedback near the control.",
+    "Use continuous sliders for subjective intensity where exact value is not critical, and discrete sliders when each step is meaningful and discernible.",
+    "If the slider value is not self-explanatory, expose user-friendly value text such as Low, Medium, High, minutes and seconds, or percent instead of only a raw number."
+  ],
+  "failureModes": [
+    "A two-stop slider is used for Wi-Fi on/off instead of a switch.",
+    "A money transfer amount uses a 100,000-step slider even though users need to enter exact cents.",
+    "The slider has no visible label, min, max, unit, or current value, so the thumb position has no task meaning.",
+    "Three named choices are collapsed into a slider, hiding option labels and making keyboard movement unclear.",
+    "A range boundary task is implemented as a single slider, so users can set only one side of the range.",
+    "The keyboard step is too granular or too coarse for the value users actually need."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-slider",
+      "note": "APG defines slider roles, value properties, labels, orientation, value text, keyboard increments, Home, End, optional Page Up and Page Down, and touch assistive technology cautions."
+    },
+    {
+      "id": "carbon-slider-component",
+      "note": "Carbon distinguishes default single-value sliders from range sliders and documents number input pairing, labels, min and max values, interaction states, and warning/error/disabled/read-only states."
+    },
+    {
+      "id": "uswds-range-slider-component",
+      "note": "USWDS supports slider use when relative or approximate value matters more than precision and recommends text input when users need precise numbers."
+    },
+    {
+      "id": "material-design-sliders",
+      "note": "Material Design distinguishes continuous subjective ranges from discrete specific values and documents editable numeric value variants."
+    },
+    {
+      "id": "visa-slider-component",
+      "note": "Visa documents binary-option avoidance, checkbox/radio alternatives for small sets, units, min/max labels, and discrete versus continuous slider choices."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

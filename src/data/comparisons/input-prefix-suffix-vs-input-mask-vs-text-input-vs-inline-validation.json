@@ -1,0 +1,50 @@
+{
+  "id": "input-prefix-suffix-vs-input-mask-vs-text-input-vs-inline-validation",
+  "title": "Input prefix/suffix vs input mask vs text input vs inline validation",
+  "summary": "Use input prefix/suffix when a constant symbol, unit, abbreviation, or icon clarifies the value while the user's typed value should remain clean.",
+  "patternIds": [
+    "input-prefix-suffix",
+    "input-mask",
+    "text-input",
+    "inline-validation"
+  ],
+  "decisionRules": [
+    "Prefer input prefix/suffix when the affix is a stable, commonly understood unit, currency symbol, percentage sign, domain, or icon that clarifies what the user should enter.",
+    "Prefer input mask when the typed value itself has fixed character groups, literals, or slots that should be inserted or formatted while users type.",
+    "Prefer text input when the answer is short and freeform, or when adding an affix would imply a narrower value than users may legitimately provide.",
+    "Prefer inline validation when users can enter the value normally and the main need is a field-adjacent correction after blur or submit.",
+    "The label or hint must name the unit or meaning because prefixes and suffixes may be visually adjacent but hidden from assistive technologies.",
+    "Do not use an affix when a full word or explanatory sentence is needed; add hint text or redesign the question instead.",
+    "Do not reject values just because the user typed the same currency symbol or unit shown in the affix; normalize the duplicate or explain the accepted value.",
+    "Keep the affix outside the editable text value so copy, paste, validation, and backend storage have a predictable canonical value.",
+    "Use input width, inputmode, and validation that match the value without the affix, such as numeric entry for dollars, pounds, percentages, or dimensions.",
+    "If the unit can change, use a separate select or segmented control rather than a static suffix that silently changes meaning."
+  ],
+  "failureModes": [
+    "The visible suffix says lbs but the label only says Weight, so screen reader users miss the unit.",
+    "A dollar prefix is used for an open-ended resolution field where users might answer with a refund, repair, or non-monetary outcome.",
+    "The form rejects $1200 even though the UI displayed a dollar prefix and many users naturally typed it.",
+    "A suffix is included in the stored value for one field but stripped for another, causing inconsistent backend data.",
+    "A long explanatory phrase is forced into a suffix and wraps or overlaps the input.",
+    "A static suffix remains visible after the unit or locale changes elsewhere in the form."
+  ],
+  "sources": [
+    {
+      "id": "uswds-input-prefix-suffix-component",
+      "note": "USWDS defines when affixes clarify common units or symbols, when open-ended fields need another approach, and why labels must describe hidden affix meaning."
+    },
+    {
+      "id": "govuk-text-input-prefix-suffix",
+      "note": "GOV.UK documents prefix and suffix placement outside the input, screen reader cautions, label and hint requirements, and tolerant validation when users type the affix."
+    },
+    {
+      "id": "material-design-text-fields",
+      "note": "Material Design documents prefixes and suffixes as formatted text-field variations that clarify units or add input in advance."
+    },
+    {
+      "id": "maersk-input-masks",
+      "note": "Maersk distinguishes prefix/suffix from input masks when a constant value must be grouped with the typed value."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

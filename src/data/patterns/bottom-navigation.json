@@ -1,77 +1,194 @@
 {
   "id": "bottom-navigation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a compact-mobile primary destination pattern with source-backed destination count, active state, responsive adaptation, state preservation, action exclusions, comparison guidance, and bottom-nav-specific demo behavior.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names compact mobile width, three to five top-level destinations, persistent bottom placement, selected destination, labels/icons, badge behavior, safe-area/inset handling, per-section state preservation, and adaptation to rail or drawer at larger sizes.",
+    "relatedPatternDistinction": "The entry separates bottom navigation from breadcrumbs by top-level destination switching versus ancestor hierarchy, from tabs by app-level sections versus local peer panels, and from toolbars/FABs by navigation destinations versus actions.",
+    "liveDemoBehavior": "The live demo uses a phone frame with persistent bottom destinations, aria-current selected state, notification badge, per-destination state counters, preserved section state after switching, and a bad example that mixes a create action and too many destinations.",
+    "comparisonDecisionRules": "The breadcrumbs-vs-tabs-vs-bottom-navigation comparison gives concrete rules for compact mobile primary destinations, hierarchy breadcrumbs, peer panels, action misuse, and responsive rail/drawer adaptation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/bottom-navigation.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/bottom-navigation.png"
+    ]
+  },
   "name": "Bottom navigation",
-  "aliases": ["bottom nav", "tab bar"],
+  "aliases": [
+    "bottom nav",
+    "mobile tab bar",
+    "navigation bar",
+    "app tab bar"
+  ],
   "category": "Navigation And Wayfinding",
-  "secondaryCategories": [],
-  "platforms": ["mobile"],
-  "problem": "Mobile users need fast access to a small set of top-level destinations.",
-  "solution": "Place persistent primary destinations at the bottom edge so users can switch sections with one tap.",
+  "secondaryCategories": [
+    "Cross-Device And Physical Interaction"
+  ],
+  "platforms": [
+    "mobile"
+  ],
+  "problem": "Mobile users need one-tap access to a small set of primary app destinations without stretching to a top menu or losing section context.",
+  "solution": "Keep three to five top-level destinations persistently available at the bottom of compact mobile screens, with clear labels, icons, selected state, and preserved state inside each section.",
   "problemContext": [
-    "A compact mobile interface has a small number of high-frequency primary sections.",
-    "Users need to switch between those sections repeatedly."
+    "A compact mobile app has a small number of high-frequency primary sections.",
+    "Users switch between sections repeatedly while holding the device one-handed.",
+    "Each destination may have its own nested navigation, scroll position, filters, or draft state that should survive destination switches."
   ],
   "selectionRules": [
-    "Choose bottom navigation for three to five top-level mobile destinations.",
-    "Prefer a navigation drawer or menu when there are many destinations or secondary areas.",
-    "Do not use bottom navigation for one-off actions that are not destinations."
+    "Choose bottom navigation for three to five top-level mobile destinations of similar importance.",
+    "Keep destinations at the same hierarchy level and make each item navigate to a stable app section.",
+    "Use visible labels or very familiar labels plus accessible names; do not rely on ambiguous icons alone.",
+    "Preserve each destination's nested navigation, scroll position, filters, and drafts when users switch away and return.",
+    "Adapt to a navigation rail or drawer on wider screens or when the destination count exceeds what the bottom bar can hold.",
+    "Use a toolbar, floating action button, menu, or local button for commands instead of putting actions in the navigation bar."
   ],
   "requiredStates": [
-    "Default state with all destinations visible.",
-    "Active destination state that is perceivable without relying on color alone.",
-    "Destination changed state with updated content and preserved orientation.",
-    "Unavailable destination state if permissions or feature flags hide access."
+    "Default state with all primary destinations visible.",
+    "Selected destination state exposed visually and programmatically.",
+    "Destination changed state with content updated and previous section state preserved.",
+    "Badge or notification state that does not steal focus or shift the bar.",
+    "Overflow or more-destinations decision state where the design changes to rail, drawer, or a More destination instead of cramming items.",
+    "Full-screen or modal task state where hiding the bar is deliberate and reversible."
   ],
   "interactionContract": [
-    "Each item changes the active top-level destination rather than triggering a transient action.",
-    "Labels or accessible names identify every destination.",
-    "The active destination remains visible while users navigate within that section."
+    "Activating an item switches to its top-level destination rather than performing a transient command.",
+    "The selected item remains visible and stable while users navigate inside that section.",
+    "Each destination has a predictable label, accessible name, and selected/current state.",
+    "Switching destinations does not clear scroll position, filters, drafts, or nested navigation unless the user explicitly resets them.",
+    "Badges communicate status without changing the destination's function."
   ],
   "implementationChecklist": [
-    "Limit destinations to the primary sections users need most often.",
-    "Give every icon a visible or accessible label.",
-    "Mark the active destination clearly.",
-    "Keep destructive or contextual actions out of the navigation bar."
+    "Limit the bar to three to five primary destinations for compact mobile layouts.",
+    "Give every destination a text label or accessible name, plus an icon that reinforces the label.",
+    "Expose the active destination with aria-current=\"page\" or the platform equivalent selected state.",
+    "Keep the bar outside the routed content area so it can persist while destinations change.",
+    "Store per-destination navigation and UI state when users switch sections.",
+    "Respect bottom safe areas, system gestures, and touch target sizing.",
+    "Move extra destinations to rail, drawer, More, or another primary navigation model instead of shrinking labels."
   ],
   "commonMisuses": [
     "Putting too many destinations into the bar.",
-    "Mixing navigation destinations with commands such as create or delete.",
-    "Using icon-only labels for unfamiliar sections."
+    "Mixing navigation destinations with commands such as create, delete, filter, or submit.",
+    "Using icon-only labels for unfamiliar sections.",
+    "Resetting scroll, filters, or draft state every time users switch destinations.",
+    "Using bottom navigation for deep child pages instead of top-level app areas.",
+    "Combining it with another competing primary navigation model on a narrow screen."
   ],
   "critiqueQuestions": [
-    "Are these items destinations the user returns to often, or just actions competing for attention?"
+    "Are these items truly top-level destinations users revisit often, or are they actions competing for bottom reach?",
+    "Will the selected state and labels still be understandable at the narrowest supported width?",
+    "What section state must be preserved when users switch away and come back?"
   ],
   "useWhen": [
-    "The product has a small number of high-frequency top-level destinations.",
-    "Users need frequent switching between major sections."
+    "A compact mobile app has three to five high-frequency top-level destinations.",
+    "Users need frequent switching between major sections.",
+    "Each section benefits from a persistent selected state and retained local state."
   ],
   "avoidWhen": [
-    "There are too many primary destinations.",
-    "The destinations are low-frequency utilities or deep hierarchy items."
+    "There are fewer than three or more than five primary destinations.",
+    "The items are commands, filters, or one-off actions rather than destinations.",
+    "The product has deep hierarchy that needs a drawer, side navigation, or breadcrumbs.",
+    "The layout is tablet, desktop, or wide enough that a rail or persistent side navigation is more ergonomic."
   ],
-  "variants": ["Labeled bottom nav", "Icon-only bottom nav", "Adaptive bottom nav to navigation rail"],
+  "variants": [
+    "Labeled bottom navigation",
+    "Mobile tab bar",
+    "Badged destination",
+    "More destination",
+    "Adaptive navigation bar to rail"
+  ],
   "accessibility": [
-    "Icons need accessible labels.",
-    "The active destination must not be conveyed by color alone."
+    "Every icon must have a visible label or accessible name.",
+    "The active destination must not be conveyed by color alone.",
+    "Expose the selected or current destination programmatically.",
+    "Badges need accessible text when they convey meaningful counts or status."
   ],
   "keyboardBehavior": [
-    "External keyboard focus should move through destinations predictably.",
-    "Activation should change views without losing orientation."
+    "External keyboard focus moves through destinations in visual order.",
+    "Activation switches destination and keeps focus behavior predictable.",
+    "The selected destination remains identifiable when focused, hovered, or activated.",
+    "If the bar is hidden for an immersive task, keyboard users must have a clear way to leave the task and restore navigation."
   ],
   "failureModes": [
     "Using bottom navigation for unrelated actions.",
-    "Combining it with another competing primary navigation model.",
-    "Hiding labels for unfamiliar destinations."
+    "Cramming six or more destinations into narrow mobile width.",
+    "Hiding labels for unfamiliar destinations.",
+    "Resetting a destination's nested state on every switch.",
+    "Making badges look like separate tappable controls.",
+    "Leaving bottom navigation visible inside a destructive modal or focused full-screen capture flow where it can accidentally interrupt the task."
   ],
-  "relatedPatterns": [],
-  "comparisons": [],
-  "examples": [],
+  "relatedPatterns": [
+    "breadcrumbs",
+    "tabs"
+  ],
+  "comparisons": [
+    "breadcrumbs-vs-tabs-vs-bottom-navigation"
+  ],
+  "examples": [
+    {
+      "product": "Material Design Bottom Navigation",
+      "url": "https://m2.material.io/design/components/bottom-navigation.html/",
+      "platform": "mobile",
+      "notes": "Documents three to five primary mobile destinations, icon and label behavior, selected state, and avoiding menus or dialogs as destination items.",
+      "screenshot": "screenshots/patterns/bottom-navigation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Apple Human Interface Guidelines Tab Bars",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/tab-bars",
+      "platform": "mobile",
+      "notes": "Documents tab bars for top-level app navigation, not actions, with persistent availability and preserved navigation state within sections.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
   "sources": [
     {
-      "id": "android-navigation-ui",
-      "note": "Android navigation guidance defines bottom navigation as a primary pattern for compact layouts."
+      "id": "material-bottom-navigation",
+      "note": "Material documents bottom navigation as a mobile bar for three to five primary destinations, with selected state and destination-only behavior."
+    },
+    {
+      "id": "android-responsive-navigation",
+      "note": "Android responsive navigation maps compact-width few-item navigation to bottom bars and wider layouts to rails or drawers."
+    },
+    {
+      "id": "android-navigation-ui-bottom-nav",
+      "note": "Android NavigationUI documents wiring bottom navigation items to destinations, automatic selected-state updates, and item-state preservation."
+    },
+    {
+      "id": "apple-hig-tab-bars",
+      "note": "Apple documents tab bars as top-level navigation, not actions, that remain available and preserve section navigation state."
     }
   ],
   "maturity": "established",
-  "lastVerified": "2026-06-08"
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent mobile primary navigation",
+  "uiGuidance": [
+    "Render three to five bottom destinations with stable touch targets, labels or accessible names, reinforcing icons, selected state, optional badges, and safe-area spacing.",
+    "Keep the bar visually attached to the app shell rather than to one section's content, and avoid mixing in commands or deep hierarchy links."
+  ],
+  "uxGuidance": [
+    "Support rapid switching between top-level mobile sections while preserving each section's local navigation, scroll, filters, and drafts.",
+    "Adapt the same destination model to rail or drawer navigation when window width or destination count makes the bottom bar cramped."
+  ],
+  "uiExamples": {
+    "good": [
+      "Five labeled destinations stay fixed at the bottom with Home selected, Alerts showing a small badge, and no action button mixed into the bar.",
+      "Selected state uses shape, weight, and text color instead of relying on color alone."
+    ],
+    "bad": [
+      "Six tiny icon-only items and a center plus button compete for space.",
+      "The active destination is unclear and labels truncate into guesses."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Switching from Home to Saved and back preserves each section's scroll count and draft state.",
+      "A badge invites users to check Alerts without changing what the Alerts destination does."
+    ],
+    "bad": [
+      "Tapping Search clears the Home feed position and opens a one-off command instead of a destination.",
+      "A create action in the middle of the bar surprises users who expect destination switching."
+    ]
+  }
 }

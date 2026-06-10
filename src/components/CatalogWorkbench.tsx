@@ -20,7 +20,7 @@ type JobGroup = {
 };
 
 type DecisionStatus = "reviewing" | "selected" | "rejected" | "compare";
-type CandidateMode = "patterns" | "audit" | "all";
+type CandidateMode = "recommended" | "all" | "audit";
 
 const jobGroups: JobGroup[] = [
   {
@@ -85,13 +85,27 @@ const searchSynonyms: Record<string, string[]> = {
   undo: ["recover", "restore", "reversible"]
 };
 
+function formatPatternType(value: PatternEntry["patternType"]) {
+  if (value === "ui") return "UI";
+  if (value === "ux") return "UX";
+  return "UI + UX";
+}
+
 function searchText(pattern: PatternEntry) {
   return [
     pattern.name,
     pattern.aliases.join(" "),
     pattern.category,
+    formatPatternType(pattern.patternType),
+    pattern.surfaceType,
     pattern.problem,
     pattern.solution,
+    pattern.uiGuidance.join(" "),
+    pattern.uxGuidance.join(" "),
+    pattern.uiExamples.good.join(" "),
+    pattern.uiExamples.bad.join(" "),
+    pattern.uxExamples.good.join(" "),
+    pattern.uxExamples.bad.join(" "),
     pattern.selectionRules.join(" "),
     pattern.requiredStates.join(" "),
     pattern.commonMisuses.join(" "),
@@ -109,6 +123,13 @@ function searchFields(pattern: PatternEntry) {
     { label: "aliases", value: pattern.aliases.join(" ") },
     { label: "problem", value: pattern.problem },
     { label: "solution", value: pattern.solution },
+    { label: "UI/UX type", value: `${formatPatternType(pattern.patternType)} ${pattern.surfaceType}` },
+    { label: "UI guidance", value: pattern.uiGuidance.join(" ") },
+    { label: "UX guidance", value: pattern.uxGuidance.join(" ") },
+    { label: "good UI", value: pattern.uiExamples.good.join(" ") },
+    { label: "bad UI", value: pattern.uiExamples.bad.join(" ") },
+    { label: "good UX", value: pattern.uxExamples.good.join(" ") },
+    { label: "bad UX", value: pattern.uxExamples.bad.join(" ") },
     { label: "selection rule", value: pattern.selectionRules.join(" ") },
     { label: "required state", value: pattern.requiredStates.join(" ") },
     { label: "misuse", value: pattern.commonMisuses.join(" ") },
@@ -229,7 +250,12 @@ function formatLabel(value: string) {
 }
 
 function isCandidateMode(value: string | null): value is CandidateMode {
-  return value === "patterns" || value === "audit" || value === "all";
+  return value === "recommended" || value === "audit" || value === "all";
+}
+
+function candidateModeFromParam(value: string | null): CandidateMode | null {
+  if (value === "patterns") return "recommended";
+  return isCandidateMode(value) ? value : null;
 }
 
 function getMatchReason(pattern: PatternEntry, jobId: string, query: string) {
@@ -278,8 +304,15 @@ function buildAgentBrief({
   const job = jobGroups.find((item) => item.id === jobId);
   const lines = [
     `Pattern: ${pattern.name}`,
+    `Pattern type: ${formatPatternType(pattern.patternType)} - ${pattern.surfaceType}`,
     `Decision status: ${formatLabel(decisionStatus)}`,
     `Problem: ${pattern.problem}`,
+    `UI guidance: ${pattern.uiGuidance.slice(0, 2).join(" ")}`,
+    `UX guidance: ${pattern.uxGuidance.slice(0, 2).join(" ")}`,
+    `Good UI examples: ${pattern.uiExamples.good.slice(0, 2).join(" ")}`,
+    `Bad UI examples: ${pattern.uiExamples.bad.slice(0, 2).join(" ")}`,
+    `Good UX examples: ${pattern.uxExamples.good.slice(0, 2).join(" ")}`,
+    `Bad UX examples: ${pattern.uxExamples.bad.slice(0, 2).join(" ")}`,
     `Context: risk=${risk}; reversibility=${recovery}; urgency=${urgency}; system-confidence=${confidence}; interruption-cost=${interruptionCost}; platform=${platform === "all" ? "unspecified" : platform}`,
     `Use when: ${pattern.useWhen.slice(0, 2).join(" ")}`,
     `Avoid when: ${pattern.avoidWhen.slice(0, 2).join(" ")}`,
@@ -309,7 +342,7 @@ export default function CatalogWorkbench({
   const [category, setCategory] = useState("all");
   const [platform, setPlatform] = useState("all");
   const [maturity, setMaturity] = useState("all");
-  const [candidateMode, setCandidateMode] = useState<CandidateMode>("patterns");
+  const [candidateMode, setCandidateMode] = useState<CandidateMode>("recommended");
   const [selectedId, setSelectedId] = useState(patterns[0]?.id ?? "");
   const [copyStatus, setCopyStatus] = useState("Ready to copy.");
   const [risk, setRisk] = useState("medium");
@@ -324,10 +357,9 @@ export default function CatalogWorkbench({
   const [hydrated, setHydrated] = useState(false);
   const searchRef = useRef<HTMLInputElement | null>(null);
 
-  const filtered = useMemo(() => {
+  const scopedAcceptedCandidates = useMemo(() => {
     return patterns.filter((pattern) => {
-      if (candidateMode === "patterns" && pattern.maturity === "anti-pattern") return false;
-      if (candidateMode === "audit" && pattern.maturity !== "anti-pattern") return false;
+      if (pattern.maturity === "anti-pattern") return false;
       if (!matchesJob(pattern, job)) return false;
       if (category !== "all" && pattern.category !== category) return false;
       if (platform !== "all" && !pattern.platforms.includes(platform as never)) return false;
@@ -335,7 +367,42 @@ export default function CatalogWorkbench({
       if (query.trim() && !matchesText(pattern, query.trim())) return false;
       return true;
     });
-  }, [patterns, query, job, category, platform, maturity, candidateMode]);
+  }, [patterns, query, job, category, platform, maturity]);
+
+  const auditCandidates = useMemo(() => {
+    return patterns.filter((pattern) => {
+      if (pattern.maturity !== "anti-pattern") return false;
+      if (!matchesJob(pattern, job)) return false;
+      if (category !== "all" && pattern.category !== category) return false;
+      if (platform !== "all" && !pattern.platforms.includes(platform as never)) return false;
+      if (query.trim() && !matchesText(pattern, query.trim())) return false;
+      return true;
+    });
+  }, [patterns, query, job, category, platform]);
+
+  const recommendedCandidates = useMemo(() => {
+    const activeJob = jobGroups.find((item) => item.id === job);
+    return [...scopedAcceptedCandidates]
+      .sort((a, b) => {
+        const score = (pattern: PatternEntry) => {
+          let value = 0;
+          if (activeJob?.patternIds.includes(pattern.id)) value += 80;
+          if (activeJob?.categories.includes(pattern.category)) value += 40;
+          if (pattern.maturity === "standard" || pattern.maturity === "established") value += 20;
+          if (shortlistIds.includes(pattern.id)) value += 10;
+          if (selectedId === pattern.id) value += 5;
+          return value;
+        };
+        return score(b) - score(a) || a.name.localeCompare(b.name);
+      })
+      .slice(0, 8);
+  }, [job, scopedAcceptedCandidates, selectedId, shortlistIds]);
+
+  const filtered = useMemo(() => {
+    if (candidateMode === "audit") return auditCandidates;
+    if (candidateMode === "all") return scopedAcceptedCandidates;
+    return recommendedCandidates;
+  }, [auditCandidates, candidateMode, recommendedCandidates, scopedAcceptedCandidates]);
 
   const selectedWasFilteredOut = Boolean(selectedId) && filtered.length > 0 && !filtered.some((pattern) => pattern.id === selectedId);
   const selected = patterns.find((pattern) => pattern.id === selectedId) ?? filtered[0] ?? patterns[0];
@@ -346,9 +413,16 @@ export default function CatalogWorkbench({
   const filteredSummary = useMemo(() => {
     const antiPatternCount = filtered.filter((pattern) => pattern.maturity === "anti-pattern").length;
     const categoriesShown = new Set(filtered.map((pattern) => pattern.category)).size;
-    const matureCount = filtered.filter((pattern) => pattern.maturity === "standard" || pattern.maturity === "established").length;
-    return `${categoriesShown} families, ${matureCount} proven, ${antiPatternCount} audit flags`;
+    const completeCount = filtered.filter((pattern) => pattern.completionStatus === "complete").length;
+    const stubCount = filtered.filter((pattern) => pattern.completionStatus === "stub").length;
+    return `${categoriesShown} families, ${completeCount} complete, ${stubCount} stubs, ${antiPatternCount} audit flags`;
   }, [filtered]);
+  const candidateCountLabel =
+    candidateMode === "recommended"
+      ? `${filtered.length} recommended`
+      : candidateMode === "audit"
+        ? `${filtered.length} audit flags`
+        : `${filtered.length} patterns`;
   const shortlist = shortlistIds
     .map((id) => patterns.find((pattern) => pattern.id === id))
     .filter((pattern): pattern is PatternEntry => Boolean(pattern));
@@ -414,8 +488,8 @@ export default function CatalogWorkbench({
     const jobParam = params.get("job");
     if (jobParam && (jobParam === "all" || jobGroups.some((item) => item.id === jobParam))) setJob(jobParam);
 
-    const modeParam = params.get("mode");
-    if (isCandidateMode(modeParam)) setCandidateMode(modeParam);
+    const modeParam = candidateModeFromParam(params.get("mode"));
+    if (modeParam) setCandidateMode(modeParam);
 
     const categoryParam = params.get("category");
     if (categoryParam && (categoryParam === "all" || categories.includes(categoryParam))) setCategory(categoryParam);
@@ -563,6 +637,10 @@ export default function CatalogWorkbench({
             <div>
               <span className="eyebrow">Selected pattern</span>
               <h2 id="selected-pattern-title">{selected.name}</h2>
+              <div className="type-strip" aria-label="UI and UX classification">
+                <span>{formatPatternType(selected.patternType)}</span>
+                <span>{selected.surfaceType}</span>
+              </div>
               <p>{selected.problem}</p>
             </div>
             <div className="lab-actions" aria-label="Selected pattern actions">
@@ -598,8 +676,10 @@ export default function CatalogWorkbench({
           </div>
 
           <div className="meta-strip compact-meta">
+            <span>{formatPatternType(selected.patternType)}</span>
             <span>{selected.category}</span>
             <span>{formatLabel(selected.maturity)}</span>
+            <span>{formatLabel(selected.completionStatus)}</span>
             {selected.platforms.map((item) => (
               <span key={item}>{formatLabel(item)}</span>
             ))}
@@ -627,25 +707,25 @@ export default function CatalogWorkbench({
 
           <div className="contract-strip" aria-label="Pattern contract snapshot">
             <section>
-              <h3>Use When</h3>
+              <h3>UI</h3>
               <ul>
-                {selected.useWhen.slice(0, 2).map((item) => (
+                {selected.uiGuidance.slice(0, 2).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </section>
             <section>
-              <h3>Avoid When</h3>
+              <h3>UX</h3>
               <ul>
-                {selected.avoidWhen.slice(0, 2).map((item) => (
+                {selected.uxGuidance.slice(0, 2).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </section>
             <section>
-              <h3>Red Flags</h3>
+              <h3>Decision</h3>
               <ul>
-                {selected.commonMisuses.slice(0, 2).map((item) => (
+                {selected.useWhen.slice(0, 1).concat(selected.avoidWhen.slice(0, 1)).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -656,8 +736,8 @@ export default function CatalogWorkbench({
 
       <aside className="finder-panel" aria-label="Find candidate patterns">
         <div className="finder-head">
-          <span className="rail-label">Find candidates</span>
-          <strong>{filtered.length} matches</strong>
+          <span className="rail-label">Pattern switcher</span>
+          <strong>{candidateCountLabel}</strong>
         </div>
         <p className="result-summary compact-only" aria-live="polite">{filteredSummary}</p>
 
@@ -699,9 +779,9 @@ export default function CatalogWorkbench({
 
         <div className="decision-buttons mode-switcher" role="group" aria-label="Candidate mode">
           {([
-            ["patterns", "Patterns"],
-            ["audit", "Audit"],
-            ["all", "All"]
+            ["recommended", "Recommended"],
+            ["all", "All patterns"],
+            ["audit", "Audit flags"]
           ] as [CandidateMode, string][]).map(([mode, label]) => (
             <button
               key={mode}
@@ -781,7 +861,7 @@ export default function CatalogWorkbench({
                   setCategory("all");
                   setPlatform("all");
                   setMaturity("all");
-                  setCandidateMode("patterns");
+                  setCandidateMode("recommended");
                 }}
               >
                 <span className="action-mark" aria-hidden="true">x</span>
@@ -801,7 +881,9 @@ export default function CatalogWorkbench({
                 <HighlightedText text={pattern.name} term={firstMatchedTerm(pattern, query)} />
               </span>
               <span className="row-meta">
+                <span>{formatPatternType(pattern.patternType)}</span>
                 <span>{formatLabel(pattern.maturity)}</span>
+                <span>{formatLabel(pattern.completionStatus)}</span>
                 <span>{sourceCountLabel(pattern)}</span>
               </span>
             </button>
@@ -812,22 +894,82 @@ export default function CatalogWorkbench({
       {selected && (
         <aside className="decision-panel" aria-label="Decision guidance and agent export">
           <section className="decision-card fit-card minimal-fit">
-            <span className="rail-label">Fit</span>
-            <p>{selected.useWhen[0]}</p>
+            <span className="rail-label">Decision fit</span>
+            <h3>{selected.name}</h3>
+            <p className="type-summary">
+              <strong>{formatPatternType(selected.patternType)}</strong>
+              <span>{selected.surfaceType}</span>
+            </p>
+            <dl className="fit-summary">
+              <div>
+                <dt>UI</dt>
+                <dd>{selected.uiGuidance[0]}</dd>
+              </div>
+              <div>
+                <dt>UX</dt>
+                <dd>{selected.uxGuidance[0]}</dd>
+              </div>
+              <div>
+                <dt>Use when</dt>
+                <dd>{selected.useWhen[0]}</dd>
+              </div>
+              <div>
+                <dt>Avoid when</dt>
+                <dd>{selected.avoidWhen[0]}</dd>
+              </div>
+            </dl>
+            <div className="decision-quick-actions" aria-label="Decision actions">
+              {selectedComparisons[0] && (
+                <a className="action-link" href={comparisonHref(selectedComparisons[0])}>
+                  <span className="action-mark" aria-hidden="true">&lt;&gt;</span>
+                  Compare
+                </a>
+              )}
+              <button className="demo-button small" type="button" onClick={copyAgentBrief}>
+                <span className="action-mark" aria-hidden="true">copy</span>
+                Copy brief
+              </button>
+            </div>
+            <p className="demo-status" aria-live="polite">
+              {copyStatus}
+            </p>
           </section>
 
-          <div className="decision-quick-actions" aria-label="Decision actions">
-            {selectedComparisons[0] && (
-              <a className="action-link" href={comparisonHref(selectedComparisons[0])}>
-                <span className="action-mark" aria-hidden="true">&lt;&gt;</span>
-                Compare
-              </a>
-            )}
-            <button className="demo-button small" type="button" onClick={copyAgentBrief}>
-              <span className="action-mark" aria-hidden="true">copy</span>
-              Copy brief
-            </button>
-          </div>
+          <details className="decision-card compact-disclosure quality-disclosure" open>
+            <summary>UI quality</summary>
+            <div className="quality-split">
+              <section>
+                <h4>Good UI</h4>
+                <ul>
+                  {selected.uiExamples.good.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </section>
+              <section>
+                <h4>Bad UI</h4>
+                <ul>
+                  {selected.uiExamples.bad.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </section>
+            </div>
+          </details>
+
+          <details className="decision-card compact-disclosure quality-disclosure" open>
+            <summary>UX behavior</summary>
+            <div className="quality-split">
+              <section>
+                <h4>Good UX</h4>
+                <ul>
+                  {selected.uxExamples.good.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </section>
+              <section>
+                <h4>Bad UX</h4>
+                <ul>
+                  {selected.uxExamples.bad.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </section>
+            </div>
+          </details>
 
           <details className="decision-card compact-disclosure">
             <summary>Decision inputs</summary>
@@ -977,9 +1119,6 @@ export default function CatalogWorkbench({
           <details className="decision-card agent-brief-card compact-disclosure">
             <summary>Agent brief</summary>
             <textarea name="selected-pattern-agent-brief" readOnly value={agentBrief} rows={9} aria-label="Selected pattern agent brief" />
-            <p className="demo-status" aria-live="polite">
-              {copyStatus}
-            </p>
           </details>
         </aside>
       )}

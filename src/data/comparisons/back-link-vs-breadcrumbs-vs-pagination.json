@@ -1,0 +1,49 @@
+{
+  "id": "back-link-vs-breadcrumbs-vs-pagination",
+  "title": "Back link vs breadcrumbs vs pagination",
+  "summary": "Use a Back link for one-step return in a transaction, breadcrumbs for canonical hierarchy orientation, and pagination for moving through an ordered collection.",
+  "patternIds": [
+    "back-link",
+    "breadcrumbs",
+    "pagination"
+  ],
+  "decisionRules": [
+    "Prefer a Back link when the page is part of a multi-page transaction and users need to return to the previous service page.",
+    "Prefer breadcrumbs when the page belongs to a stable parent-child hierarchy and users need orientation or upward movement, regardless of how they arrived.",
+    "Prefer pagination when users are traversing ordered slices of one collection and need current page, previous, next, range, and edge states.",
+    "Do not show Back links and breadcrumbs together; they answer different questions and can create conflicting destinations.",
+    "A Back link must restore the previous page in its last-seen valid state, while breadcrumbs should show the same trail for the same URL every time.",
+    "Do not implement Back as a blind browser-history call when the previous entry may be outside the service or unavailable without JavaScript.",
+    "Use target-specific Back text in branching transactions, but keep breadcrumb labels as destination names in the canonical hierarchy.",
+    "Render a Back control as a button only when it must post form state before returning; pagination and breadcrumb controls should remain navigation links.",
+    "Keep Back links before main content on transaction pages, breadcrumbs near the top of hierarchical content, and pagination next to the collection it controls.",
+    "If users need to revise a previous answer, use Back; if they need to jump to a parent section, use breadcrumbs; if they need the next result page, use pagination."
+  ],
+  "failureModes": [
+    "A Back link takes the user to an unrelated marketing or search page from browser history.",
+    "Breadcrumbs are generated from click history and behave like a Back link.",
+    "Pagination is used to move between unrelated form steps instead of ordered collection pages.",
+    "Back and breadcrumbs appear together and users cannot predict which one preserves progress.",
+    "Returning to the previous page clears answers and violates redundant-entry expectations.",
+    "The Back link is placed beside Continue and is mistaken for a secondary submit action."
+  ],
+  "sources": [
+    {
+      "id": "govuk-back-link-component",
+      "note": "GOV.UK documents Back link placement, transaction use, breadcrumb exclusion, previous-page restoration, and JavaScript fallback guidance."
+    },
+    {
+      "id": "nhs-back-link-component",
+      "note": "NHS reinforces transactional use, preserving previous entries, avoiding breadcrumbs, and button variants for posted back behavior."
+    },
+    {
+      "id": "govuk-breadcrumbs-component",
+      "note": "GOV.UK breadcrumbs guidance distinguishes hierarchy orientation from flat structures and linear journeys."
+    },
+    {
+      "id": "govuk-pagination-component",
+      "note": "GOV.UK pagination guidance distinguishes ordered collection navigation from transaction backtracking."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

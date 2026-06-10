@@ -1,0 +1,250 @@
+{
+  "id": "service-unavailable-page",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed whole-service outage and maintenance page with guidance for planned closures, unexpected incidents, overload, saved and unsaved work, partial outages, permanent closure, support fallback, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets whole-service unavailable pages, including service scope, outage type, return timing, update cadence, Retry-After behavior, saved or unsaved work, incident reference, urgent support, replacement service, cache risk, and post-recovery duplicate-submission safety.",
+    "relatedPatternDistinction": "The entry separates service unavailable page from error state by replacing the affected service route instead of one failed operation, from offline state by treating server-side availability rather than client connectivity as the cause, and from site alert by moving from advance or broad notice to a page users see when the service cannot be used.",
+    "liveDemoBehavior": "The live demo switches a benefits service through Planned, Unexpected, Draft saved, Not saved, Partial, Closed, Status updates, and Urgent support states while contrasting Bare 503, Retry loop, No return time, Lost-work claim, Fake progress, and Dead end misuse.",
+    "comparisonDecisionRules": "The service-unavailable-page-vs-error-state-vs-offline-state-vs-site-alert comparison gives concrete rules for whole-service closure, scoped failures, client connectivity, broad alerts, saved-work status, alternate channels, and avoiding spinner or progress treatment for a closed service.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/service-unavailable-page/ and /compare/service-unavailable-page-vs-error-state-vs-offline-state-vs-site-alert/ on 2026-06-09. Live check exercised Planned, Unexpected, Draft saved, Not saved, Partial, Closed, Status updates, Urgent support, Bare 503, Retry loop, No return time, Lost-work claim, Fake progress, and Dead end controls. screenshots/patterns/service-unavailable-page.png captures Good UI, Bad UI, Good UX, Bad UX, maintenance timing, saved-work status, urgent support, fake progress misuse, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/service-unavailable-page.png"
+    ]
+  },
+  "name": "Service unavailable page",
+  "aliases": [
+    "503 page",
+    "service outage page",
+    "maintenance page",
+    "shutter page",
+    "service closed page",
+    "planned outage page",
+    "temporary closure page",
+    "service down page"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Whole-service unavailable page",
+  "uiGuidance": [
+    "Render a full page with the service name, unavailable scope, status, return time or update promise, saved-work status, alternate route, support contact, and request or incident reference when available.",
+    "Use plain page content rather than spinners, progress bars, modal dialogs, or stacked alerts when the service entry point itself cannot be used."
+  ],
+  "uxGuidance": [
+    "Use a service unavailable page when the service, transaction, or route is intentionally closed, under maintenance, overloaded, permanently closed, or unable to handle requests at the entry point.",
+    "Tell users what happened, what they can still do, what happens to their work, when to come back, and how to handle urgent or time-sensitive tasks."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefits application page says the service is unavailable from 22:00 to 01:00, names the affected transaction, says saved drafts remain for 30 days, and links to urgent phone support.",
+      "A 503 page says account payments cannot be submitted right now, gives a retry-after time, request ID, status page link, and contact path for payment deadlines.",
+      "A closed legacy service page explains that the old report submission service has closed permanently and links to the replacement service and support contact."
+    ],
+    "bad": [
+      "A blank white page with only 503 in the browser title.",
+      "A full-page spinner implies progress even though the service has been deliberately closed for maintenance.",
+      "A service outage page says Try again later but does not say whether answers were saved or how urgent users can complete the task."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user returns during planned maintenance, sees a precise reopening time, learns their draft is saved, and uses an alternate phone channel for an urgent deadline.",
+      "A user hits overload on tax filing day, sees a request ID and status update link, waits until the retry-after window, then re-enters without duplicate payment risk.",
+      "A user follows an old transaction link, learns the service closed permanently, and moves to the replacement route instead of contacting support blindly."
+    ],
+    "bad": [
+      "Users repeatedly refresh because the page gives no recovery window or status update path.",
+      "Users restart a long application because the page does not say whether answers were saved.",
+      "Users miss a deadline because urgent offline support is omitted from the outage page."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users lose time, trust, saved work, or deadline paths when a whole service is unavailable but the page hides scope, duration, work-safety, alternate channels, and whether retrying is useful.",
+  "solution": "Show a durable service unavailable page that identifies the affected service, explains planned or unexpected unavailability, gives recovery timing or update cadence, states saved-work impact, provides alternate or urgent routes, and avoids implying active progress when the service is closed.",
+  "problemContext": [
+    "The service has scheduled maintenance, emergency shutdown, traffic overload, deployment, dependency outage, permanent closure, or an entry route that cannot handle requests.",
+    "Users may arrive from bookmarks, notifications, search results, saved tasks, payment links, or forms already in progress.",
+    "The unavailable state may affect the whole service, one transaction, one region, one identity provider, one payment route, or a permanent legacy endpoint.",
+    "The product needs to coordinate HTTP status, service page copy, incident communication, saved drafts, support channels, and cache behavior."
+  ],
+  "selectionRules": [
+    "Choose service unavailable page when the user cannot proceed because the service entry point, transaction, or route is closed or server-side capacity is unavailable.",
+    "Use planned-outage copy when the closure is scheduled and the return time, start time, or window is known.",
+    "Use unexpected-outage copy when the service is failing now; include request ID, status page, support route, and update cadence when available.",
+    "State saved-work impact: saved answers, unsaved answers, draft retention, duplicate-submission safety, payment status, or start-again requirement.",
+    "Give urgent alternatives for benefits, health, payments, legal duties, statutory reporting, travel, identity, or deadline-sensitive tasks.",
+    "Use permanent-closure copy when a service is retired; link to replacement service, archived guidance, phone route, or contact path.",
+    "Use error state when only a component, query, upload, or save failed while the surrounding service remains usable.",
+    "Use offline state when the user's connection is the primary problem and local cached work or reconnect behavior is available.",
+    "Use site alert or banner to announce upcoming or partial outages while users can still navigate or complete allowed tasks.",
+    "Avoid automatic refresh loops unless they are rate-limited, announced, and do not duplicate submissions or obscure the recovery time."
+  ],
+  "requiredStates": [
+    "Planned maintenance page with start or return time.",
+    "Unexpected outage page with status update or request ID.",
+    "Overload page with retry-after guidance.",
+    "Saved draft state that says answers are retained and for how long.",
+    "Unsaved work state that says users must start again.",
+    "Partial outage state that says which task is unavailable and which tasks still work.",
+    "Urgent alternate channel state.",
+    "Permanent closure or replacement-service state.",
+    "Status-page or incident-update link state.",
+    "Post-recovery handoff state that avoids duplicate submission."
+  ],
+  "interactionContract": [
+    "The page replaces the affected service route until the service can safely handle requests again.",
+    "The HTTP response, cache headers, page title, visible heading, and user copy agree that the condition is temporary or permanently closed.",
+    "Users can reach support, status updates, allowed alternate services, or a safe exit without returning through broken navigation.",
+    "Retry and refresh actions are labeled according to safety: reload page, check status, continue saved draft, start again, or contact support.",
+    "If the unavailable state interrupts a transaction, the page states whether answers, payment, upload, booking, or submission state was preserved."
+  ],
+  "implementationChecklist": [
+    "Route planned maintenance, overload, unexpected incident, permanent closure, and partial dependency failures to distinct copy variants.",
+    "Set the correct server status for temporary unavailability and configure Retry-After or equivalent recovery timing where possible.",
+    "Prevent caching of temporary outage pages in ways that keep users on stale unavailable content after recovery.",
+    "Include service identity, incident or request ID, support link, status page, saved-work status, and last-updated time when available.",
+    "Provide operational controls to update return time, maintenance window, support contact, replacement service, and saved-work copy without redeploying the application.",
+    "Test bookmarks, deep links, form-in-progress sessions, payment retries, duplicate submissions, mobile widths, screen readers, and post-recovery transitions."
+  ],
+  "commonMisuses": [
+    "Using a full-page spinner for a closed service.",
+    "Showing only 503 or Something went wrong without service scope, return time, or support route.",
+    "Sending users to a homepage with no explanation of the outage.",
+    "Promising saved work without checking transaction state.",
+    "Telling users to retry immediately when the service is deliberately closed.",
+    "Using a site alert after the affected transaction can no longer be used."
+  ],
+  "critiqueQuestions": [
+    "Which service, route, or transaction is unavailable?",
+    "Is the outage planned, unexpected, partial, overloaded, or permanent?",
+    "When should users come back, or when will the next update be posted?",
+    "What happened to in-progress answers, payments, uploads, or bookings?",
+    "What urgent or offline route exists for users with deadlines?",
+    "Does retrying create duplicate submissions, payments, or support tickets?"
+  ],
+  "useWhen": [
+    "A whole service, transaction entry point, or route is closed or not ready to handle requests.",
+    "Maintenance, overload, incident response, dependency failure, deployment, or permanent closure blocks normal use.",
+    "Users need a durable page that explains timing, saved-work impact, and alternate routes.",
+    "The response needs to align user-facing recovery with operational status such as 503, Retry-After, incident reference, or maintenance notice."
+  ],
+  "avoidWhen": [
+    "Only one local section or action failed and users can recover inside the current page.",
+    "The user's own device is offline and the product can show cached work or reconnect behavior.",
+    "A notice is only warning users about a future outage while the service remains usable.",
+    "The service is loading normally and a short spinner, skeleton, or progress indicator is enough.",
+    "The user lacks permission, is unauthenticated, or reached a missing resource rather than an unavailable service."
+  ],
+  "variants": [
+    "Planned maintenance",
+    "Unexpected outage",
+    "Overload",
+    "Retry-after page",
+    "Saved answers unavailable page",
+    "Unsaved answers unavailable page",
+    "Partial service outage",
+    "Urgent support fallback",
+    "Permanent closure",
+    "Replacement service handoff",
+    "Status page handoff"
+  ],
+  "accessibility": [
+    "Use a unique page title and H1 that state the service is unavailable, not just a code.",
+    "Keep the explanation in normal reading order with clear paragraphs and links that describe the destination.",
+    "Do not rely on color, icons, animations, or progress movement to communicate outage state.",
+    "Move focus to the page heading after redirecting from a failed route or blocked transaction.",
+    "Expose status updates, last-updated time, and saved-work messages as text rather than only in visual badges.",
+    "Ensure contact links, status links, replacement routes, and start-again actions are keyboard reachable and have explicit names."
+  ],
+  "keyboardBehavior": [
+    "Focus lands on the service unavailable heading when the page loads.",
+    "Tab order moves from explanation to status update, alternate service, contact path, safe retry, and exit links.",
+    "If a saved draft can be continued after recovery, the Continue saved draft action returns focus to the correct form step.",
+    "If start-again is required, confirmation or copy must explain lost work before routing users away.",
+    "Do not trap focus in a maintenance overlay or modal when the whole page is the state.",
+    "Auto-refresh, if present, must not steal focus or repeatedly announce the full page."
+  ],
+  "failureModes": [
+    "Browser or proxy caches the outage page after the service recovers.",
+    "Users refresh during a payment outage and accidentally submit twice after recovery.",
+    "A planned maintenance page continues showing an old return time after the window changes.",
+    "Saved-answer copy appears for users whose session expired and cannot restore the draft.",
+    "A permanent closure page gives no replacement route, so support demand spikes.",
+    "An outage banner and unavailable page disagree about dates, affected tasks, or support channels.",
+    "Screen reader users hear only an error code and no service scope, timing, or next step."
+  ],
+  "relatedPatterns": [
+    "error-state",
+    "offline-state",
+    "site-alert",
+    "banner",
+    "notification-banner",
+    "progress-bar",
+    "loading-spinner",
+    "permission-denied-state"
+  ],
+  "comparisons": [
+    "service-unavailable-page-vs-error-state-vs-offline-state-vs-site-alert"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK service unavailable pages",
+      "url": "https://design-system.service.gov.uk/patterns/service-unavailable-pages/",
+      "platform": "web",
+      "notes": "Documents service unavailable pages for purposeful closure, return timing, saved or unsaved answers, permanent closure, replacement service, and contact support.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN HTTP 503",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/503",
+      "platform": "web",
+      "notes": "Documents temporary 503 conditions, maintenance or overload causes, Retry-After timing, user-friendly pages, support links, request identifiers, and cache caution.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "ONS error and status pages",
+      "url": "https://service-manual.ons.gov.uk/design-system/patterns/error-status-pages",
+      "platform": "web",
+      "notes": "Documents unexpected service problem pages, short-duration use, logging and fixing, saved answers, try-again-later copy, and contact routes.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MOJ outage banner",
+      "url": "https://design-patterns.service.justice.gov.uk/components/outage-banner/",
+      "platform": "web",
+      "notes": "Documents scheduled outage messaging before a whole platform or individual service becomes unavailable, including what, when, and why.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-service-unavailable-pages",
+      "note": "GOV.UK documents service unavailable page copy for planned closure, return time, saved answers, permanent closure, replacement service, and support contact."
+    },
+    {
+      "id": "mdn-http-503-service-unavailable",
+      "note": "MDN documents 503 temporary unavailability, maintenance and overload causes, Retry-After timing, user-friendly pages, request IDs, and cache caution."
+    },
+    {
+      "id": "ons-error-status-pages",
+      "note": "ONS documents unexpected service-problem pages, saved answers, contact routes, short-duration display, logging, and maintenance notice escalation."
+    },
+    {
+      "id": "moj-outage-banner",
+      "note": "MOJ documents pre-outage banners for scheduled whole-platform or service outages and helps distinguish advance notice from unavailable-page treatment."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

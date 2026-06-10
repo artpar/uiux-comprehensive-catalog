@@ -1,0 +1,161 @@
+{
+  "id": "search-suggestions",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a free-form query suggestion pattern with recent suggestions, typed-query suggestions, explicit search submission, dismiss behavior, autocomplete distinction, source-backed evidence, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names recent searches, query suggestions, typed input preservation, explicit submit, dismiss behavior, stale suggestion handling, and no-suggestion state for open-ended search.",
+    "relatedPatternDistinction": "The entry separates search suggestions from basic search submission, autocomplete known-value completion, and no-results recovery after a submitted query finds nothing.",
+    "liveDemoBehavior": "The live demo shows recent suggestions before typing, changes suggestions from typed input, lets users select a suggestion without auto-submitting, supports dismissing suggestions, and submits the final free-form query explicitly.",
+    "comparisonDecisionRules": "The linked search-suggestions-vs-autocomplete comparison distinguishes several possible query paths from constrained known values such as addresses, products, people, or codes.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/search-suggestions.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, suggestion rows, explicit search and dismiss controls, source-backed guidance, and comparison links.",
+    "screenshots": [
+      "screenshots/patterns/search-suggestions.png"
+    ]
+  },
+  "name": "Search suggestions",
+  "aliases": [
+    "query suggestions",
+    "suggested searches"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Input And Data Entry"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need help forming a useful search query before they submit or while they refine it.",
+  "solution": "Show relevant suggested queries or result hints tied to the current input, while preserving user control of the final query.",
+  "problemContext": [
+    "Users may not know the exact wording used by the system.",
+    "The product can produce useful suggestions from content, history, or taxonomy."
+  ],
+  "selectionRules": [
+    "Choose suggestions when guidance improves query formulation.",
+    "Keep suggestions relevant to the current input and scope.",
+    "Let users ignore suggestions and continue free-form search."
+  ],
+  "requiredStates": [
+    "No input state.",
+    "Typing state with suggestions.",
+    "Selected suggestion state.",
+    "No suggestion state."
+  ],
+  "interactionContract": [
+    "Suggestions update from the current input without replacing it unexpectedly.",
+    "Selecting a suggestion makes the resulting query clear.",
+    "Users can dismiss or continue typing."
+  ],
+  "implementationChecklist": [
+    "Debounce remote suggestions where needed.",
+    "Highlight matching text only when it helps recognition.",
+    "Keep keyboard and pointer selection equivalent.",
+    "Handle stale suggestion responses."
+  ],
+  "commonMisuses": [
+    "Auto-submitting the top suggestion without confirmation.",
+    "Showing unrelated promoted results as suggestions.",
+    "Overwriting typed text unexpectedly."
+  ],
+  "critiqueQuestions": [
+    "Do suggestions help users express intent, or are they distracting from the search task?"
+  ],
+  "useWhen": [
+    "The system can predict likely queries.",
+    "Users benefit from vocabulary guidance."
+  ],
+  "avoidWhen": [
+    "Suggestions are low quality or biased toward irrelevant content.",
+    "The input is a constrained value better served by autocomplete."
+  ],
+  "variants": [
+    "Recent searches",
+    "Popular searches",
+    "Scoped suggestions",
+    "Inline query suggestions"
+  ],
+  "accessibility": [
+    "Expose the suggestions list and active option.",
+    "Do not rely only on visual highlighting for matched text."
+  ],
+  "keyboardBehavior": [
+    "Arrow keys can move through suggestions.",
+    "Enter can choose a highlighted suggestion.",
+    "Escape dismisses suggestions while keeping input."
+  ],
+  "failureModes": [
+    "Stale suggestions after the query changes.",
+    "Suggestions covering the results without a dismiss path.",
+    "Confusing suggestions with already-submitted results."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "autocomplete",
+    "no-results-recovery"
+  ],
+  "comparisons": [
+    "search-suggestions-vs-autocomplete"
+  ],
+  "sources": [
+    {
+      "id": "carbon-search-pattern",
+      "note": "Carbon search guidance supports recent searches, type-ahead suggestions, keyboard selection, Escape dismissal, and search result counts."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "APG combobox guidance covers popup suggestions and keyboard operation."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Suggested-query surface",
+  "uiGuidance": [
+    "Render a search field with query suggestions, active option, selected suggestion, and no-suggestion state.",
+    "Keep suggestions visually tied to the current input."
+  ],
+  "uxGuidance": [
+    "Help users formulate better search queries without forcing a choice.",
+    "Preserve free-form typing and avoid submitting suggestions without confirmation."
+  ],
+  "uiExamples": {
+    "good": [
+      "Suggestions appear directly below the search field with active row, readable labels, and optional matched text.",
+      "Recent, popular, or scoped suggestions are visually distinguished when mixed."
+    ],
+    "bad": [
+      "Suggestions overlay unrelated content without a dismiss path.",
+      "Promoted results styled the same as typed query suggestions."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can keep typing, choose a suggestion, dismiss suggestions, or submit their own query.",
+      "Suggestions update with the current input and do not submit until confirmed."
+    ],
+    "bad": [
+      "Auto-submitting the top suggestion.",
+      "Stale suggestions remain after query changes."
+    ]
+  },
+  "examples": [
+    {
+      "product": "Carbon Design System Search pattern",
+      "url": "https://carbondesignsystem.com/patterns/search-pattern/",
+      "platform": "web",
+      "notes": "Documents recent search suggestions, type-ahead suggestions, keyboard navigation, and explicit search behavior.",
+      "screenshot": "screenshots/patterns/search-suggestions.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WAI-ARIA APG combobox pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
+      "platform": "web",
+      "notes": "Documents popup suggestion behavior and keyboard expectations used by accessible suggestion lists.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

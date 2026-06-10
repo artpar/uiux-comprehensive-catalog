@@ -1,0 +1,50 @@
+{
+  "id": "autosave-recovery-vs-autosave-form-vs-draft-state-vs-retry",
+  "title": "Autosave recovery vs autosave form vs draft state vs retry",
+  "summary": "Autosave recovery handles the moment background saving did not protect the latest work. Autosave form defines the normal background-save model, draft state manages a durable unpublished object, and retry repeats a failed operation with the same request context.",
+  "patternIds": [
+    "autosave-recovery",
+    "autosave-form",
+    "draft-state",
+    "retry"
+  ],
+  "decisionRules": [
+    "Use autosave recovery when the latest autosave is failed, stale, conflicted, offline-only, expired, or recoverable from local storage and users need a path to preserve or restore the affected work.",
+    "Use autosave form when designing the ordinary background-save behavior before failure, including pending, saving, saved, failed, timestamp, and final-submit states.",
+    "Use draft state when the work exists as a durable unpublished object with resume, compare, publish, discard, and list discovery across sessions.",
+    "Use retry when the task is simply repeating one failed request with the same scope; use autosave recovery when typed work, local copies, stale saved versions, or partial field ownership must be preserved.",
+    "Autosave recovery should name the affected field, section, local copy, last server-saved version, failed request time, and safest next action.",
+    "Do not claim Saved when only an older version is on the server or a newer value is local-only.",
+    "Provide choices that match the evidence: Retry save, Keep local copy, Restore last saved, Compare versions, Download copy, or Continue after recovery.",
+    "If recovery reveals two competing versions, hand off to conflict state or conflict resolution instead of silently overwriting either version.",
+    "If the failure is caused by session expiry, combine autosave recovery with reauthentication return rather than dropping users on a signed-out page.",
+    "After recovery succeeds, clear the failed-save state, update the timestamp, and let users continue or submit without duplicate saves."
+  ],
+  "failureModes": [
+    "A form shows Saved even though the newest answer exists only in memory or local storage.",
+    "A failed autosave toast disappears and leaves no persistent route to retry or copy the answer.",
+    "Retry sends an empty or stale value because the local edit was cleared before the request.",
+    "A conflict between local and server versions is resolved by last-write-wins with no comparison.",
+    "Session expiry turns a recoverable local draft into a generic sign-in screen with no return target.",
+    "Submit remains enabled while the latest autosave is failed, causing duplicate or partial submissions."
+  ],
+  "sources": [
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab Pajamas documents autosave failure handling, retry after failed autosave, undo, and leave warnings."
+    },
+    {
+      "id": "va-autosave-component",
+      "note": "VA.gov documents authenticated autosave messaging, saved timestamps, and accessibility linkage."
+    },
+    {
+      "id": "sap-fiori-draft-handling",
+      "note": "SAP Fiori documents background draft persistence, interrupted editing recovery, validation, locking, and active save distinction."
+    },
+    {
+      "id": "atlassian-confluence-drafts",
+      "note": "Confluence documents autosaved draft recovery, recently worked on discovery, resume editing, and shared-draft risk."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

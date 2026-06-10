@@ -1,72 +1,192 @@
 {
   "id": "toast-only-critical-error",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for critical failures communicated only through disappearing feedback, with persistent recovery requirements, source-backed notification distinctions, comparison rules, unique demo behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets blocking payment, save, permission, destructive, account, and data-integrity failures where the message and recovery path must remain visible after transient feedback ends.",
+    "relatedPatternDistinction": "The entry separates toast-only critical error from error state by transient disappearance versus persistent recovery, from undo by reversal of completed changes, and from confirmation dialog by prevention before commitment.",
+    "liveDemoBehavior": "The live demo shows a failed invoice payment with a persistent contextual alert, retry, card update, billing contact, and a contrasting toast-only flow that expires while the invoice remains unpaid.",
+    "comparisonDecisionRules": "The toast-only-critical-error-vs-error-state comparison gives concrete rules for blocking failures, low-risk transient feedback, supplemental toasts, recovery placement, auto-dismiss risk, and critical action handling.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed anti-pattern entry.",
+    "manualSpotCheck": "screenshots/patterns/toast-only-critical-error.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/toast-only-critical-error.png"
+    ]
+  },
   "name": "Toast-only critical error",
-  "aliases": ["disappearing critical error"],
+  "aliases": [
+    "disappearing critical error",
+    "transient blocking error",
+    "snackbar-only failure"
+  ],
   "category": "Feedback, Status, And System State",
-  "secondaryCategories": ["Error Prevention And Recovery"],
-  "platforms": ["web", "mobile", "desktop"],
-  "problem": "A critical error is communicated only through a transient message that users can miss.",
-  "solution": "Treat this as an anti-pattern. Critical errors need persistent, contextual recovery paths, not only disappearing feedback.",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "A blocking or high-consequence failure is announced only in a transient toast, so users can miss what failed and lose the path to recover.",
+  "solution": "Treat the toast-only critical error as an anti-pattern: keep the failure and recovery controls persistently attached to the affected task, and use any toast as supplemental feedback only.",
   "problemContext": [
-    "A generated UI reports a blocking, destructive, financial, security, or data-integrity error.",
-    "The only feedback is a disappearing toast, snackbar, or transient message."
+    "A payment, save, permission, destructive action, security, or data-integrity operation fails.",
+    "The failed task still needs user action after the message appears.",
+    "The only visible feedback is a toast, snackbar, banner flash, or notification that may auto-dismiss or sit away from the affected control.",
+    "The product cannot guarantee the user saw, read, understood, and acted on the transient message before it disappeared."
   ],
   "selectionRules": [
-    "Flag this anti-pattern whenever missing or critical failure information can disappear.",
-    "Use persistent inline or page-level error recovery for errors that require user action.",
-    "Allow transient feedback only for low-risk informational events that do not block progress."
+    "Flag this anti-pattern when a failure blocks progress, affects money or data, changes account or security state, or requires a repair action after the message appears.",
+    "Replace the toast-only treatment with a persistent inline, section-level, modal, or page-level error surface that names the failed task and keeps recovery controls visible.",
+    "Allow a toast for non-blocking confirmation, background status, or a supplemental announcement only when the same critical recovery remains reachable elsewhere.",
+    "For payment or save failures, keep the invoice, draft, form, or affected record visible and show a next action such as Retry, Update card, Edit details, Restore, or Contact support.",
+    "Do not auto-dismiss the only explanation for a failure that users may need to reference, report, copy, or act on later."
   ],
   "requiredStates": [
-    "Failure state that remains visible until resolved or dismissed intentionally.",
-    "Recovery state with a specific retry, fix, contact, or undo action.",
-    "Resolved state that confirms the user can continue."
+    "Pre-action state that shows what the user is attempting and what will be affected.",
+    "Failed persistent state with the failed object, plain-language cause, and recovery actions.",
+    "Supplemental notification state that does not replace the persistent failure surface.",
+    "Recovered state after retry, correction, reversal, or support escalation succeeds.",
+    "Still-failed state after a retry does not resolve the issue, with escalation or alternate path."
   ],
   "interactionContract": [
-    "Critical feedback must remain available long enough to read, understand, and act on.",
-    "Recovery controls must be reachable without chasing a disappearing message.",
-    "Assistive technology users must receive the error and the recovery path."
+    "The critical error remains visible until it is resolved, intentionally dismissed from a safe persistent surface, replaced by a recovered state, or escalated.",
+    "The affected task stays connected to the recovery controls instead of making users search for the failed object after a notification disappears.",
+    "A toast may announce that failure happened, but it must not be the only place where the cause, consequence, support reference, or next action appears.",
+    "If the message auto-dismisses, users can still reach the same information and action from the failed task, notification center, activity log, or persistent error region.",
+    "Keyboard and assistive technology users can reach the recovery action without relying on timing, hover, or a temporary live-region announcement."
   ],
   "implementationChecklist": [
-    "Render critical errors near the affected task or as a persistent page-level message.",
-    "Name what failed and what the user can do next.",
-    "Keep recovery actions visible and keyboard reachable.",
-    "Use transient toasts only as supplemental feedback."
+    "Classify errors by consequence before choosing the feedback surface: low-risk status can be transient, but blocking, financial, destructive, permission, and data-loss failures need persistence.",
+    "Render the persistent error near the affected button, form, record, or page section and include the exact failed action in the heading.",
+    "Keep retry, correction, undo, support, or alternate-path actions visible and keyboard reachable after any toast closes.",
+    "Use a toast only as a duplicate announcement for urgent awareness, and link it to the persistent place where the user can recover.",
+    "Preserve entered data, selected items, payment context, and reference IDs so users can retry or ask for help without reconstructing the task.",
+    "Test the flow after the toast expires, with screen reader timing, reduced-motion settings, zoom, keyboard navigation, and delayed attention."
   ],
   "commonMisuses": [
-    "Showing payment, save, permission, or destructive-action failures only in a toast.",
-    "Letting an error disappear before the user can understand it.",
-    "Providing no persistent recovery action."
+    "Showing Payment failed as a small toast while the invoice page returns to its normal paid-or-unpaid layout with no retry path.",
+    "Using a disappearing snackbar as the only feedback for failed save, failed delete, failed permission change, failed upload, or failed authentication.",
+    "Placing the toast far from the failed form or table row so users cannot connect the message to the affected task.",
+    "Auto-dismissing a technical error code that support needs the user to copy or reference.",
+    "Replacing a contextual error state with a notification because it is easier to trigger from a global event handler."
   ],
   "critiqueQuestions": [
-    "If the user misses the toast, can they still understand what failed and recover?"
+    "If the user looks away for five seconds, can they still tell what failed and what to do next?",
+    "Does the recovery action remain attached to the invoice, form, file, or account setting that failed?",
+    "Would a screen reader or keyboard user be able to act after the transient announcement has finished?",
+    "Is the toast communicating low-risk status, or is it carrying the only explanation for a high-consequence failure?"
   ],
   "useWhen": [
-    "Use this entry to identify and remove the anti-pattern from product flows."
+    "Use this anti-pattern entry to identify and replace transient-only handling of payment, save, permission, account, upload, deletion, and security failures.",
+    "Use it during generated UI review when an event handler triggers a toast but leaves the page in a normal-looking state after a critical operation fails."
   ],
   "avoidWhen": [
-    "Any error blocks progress, affects data integrity, changes account/security state, or requires user action."
+    "The message is a low-risk confirmation and no follow-up action is required.",
+    "A toast supplements a persistent error state, inline validation message, undo affordance, or notification center item that users can revisit.",
+    "The feedback is purely informational and does not affect whether users can trust the current task state."
   ],
-  "variants": ["Toast-only form failure", "Toast-only payment failure", "Toast-only permission failure"],
+  "variants": [
+    "Toast-only payment failure",
+    "Snackbar-only save failure",
+    "Disappearing upload error",
+    "Transient permission denial",
+    "Toast-only destructive-action failure",
+    "Auto-dismissed support reference"
+  ],
   "accessibility": [
-    "Transient messages can be missed by screen reader users, keyboard users, and users with cognitive or attention constraints."
+    "Do not rely on an auto-dismissing live-region announcement as the sole way to communicate a critical failure.",
+    "Place persistent error text and recovery controls in the reading order near the affected task.",
+    "Use alert or status semantics according to urgency, but pair the announcement with visible text that remains available.",
+    "Respect reduced-motion and timing needs by avoiding flows where users must chase a moving or disappearing notification.",
+    "Make retry, correction, undo, and support actions keyboard reachable after the notification is gone."
   ],
   "keyboardBehavior": [
-    "A disappearing message often has no reachable recovery action."
+    "The recovery controls remain in the normal tab order after the toast closes.",
+    "Focus is not moved to a temporary toast unless the notification requires interaction and will persist long enough to use safely.",
+    "When retry starts, the persistent error surface exposes busy or progress state without removing the failed task context.",
+    "When recovery succeeds, focus moves to the recovered task status or a confirmation near the original control."
   ],
   "failureModes": [
-    "Users do not know what failed.",
-    "Users cannot recover because the action disappeared.",
-    "Assistive technology does not announce the message in time."
+    "The user misses the only error message and repeats the failed action.",
+    "The page appears normal after a critical operation failed, so users trust an unsafe or incomplete state.",
+    "A support reference disappears before the user can copy it.",
+    "A screen reader announces a short message but leaves no reachable recovery control.",
+    "A global toast handler reports every failure the same way, hiding whether the problem is payment, permission, data loss, or service outage.",
+    "Users cannot prove whether a payment, upload, delete, or save succeeded because the only feedback timed out."
   ],
-  "relatedPatterns": ["no-results-recovery", "confirmation-dialog"],
-  "comparisons": [],
-  "examples": [],
+  "relatedPatterns": [
+    "error-state",
+    "undo",
+    "confirmation-dialog",
+    "error-summary"
+  ],
+  "comparisons": [
+    "toast-only-critical-error-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Notification",
+      "url": "https://carbondesignsystem.com/components/notification/usage/",
+      "platform": "web",
+      "notes": "Documents that toast notifications may disappear after a few seconds, while inline and actionable notifications support persistence and action for messages requiring recovery.",
+      "screenshot": "screenshots/patterns/toast-only-critical-error.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "VA.gov Error and Alert Messages",
+      "url": "https://design.va.gov/content-style-guide/error-messages/",
+      "platform": "web",
+      "notes": "Documents clear, direct error and alert messages with calls to action that tell people what to do next.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
   "sources": [
     {
-      "id": "wai-aria-apg",
-      "note": "Accessible feedback patterns require appropriate semantics and interaction behavior; critical feedback should not rely on transient visibility alone."
+      "id": "carbon-notification-component",
+      "note": "Carbon distinguishes inline, toast, actionable, and callout notifications; toast messages can auto-dismiss, while critical action or longer recovery needs persistent or actionable treatment."
+    },
+    {
+      "id": "atlassian-error-messages",
+      "note": "Atlassian documents direct error messages with clear actions and treatment matched to the user's journey rather than a single notification style for every failure."
+    },
+    {
+      "id": "va-error-messages",
+      "note": "VA documents error and alert messages as clear, direct content with a call to action that tells people what to do next."
     }
   ],
   "maturity": "anti-pattern",
-  "lastVerified": "2026-06-08"
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Transient critical-feedback anti-pattern",
+  "uiGuidance": [
+    "Replace a lone disappearing toast with a persistent failure region attached to the affected task, using a heading that names the failed payment, save, upload, permission, or destructive action.",
+    "If a toast is still useful for awareness, keep it short and supplemental while the full cause, consequence, reference, and recovery controls remain visible elsewhere."
+  ],
+  "uxGuidance": [
+    "Protect users from losing the only explanation for a high-consequence failure by keeping the problem, affected object, and next action available after the notification times out.",
+    "Design recovery around what users must do next: retry the operation, correct details, restore or undo a change, use an alternate route, or contact support with a retained reference."
+  ],
+  "uiExamples": {
+    "good": [
+      "A failed invoice payment leaves a persistent alert inside the invoice panel with Retry payment, Update card, and Contact billing actions.",
+      "A short toast says Payment failed, but it links back to the same persistent invoice error that remains after the toast closes."
+    ],
+    "bad": [
+      "A small Payment failed toast appears at the corner and disappears while the invoice panel shows no recovery action.",
+      "A failed file upload reports Error in a snackbar, clears the selected file, and leaves no support reference."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "After the notification disappears, users can still see that the invoice is unpaid, why payment failed, and which recovery actions are available.",
+      "Retrying the failed operation preserves the payment or draft context and either returns to success or shows a still-failed state with escalation."
+    ],
+    "bad": [
+      "Users have to guess whether the payment, save, delete, or upload succeeded after the toast timed out.",
+      "Keyboard and screen reader users hear a brief alert but cannot find the failed task or action afterward."
+    ]
+  }
 }

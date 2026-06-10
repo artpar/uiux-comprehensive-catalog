@@ -1,0 +1,50 @@
+{
+  "id": "retry-vs-error-state-vs-loading-spinner-vs-offline-state",
+  "title": "Retry vs error state vs loading spinner vs offline state",
+  "summary": "Retry is the action contract for safely attempting the same failed operation again. Error state owns the persistent failure surface, loading spinner represents active pending work before success or failure is known, and offline state explains connectivity mode plus local or queued work.",
+  "patternIds": [
+    "retry",
+    "error-state",
+    "loading-spinner",
+    "offline-state"
+  ],
+  "decisionRules": [
+    "Use retry when the product has a specific failed operation whose original scope can be preserved and safely attempted again.",
+    "Use error state when expected content, save, sync, permission, validation, or computation has failed and users need a persistent explanation plus recovery choices.",
+    "Use loading spinner while a named action or region is actively pending and the system has not yet resolved success, failure, timeout, or cancellation.",
+    "Use offline state when the governing condition is connection loss, cached data, local-only work, queued actions, reconnect checks, or sync handoff.",
+    "Retry can appear inside an error state, but it should name the failed operation, preserve the same request context, and stop when the failure becomes non-retryable.",
+    "A spinner can transition into retry after timeout or failure, but retry should remove busy state and show attempt count, cooldown, and outcome.",
+    "Offline state may offer Retry connection or Retry sync, but it must still explain which work is local, stale, queued, or unavailable while disconnected.",
+    "Do not use retry for validation, permission, policy, final deletion, or unsupported-state failures; route users to edit, access request, explanation, or support.",
+    "For side-effecting operations, choose retry only when idempotency or deduplication prevents duplicate records, charges, messages, exports, or queue jobs.",
+    "For repeated failures, prefer capped backoff, retry limits, fallback, background completion, cached data, or support over aggressive immediate loops."
+  ],
+  "failureModes": [
+    "A generic Try again button appears for every failure and traps users in repeated validation or permission errors.",
+    "Retry clears the original form, filters, file selection, amount, or destination, causing users to repeat the wrong operation.",
+    "Retry and the original Submit button are both enabled while the same request is already in flight.",
+    "Automatic retries amplify service overload because no cap, cooldown, jitter, or server timing is respected.",
+    "A spinner remains visible after failure, so users cannot tell whether retry is available or already running.",
+    "Offline and service failure are collapsed into one retry button that hides cached, local, queued, or stale-data behavior."
+  ],
+  "sources": [
+    {
+      "id": "aws-builders-library-retries-backoff-jitter",
+      "note": "AWS documents backoff and jitter as retry controls that prevent aggressive repeated attempts."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Stripe documents idempotency keys as the safety contract for retrying side-effecting requests."
+    },
+    {
+      "id": "google-sre-addressing-cascading-failures",
+      "note": "Google SRE documents retry amplification risk and randomized exponential backoff."
+    },
+    {
+      "id": "microsoft-azure-retry-pattern",
+      "note": "Microsoft documents retry as a fit for anticipated transient failures, not every failure class."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

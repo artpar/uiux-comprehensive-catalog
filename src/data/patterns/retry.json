@@ -1,0 +1,234 @@
+{
+  "id": "retry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a scoped failed-operation retry control with source-backed guidance for transient failures, attempt state, backoff, idempotency, duplicate-submit guards, non-retryable outcomes, exhausted attempts, and comparison boundaries.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names retryable failure, retry-ready, pending, succeeded, failed-again, cooldown, exhausted, non-retryable, and duplicate-guarded side-effect states; it also covers preserved request scope, attempt count, backoff, idempotency, and fallback handoff.",
+    "relatedPatternDistinction": "The entry separates retry from error state by treating retry as the repeat-action contract inside or beside a failure surface, from loading spinner by starting after a known failure or timeout rather than active pending work, and from offline state by focusing on one failed operation rather than connectivity mode.",
+    "liveDemoBehavior": "The live demo fails a report export, retries the same request with attempt count and idempotency key, disables duplicate retry while sending, switches through failed-again, cooldown, succeeded, non-retryable, exhausted, and reset states, and contrasts duplicate submit, wrong scope, infinite retry, access denial, hidden context, and automatic retry loops.",
+    "comparisonDecisionRules": "The retry-vs-error-state-vs-loading-spinner-vs-offline-state comparison gives concrete rules for operation scope, persistent failure surfaces, pending wait indicators, connectivity mode, validation and permission exclusions, idempotency, backoff, retry limits, and fallback paths.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/retry/ and /compare/retry-vs-error-state-vs-loading-spinner-vs-offline-state/ on 2026-06-10. Live check exercised Retry same request, Fail again, Cooldown, Succeed, Non-retryable, Exhaust, Reset, Duplicate submit, Wrong scope, Infinite retry, Hidden context, and Auto loop controls. screenshots/patterns/retry.png captures Good UI, Bad UI, Good UX, Bad UX, pending retry state, idempotency reference, auto-loop misuse, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/retry.png"
+    ]
+  },
+  "name": "Retry",
+  "aliases": [
+    "try again",
+    "retry request",
+    "retry action",
+    "repeat failed operation",
+    "retry failed save",
+    "retry failed load"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Scoped failed-operation retry control",
+  "uiGuidance": [
+    "Place Retry next to the failed operation, object, or request summary, and name the exact action being retried such as Retry export or Retry payment authorization.",
+    "Show attempt count, in-flight state, last tried time, cooldown or next retry time, request reference, and the preserved inputs or scope when retry safety depends on context."
+  ],
+  "uxGuidance": [
+    "Use retry when a specific operation likely failed for a transient reason and the same operation can be attempted again without losing user context or duplicating side effects.",
+    "Cap retry attempts, back off repeated attempts, guard duplicate submission while pending, and route users to correction, fallback, support, or later return when retry no longer fits the failure."
+  ],
+  "uiExamples": {
+    "good": [
+      "A report export card says Export CSV failed, keeps the saved filters visible, shows Attempt 1 of 3, and offers Retry export with request EXP-2048.",
+      "A payment authorization retry shows the same order, same amount, idempotency reference, disabled duplicate button while sending, and a cooldown before another attempt."
+    ],
+    "bad": [
+      "A generic Try again button appears after every error, including validation and permission failures users cannot fix by repeating the request.",
+      "Retry and Submit again are both enabled during an in-flight payment request with no idempotency reference or duplicate guard."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user retries the same export after a network timeout, sees the attempt change to sending, and then returns to the recovered download state without re-entering filters.",
+      "A second failure increases the wait before the next attempt and then offers cached export, background notification, or support reference after attempts are exhausted."
+    ],
+    "bad": [
+      "The app retries aggressively every second during an outage and makes the service harder to recover.",
+      "A user retries a non-retryable permission denial and receives the same failure repeatedly instead of an access request path."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users face a failed load, save, export, upload, payment, sync, or submit operation and need a safe way to attempt the same operation again without losing context or causing duplicate side effects.",
+  "solution": "Expose a scoped Retry control only for retryable failures, preserve the original request context, show attempt and pending states, prevent duplicate activation, use idempotency for side-effecting operations, back off repeated attempts, and stop retrying when correction, fallback, or escalation is more honest.",
+  "problemContext": [
+    "The product can distinguish transient failures from validation, permission, policy, irreversible, or final-state failures.",
+    "The same request, object, inputs, filters, or upload can be preserved and attempted again.",
+    "Repeated attempts can create duplicate records, charges, emails, exports, queue items, or service load unless guarded.",
+    "Users need to know whether a retry is pending, waiting, succeeded, failed again, exhausted, or unavailable."
+  ],
+  "selectionRules": [
+    "Choose retry when a specific failed operation can plausibly succeed if attempted again under the same scope.",
+    "Name the retried operation and object so users understand what will repeat before they activate it.",
+    "Keep user-entered data, request parameters, selected files, filters, and destination details intact across failed attempts.",
+    "Disable or debounce Retry while an attempt is in flight, and never leave an unsafe duplicate submit path beside it.",
+    "Use idempotency keys, request references, upload IDs, message IDs, or server deduplication for side-effecting operations.",
+    "Use capped backoff, jitter, attempt limits, or server-provided retry timing rather than immediate repeated loops.",
+    "Stop offering retry for validation errors, missing required data, denied permission, final deletion, unsupported state, or policy decisions.",
+    "After repeated failure, switch to fallback, cached data, background completion, export local copy, contact support, or return-later guidance.",
+    "Use error state for the broader persistent failure surface and Retry as one action inside that surface.",
+    "Use offline state when the primary issue is connection mode and local or queued work behavior rather than one failed operation."
+  ],
+  "requiredStates": [
+    "Retryable failed state with affected operation, object, and preserved request context.",
+    "Retry-ready state with a specific action label and safe scope.",
+    "Retry pending state that disables duplicate attempts and confirms the same request is being sent.",
+    "Retry succeeded state that returns users to recovered content, completed action, or download access.",
+    "Retry failed again state with updated attempt count and cause.",
+    "Cooldown or backoff state with next allowed attempt time or wait reason.",
+    "Retry exhausted state with fallback, background, support, or return-later path.",
+    "Non-retryable state that routes to correction, access request, policy explanation, or support instead of Retry.",
+    "Duplicate-guarded side-effect state with idempotency, request reference, or deduplication visible enough for support."
+  ],
+  "interactionContract": [
+    "Retry repeats the same failed operation against the same request scope unless users explicitly edit that scope first.",
+    "Activating Retry moves the control into a pending state and prevents a second activation until the attempt resolves or is cancelled.",
+    "The interface reports success, still failed, cooldown, exhausted, or non-retryable outcome after each attempt.",
+    "Retry does not clear forms, filters, selected files, drafts, or destination context unless the user deliberately resets them.",
+    "If retry would create external side effects, the client and server share an idempotency or deduplication contract.",
+    "Automatic retries respect attempt caps and backoff; manual retry does not bypass safety limits that protect the user or service.",
+    "When the failure cause changes to validation, permission, policy, or final state, the UI replaces Retry with the action users can actually take."
+  ],
+  "implementationChecklist": [
+    "Classify failures into retryable transient, retryable after cooldown, user-correctable, permission-related, final, and unknown categories.",
+    "Persist the original request payload or safe request reference so Retry does not broaden scope or lose user-entered data.",
+    "Add idempotency keys or server-side deduplication for create, update, payment, send, invite, export, import, upload, and queue actions.",
+    "Track attempt count, last attempt time, next allowed attempt, current in-flight request, and terminal exhausted state.",
+    "Show operation-specific copy such as Retry export, Retry upload, or Retry connection check instead of an unexplained Try again.",
+    "Guard against double click, keyboard repeat, back navigation, page refresh, and multi-tab duplicate attempts.",
+    "Apply capped backoff and jitter for automatic or repeated attempts, and respect Retry-After or equivalent server timing when available.",
+    "Announce retry pending, success, repeated failure, cooldown, exhausted, and non-retryable changes in a status region.",
+    "Test success after retry, repeated failure, timeout, cancellation, offline transition, duplicate activation, stale request reference, and support escalation."
+  ],
+  "commonMisuses": [
+    "Offering Retry for every error regardless of whether the user or system state can change.",
+    "Retrying immediately in a tight loop during service overload.",
+    "Leaving both Retry and the original submit button enabled for the same side-effecting operation.",
+    "Changing filters, selected files, amount, recipient, or destination between attempts without telling users.",
+    "Hiding attempt count and cooldown, making users think the control is broken.",
+    "Using retry to mask validation, permission, or policy errors that need correction or access."
+  ],
+  "critiqueQuestions": [
+    "What exact operation will run again, and can users see that scope before activating Retry?",
+    "Why is this failure retryable rather than user-correctable, permission-related, final, or a broader outage?",
+    "What prevents duplicate charges, records, messages, uploads, or exports if the first attempt actually reached the server?",
+    "What is the attempt cap, backoff rule, and next path after repeated failure?",
+    "Does the retry preserve forms, filters, files, scroll context, and request identity?",
+    "Can keyboard and assistive technology users tell when retry is pending, cooled down, exhausted, or unavailable?"
+  ],
+  "useWhen": [
+    "A load, save, submit, upload, export, sync, payment, or background request failed for a transient or uncertain reason.",
+    "The original request scope can be preserved and repeated safely.",
+    "Users benefit from controlling the next attempt or seeing automatic attempt status."
+  ],
+  "avoidWhen": [
+    "The error is caused by invalid user input and correction is required.",
+    "The user lacks permission or the operation is blocked by policy.",
+    "The operation is final, irreversible, or cannot be deduplicated safely.",
+    "The product cannot preserve the request context or determine whether a previous side effect completed.",
+    "A broader offline, service-unavailable, conflict, or error state should own the recovery surface."
+  ],
+  "variants": [
+    "Manual retry button",
+    "Retry with preserved form",
+    "Retry upload",
+    "Retry payment authorization",
+    "Retry failed save",
+    "Retry with cooldown",
+    "Automatic retry with status",
+    "Retry after idempotency key",
+    "Retry exhausted escalation",
+    "Non-retryable failure handoff"
+  ],
+  "accessibility": [
+    "Use an action label that names the operation, not only an icon or generic phrase.",
+    "Expose pending, failed again, cooldown, succeeded, exhausted, and non-retryable outcomes through status text or live regions.",
+    "Keep focus near the failed operation after retry fails again, and move focus to recovered content or a success status when retry succeeds.",
+    "Use disabled state with an adjacent explanation for cooldown or in-flight retry rather than relying on color alone.",
+    "Ensure keyboard activation cannot trigger multiple duplicate attempts through key repeat."
+  ],
+  "keyboardBehavior": [
+    "Retry controls are reachable in logical order near the failed operation.",
+    "Enter or Space activates Retry once and then the pending state suppresses repeated activation until resolution.",
+    "When Retry is cooled down or exhausted, keyboard focus can reach the reason and alternate action.",
+    "After success, focus returns to the recovered object, download, saved record, or clear success status.",
+    "Keyboard shortcuts for retry, if present, follow the same in-flight, cooldown, and duplicate-guard rules as the visible control."
+  ],
+  "failureModes": [
+    "Retry button does nothing because no original request context was saved.",
+    "Retry creates duplicate records, payments, invitations, exports, or queued jobs.",
+    "Automatic retries amplify an outage and delay recovery.",
+    "The UI retries a validation or permission failure instead of showing the fix.",
+    "The retry state clears user-entered work or changes scope unexpectedly.",
+    "Attempt count or cooldown is hidden, so repeated failure looks like a frozen interface.",
+    "After attempts are exhausted, users have no fallback, support reference, or return path."
+  ],
+  "relatedPatterns": [
+    "error-state",
+    "loading-spinner",
+    "offline-state",
+    "progress-bar",
+    "toast-only-critical-error"
+  ],
+  "comparisons": [
+    "retry-vs-error-state-vs-loading-spinner-vs-offline-state"
+  ],
+  "examples": [
+    {
+      "product": "AWS Builders' Library retries and backoff",
+      "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
+      "platform": "web",
+      "notes": "Documents retry design risks, capped exponential backoff, jitter, and retry load control for resilient systems.",
+      "screenshot": "screenshots/patterns/retry.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Stripe idempotent requests",
+      "url": "https://docs.stripe.com/api/idempotent_requests",
+      "platform": "web",
+      "notes": "Documents idempotency keys so clients can retry create and update requests without duplicate side effects.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Azure Architecture Center Retry pattern",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/retry",
+      "platform": "web",
+      "notes": "Documents retry strategies for transient failures and when delayed or cancelled retry behavior fits.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "aws-builders-library-retries-backoff-jitter",
+      "note": "AWS documents retry backoff, jitter, retry limits, and how retries can increase load during failures."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Stripe documents idempotency keys for safely repeating create and update requests without duplicate operations."
+    },
+    {
+      "id": "google-sre-addressing-cascading-failures",
+      "note": "Google SRE documents retry traffic as a possible contributor to cascading failures and recommends randomized exponential backoff."
+    },
+    {
+      "id": "microsoft-azure-retry-pattern",
+      "note": "Microsoft documents retry as a transient-failure handling pattern with immediate, delayed, and cancelled strategies."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

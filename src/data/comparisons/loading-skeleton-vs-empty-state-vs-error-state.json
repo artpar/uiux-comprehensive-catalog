@@ -1,0 +1,50 @@
+{
+  "id": "loading-skeleton-vs-empty-state-vs-error-state",
+  "title": "Loading skeleton vs empty state vs error state",
+  "summary": "Use loading skeletons while predictable content is still unresolved, empty states after the system confirms legitimate absence, and error states after expected content or progress fails.",
+  "patternIds": ["loading-skeleton", "empty-state", "error-state"],
+  "decisionRules": [
+    "Prefer loading skeleton when asynchronous content is pending and the final layout shape is predictable enough to reserve stable space.",
+    "Prefer empty state after loading resolves successfully but the collection or surface legitimately has no content.",
+    "Prefer error state after loading, saving, syncing, or computation fails and users need retry, fallback, or escalation.",
+    "Do not use skeletons for unknown layouts, long-running jobs with meaningful progress, or blocking operations that need a percent, step count, or explicit wait message.",
+    "Do not leave skeletons visible indefinitely; every skeleton needs a bounded transition to loaded, empty, error, or cancelled state.",
+    "Do not make skeleton placeholders focusable or clickable; they represent pending structure, not disabled content.",
+    "If content shape changes dramatically after load, redesign the skeleton or use a simpler loading indicator so the placeholder does not create layout shift or false expectations."
+  ],
+  "failureModes": [
+    "Skeleton screen never resolves and masks a real failure.",
+    "Clickable placeholder rows receive focus before real content exists.",
+    "Loaded content shifts into a different layout from the placeholder.",
+    "Skeleton is shown after filters return zero results instead of no-results or empty state.",
+    "Skeleton and spinner appear together and compete as progress signals.",
+    "Shimmer animation ignores reduced-motion preferences."
+  ],
+  "sources": [
+    {
+      "id": "carbon-loading-component",
+      "note": "Carbon distinguishes loading indicators from skeleton states for progressive content loading."
+    },
+    {
+      "id": "sap-fiori-skeleton-loading",
+      "note": "SAP Fiori documents skeleton loading as a screen loading progress indicator and cautions against mixed progress indicators."
+    },
+    {
+      "id": "nord-skeleton-component",
+      "note": "Nord documents dynamic-content skeleton use and aria-busy behavior for loading regions."
+    },
+    {
+      "id": "rei-cedar-skeleton",
+      "note": "Cedar documents skeletons for regions rather than standalone interactive elements and reduced-motion handling."
+    },
+    {
+      "id": "carbon-empty-states-pattern",
+      "note": "Carbon distinguishes no-data empty states from user-action and error-management states."
+    },
+    {
+      "id": "atlassian-error-messages",
+      "note": "Atlassian documents recovery-oriented error messages when the expected journey fails."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

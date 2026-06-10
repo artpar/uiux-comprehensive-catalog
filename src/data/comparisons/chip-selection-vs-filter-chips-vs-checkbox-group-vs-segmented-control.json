@@ -1,0 +1,45 @@
+{
+  "id": "chip-selection-vs-filter-chips-vs-checkbox-group-vs-segmented-control",
+  "title": "Chip selection vs filter chips vs checkbox group vs segmented control",
+  "summary": "Use chip selection when a short set of terse chips is the user's answer, filter chips when chips narrow a result set, checkbox group when independent choices need fuller labels, and segmented control when one compact local mode is active.",
+  "patternIds": ["chip-selection", "filter-chips", "checkbox-group", "segmented-control"],
+  "decisionRules": [
+    "Prefer chip selection when users are answering a compact choice question with short labels such as interests, sizes, cuisines, quick preferences, or lightweight categories.",
+    "Prefer filter chips when selecting a chip changes which results are included or excluded; chip selection records a value in a form or task instead of filtering the surrounding content.",
+    "Prefer checkbox group when options need full sentences, helper text, accessible grouping as a conventional form question, or a longer vertical layout.",
+    "Prefer segmented control when exactly one option changes a nearby view, mode, sort, or presentation immediately; chip selection should not be used as page navigation or a view switcher.",
+    "Use chip selection over multi-select only when the option set is short and visible; if users need search, async loading, grouping, or many values, use multi-select.",
+    "Use radio group when exactly one selection is required and each option needs description, validation history, or conventional form behavior.",
+    "Keep chip order stable after selection; do not move selected chips to the front because the chips are the available answer set, not an applied-filter summary.",
+    "Show selected state with text, checkmark, pressed state, border, or icon in addition to color, and reserve remove icons for input chips or selected-value chips.",
+    "Set a maximum count before interaction and block or explain extra selections immediately; do not wait until submit to reveal that too many chips were chosen.",
+    "Do not mix selectable chips with decorative tags, badges, links, and action chips in the same group unless each role is visually and programmatically distinct."
+  ],
+  "failureModes": [
+    "Chip selection is used for a long checklist, causing chips to wrap into many rows and hide the rest of the form.",
+    "A chip group filters nearby results but is stored as a form answer, so users cannot predict whether they are filtering or choosing.",
+    "Selected chips rely only on subtle background color and have no pressed or checked state for assistive technology.",
+    "A chip labelled Other opens a text field while other chips behave as selections, but the difference is not announced or validated.",
+    "A required chip group validates only at final submit and does not preserve the selected chips.",
+    "A selected chip contains a close icon that removes the option from the available set instead of toggling selected state."
+  ],
+  "sources": [
+    {
+      "id": "sap-fiori-android-chips",
+      "note": "SAP documents chips for form-cell selection, short labels, single and multiple selection, selected checkmarks, wrapping or horizontal scrolling, error messages, and option-count limits."
+    },
+    {
+      "id": "carbon-tag-component",
+      "note": "Carbon documents selectable tags as selected or deselected choices, keyboard operation with Tab, Enter, and Space, concise tag titles, grouping limits, and differentiation from read-only, dismissible, and operational tags."
+    },
+    {
+      "id": "material-design-chips",
+      "note": "Material documents chips for entering information, making selections, filtering content, or triggering actions, and distinguishes choice chips, filter chips, input chips, and action chips."
+    },
+    {
+      "id": "wise-chip-component",
+      "note": "Wise distinguishes choice chips from filter chips and documents chip rows with short text, stable order, compact placement, and limits on overly long chip sets."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

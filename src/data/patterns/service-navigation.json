@@ -1,0 +1,216 @@
+{
+  "id": "service-navigation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a service-scoped navigation header pattern with GOV.UK source-backed service identity, service-level link selection, header separation, current-state behavior, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers service name placement, service-home links, service-level navigation links, service-level tools, GOV.UK-wide header separation, current and active service states, mobile menu collapse, external-link grouping, and ordered placement before page-specific elements.",
+    "relatedPatternDistinction": "The entry separates service navigation from global navigation by one service identity and service tasks versus whole-product or whole-site movement, from side navigation by top-level service scope versus local hierarchy, and from header by service identity versus current-view actions.",
+    "liveDemoBehavior": "The live demo switches service sections, keeps the service name and service-level tools separate from GOV.UK-wide controls, collapses service links into a Menu state, preserves service progress, and contrasts a bad service row whose highlighted label and content drift apart.",
+    "comparisonDecisionRules": "The linked service-navigation-vs-global-navigation-vs-side-navigation comparison gives concrete rules for service identity, GOV.UK-wide header separation, top-level service links, local side hierarchy, linear journeys, utility placement, external links, and current-state synchronization.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/service-navigation.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, service identity, current service section, mobile menu behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/service-navigation.png"
+    ]
+  },
+  "name": "Service navigation",
+  "aliases": [
+    "service nav",
+    "service header navigation",
+    "service menu",
+    "service-level navigation",
+    "GOV.UK service navigation"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Service-scoped identity and navigation strip",
+  "uiGuidance": [
+    "Render the service name, service-home link, a compact set of service-level links, current or active service state, and any service-level tools in a navigation strip below the general site or platform header.",
+    "Keep GOV.UK-wide, product-wide, account-wide, and page-specific elements visually and semantically separate from the service navigation surface."
+  ],
+  "uxGuidance": [
+    "Use service navigation to reassure users that they are inside the right service and to let repeated or multi-task users move among the most important service areas.",
+    "Avoid adding service navigation to a simple ordered transaction; simplify the journey or use a task list when users need to complete steps in a known order."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefits service shows the GOV.UK header above a light service strip with 'Apply for support', Overview, Applications, Messages, and a Welsh language link.",
+      "The service name links to the service home, the current service section is marked with text and semantic state, and GOV.UK-wide sign-in remains in the GOV.UK header.",
+      "On a narrow screen, the same service links move under a Menu button while the service name remains visible."
+    ],
+    "bad": [
+      "The service strip mixes GOV.UK topics, start-page links, sign out, Help, local page anchors, and admin tools as equal destinations.",
+      "The active service link says Messages while the main heading still shows Applications.",
+      "The service name is hidden in a general product header, so deep-linked users cannot tell which service they are using."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A caseworker switches from Applications to Messages and returns to Applications with draft progress and filters preserved.",
+      "An applicant lands from an email link and immediately sees the service name, current section, and language selector before page-specific content.",
+      "External guidance links are grouped after service links or placed in the page body with a warning when they leave the service."
+    ],
+    "bad": [
+      "A linear eligibility check exposes service navigation that invites users to leave before completing the required questions.",
+      "Clicking a service-level tool changes the highlighted service section while content remains on the previous task.",
+      "A GOV.UK topic menu appears inside the service header and sends users away from the service journey."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users in a named service need to recognize the service they are using and move among its top-level service areas without confusing service-level movement with GOV.UK-wide, product-wide, local, or page-specific navigation.",
+  "solution": "Provide a service navigation strip that shows the service name, links the name to the service home, exposes only the most important service-level destinations and tools, marks the current section, and sits below any general site or platform header.",
+  "problemContext": [
+    "A service is used repeatedly or supports several tasks that do not follow one fixed order.",
+    "Users can enter the service from email, search, or saved links and need reassurance that they are in the right service.",
+    "The page also has general header controls, account or login tools, local side navigation, breadcrumbs, or page-specific actions that must not be confused with service-level navigation."
+  ],
+  "selectionRules": [
+    "Choose service navigation when one named service needs persistent identity and a small set of service-level destinations across multiple pages.",
+    "Show the service name in the service navigation and link it to the service home, GOV.UK start page, or first question when no service home exists.",
+    "Keep navigation links to the most important top-level service sections that help users understand what the service contains and where they can go next.",
+    "Place GOV.UK-wide or platform-wide tools in the general header, then service-wide tools in service navigation, then page-specific elements near the main content.",
+    "Group external links after in-service links, warn when they open a new window when possible, or put them in the page body instead.",
+    "Avoid service navigation for a single end-to-end transaction with a clear task order; use a task list, step navigation, or page-level links instead.",
+    "Use side navigation or in-page anchors when users need hierarchy within one service area rather than top-level movement around the whole service."
+  ],
+  "requiredStates": [
+    "Default state with general header, visible service name, service-home link, and service navigation links.",
+    "Current page or current section state that matches the main heading and route.",
+    "Active group state for a service area when a child page belongs under that service link.",
+    "Mobile collapsed state with a Menu button connected to the service link list.",
+    "Service-level tool state for language, search-within-service, account, or contact controls placed after the service name.",
+    "External-link state where links leaving the service are grouped, warned, or moved into page content."
+  ],
+  "interactionContract": [
+    "Activating a service navigation link changes to the named service section and updates current or active service state.",
+    "The service name link returns to the service home, GOV.UK start page, or first service question according to the service's information architecture.",
+    "General site or platform controls do not change the highlighted service section unless they navigate to an actual service section.",
+    "The mobile Menu button exposes the same service links, announces expanded state, and can be dismissed without losing page state.",
+    "Service-level tools such as language selection or service search remain scoped to the service and do not appear as peer sections unless they are true destinations.",
+    "Switching service sections preserves drafts, filters, and case context where possible or warns before losing progress."
+  ],
+  "implementationChecklist": [
+    "Define the service name and canonical service-home destination before adding navigation links.",
+    "Choose service links from repeated user tasks and top-level service sections, not from the full route table or organization chart.",
+    "Render the general header first, service navigation second, service-level messages or phase banners next, and page-specific navigation near the main content.",
+    "Mark current and active service states from route data and verify that they match the page heading.",
+    "Separate GOV.UK-wide, product-wide, account-wide, and service-wide tools by scope and position.",
+    "Design mobile collapse so the Menu control exposes the same service links and returns focus predictably.",
+    "Review external links and decide whether they belong grouped after service links or inside page content."
+  ],
+  "commonMisuses": [
+    "Using service navigation as a site map for every page in the service.",
+    "Putting GOV.UK topic menus, whole-product destinations, sign-out, and local page anchors into one service link row.",
+    "Showing a current service link that does not match the content heading.",
+    "Hiding the service name on deep-linked pages.",
+    "Adding service navigation to a short linear transaction where users should complete steps in order.",
+    "Letting mobile service navigation expose fewer links or different labels than desktop."
+  ],
+  "critiqueQuestions": [
+    "Can a deep-linked user identify the service name before reading the page heading?",
+    "Are these links the most important top-level service areas, or a complete list of routes?",
+    "Which controls are GOV.UK-wide, service-wide, local to one section, or page-specific?",
+    "Would a task list or step indicator better support this journey because the tasks have a clear order?",
+    "What happens to a draft, selected case, or filter when the user switches service sections?"
+  ],
+  "useWhen": [
+    "A named service is used repeatedly by some users.",
+    "The service involves multiple tasks or service areas without one fixed order.",
+    "Users need persistent service identity and access to service-level tools such as language selection or service search.",
+    "Deep links into the service are common and users need reassurance about service scope."
+  ],
+  "avoidWhen": [
+    "The journey is a simple end-to-end transaction with a clear sequence.",
+    "There is only one meaningful service page or task.",
+    "The destinations are whole-product areas that belong in global navigation.",
+    "The destinations are local child pages inside one section and belong in side navigation, tabs, or page links.",
+    "Most proposed links leave the service and should be in page content or a related-links area."
+  ],
+  "variants": [
+    "Service name only",
+    "Service name with navigation links",
+    "Service navigation with language selector",
+    "Service navigation with service search",
+    "Mobile-collapsed service navigation",
+    "Service navigation with active group state"
+  ],
+  "accessibility": [
+    "Use a correctly labelled service information region or navigation landmark that reflects the service name and link list.",
+    "Expose current or active service state programmatically, not only through color or a border.",
+    "Connect the mobile Menu button to the service link list with expanded state and an accessible label.",
+    "Keep skip links before repeated header and service navigation so users can bypass them.",
+    "If custom service-level slot content is added, test landmark labels, reading order, and focus behavior after each component update."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the general header controls, service name link, visible service links, service-level tools, and then page-specific navigation in predictable scope order.",
+    "Enter activates service links and the service-name home link.",
+    "Enter or Space toggles the mobile Menu button and updates expanded state.",
+    "Escape or a second Menu activation closes the mobile service menu and returns focus to the Menu button.",
+    "After navigation, focus and heading behavior follow the app's routing convention while current service state updates."
+  ],
+  "failureModes": [
+    "Service navigation duplicates global navigation and makes service scope unclear.",
+    "Current or active state drifts from the displayed service content.",
+    "Service-level tools appear before general header tools or after page-specific elements, breaking scope order.",
+    "External links look like internal service sections and unexpectedly leave the service.",
+    "A linear transaction exposes navigation that causes abandonment or lost progress.",
+    "Mobile collapse hides the service name, loses links, or changes link wording across breakpoints.",
+    "Deep-linked users cannot identify the service because the name is only in a browser title or logo."
+  ],
+  "relatedPatterns": [
+    "global-navigation",
+    "side-navigation",
+    "header",
+    "breadcrumbs"
+  ],
+  "comparisons": [
+    "service-navigation-vs-global-navigation-vs-side-navigation"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Service navigation component",
+      "url": "https://design-system.service.gov.uk/components/service-navigation/",
+      "platform": "web",
+      "notes": "Documents service name, service URL, navigation links, current and active item states, mobile collapse options, slots for service-level tools, and landmark label guidance.",
+      "screenshot": "screenshots/patterns/service-navigation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Navigate a service pattern",
+      "url": "https://design-system.service.gov.uk/patterns/navigate-a-service/",
+      "platform": "web",
+      "notes": "Explains when services need navigation links, how to separate GOV.UK-wide header elements from service navigation, and how to select top-level service links.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Header component",
+      "url": "https://design-system.service.gov.uk/components/header/",
+      "platform": "web",
+      "notes": "Clarifies that services on GOV.UK should use the GOV.UK header for GOV.UK-wide identity and tools while service names and links belong in Service navigation.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-service-navigation-component",
+      "note": "GOV.UK Service navigation documents the component surface, service name, navigation array, current and active states, mobile collapse, slots, and landmark labelling."
+    },
+    {
+      "id": "govuk-navigate-service",
+      "note": "GOV.UK Navigate a service gives planning rules for repeated multi-task services, service-home links, service-level tools, external links, and ordering from general to specific elements."
+    },
+    {
+      "id": "govuk-header-component",
+      "note": "GOV.UK header guidance separates GOV.UK-wide identity and tools from service names and service navigation links."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

@@ -1,0 +1,48 @@
+{
+  "id": "draft-state-vs-autosave-form-vs-inline-edit-vs-complete-complex-form",
+  "title": "Draft state vs autosave form vs inline edit vs complete complex form",
+  "summary": "Use draft state when an object or content item has a recoverable unpublished version that must be resumed, compared, discarded, or published separately from the active version.",
+  "patternIds": [
+    "draft-state",
+    "autosave-form",
+    "inline-edit",
+    "complete-complex-form"
+  ],
+  "decisionRules": [
+    "Prefer draft state when the main UX problem is lifecycle visibility: an unpublished or inactive version exists alongside a published, active, or previously saved version.",
+    "Prefer autosave form when the main UX problem is background persistence while users fill fields, with pending, saving, saved, failed, retry, and leave-warning states.",
+    "Prefer inline edit when one displayed value enters a local edit mode with explicit Save and Cancel, and no separate object-level draft needs to persist across sessions.",
+    "Prefer complete complex form when many related settings need section status, cross-section validation, and review before one save, even if the form also preserves a temporary draft.",
+    "A draft-state UI must label whether users are viewing published content, their own draft, shared unpublished changes, another user's draft, or a locked active record.",
+    "When a user opens an active item that has a draft, offer Resume and Discard only after stating when the draft was saved and which object it belongs to.",
+    "Keep Publish, Activate, Submit, or Send separate from Save draft; draft persistence must not imply public visibility, external effect, or final submission.",
+    "Discarding a draft must explain the scope of loss, especially when unpublished changes are shared or include edits by other collaborators.",
+    "Draft lists and filters should distinguish own draft, shared unpublished changes, locked by another user, unchanged active item, and missing/deleted draft states when those states exist.",
+    "Use a comparison or change summary before publishing if users may not remember how the draft differs from the active version.",
+    "Do not reuse a generic dirty-state prompt for draft state when the draft survives navigation, appears in lists, or can be resumed later.",
+    "If a deep link or bookmark points to a draft that no longer exists, show a recoverable unavailable-draft state rather than a blank editor."
+  ],
+  "failureModes": [
+    "A draft is labeled Saved, so users assume viewers can see it even though it remains unpublished.",
+    "Opening a published item silently loads an old draft and hides the active version.",
+    "Discard deletes shared unpublished changes without warning that other contributors' edits are included.",
+    "Publish and Save draft are visually identical, so users accidentally expose unfinished content.",
+    "A draft remains in a list after it was published or deleted, leading to a dead editor link.",
+    "A conflict or lock from another user's draft is hidden until the user has already overwritten work."
+  ],
+  "sources": [
+    {
+      "id": "sap-fiori-draft-handling",
+      "note": "SAP Fiori documents resume or discard dialogs, active and draft entities, deep-link behavior, draft filters, and editing status such as own draft and locked by another user."
+    },
+    {
+      "id": "atlassian-confluence-drafts",
+      "note": "Confluence documents drafts and unpublished changes, Recently worked on labels, resume editing, publish, revert to last published version, delete draft, and shared-draft risks."
+    },
+    {
+      "id": "microsoft-sharepoint-publish-draft",
+      "note": "Microsoft SharePoint documents save as draft, discard changes, publish, editor-only draft visibility, and public/search visibility after publish."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

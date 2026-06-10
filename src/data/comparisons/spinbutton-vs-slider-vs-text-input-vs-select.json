@@ -1,0 +1,49 @@
+{
+  "id": "spinbutton-vs-slider-vs-text-input-vs-select",
+  "title": "Spinbutton vs slider vs text input vs select",
+  "summary": "Use a spinbutton for a small incrementable numeric value where users may click or press keys by one step; use a slider for relative position, text input for exact arbitrary entry, and select for named finite choices.",
+  "patternIds": ["spinbutton", "slider", "text-input", "select"],
+  "decisionRules": [
+    "Prefer a spinbutton when the value is truly incrementable, bounded, and likely to change by a few steps, such as guests, copies, seats, nights, items, minutes, or retry count.",
+    "Prefer a slider when users adjust one value across a wider range by spatial position or subjective intensity rather than repeated small clicks.",
+    "Prefer text input when users need to type an exact arbitrary value, paste a value, enter decimals or currency, use a very large range, or provide a number that is really an identifier.",
+    "Prefer select when valid values are named options or a short fixed list where users benefit from seeing labels before choosing.",
+    "Do not use a spinbutton for account numbers, payment card numbers, verification codes, ZIP or postal codes, phone numbers, dates, or other numeric-looking strings that should not increment.",
+    "Keep a direct editable value field available unless the surrounding platform convention makes button-only stepping clearly sufficient.",
+    "Declare min, max, step, unit, default, empty state, disabled state, read-only state, and repair or validation feedback near the control.",
+    "Use arrow keys for one-step movement and Home, End, Page Up, and Page Down only when the range and larger-step behavior are clear.",
+    "Disable the decrement button at the lower bound and the increment button at the upper bound, but keep the reason visible when the whole field is unavailable.",
+    "When the value is high-stakes or expensive to change, confirm through review or clear submit behavior instead of silently committing each click."
+  ],
+  "failureModes": [
+    "A customer ID is rendered with plus and minus buttons, so keyboard arrows can change the identifier.",
+    "A quantity from 1 to 500 requires hundreds of clicks because no direct typing or larger-step path exists.",
+    "The current number has no unit or label, so users cannot tell whether they are changing rooms, guests, nights, or items.",
+    "The field accepts decimals while the buttons move by whole units and the submitted value is rounded without warning.",
+    "A sold-out value is disabled without an explanation or read-only review path.",
+    "The plus and minus buttons are focusable but have names like plus and minus instead of the affected quantity."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-spinbutton",
+      "note": "APG defines discrete spinbutton values, direct editing, increase and decrease behavior, arrow keys, Home, End, optional Page keys, value attributes, labeling, and invalid state."
+    },
+    {
+      "id": "carbon-number-input-component",
+      "note": "Carbon defines number input as a numeric field with increase and decrease controls, recommends it for small incremental changes, and points to slider or text input for large ranges and exact wide-range values."
+    },
+    {
+      "id": "react-spectrum-numberfield",
+      "note": "React Spectrum documents labels, min and max clamping, step values, stepper buttons, raw numeric submission, units, percentages, and currency formatting."
+    },
+    {
+      "id": "mdn-input-number",
+      "note": "MDN documents min, max, step, required, automatic numeric invalidation, unsupported pattern matching, and server-side validation needs for number inputs."
+    },
+    {
+      "id": "govuk-number-input-guidance",
+      "note": "GOV.UK cautions against input type number without research, distinguishes numeric strings from incrementable numbers, and documents specific numeric error wording."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

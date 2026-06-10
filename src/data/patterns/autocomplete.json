@@ -1,0 +1,162 @@
+{
+  "id": "autocomplete",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a known-value autocomplete pattern with combobox-style popup suggestions, explicit selected-value state, invalid free-text handling, autocomplete-vs-search-suggestions distinction, source-backed examples, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names known-value entry, editable combobox popup behavior, highlighted matching options, selected value state, no-match state, and validation when free text is not allowed.",
+    "relatedPatternDistinction": "The entry separates autocomplete from search suggestions for open-ended query formulation and from select when the option set is short enough to show directly.",
+    "liveDemoBehavior": "The live demo filters known customer values from typed text, lets users commit a specific option into the input, exposes selected status, supports clearing, and warns when continuing without a known selected value.",
+    "comparisonDecisionRules": "The linked search-suggestions-vs-autocomplete comparison distinguishes several possible query paths from constrained known values such as addresses, products, people, or codes.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/autocomplete.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, known-value popup behavior, selected value feedback, source-backed guidance, and comparison links.",
+    "screenshots": [
+      "screenshots/patterns/autocomplete.png"
+    ]
+  },
+  "name": "Autocomplete",
+  "aliases": [
+    "known-value autocomplete",
+    "combobox autocomplete"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Selection And Choice"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to enter a known value quickly without memorizing exact spelling, codes, or names.",
+  "solution": "Let users type into an input and choose from matching known values, while keeping typed input visible and editable.",
+  "problemContext": [
+    "The accepted values come from a known or searchable dataset.",
+    "Typing part of the value is faster than browsing the whole list."
+  ],
+  "selectionRules": [
+    "Choose autocomplete for constrained or semi-constrained values.",
+    "Keep free text valid only when the domain permits it.",
+    "Show enough context to distinguish similar suggestions."
+  ],
+  "requiredStates": [
+    "Empty input state.",
+    "Suggestion popup state.",
+    "Highlighted option state.",
+    "Selected value state.",
+    "No matching option state."
+  ],
+  "interactionContract": [
+    "Typed text remains under user control.",
+    "Selecting an option updates the input and selected value consistently.",
+    "The popup state is exposed to keyboard and assistive technology users."
+  ],
+  "implementationChecklist": [
+    "Use native datalist where sufficient or an accessible combobox implementation.",
+    "Expose active option and expanded state.",
+    "Handle slow remote results and stale responses.",
+    "Validate final value according to domain rules."
+  ],
+  "commonMisuses": [
+    "Forcing the first suggestion when the user did not choose it.",
+    "Using autocomplete where users expect broad search results.",
+    "Showing identical labels without disambiguating context."
+  ],
+  "critiqueQuestions": [
+    "Is the user completing a known value rather than discovering unknown content?"
+  ],
+  "useWhen": [
+    "The list is long but values are known.",
+    "Users can identify the target by typing part of it."
+  ],
+  "avoidWhen": [
+    "The task is open-ended query exploration.",
+    "The option set is short enough to show as radio buttons."
+  ],
+  "variants": [
+    "Inline autocomplete",
+    "List autocomplete",
+    "Combobox autocomplete",
+    "Address autocomplete"
+  ],
+  "accessibility": [
+    "Expose combobox expanded state, active descendant, and option labels.",
+    "Keep typed text perceivable when suggestions appear."
+  ],
+  "keyboardBehavior": [
+    "Arrow keys move through suggestions.",
+    "Enter commits a highlighted suggestion.",
+    "Escape closes the popup without clearing the input."
+  ],
+  "failureModes": [
+    "Unexpectedly replacing typed input.",
+    "Not announcing the highlighted suggestion.",
+    "Submitting stale selected IDs after label changes."
+  ],
+  "relatedPatterns": [
+    "search-suggestions",
+    "select"
+  ],
+  "comparisons": [
+    "search-suggestions-vs-autocomplete"
+  ],
+  "sources": [
+    {
+      "id": "ontario-design-system-autocomplete",
+      "note": "Ontario autocomplete guidance supports text input with popup suggestions, combobox semantics, keyboard behavior, and known-value selection."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "APG combobox guidance defines autocomplete popup behavior and keyboard expectations."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Input widget with suggestion behavior",
+  "uiGuidance": [
+    "Render a labeled text field, suggestion popup, highlighted option, selected value, and no-match state.",
+    "Expose clear visual states for expanded, focused, highlighted, and selected options."
+  ],
+  "uxGuidance": [
+    "Help users complete a known value faster without forcing an incorrect suggestion.",
+    "Preserve typed input and make selection reversible before submission."
+  ],
+  "uiExamples": {
+    "good": [
+      "Persistent label above the input, readable text size, clear popup alignment, and visible highlighted option.",
+      "Suggestions include enough secondary text or spacing to distinguish similar values without crowding."
+    ],
+    "bad": [
+      "Placeholder-only label that disappears after typing.",
+      "Popup visually detached from the field, tiny options, or highlight shown only by low-contrast color."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Typing filters suggestions while preserving the exact typed value.",
+      "Clicking or pressing Enter on a suggestion commits it and keeps the final value editable."
+    ],
+    "bad": [
+      "Automatically forcing the first suggestion into the field.",
+      "Submitting a stale hidden ID after the user edits the visible text."
+    ]
+  },
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Combobox pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
+      "platform": "web",
+      "notes": "Defines editable combobox behavior, list autocomplete forms, popup roles, selected values, and keyboard interaction.",
+      "screenshot": "screenshots/patterns/autocomplete.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Ontario Design System Autocomplete component",
+      "url": "https://designsystem.ontario.ca/components/detail/autocomplete.html",
+      "platform": "web",
+      "notes": "Documents autocomplete as a text-input suggestion widget with combobox semantics and keyboard behavior.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

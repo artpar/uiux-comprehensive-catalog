@@ -1,0 +1,269 @@
+{
+  "id": "bulk-import",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a structured data import workflow with source-backed guidance for sample files, CSV/XLSX requirements, upload, header detection, column mapping, sample preview, row validation, duplicate handling, create/update modes, partial success, confirmation, progress, import results, error export, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers structured file requirements, sample files, upload, detected headers, required-field mapping, unmapped columns, sample row previews, row and field validation, duplicates, create/update/merge mode, blank overwrite behavior, partial valid-row import, confirmation, progress, result report, and error export.",
+    "relatedPatternDistinction": "The entry separates bulk import from file upload by requiring parsing into many records, from drag-and-drop upload by requiring mapping and validation rather than a drop-zone shortcut, from multi-step form by handling batch data prepared outside the product, and from complete complex form by shifting correction to row-level import repair.",
+    "liveDemoBehavior": "The rendered exercise walks through upload, auto-map, missing required mapping, row validation, duplicate review, valid-row-only mode, final confirmation, import run, error export, and a bad UX that starts an import without mapping or recovery.",
+    "comparisonDecisionRules": "The linked bulk-import-vs-file-upload-vs-drag-and-drop-upload-vs-multi-step-form comparison gives concrete rules for structured rows, attachments, drop-zone enhancements, guided single-record journeys, mapping, validation, duplicates, overwrite behavior, confirmation, and result reporting.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/bulk-import.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, mapping, validation errors, duplicate review, partial success, confirmation, result report, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/bulk-import.png"
+    ]
+  },
+  "name": "Bulk import",
+  "aliases": [
+    "CSV import",
+    "spreadsheet import",
+    "data import wizard",
+    "batch import",
+    "bulk upload",
+    "record import",
+    "import validator"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Data Display And Exploration",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Structured file import workflow with mapping, validation, repair, and result reporting",
+  "uiGuidance": [
+    "Show the import as a staged workflow: template or requirements, file upload, detected headers, column mapping, sample row preview, validation results, duplicate review, confirmation, progress, and final report.",
+    "Render mapping status, required fields, unmapped columns, row errors, warnings, duplicate matches, create/update counts, skipped rows, and downloadable error reports as visible tables or summaries rather than hidden upload messages."
+  ],
+  "uxGuidance": [
+    "Use bulk import when users need to create or update many structured records from a spreadsheet, and make them prove mapping and validation before the product commits data.",
+    "Let users fix mapping, choose duplicate and blank-value behavior, import only valid rows when supported, cancel before commit, and export failed rows after import."
+  ],
+  "uiExamples": {
+    "good": [
+      "A contacts importer starts with a downloadable CSV template, then shows Email mapped to Email address, Role mapped to Access role, three sample rows, and a warning that Phone is optional and unmapped.",
+      "An inventory import screen shows 1200 rows found, 1138 valid, 42 missing SKU, 20 duplicate matches, Update existing selected, and a disabled Start import button until required columns are mapped."
+    ],
+    "bad": [
+      "A page has a single Upload spreadsheet button and a spinner, then says Import failed without row numbers, column names, or a corrected-file path.",
+      "A CSV drop area auto-imports immediately and overwrites existing records because blank cells and duplicate identifiers were not previewed."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user uploads contacts.csv, reviews suggested mappings, fixes Department to Team, filters to rows with errors, chooses Import valid rows and export invalid rows, confirms 1138 new and 20 skipped records, then downloads the error report.",
+      "An admin chooses Update existing, sees external_id as the match key, reviews which blank cells will preserve existing data, cancels before commit, fixes the spreadsheet, and reruns validation."
+    ],
+    "bad": [
+      "A user uploads a file, the product commits immediately, and only afterward shows that 300 rows were skipped with no file explaining which rows failed.",
+      "An importer silently maps Full name into Email because the headers were similar and gives no preview before overwriting customer records."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop"
+  ],
+  "problem": "Bulk imports can save hours of repetitive entry, but they can also corrupt many records at once when requirements, mapping, validation, duplicates, overwrite rules, partial success, and result reporting are unclear.",
+  "solution": "Design bulk import as a guarded, inspectable workflow that starts with templates and limits, validates the uploaded structure, asks users to confirm column mappings and duplicate rules, previews row-level issues, confirms side effects, tracks import progress, and returns a usable report.",
+  "problemContext": [
+    "Users have many records in a spreadsheet or exported system file and cannot reasonably enter each record manually.",
+    "The target system has required fields, typed values, enums, relationships, unique identifiers, ownership rules, and side effects such as notifications or permission changes.",
+    "Column names, date formats, encoding, blank cells, duplicate identifiers, invalid enum values, and missing required values commonly differ between source files and target schema.",
+    "Some imports create records, some update records, and some merge into existing data with different behavior for blank values and duplicates.",
+    "A failed or partially successful import needs a recovery path, because users should not have to rediscover every bad row by trial and error."
+  ],
+  "selectionRules": [
+    "Choose bulk import when one uploaded file represents many structured records that must be parsed into fields.",
+    "Use ordinary file upload when the uploaded file is evidence or content to store, not data to split into rows and columns.",
+    "Use drag-and-drop upload only as an optional file-selection enhancement inside the import workflow, not as the whole import experience.",
+    "Use multi-step form or complete complex form when a user is creating one record with guided human judgment rather than importing many prepared rows.",
+    "Offer a template, sample file, or clear format rules before upload when users can prepare the file in advance.",
+    "Require mapping review when column headers can differ from target field names or when unmapped columns would be ignored.",
+    "Validate before commit when errors could affect many records, especially required values, type formats, duplicate identifiers, relationships, permissions, and destructive updates.",
+    "Let users choose create-only, update-only, create-and-update, merge, or skip behavior when the same file can affect existing records.",
+    "Support valid-row-only import only when users can see exactly which rows will import, which will be excluded, and how to fix excluded rows.",
+    "Require final confirmation when the import sends notifications, changes permissions, overwrites data, creates many records, or cannot be fully undone."
+  ],
+  "requiredStates": [
+    "Pre-import requirements state with template, accepted file types, encoding, row limit, column limit, required fields, and side effects.",
+    "File selected state showing filename, size, detected sheet, row count, column count, and parsed headers.",
+    "Mapping state with suggested mappings, required-field gaps, unmapped columns, ignored columns, and sample values.",
+    "Mapping error state for duplicate target fields, missing required mappings, unsupported fields, or ambiguous headers.",
+    "Validation running state with progress and cancel guidance before data commit.",
+    "Validation results state with valid row count, invalid row count, warning count, duplicate count, and row-level details.",
+    "Repair state with filters for errors, warnings, duplicates, and unmapped columns plus links to fix or export issues.",
+    "Duplicate review state with match key, create/update/skip choice, and overwrite behavior for blank values.",
+    "Confirmation state summarizing new, updated, skipped, invalid, warning, notification, and irreversible-change counts.",
+    "Import running state with progress, queued status, safe navigation guidance, and import history link.",
+    "Import complete state with success count, skipped count, failed count, warnings, download report, and next actions.",
+    "Import failed or partially completed state with retry guidance and preserved mapping choices."
+  ],
+  "interactionContract": [
+    "Uploading parses the file into headers, sample rows, counts, and metadata before any records are created or updated.",
+    "Auto-mapping is a suggestion, not a commit; users can change, clear, ignore, reset, and review mappings before validation.",
+    "A required target field cannot be left unmapped unless the import mode or existing data makes it explicitly safe.",
+    "Each target field can receive at most one source column unless the product intentionally supports a combine-fields operation.",
+    "Validation reports row number, source column, target field, offending value, reason, severity, and recovery action.",
+    "Create/update/merge mode and duplicate matching are visible before final confirmation, including the identifier used to match existing records.",
+    "Blank-value overwrite behavior is explicit for updates and merges.",
+    "Starting the import after confirmation creates an auditable job with progress and results rather than leaving users on an indefinite spinner.",
+    "Users can export invalid rows or an error report that preserves row identifiers and current mappings.",
+    "Cancelling before final confirmation does not create or update records; cancelling after commit follows the product's documented job-cancel or rollback policy."
+  ],
+  "implementationChecklist": [
+    "Define accepted file types, encoding, max size, max rows, max columns, supported sheets, required fields, optional fields, ignored fields, relationship fields, duplicate keys, import modes, blank-value behavior, and notification side effects.",
+    "Provide templates or sample files that match required headers and data formats.",
+    "Parse files server-side or with a trusted parser and show detected headers, row count, column count, sample rows, and parse warnings before mapping.",
+    "Build a mapping table that supports auto-map, manual map, ignore, reset, required-field indicators, one-source-to-one-target checks, sample values, and unmapped-column review.",
+    "Validate required values, data types, dates, numbers, enums, relationships, duplicates, permissions, row length, unsupported fields, blank overwrites, and file-level limits before commit.",
+    "Provide repair views that filter invalid rows, warnings, duplicates, and unmapped columns, with exportable errors and preserved mapping decisions.",
+    "Show final confirmation for create/update/merge/skipped counts, notifications, irreversible changes, and valid-row-only behavior.",
+    "Run the import as a tracked job with progress, completion, partial failure, retry, import history, and downloadable result report.",
+    "Test small files, max-limit files, empty files, duplicate headers, missing required mappings, invalid dates, unknown enum values, duplicate existing records, blank update cells, network interruption, refresh/back, and permission-limited users."
+  ],
+  "commonMisuses": [
+    "Treating a spreadsheet import like a generic file attachment with no mapping or row validation.",
+    "Auto-starting the import immediately after upload.",
+    "Hiding duplicate matching, create/update mode, blank overwrite behavior, or notification side effects until after commit.",
+    "Showing only a generic invalid file error instead of row numbers, column names, and fixable reasons.",
+    "Importing valid rows and skipping invalid ones without telling users exactly which rows were excluded.",
+    "Letting similar headers auto-map into destructive target fields without a preview.",
+    "Forcing users to re-upload and remap from scratch after every recoverable validation error."
+  ],
+  "critiqueQuestions": [
+    "What records can this import create, update, merge, skip, notify, or overwrite?",
+    "Can users see required fields, detected headers, sample values, unmapped columns, and duplicate mappings before validation?",
+    "What row-level errors, warnings, duplicates, and blank-overwrite risks can the user repair before committing?",
+    "Does the final confirmation explain counts and side effects in terms the importing user can verify?",
+    "What report or export helps users fix failed rows without rebuilding a whole file?",
+    "Can the team audit who imported what file, with which mapping, at what time, and with what result?"
+  ],
+  "useWhen": [
+    "Users need to create, update, or merge many structured records from CSV, XLSX, TSV, copied spreadsheet data, or another system export.",
+    "The product can parse the file, validate rows, map columns, detect duplicates, explain side effects, and report results.",
+    "Manual entry would be slow, error-prone, or operationally unrealistic.",
+    "Users can reasonably prepare data from a template, sample file, or exported source system."
+  ],
+  "avoidWhen": [
+    "The task needs one document or image attachment rather than parsed record data.",
+    "Users are creating one record and need guided judgment, conditional questions, or rich validation better served by a form.",
+    "The product cannot safely validate mappings, duplicates, permissions, or overwrite behavior before commit.",
+    "The import side effects are too risky without rollback, audit history, or a human approval step.",
+    "The audience cannot prepare structured files and would be better served by assisted entry or integration."
+  ],
+  "variants": [
+    "CSV import",
+    "XLSX import",
+    "Copy-paste spreadsheet import",
+    "Create-only import",
+    "Update-only import",
+    "Create-and-update import",
+    "Merge into existing records",
+    "Import valid rows only",
+    "Import with duplicate review",
+    "Import with error export",
+    "Import job history",
+    "Bulk import with approval"
+  ],
+  "accessibility": [
+    "Use a real file input or button for selecting the import file, even when drag-and-drop is also available.",
+    "Represent mapping and validation in semantic tables or lists with clear column headers and row identifiers.",
+    "Do not rely on color alone for valid, warning, error, duplicate, ignored, or overwritten states.",
+    "Announce validation and import status changes at meaningful checkpoints rather than every row.",
+    "Make row error filters, mapping dropdowns, duplicate decisions, export actions, and final confirmation keyboard reachable.",
+    "Keep focus near the mapping or error that changed after auto-map, validation, repair, or reset actions.",
+    "Provide downloadable reports in accessible formats with row numbers, field names, error reasons, and recovery guidance."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches upload action, template download, mapping controls, error filters, duplicate decisions, confirmation controls, and report downloads in a logical order.",
+    "Enter or Space activates file selection, auto-map, reset mapping, validate, filter, export, cancel, and confirm actions.",
+    "Mapping dropdowns can be changed without pointer drag gestures.",
+    "After validation, focus moves to the validation summary or first blocking error.",
+    "After exporting an error report, focus remains in the results area with confirmation of the downloaded report.",
+    "Escape closes confirmation dialogs without starting the import."
+  ],
+  "failureModes": [
+    "The importer says Upload complete when the file is only parsed and no records have been created.",
+    "A required field is unmapped but the user can still start the import.",
+    "Blank cells overwrite existing values because update behavior was hidden.",
+    "Duplicate source rows or existing-record matches are not detected until after data is corrupted.",
+    "Row errors are shown without row numbers, field names, source values, or exportable repair data.",
+    "A partial import succeeds but the result page reports only failed with no success, skipped, or warning counts.",
+    "The import runs as a long background job with no history, progress, cancel policy, or report."
+  ],
+  "relatedPatterns": [
+    "file-upload",
+    "drag-and-drop-upload",
+    "multi-step-form",
+    "complete-complex-form",
+    "inline-validation",
+    "error-summary",
+    "loading-skeleton"
+  ],
+  "comparisons": [
+    "bulk-import-vs-file-upload-vs-drag-and-drop-upload-vs-multi-step-form"
+  ],
+  "examples": [
+    {
+      "product": "HubSpot import tool",
+      "url": "https://knowledge.hubspot.com/import-and-export/understand-the-import-tool",
+      "platform": "web",
+      "notes": "Documents mapping columns to properties, required-property checks, preview information, mapped status filtering, import-as choices, overwrite controls, and managing errors during or after import.",
+      "screenshot": "screenshots/patterns/bulk-import.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Airtable CSV Import Extension",
+      "url": "https://support.airtable.com/docs/csv-import-extension",
+      "platform": "web",
+      "notes": "Documents header detection, field mapping, optional fields, mapping reset, sample record preview, merge with existing records, skip invalid blanks, row limits, and snapshot guidance.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Zendesk data importer",
+      "url": "https://support.zendesk.com/hc/en-us/articles/4408893496218-Bulk-importing-user-data-with-the-data-importer",
+      "platform": "web",
+      "notes": "Documents bulk CSV creation and update modes, required headers, row and column limits, unique identifiers, welcome-email side effects, field mapping review, final confirmation, irreversible import start, and import history.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Viva file validation rules",
+      "url": "https://learn.microsoft.com/en-us/viva/insights/advanced/admin/rules-validation-errors",
+      "platform": "web",
+      "notes": "Documents CSV UTF-8 requirements, unique headers, required field values, one source column per target field, data type validation, row warnings, and valid-row-only import behavior.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Smart Interface Design Patterns bulk import UX",
+      "url": "https://smart-interface-design-patterns.com/articles/bulk-ux/",
+      "platform": "web",
+      "notes": "Describes a five-stage bulk import workflow with pre-import guardrails, upload, mapping, repair, duplicate handling, final summary, and batch metadata.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "smart-interface-bulk-import-ux",
+      "note": "Supports staged bulk workflow guidance: guardrails, upload, mapping, repair, duplicates, final summary, and batch metadata."
+    },
+    {
+      "id": "hubspot-import-tool",
+      "note": "Supports mapping columns to target properties, required-property checks, preview information, mapping status, overwrite control, and import error management."
+    },
+    {
+      "id": "airtable-csv-import-extension",
+      "note": "Supports header detection, field mapping, optional import fields, reset mappings, preview sample records, merge options, and snapshot guidance."
+    },
+    {
+      "id": "zendesk-data-importer",
+      "note": "Supports bulk CSV requirements, limits, create/update modes, unique identifiers, field mapping review, final confirmation, irreversible start, and import history."
+    },
+    {
+      "id": "microsoft-viva-file-validation-errors",
+      "note": "Supports unique headers, required values, one source column per target field, data type validation, row warnings, and valid-row-only imports."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

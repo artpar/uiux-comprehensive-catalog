@@ -1,0 +1,228 @@
+{
+  "id": "restore-from-trash",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a durable deleted-object recovery pattern with source-backed trash and recycle-bin guidance, restore metadata, original-location and choose-location recovery, retention and purge states, bulk restore review, permanent-delete separation, comparison rules, duplicate audit coverage, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a durable deleted-items surface, original path, deleted-by actor, deletion time, object type, retention deadline, restore-to-original, choose-new-location, missing parent, name conflict, expired retention, purged, admin-only, and permanent-delete states.",
+    "relatedPatternDistinction": "The entry separates restore from trash from undo by supporting recovery after the immediate action window, from destructive action confirmation by recovering soft-deleted objects rather than preventing final commit, and from draft state by restoring deleted objects rather than managing unpublished versions.",
+    "liveDemoBehavior": "The live demo shows a trash list with metadata, restores a deleted file to its original folder, blocks restore when the original parent is missing, restores to a new location, surfaces name conflict and expired-retention states, reviews bulk restore outcomes, and contrasts no-metadata, hidden-location, adjacent-purge, expired-promise, silent-bulk, and hidden-permission failures.",
+    "comparisonDecisionRules": "The restore-from-trash-vs-undo-vs-destructive-action-confirmation-vs-draft-state comparison gives concrete rules for durable trash recovery, immediate undo, irreversible final review, unpublished draft lifecycle, original-location validation, choose-location recovery, permanent-delete separation, and bulk restore review.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/restore-from-trash.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, trash metadata, restore actions, retention status, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/restore-from-trash.png"
+    ]
+  },
+  "name": "Restore from trash",
+  "aliases": [
+    "recover deleted item",
+    "recycle bin restore",
+    "trash recovery",
+    "deleted files recovery",
+    "soft delete restore"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Data Display And Exploration",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Durable deleted-object recovery",
+  "uiGuidance": [
+    "Show deleted objects in a dedicated trash, recycle bin, deleted-files, or recoverable-items surface with object name, type, original location, deletion date, deleted-by actor, and remaining recovery window.",
+    "Place Restore as the primary recovery action and keep permanent delete, empty trash, and purge controls visually separated with stronger review."
+  ],
+  "uxGuidance": [
+    "Use restore from trash when users may discover a mistaken deletion after leaving the original workflow and need a durable way to recover the object.",
+    "Make restoration trustworthy by explaining where the object will return, what dependencies or permissions will be restored, and what happens when the original location is gone."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Deleted files table lists Quarterly budget.xlsx with original folder Finance/Q2, deleted yesterday by Maya, 29 days left, and a Restore to Finance/Q2 action.",
+      "A restore panel warns that the original folder was deleted and offers Choose new location before restoring."
+    ],
+    "bad": [
+      "A trash page lists File 1, File 2, and File 3 with no path, deletion time, owner, or recovery deadline.",
+      "Restore and Delete forever appear as identical adjacent buttons with no final-loss review."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens Trash, filters to spreadsheets deleted this week, previews the original folder, restores one file, and gets a link to the restored location.",
+      "A user selects several deleted records, sees that two can restore to their original location and one needs a new parent, then completes only the safe restores."
+    ],
+    "bad": [
+      "A user restores a shared folder but cannot find it because permissions or parent location changed silently.",
+      "A user expects a file to remain recoverable, but the product hid the retention deadline and the file was purged."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to recover deleted objects after the immediate undo window has passed, but restoration becomes risky when the product hides original location, retention, ownership, permissions, or permanent-deletion status.",
+  "solution": "Provide a durable deleted-items surface that lists recoverable objects with context, supports targeted restore to an original or chosen location, separates permanent deletion, and reports restored, expired, purged, conflict, and permission states.",
+  "problemContext": [
+    "Objects are removed from primary views but intentionally retained for a recovery period.",
+    "Users may realize the deletion was wrong after navigating away, changing devices, or returning days later.",
+    "Deleted objects may have parent folders, collaborators, permissions, versions, dependencies, or references that affect restore.",
+    "Retention periods, admin purges, legal holds, storage quotas, or plan limits determine whether recovery is still possible."
+  ],
+  "selectionRules": [
+    "Choose restore from trash when the product supports soft deletion and a recoverable deleted-items location.",
+    "Use undo when recovery must happen immediately after a recent low-risk action and no durable deleted-items surface is needed.",
+    "Use destructive action confirmation before permanent delete, empty trash, purge, or any deletion that bypasses recovery.",
+    "Use draft state when users are recovering unpublished changes rather than deleted objects.",
+    "Show original location, deletion time, deleted-by actor, object type, owner, and retention status before restore.",
+    "Offer restore to original location only when that location still exists and the user has permission to restore there.",
+    "Offer choose-location recovery when the parent object is gone, access changed, or a name conflict exists.",
+    "For bulk restore, summarize item count, unavailable locations, conflicts, permission changes, and skipped items before applying the action.",
+    "Avoid using trash as the only safety mechanism for high-risk permanent loss; users still need prevention, warnings, or confirmation when deletion has severe consequences.",
+    "Make expired, purged, admin-only, and legal-hold states explicit instead of showing missing or disabled rows without explanation."
+  ],
+  "requiredStates": [
+    "Normal active-object state before deletion.",
+    "Deleted-but-recoverable state in Trash or Recycle Bin.",
+    "Trash list state with object metadata and restore actions.",
+    "Restore preview state showing original location and affected permissions or dependencies.",
+    "Restored state with a link to the restored object or location.",
+    "Original-location unavailable state requiring a new destination or administrator help.",
+    "Name conflict state when the original location already contains a replacement object.",
+    "Retention-expiring state with a visible recovery deadline.",
+    "Expired or purged state where recovery is no longer possible.",
+    "Permanent delete or empty-trash confirmation state."
+  ],
+  "interactionContract": [
+    "Deleting an object removes it from normal views and records enough metadata for later recovery.",
+    "Trash exposes recoverable deleted objects with identity, location, deletion, actor, and retention context.",
+    "Restore returns the object to the original location when valid, or asks the user to choose a location when the original target is unavailable.",
+    "The interface reports restored, skipped, conflicted, expired, purged, and permission-denied outcomes separately.",
+    "Permanent delete and empty-trash actions require deliberate review and cannot be confused with Restore.",
+    "Bulk selection preserves per-item status so users know which deleted objects can be restored safely.",
+    "Restored objects become discoverable through a stable link, parent location, search result, or recent activity state."
+  ],
+  "implementationChecklist": [
+    "Store deleted object ID, display name, object type, original parent, deleted-at timestamp, deleted-by actor, owner, permissions, version metadata, retention deadline, and purge status.",
+    "Create a deleted-items view with filtering by type, owner, folder, deletion date, and restore availability.",
+    "Validate the original location, permissions, name conflicts, quotas, locks, legal holds, and dependency references before restore.",
+    "Provide restore-to-original and choose-new-location flows when the original parent cannot accept the object.",
+    "Separate Restore, Delete forever, Empty trash, and Admin restore with distinct labels, placement, and confirmation requirements.",
+    "Announce restore outcomes and failed-item details in a status region and preserve selection state for unresolved items.",
+    "Test single restore, bulk restore, expired retention, parent deletion, name conflict, shared permissions, admin-only recovery, mobile access, keyboard access, and screen reader output."
+  ],
+  "commonMisuses": [
+    "Showing deleted objects without enough metadata to identify the right item.",
+    "Restoring to a hidden or invalid location without telling the user.",
+    "Placing permanent delete beside Restore without visual separation or final-loss confirmation.",
+    "Treating trash as a substitute for confirmation when deletion is severe or externally visible.",
+    "Hiding retention deadlines, plan limits, or administrator-only recovery boundaries.",
+    "Making bulk restore all-or-nothing when some items have conflicts or missing parents."
+  ],
+  "critiqueQuestions": [
+    "Can users tell which deleted object is which before restoring?",
+    "Where exactly will this object return, and can the user access that location?",
+    "What happens if the parent folder, workspace, owner, or permission scope changed?",
+    "How long is the object recoverable, and how is that deadline shown?",
+    "Which actions permanently remove recovery, and are they separated from Restore?",
+    "Does bulk restore report partial success, skipped items, conflicts, and next steps?"
+  ],
+  "useWhen": [
+    "Deleted objects remain recoverable after the user leaves the original workflow.",
+    "Users need to search, filter, inspect, and restore deleted files, records, folders, pages, projects, or messages.",
+    "The product can preserve enough metadata to restore the object safely or explain why restore is blocked.",
+    "Recovery may happen hours or days after deletion, beyond a transient undo window."
+  ],
+  "avoidWhen": [
+    "The action is immediately reversible through a short undo window and no durable recovery surface exists.",
+    "The object cannot be restored accurately because required metadata, permissions, or dependencies are gone.",
+    "Deletion is permanent, regulated, externally effective, or security-sensitive and should be prevented before commit.",
+    "The object is an unpublished draft, autosaved form, or edit-history operation rather than a deleted object."
+  ],
+  "variants": [
+    "Trash folder",
+    "Recycle bin",
+    "Deleted files page",
+    "Recoverable items list",
+    "Admin recycle bin",
+    "Second-stage recycle bin",
+    "Restore to original location",
+    "Restore to new location",
+    "Bulk restore",
+    "Retention-expiring recovery",
+    "Permanent delete from trash"
+  ],
+  "accessibility": [
+    "Expose deleted item name, type, original location, retention deadline, and restore availability as text in each row.",
+    "Do not communicate recoverable, expiring, purged, or admin-only states only through color or iconography.",
+    "Make Restore, Choose location, Delete forever, and Empty trash controls keyboard reachable with distinct accessible names.",
+    "Announce restore results, conflicts, skipped items, and permanent-deletion warnings in status or dialog content.",
+    "For tables or lists, preserve row focus after restore, removal, filtering, and partial bulk outcomes."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches filters, deleted-item rows, selection checkboxes, Restore actions, permanent-delete actions, and pagination in a predictable order.",
+    "Enter or Space activates Restore only after the focused row or selected set is clear.",
+    "Escape closes restore previews and destructive confirmations while returning focus to the triggering row.",
+    "Bulk selection supports keyboard selection, review, restore, and conflict resolution without requiring pointer-only drag or context menus.",
+    "After successful restore, focus moves to a status message or stable link to the restored object."
+  ],
+  "failureModes": [
+    "Trash shows deleted names without path, date, owner, or type, leading users to restore the wrong item.",
+    "Restore succeeds but the item is invisible because the original parent is gone or access changed.",
+    "A name conflict overwrites a newer object in the original location.",
+    "Bulk restore hides partial failures and leaves users thinking every item returned.",
+    "Retention expires without visible warning.",
+    "Permanent delete is triggered from the trash list with one accidental click.",
+    "Legal hold, admin policy, quota, or plan limits block restore without explanation."
+  ],
+  "relatedPatterns": [
+    "undo",
+    "destructive-action-confirmation",
+    "confirmation-dialog",
+    "draft-state"
+  ],
+  "comparisons": [
+    "restore-from-trash-vs-undo-vs-destructive-action-confirmation-vs-draft-state"
+  ],
+  "examples": [
+    {
+      "product": "Google Drive Trash recovery",
+      "url": "https://support.google.com/drive/answer/1716222?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents finding deleted files in Trash, restoring recoverable files, and limits after permanent deletion.",
+      "screenshot": "screenshots/patterns/restore-from-trash.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Dropbox deleted files recovery",
+      "url": "https://help.dropbox.com/delete-restore/recover-deleted-files-folders",
+      "platform": "web",
+      "notes": "Documents selecting deleted files or folders for recovery through Dropbox's deleted-files surface.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "SharePoint Recycle Bin",
+      "url": "https://support.microsoft.com/en-us/office/restore-deleted-items-from-the-site-collection-recycle-bin-5fa924ee-16d7-487b-9a0a-021b9062d14b",
+      "platform": "web",
+      "notes": "Documents first-stage and second-stage recycle bins, default retention, and restoring deleted items to original locations.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-drive-recover-deleted-file",
+      "note": "Google Drive documents Trash recovery and permanent-deletion limits."
+    },
+    {
+      "id": "dropbox-recover-deleted-files",
+      "note": "Dropbox documents recovering deleted files and folders from a deleted-files surface."
+    },
+    {
+      "id": "microsoft-sharepoint-recycle-bin",
+      "note": "SharePoint documents first-stage and second-stage recycle bins, retention, and original-location restore."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

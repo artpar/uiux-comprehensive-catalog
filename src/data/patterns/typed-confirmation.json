@@ -1,0 +1,243 @@
+{
+  "id": "typed-confirmation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed exact target phrase gate with guidance for repository/project-name matching, visible non-secret input, normalization rules, target-change clearing, dependency blocking, safe cancellation, related-pattern boundaries, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets severe repository, project, workspace, account, production dataset, root credential, and broad-permission actions where users must reproduce a visible target phrase, including exact match rules, whitespace handling, target-change clearing, visible non-secret text input, dependency blocking, privacy-safe logging, and final disabled/enabled states.",
+    "relatedPatternDistinction": "The entry separates typed confirmation from destructive action confirmation by adding exact target-text reproduction only for severe scope, from confirmation dialog by requiring phrase matching rather than a button decision, from password input by using visible non-secret target text instead of authentication secrets, from undo by preventing severe commit rather than recovering later, and from warning text by appearing inside the final review.",
+    "liveDemoBehavior": "The live demo switches between Payments and Billing repositories, clears stale input on target change, shows wrong path mismatch, accepts pasted path with trailing spaces after trimming, rejects wrong case, keeps deletion disabled while a dependency blocker is active, enables and commits only after exact match plus blocker clearance, and contrasts YES only, Masked field, Partial match, Stale target, Hard to type, and Logging risk misuse.",
+    "comparisonDecisionRules": "The typed-confirmation-vs-destructive-action-confirmation-vs-confirmation-dialog-vs-password-input comparison gives concrete rules for exact target verification, ordinary destructive review, non-destructive consequential choices, authentication secret entry, required phrase selection, match-state behavior, routine-action avoidance, and preserving loss inventory.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reports 127 complete patterns, 0 stubs, 173 missing goal patterns, and 0 duplicate field groups after this pattern is marked complete.",
+    "manualSpotCheck": "Rendered /patterns/typed-confirmation/ and /compare/typed-confirmation-vs-destructive-action-confirmation-vs-confirmation-dialog-vs-password-input/ on 2026-06-09. Live check exercised Payments repo, Billing repo, wrong/path typing, paste with spaces, wrong case, Blocker on, Clear blocker, Delete acme/payments-api, Keep repository, Reset, YES only, Masked field, Partial match, Stale target, Hard to type, and Logging risk controls. screenshots/patterns/typed-confirmation.png captures Good UI, Bad UI, Good UX, Bad UX, required phrase, mismatch state, dependency blocker, disabled final action, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/typed-confirmation.png"
+    ]
+  },
+  "name": "Typed confirmation",
+  "aliases": [
+    "type-to-confirm",
+    "text confirmation",
+    "repository name confirmation",
+    "project name confirmation",
+    "exact phrase confirmation",
+    "typed delete confirmation",
+    "target phrase gate"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Input And Data Entry",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Exact target phrase gate before severe commit",
+  "uiGuidance": [
+    "Render a visible non-secret text field inside a destructive or high-consequence confirmation, labelled with the exact target phrase the user must type before the final action enables.",
+    "Place the required phrase, match rule, mismatch status, safe cancellation, and final destructive button in the same review surface so users can compare what they type against the actual object."
+  ],
+  "uxGuidance": [
+    "Use typed confirmation only when reproducing the target phrase meaningfully reduces severe wrong-object or wrong-scope mistakes, such as deleting a repository, project, account, workspace, production dataset, or root credential.",
+    "Treat typed confirmation as an escalation on top of consequence review: it verifies target intent but does not replace loss inventory, dependency checks, permissions, audit, recovery limits, or safe cancellation."
+  ],
+  "uiExamples": {
+    "good": [
+      "Delete repository acme/payments-api? requires typing acme/payments-api, shows a mismatch until the exact path matches, and then enables Delete repository.",
+      "Delete production dataset ledger-prod? shows the dataset name, region, dependent jobs, and a visible field where users type ledger-prod before final deletion.",
+      "Reset root API key? asks users to type RESET ROOT KEY and keeps the final reset button disabled until the phrase matches exactly."
+    ],
+    "bad": [
+      "A dialog asks users to type YES before deleting a workspace, so the text does not verify the target object.",
+      "The typed field is masked like a password, making users unable to check the repository name they entered.",
+      "The final destructive button stays enabled after the user switches from one selected project to another."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user starts deleting acme/payments-api, mistypes the repository path, sees the mismatch, and cancels before deleting the wrong repository.",
+      "A user pastes a project path with a trailing space, sees that normalization trimmed whitespace but still requires the exact path text.",
+      "A user cannot type the target phrase while a dependency block is active, so they resolve the block before the exact-match gate can enable deletion."
+    ],
+    "bad": [
+      "A user types DELETE by habit and passes the gate without checking which workspace will be removed.",
+      "A user on mobile cannot reproduce a hidden Unicode character in the required phrase and cannot finish the legitimate action.",
+      "A user believes typing the phrase is the only safeguard, but the dialog hides forks, members, billing effects, and recovery limits."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "For severe destructive or irreversible actions, users can still confirm the wrong target if the final review only uses buttons, checkboxes, or generic phrases that do not force them to attend to the exact object or scope.",
+  "solution": "Require users to type a visible, exact target phrase such as a repository path, project slug, workspace name, or short destructive phrase before enabling the final commit, while preserving the broader consequence review and safe cancellation path.",
+  "problemContext": [
+    "The action affects broad, production, security-sensitive, account-level, repository-level, or organization-level scope.",
+    "A wrong-object mistake would be difficult or impossible to recover from even after ordinary destructive confirmation.",
+    "The target has a stable identifier users can read and type, such as owner/name, project slug, dataset name, account email, or a short action phrase.",
+    "The interface already has a destructive action confirmation or high-consequence dialog where typed confirmation can be added without hiding loss information."
+  ],
+  "selectionRules": [
+    "Choose typed confirmation when exact target reproduction materially lowers the risk of deleting or resetting the wrong object.",
+    "Use a target-specific required phrase such as owner/repository, namespace/project, workspace slug, dataset name, or account email.",
+    "Use a short action phrase only when no stable object identifier exists, and keep it specific to the destructive act.",
+    "Keep typed confirmation visible and unmasked; it is not a password or secret.",
+    "Disable the final action until the match rule passes and any dependency or acknowledgement requirements are satisfied.",
+    "Explain whether matching is case-sensitive, whitespace-normalized, locale-aware, or requires the full path.",
+    "Do not ask for typed confirmation on routine actions, soft delete to trash, reversible cleanup, or high-frequency flows.",
+    "Do not use typed confirmation as the only safeguard for broad deletion; still show scope, loss inventory, permissions, recovery limits, and final status.",
+    "Prefer ordinary destructive action confirmation when the object name is short, low-risk, or already unambiguous enough that typing adds only friction."
+  ],
+  "requiredStates": [
+    "No-typed-gate state for actions that do not need target-text escalation.",
+    "Required phrase state showing the exact target phrase to reproduce.",
+    "Empty input state with the final action disabled.",
+    "Mismatch state explaining what does not match without committing the action.",
+    "Exact-match state enabling the final action only after all other blockers pass.",
+    "Pasted text and whitespace state that handles trailing spaces, line breaks, and copy errors predictably.",
+    "Target changed state that clears stale typed text when the selected object changes.",
+    "Dependency-blocked state where exact match is not enough until jobs, locks, permissions, or billing blockers resolve.",
+    "Committed outcome state that reports the severe action after deliberate typed confirmation."
+  ],
+  "interactionContract": [
+    "The required phrase is visible in the same confirmation surface as the input field.",
+    "The input stores ordinary text and must not use password masking or browser password managers.",
+    "The final action starts disabled and remains disabled until the typed value satisfies the documented match rule.",
+    "Changing the target object, selected scope, account, locale, or destructive mode clears the typed value.",
+    "Mismatch feedback updates as users type without announcing every character as an error.",
+    "Pasting is allowed unless policy has a strong reason to block it; pasted values still pass through the same match rule.",
+    "The safe cancel action remains available before and after typing.",
+    "The typed phrase is not logged in analytics unless it is already a non-sensitive public identifier and logging is explicitly safe."
+  ],
+  "implementationChecklist": [
+    "Select the shortest stable phrase that uniquely identifies the target and can be typed on supported devices.",
+    "Display the required phrase in selectable text near the input label.",
+    "Define match normalization for case, Unicode normalization, leading and trailing whitespace, line breaks, and locale.",
+    "Use an ordinary text input with autocomplete off when appropriate, not a password field.",
+    "Clear the field when target, scope, account, or destructive action changes.",
+    "Pair the typed gate with loss inventory, dependency checks, safe cancellation, and duplicate-submit prevention.",
+    "Show mismatch and exact-match status without relying only on color.",
+    "Test keyboard entry, paste, screen-reader labels, mobile keyboards, zoom, long repository paths, and localized object names.",
+    "Avoid collecting typed confirmation text in analytics, replay, logs, or crash reports when it may contain private identifiers."
+  ],
+  "commonMisuses": [
+    "Requiring users to type yes, confirm, or delete instead of the target name.",
+    "Masking typed confirmation as if it were a password.",
+    "Accepting partial, stale, or wrong-target text.",
+    "Making typed confirmation the only safeguard while hiding the loss inventory.",
+    "Using typed confirmation for every delete action until users memorize the ritual.",
+    "Blocking paste or mobile entry in ways that make legitimate confirmation harder than the risk warrants.",
+    "Logging typed private object names through analytics or session replay."
+  ],
+  "critiqueQuestions": [
+    "What exact wrong-object mistake does typing the phrase prevent?",
+    "Is the required phrase stable, visible, unique, and typeable on mobile?",
+    "What normalization rule decides a match, and is it explained to users?",
+    "What clears stale typed text when target or scope changes?",
+    "Does the field behave like visible text rather than a password?",
+    "Would ordinary destructive confirmation, undo, or restore-from-trash be enough?",
+    "What evidence proves the final action stayed disabled until the exact match and other blockers passed?"
+  ],
+  "useWhen": [
+    "A severe action affects repository, project, workspace, account, production, security, billing, or organization-wide scope.",
+    "The user could plausibly select or confirm the wrong target without reproducing its identifier.",
+    "The target identifier is short enough, stable enough, and safe enough to show and type.",
+    "The typed gate can be paired with loss inventory and safe cancellation rather than replacing them."
+  ],
+  "avoidWhen": [
+    "The action is routine, reversible, local, or recoverable through undo or trash restore.",
+    "The required phrase would be long, hidden, localized unpredictably, inaccessible, or hard to type on supported devices.",
+    "The text users would type is a secret, password, token, or credential.",
+    "The action needs a longer dependency-resolution workflow before users can reasonably confirm.",
+    "The confirmation adds no target certainty beyond a clear destructive review."
+  ],
+  "variants": [
+    "Repository path typed confirmation",
+    "Project slug typed confirmation",
+    "Workspace name typed confirmation",
+    "Account email typed confirmation",
+    "Production dataset typed confirmation",
+    "Root key reset typed confirmation",
+    "Short phrase typed confirmation",
+    "Case-sensitive typed confirmation"
+  ],
+  "accessibility": [
+    "Associate the input with a label that includes or references the required phrase.",
+    "Do not hide the typed value; typed confirmation is visible target text, not secret input.",
+    "Expose mismatch and exact-match status through text and programmatic status, not color alone.",
+    "Keep the safe cancellation path keyboard reachable and visible after the input.",
+    "Avoid live-region noise on every keystroke; announce meaningful state changes such as match, mismatch after blur, and final action enabled.",
+    "Ensure long identifiers wrap and can be selected or copied without layout shift.",
+    "Support paste and input methods used by assistive technology unless a documented policy blocks paste."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the required phrase context, typed confirmation input, safe action, and disabled or enabled final action in a predictable order.",
+    "The destructive trigger opens the review; Enter inside the typed field should not commit while the final action is disabled.",
+    "The final action becomes reachable only after exact match and other blockers pass.",
+    "Escape or the safe action cancels without preserving stale typed text for a different target.",
+    "When the target changes, focus remains predictable and the cleared input is announced or visibly indicated.",
+    "After commit, focus moves to a stable deleted-status message or parent list."
+  ],
+  "failureModes": [
+    "The gate proves only that users can type DELETE, not that they recognized the object.",
+    "Trailing spaces, curly quotes, Unicode normalization, or case rules make correct entries fail without explanation.",
+    "Autocomplete or a password manager fills stale text and enables the wrong destructive action.",
+    "The field accepts the previous repository name after the user switches target.",
+    "Assistive technology users cannot determine the required phrase because it is only shown in an image or styling.",
+    "Typed confirmation creates false confidence while permissions, billing, child objects, or external effects are still hidden.",
+    "The final action can be submitted twice after the exact match enables."
+  ],
+  "relatedPatterns": [
+    "destructive-action-confirmation",
+    "confirmation-dialog",
+    "password-input",
+    "undo",
+    "warning-text"
+  ],
+  "comparisons": [
+    "typed-confirmation-vs-destructive-action-confirmation-vs-confirmation-dialog-vs-password-input"
+  ],
+  "examples": [
+    {
+      "product": "GitHub delete repository",
+      "url": "https://docs.github.com/articles/deleting-a-repository",
+      "platform": "web",
+      "notes": "Requires warning acknowledgement and typing the repository name to verify the target before deletion.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GitLab delete project",
+      "url": "https://docs.gitlab.com/user/project/working_with_projects/#delete-a-project",
+      "platform": "web",
+      "notes": "Requires entering the project name in the confirmation dialog before selecting the delete action.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GitHub CLI repo delete",
+      "url": "https://cli.github.com/manual/gh_repo_delete",
+      "platform": "desktop",
+      "notes": "Documents repository deletion confirmation behavior and a yes flag for explicit confirmation in command-line contexts.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-delete-repository-confirmation",
+      "note": "GitHub repository deletion requires typing the repository name to verify the target after warning acknowledgement."
+    },
+    {
+      "id": "gitlab-delete-project-confirmation",
+      "note": "GitLab project deletion requires entering the project name in the confirmation dialog before deleting."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports specific consequence information and warns against unnecessary confirmation friction."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG supplies alertdialog semantics for important modal decisions requiring a user response."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

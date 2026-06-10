@@ -1,0 +1,50 @@
+{
+  "id": "drag-and-drop-upload-vs-file-upload-vs-multi-step-form-vs-text-input",
+  "title": "Drag-and-drop upload vs file upload vs multi-step form vs text input",
+  "summary": "Use drag-and-drop upload when desktop users benefit from dropping one or more files into a visible target; use ordinary file upload for the reliable baseline, multi-step form for journey structure, and text input when a typed value is enough.",
+  "patternIds": [
+    "drag-and-drop-upload",
+    "file-upload",
+    "multi-step-form",
+    "text-input"
+  ],
+  "decisionRules": [
+    "Prefer drag-and-drop upload when users commonly have files open in a desktop file manager and need a large visible target that accepts one or more files.",
+    "Prefer ordinary file upload when the task mainly needs a dependable choose-file path, mobile support, keyboard access, and selected filename feedback.",
+    "Prefer multi-step form when upload is one checkpoint in a longer eligibility, identity, evidence, review, or submit journey with saved step progress.",
+    "Prefer text input when the service only needs a reference number, explanation, or value from the document instead of the file itself.",
+    "Use drag-and-drop only as an enhancement when the same drop zone also exposes a button, link, or native file input for keyboard, mobile, and assistive technology users.",
+    "Show drag-enter, valid drag-over, invalid drag-over, drag-leave, drop accepted, drop rejected, upload progress, remove, and retry states around the drop zone.",
+    "Prevent the browser from navigating to or previewing a dropped file outside the intended drop target while still allowing non-file links and text to behave normally.",
+    "Reject non-file drags and unsupported file types with messages that keep the drop zone available and name the allowed formats.",
+    "Allow users to cancel a drag by leaving the target or dropping outside it, and provide remove or undo after a mistaken drop.",
+    "Reserve bulk import for structured files that need column mapping, row validation, partial success, and import reports rather than a general drop-zone attachment."
+  ],
+  "failureModes": [
+    "A page shows a decorative dashed box but gives no keyboard or click fallback, so mobile and assistive technology users cannot upload.",
+    "Dropping a file outside the target opens the file in the browser and destroys unsaved form progress.",
+    "The drop zone accepts links, folders, or unsupported formats and then reports only a vague upload failed message.",
+    "The drag-over state never changes, so users cannot tell whether the current target will accept the file.",
+    "A mistaken drop immediately submits the form without review, remove, undo, or confirmation.",
+    "A spreadsheet import is represented as a drop zone but gives no mapping, row-level errors, or import result report."
+  ],
+  "sources": [
+    {
+      "id": "carbon-file-uploader-component",
+      "note": "Carbon distinguishes file uploader and drag-and-drop file uploader variants and documents drop-zone text, activated borders, keyboard activation, focus return, uploaded filenames, removal, loading, and invalid states."
+    },
+    {
+      "id": "mdn-file-drag-and-drop",
+      "note": "MDN supports drop-zone implementation with file input fallback, dragover cancellation, drop processing, DataTransferItem files, and clear behavior."
+    },
+    {
+      "id": "govuk-file-upload-component",
+      "note": "GOV.UK supports an improved file upload component where users can choose a file or drag and drop into the upload area."
+    },
+    {
+      "id": "w3c-wcag-pointer-cancellation-drag-drop",
+      "note": "W3C supports cancellation and recovery expectations for path-based drag-and-drop actions."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

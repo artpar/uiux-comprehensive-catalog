@@ -1,0 +1,43 @@
+{
+  "id": "button-group-vs-segmented-control-vs-menu-button-vs-confirmation-dialog",
+  "title": "Button group vs segmented control vs menu button vs confirmation dialog",
+  "summary": "Use a button group for a small visible set of related commands, a segmented control for one active local mode, a menu button for hidden secondary commands, and a confirmation dialog after a risky command needs review.",
+  "patternIds": ["button-group", "segmented-control", "menu-button", "confirmation-dialog"],
+  "decisionRules": [
+    "Prefer a button group when two to four related actions should remain visible together, such as Save and cancel, Back and continue, or Apply, Reset, and Export for one local task.",
+    "Prefer a segmented control when the buttons represent mutually exclusive modes or views and exactly one option should stay selected after activation.",
+    "Prefer a menu button when the command set is secondary, contextual, or too long to keep visible, and one named trigger can reveal the extra actions without crowding the surface.",
+    "Prefer a confirmation dialog after the user has already chosen a clearly labelled high-risk command and must review the affected object, consequence, and cancellation path.",
+    "Do not use a button group as a navigation bar; if the options move between sections, use tabs, side navigation, breadcrumbs, or pagination according to the information structure.",
+    "Do not put unrelated actions into one button group just because they fit horizontally; spatial grouping tells users the commands share one scope or workflow moment.",
+    "Keep one primary action in ordinary task button groups and use secondary, tertiary, or danger treatments to communicate lower priority or risk.",
+    "Separate destructive commands from safe submit or navigation commands unless the workflow explicitly needs a destructive primary action with a clear review or recovery path.",
+    "Stack or wrap the group deliberately on narrow screens while preserving source order, visible labels, and hit targets; do not turn the group into unlabeled icons to save space.",
+    "If a button remains unavailable, show why the command is blocked or disable only while a previous activation is processing."
+  ],
+  "failureModes": [
+    "Two primary buttons compete for the same task moment and users cannot tell which one is recommended.",
+    "A destructive Delete button sits directly beside Continue and is triggered by input mistakes.",
+    "The group mixes navigation, form submission, filtering, and destructive commands with identical styling.",
+    "A compact row of action buttons is given aria-pressed states even though activation runs commands rather than selecting a mode.",
+    "The group collapses to icons on mobile and loses action names, object scope, and accessible names.",
+    "An unavailable action is greyed out with no reason, recovery path, or processing state.",
+    "Too many buttons remain visible instead of moving secondary commands into a menu button or toolbar overflow.",
+    "Links to ordinary content are styled as buttons inside the group when text links or navigation would be clearer."
+  ],
+  "sources": [
+    {
+      "id": "uswds-button-group",
+      "note": "USWDS defines button groups as related actions, covers Back and Continue-style flows, grouping semantics, responsive stacking, and cautions about unrelated or destructive actions."
+    },
+    {
+      "id": "carbon-button-component",
+      "note": "Carbon documents button hierarchy, related calls to action, primary and secondary placement, group combinations, and avoiding two high-emphasis buttons in one group."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "APG button guidance defines button activation, disabled state, and toggle-button pressed state so command buttons are not confused with selected mode buttons."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

@@ -1,0 +1,239 @@
+{
+  "id": "complete-complex-form",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a sectioned enterprise configuration form pattern with source-backed guidance for many related settings, section status, cross-section validation, error-summary recovery, stale review, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers long product-oriented forms with named sections, grouped controls, required-label strategy when most fields are optional, persistent labels and helper text, section status, cross-section dependency checks, error summary links, draft preservation, and review before save.",
+    "relatedPatternDistinction": "The entry separates complete complex form from single-page form by scale and section status, from multi-step form by staying on one inspectable editing surface instead of saved pages, from wizard by avoiding guided setup chrome and finish semantics, and from error summary by using recovery as one part of the full form contract.",
+    "liveDemoBehavior": "The rendered exercise lets users move between Basics, Rules, Approvals, Notifications, and Review; validate all sections; see a cross-section approval error caused by threshold; fix approvals in place; mark review stale; confirm review; save only when dependencies and review pass; and compare a broken dense settings grid.",
+    "comparisonDecisionRules": "The linked complete-complex-form-vs-single-page-form-vs-multi-step-form-vs-wizard comparison gives concrete rules for sectioned enterprise configuration, compact single-page forms, long saved transactions, guided setup wizards, one-thing-per-page counterexamples, cross-section rules, and review-before-save behavior.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/complete-complex-form.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, section navigation, section status, validation summary, cross-section approval recovery, review confirmation, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/complete-complex-form.png"
+    ]
+  },
+  "name": "Complete complex form",
+  "aliases": [
+    "complex form",
+    "sectioned form",
+    "enterprise configuration form",
+    "long settings form",
+    "policy configuration form",
+    "sectioned settings editor"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Sectioned enterprise configuration form",
+  "uiGuidance": [
+    "Render one coherent form surface with a clear title, section navigation or section headings, current section state, grouped controls, persistent labels, helper text, required indicators, error summary, field-level errors, review or summary state, and one save contract.",
+    "Make section status explicit with text such as Current, Complete, Error, Optional, Needs review, or Not checked, and keep those states derived from actual field validity and stale dependency state."
+  ],
+  "uxGuidance": [
+    "Use a complete complex form when users must edit many related product settings together and need to inspect dependencies across sections before saving.",
+    "Validate cross-section dependencies, preserve every entered value while moving users to the owning section for recovery, and require review again when an upstream field changes a downstream rule."
+  ],
+  "uiExamples": {
+    "good": [
+      "A policy configuration form has Basics, Rules, Approvals, Notifications, and Review sections; Approvals shows an error because the threshold in Rules requires at least two approvers.",
+      "A workspace settings page marks most fields optional, labels the few required fields explicitly, and shows section status plus a final review summary before Save."
+    ],
+    "bad": [
+      "A single grid shows Nm, Rule, Appr, Esc, Mail, JSON, Mode, and Owner fields with no labels, fieldsets, section status, or error ownership.",
+      "A long settings page saves invalid combinations because validation checks each field in isolation and ignores dependencies between threshold, approvers, and escalation owner."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user raises a spend threshold, validates the form, is moved to the Approvals section, adds a second approver and escalation owner, reviews the complete policy, and saves without re-entering earlier values.",
+      "A user jumps from Review back to Rules, changes a dependency, and sees Review marked stale until the affected sections pass validation again."
+    ],
+    "bad": [
+      "A user clicks Save, sees three generic errors somewhere in the page, and must scan many controls to discover which section owns each problem.",
+      "A user opens an advanced area and loses entered values because the form treated hidden settings as disposable UI state instead of saved draft data."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Large product settings and policy forms become unsafe when users cannot see section ownership, cross-section dependencies, required fields, validation recovery, or whether the complete configuration is ready to save.",
+  "solution": "Structure related settings into named sections on one inspectable form surface, expose section status, keep fields grouped and labelled, validate dependencies across sections, preserve draft data, summarize errors, and require review before high-risk saves.",
+  "problemContext": [
+    "The task configures enterprise software, policies, permissions, automation rules, workspace settings, billing rules, compliance controls, or other related product options.",
+    "Users must compare values across sections, such as a threshold in one section that changes approval requirements in another.",
+    "Most fields may be optional, but a small set of required fields and dependencies still block save.",
+    "The product can preserve a form draft while users move between sections, validation errors, and review."
+  ],
+  "selectionRules": [
+    "Choose a complete complex form when many related configuration fields need one inspectable surface and cross-section comparison matters.",
+    "Use a single-page form instead when the task is a compact related field set that does not need section status or dependency review.",
+    "Use a multi-step form instead when the task is a long transaction best completed across saved pages with focused recovery per page.",
+    "Use a wizard instead when the product must guide users through a dependent setup or creation assistant with step-specific actions, tests, cancel, and finish behavior.",
+    "Use one-question pages instead when research shows each answer needs focus, branching, mobile-first recovery, or one thing per page.",
+    "Group related inputs under section headings, fieldsets, legends, and helper text rather than relying on columns or visual proximity.",
+    "Expose section status from real validation, dependency, and review state; never mark a section complete simply because it was visited.",
+    "Validate cross-section rules in the owning section and keep all entered values visible or recoverable after validation fails.",
+    "For long product configuration forms where most fields are optional, label the required fields explicitly and keep that convention consistent across the product.",
+    "Require review again when an upstream answer changes a downstream rule, generated summary, approval path, notification effect, or save consequence."
+  ],
+  "requiredStates": [
+    "Initial draft state with named sections, required-field convention, grouped controls, and save unavailable or clearly pending validation.",
+    "Current section state with visible section heading, fields, helper text, and local actions.",
+    "Edited section state that preserves entered values before validation.",
+    "Section complete state derived from required fields, local validation, and dependencies.",
+    "Section error state with status text, summary link, and field-level messages.",
+    "Cross-section dependency error state where a value in one section changes requirements in another.",
+    "Optional section state that does not block save but remains inspectable.",
+    "Stale review state after a dependency or high-risk field changes.",
+    "Review state that summarizes important values and dependencies before save.",
+    "Saved state that confirms the complete configuration was accepted."
+  ],
+  "interactionContract": [
+    "Section navigation changes the visible section without discarding draft values.",
+    "Validate all sections reports every save-blocking issue and moves focus or context to the first owning section.",
+    "Error summary entries identify the section and field group responsible for each problem.",
+    "Field-level errors sit next to the owning control and use the same wording as the summary where practical.",
+    "Save is blocked until required fields, cross-section dependencies, and required review are complete.",
+    "Changing a dependency marks affected sections or review stale until validation or review runs again.",
+    "Optional fields and optional sections remain available without being confused with unavailable or disabled states."
+  ],
+  "implementationChecklist": [
+    "Inventory sections, fields, required rules, optional rules, and dependencies before building the layout.",
+    "Assign each dependency error to one owning section and field group so recovery has a clear destination.",
+    "Use persistent labels, fieldsets, legends, helper text, and simple vertical ordering inside each section.",
+    "Add section status derived from actual validation and review state.",
+    "Implement error summary links that move users to the relevant section and field.",
+    "Preserve draft values across section jumps, failed validation, reload recovery, and server responses.",
+    "Represent stale review or stale dependent sections after upstream changes.",
+    "Avoid dense multi-column grids unless reading order, labels, validation expansion, and responsive behavior remain predictable.",
+    "Test keyboard order, screen reader section names, error summary navigation, zoom, mobile section navigation, draft preservation, dependency validation, and review-before-save behavior."
+  ],
+  "commonMisuses": [
+    "Calling a dense settings table a complex form without section status, labels, or validation ownership.",
+    "Splitting tightly related settings across pages so dependencies are invisible during editing.",
+    "Using wizard chrome for ordinary configuration edits that do not need guided setup or finish semantics.",
+    "Hiding required fields or save-blocking errors inside advanced disclosure panels.",
+    "Showing generic section errors without field-level messages.",
+    "Marking sections complete because users opened them rather than because data is valid.",
+    "Saving high-risk changes without a review of the combined configuration.",
+    "Making visual column order differ from keyboard and screen-reader order."
+  ],
+  "critiqueQuestions": [
+    "Which fields or sections depend on values in other sections?",
+    "Can users tell which sections are valid, invalid, optional, not checked, or stale?",
+    "Does each error have an owning section and field-level recovery path?",
+    "Would one-question pages or a multi-step form be easier because the task is public-facing, branched, or mobile-heavy?",
+    "Is this really a guided setup wizard, or is it an editable settings surface?",
+    "What must users review before a high-risk save becomes available?"
+  ],
+  "useWhen": [
+    "A product configuration has many related fields across named sections.",
+    "Users must compare or validate dependencies across sections before saving.",
+    "The interface can preserve a draft while users navigate, validate, correct, review, and save.",
+    "The form is primarily product-oriented or internal-user-oriented rather than a simple consumer sign-up."
+  ],
+  "avoidWhen": [
+    "The form is a short related set of fields that fits a simple single-page form.",
+    "Each answer should be asked on its own page for comprehension, branching, or mobile recovery.",
+    "The work is a guided setup or import where a wizard's tests, previews, cancel, and finish states are required.",
+    "The product cannot preserve draft values or assign dependency errors to clear owning sections.",
+    "Most users only need to change one independent setting and would be better served by inline edit or focused settings panels."
+  ],
+  "variants": [
+    "Sectioned settings form",
+    "Enterprise policy form",
+    "Admin configuration form",
+    "Long product form",
+    "Complex form with side navigation",
+    "Complex form with review before save",
+    "Complex form with dependency validation",
+    "Complex form with optional sections",
+    "Complex form with draft save",
+    "Complex form with error summary"
+  ],
+  "accessibility": [
+    "Use semantic headings, fieldsets, legends, and persistent labels so each section and field group has a programmatic name.",
+    "Keep DOM order and keyboard order aligned with the visual reading order, especially when the layout has side navigation or multiple columns.",
+    "Expose current, complete, error, optional, not checked, and stale section states in text, not only color.",
+    "Move focus to the error summary or first invalid field after validation, then support navigation to the owning section.",
+    "Do not rely on placeholder text as labels or helper text for complex settings.",
+    "Make review and save status changes available to assistive technology through predictable status or alert regions.",
+    "Ensure validation messages identify the field or field group and are not separated from their owning control by unrelated content."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches section navigation, current section controls, validation actions, review actions, and save in a predictable order.",
+    "Enter or Space activates section buttons and form actions without unexpectedly submitting incomplete data.",
+    "After section navigation, focus can move to the section heading or first relevant field.",
+    "After failed validation, focus moves to the error summary or first invalid section control.",
+    "Error summary links move focus to the affected section and field group.",
+    "Collapsed optional content does not trap focus or hide save-blocking required fields.",
+    "Save remains disabled or reports a clear blocking reason until all required sections, dependencies, and review gates pass."
+  ],
+  "failureModes": [
+    "Cross-section rules are validated only after save and do not identify the owning section.",
+    "A change in Rules does not mark Approvals or Review stale.",
+    "Section navigation loses unsaved field values.",
+    "An error summary lists generic numbers without links to fields.",
+    "Dense two-column layouts cause field-level errors to shift unrelated controls or break reading order.",
+    "Most fields are optional but required fields are not explicitly marked.",
+    "A hidden advanced panel contains required controls that block save.",
+    "Mobile users cannot tell which section they are in or how to return to an error."
+  ],
+  "relatedPatterns": [
+    "single-page-form",
+    "multi-step-form",
+    "wizard",
+    "error-summary",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "complete-complex-form-vs-single-page-form-vs-multi-step-form-vs-wizard"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Form",
+      "url": "https://carbondesignsystem.com/components/form/usage/",
+      "platform": "web",
+      "notes": "Documents forms as related input controls for data or configuration, including product-oriented complex forms, labels, helper text, required/optional rules, alignment, and validation states.",
+      "screenshot": "screenshots/patterns/complete-complex-form.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS Form templates",
+      "url": "https://designsystem.digital.gov/templates/form-templates/",
+      "platform": "web",
+      "notes": "Documents accessible multi-control forms with proper order, fieldsets, legends, vertical layout, required indicators, validation messages, and disabled-state cautions.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Service Manual Structuring forms",
+      "url": "https://www.gov.uk/service-manual/design/form-structure",
+      "platform": "web",
+      "notes": "Provides the boundary condition by recommending one thing per page as a starting point and merging fields only when research and task context support it.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-form-component",
+      "note": "Carbon form guidance supports complex product-oriented forms, required and optional conventions, form anatomy, labels, helper text, alignment, and validation states."
+    },
+    {
+      "id": "uswds-form-templates",
+      "note": "USWDS form-template guidance supports DOM order, fieldsets, legends, required indicators, validation messages aligned with inputs, and simple vertical ordering."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance anchors the decision not to use long complex forms when one thing per page is clearer for users."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

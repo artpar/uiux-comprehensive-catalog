@@ -1,81 +1,213 @@
 {
   "id": "modal-dialog",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a focused temporary task layer with source-backed modality, background inactivation, contained focus movement, Escape and explicit dismissal, focus return, bounded task scope, inspected examples, comparison rules, duplicate audit, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names temporary task scope, inert background content, title and description wiring, first-focus choice, contained Tab movement, Escape and explicit close behavior, focus return, scroll boundaries, and when to choose a page or inline UI instead.",
+    "relatedPatternDistinction": "The entry separates modal dialog from confirmation dialog by focused short task versus consequence decision, from alert by blocking interaction versus nonblocking message, from drawer by background interaction needs, and from full page by navigation depth and durable workflow requirements.",
+    "liveDemoBehavior": "The live demo opens a focused account-settings task, moves focus into the layer, disables background page controls while open, handles Escape and cancel or save close paths, and reports focus returning to the opener; the bad demo leaves a vague popup and background controls competing.",
+    "comparisonDecisionRules": "The modal-vs-confirmation-dialog comparison gives concrete rules for short contained tasks, destructive consequence decisions, editable modal forms, inline or drawer alternatives, full-page workflows, and nonblocking feedback.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/modal-dialog.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related link, comparison link, and source-backed modality guidance.",
+    "screenshots": [
+      "screenshots/patterns/modal-dialog.png"
+    ]
+  },
   "name": "Modal dialog",
-  "aliases": ["dialog", "modal"],
+  "aliases": [
+    "dialog",
+    "modal",
+    "modal window",
+    "modal task layer"
+  ],
   "category": "Disclosure And Attention Management",
-  "secondaryCategories": ["Task And Workflow Patterns"],
-  "platforms": ["web", "mobile", "desktop"],
-  "problem": "Users need to complete or acknowledge a focused task without losing the context of the current page.",
-  "solution": "Present a focused layer over the current interface, constrain interaction to that layer, and provide clear completion and dismissal paths.",
+  "secondaryCategories": [
+    "Task And Workflow Patterns"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users sometimes need a short focused task layer that temporarily blocks the current page without sending them into a separate workflow.",
+  "solution": "Open a titled dialog above the current page, make background content unavailable, place focus inside the dialog, keep focus contained until close, then return focus to the invoking control or next logical workflow point.",
   "problemContext": [
-    "A user is in a larger page context but needs a short focused task or decision.",
-    "Continuing with the background interface before resolving the task would be confusing or unsafe."
+    "The user is working in a larger page but must complete a compact task before continuing.",
+    "The task benefits from preserving page context while preventing accidental interaction behind the layer.",
+    "The content can be completed, cancelled, or dismissed without requiring navigation history or a long-lived workspace.",
+    "The product can manage focus, close behavior, and background inactivation reliably."
   ],
   "selectionRules": [
-    "Choose a modal only when the user must temporarily leave normal page interaction.",
-    "Prefer a full page when the task has many steps, deep content, or durable navigation needs.",
-    "Prefer inline disclosure or a popover when the content is optional and does not block progress."
+    "Choose a modal dialog for a short contained task that must temporarily suspend interaction with the page behind it.",
+    "Use a full page when the task needs multiple steps, complex reading, saved progress, deep links, or durable browser history.",
+    "Use inline disclosure, a popover, or a drawer when users must continue comparing or editing background content while the layer is visible.",
+    "Use a confirmation dialog only when the dialog's main job is protecting a consequential action.",
+    "Use nonblocking feedback such as a banner, toast, or inline message when users only need status information.",
+    "Avoid nested modal stacks unless the second layer is unavoidable and focus return can still be made predictable."
   ],
   "requiredStates": [
-    "Closed state with a clear invoking control.",
-    "Open state with title, focused content, and clear primary and secondary actions.",
-    "Dismissed or completed state that returns the user to the originating context."
+    "Closed page state with an obvious invoking control.",
+    "Opening transition that moves focus into the dialog and marks background content unavailable.",
+    "Open task state with accessible title, concise body, primary action, secondary cancellation, and visible close behavior.",
+    "Keyboard cycling state where Tab and Shift+Tab remain inside the dialog.",
+    "Dismissed state that restores focus to the invoker and leaves the page unchanged.",
+    "Completed state that applies the task, closes the layer, and returns focus to a logical point.",
+    "Overflow state for dialog content that scrolls inside the layer without losing access to actions."
   ],
   "interactionContract": [
-    "Opening the modal moves focus inside it and makes the background inert.",
-    "Tab and Shift+Tab stay within the modal until it closes.",
-    "Escape closes non-destructive modals, and closing restores focus to the invoker."
+    "Opening the modal moves focus to the best starting element inside the dialog, not to the dimmed page.",
+    "Tab and Shift+Tab cycle through focusable elements in the dialog until the user closes it.",
+    "Escape closes dismissible modal tasks and follows the same cleanup path as cancel.",
+    "Background controls cannot be clicked, focused, or changed while the modal is active.",
+    "Closing through save, cancel, Escape, or close button restores focus to the opener unless the workflow clearly moves elsewhere.",
+    "The dialog has an accessible name from its visible title and a useful description when body copy explains the task.",
+    "Primary and secondary actions describe the task outcome rather than using vague OK-only controls."
   ],
   "implementationChecklist": [
-    "Include a visible title that names the task or decision.",
-    "Provide an explicit cancel or close path unless the task truly cannot be dismissed.",
-    "Prevent interaction with background controls while the modal is open.",
-    "Restore focus to the opener after close."
+    "Give the dialog a visible title and wire it to the dialog's accessible name.",
+    "Keep the task compact enough that users can complete it without page navigation.",
+    "Make the rest of the page inert or otherwise unavailable while the modal is open.",
+    "Move focus into the dialog on open and restore focus after every close path.",
+    "Implement contained Tab and Shift+Tab movement for keyboard users.",
+    "Support Escape for dismissible tasks and provide an explicit cancel or close affordance.",
+    "Keep critical actions visible when dialog content scrolls.",
+    "Prevent nested modal chains in ordinary workflows.",
+    "Test pointer, keyboard, screen reader, reduced viewport, and long-content behavior."
   ],
   "commonMisuses": [
-    "Using a modal as a generic content container for routine information.",
-    "Opening nested modals or trapping users without a safe exit.",
-    "Letting the background page remain interactive."
+    "Using a modal as a generic container for routine information that could stay inline.",
+    "Letting users interact with page controls behind the open dialog.",
+    "Opening a long multi-step workflow in a modal without navigation, progress, or saved state.",
+    "Providing only an OK button for a task that can be cancelled or needs a named action.",
+    "Moving focus into the dialog on open but failing to return it on close.",
+    "Stacking modal dialogs until users cannot understand where they are."
   ],
   "critiqueQuestions": [
-    "Does this task truly need to block the rest of the interface, or would inline UI be less disruptive?"
+    "What page interaction must be blocked while this task is open?",
+    "Can the task be completed in one focused layer without navigation or saved progress?",
+    "Where exactly does focus go on open, on Tab wrap, on Escape, on cancel, and on completion?",
+    "Would a drawer, inline panel, or full page preserve the user's context better than a modal?",
+    "Does the title name the task rather than merely saying dialog or popup?"
   ],
   "useWhen": [
-    "The task requires focused attention before the user can safely continue.",
-    "The content is short enough to complete without navigating away."
+    "A short task must interrupt normal page interaction but should return users to the same context afterward.",
+    "The background page should remain visible for orientation but unavailable for interaction.",
+    "The task has clear complete and cancel outcomes."
   ],
   "avoidWhen": [
-    "The interaction is informational only and does not require a response.",
-    "The task is complex enough to need a full page or persistent workspace."
+    "The content is only informational and does not require blocking the page.",
+    "The workflow is long, multi-step, shareable, or needs browser navigation.",
+    "Users must inspect or manipulate background content while the layer is open.",
+    "The only purpose is to confirm a destructive action, which needs confirmation-dialog guidance.",
+    "Focus containment and background inactivation cannot be implemented reliably."
   ],
-  "variants": ["Alert dialog", "Confirmation dialog", "Form dialog", "Full-screen modal"],
+  "variants": [
+    "Form dialog",
+    "Picker dialog",
+    "Settings dialog",
+    "Short task modal",
+    "Full-screen modal on small viewports",
+    "Alert dialog",
+    "Confirmation dialog"
+  ],
   "accessibility": [
-    "Move focus into the dialog when it opens.",
-    "Keep focus within the dialog while it is modal.",
-    "Return focus to the invoking control when the dialog closes."
+    "Use dialog semantics with an accessible name from the visible title.",
+    "Indicate modality so assistive technologies know the background is unavailable.",
+    "Move focus into the dialog on open.",
+    "Keep keyboard focus inside the dialog while it is modal.",
+    "Return focus to the invoking control or next logical element when closing.",
+    "Provide Escape and an explicit cancel or close path for dismissible tasks.",
+    "Avoid describing large semantic content as one unbroken accessible description."
   ],
   "keyboardBehavior": [
-    "Escape commonly dismisses non-destructive dialogs.",
-    "Tab and Shift+Tab cycle through focusable controls inside the dialog."
+    "Enter or Space on the invoking control opens the modal.",
+    "Initial focus lands on the best task starting point, often the first field or a static heading for long content.",
+    "Tab moves to the next focusable dialog element and wraps from the last item to the first.",
+    "Shift+Tab moves backward and wraps from the first item to the last.",
+    "Escape closes dismissible modal tasks without activating the primary action.",
+    "After save, cancel, close, or Escape, focus returns to the opener unless workflow order requires another target."
   ],
   "failureModes": [
-    "Trapping users without a visible close or cancel path.",
-    "Using a modal for routine information that could be inline.",
-    "Opening nested modals."
+    "Background remains interactive while the modal is visible.",
+    "Keyboard focus escapes behind the layer or disappears after close.",
+    "The dialog lacks a visible title or accessible name.",
+    "The task is too large for a temporary layer and becomes a cramped hidden page.",
+    "Action labels are vague, such as OK, and do not communicate the outcome.",
+    "Dialog content scrolls while actions become unreachable.",
+    "Multiple modal layers create unclear focus and close order."
   ],
-  "relatedPatterns": ["confirmation-dialog"],
-  "comparisons": ["modal-vs-confirmation-dialog"],
-  "examples": [],
+  "relatedPatterns": [
+    "confirmation-dialog",
+    "toast-only-critical-error"
+  ],
+  "comparisons": [
+    "modal-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Dialog Modal Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+      "platform": "web",
+      "notes": "Documents inert background behavior, contained tab sequence, Escape dismissal, initial focus, and focus return for modal dialogs.",
+      "screenshot": "screenshots/patterns/modal-dialog.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Atlassian Design System Modal dialog",
+      "url": "https://atlassian.design/components/modal-dialog",
+      "platform": "web",
+      "notes": "Shows a modal as a layered interaction that requires user action above the page.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
   "sources": [
     {
-      "id": "wai-aria-apg",
-      "note": "Dialog pattern defines modal behavior and keyboard expectations."
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Defines modal dialog modality, inert background content, contained tab sequence, Escape dismissal, focus placement, and focus return."
+    },
+    {
+      "id": "w3c-html-dialog-technique",
+      "note": "Documents HTML modal dialog checks including Escape dismissal and focus returning to the invoking element."
+    },
+    {
+      "id": "atlassian-modal-dialog",
+      "note": "Frames modal dialogs as layered content requiring user interaction above the page."
     },
     {
       "id": "apple-hig-alerts",
-      "note": "Alert guidance distinguishes interruptive modal use from less intrusive alternatives."
+      "note": "Helps distinguish interruptive alert-style decisions from ordinary focused modal tasks."
     }
   ],
   "maturity": "standard",
-  "lastVerified": "2026-06-08"
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Focused modal task layer",
+  "uiGuidance": [
+    "Render a titled layer above a dimmed or otherwise unavailable page, with clear task content, named actions, visible close or cancel affordance, and stable scroll boundaries.",
+    "Keep background controls visually present for orientation but unavailable to pointer and keyboard interaction while the modal is open."
+  ],
+  "uxGuidance": [
+    "Use the modal interruption only for compact tasks that genuinely need temporary focus before the user returns to the page.",
+    "Make entry, completion, cancellation, Escape dismissal, and focus return predictable so users understand they are in a temporary mode."
+  ],
+  "uiExamples": {
+    "good": [
+      "Account settings opens in a titled dialog with one display-name field, Save, Cancel, close control, and dimmed inactive page context.",
+      "The dialog panel has a clear accessible name, stable width, readable body copy, and actions that remain visible."
+    ],
+    "bad": [
+      "A vague popup titled Popup floats over active page controls and offers only OK.",
+      "A long settings workflow is squeezed into a small modal where the primary action scrolls out of reach."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Opening moves focus to the display-name field, Tab remains inside the layer, Escape cancels, and closing returns focus to Open dialog.",
+      "Save applies the compact task and returns the user to the same page context with a clear status message."
+    ],
+    "bad": [
+      "Users can click background Delete or Navigate controls while the modal is still open.",
+      "Closing the dialog drops focus at the top of the document or loses the user's previous context."
+    ]
+  }
 }

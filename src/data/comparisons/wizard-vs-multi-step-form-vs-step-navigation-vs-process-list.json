@@ -1,0 +1,46 @@
+{
+  "id": "wizard-vs-multi-step-form-vs-step-navigation-vs-process-list",
+  "title": "Wizard vs multi-step form vs step navigation vs process list",
+  "summary": "Use a wizard when a product must guide users through a tightly controlled setup or creation assistant with sequential dependencies, local validation, review, cancel, and finish behavior.",
+  "patternIds": [
+    "wizard",
+    "multi-step-form",
+    "step-navigation",
+    "process-list"
+  ],
+  "decisionRules": [
+    "Prefer a wizard when users are configuring, creating, importing, or installing something through a guided assistant where later choices depend on earlier selections.",
+    "Prefer a multi-step form when the primary job is collecting submitted answers across saved pages, especially public-service, application, checkout, or compliance transactions.",
+    "Use step navigation only to communicate progress inside a broader flow; it is not the guided assistant, validation model, cancel contract, or finish action by itself.",
+    "Use a process list when users need to understand an external process or complete tasks outside one controlled assistant, especially when tasks can be read or completed outside strict sequence.",
+    "A wizard should have step-specific footer actions such as Back, Next, Test connection, Review, Finish, and Cancel; avoid generic Next-only navigation when step obligations differ.",
+    "Do not unlock review or finish until prerequisite configuration, tests, generated previews, or validations have passed.",
+    "Provide a safe cancel or close state for partial setup, and state whether the draft will be saved, paused, or discarded.",
+    "If users need to jump freely among independent tasks, use task-list or process-list behavior instead of disabling future wizard steps.",
+    "If the sequence is just a long form with saved answers and review, use multi-step form; reserve wizard framing for guided tool work with stronger sequencing and setup semantics.",
+    "When an earlier wizard choice changes, clear, recompute, or retest dependent later steps before final finish."
+  ],
+  "failureModes": [
+    "Wizard chrome wraps a short edit form and adds disabled steps with no real dependency.",
+    "Finish is available before the generated setup is tested or reviewed.",
+    "Cancel immediately discards a partially configured setup without warning or draft recovery.",
+    "A hidden conditional step appears after users already relied on a fixed step count.",
+    "Step navigation is treated as the whole implementation while validation, draft state, and finish semantics are missing.",
+    "A process explanation is forced into a blocking wizard even though users only needed to read or complete tasks independently."
+  ],
+  "sources": [
+    {
+      "id": "patternfly-wizard-component",
+      "note": "PatternFly documents wizard workflows with disabled, progressive, hidden, status, review, cancel, footer, step-change, save, and focus behavior."
+    },
+    {
+      "id": "material-design-steppers-component",
+      "note": "Material stepper guidance supports numbered logical steps, editable and non-editable variants, optional steps, and warnings against unnecessary short-form use."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance helps separate ordinary multi-page form structure from heavier wizard-style guided setup."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

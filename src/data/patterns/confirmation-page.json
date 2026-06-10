@@ -1,0 +1,247 @@
+{
+  "id": "confirmation-page",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a final transaction endpoint pattern with source-backed guidance for completion heading, reference and receipt handling, next-step timing, contact and tracking paths, save or print behavior, bookmarked returns, post-commit lifecycle, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets the final endpoint after a committed transaction, including completion panel, reference number, receipt details, what happens next, contact or tracking paths, record keeping, return handling, and post-commit recovery boundaries.",
+    "relatedPatternDistinction": "The entry separates confirmation page from success confirmation by owning the final journey endpoint, from review before submit by appearing after commit rather than before it, from notification banner by not continuing the same journey page, and from confirmation dialog by reporting completion rather than asking for pre-action consent.",
+    "liveDemoBehavior": "The live demo submits an application into a receipt page, copies the reference, sends an email receipt, saves a record, opens tracking, tests a bookmarked return, starts a new application, and contrasts missing receipt, editable-after-submit, overloaded endpoint, and error-page misuse.",
+    "comparisonDecisionRules": "The confirmation-page-vs-success-confirmation-vs-review-before-submit-vs-notification-banner comparison gives concrete rules for final transaction endpoints, in-task proof, pre-submit review, previous-page notices, receipt retention, post-commit recovery, and error-page boundaries.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/confirmation-page/ and /compare/confirmation-page-vs-success-confirmation-vs-review-before-submit-vs-notification-banner/ in the browser. The screenshot shows Good UI, Bad UI, Good UX, Bad UX, final completion panel, reference APP-48291, next-step timing, saved-record action, bookmarked-return handling, and permission-error misuse; the live check verified copy-reference, email receipt, tracking, new-application separation, related links, and comparison rules.",
+    "screenshots": [
+      "screenshots/patterns/confirmation-page.png"
+    ]
+  },
+  "name": "Confirmation page",
+  "aliases": [
+    "completion page",
+    "transaction confirmation page",
+    "receipt page",
+    "submitted page",
+    "application complete page",
+    "booking complete page"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Final endpoint page after a transaction is complete",
+  "uiGuidance": [
+    "Render a full page after commit with a prominent completion panel, a page heading that names what finished, a reference or receipt when users need one, and a clear section for what happens next.",
+    "Place contact, tracking, save, print, feedback, and related-service links below the completion panel in a restrained hierarchy so the receipt remains the primary page purpose."
+  ],
+  "uxGuidance": [
+    "Use a confirmation page when the transaction or service journey has ended and users need durable proof, reassurance, next-step timing, or a record they can bookmark, print, quote, or revisit.",
+    "Define the post-commit lifecycle: users should not see pre-submit Change links, but they should know how to track, amend, cancel, contact support, start another transaction, or recover when a bookmarked receipt can no longer be shown."
+  ],
+  "uiExamples": {
+    "good": [
+      "A grant application page says Application complete, shows reference APP-48291, lists what happens next within 5 working days, and offers Save record, Track application, and feedback links.",
+      "A booking complete page shows the appointment location and time under the success panel, explains that an email was sent, and keeps related links secondary."
+    ],
+    "bad": [
+      "A submitted application only redirects to a dashboard toast that says Done, with no reference, receipt, or next-step details.",
+      "A green completion page contains six unrelated cards, a marketing banner, edit links, and no clear statement of whether the transaction is finished."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user copies the reference, saves the receipt, follows Track application, and later returns from a bookmark to the same confirmation details or a helpful tracking fallback.",
+      "A user who needs to correct submitted details sees contact or amend guidance that matches the service rules rather than pre-submit Change links."
+    ],
+    "bad": [
+      "A user closes the page after seeing a transient message and later cannot prove the payment or application happened.",
+      "A permission failure is displayed as a successful confirmation page, so the user waits for a next step that will never happen."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users finish a transaction but do not know whether it is complete, what reference proves it, what will happen next, how long it will take, who to contact, or how to recover the receipt later.",
+  "solution": "Route successful final submit to a dedicated confirmation page that proves completion, gives any needed reference or submitted details, explains next steps and timing, provides contact or tracking paths, and offers a sensible way to keep or revisit the record.",
+  "problemContext": [
+    "The user has completed a transaction such as applying, booking, paying, submitting a survey, publishing, closing an account, or sending a consequential request.",
+    "The action is committed enough that pre-submit editing is no longer the main model, but the service may still need track, amend, cancel, or contact routes.",
+    "The user may need to show proof later, quote a reference number, wait for a response, prepare for an appointment, or understand that there is nothing more to do.",
+    "The page may be bookmarked, printed, screenshotted, emailed, or reopened from browser history, so the service needs a helpful return behavior."
+  ],
+  "selectionRules": [
+    "Choose confirmation page when the transaction is finished and the user needs endpoint proof plus what happens next.",
+    "Include a reference number only when it has a real support, tracking, payment, booking, or audit use; explain what it is for and whether users should keep it.",
+    "State the next responsible party, expected timing, and whether the user needs to do anything else.",
+    "Summarize submitted details when they help the user verify an appointment, payment, booking, application, or survey response after commit.",
+    "Provide contact, tracking, amend, cancel, save, print, email receipt, feedback, or related-service links only when they support the completed transaction.",
+    "Use success confirmation instead when the user remains in the same task and the success proof belongs near the changed object.",
+    "Use review before submit instead when users still need Change links and final pre-commit inspection.",
+    "Use notification banner instead when a previous-page action succeeded but the current journey continues.",
+    "Use error state, service unavailable page, permission denied state, or error summary instead when completion did not happen.",
+    "Avoid filling the endpoint with unrelated promotional content or multiple equal calls to action that obscure the completion message."
+  ],
+  "requiredStates": [
+    "Submitted state immediately after authoritative commit routes to the confirmation page.",
+    "Completion panel state with success heading and reference or receipt details when available.",
+    "Next-step state that names timing, responsible party, contact route, and whether any user action remains.",
+    "Record-keeping state with save, print, email, copy reference, or downloadable receipt when users may need proof.",
+    "Submitted-detail summary state for bookings, payments, survey responses, or applications where details matter after commit.",
+    "Post-commit correction state that replaces pre-submit Change links with amend, cancel, track, or contact guidance.",
+    "Bookmarked-return state that either restores the receipt or provides a helpful tracking or support path.",
+    "Start-again state for users who need to begin another transaction without confusing it with the completed one.",
+    "Failure handoff state where uncommitted, denied, invalid, or unavailable outcomes do not render as completion."
+  ],
+  "interactionContract": [
+    "The page appears only after the final action succeeds according to the authoritative system of record.",
+    "The H1 or panel title names the finished transaction rather than saying only Success.",
+    "Reference numbers, timestamps, submitted details, and next steps are generated from canonical committed data.",
+    "Pre-submit Change links are removed after commit; any correction path uses explicit amend, cancel, contact, or track rules.",
+    "Save, print, email, copy, feedback, and tracking actions preserve the completion context and keep users on or return them to the receipt when appropriate.",
+    "Starting a new transaction clears the old flow state while leaving the completed reference accessible through tracking or history if supported.",
+    "Returning through a bookmark does not show stale private data without authorization; if the receipt cannot be restored, the page explains how to track or contact the service."
+  ],
+  "implementationChecklist": [
+    "Identify the authoritative commit event, receipt identifier, user-visible reference, timestamp, submitted details, and next-step owner before rendering the page.",
+    "Write the completion heading as a finished outcome, such as Application complete, Booking complete, Payment sent, or Response submitted.",
+    "Show the reference in a durable readable form and explain why users may need it.",
+    "Add next-step content with concrete timing, responsible organization or system, and what the user should do if nothing happens.",
+    "Provide a record-keeping route such as print, save PDF, email receipt, copy reference, or tracking link when the receipt is useful later.",
+    "Remove review-page editing controls and replace them with post-submit amend, cancel, contact, or support guidance.",
+    "Handle browser Back, reload, refresh, duplicate submit, bookmarked return, expired sessions, and unauthenticated access without creating a second transaction.",
+    "Test mobile layout, print styles, screen reader heading order, focus after submit, long reference numbers, repeated applications, privacy-sensitive receipts, and unavailable tracking."
+  ],
+  "commonMisuses": [
+    "Showing a toast or local success strip as the only proof of a completed transaction.",
+    "Using a confirmation page before the transaction is committed.",
+    "Leaving Change links active after final submit.",
+    "Showing a reference number without explaining whether users need to keep it.",
+    "Omitting what happens next or when the user should expect a response.",
+    "Using a green completion page for permission denial, service failure, or validation recovery.",
+    "Adding so many unrelated links and cards that the completion message no longer reads as the page purpose.",
+    "Breaking bookmarked returns with a blank or hostile expired-session page."
+  ],
+  "critiqueQuestions": [
+    "What system event proves the transaction is complete?",
+    "What reference, receipt, timestamp, or submitted details will users need later?",
+    "What exactly happens next, who owns it, and when should the user expect it?",
+    "Is the page still offering pre-submit editing after commit?",
+    "How can users save, print, email, copy, track, amend, cancel, or contact support from this endpoint?",
+    "What happens if users bookmark, refresh, go Back, submit twice, or return after their session expires?"
+  ],
+  "useWhen": [
+    "A transaction or service journey has ended and users need durable proof plus next-step information.",
+    "Users may need to keep a reference number, receipt, booking detail, submitted-response proof, or contact path.",
+    "The product can distinguish committed success from pending, failed, denied, or still-editable states.",
+    "Users should be able to close the journey with confidence that there is nothing else required right now."
+  ],
+  "avoidWhen": [
+    "The user remains inside an ongoing task and only needs local proof near the changed object.",
+    "The next step is still pre-submit review or correction.",
+    "The outcome is a previous-page message before a continuing task page.",
+    "The action failed, is still pending, is denied, or needs validation recovery.",
+    "The completion is so low-risk and self-evident that a brief success confirmation or toast is enough."
+  ],
+  "variants": [
+    "Application complete page",
+    "Booking complete page",
+    "Payment receipt page",
+    "Survey submitted page",
+    "Order confirmation page",
+    "Account closure confirmation page",
+    "Publication complete page",
+    "Email receipt confirmation",
+    "Trackable reference page"
+  ],
+  "accessibility": [
+    "Use one clear page H1 or panel title that communicates completion without relying on green color alone.",
+    "Keep interactive controls out of low-contrast panel treatments unless focus and text contrast are explicitly verified.",
+    "Put next-step headings, submitted details, and contact links in logical reading order after the completion panel.",
+    "Make reference numbers selectable and readable by assistive technology; avoid encoding proof only in an image or QR code.",
+    "Provide print and saved-record output that preserves the reference, next steps, contact details, and page title.",
+    "Avoid overwhelming screen reader users with many competing widgets immediately after the completion panel.",
+    "When navigating from submit to confirmation, move focus to the main heading or confirmation panel."
+  ],
+  "keyboardBehavior": [
+    "After successful submit, keyboard focus lands on the confirmation page heading or success panel.",
+    "Tab order moves from the completion proof to next steps, record-keeping actions, contact or tracking links, feedback, and start-again actions.",
+    "Copy reference, print, save, email receipt, and track actions are real buttons or links with accessible names that include the confirmed object or reference.",
+    "Browser Back does not resubmit the transaction; it should show a safe previous state, a submitted warning, or the confirmation page according to service rules.",
+    "Refreshing the confirmation page does not create duplicate transactions.",
+    "If a bookmarked receipt requires authentication, focus moves to the sign-in or tracking recovery heading with the reference context preserved when allowed."
+  ],
+  "failureModes": [
+    "Users contact support because the page did not say when they should expect a response.",
+    "Users cannot prove a completed payment because the only receipt was a short-lived message.",
+    "Users submit twice because refresh or Back replays the final action instead of returning to the receipt.",
+    "Users edit a submitted application through stale Change links and believe the committed record changed.",
+    "Users bookmark a receipt and return to an unexplained session-expired page.",
+    "Assistive technology users miss completion because focus stays on a hidden submit button or the success panel is not announced as the page heading.",
+    "Users mistake a denied or failed request for completion because the error page uses success-page styling.",
+    "Users are overwhelmed by unrelated next actions and cannot tell whether anything else is required."
+  ],
+  "relatedPatterns": [
+    "success-confirmation",
+    "review-before-submit",
+    "notification-banner",
+    "confirmation-dialog",
+    "error-summary",
+    "inline-message"
+  ],
+  "comparisons": [
+    "confirmation-page-vs-success-confirmation-vs-review-before-submit-vs-notification-banner"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Confirmation pages",
+      "url": "https://design-system.service.gov.uk/patterns/confirmation-pages/",
+      "platform": "web",
+      "notes": "Documents transaction-end confirmation pages with reference number, next steps, contact details, useful onward links, feedback, save-record behavior, and bookmarked returns.",
+      "screenshot": "screenshots/patterns/confirmation-page.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "NHS digital service manual Confirmation page",
+      "url": "https://service-manual.nhs.uk/design-system/patterns/confirmation-page",
+      "platform": "web",
+      "notes": "Documents booking-complete pages with green panel, appointment details, next-step timing, optional reference number, feedback link, and research on avoiding too many components.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "ONS Service Manual Confirmation page",
+      "url": "https://service-manual.ons.gov.uk/design-system/patterns/confirmation-page",
+      "platform": "web",
+      "notes": "Documents survey response confirmation pages and the boundary against service problems, permission denial, and further-guidance pages.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "USWDS Keep a record",
+      "url": "https://designsystem.digital.gov/patterns/complete-a-complex-form/keep-a-record/",
+      "platform": "web",
+      "notes": "Supports printable or saved records for long complex forms, reinforcing the confirmation-page need to preserve receipt information when users may need it later.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-confirmation-pages-pattern",
+      "note": "GOV.UK supports confirmation pages at transaction end with reference, next steps, contact details, useful onward links, feedback, save-record behavior, and bookmarked returns."
+    },
+    {
+      "id": "nhs-confirmation-page-pattern",
+      "note": "NHS supports a green panel, next-step details, optional reference numbers, submitted detail summaries, feedback links, and restraint to avoid overwhelming users."
+    },
+    {
+      "id": "ons-confirmation-page-pattern",
+      "note": "ONS supports survey endpoint confirmation and avoids using confirmation pages for service problems, permission denial, or further guidance."
+    },
+    {
+      "id": "govuk-check-answers-pattern",
+      "note": "GOV.UK check answers supports the boundary that review appears immediately before confirmation, while confirmation appears after submit."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

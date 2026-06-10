@@ -1,0 +1,276 @@
+{
+  "id": "bank-details",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a secure bank-account capture pattern with source-backed guidance for account holder name, routing identifiers, account number, optional building society roll number, no account-type question, account validation outcomes, masked review, direct-debit and open-banking boundaries, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers bank or building society account details, secure in-service collection, account holder name, sort code or routing number, account number, optional roll number, no account-type question, paste and spacing tolerance, field-specific errors, account validation, Confirmation of Payee-style match outcomes, pending micro-deposit verification, masked review, and consequential update handling.",
+    "relatedPatternDistinction": "The entry separates bank details from text input by requiring multiple financial account fields and validation, from input mask by using formatting only as a supporting behavior inside fields, from review before submit by owning capture and verification before the final review gate, and from payment card details by collecting account-to-account routing data instead of card network credentials.",
+    "liveDemoBehavior": "The rendered exercise formats sort code and account number, preserves roll number optionality, validates missing or mistyped fields, shows match, close-match, no-match, and pending micro-deposit states, masks stored details for review, and contrasts a broken one-field flow that emails account details and treats formatting as verification.",
+    "comparisonDecisionRules": "The linked bank-details-vs-text-input-vs-input-mask-vs-review-before-submit comparison gives concrete rules for complete account capture, ordinary short text, formatting masks, final review, secure collection, roll-number optionality, account validation, verification outcomes, ACH or open-banking alternatives, and masked review.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/bank-details.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, account holder name, sort code, account number, optional roll number, validation errors, verification outcomes, masked review, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/bank-details.png"
+    ]
+  },
+  "name": "Bank details",
+  "aliases": [
+    "bank account details",
+    "bank or building society details",
+    "account details",
+    "ACH bank account entry",
+    "direct debit account details",
+    "payout account details",
+    "sort code and account number"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Secure bank account identification and verification form",
+  "uiGuidance": [
+    "Render bank details as a secure grouped form with account holder name, routing identifier, account number, optional roll number or regional equivalent, clear hints, field-specific errors, verification status, and a masked review summary.",
+    "Use widths, grouping, and examples that match the financial identifier being copied, while keeping labels persistent and avoiding placeholder-only instructions."
+  ],
+  "uxGuidance": [
+    "Use bank details when the service needs an account to pay a user, collect a direct debit, issue a refund, run payroll, initiate a bank payment, or save a payout destination.",
+    "Help users enter, verify, and review the account safely by tolerating spacing, preserving values after errors, explaining verification outcomes, and avoiding unstructured collection channels."
+  ],
+  "uiExamples": {
+    "good": [
+      "A refund form asks for Name on the account, Sort code, Account number, and Building society roll number (optional), then shows a masked summary before Confirm payout.",
+      "An ACH setup flow asks for Account holder name, Routing number, Account number, account type only when the processor requires it, and then shows pending micro-deposit verification."
+    ],
+    "bad": [
+      "A form has one field labelled Bank details and asks users to paste name, account number, sort code, and notes together.",
+      "The page asks users to email a bank statement or bank details attachment instead of collecting details securely inside the service."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user types a sort code with spaces, the form normalizes it to 12-34-56, checks the account holder name, warns about a close match, and lets the user review before payout.",
+      "A user with a building society roll number enters it in an optional field; a user without one leaves it blank without being forced to choose an account type."
+    ],
+    "bad": [
+      "A user mistypes one digit and the service silently accepts the account, then the payment fails days later with no field-level recovery.",
+      "A form rejects a pasted sort code with dashes even though the digits are valid and the user is copying from their bank."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Bank account details are high-consequence, easy to mistype, and region-specific, so generic fields, silent formatting, or unverified collection can misdirect money or expose sensitive information.",
+  "solution": "Collect bank account parts in a secure grouped form, validate each part with tolerant formatting, support optional account-specific fields, explain verification results, preserve user-entered values, and show a masked review before money moves.",
+  "problemContext": [
+    "The product needs to pay money to a user, collect money by bank debit, refund to a bank account, set up payroll, save a payout account, or initiate an account-to-account payment.",
+    "Accepted identifiers vary by region and rail, such as UK sort code and account number, U.S. routing and account number, IBAN, roll number, saved account selection, or bank redirection.",
+    "Users may copy from bank apps, cards, statements, checks, employer portals, or building society passbooks and may include spaces, hyphens, or line breaks.",
+    "Verification can produce more than one outcome: format valid, account exists, name match, close match, no match, pending micro-deposit, failed verification, or user override.",
+    "Bank details are sensitive enough to require secure collection, masked display, access control, audit logging, and careful recovery flows."
+  ],
+  "selectionRules": [
+    "Choose bank details when the service needs financial account identifiers for payout, debit, refund, payroll, account linking, bank transfer, or payment initiation.",
+    "Ask for the fields required by the payment rail and country, not a generic bank details blob.",
+    "Use sort code and account number for UK domestic account details when that is the supported payment route.",
+    "Use routing number and account number for U.S. ACH flows, plus account type only when the processor or rail requires it.",
+    "Use IBAN, BIC, or bank redirection when the selected country, payment rail, or open-banking flow requires those identifiers.",
+    "Do not ask users whether they have a bank account or building society account when an optional roll number field is enough.",
+    "Make roll number, secondary reference, or regional account addenda optional unless the user or payment provider indicates it is required.",
+    "Accept pasted identifiers with spaces, hyphens, and common grouping, then normalize them visibly before validation.",
+    "Validate each part separately and preserve all entered values after a failed check.",
+    "Treat account validation, Confirmation of Payee, instant verification, and micro-deposits as verification states that users can understand and recover from.",
+    "Show enough masked detail on review to let users recognize the account, such as account holder name, sort code, last digits, and verification status.",
+    "Do not collect bank account details by email, chat, free-text attachment, screenshot, or unsupported file upload.",
+    "Route bank-detail changes through review before submit when money, payroll, benefits, refunds, or account ownership will change."
+  ],
+  "requiredStates": [
+    "Initial secure collection state with purpose, account holder name, routing field, account number, optional roll number or regional equivalent, and hints.",
+    "Focused entry state with persistent labels and widths that match expected identifier lengths.",
+    "Pasted value state where spaces, hyphens, and line breaks are normalized without losing digits.",
+    "Missing account holder name error state.",
+    "Invalid routing identifier state with a field-specific correction.",
+    "Invalid account number state with preserved account number and exact length or digit guidance.",
+    "Optional roll number provided and not provided states.",
+    "Verification pending state for micro-deposit, processor, or bank-response checks.",
+    "Verified account match state with masked account summary.",
+    "Close-match or name-mismatch state requiring user review.",
+    "No-match or failed verification state with correction, alternate verification, or support path.",
+    "Submitted or saved state that stores the account securely and shows only masked details on later pages."
+  ],
+  "interactionContract": [
+    "Users can paste account details from trusted sources without losing spacing, leading zeros, or roll-number characters.",
+    "Formatting changes are visible and do not silently change the canonical account number.",
+    "Submitting incomplete details highlights the exact missing or invalid field while preserving every typed value.",
+    "Optional roll-number or regional fields never block users who genuinely do not have that value.",
+    "Account validation results are displayed as match, close match, no match, pending, failed, or overridden rather than hidden behind a generic error.",
+    "Verification that takes time creates a pending state with clear next steps and does not pretend the account is ready.",
+    "Saved or review states mask sensitive digits while still giving users enough information to detect the wrong account.",
+    "Changing saved bank details revalidates the new account and invalidates stale payout, debit, or payroll review state."
+  ],
+  "implementationChecklist": [
+    "Define supported countries, payment rails, required fields, optional fields, validation services, verification outcomes, masking rules, retention policy, and audit logging before designing the form.",
+    "Use native inputs with visible labels, stable names, inputmode settings, autocomplete settings only where appropriate, and aria-describedby for hints and errors.",
+    "Normalize pasted sort codes, routing numbers, account numbers, IBANs, and roll numbers without dropping leading zeros.",
+    "Validate format locally where possible and verify account existence, account name, or ownership through the chosen payment provider or banking rail where required.",
+    "Represent close-match, no-match, pending, failed, and override outcomes explicitly in the UI and backend state.",
+    "Mask stored details on summaries, logs, analytics, notifications, and review pages unless a user is actively editing inside a secure session.",
+    "Avoid sending bank details through email, support tickets, event telemetry, screenshots, or file uploads.",
+    "Test paste, deletion, mobile numeric keyboards, screen readers, zoom, saved drafts, browser Back, validation outage, micro-deposit return, provider timeout, duplicate account, and review-before-submit flows."
+  ],
+  "commonMisuses": [
+    "Using one freeform field for all account details.",
+    "Collecting bank details by email or uploaded statement when a structured secure form is available.",
+    "Asking users to identify whether their account is a bank or building society account.",
+    "Making building society roll number required for everyone.",
+    "Silently stripping leading zeros or changing account numbers during formatting.",
+    "Treating a syntactically valid account number as verified ownership.",
+    "Showing only a generic payment failed message after a validation error.",
+    "Masking every digit on review so users cannot recognize the account.",
+    "Storing raw bank details in logs, analytics, local storage, or support transcripts.",
+    "Treating bank-login account selection and manual bank-detail entry as the same recovery flow."
+  ],
+  "critiqueQuestions": [
+    "Which payment rail and country determine the exact account fields required?",
+    "Can users paste details with spaces or hyphens without losing leading zeros?",
+    "How does the UI represent account validation, name-match, pending verification, and failed verification states?",
+    "Are roll numbers or regional addenda optional for users who do not have them?",
+    "What masked details are shown so users can recognize the account before money moves?",
+    "Where are raw bank details stored, logged, transmitted, and removed?",
+    "What happens when a user changes saved bank details after a payout or debit is already in review?"
+  ],
+  "useWhen": [
+    "The product needs bank account details to send money, collect money, set up payroll, save payout details, issue refunds, or initiate bank-to-bank payments.",
+    "The account details can be captured securely and verified through a suitable payment or banking process.",
+    "Users need to review financial account details before a consequential transaction.",
+    "The product can support regional field differences and verification exceptions."
+  ],
+  "avoidWhen": [
+    "The task is to collect payment card credentials rather than bank account identifiers.",
+    "Users should authenticate with their bank and select an account through an open-banking or hosted provider flow instead of manually entering details.",
+    "The product cannot protect bank details in transit, storage, logs, support tools, or review pages.",
+    "The service only needs a non-financial label, reference, or note.",
+    "The product cannot recover from pending, failed, or mismatched account verification outcomes."
+  ],
+  "variants": [
+    "UK sort code and account number",
+    "Building society roll number",
+    "U.S. ACH routing and account number",
+    "IBAN and BIC",
+    "Bank account for payout",
+    "Bank account for direct debit",
+    "Saved payout account update",
+    "Open-banking account selection",
+    "Micro-deposit pending verification",
+    "Confirmation of Payee match",
+    "Masked bank details review"
+  ],
+  "accessibility": [
+    "Group account fields under a heading or legend that explains why bank details are being requested.",
+    "Use visible labels for every field and avoid placeholder-only examples.",
+    "Associate hints and errors with each specific input, especially when accepted length or characters differ by field.",
+    "Do not rely on masking or spacing alone to communicate validation status.",
+    "Announce verification results and pending states without moving focus unexpectedly.",
+    "Keep masked review summaries readable and avoid exposing full account numbers to assistive technology when visual users see masked details.",
+    "Ensure numeric keyboards do not prevent required letters, spaces, hyphens, slashes, or full stops in roll numbers or IBANs."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows account holder name, routing identifier, account number, optional roll number, verification actions, and submit.",
+    "Typing, deletion, selection, paste, undo, and redo follow native input behavior.",
+    "Hyphen insertion in a sort code does not trap focus or prevent correcting the middle pair of digits.",
+    "Submitting invalid details moves focus to an error summary or the first invalid field while preserving all entered values.",
+    "Verification retry, micro-deposit confirmation, override, and manual correction paths are reachable by keyboard.",
+    "Browser Back and saved drafts restore masked or editable states according to the current security session."
+  ],
+  "failureModes": [
+    "Money is sent to the wrong account because users could not review recognizable details.",
+    "A valid account fails because leading zeros were stripped or pasted hyphens were rejected.",
+    "A building society user cannot enter a roll number, or every user is forced to invent one.",
+    "The service accepts a valid format but never verifies account existence, name match, or ownership when the rail requires it.",
+    "A pending micro-deposit state looks complete and users expect a payment immediately.",
+    "A close match from account-name checking is treated as a successful match without user confirmation.",
+    "Full bank details leak into analytics, logs, screenshots, or support tickets.",
+    "A changed payout account does not invalidate a prior review or payment authorization.",
+    "Validation provider downtime blocks users without a retry, pending, or alternate verification path."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "input-mask",
+    "inline-validation",
+    "error-summary",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "bank-details-vs-text-input-vs-input-mask-vs-review-before-submit"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Bank details",
+      "url": "https://design-system.service.gov.uk/patterns/bank-details/",
+      "platform": "web",
+      "notes": "Documents secure bank or building society account collection for paying users, including account holder name, sort code, account number, optional roll number, account-type avoidance, and field-specific validation.",
+      "screenshot": "screenshots/patterns/bank-details.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Pay.UK Sort code information",
+      "url": "https://www.wearepay.uk/what-we-do/payment-systems/access-to-payment-systems/getting-started/sort-code-information/",
+      "platform": "web",
+      "notes": "Documents sort codes as routing information for UK payment systems, supporting field-specific treatment rather than generic numeric text.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Pay.UK Confirmation of Payee FAQs",
+      "url": "https://www.wearepay.uk/what-we-do/overlay-services/confirmation-of-payee/faqs/",
+      "platform": "web",
+      "notes": "Documents account name checking for UK domestic payments using sort code, account number, and payee name.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Nacha WEB Debit Account Validation Rule",
+      "url": "https://www.nacha.org/rules/supplementing-fraud-detection-standards-web-debits",
+      "platform": "web",
+      "notes": "Documents account validation requirements for online ACH debit first-use account numbers and account-number changes.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Plaid Auth micro-deposit verification",
+      "url": "https://plaid.com/docs/auth/coverage/instant/",
+      "platform": "web",
+      "notes": "Documents micro-deposit verification, verification code entry, and manual verification status for account and routing details.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-bank-details-pattern",
+      "note": "GOV.UK supports secure bank-details collection, account holder name, sort code, account number, optional roll number, account-type avoidance, and field-specific errors."
+    },
+    {
+      "id": "payuk-sort-code-information",
+      "note": "Pay.UK supports sort codes as UK payment-routing identifiers for Bacs, Faster Payments, Image Clearing, and related systems."
+    },
+    {
+      "id": "payuk-confirmation-of-payee-faqs",
+      "note": "Pay.UK supports account-name checking using payee name, sort code, and account number for domestic payments."
+    },
+    {
+      "id": "nacha-web-debit-account-validation",
+      "note": "Nacha supports account validation for online ACH debit first-use details and account-number changes."
+    },
+    {
+      "id": "plaid-auth-microdeposits",
+      "note": "Plaid supports instant and micro-deposit verification states for account and routing details."
+    },
+    {
+      "id": "open-banking-account-selection-pisp",
+      "note": "Open Banking supports manual account identification, saved account selection, IBAN, roll number when required, and bank redirection alternatives."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

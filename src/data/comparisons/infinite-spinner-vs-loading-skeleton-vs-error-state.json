@@ -1,0 +1,43 @@
+{
+  "id": "infinite-spinner-vs-loading-skeleton-vs-error-state",
+  "title": "Infinite spinner vs loading skeleton vs error state",
+  "summary": "Use a bounded loading treatment while work is genuinely pending, switch to skeleton for predictable content structure, and move to error or recovery when the operation fails or exceeds a useful wait.",
+  "patternIds": ["infinite-spinner", "loading-skeleton", "error-state"],
+  "decisionRules": [
+    "Flag infinite spinner when the interface can remain busy with no named operation, elapsed status, timeout, retry, cancellation, cached fallback, or failure state.",
+    "Use a short labeled spinner when an action is actively processing, expected to finish quickly, and does not require the user to make another decision while waiting.",
+    "Use loading skeleton when predictable content layout is pending and the placeholder will resolve to loaded content, empty state, error state, or cancelled state.",
+    "Use determinate progress, step status, or queue position when the backend can expose percent complete, stages, item counts, or job order.",
+    "Use error state when loading, saving, syncing, importing, or report generation fails, times out, loses permission, or reaches a retry limit.",
+    "After the wait threshold, offer recovery that matches the operation: retry for transient network failure, cancel for user-started jobs, cached data for read-only loads, background continuation for long jobs, or support reference for unrecoverable stalls.",
+    "Do not combine spinner and skeleton for the same region unless each indicator describes a different piece of work with a separate resolution path.",
+    "Do not keep a button disabled with only a spinner when users need to correct input, cancel, retry, or leave safely."
+  ],
+  "failureModes": [
+    "A spinner masks an API failure and the page never transitions to an error state.",
+    "A skeleton screen shimmers forever because no timeout path exists.",
+    "The same region shows a spinner and skeleton, creating conflicting progress signals.",
+    "A disabled loading button prevents cancellation or correction after the request has stalled.",
+    "Users refresh and duplicate a submission because the UI never confirms success or failure.",
+    "A busy region is never cleared for assistive technology after the operation fails."
+  ],
+  "sources": [
+    {
+      "id": "carbon-loading-component",
+      "note": "Carbon documents contextual loading indicators, skeleton alternatives for progressive content, labels for wait context, and alternatives when interaction is required."
+    },
+    {
+      "id": "mdn-aria-progressbar",
+      "note": "MDN documents progressbar naming, indeterminate and determinate values, and aria-busy for affected loading regions."
+    },
+    {
+      "id": "nord-skeleton-component",
+      "note": "Nord documents dynamic-content skeletons and removing busy state after loaded content appears."
+    },
+    {
+      "id": "atlassian-error-messages",
+      "note": "Atlassian documents recovery-oriented error messages when the user journey cannot proceed as expected."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

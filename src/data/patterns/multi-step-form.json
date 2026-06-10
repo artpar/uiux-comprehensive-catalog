@@ -1,0 +1,227 @@
+{
+  "id": "multi-step-form",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a multi-page transaction pattern with source-backed guidance for ordered sections, per-step save and validation, Back and Continue behavior, review before submit, stale downstream answer handling, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a transaction split across ordered pages or sections, one thing per page as the default, per-step persistence, Back and Continue behavior, route-state synchronization, conditional step handling, review or check-answers steps, change links, stale downstream answers, and final submission.",
+    "relatedPatternDistinction": "The entry separates multi-step form from single-page form by multi-page persistence and recovery, from single-question page by whole transaction ownership versus one page, from step navigation by form lifecycle versus progress indicator, and from wizard by avoiding heavy guided tool behavior unless strict sequential dependency dominates the task.",
+    "liveDemoBehavior": "The rendered exercise advances through eligibility, contact, documents, review, and submit states, validates before unlocking the next step, preserves previous answers on Back, invalidates stale later answers after an eligibility change, and contrasts a broken flow that skips required pages and clears saved values.",
+    "comparisonDecisionRules": "The linked multi-step-form-vs-single-page-form-vs-single-question-page-vs-step-navigation comparison gives concrete rules for ordered pages, compact one-page alternatives, single question pages, progress indicators, review steps, answer preservation, future-step locking, conditional step counts, stale downstream answers, and route synchronization.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/multi-step-form.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, ordered steps, per-step persistence, Back and Continue behavior, review state, stale-answer handling, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/multi-step-form.png"
+    ]
+  },
+  "name": "Multi-step form",
+  "aliases": [
+    "multi-page form",
+    "multi-step transaction",
+    "multi-part form",
+    "sectioned application form",
+    "linear form flow"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Multi-page transaction with saved step state",
+  "uiGuidance": [
+    "Render each step as a focused page with a clear heading, progress context when useful, Back and Continue controls, local validation, and a final review page before submission.",
+    "Show step status honestly: current, complete, locked, optional, stale, error, and review states must match saved form data rather than page visits."
+  ],
+  "uxGuidance": [
+    "Use a multi-step form when a transaction is too long, conditional, high-stakes, or hard to recover from as one page, and users need manageable saved progress.",
+    "Persist answers at each step, let users return and change them without repeating the whole transaction, and recompute later steps when earlier answers alter eligibility or required evidence."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefit application has Eligibility, Contact details, Documents, Review, and Submit pages, with the current step named in the heading and completed steps shown from saved data.",
+      "The review page groups captured answers with Change links that return to the right step and then back to review."
+    ],
+    "bad": [
+      "A five-screen flow shows all steps as complete after users only viewed them.",
+      "A stepper strip is shown without page headings, Back behavior, saved answers, or a final review before submission."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user completes eligibility and contact details, goes Back from documents, sees contact details still filled, continues, and returns to the same documents step.",
+      "A user changes an eligibility answer on review, the documents step is marked needs review, and final submit is blocked until stale evidence is checked."
+    ],
+    "bad": [
+      "A user changes an early answer and the form silently submits later answers that no longer apply.",
+      "A browser refresh on step 3 clears steps 1 and 2, forcing the user to start again."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Long or conditional transactions become overwhelming, fragile, and error-prone when all fields are shown at once or when page-by-page flows fail to save progress, validate prerequisites, or let users review changes before final submission.",
+  "solution": "Split the transaction into ordered saved steps with focused pages, clear progress context, validation before advancement, answer preservation, review and change behavior, and explicit handling for conditional or stale downstream answers.",
+  "problemContext": [
+    "The task has enough questions, sections, dependencies, or risk that one page would be hard to scan or recover from.",
+    "Users may need to complete the transaction on mobile, leave and return, or change earlier answers after seeing a review page.",
+    "Later steps may depend on earlier answers, such as eligibility, document requirements, payment amount, or routing."
+  ],
+  "selectionRules": [
+    "Choose a multi-step form when the transaction has several ordered pages or sections that need saved progress.",
+    "Prefer single-page form when fields are compact, related, low branching, and best reviewed together before one submit.",
+    "Use single-question pages as individual steps when one answer deserves a focused page inside the larger transaction.",
+    "Use a step indicator only when three or more stable high-level steps benefit from progress visibility.",
+    "Include a review step when users need to confirm captured answers before final submission.",
+    "Persist each step before moving forward and preserve values when users go Back, refresh, or return from review.",
+    "Validate prerequisites before unlocking later steps or explain why a future step is unavailable.",
+    "When earlier answers change, mark affected later steps stale or incomplete before final submission."
+  ],
+  "requiredStates": [
+    "Not-started state with clear start point and expectation of the steps or sections ahead.",
+    "Current step state with heading, saved context, local answer controls, Back, and Continue.",
+    "Completed step state based on saved valid data.",
+    "Locked future step state before prerequisites are complete.",
+    "Validation error state that keeps the user on the current step with answers preserved.",
+    "Back-return state that restores previous answers and the correct step route.",
+    "Review state with sectioned answers and Change links.",
+    "Stale downstream state when an earlier answer changes what later steps require.",
+    "Final submitted state only after review and required steps are complete."
+  ],
+  "interactionContract": [
+    "Continue validates and saves the current step before unlocking the next required step.",
+    "Back returns to the previous step without clearing the current or previous answers.",
+    "Browser refresh, browser Back, service Back, and review Change links restore the correct page with pre-populated data.",
+    "Completed status means the step's required answers are saved and still compatible with upstream answers.",
+    "Changing an upstream answer recomputes downstream requirements and marks affected steps incomplete or stale.",
+    "Review Change links return users to the changed step and then back to review without forcing them through unrelated steps."
+  ],
+  "implementationChecklist": [
+    "Define stable step IDs, route ownership, prerequisites, completion rules, optionality, and downstream dependencies before designing screens.",
+    "Keep each step focused on one question or one coherent group of related fields.",
+    "Save step data before route transitions and restore it after Back, refresh, validation, and server errors.",
+    "Use a visible step indicator only when there are at least three stable high-level steps and progress visibility reduces uncertainty.",
+    "Add a check-answers or review step before final submission for medium or high-risk transactions.",
+    "Implement Change links that return to the exact step with pre-populated values and route users back to review when appropriate.",
+    "Invalidate or revalidate downstream steps when earlier answers change requirements.",
+    "Test keyboard flow, focus on route changes, screen reader step announcements, mobile Back behavior, refresh recovery, server validation, and stale-answer paths."
+  ],
+  "commonMisuses": [
+    "Using a multi-step form to hide a short related form that users should review on one page.",
+    "Treating a step indicator as the form lifecycle instead of modelling saved step data.",
+    "Marking a step complete after visit rather than after validation and save.",
+    "Letting users skip required future steps with no prerequisite check.",
+    "Changing the number of visible steps in a way that makes progress counts dishonest.",
+    "Clearing previous answers when users go Back or refresh.",
+    "Review Change links that force users through every later step again.",
+    "Submitting stale downstream answers after an earlier answer changes."
+  ],
+  "critiqueQuestions": [
+    "What makes each step complete, and is that based on saved valid data?",
+    "Can users go Back, refresh, and return from review without losing answers?",
+    "Are the steps stable enough for visible progress, or does conditional logic need another representation?",
+    "Which downstream steps become stale when each upstream answer changes?",
+    "Does the review step let users change answers without repeating unrelated steps?",
+    "Would this be simpler and safer as one single-page form?"
+  ],
+  "useWhen": [
+    "A transaction spans several ordered pages or sections.",
+    "Users need saved progress and manageable recovery across a longer task.",
+    "Later questions, documents, payment, or routing depend on earlier answers.",
+    "A review step is needed before final submission."
+  ],
+  "avoidWhen": [
+    "The fields are short, related, and easier to scan together on one page.",
+    "The task can be completed in any order and needs a task list rather than a linear form.",
+    "The number of steps changes so much that progress indicators become misleading.",
+    "The system cannot preserve answers across Back, refresh, validation, or server errors."
+  ],
+  "variants": [
+    "Linear multi-step form",
+    "Question-page sequence",
+    "Sectioned application form",
+    "Checkout flow",
+    "Multi-step form with review page",
+    "Multi-step form with optional steps",
+    "Multi-step form with conditional branches",
+    "Multi-step form with save and return",
+    "Multi-step form with stale downstream answers"
+  ],
+  "accessibility": [
+    "Use a clear page heading on every step and keep it synchronized with route and progress context.",
+    "Move focus to the step heading, error summary, or first invalid field after navigation and validation.",
+    "Use aria-current or equivalent only for the current progress item when a step indicator is present.",
+    "Provide text status for completed, current, locked, optional, error, and stale steps without relying on color alone.",
+    "Keep Back, Continue, review Change links, and final submit in predictable keyboard order.",
+    "Pre-populate returned steps so screen reader and keyboard users do not have to reconstruct prior answers."
+  ],
+  "keyboardBehavior": [
+    "Tab order starts at the step page content and reaches answer controls, Back, Continue, and any progress links in a predictable order.",
+    "Back and Continue are explicit buttons or links and do not depend on hidden keyboard shortcuts.",
+    "After Continue, focus moves to the next step heading or to validation errors on the current step.",
+    "Review Change links move to the selected step and preserve route context for returning to review.",
+    "Interactive progress items, if offered, only focus completed or available steps and explain locked future steps.",
+    "Browser Back restores the expected previous step without duplicate submit or data loss."
+  ],
+  "failureModes": [
+    "Saved progress is local-only and disappears after refresh or server validation.",
+    "Step status, route, and heading disagree about where the user is.",
+    "Users can submit final answers even though a prerequisite step is incomplete.",
+    "Changing an earlier answer leaves hidden downstream answers stale.",
+    "The review page is missing, so users cannot catch errors before final submission.",
+    "Review change routes make users repeat unrelated later steps.",
+    "A step indicator is shown for a short or highly conditional form where it misleads users.",
+    "Errors are shown only on the final review page instead of at the step that owns the answer."
+  ],
+  "relatedPatterns": [
+    "single-page-form",
+    "single-question-page",
+    "step-navigation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "multi-step-form-vs-single-page-form-vs-single-question-page-vs-step-navigation"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Service Manual Structuring forms",
+      "url": "https://www.gov.uk/service-manual/design/form-structure",
+      "platform": "web",
+      "notes": "Documents splitting forms across multiple pages, one thing per page, saving answers as users go, and handling branching questions and loops.",
+      "screenshot": "screenshots/patterns/multi-step-form.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Design System Check answers",
+      "url": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "platform": "web",
+      "notes": "Documents review before submission, Change links, pre-populated return pages, and returning to review without repeating unrelated transaction pages.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS Step indicator",
+      "url": "https://designsystem.digital.gov/components/step-indicator/",
+      "platform": "web",
+      "notes": "Documents progress indicators for multi-page linear forms or processes with three or more high-level steps.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance supports splitting forms across pages, one thing per page, saving as users go, and branching or loops."
+    },
+    {
+      "id": "govuk-check-answers-pattern",
+      "note": "GOV.UK check-answers guidance supports review before submit, Change links, pre-populated returns, and returning to review."
+    },
+    {
+      "id": "uswds-step-indicator-component",
+      "note": "USWDS step-indicator guidance supports progress display for linear multi-page forms with three or more high-level steps."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

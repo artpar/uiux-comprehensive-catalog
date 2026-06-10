@@ -1,0 +1,253 @@
+{
+  "id": "saved-filter",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a persisted filter-preset pattern with source-backed naming, criteria summary, owner, visibility, apply, edit, update, copy, invalid-condition, duplicate-name, query-preservation, sort-preservation, and shared-overwrite guidance plus related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers saving reusable filter criteria, applying presets to current lists, preserving separate query and sort state, naming filter sets, sharing visibility, owner labels, invalid fields, duplicate names, overwrite decisions, and criteria-only storage.",
+    "relatedPatternDistinction": "The entry separates saved filter from filter panel by persistence, from filter chips by storage and management lifecycle, from saved search by excluding text query, search scope, ranking, subscriptions, and full result-view identity, and from sort controls by not changing order unless explicitly included.",
+    "liveDemoBehavior": "The live demo applies named filter presets, keeps the current query and sort visible, updates criteria chips and result counts, shows modified-from-saved state, saves a criteria-only preset, updates an existing preset, clears the active preset while leaving query and sort intact, and contrasts bad behavior that snapshots rows or clears query and sort.",
+    "comparisonDecisionRules": "The linked saved-filter-vs-filter-panel-vs-saved-search-vs-filter-chips comparison gives concrete rules for persisted criteria, current-session panels, full search definitions, applied chips, query and sort preservation, shared visibility, invalid conditions, and snapshot failures.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/saved-filter.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, reusable criteria presets, query and sort preservation, save/update/clear behavior, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/saved-filter.png"
+    ]
+  },
+  "name": "Saved filter",
+  "aliases": [
+    "filter preset",
+    "saved list filter",
+    "saved view filter",
+    "filter view",
+    "criteria preset",
+    "reusable filter",
+    "personal filter",
+    "team filter"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Personalization And Preference",
+    "Data Display And Exploration",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persisted named filter criteria applied to a list, table, board, or dashboard",
+  "uiGuidance": [
+    "Place Save filter close to the active filter controls and show a criteria preview that names every stored field, operator, and value before users commit it.",
+    "List saved filters with name, owner, visibility, scope of application, active state, last updated metadata, and actions for Apply, Edit, Duplicate, Update, Share, and Delete."
+  ],
+  "uxGuidance": [
+    "Use saved filter when users repeatedly apply the same filter values to a changing list and need to reuse those criteria across sessions or teams.",
+    "Keep saved filters criteria-only unless the UI explicitly says it also saves query text, sort order, visible columns, route, view mode, or alert behavior."
+  ],
+  "uiExamples": {
+    "good": [
+      "A case queue exposes saved filters named High priority benefits and My review queue, each with status, team, priority, and date chips before users apply them.",
+      "An active preset banner says High priority benefits applied, shows that search query appeal and sort Newest are unchanged, and offers Update filter or Save copy.",
+      "A team filter list marks owner, visibility, last updated date, and unavailable criteria when a field was removed."
+    ],
+    "bad": [
+      "A star button saves the current table rows without showing which filters created them.",
+      "A list called Saved mixes saved filters, saved searches, recent views, pinned tabs, and browser bookmarks.",
+      "Applying a filter preset silently resets query text, sort order, and selected columns with no explanation."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A benefits worker applies High priority benefits to the current appeal search; the query stays appeal while status, team, and priority filters change.",
+      "A supervisor edits a shared queue preset and is asked whether to update the team filter or save a private copy.",
+      "A builder sees that a removed field invalidated one criterion and can delete that criterion without losing the rest of the preset."
+    ],
+    "bad": [
+      "Saving a filter freezes today's 14 rows, so tomorrow's newly urgent benefits cases never appear.",
+      "A private preset and a team preset have the same label, causing users to overwrite the shared operational queue.",
+      "Removing an invalid criterion silently broadens the saved filter and exposes records that should have stayed hidden."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users repeatedly rebuild the same filter criteria for large lists, but ordinary filter controls lose context between sessions and vague saved presets make it unclear what will change when applied.",
+  "solution": "Provide named saved-filter presets that store filter criteria, expose criteria summaries, owner and visibility, apply to current data, preserve unrelated query and sort state by default, and make update versus copy decisions explicit.",
+  "problemContext": [
+    "The product has operational lists, record tables, ticket views, case queues, boards, dashboards, or base views with recurring filter criteria.",
+    "Users need personal and team shortcuts for criteria such as status, owner, priority, segment, date range, stage, tag, or assignment group.",
+    "Filter presets may control work queues or limited views, so silent changes can hide urgent work or expose records."
+  ],
+  "selectionRules": [
+    "Choose saved filter when users need to preserve and reapply a named set of filter values, operators, and fields across sessions.",
+    "Use saved filter when the result set should stay dynamic and include records that match the criteria later.",
+    "Show criteria summaries before Apply, Save, Update, or Share so users can predict exactly which filters will change.",
+    "Preserve query text, sort order, page size, selected columns, and view mode unless the saved object explicitly includes those properties.",
+    "Separate private, team, and global presets with owner and visibility labels before users can overwrite or delete them.",
+    "Use filter panel for the current criteria builder and saved filter for the persisted reusable preset created from it.",
+    "Use filter chips to display and remove active criteria after a saved filter has been applied.",
+    "Use saved search instead when users save query text, search scope, ranking, subscriptions, reports, dashboards, or a full named result view.",
+    "Use sort controls when the saved object only changes ordering, not which records are included.",
+    "Treat invalid or permission-denied criteria as a recoverable preset state instead of silently ignoring them."
+  ],
+  "requiredStates": [
+    "No saved filter selected while current filters are still visible and saveable.",
+    "Saved filter list with active, private, team, global, owner, and last-updated states.",
+    "Criteria preview that lists each field, operator, and value included in the preset.",
+    "Applied preset state with criteria chips, result count, and separate query and sort summary.",
+    "Modified-from-saved state when current filter values no longer match the active preset.",
+    "Save as new state with name, visibility, and duplicate-name handling.",
+    "Update existing state with shared-filter warning when the preset affects other users.",
+    "Invalid criterion state for removed fields, missing options, permissions, or unsupported operators.",
+    "Empty saved-filter list state with a path to save the current filter criteria.",
+    "Deleted or unavailable preset state that explains why the saved filter cannot be applied."
+  ],
+  "interactionContract": [
+    "Saving stores filter criteria definitions, not the current result IDs.",
+    "Applying a saved filter replaces the relevant filter fields and leaves unrelated search, sort, column, and view state unchanged unless documented otherwise.",
+    "The UI visibly marks which saved filter is active and whether the current criteria have diverged from it.",
+    "Updating a preset changes future applications of that saved filter and should warn when the preset is shared or drives a queue.",
+    "Duplicating or saving a copy preserves the current criteria while assigning a new owner, name, and visibility.",
+    "Clearing the saved-filter selection removes the active preset identity without clearing all current filters unless the user chooses Clear filters.",
+    "Deleting or losing access to a preset removes it from saved-filter lists and explains any affected queue, tab, dashboard, or shortcut.",
+    "Invalid criteria remain visible with an edit or remove path so users understand why result counts changed."
+  ],
+  "implementationChecklist": [
+    "Persist canonical filter criteria as field, operator, value, and conjunction data rather than display labels or row IDs.",
+    "Render a human-readable criteria summary in the saved-filter list, active banner, save form, and update confirmation.",
+    "Store owner, visibility, shared audience, applicable object or table, last updated time, and whether the preset is system, private, team, or global.",
+    "Keep query text and sort order in separate state unless the saved-filter model includes them and the UI says so.",
+    "Detect duplicate names within the same visibility scope and require enough disambiguation for private and shared presets.",
+    "Warn before updating, deleting, or broadening a saved filter used by a team queue, default view, dashboard, automation, or report.",
+    "Validate saved criteria against current schema, permissions, and available option values before applying them.",
+    "Announce apply, save, update, copy, invalid-field, and delete outcomes through a stable status region."
+  ],
+  "commonMisuses": [
+    "Treating the visible table rows as the saved object instead of storing field, operator, and value conditions.",
+    "Treating every saved view as a saved filter even when it also saves columns, sorting, route, chart settings, or query text.",
+    "Applying a preset that clears query text or sort order without warning.",
+    "Using only color, position, or a star icon to show the active saved filter.",
+    "Mixing saved filters with saved searches, recent searches, recently viewed records, and bookmarks.",
+    "Silently dropping invalid criteria and widening the result set."
+  ],
+  "critiqueQuestions": [
+    "Can users tell which exact field, operator, and value criteria are stored before applying the preset?",
+    "Does applying the saved filter preserve unrelated query, sort, and view state unless the UI explicitly says otherwise?",
+    "Is it clear who owns the preset, who can see it, and whether updating it affects a team queue?",
+    "Can users distinguish temporary filter edits from Update saved filter and Save as new?",
+    "What happens when a saved criterion references a field, option, or record the user can no longer access?",
+    "Are saved filters visually and behaviorally separate from saved searches, filter chips, current filter panels, bookmarks, and recent history?"
+  ],
+  "useWhen": [
+    "Users repeatedly need the same filter criteria on a list, table, board, queue, base view, or dashboard.",
+    "A filter set should be personal, team, or global and available across sessions.",
+    "The saved object should include future matching records rather than a static result snapshot.",
+    "Teams rely on named criteria presets to route work, triage records, or focus operational views."
+  ],
+  "avoidWhen": [
+    "Users only need to adjust filters for the current session.",
+    "The product cannot explain which criteria are saved and which list or object they apply to.",
+    "The saved object must include query text, search scope, ranking, alerts, dashboards, reports, or complete view identity.",
+    "Criteria are too sensitive to expose in preset names, shared lists, or result counts.",
+    "The underlying data model changes so often that saved criteria would frequently become invalid without repair paths."
+  ],
+  "variants": [
+    "Private saved filter",
+    "Team saved filter",
+    "Global saved filter",
+    "System preset",
+    "Saved view filter",
+    "Pinned filter tab",
+    "Queue filter",
+    "Invalid saved filter",
+    "Copied saved filter",
+    "Default saved filter"
+  ],
+  "accessibility": [
+    "Use labelled controls for saved-filter name, visibility, owner, criteria fields, operators, and values.",
+    "Expose active saved-filter name and modified state in text, not only through selected styling or colored chips.",
+    "Announce apply, save, update, copy, delete, and invalid-criterion outcomes in a persistent status region.",
+    "Make each criteria chip removable with a descriptive accessible name that includes field and value.",
+    "Keep Apply, Save as new, Update saved filter, Duplicate, Share, and Delete reachable by keyboard in predictable order.",
+    "When confirmations or edit dialogs open, move focus into them and return focus to the triggering saved-filter control."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches saved-filter presets, criteria controls, result summary, and management actions in the same order as the visual workflow.",
+    "Enter or Space applies a focused saved-filter preset without changing query or sort controls.",
+    "After applying a preset, focus stays on the selected preset or moves to the result summary with an announcement.",
+    "Removing a criteria chip returns focus to the next chip or the active filter summary.",
+    "Update saved filter and Save as new remain separate keyboard targets when criteria differ from the active preset.",
+    "Deleting a preset returns focus to the saved-filter list or to the save-current-filter action if the list is empty."
+  ],
+  "failureModes": [
+    "The preset stores row IDs rather than field, operator, and value criteria.",
+    "Applying a saved filter clears a user's search query, sort order, columns, or view mode unexpectedly.",
+    "A shared preset can be overwritten without owner, visibility, or audience confirmation.",
+    "An invalid field is silently ignored, causing the filter to include many more records than intended.",
+    "Private saved-filter names or result counts leak in shared tabs or dashboards.",
+    "Duplicate names hide whether the user is applying their own preset or a team preset.",
+    "A saved filter used by a queue, report, automation, or dashboard is deleted with no dependency warning."
+  ],
+  "relatedPatterns": [
+    "filter-panel",
+    "filter-chips",
+    "saved-search",
+    "sort-controls",
+    "basic-search",
+    "faceted-search",
+    "no-results-recovery",
+    "checkbox-group"
+  ],
+  "comparisons": [
+    "saved-filter-vs-filter-panel-vs-saved-search-vs-filter-chips"
+  ],
+  "examples": [
+    {
+      "product": "ServiceNow saved list filters",
+      "url": "https://www.servicenow.com/docs/r/platform-user-interface/t_SavingFilters.html",
+      "platform": "web",
+      "notes": "Documents saving list filters with a name, self, group, or everyone visibility, application from the list control menu, and personal filter editing or deletion.",
+      "screenshot": "screenshots/patterns/saved-filter.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "HubSpot saved views",
+      "url": "https://knowledge.hubspot.com/records/create-and-manage-saved-views",
+      "platform": "web",
+      "notes": "Documents custom record views with filters, visibility, saved tabs, editable filters, columns, sort order, and sharing controls.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Zendesk ticket views",
+      "url": "https://support.zendesk.com/hc/en-us/articles/4408888828570-Creating-views-to-build-customized-lists-of-tickets",
+      "platform": "web",
+      "notes": "Documents personal and shared ticket views organized by condition statements, access settings, preview, columns, and cloning.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Airtable view filters",
+      "url": "https://support.airtable.com/docs/filtering-records-using-conditions",
+      "platform": "web",
+      "notes": "Documents view and interface filtering through field, operator, and value conditions that hide records from a view without deleting them.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "servicenow-save-use-list-filters",
+      "note": "ServiceNow documents saved filters with name, self, everyone, or group visibility, application from list controls, and edit/delete management."
+    },
+    {
+      "id": "hubspot-saved-views",
+      "note": "HubSpot documents saved record views with filters, private/team/everyone visibility, tabs, editable filters, sort, columns, and sharing."
+    },
+    {
+      "id": "zendesk-ticket-views",
+      "note": "Zendesk documents ticket views as condition-based personal or shared lists with access settings and preview behavior."
+    },
+    {
+      "id": "airtable-filtering-records-conditions",
+      "note": "Airtable documents view and interface filters as condition sets that hide records rather than deleting them."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

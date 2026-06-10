@@ -36,6 +36,17 @@ export const patternMaturities = [
   "anti-pattern"
 ] as const;
 
+export const patternTypes = [
+  "ui",
+  "ux",
+  "ui-ux"
+] as const;
+
+export const completionStatuses = [
+  "complete",
+  "stub"
+] as const;
+
 export const sourceTypes = [
   "spec",
   "platform-guideline",
@@ -71,12 +82,36 @@ export const patternExampleSchema = z.object({
   checkedAt: isoDateSchema
 });
 
+export const qualityExamplesSchema = z.object({
+  good: z.array(nonEmptyString).min(2),
+  bad: z.array(nonEmptyString).min(2)
+});
+
+export const completionEvidenceSchema = z.object({
+  patternSpecificGuidance: nonEmptyString,
+  relatedPatternDistinction: nonEmptyString,
+  liveDemoBehavior: nonEmptyString,
+  comparisonDecisionRules: nonEmptyString,
+  duplicateAudit: nonEmptyString,
+  manualSpotCheck: nonEmptyString,
+  screenshots: z.array(nonEmptyString).min(1)
+});
+
 export const patternEntrySchema = z.object({
   id: idSchema,
+  completionStatus: z.enum(completionStatuses),
+  completionNotes: nonEmptyString,
+  completionEvidence: completionEvidenceSchema.optional(),
   name: nonEmptyString,
   aliases: z.array(nonEmptyString),
   category: z.enum(patternCategories),
   secondaryCategories: z.array(z.enum(patternCategories)),
+  patternType: z.enum(patternTypes),
+  surfaceType: nonEmptyString,
+  uiGuidance: z.array(nonEmptyString).min(1),
+  uxGuidance: z.array(nonEmptyString).min(1),
+  uiExamples: qualityExamplesSchema,
+  uxExamples: qualityExamplesSchema,
   platforms: z.array(z.enum(platforms)).min(1),
   problem: nonEmptyString,
   solution: nonEmptyString,
@@ -99,6 +134,14 @@ export const patternEntrySchema = z.object({
   sources: z.array(sourceRefSchema).min(1),
   maturity: z.enum(patternMaturities),
   lastVerified: isoDateSchema
+}).superRefine((value, context) => {
+  if (value.completionStatus === "complete" && !value.completionEvidence) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["completionEvidence"],
+      message: "Complete patterns must include completion evidence for duplicate audit and manual spot-check."
+    });
+  }
 });
 
 export const sourceEntrySchema = z.object({

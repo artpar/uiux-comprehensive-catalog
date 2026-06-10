@@ -1,0 +1,238 @@
+{
+  "id": "autosave-form",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a background-save form pattern with source-backed guidance for per-field autosave, save-model disclosure, pending/saving/saved/failed states, retry, undo, last-saved timestamp, leave-page warning, draft versus final submit distinction, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers autosave as background draft/progress persistence, per-input triggers, debounce and blur timing, immediate safe toggle saves, visible save model, saving and saved states, timestamps, failed-save retry, undo, leave warnings, authenticated form-flow messaging, and separation between autosaved draft and final submit.",
+    "relatedPatternDistinction": "The entry separates autosave form from single-page form by replacing one final save with background persistence, from multi-step form by preserving progress without defining the page sequence, from inline edit by autosaving form progress rather than one explicit local edit, and from draft state by focusing on the save mechanism and status surface rather than the whole draft lifecycle.",
+    "liveDemoBehavior": "The rendered exercise edits title and category fields, marks the title as pending, runs autosave on blur or explicit save, shows saving and saved timestamp, simulates a failed autosave with retry and persistent error, warns on leaving while pending or failed, and contrasts a broken form that silently drops autosaved progress.",
+    "comparisonDecisionRules": "The linked autosave-form-vs-single-page-form-vs-multi-step-form-vs-inline-edit comparison gives concrete rules for autosaved background progress, ordinary one-submit forms, saved multi-step transactions, explicit inline edit, per-field triggers, final submit boundaries, sensitive-data avoidance, failed-save recovery, and leave warnings.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/autosave-form.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, autosave status, per-field pending state, saving state, saved timestamp, failed retry, leave warning, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/autosave-form.png"
+    ]
+  },
+  "name": "Autosave form",
+  "aliases": [
+    "auto-save form",
+    "autosaving form",
+    "background save form",
+    "autosaved draft form",
+    "save as you go form",
+    "automatic progress save"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Background-saving form progress",
+  "uiGuidance": [
+    "Render a clear autosave message before users start, then keep a persistent status surface for Pending, Saving, Saved with timestamp, Failed, Retry, and unsafe-to-leave states.",
+    "Show which field or section is pending when only part of the form has changed; do not claim the whole form is saved until every autosave request needed for progress preservation has succeeded."
+  ],
+  "uxGuidance": [
+    "Use autosave when losing progress would hurt and background persistence is safer than making users hunt for a distant Save button.",
+    "Treat autosave as a contract: preserve progress reliably, warn before users leave with pending or failed saves, and keep final Submit or Review separate when autosave only stores a draft."
+  ],
+  "uiExamples": {
+    "good": [
+      "A long application step says the application is saved on every change, shows Saving after an edited title blurs, then shows Draft saved just now with a timestamp.",
+      "A content editor saves a changed description as a draft in the background and keeps a visible Retry action when the latest autosave fails."
+    ],
+    "bad": [
+      "A form removes the Save button and shows no save status, leaving users unsure whether typed answers are safe.",
+      "A green Saved toast appears after one field saves, while another changed field is still pending or failed."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user writes a long answer, pauses, sees Saving, then sees Draft saved just now and can leave knowing the draft is recoverable.",
+      "A network failure occurs after a field change; the form keeps the typed value, shows Failed to autosave with Retry, and warns before the user navigates away."
+    ],
+    "bad": [
+      "A user leaves after seeing an old saved message, but the newest field was never persisted.",
+      "A password or permission field autosaves immediately and takes effect before the user reviewed the consequence."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Long or interruption-prone forms lose trust when users cannot tell whether their latest progress is pending, saved, failed, recoverable, or merely stored as a draft awaiting final submission.",
+  "solution": "Persist safe form changes automatically with visible status, per-field or per-section ownership, delayed typing saves, immediate safe toggles, retryable failure, leave-page protection, and clear separation between autosaved draft progress and final submit or activation.",
+  "problemContext": [
+    "The form is long, time-consuming, interruption-prone, or likely to be completed over multiple sessions.",
+    "Losing typed answers, comments, descriptions, uploads, or application progress would be costly.",
+    "The system can persist partial progress safely without treating the draft as final submitted data.",
+    "Users are authenticated or otherwise have a reliable place where saved progress can be restored."
+  ],
+  "selectionRules": [
+    "Choose autosave form when background progress preservation is safer than relying only on a final Save button.",
+    "Use single-page form instead when the task is short and users should intentionally submit one related set of fields.",
+    "Use multi-step form when the larger requirement is a page sequence with Back, Continue, saved step state, and final review.",
+    "Use inline edit when one visible value changes locally with explicit Save and Cancel.",
+    "Treat autosave as draft/progress preservation unless the product clearly states that each change is the final committed state.",
+    "Autosave only safe, reversible, user-owned progress by default; require review or manual save for financial, security, privacy, permission, destructive, or externally visible changes.",
+    "Save each field or section with its own pending and failed state when dependencies allow; do not say all changes are saved because one request succeeded.",
+    "Use blur and short debounce timing for typing fields; use immediate autosave for safe toggle or selection changes only when users can undo or recover.",
+    "Keep a persistent retryable error when autosave fails and warn users before they leave with pending or failed changes.",
+    "Show a timestamp or equivalent recency cue so users can tell whether the message refers to the latest change."
+  ],
+  "requiredStates": [
+    "Initial state that explains progress will be saved automatically.",
+    "Clean saved state with timestamp or recent-saved wording.",
+    "Dirty pending state after a field changes but before the autosave request starts.",
+    "Saving state with visible background activity.",
+    "Saved state after the latest changed field or section succeeds.",
+    "Failed autosave state with manual Retry and preserved draft value.",
+    "Offline or unavailable state that explains progress is not currently saved.",
+    "Leave-page warning state for pending or failed changes.",
+    "Undo or restore state when a recent autosaved change can be reversed.",
+    "Final submit or review state when the autosaved draft still needs intentional completion."
+  ],
+  "interactionContract": [
+    "Editing a field marks that field or section pending without clearing the user's value.",
+    "Autosave starts on the defined trigger, such as blur, a short pause after typing, or safe immediate control change.",
+    "Saving feedback remains visible while the background request is in flight.",
+    "Saved feedback is shown only after the latest relevant change succeeds and includes a recency cue.",
+    "Failed autosave keeps the draft editable, identifies the affected field or section, and offers Retry.",
+    "Navigation away is blocked or warned when changes are pending, failed, or not yet recoverable.",
+    "Final Submit, Review, Publish, or Activate remains separate when autosave only stores draft progress."
+  ],
+  "implementationChecklist": [
+    "Classify fields as safe for autosave, unsafe for autosave, or draft-only before building the form.",
+    "Define autosave triggers per input type: blur or debounce for typing, immediate for safe toggles, and manual save for unsafe changes.",
+    "Track dirty, pending, saving, saved, failed, offline, and last-saved timestamp state separately.",
+    "Store field-level or section-level save ownership so one success cannot mask another failed change.",
+    "Keep typed values in the UI and retry queue after failed saves.",
+    "Add leave-page protection for pending or failed saves.",
+    "Use status text, not color alone, and connect autosave messaging to Continue or submit actions when users might miss it.",
+    "Clarify whether autosave creates a draft, updates an active record, or only preserves progress until final submit.",
+    "Test slow network, failed requests, reload recovery, session expiry, duplicate tabs, undo, retry, screen reader status, and mobile backgrounding."
+  ],
+  "commonMisuses": [
+    "Removing the Save button while providing no autosave status.",
+    "Showing Saved when only an older change was saved.",
+    "Autosaving sensitive, destructive, financial, password, or permission changes without explicit review.",
+    "Auto-saving the whole form label when validation or persistence is actually field-specific.",
+    "Auto-dismissing failed-save feedback before recovery succeeds.",
+    "Letting users navigate away with pending or failed autosaves and no warning.",
+    "Mixing autosave and manual save on the same fields without labeling the difference.",
+    "Treating an autosaved draft as submitted data without a final user action."
+  ],
+  "critiqueQuestions": [
+    "Which fields are safe to autosave and which require explicit review?",
+    "Can users tell whether the latest edit, not just an older edit, was saved?",
+    "What happens when autosave fails or the network drops?",
+    "Does leaving the page with pending changes show a warning?",
+    "Is autosave preserving a draft or committing final submitted data?",
+    "Does the form still need a final Submit, Review, Publish, or Activate action?"
+  ],
+  "useWhen": [
+    "Users spend meaningful time entering form content or application progress.",
+    "The system can safely store partial progress as a draft or recoverable state.",
+    "Users may be interrupted, navigate between steps, or return later.",
+    "The product can show accurate per-field or per-section save status and retry failed saves."
+  ],
+  "avoidWhen": [
+    "The form is short enough that a visible manual Save or Submit is clearer.",
+    "Changes have financial, security, privacy, permission, legal, destructive, or public consequences.",
+    "The system cannot reliably recover saved progress or report failed saves.",
+    "Users are unauthenticated and there is no durable account-bound location for progress.",
+    "Autosave would conflict with validation dependencies that require a reviewed set of fields."
+  ],
+  "variants": [
+    "Autosaved application form",
+    "Autosaved draft editor",
+    "Per-field autosave form",
+    "Per-section autosave form",
+    "Autosave with retry",
+    "Autosave with undo",
+    "Autosave with saved timestamp",
+    "Autosave with final submit",
+    "Autosave with offline queue",
+    "Autosave with leave warning"
+  ],
+  "accessibility": [
+    "Expose autosave status changes in a polite status region so assistive technology users hear Saving, Saved, and Failed states.",
+    "Use text labels and timestamps rather than color alone to communicate save state.",
+    "Associate autosave messaging with Continue or submit controls when the message appears away from the button.",
+    "Keep Retry, Stay, Leave, Undo, and final Submit actions reachable by keyboard.",
+    "Do not move focus on every autosave success; reserve focus movement for actionable failures or leave warnings.",
+    "Ensure failed autosave messages identify the affected field or section and are programmatically associated where practical.",
+    "Do not make spinner-only autosave indicators the sole signal that progress is at risk."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows the form fields, autosave status, retry controls, and final actions in a predictable sequence.",
+    "Blur-triggered autosave runs when keyboard users leave a field, without trapping focus.",
+    "Retry, Stay on page, Discard, Undo, and Continue buttons activate with Enter or Space.",
+    "If a leave warning opens, focus moves into the warning and returns to the triggering navigation control after dismissal.",
+    "Autosave status updates do not steal focus from the field being edited.",
+    "Final Submit or Review remains reachable only when its prerequisites are satisfied and pending autosaves are handled."
+  ],
+  "failureModes": [
+    "A stale timestamp makes users think the latest edit was saved.",
+    "A failed autosave is hidden behind a transient toast that disappears.",
+    "Typing is saved on every keystroke, causing lag, server churn, or partial invalid records.",
+    "A final submission is removed even though autosave only creates a draft.",
+    "Two tabs overwrite each other's autosaved drafts with no conflict warning.",
+    "Session expiry makes autosave fail silently.",
+    "Sensitive fields are persisted before users review them.",
+    "Screen reader users never hear that progress is being saved automatically."
+  ],
+  "relatedPatterns": [
+    "single-page-form",
+    "multi-step-form",
+    "inline-edit",
+    "complete-complex-form",
+    "error-state"
+  ],
+  "comparisons": [
+    "autosave-form-vs-single-page-form-vs-multi-step-form-vs-inline-edit"
+  ],
+  "examples": [
+    {
+      "product": "GitLab Pajamas Saving and feedback",
+      "url": "https://design.gitlab.com/patterns/saving-and-feedback/",
+      "platform": "web",
+      "notes": "Documents autosave for form changes and drafts, per-input timing, saving and saved feedback, undo, retry after failed save, and sensitive-data cautions.",
+      "screenshot": "screenshots/patterns/autosave-form.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "VA.gov Autosave",
+      "url": "https://dev-design.va.gov/3886/components/form/autosave",
+      "platform": "web",
+      "notes": "Documents autosave confirmation for authenticated form flows with saved timestamp messaging, placement, and accessibility linkage.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "SAP Fiori Draft Handling",
+      "url": "https://www.sap.com/design-system/fiori-design-web/v1-136/foundations/best-practices/global-patterns/object-handling/draft-handling",
+      "platform": "web",
+      "notes": "Documents background draft persistence, resume editing, locking, validation support, and distinction between draft and active save.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab Pajamas supports autosaving form changes and drafts with per-input timing, visible saving/saved states, undo, retry, leave warnings, and sensitive-data cautions."
+    },
+    {
+      "id": "va-autosave-component",
+      "note": "VA.gov supports autosave messaging for authenticated form flows, including saved timestamps and accessibility linkage to Continue."
+    },
+    {
+      "id": "sap-fiori-draft-handling",
+      "note": "SAP Fiori supports background draft saving, interrupted-edit recovery, validation, locking, resume editing, and final active save distinction."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

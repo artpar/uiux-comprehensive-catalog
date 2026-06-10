@@ -1,0 +1,243 @@
+{
+  "id": "recently-viewed",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an automatic personal-recency return path with source-backed ordering, identity, lifetime, removal, clearing, privacy, sync, unavailable-item handling, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers personal view-history capture, most-recent ordering, item identity, bounded count and lifetime, remove and clear controls, hidden empty state, sync scope, shared-device privacy, unavailable items, and separation from saved or recommended content.",
+    "relatedPatternDistinction": "The entry separates recently viewed from related links by automatic personal history versus curated onward destinations, from breadcrumbs by recent items versus canonical hierarchy, from back links by many-item return versus one-step journey return, and from search suggestions by viewed objects versus query formulation.",
+    "liveDemoBehavior": "The live demo records opened items at the top of the list, marks the active item, removes individual entries, clears history, shows the empty hidden state, and contrasts a bad list that exposes stale mixed-user entries with no controls.",
+    "comparisonDecisionRules": "The linked recently-viewed-vs-related-links-vs-breadcrumbs comparison gives concrete rules for personal recency, curated links, hierarchy, recommendations, search, saved items, identity labels, list limits, privacy controls, and sync scope.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/recently-viewed.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, open-item recency ordering, remove and clear controls, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/recently-viewed.png"
+    ]
+  },
+  "name": "Recently viewed",
+  "aliases": [
+    "recent items",
+    "recently used",
+    "recently opened",
+    "view history rail",
+    "continue where you left off",
+    "MRU list"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Personalization And Preference",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Automatic list of items the current user opened recently",
+  "uiGuidance": [
+    "Render a labelled list or rail of items the current user actually opened, ordered most recent first, with enough identity to recognize each item such as name, type, thumbnail or icon, location, status, and last-viewed time.",
+    "Include bounded history controls near the list: remove an item, clear the list, hide the section when empty, and disclose account or device sync scope when entries may appear across sessions."
+  ],
+  "uxGuidance": [
+    "Use recently viewed to reduce re-finding effort when users compare items, pause work, resume documents, or return to records they inspected during the current or recent sessions.",
+    "Treat viewing history as personal and potentially sensitive; keep it short-lived when the task does not need long memory, avoid showing it on shared or public surfaces, and never replace deliberate saved items or recommendations with it."
+  ],
+  "uiExamples": {
+    "good": [
+      "A procurement dashboard shows Recently viewed records with title, record type, status, project, last-viewed time, and a remove control for each row.",
+      "A commerce product page shows a short Recently viewed rail of products the shopper opened, capped to six items and hidden until at least one product exists.",
+      "A document app separates Recent files from Favorites and shows folder context so files with the same name are not confused."
+    ],
+    "bad": [
+      "A homepage shows a Recently viewed carousel filled with promoted products the user never opened.",
+      "A shared kiosk displays sensitive applications from previous users with no clear or hide control.",
+      "A recent-items list shows identical titles with no type, location, status, or last-viewed context."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens several supplier records, returns to the dashboard, and reopens the most recent record without reconstructing the search.",
+      "A shopper compares products across pages and can jump back to a previously viewed item without using browser Back repeatedly.",
+      "A user on a shared account removes an unexpected document from the recent list and understands that Favorites are stored separately."
+    ],
+    "bad": [
+      "Users trust a Recently viewed rail as a recommendation and choose an irrelevant item because sponsored content was mixed into history.",
+      "A user clears browser history but the product still displays old local recently viewed entries on a shared device.",
+      "A workflow uses recent items as its only navigation, so users cannot find records they have not opened yet."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users often need to return to a specific item they recently opened, but search, browser Back, and site hierarchy can make them reconstruct the path from memory.",
+  "solution": "Provide a bounded, personal recently viewed list that records actual item views, orders them by recency, gives recognizable item context, and offers removal, clearing, privacy, and unavailable-item handling.",
+  "problemContext": [
+    "The product contains many comparable or revisitable objects such as records, documents, products, cases, media, or projects.",
+    "Users commonly inspect several items before choosing, pausing, resuming, or comparing them.",
+    "Viewing history can reveal user intent, private work, shopping, health, finance, or shared-device activity."
+  ],
+  "selectionRules": [
+    "Choose recently viewed when the destination set should come from items the current user personally opened, not from editorial curation, hierarchy, popularity, or recommendation models.",
+    "Record only meaningful item views, not every hover, preview, scroll, or page refresh; update an existing item to the top instead of duplicating it.",
+    "Order items most recent first, cap the visible list, and expire entries according to the task's memory window.",
+    "Show enough context to identify the item before navigation, including type, status, location, last-viewed time, thumbnail, or owner when those details prevent mistakes.",
+    "Provide item removal and list clearing when recents are visible outside a private workspace, synced across devices, or likely to reveal sensitive behavior.",
+    "Separate recently viewed from Favorites, saved items, bookmarks, pinned items, related links, and recommendations because those imply different user intent.",
+    "Hide the section when no trustworthy recent items exist instead of filling it with popular or promoted content.",
+    "Handle unavailable, moved, deleted, permission-lost, or out-of-stock items with clear status and recovery rather than dead links."
+  ],
+  "requiredStates": [
+    "Empty or hidden state before any qualifying item has been viewed.",
+    "Populated state with most-recent-first ordering and recognizable item context.",
+    "Active or just-opened state showing which item was resumed from the list.",
+    "Remove-one state that deletes a single item from recent history without deleting the item itself.",
+    "Clear-all state that empties recent history and explains the effect.",
+    "Unavailable-item state for deleted, moved, permission-lost, or out-of-stock entries.",
+    "Synced or account-scoped state when entries can appear across devices or sessions."
+  ],
+  "interactionContract": [
+    "Opening an item from the list navigates to that exact item and moves it to the top of the recent list.",
+    "Viewing the same item again updates its recency instead of creating duplicates.",
+    "Removing a recent entry removes only the history reference, not the underlying item.",
+    "Clearing the list removes visible recent history for the defined scope and leaves saved items or favorites intact.",
+    "The component does not show items viewed by another user unless the account or shared-device scope is explicit.",
+    "The list is omitted when there is no valid recent history or when privacy settings disable history capture."
+  ],
+  "implementationChecklist": [
+    "Define the qualifying event that writes history, such as opening a detail page for a minimum time or completing a load.",
+    "Store a stable item ID with display metadata that can be refreshed, not only copied text that will become stale.",
+    "Deduplicate by item ID, move re-opened items to the top, and enforce a visible count or lifetime cap.",
+    "Label the section with the scope, such as Recently viewed in this workspace or Recently viewed on this device.",
+    "Provide remove and clear controls with copy that distinguishes history removal from item deletion.",
+    "Respect private browsing, signed-out, managed-device, consent, and account-sync settings.",
+    "Refresh or mark unavailable entries before navigation so stale links do not fail without explanation.",
+    "Keep the rail keyboard-accessible and avoid auto-advancing carousels that hide older recent items."
+  ],
+  "commonMisuses": [
+    "Filling recently viewed with recommendations, ads, popular items, or related content.",
+    "Showing sensitive history on shared screens, public kiosks, or signed-out experiences.",
+    "Making recent items permanent when users expect a short session memory.",
+    "Mixing automatic recents with saved, pinned, or favorite items.",
+    "Duplicating the same item every time it is opened.",
+    "Using browser click path as breadcrumbs or recently viewed as the only wayfinding tool.",
+    "Removing the underlying item when the user only meant to remove it from history."
+  ],
+  "critiqueQuestions": [
+    "What exact user action qualifies an item as viewed?",
+    "Can users recognize each recent item without reopening it?",
+    "What is the right count, lifetime, and account scope for this task?",
+    "What privacy harm occurs if this list appears on a shared device or screen share?",
+    "How can users remove an unexpected item without deleting the item itself?",
+    "Is the team using recency to mask weak search, filters, saved items, or recommendations?"
+  ],
+  "useWhen": [
+    "Users inspect multiple objects and often need to return to one they recently opened.",
+    "The product has enough items that re-finding the same object through browse or search costs meaningful effort.",
+    "The list can be scoped to the current user, account, workspace, session, or device in a way users can understand.",
+    "Viewed-item history is useful enough to justify the privacy and maintenance responsibilities."
+  ],
+  "avoidWhen": [
+    "The content set is tiny, linear, or easy to scan without history.",
+    "The surface is shared, public, signed out, or privacy-sensitive and cannot provide clear controls.",
+    "The team wants to promote products, recommend next actions, or show related content rather than return personal history.",
+    "Users need stable saved access, favorites, or bookmarks rather than automatic recency.",
+    "History data cannot be stored, refreshed, expired, or cleared reliably."
+  ],
+  "variants": [
+    "Recent files",
+    "Recently viewed products",
+    "Recently opened records",
+    "Continue where you left off",
+    "Recent tasks",
+    "Recent documents",
+    "Session recents",
+    "Account-synced recents"
+  ],
+  "accessibility": [
+    "Use a heading or labelled region that describes the scope of the list.",
+    "Make item names and context available as text, not only thumbnails.",
+    "Do not rely on color alone to mark the current or just-opened item.",
+    "Ensure remove and clear controls have accessible names that mention history, such as Remove from recently viewed.",
+    "Announce list changes politely when an item is removed, restored, or the list becomes empty.",
+    "Avoid auto-rotating carousels; if horizontal scrolling is used, provide keyboard-operable controls and visible overflow cues."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches each recent item and its remove control in a predictable order.",
+    "Enter or Space opens a focused recent item when it is implemented as a button; Enter activates links with normal link behavior.",
+    "Remove controls delete only the focused history entry and move focus to the next item or section heading.",
+    "Clear-all asks for confirmation when the scope is broad or synced, then returns focus to the empty-state message.",
+    "Horizontal rails support arrow buttons or scroll controls without trapping focus."
+  ],
+  "failureModes": [
+    "Recent history becomes a surveillance surface on shared accounts or screen shares.",
+    "The rail shows stale, deleted, moved, or inaccessible items with no status.",
+    "Item identity is too weak, so users reopen the wrong similarly named object.",
+    "The list never expires and grows into a noisy history archive.",
+    "The component duplicates entries instead of moving re-opened items to the top.",
+    "The feature pretends promoted or recommended items were viewed.",
+    "Removing from recent history accidentally deletes the underlying item."
+  ],
+  "relatedPatterns": [
+    "related-links",
+    "breadcrumbs",
+    "back-link",
+    "basic-search",
+    "search-suggestions"
+  ],
+  "comparisons": [
+    "recently-viewed-vs-related-links-vs-breadcrumbs"
+  ],
+  "examples": [
+    {
+      "product": "UXPin / Creative Bloq Recently viewed pattern",
+      "url": "https://www.creativebloq.com/ux/ui-design-pattern-tips-recently-viewed-101413262",
+      "platform": "web",
+      "notes": "Frames recently viewed as recall and resume support for what the user interacted with last.",
+      "screenshot": "screenshots/patterns/recently-viewed.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Microsoft Office recent files",
+      "url": "https://support.microsoft.com/en-gb/office/customize-the-list-of-recently-used-files-in-office-apps-b70b195a-eaba-4750-87d3-d9723820137e",
+      "platform": "desktop",
+      "notes": "Documents automatic recent files, difference from Favorites, removal, clearing, count control, and cross-device sync caveats.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Android Recents screen",
+      "url": "https://developer.android.com/guide/components/activities/recents",
+      "platform": "mobile",
+      "notes": "Documents recently accessed tasks that can be resumed or removed, with limits and least-recently-used behavior.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Adobe Commerce recently viewed products",
+      "url": "https://experienceleague.adobe.com/en/docs/commerce-admin/stores-sales/shopper-tools/products-viewed-compared",
+      "platform": "web",
+      "notes": "Documents recently viewed product blocks with configurable count, scope, storage synchronization, and item lifetime.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uxpin-recently-viewed-pattern",
+      "note": "UXPin frames recently viewed as a way for users to recall and resume what they interacted with last."
+    },
+    {
+      "id": "microsoft-office-recent-files",
+      "note": "Microsoft Office recent-files guidance distinguishes automatic recent lists from Favorites and includes removal, clearing, count, and sync behavior."
+    },
+    {
+      "id": "android-recents-screen",
+      "note": "Android Recents provides resume, remove, and least-recently-used limits for recently accessed tasks."
+    },
+    {
+      "id": "adobe-commerce-recently-viewed-products",
+      "note": "Adobe Commerce documents recently viewed product blocks with configurable counts, lifetimes, scope, and storage synchronization."
+    },
+    {
+      "id": "w3c-privacy-principles",
+      "note": "W3C privacy principles support making recognition expected and controllable and giving people ongoing control over uses of data about themselves."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

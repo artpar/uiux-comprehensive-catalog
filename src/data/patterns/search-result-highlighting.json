@@ -1,0 +1,248 @@
+{
+  "id": "search-result-highlighting",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a result-explanation pattern with source-backed guidance for matched terms, field-specific snippets, safe markup rendering, color-independent cues, query preservation, backend-highlight caveats, zero-result clearing, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers highlighting executed query matches inside result titles and snippets, field labels, match counts, snippet boundaries, color-independent emphasis, sanitization, stale highlight clearing, fuzzy or semantic caveats, and distinguishing explanation from ranking.",
+    "relatedPatternDistinction": "The entry separates search result highlighting from basic search by focusing on why existing results matched, from search suggestions by happening after query execution, from no-results recovery by requiring returned matches, and from autocomplete by not selecting a constrained known value.",
+    "liveDemoBehavior": "The live demo changes query terms, toggles title and snippet highlighting, counts highlighted fragments, renders matches with mark elements, preserves result order, shows snippet context, and contrasts bad behavior that highlights whole cards, stale rows, and unrelated text.",
+    "comparisonDecisionRules": "The linked search-result-highlighting-vs-basic-search-vs-search-suggestions-vs-no-results-recovery comparison gives concrete rules for result explanation, query input, pre-submit suggestions, zero-result recovery, snippet boundaries, color use, sanitization, and complex-query caveats.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/search-result-highlighting.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, highlighted query terms, snippet context, match count, toggled fields, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/search-result-highlighting.png"
+    ]
+  },
+  "name": "Search result highlighting",
+  "aliases": [
+    "query term highlighting",
+    "hit highlighting",
+    "matched term emphasis",
+    "result snippet highlighting",
+    "search match highlighting",
+    "highlighted snippets",
+    "keyword highlighting"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Highlighted matching terms and snippets inside returned search results",
+  "uiGuidance": [
+    "Render highlighted query matches inside result titles, snippets, or field previews with semantic text markup such as mark and a visible style that does not rely on color alone.",
+    "Pair highlighted fragments with field labels, match counts, result titles, and enough surrounding snippet text that users can understand why the result is present."
+  ],
+  "uxGuidance": [
+    "Use search result highlighting to explain relevance after a query has returned results, especially when users scan dense documents, records, tickets, messages, or logs.",
+    "Keep the highlight tied to the submitted query and clear or update it whenever the query, scope, filters, or backend highlight response changes."
+  ],
+  "uiExamples": {
+    "good": [
+      "A result card for Benefits appeal policy highlights Benefits in the title and appeal in the snippet, with a small label saying 2 highlighted fields.",
+      "A document search result shows a compact fragment with ellipses before and after the matching sentence so the highlighted term has readable context.",
+      "A log search page labels matched fields such as title, summary, and body instead of highlighting unknown text blocks with no source field."
+    ],
+    "bad": [
+      "Every card background turns yellow when a query is submitted, but the matching words are not identified.",
+      "The system highlights a category, ad label, or popularity badge that did not match the query.",
+      "Old highlighted words remain visible after the user clears the query or switches to a zero-result state."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user searches benefits appeal and can immediately see which result matched benefits in the title and appeal in the excerpt.",
+      "A user disables body highlighting to scan title matches only, while the result count and order stay unchanged.",
+      "A user sees a note that semantic highlights are approximate and understands the fragment is an explanation, not a boolean proof."
+    ],
+    "bad": [
+      "A highlighted synonym looks identical to an exact query match and users assume the document contains words it does not contain.",
+      "A snippet contains only the highlighted word without nearby text, forcing users to open the document to understand relevance.",
+      "Result highlighting is implemented by injecting raw backend HTML into a card, causing unsafe or broken markup."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can receive plausible search results but still cannot tell where the query matched, which field was relevant, or whether a result deserves attention.",
+  "solution": "Show query-linked highlighted terms inside relevant result fields and snippets, provide enough context and accessible emphasis, and keep the highlights synchronized with the submitted query and backend match data.",
+  "problemContext": [
+    "Search results include long titles, summaries, transcripts, records, documents, tickets, messages, products, logs, or knowledge articles.",
+    "Users need to scan many results quickly and decide which result is worth opening.",
+    "Search logic may match across several fields, synonyms, snippets, or semantic fragments that are not obvious from the result title alone."
+  ],
+  "selectionRules": [
+    "Choose search result highlighting when returned results need visible evidence of where the submitted query matched.",
+    "Highlight specific terms, phrases, or backend-provided fragments rather than entire result cards.",
+    "Show highlighted snippets only for fields that participated in matching or that the system can explain honestly.",
+    "Use field labels when matches can appear in title, body, metadata, comments, attachments, or hidden indexed fields.",
+    "Show surrounding text and fragment boundaries so a highlighted term has readable context.",
+    "Use mark semantics or equivalent text-level markup for highlighted passages, then style the match with contrast, border, weight, or underline in addition to color.",
+    "Sanitize backend-provided highlight markup or convert it into safe text nodes before rendering result cards.",
+    "Clear stale highlights when users clear the query, change scope, alter filters, or move to a no-results state.",
+    "Explain fuzzy, synonym, semantic, or analyzer-driven highlights when the displayed match is not an exact query-word match.",
+    "Avoid highlighting if the query is empty, sensitive, hidden for privacy, or too broad to produce meaningful match emphasis."
+  ],
+  "requiredStates": [
+    "No query state with no highlighted terms.",
+    "Submitted query with one or more highlighted result fields.",
+    "Multiple matching fields state with title, snippet, and metadata labels.",
+    "Snippet truncation state with ellipsis or fragment boundaries around removed text.",
+    "No highlighted fragment available state that still explains why the result appears when possible.",
+    "Fuzzy, synonym, or semantic match state with a cue that the highlight may not be an exact word match.",
+    "Updated query state where old highlights are removed before new ones appear.",
+    "No-results state with all previous highlights cleared.",
+    "Unsafe or invalid highlight markup fallback state that renders safe plain text."
+  ],
+  "interactionContract": [
+    "A highlight represents the submitted query or configured highlight query, not a decorative emphasis chosen independently from search matching.",
+    "Changing the query updates highlighted words, snippets, match counts, and result summaries together.",
+    "Toggling which fields are highlighted changes only the emphasis layer, not the underlying result set or ranking.",
+    "Opening a result preserves the query context or provides a path back to the highlighted result list.",
+    "Highlight styling remains readable in selected, focused, hover, dark, high-contrast, and printed states.",
+    "Screen-reader and keyboard users can understand match location from result text, field labels, counts, and context rather than color alone.",
+    "Backend highlight markup is treated as untrusted content unless it has already been sanitized by the rendering layer.",
+    "If the highlighter is approximate for complex or semantic queries, the UI does not overclaim exact boolean satisfaction."
+  ],
+  "implementationChecklist": [
+    "Keep a canonical submitted query separate from draft input so highlights match the result set currently shown.",
+    "Tokenize or request highlight fragments from the search service using the same analyzer or highlight configuration as the search query.",
+    "Render matches as safe text nodes and mark elements, or use a trusted highlight component that escapes raw content.",
+    "Include field labels and match counts when more than one result field can contain highlighted fragments.",
+    "Limit snippet length, show ellipses or boundaries, and keep enough surrounding words for comprehension.",
+    "Style mark elements with sufficient contrast and at least one non-color cue such as weight, border, underline, or background shape.",
+    "Test exact, phrase, prefix, fuzzy, synonym, CJK, diacritic, punctuation, and case-insensitive queries against the displayed highlight behavior.",
+    "Remove stale highlight state before showing no-results, error, loading, or empty-query states."
+  ],
+  "commonMisuses": [
+    "Highlighting whole cards, rows, or table columns instead of the matching terms.",
+    "Using color-only yellow text as the sole signal that a word matched.",
+    "Showing highlights that come from popularity, ads, categories, or business rules instead of the submitted query.",
+    "Injecting backend highlight HTML directly into result cards without sanitization.",
+    "Leaving old highlighted terms visible after the query changed.",
+    "Treating approximate semantic snippets as exact proof that every query condition matched."
+  ],
+  "critiqueQuestions": [
+    "Can users tell exactly which words, phrases, or fragments caused each result to match?",
+    "Does the highlight map to the submitted query and field labels rather than unrelated metadata or ranking rules?",
+    "Is there enough surrounding snippet text to judge relevance without opening every result?",
+    "Can users distinguish exact, fuzzy, synonym, and semantic highlights when that difference affects trust?",
+    "Does the implementation sanitize backend markup and avoid raw HTML injection?",
+    "Are highlights still understandable without color perception or with assistive technology verbosity disabled?"
+  ],
+  "useWhen": [
+    "Results contain enough text that users need to scan for where the query matched.",
+    "Matches can occur in multiple fields and users need to understand title, body, metadata, or attachment relevance.",
+    "Search ranking is not self-evident from titles alone.",
+    "Users compare many similar documents, tickets, messages, logs, products, or records."
+  ],
+  "avoidWhen": [
+    "The result title is the entire match and extra emphasis would add noise.",
+    "The query is empty, redacted, hidden for privacy, or too broad for meaningful emphasis.",
+    "The system cannot safely associate highlight fragments with the displayed result text.",
+    "The task is query formulation before submission, zero-result recovery, or selecting a known value.",
+    "Highlighting would expose sensitive hidden fields, private notes, or permission-denied content."
+  ],
+  "variants": [
+    "Exact term highlighting",
+    "Phrase highlighting",
+    "Field-specific highlighting",
+    "Snippet highlighting",
+    "Semantic fragment highlighting",
+    "Synonym highlight disclosure",
+    "Attachment text highlighting",
+    "Log line highlighting",
+    "In-document hit navigation"
+  ],
+  "accessibility": [
+    "Use semantic text markup such as mark for highlighted passages when the highlight indicates relevance in the current search context.",
+    "Do not rely on color alone; pair background color with text weight, underline, border, count, or field label cues.",
+    "Keep highlight contrast readable against both result-card background and selected or focused states.",
+    "Avoid announcing every single highlight boundary unless missing that boundary would materially harm understanding.",
+    "Expose match counts and field names in text for users who do not perceive visual highlight styling.",
+    "Ensure highlighted snippets remain selectable, zoomable, and readable when text spacing or high-contrast modes are active."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches search input, result cards, and any highlight-field controls in a predictable order.",
+    "Changing highlight-field toggles does not unexpectedly move focus or reorder results.",
+    "If next-match navigation exists, Enter or Space moves to the next highlighted fragment and announces its field and result title.",
+    "Opening a result and returning to the list restores the submitted query and visible highlighted result when possible.",
+    "Keyboard focus indicators remain visible when they overlap highlighted text."
+  ],
+  "failureModes": [
+    "The visual highlight is disconnected from the query that produced the result list.",
+    "A user trusts a result because the card is highlighted even though the query term appears only in hidden or permission-denied content.",
+    "The result page displays unsafe highlight markup from indexed user content.",
+    "Stale highlights from a previous query remain after a new query, filter, or scope is applied.",
+    "Snippet fragments omit enough context that highlighted words become misleading.",
+    "Color-only highlighting disappears in forced-colors, print, grayscale, or low-vision settings.",
+    "A complex boolean query highlights a term from a non-satisfied branch and the UI presents it as an exact match."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "search-suggestions",
+    "autocomplete",
+    "no-results-recovery",
+    "faceted-search",
+    "saved-search",
+    "filter-panel",
+    "sort-controls"
+  ],
+  "comparisons": [
+    "search-result-highlighting-vs-basic-search-vs-search-suggestions-vs-no-results-recovery"
+  ],
+  "examples": [
+    {
+      "product": "Algolia highlighting and snippeting",
+      "url": "https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/highlighting-snippeting/react/",
+      "platform": "web",
+      "notes": "Documents highlighting matched query words, highlight result metadata, snippets with surrounding words, pre/post tags, performance limits, and sanitization concerns.",
+      "screenshot": "screenshots/patterns/search-result-highlighting.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Elasticsearch highlighting",
+      "url": "https://www.elastic.co/docs/reference/elasticsearch/rest-apis/highlighting",
+      "platform": "web",
+      "notes": "Documents highlighted fragments in search hits, field-specific highlight configuration, highlighter choices, and caveats for complex boolean logic.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "MDN mark element",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/mark",
+      "platform": "web",
+      "notes": "Documents mark as text relevant to the user's current activity and includes search result examples with accessibility cautions.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "WCAG Use of Color",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html",
+      "platform": "web",
+      "notes": "Documents the need for cues beyond color when color distinguishes information, which applies to search match highlighting.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "algolia-highlighting-snippeting",
+      "note": "Algolia documents highlighting and snippeting for explaining why a result matched, including matched words, snippets, pre/post tags, performance limits, and sanitization."
+    },
+    {
+      "id": "elastic-search-highlighting",
+      "note": "Elastic documents highlighted fragments per search hit and cautions that complex query logic may produce highlights that do not map exactly to all query conditions."
+    },
+    {
+      "id": "mdn-html-mark-element",
+      "note": "MDN documents mark as suitable for context-relevant passages such as words that matched a search operation."
+    },
+    {
+      "id": "w3c-wcag-use-of-color",
+      "note": "WAI documents that color must not be the only way information is distinguished, supporting non-color match cues."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

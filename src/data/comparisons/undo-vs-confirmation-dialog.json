@@ -1,21 +1,47 @@
 {
   "id": "undo-vs-confirmation-dialog",
   "title": "Undo vs confirmation dialog",
-  "summary": "Use undo when recovery is reliable and the action is common. Use confirmation when the action is high-consequence and cannot be safely reversed.",
-  "patternIds": ["undo", "confirmation-dialog"],
+  "summary": "Undo keeps routine reversible actions fast after they happen. A confirmation dialog blocks the action beforehand when the consequence is high and recovery is weak or impossible.",
+  "patternIds": [
+    "undo",
+    "confirmation-dialog"
+  ],
   "decisionRules": [
-    "Prefer undo for frequent, low-risk actions that users may perform quickly.",
-    "Prefer confirmation for irreversible, expensive, security-sensitive, or uncommon destructive actions.",
-    "Do not use confirmation dialogs as a substitute for clear labels, previews, or recovery."
+    "Use undo when the system can restore the exact prior state quickly, visibly, and without external side effects.",
+    "Use confirmation when the action causes permanent data loss, financial cost, security exposure, privacy change, or an external effect that cannot be recalled.",
+    "Use undo for frequent list cleanup, archive, reorder, dismiss, and move actions where interruption would train users to click through.",
+    "Use confirmation for uncommon destructive actions where a user might plausibly cancel after seeing the named object, affected scope, and consequence.",
+    "Use a typed or extra-step confirmation when one accidental click could delete a workspace, account, production data set, or broad permission scope.",
+    "Use prevention or clearer command placement before either pattern when the dangerous action sits too close to routine controls.",
+    "Do not pair a pre-action confirmation and post-action undo for the same low-risk action unless policy or audit requirements demand both."
   ],
   "failureModes": [
-    "Using confirmation for every routine action creates habituation.",
-    "Using undo for irreversible external side effects creates false confidence."
+    "Using confirmation for every routine action creates habituation and makes the dialog less protective when a serious decision appears.",
+    "Using undo for irreversible external side effects gives users false confidence after the damage has already happened.",
+    "Making the confirmation vague, such as Are you sure, without naming what will be lost or changed.",
+    "Offering undo after an action that cannot actually restore permissions, money movement, emails, webhooks, or deleted production records.",
+    "Stacking multiple confirmations instead of redesigning the dangerous control placement or action flow."
   ],
   "sources": [
     {
+      "id": "apple-hig-undo-redo",
+      "note": "Apple frames undo and redo as system-supported reversal mechanisms that help people recover and explore safely."
+    },
+    {
+      "id": "material-design-snackbar",
+      "note": "Material snackbar guidance includes undo actions for amending recent choices after completion."
+    },
+    {
       "id": "apple-hig-alerts",
       "note": "Apple's alert guidance distinguishes uncommon irreversible actions from undoable destructive actions."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance recommends undo and prevention alternatives for routine actions and reserves confirmations for meaningful consequences."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG identifies alert dialogs as modal interruptions that communicate important messages and acquire a response."
     }
   ],
   "lastVerified": "2026-06-08"

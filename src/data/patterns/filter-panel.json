@@ -1,0 +1,247 @@
+{
+  "id": "filter-panel",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a grouped filtering control surface with source-backed panel placement, batch and instant apply rules, collapsed and mobile states, active-filter summaries, result synchronization, clear recovery, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers grouped filter categories, persistent side panels, collapsed mobile panels, active-count indicators, apply buttons, instant versus batch updates, applied-filter summaries, result-count synchronization, clear-one and clear-all behavior, and preserving search and sort context.",
+    "relatedPatternDistinction": "The entry separates filter panels from faceted search by focusing on the control surface and application model, from filter chips by treating chips as active-filter summaries, from sort controls by excluding items rather than reordering them, and from no-results recovery by handling the pre-empty filtering interaction.",
+    "liveDemoBehavior": "The live demo opens a filter panel, changes draft criteria, applies them as a synchronized batch, keeps the applied count visible when collapsed, preserves sort and search state, clears filters without resetting unrelated controls, and contrasts a bad panel with hidden active filters and stale results.",
+    "comparisonDecisionRules": "The linked filter-panel-vs-faceted-search-vs-no-results-recovery comparison gives concrete rules for panel placement, large-result discovery, empty-result recovery, mobile collapsed states, batch versus instant updates, filter chips, sort separation, and visible active criteria.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/filter-panel.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, open and collapsed panel states, applied count, result synchronization, clear behavior, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/filter-panel.png"
+    ]
+  },
+  "name": "Filter panel",
+  "aliases": [
+    "filters panel",
+    "filter sidebar",
+    "filter drawer",
+    "filter accordion",
+    "filter rail",
+    "refine panel",
+    "narrow results panel"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Grouped filter control panel for narrowing a current result set",
+  "uiGuidance": [
+    "Render filter categories as labelled form controls in a panel adjacent to the result set on wide layouts, with a visible result count and active-filter summary near the results.",
+    "When the panel is collapsed, hidden, or moved into a mobile drawer or accordion, show the number of active filters and a nearby clear-all path so users know the result set is constrained."
+  ],
+  "uxGuidance": [
+    "Use a filter panel to help users narrow the current list or search result set while preserving orientation, search query, sort order, pagination context, and selected values.",
+    "Choose batch apply when users are likely to change several filter categories before reviewing results; choose instant updates only when changes are lightweight and do not disorient users."
+  ],
+  "uiExamples": {
+    "good": [
+      "A desktop search page shows a left filter panel with Status, Type, and Date groups, while active chips and the result count sit above the results.",
+      "A mobile result page opens filters in a full-screen panel with Back, Apply filters, Clear all, and a badge showing three active filters on the closed trigger.",
+      "A collapsed filter category shows a check or count when it contains selected values."
+    ],
+    "bad": [
+      "A filter drawer closes with no active count, leaving users unaware that filters are still hiding records.",
+      "A panel mixes filter options, navigation links, sort controls, and saved views under one Filters heading.",
+      "Checkboxes change visually but there is no Apply button, no instant result update, and no indication that the result list is stale."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects Status: Open and Type: Appeal, applies the batch, lands back at the result summary, and sees 12 records with both criteria removable.",
+      "A user clears the Date filter chip and keeps the same search query, sort order, and view mode.",
+      "A user returns to the filter panel and finds previous selections retained so they can refine rather than re-enter criteria."
+    ],
+    "bad": [
+      "Applying a filter silently resets the query, sort order, current page, and view density.",
+      "Instant filtering reloads after every checkbox and repeatedly pushes the result summary out of view.",
+      "The result list says 0 records but the active filters are hidden inside a closed drawer."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to narrow a visible result set using several criteria, but the controls, applied state, result count, and reset behavior can become disconnected.",
+  "solution": "Provide a labelled filter panel that groups criteria, preserves selected values, makes active filters visible near the results, applies changes predictably, and lets users clear one filter or all filters without losing unrelated search or sort context.",
+  "problemContext": [
+    "The page contains a searchable, browsable, or scannable result set with multiple attributes users can use to narrow it.",
+    "Filter controls may be persistent on desktop but hidden behind a button, accordion, drawer, or full-screen panel on smaller screens.",
+    "Users need to understand whether the displayed results match current filter controls, especially when filters are batch-applied or hidden out of view."
+  ],
+  "selectionRules": [
+    "Choose a filter panel when users need grouped controls for narrowing the current result set by several criteria.",
+    "Use a persistent side panel when users frequently refine filters while comparing result cards, list rows, or search results.",
+    "Use a collapsed accordion, drawer, or full-screen panel on compact layouts when result scanning needs priority, but keep an active-filter count on the closed trigger.",
+    "Use batch apply when users may change multiple categories together, result refresh is slow, or each instant update would disrupt focus and reading position.",
+    "Use instant filtering only when selections are simple, fast, and the result count or applied-filter summary updates without shifting users away from their task.",
+    "Show active filters and result count near the results, not only inside the panel, so users can understand result state when the panel is hidden or scrolled away.",
+    "Keep sort controls visually and semantically separate because sorting changes order while filters include or exclude records.",
+    "Use filter chips as removable active-state summaries, not as the only way to discover available filter categories.",
+    "Use no-results recovery when the current filter combination produces an empty result set, but preserve the filters that caused the empty state."
+  ],
+  "requiredStates": [
+    "Default state with no user-applied filters and an explicit result count.",
+    "Draft state where selected filter controls have changed but batch results have not yet updated.",
+    "Applied state with active-filter count, result count, and removable applied criteria near the results.",
+    "Collapsed or mobile-panel state that still exposes the active-filter count and a way back to results.",
+    "No-results state that preserves active filters and offers clear-one or clear-all recovery.",
+    "Loading or recalculating state when applying filters takes noticeable time."
+  ],
+  "interactionContract": [
+    "Each filter category has a clear label and contains controls appropriate to the value type, such as checkboxes, radios, ranges, date fields, or text fields.",
+    "Applying filters updates the result count, active-filter summary, and result list as one synchronized outcome.",
+    "Clearing one filter removes only that criterion and leaves search query, sort order, view mode, and unrelated filters intact.",
+    "Clear all returns user-applied filters to their default filter state without erasing unrelated query text or navigation context.",
+    "Collapsed panels, drawers, and mobile triggers expose whether filters are active before users reopen the panel.",
+    "Keyboard focus moves predictably after Apply or Clear, preferably to the result summary or the control that changed state."
+  ],
+  "implementationChecklist": [
+    "Group filter controls under user-facing category headings and use native form controls where possible.",
+    "Place a result count and applied-filter summary immediately before or above the result list.",
+    "Decide explicitly between batch apply and instant updates; do not leave controls visually selected while results still show the previous state without a draft cue.",
+    "Show active counts on collapsed categories, filter buttons, and mobile triggers.",
+    "Provide clear-one controls for each applied criterion and a clear-all control for the full filter set.",
+    "Preserve selected values when users reopen the panel, change a different filter, page results, or recover from zero results.",
+    "Keep sort, search query, saved view, and pagination state separate from filter reset behavior.",
+    "On small screens, return users to the result summary after applying filters and keep an accessible route back to the panel."
+  ],
+  "commonMisuses": [
+    "Hiding active filters inside a closed panel with no count, chips, or result-state summary.",
+    "Using a filter panel as a navigation drawer that sends users to different pages instead of narrowing the current data set.",
+    "Resetting search query, sort order, page size, or view density when users clear filters.",
+    "Combining pending draft selections with already-applied result counts without explaining the mismatch.",
+    "Putting every possible attribute into one long panel without prioritization, grouping, search within long categories, or progressive disclosure.",
+    "Using instant updates that steal focus, reload the page, or move the result summary after every checkbox selection."
+  ],
+  "critiqueQuestions": [
+    "Can users tell which filters are applied without opening or scrolling to the filter panel?",
+    "Does applying filters synchronize the controls, result count, active summary, and list together?",
+    "When filters are collapsed or on mobile, where is the active count shown?",
+    "Does Clear all reset only filters, or does it accidentally erase query, sort, pagination, saved view, or layout state?",
+    "Is this panel exposing filter criteria, or is it being misused as navigation, sorting, or advanced search?",
+    "If the panel uses batch apply, how does the UI show that selected controls are drafts until Apply?"
+  ],
+  "useWhen": [
+    "Users need to narrow the current search results, browse results, table, card grid, or list by multiple criteria.",
+    "Filter controls are too numerous or structured to fit as a few inline chips or a single dropdown.",
+    "The result set needs active-state visibility and clear recovery because filters can hide important items.",
+    "Desktop and mobile layouts require different filter presentation while preserving the same filtering model."
+  ],
+  "avoidWhen": [
+    "The result set is small enough that scanning is faster than filtering.",
+    "Users need to change sort order, not include or exclude items.",
+    "The task is advanced query construction with boolean logic, nested clauses, or saved search syntax.",
+    "The controls navigate to different sections or pages instead of narrowing the current result set.",
+    "Only one lightweight criterion is available and an inline control or segmented control is clearer."
+  ],
+  "variants": [
+    "Persistent side filter panel",
+    "Top filter panel",
+    "Collapsed filter accordion",
+    "Mobile full-screen filter panel",
+    "Filter drawer",
+    "Batch apply filters",
+    "Instant filter panel",
+    "Category counts in collapsed filters"
+  ],
+  "accessibility": [
+    "Use semantic form controls with fieldsets, legends, labels, and accessible names for filter categories and values.",
+    "Announce result-count changes through a stable status region when filters apply.",
+    "Keep applied-filter chips or buttons keyboard reachable and name both the category and selected value.",
+    "Avoid focus loss when opening or closing mobile filter panels; return focus to the trigger or result summary predictably.",
+    "Do not depend on color alone for active filter indicators; include counts, text, badges, or selected control states.",
+    "Retain values and minimize redundant entry when users revisit filters or refine a failed result set."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the filter trigger, category headings, controls, Apply, Clear, and result summary in a predictable order.",
+    "Opening a drawer or full-screen panel moves focus into the panel and closing it returns focus to the trigger or result summary.",
+    "Applying a batch filter does not trap focus in a stale panel; focus should move to the updated result summary when appropriate.",
+    "Removing an applied filter chip keeps focus near the remaining active filters or result summary.",
+    "Escape or Back behavior in mobile panels closes the panel without applying draft changes when that is the documented contract."
+  ],
+  "failureModes": [
+    "Users cannot tell that hidden filters are active.",
+    "The filter controls and result list show different states after draft changes.",
+    "Clearing filters erases unrelated query or sort state.",
+    "Mobile filters open as a dead-end interstitial with no clear route back to results.",
+    "Result counts do not update or are announced far from the changed content.",
+    "Filter categories use internal database names that users cannot interpret.",
+    "No-results states hide the filters that caused the empty result set."
+  ],
+  "relatedPatterns": [
+    "faceted-search",
+    "no-results-recovery",
+    "basic-search",
+    "multi-select",
+    "checkbox-group",
+    "skip-link"
+  ],
+  "comparisons": [
+    "filter-panel-vs-faceted-search-vs-no-results-recovery"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Publishing search filter",
+      "url": "https://design-guide.publishing.service.gov.uk/patterns/search-filter/",
+      "platform": "web",
+      "notes": "Documents filter facets beside results, automatic result refresh, multiple filter input types, and mobile accordion behavior with a results jump action.",
+      "screenshot": "screenshots/patterns/filter-panel.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon filtering pattern",
+      "url": "https://carbondesignsystem.com/patterns/filtering/",
+      "platform": "web",
+      "notes": "Documents multiple categories, left or top placement, batch and instant update models, hidden filter indicators, and reset behavior.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "DWP filter component research",
+      "url": "https://design-system.dwp.gov.uk/research/filters/design-notes",
+      "platform": "web",
+      "notes": "Documents applied filter summaries, result counts, clear-all controls, no-filter and no-result states, and synchronization problems in batch filters.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "NSW Digital Design System filters",
+      "url": "https://designsystem.nsw.gov.au/components/filters/index.html",
+      "platform": "web",
+      "notes": "Documents open and collapsed filters, batch and instant panels, active count indicators, mobile full-screen panels, sticky apply actions, and retained values.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-publishing-search-filter",
+      "note": "GOV.UK Publishing guidance documents search facets, result-side filtering, auto-refresh behavior, and mobile accordion treatment."
+    },
+    {
+      "id": "carbon-filtering-pattern",
+      "note": "Carbon filtering guidance documents multiple categories, batch versus instant updates, hidden filter indicators, and reset behavior."
+    },
+    {
+      "id": "dwp-filter-component-research",
+      "note": "DWP research documents explicit applied-filter state, result counts, clear-all controls, and synchronization between controls and results."
+    },
+    {
+      "id": "visa-product-design-filters",
+      "note": "Visa guidance documents filter panel anatomy, active indicators, applied chips, clear-all controls, apply buttons, and mobile considerations."
+    },
+    {
+      "id": "nsw-design-system-filters",
+      "note": "NSW guidance documents collapsed and full-screen filter panels, active-count indicators, sticky apply controls, and value retention."
+    },
+    {
+      "id": "moj-design-system-filter",
+      "note": "MOJ guidance documents selected filters, clear filters, apply behavior, and grouped filtering for lists or search results."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

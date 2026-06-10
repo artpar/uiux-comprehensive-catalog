@@ -1,0 +1,236 @@
+{
+  "id": "success-confirmation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a durable in-context completed-action proof pattern with source-backed success status, object-specific receipt copy, next-step behavior, lifecycle rules, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets in-context proof that a user action succeeded, including confirmed object identity, reference or timestamp, one next step, persistent verification, resolved lifecycle, and escalation to toast, notification banner, confirmation page, or undo.",
+    "relatedPatternDistinction": "The entry separates success confirmation from toast notification by persistence and proof, from notification banner by staying in the same task context rather than before the next page heading, from alert by success outcome rather than urgent risk, and from undo by confirming completion rather than offering reversal.",
+    "liveDemoBehavior": "The live demo saves a draft, uploads evidence, copies a reference, views the receipt to resolve the confirmation, and starts a new task; it contrasts vague done, premature success, disappearing receipt, missing next step, and stale success misuse.",
+    "comparisonDecisionRules": "The success-confirmation-vs-toast-notification-vs-notification-banner-vs-alert comparison gives concrete rules for durable action proof, disposable feedback, before-heading previous-page outcomes, urgent task status, journey-end escalation, and duplicate-message suppression.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/success-confirmation/ and /compare/success-confirmation-vs-toast-notification-vs-notification-banner-vs-alert/ in the browser. The screenshot shows Good UI, Bad UI, Good UX, Bad UX, uploaded evidence confirmation, receipt EV-2048, and premature-success misuse; the live check verified copy-reference status, view-receipt resolution, new-task clearing, related links, and comparison rules.",
+    "screenshots": [
+      "screenshots/patterns/success-confirmation.png"
+    ]
+  },
+  "name": "Success confirmation",
+  "aliases": [
+    "success message",
+    "completion confirmation",
+    "saved confirmation",
+    "upload confirmation",
+    "success feedback"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Durable in-context proof that an action completed",
+  "uiGuidance": [
+    "Render success confirmation near the action result or affected object with a success label, object-specific message, reference or timestamp when useful, and one next step such as View receipt, Continue review, or Copy reference.",
+    "Keep the confirmation visible until users can verify the changed state, copy needed proof, or move intentionally to the next task; use a transient toast only when the success is disposable."
+  ],
+  "uxGuidance": [
+    "Use success confirmation when users need confidence that a just-finished action has really completed and can identify what changed before continuing.",
+    "Tie the confirmation lifecycle to the confirmed object: remove, collapse, or convert it after the user views the receipt, starts unrelated work, or the success state becomes ordinary page content."
+  ],
+  "uiExamples": {
+    "good": [
+      "After evidence upload, a success panel beside the evidence checklist says Evidence uploaded, shows receipt EV-2048, timestamp, and View receipt.",
+      "After saving a draft, a confirmation row says Application draft saved at 14:32 and leaves Continue review available."
+    ],
+    "bad": [
+      "A green strip says Done with no object, reference, or next step.",
+      "A file-upload receipt appears only in a disappearing toast even though the user must quote it later."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can copy the receipt reference, open the confirmed record, then see the success message collapse into normal completed state.",
+      "If saving fails, no success confirmation appears until the server-confirmed state is available."
+    ],
+    "bad": [
+      "The UI says Saved before the network request finishes and later silently reverts the draft.",
+      "The same success message remains after users move to a different customer, making the confirmed object ambiguous."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users complete an action but cannot tell whether it truly succeeded, which object changed, whether a receipt exists, or what to do next, especially when success is reduced to a transient Done message.",
+  "solution": "Show an in-context success confirmation after the action is committed, name the affected object, provide proof such as reference or timestamp when needed, expose one next step, announce the status appropriately, and clear the confirmation when the proof has served its purpose.",
+  "problemContext": [
+    "A user has just saved, uploaded, submitted, copied, sent, invited, configured, or otherwise completed an action.",
+    "The action changes an object or process that users may need to verify, quote, inspect, continue, or distinguish from another similar object.",
+    "A full confirmation page would be too heavy because the surrounding task or service journey continues.",
+    "A toast alone would be too temporary because users need proof, next-step orientation, or confidence that the server accepted the action."
+  ],
+  "selectionRules": [
+    "Choose success confirmation when the user needs durable in-context proof that a just-completed action succeeded.",
+    "Name the affected object, file, record, draft, invitee, payment method, or configuration instead of only saying Success or Done.",
+    "Include a receipt, reference number, timestamp, changed status, or destination link when the user may need to verify or quote the outcome.",
+    "Provide at most one direct next step in the confirmation, such as View receipt, Continue, Copy reference, or Open record.",
+    "Use toast notification instead when the success is low consequence, self-evident, and safe to disappear.",
+    "Use notification banner instead when the success follows navigation from a previous page and must appear before the next page heading.",
+    "Use confirmation page instead when the whole service journey has ended and users need a completion reference plus what happens next.",
+    "Use undo instead when the most important post-action affordance is reliable reversal of a frequent recoverable action."
+  ],
+  "requiredStates": [
+    "Pre-action state with no success confirmation.",
+    "Pending or saving state that does not claim success before commitment.",
+    "Confirmed success state with object identity, reference or timestamp, and changed status.",
+    "Actionable success state with one next step such as View receipt or Copy reference.",
+    "Copied or acknowledged state after the user uses the confirmation's proof.",
+    "Resolved state after the user views the record, starts a new task, or the confirmation becomes normal content.",
+    "Failure handoff state where unsuccessful completion routes to alert, inline message, error state, or error summary instead of success."
+  ],
+  "interactionContract": [
+    "The confirmation appears only after the action is committed enough to be truthful.",
+    "The message is placed close to the affected object or task result, unless the product intentionally uses a consistent status region.",
+    "The success label, icon, or color is paired with text so success is not communicated by color alone.",
+    "The confirmation identifies the exact object and outcome users just changed.",
+    "The confirmation remains available long enough for users to verify, copy, or follow the next step.",
+    "Activating the next step changes the confirmation lifecycle, such as marking the receipt viewed or collapsing the panel.",
+    "A new unrelated task clears or scopes the old confirmation so users do not mistake it for the current object."
+  ],
+  "implementationChecklist": [
+    "Wait for the authoritative success signal before rendering a confirmed state.",
+    "Write success copy with verb, object, and result, such as Evidence uploaded or Draft saved.",
+    "Add reference, timestamp, object name, or changed status when users may compare or quote the outcome.",
+    "Choose placement from where users need proof: near the object, at the top of the task area, or in a consistent in-context status region.",
+    "Expose role status or equivalent announcement for dynamic success without moving focus unless the platform pattern intentionally focuses a success banner after navigation.",
+    "Limit actions to one direct next step and route longer follow-up into the destination record or task.",
+    "Define the event that removes or collapses the confirmation: viewed receipt, copied reference, new task, route change, or timeout only when proof remains elsewhere.",
+    "Test repeated saves, slow server responses, duplicate objects, navigation away and back, screen-reader announcement, keyboard access, zoom, and narrow layouts."
+  ],
+  "commonMisuses": [
+    "Showing success before the operation is actually committed.",
+    "Writing only Done, Success, or Saved without naming the affected object.",
+    "Auto-expiring the only receipt or reference users need later.",
+    "Leaving stale success visible after users switch records or tasks.",
+    "Using a success confirmation for an urgent warning or failed action.",
+    "Showing a full confirmation page when the user still needs to continue the same task.",
+    "Stacking a toast, banner, and local success panel for the same event."
+  ],
+  "critiqueQuestions": [
+    "What authoritative event proves the action succeeded?",
+    "Can users tell which object or record was confirmed?",
+    "Do users need a reference, timestamp, link, or copy action before continuing?",
+    "Is this success important enough to remain visible, or should it be a toast?",
+    "Would the next screen need a notification banner, or has the entire journey ended and needs a confirmation page?",
+    "What clears the confirmation so it does not become stale?"
+  ],
+  "useWhen": [
+    "A user action has completed and users need proof, object identity, or next-step orientation.",
+    "The surrounding task or journey continues after the successful action.",
+    "The success should be visible longer than a transient toast but does not need a full endpoint page."
+  ],
+  "avoidWhen": [
+    "The success is obvious, low consequence, and safe to communicate as a brief toast.",
+    "The entire journey is complete and users need a confirmation page.",
+    "The message belongs before the next page heading after navigation.",
+    "The outcome is not yet committed or may still fail.",
+    "The primary user need is to reverse the action."
+  ],
+  "variants": [
+    "Saved confirmation",
+    "Upload confirmation",
+    "Submitted draft confirmation",
+    "Copied reference confirmation",
+    "Invite sent confirmation",
+    "Payment method confirmation",
+    "Actionable success confirmation",
+    "Receipt confirmation"
+  ],
+  "accessibility": [
+    "Expose dynamic success as a status message or equivalent so assistive technologies can announce it without moving focus unnecessarily.",
+    "Do not rely on green color or check icon alone; include visible success wording and object-specific copy.",
+    "Keep confirmation actions keyboard reachable and labelled with the affected object or reference.",
+    "Avoid timed removal when the confirmation contains a reference, proof, or next step that users may need to read slowly.",
+    "When focus is intentionally moved after navigation, place it on the success container before the next page task and allow normal tab order to continue.",
+    "Ensure repeated success messages do not create noisy announcements for autosave or background ticks."
+  ],
+  "keyboardBehavior": [
+    "Routine in-context success appearance does not steal focus from the user's current control.",
+    "Any View receipt, Copy reference, or Continue action appears in normal tab order after the success text.",
+    "Copying a reference updates a status message without removing keyboard focus unexpectedly.",
+    "If the confirmation collapses after viewing a record, focus moves to the destination heading or remains near the action that caused the transition.",
+    "If the confirmation is dismissible, the dismiss control has an accessible name that includes the confirmed object."
+  ],
+  "failureModes": [
+    "Users repeat an action because the success feedback did not name what completed.",
+    "Users lose a receipt because the confirmation disappeared before they could copy it.",
+    "A false success state appears before the server accepts the action.",
+    "A stale success state confirms the previous record while users work on a new one.",
+    "Screen reader users miss the completion because the status change is not announced.",
+    "Users cannot find the next step because the success message has no route to the changed object.",
+    "The interface over-confirms routine autosave events and trains users to ignore success feedback."
+  ],
+  "relatedPatterns": [
+    "toast-notification",
+    "notification-banner",
+    "alert",
+    "undo",
+    "inline-message",
+    "notification-center"
+  ],
+  "comparisons": [
+    "success-confirmation-vs-toast-notification-vs-notification-banner-vs-alert"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Notification",
+      "url": "https://carbondesignsystem.com/components/notification/usage/",
+      "platform": "web",
+      "notes": "Documents success notification status as confirmation that a task completed as expected and distinguishes notification variants by placement and persistence.",
+      "screenshot": "screenshots/patterns/success-confirmation.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Design System Notification Banner",
+      "url": "https://design-system.service.gov.uk/components/notification-banner/",
+      "platform": "web",
+      "notes": "Documents success notification banners for outcomes of just-completed actions when the user continues the current journey rather than finishing on a confirmation page.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Atlassian Design System Flag",
+      "url": "https://atlassian.design/components/flag/",
+      "platform": "web",
+      "notes": "Defines flags as confirmations, alerts, and acknowledgments requiring minimal user interaction.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WCAG 2.2 Status Messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Supports programmatic announcement of dynamic success messages without moving focus.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon defines success notification status as confirmation that a task completed as expected and distinguishes inline, toast, actionable, and callout variants."
+    },
+    {
+      "id": "govuk-notification-banner-component",
+      "note": "GOV.UK describes green success notification banners for outcomes of just-completed actions when the current journey continues."
+    },
+    {
+      "id": "atlassian-flag-component",
+      "note": "Atlassian defines flags as confirmations, alerts, and acknowledgments requiring minimal interaction."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing success state changes without moving focus."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

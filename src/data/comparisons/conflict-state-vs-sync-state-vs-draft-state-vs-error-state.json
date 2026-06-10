@@ -1,0 +1,44 @@
+{
+  "id": "conflict-state-vs-sync-state-vs-draft-state-vs-error-state",
+  "title": "Conflict state vs sync state vs draft state vs error state",
+  "summary": "Use conflict state when two valid competing changes overlap and require a merge, choose, discard, or save-copy decision; use sync state for reconciliation progress, draft state for unpublished versions, and error state for failures without competing valid versions.",
+  "patternIds": [
+    "conflict-state",
+    "sync-state",
+    "draft-state",
+    "error-state"
+  ],
+  "decisionRules": [
+    "Choose conflict state when the system has at least two competing valid versions of the same object, field, file, record, paragraph, or branch and cannot safely pick a winner without user or policy resolution.",
+    "Choose sync state when local and remote copies are reconciling, queued, uploading, accepted, paused, failed, or ready for review, but the interface does not yet need to compare overlapping edits.",
+    "Choose draft state when the main issue is an unpublished or inactive version lifecycle, such as resume, discard, compare, publish, or active-version visibility.",
+    "Choose error state when one operation failed and there is no alternative valid version to compare, merge, preserve, or choose from.",
+    "A conflict-state UI must identify the owning object, the competing parties or sources, timestamps or versions, the exact overlapping fields, and what each resolution action will keep or discard.",
+    "Do not hide conflict resolution inside a toast, one-word warning, or generic retry; users need durable access to both versions and a clear resolution path.",
+    "Use side-by-side, inline diff, tracked-change, row-level, or guided conflict-review views according to the data type and risk.",
+    "For destructive or irreversible resolution, require explicit confirmation after showing which local, remote, or collaborator changes will be removed."
+  ],
+  "failureModes": [
+    "A sync queue says Review needed but opens no comparison of local and server values.",
+    "A document editor overwrites another person's paragraph without naming the newer version or offering continue-editing, overwrite, or cancel choices.",
+    "A file sync app creates a conflict copy but hides it from the affected folder and owner.",
+    "A merge tool offers Use ours and Use theirs without showing which side is the target branch or source branch.",
+    "A record form shows a generic save error after another user changed the same field, so the user retries and loses context.",
+    "A draft publish flow merges conflicting active and draft values without showing a change summary."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-confluence-concurrent-editing",
+      "note": "Confluence supports conflict display for overlapping concurrent edits and offers continue editing, overwrite, and cancel outcomes."
+    },
+    {
+      "id": "microsoft-office-coauthoring-conflicts",
+      "note": "Microsoft Office supports local-safe coauthoring conflict states, save-copy or discard recovery, conflict view navigation, and accept or reject choices."
+    },
+    {
+      "id": "gitlab-merge-conflicts",
+      "note": "GitLab supports conflict blocks, UI eligibility rules, interactive Use ours and Use theirs choices, inline editing, and commit-based resolution."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

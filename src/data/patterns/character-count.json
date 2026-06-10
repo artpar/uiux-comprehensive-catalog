@@ -1,0 +1,234 @@
+{
+  "id": "character-count",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as bounded text-entry feedback with source-backed guidance for real limits, thresholded messages, character versus word modes, accessible descriptions, no-JavaScript fallback, over-limit recovery, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers real character and word limits, thresholded remaining-count messages, maxlength versus recoverable over-limit handling, accessible count descriptions, delayed announcements, no-JavaScript fallback text, backend-limit escalation, and silent-truncation avoidance.",
+    "relatedPatternDistinction": "The entry separates character count from textarea by being count feedback attached to bounded writing rather than the multiline control itself, from text input by supporting visible limits rather than ordinary one-line entry, and from inline validation by guiding length before or during writing instead of only correcting after interaction.",
+    "liveDemoBehavior": "The rendered exercise switches between character and word limits, shows remaining capacity only after the configured threshold, preserves over-limit drafts, reports the exact amount over the limit, trims to the limit on request, submits valid content, and contrasts a hidden hard-limit field that fails after submit.",
+    "comparisonDecisionRules": "The linked character-count-vs-textarea-vs-text-input-vs-inline-validation comparison gives concrete rules for real limits, unrestricted textarea use, short one-line fields, post-entry validation, backend-limit redesign, announcement pacing, word-count selection, fallback text, and over-limit recovery.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/character-count.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, threshold count behavior, word-count mode, over-limit recovery, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/character-count.png"
+    ]
+  },
+  "name": "Character count",
+  "aliases": [
+    "character counter",
+    "word count",
+    "remaining character counter",
+    "text limit counter",
+    "length counter"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Bounded text-entry length feedback",
+  "uiGuidance": [
+    "Place count feedback next to the limited input or textarea, associate it with the field description, and show the maximum or remaining amount in the same unit the service validates.",
+    "Use threshold, warning, and error states that expose the limit without turning every keystroke into noisy feedback; preserve readable hint, count, and error text together."
+  ],
+  "uxGuidance": [
+    "Use character count only when a real character or word limit affects acceptance and users can adjust their answer before submission.",
+    "When users exceed the limit, preserve their full draft, state exactly how many characters or words must be removed, and provide an edit or trim path instead of silently cutting content."
+  ],
+  "uiExamples": {
+    "good": [
+      "An appeal summary textarea says users can enter up to 120 characters, shows no urgent count while plenty of space remains, then changes to 18 characters remaining near the threshold.",
+      "A short biography field shows 9 words remaining because the editorial policy is word-based, not character-based."
+    ],
+    "bad": [
+      "A long unrestricted comment box shows a decorative 5000-character counter that makes users think the answer should be shorter.",
+      "A hidden backend limit rejects a submitted explanation without showing any count, preserved draft, or exact amount over the limit."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pastes a long summary, sees that it is 23 characters over the limit, trims it in place, and submits without losing the original draft.",
+      "A user switches a grant abstract from character limit to word limit and the counter, hint, validation, and submitted status all change units together."
+    ],
+    "bad": [
+      "A user composes a paragraph and the field silently truncates the last sentence at the maximum length.",
+      "A screen reader user hears a live region announce the remaining count after every character, interrupting the text they are typing."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to write within a real text limit, but hidden limits, noisy counters, mismatched server rules, or silent truncation make it hard to know whether the draft will be accepted.",
+  "solution": "Expose the limit before entry, update count feedback at a useful pace, associate it with the field, preserve over-limit drafts, and give exact recovery guidance using the same character or word rule enforced by validation.",
+  "problemContext": [
+    "A legal, editorial, messaging, database, moderation, or downstream-display rule imposes a maximum number of characters or words.",
+    "Users may paste text from another source and need to know whether the full draft fits before submitting.",
+    "The product can validate the same unit it displays and can preserve the draft even when it exceeds the limit.",
+    "Assistive technology users need the limit and count status without disruptive announcements on every keypress.",
+    "If many users hit the backend limit, the product may need a higher limit or redesigned storage rather than count pressure."
+  ],
+  "selectionRules": [
+    "Choose character count when the limit is real, useful to users, and enforceable in the same unit displayed by the interface.",
+    "Use word count when policy or review standards are expressed in words, not when the server actually enforces characters.",
+    "Use a textarea without count when users need paragraph entry but limits are absent, extremely high, or unlikely to affect real submissions.",
+    "Use text input without count when the expected value is short enough that length is already apparent from the field type or format.",
+    "Use inline validation for length errors that do not require continuous awareness while typing.",
+    "Escalate backend constraints when users regularly exceed a service-imposed limit; do not make the counter compensate for a bad limit.",
+    "Show a static maximum message when JavaScript is unavailable.",
+    "Do not silently truncate pasted or typed content; preserve the draft and explain the exact reduction needed."
+  ],
+  "requiredStates": [
+    "Empty state with visible label, hint, and static maximum message.",
+    "Typing state before threshold where the limit remains available but does not create urgency.",
+    "Near-limit state showing remaining characters or words.",
+    "At-limit state explaining that no characters or words remain.",
+    "Over-limit state with error styling and exact amount over the limit.",
+    "Trimmed recovery state after the user edits or accepts a trim action.",
+    "Submitted valid state with accepted count and unit.",
+    "No-JavaScript fallback state with a visible maximum message.",
+    "Word-count mode when the actual constraint is word-based.",
+    "Assistive announcement state that avoids excessive live updates."
+  ],
+  "interactionContract": [
+    "The field accepts typing and paste normally; the counter observes length rather than blocking editing prematurely.",
+    "The count message uses the same character or word unit as validation and submitted payload checks.",
+    "Before the warning threshold, the interface keeps the maximum visible without repeatedly announcing remaining amounts.",
+    "When the remaining amount crosses the threshold, the count changes to a warning message near the field.",
+    "When the user exceeds the limit, the field keeps the full draft and shows exactly how many characters or words must be removed.",
+    "A trim or edit action is explicit and reversible through normal undo instead of automatic truncation.",
+    "Errors, hints, and count messages are associated with the input or textarea through a shared description."
+  ],
+  "implementationChecklist": [
+    "Define the enforced unit, maximum, warning threshold, validation rule, fallback message, and server-side normalization before adding the counter.",
+    "Associate label, hint, count message, and error text with the field using stable ids and descriptions.",
+    "Use maxlength only when blocking additional input is acceptable; otherwise allow over-limit drafts and validate with a specific recovery message.",
+    "Implement pluralized messages for remaining, at-limit, and over-limit states in character and word modes.",
+    "Throttle or delay assistive announcements so users are not interrupted on every keystroke.",
+    "Keep count, error, and submitted payload checks aligned with server validation for Unicode, whitespace, pasted text, and line breaks.",
+    "Test no-JavaScript fallback, paste over limit, screen readers, mobile keyboards, zoom, translated strings, and server-returned length errors."
+  ],
+  "commonMisuses": [
+    "Adding a counter to an unrestricted writing field because it looks informative.",
+    "Using a character counter when the server counts bytes, normalized characters, words, or rich-text markup.",
+    "Hiding the limit until after submit.",
+    "Interrupting screen reader users with a live count after every keypress.",
+    "Silently truncating pasted text at the maximum length.",
+    "Using a low backend limit as a reason to pressure users instead of increasing the limit.",
+    "Showing remaining count in one place and a different maximum in validation.",
+    "Letting the counter replace specific required, too-short, or disallowed-content errors."
+  ],
+  "critiqueQuestions": [
+    "Is there a real acceptance limit, and is it expressed in characters or words?",
+    "Would most users ever approach the limit, or is the counter just adding pressure?",
+    "Does server validation count the same text that the interface counts?",
+    "What happens when users paste text that is far over the limit?",
+    "Are count messages associated with the field without noisy announcements?",
+    "Should the service increase the backend limit instead of exposing it to users?"
+  ],
+  "useWhen": [
+    "A legal, editorial, messaging, moderation, or display constraint imposes a clear maximum length.",
+    "Users are likely to write or paste near the limit and need to revise before submit.",
+    "The product can preserve over-limit drafts and validate the same unit displayed in the counter.",
+    "A static fallback message can communicate the limit when script-driven count updates are unavailable."
+  ],
+  "avoidWhen": [
+    "The field has no meaningful maximum length.",
+    "The length limit is already obvious from the data type or format.",
+    "Almost no real users will approach the backend limit.",
+    "The limit exists only because storage or integration constraints should be fixed.",
+    "The implementation cannot count text the same way the server validates it.",
+    "Continuous count feedback would distract from a writing task without helping recovery."
+  ],
+  "variants": [
+    "Character limit counter",
+    "Word limit counter",
+    "Textarea with remaining count",
+    "Text input with remaining count",
+    "Thresholded character count",
+    "Always-visible maximum message",
+    "Over-limit recovery counter",
+    "No-JavaScript maximum message"
+  ],
+  "accessibility": [
+    "Associate the count message with the field so users hear the limit and current status with the control.",
+    "Keep the label and hint visible; do not make the counter the only instruction.",
+    "Avoid announcing every keystroke through a live region; delay or threshold announcements.",
+    "Use text and error styling that does not rely only on color for near-limit and over-limit states.",
+    "Preserve over-limit drafts so keyboard and assistive technology users can review and edit them.",
+    "Provide no-JavaScript fallback text that states the maximum before submission."
+  ],
+  "keyboardBehavior": [
+    "Typing, selection, paste, undo, redo, and line breaks follow the underlying input or textarea behavior.",
+    "Tab moves from the field to the next interactive control, not into the static count message.",
+    "If a trim action is provided, it is reachable after the field and has a specific accessible name.",
+    "Submit with over-limit text returns focus to the field or linked error without clearing the draft.",
+    "Switching between character and word modes updates the count without moving focus unexpectedly.",
+    "Undo after trimming should restore the previous draft when browser editing semantics allow it."
+  ],
+  "failureModes": [
+    "The count is missing until after submit even though a hard maximum exists.",
+    "The count says characters but backend validation rejects based on bytes, words, or normalized markup.",
+    "The field blocks more typing at maxlength, preventing users from pasting and editing naturally.",
+    "The over-limit message states only that the value is invalid, not how much must be removed.",
+    "A live region announces on every keypress and competes with typed text.",
+    "The no-JavaScript fallback loses the maximum-length instruction.",
+    "Users repeatedly hit a backend limit that should be increased.",
+    "The count visually separates from the field at zoom or on mobile."
+  ],
+  "relatedPatterns": [
+    "textarea",
+    "text-input",
+    "inline-validation",
+    "error-summary"
+  ],
+  "comparisons": [
+    "character-count-vs-textarea-vs-text-input-vs-inline-validation"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Character count",
+      "url": "https://designsystem.digital.gov/components/character-count/",
+      "platform": "web",
+      "notes": "Documents character count for inputs and textareas with maxlength, associated hint and message ids, fallback limit text, use cases for brevity or legal limits, and avoidance guidance.",
+      "screenshot": "screenshots/patterns/character-count.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Design System Character count",
+      "url": "https://design-system.service.gov.uk/components/character-count/",
+      "platform": "web",
+      "notes": "Documents character and word count behavior, thresholded count display, assistive-technology messages, no-JavaScript fallback text, and over-limit error handling.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Material Design Text fields",
+      "url": "https://m1.material.io/components/text-fields.html",
+      "platform": "web",
+      "notes": "Documents character or word counters as supporting text for fields that have a character or word limit.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-character-count-component",
+      "note": "USWDS character count guidance supports real limits, associated count messages, fallback text, and avoidance of unnecessary counters."
+    },
+    {
+      "id": "govuk-character-count-component",
+      "note": "GOV.UK character count guidance supports max characters, max words, thresholds, assistive messages, fallback text, and over-limit errors."
+    },
+    {
+      "id": "govuk-textarea-component",
+      "note": "GOV.UK textarea guidance separates the underlying multiline field from count and validation text attached to it."
+    },
+    {
+      "id": "material-design-text-fields",
+      "note": "Material Design text-field guidance supports character or word counters when a limit exists."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

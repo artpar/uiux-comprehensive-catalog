@@ -1,0 +1,212 @@
+{
+  "id": "inaccessible-custom-select",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for custom dropdowns that imitate select controls without equivalent semantics, keyboard support, selected state, focus handling, or form value synchronization, with source-backed widget guidance, comparison rules, unique demo behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets div-based dropdowns, styled fake selects, portal menus, searchable pickers, and design-system custom controls where native-equivalent name, role, value, expanded state, option state, and keyboard behavior are required.",
+    "relatedPatternDistinction": "The entry separates inaccessible custom select from native select by broken implementation versus correct compact single-choice behavior, from autocomplete by searchable text completion, and from multi-select by multiple-value selection contracts.",
+    "liveDemoBehavior": "The live demo contrasts a native select with validation against a click-only fake select that cannot expose expanded state, option roles, selected value, keyboard navigation, or synchronized form status.",
+    "comparisonDecisionRules": "The inaccessible-custom-select-vs-select-vs-autocomplete-vs-multi-select comparison gives concrete rules for native select, custom listbox, searchable autocomplete, multi-select chips, keyboard operation, and form value synchronization.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed anti-pattern entry.",
+    "manualSpotCheck": "screenshots/patterns/inaccessible-custom-select.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/inaccessible-custom-select.png"
+    ]
+  },
+  "name": "Inaccessible custom select",
+  "aliases": [
+    "broken dropdown",
+    "fake select",
+    "div select",
+    "click-only dropdown"
+  ],
+  "category": "Selection And Choice",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "A visual dropdown looks like a select control but lacks the semantics, keyboard support, selected state, focus behavior, or form value exposure users expect.",
+  "solution": "Treat the inaccessible custom select as an anti-pattern: use a native select for simple single-choice lists, or implement a complete accessible listbox, combobox, or multi-select contract when custom behavior is necessary.",
+  "problemContext": [
+    "A team replaces native select styling with divs, popovers, portals, or JavaScript-only menus.",
+    "The control works for pointer users but fails keyboard, screen reader, voice, form submission, or zoom scenarios.",
+    "The popup may lose focus, clip options, close unexpectedly, or update only visual text instead of the actual form value.",
+    "The product needs a single known value, searchable known value, or multiple values but uses one generic custom dropdown for all cases."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a custom dropdown cannot be opened, navigated, selected, dismissed, and reviewed by keyboard.",
+    "Use native select when the user chooses one value from a finite known list and platform behavior is sufficient.",
+    "Use an accessible custom listbox only when native select cannot meet product requirements and the implementation exposes label, popup, active option, selected option, value, and expanded state.",
+    "Use autocomplete or combobox when users need to type to filter or complete a long known list.",
+    "Use multi-select when users can choose more than one value and need persistent selected chips, removal, and multi-value form submission.",
+    "Do not ship a visual dropdown until it synchronizes visual value, submitted value, accessible value, and validation state.",
+    "Avoid portal or overlay implementations that break focus return, option clipping, Escape dismissal, or screen-reader discovery."
+  ],
+  "requiredStates": [
+    "Closed state with persistent label, current value, and collapsed state.",
+    "Open popup state with reachable options and visible active option.",
+    "Selected option state that remains visible after the popup closes.",
+    "Validation state when no valid option has been selected.",
+    "Dismissed state where Escape or outside click preserves the current value and restores focus.",
+    "Synchronized form state where the selected value is submitted and announced consistently."
+  ],
+  "interactionContract": [
+    "The trigger exposes an accessible name, current value, role, and expanded or collapsed state.",
+    "Keyboard users can open the popup, move through options, select an option, dismiss without change, and continue from a predictable focus position.",
+    "Pointer, keyboard, touch, voice, and assistive technology users can complete the same selection without losing context.",
+    "The active option and selected option are visually and programmatically distinguishable.",
+    "The selected value updates the visible trigger, validation state, and submitted form value together.",
+    "Custom behavior is tested across native browser zoom, mobile viewport constraints, reduced motion, and screen reader modes."
+  ],
+  "implementationChecklist": [
+    "Start with native select and document why custom behavior is necessary before replacing it.",
+    "If custom, choose the correct pattern: listbox for browseable single choice, combobox for typed filtering, or multi-select for multiple values.",
+    "Expose stable label, popup relationship, expanded state, active option, selected option, and current value.",
+    "Implement keyboard opening, arrow navigation, Home and End where appropriate, Enter or Space selection, Escape dismissal, and focus return.",
+    "Keep options readable and reachable when rendered in portals, scroll containers, small screens, and zoomed layouts.",
+    "Synchronize the selected value with form submission, validation, reset, and server-rendered defaults.",
+    "Test with keyboard only and at least one screen reader before claiming custom select parity."
+  ],
+  "commonMisuses": [
+    "Using divs with click handlers and no role, label, expanded state, or option semantics.",
+    "Updating the visual label but not the form value that submits to the server.",
+    "Closing the menu before keyboard or assistive technology users can inspect options.",
+    "Losing focus when the popup is rendered in a portal or dismissed with Escape.",
+    "Using a custom select for a long list that needs search or autocomplete.",
+    "Using a single-select-style dropdown for multiple values without chips, removal, or clear selected count.",
+    "Clipping options inside overflow containers or hiding them from screen readers."
+  ],
+  "critiqueQuestions": [
+    "Can a keyboard-only user open it, inspect options, choose one, dismiss without change, and continue from the trigger?",
+    "Does the screen reader announcement include label, current value, expanded state, option count or option names, active option, and selected state?",
+    "Does the selected value submit, validate, reset, and hydrate like a real form control?",
+    "Is this actually a select, or does the task need autocomplete, combo box, radio group, or multi-select behavior?",
+    "What happens when the popup is clipped, the page zooms, or the user presses Escape?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit custom dropdowns, styled select replacements, portal menus, command-palette-like selectors, and generated UIs that imitate native controls.",
+    "Use it when visual polish hides missing keyboard behavior, form-state synchronization, or assistive technology exposure."
+  ],
+  "avoidWhen": [
+    "The implementation uses native select with persistent label, selected value, validation, and no auto-submit.",
+    "The custom component fully implements the appropriate listbox, combobox, or multi-select contract and has been tested with keyboard and assistive technology.",
+    "The task is better served by radio buttons, checkboxes, autocomplete, or a dedicated picker instead of a dropdown."
+  ],
+  "variants": [
+    "Click-only dropdown",
+    "Styled div select",
+    "Portal menu with lost focus",
+    "Custom select without submitted value",
+    "Fake combobox without filtering contract",
+    "Single-select facade for multiple values",
+    "Dropdown clipped by overflow"
+  ],
+  "accessibility": [
+    "Expose name, role, value, expanded state, popup relationship, active option, and selected option state when implementing custom choice widgets.",
+    "Do not rely on visual styling as the only selected or focused indicator.",
+    "Ensure Escape closes without changing the value and returns focus predictably.",
+    "Keep the label visible and associated after a value is selected.",
+    "Use platform-native controls when custom semantics and keyboard behavior cannot be maintained."
+  ],
+  "keyboardBehavior": [
+    "Native select follows platform keyboard behavior and should be preferred when it satisfies the task.",
+    "Custom listbox-style select supports opening, arrow navigation, option selection, dismissal, and focus return.",
+    "Combobox-style autocomplete supports typing, filtering, active option movement, selection, and preserving typed input rules.",
+    "Multi-select controls support repeated selection, removal, review of selected values, and no accidental close after every option.",
+    "Tab order continues predictably from the trigger or selected value after the popup closes."
+  ],
+  "failureModes": [
+    "No keyboard opening or option navigation.",
+    "Focus lost on close or trapped in a portal.",
+    "Options unavailable or unnamed for screen readers.",
+    "Selected value updates visually but not in submitted form state.",
+    "Validation treats the control as empty even after a visual selection.",
+    "Popup clips or disappears at zoom, mobile width, or inside scroll containers.",
+    "A single custom dropdown is reused for select, autocomplete, and multi-select tasks without matching any contract."
+  ],
+  "relatedPatterns": [
+    "select",
+    "autocomplete",
+    "multi-select",
+    "radio-group"
+  ],
+  "comparisons": [
+    "inaccessible-custom-select-vs-select-vs-autocomplete-vs-multi-select"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Listbox Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/listbox/",
+      "platform": "web",
+      "notes": "Documents keyboard, selected-state, labeling, and option behavior required for custom listbox-style select alternatives.",
+      "screenshot": "screenshots/patterns/inaccessible-custom-select.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Design System Select component",
+      "url": "https://design-system.service.gov.uk/components/select/",
+      "platform": "web",
+      "notes": "Documents native select labels, hints, errors, selected values, and long-list caution for simple single-choice controls.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-listbox",
+      "note": "APG listbox guidance documents keyboard interaction, labeling, active option, and selected state for custom listbox-style alternatives."
+    },
+    {
+      "id": "govuk-select-component",
+      "note": "GOV.UK select guidance supports native labels, hints, errors, selected values, and caution around long lists."
+    },
+    {
+      "id": "uswds-select-component",
+      "note": "USWDS select guidance supports sparing native select use, persistent labels, no auto-submit, and radio or combo-box alternatives."
+    },
+    {
+      "id": "ontario-design-system-autocomplete",
+      "note": "Ontario documents autocomplete as a text input with popup suggestions, combobox semantics, keyboard behavior, and selection from matching values."
+    },
+    {
+      "id": "carbon-dropdown-multiselect",
+      "note": "Carbon documents multi-select dropdown behavior with selected tags, removal, filtering, clear-all, and multiple selection modes."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Broken custom widget anti-pattern",
+  "uiGuidance": [
+    "Replace fake select markup with a native select unless a custom listbox, combobox, or multi-select contract is truly required and fully implemented.",
+    "When custom behavior is required, make the trigger, popup, active option, selected option, validation, and submitted value visible and programmatically exposed."
+  ],
+  "uxGuidance": [
+    "Let every user complete the same choice with pointer, keyboard, touch, voice, and assistive technology instead of making styling work for only one input method.",
+    "Choose the right control model before styling: compact native select for one known value, autocomplete for search, and multi-select for multiple values."
+  ],
+  "uiExamples": {
+    "good": [
+      "A native select keeps its persistent label, selected value, required validation, and platform keyboard behavior.",
+      "A custom listbox shows expanded state, active option, selected option, and returns focus to the trigger after dismissal."
+    ],
+    "bad": [
+      "A div styled like a dropdown opens only on click and exposes no option roles or current value.",
+      "The selected visual label changes but the submitted form value remains empty."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Keyboard users can open, navigate, select, dismiss, and continue without losing focus or value.",
+      "Screen reader users hear the label, current value, expanded state, available options, and selected value."
+    ],
+    "bad": [
+      "Click-only menu traps or loses focus and cannot be completed from the keyboard.",
+      "The component looks complete in screenshots but fails validation or form submission because no real value changed."
+    ]
+  }
+}

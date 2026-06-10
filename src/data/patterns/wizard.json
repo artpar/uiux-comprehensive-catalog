@@ -1,0 +1,234 @@
+{
+  "id": "wizard",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a guided setup assistant pattern with source-backed guidance for sequential dependency, progressive or disabled steps, custom footer actions, test and review gates, safe cancel behavior, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers product setup and object-creation assistants, step-specific action text, disabled or progressive steps, generated previews, test-before-review gates, safe cancel or close behavior, review before finish, focus movement, and retesting dependent later steps after earlier choices change.",
+    "relatedPatternDistinction": "The entry separates wizard from multi-step form by guided setup semantics and stronger sequential dependency, from step navigation by assistant behavior versus progress display, from process list by controlled in-product flow versus explanatory process overview, and from single-page form by avoiding wizard chrome for short edits.",
+    "liveDemoBehavior": "The rendered exercise guides connector setup through choose, configure, test, review, and finish; it blocks review until the connection test passes, preserves draft state on Back, exposes safe cancel, recomputes later steps after connector changes, and contrasts a broken wizard that finishes early, hides dependencies, and discards data.",
+    "comparisonDecisionRules": "The linked wizard-vs-multi-step-form-vs-step-navigation-vs-process-list comparison gives concrete rules for guided setup, ordinary saved forms, progress-only indicators, process overviews, step-specific footers, finish gating, cancel contracts, free task order, retesting, and wizard overuse.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/wizard.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, guided setup shell, disabled future steps, test gate, review/finish behavior, cancel state, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/wizard.png"
+    ]
+  },
+  "name": "Wizard",
+  "aliases": [
+    "setup wizard",
+    "guided setup",
+    "setup assistant",
+    "configuration wizard",
+    "creation wizard",
+    "guided workflow"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Guided sequential setup assistant",
+  "uiGuidance": [
+    "Render a bounded assistant shell with a clear wizard title, current step heading, step list or progress context, step-specific body content, Back, Next or step-specific primary action, Finish, and Cancel or Close.",
+    "Make future, hidden, optional, current, complete, error, testing, review, and finished states visible from actual setup state; do not make the step list look complete because screens were visited."
+  ],
+  "uxGuidance": [
+    "Use a wizard when users must be guided through a dependent setup, creation, import, or configuration task where each step prepares the next one and final finish should be gated.",
+    "Validate and save the local draft at each step, run required tests or previews before review, preserve state on Back, and provide a safe cancel path that explains whether the draft is paused, saved, or discarded."
+  ],
+  "uiExamples": {
+    "good": [
+      "A connector setup wizard shows Choose connector, Configure access, Test connection, Review, and Finish in a side step list, with Configure access current and future steps disabled until prerequisites pass.",
+      "The Test connection step has a primary Run test action, a result panel, and only then unlocks Review and Finish."
+    ],
+    "bad": [
+      "A generic Step 1, Step 2, Done strip wraps one text field and a Finish button with no dependency, preview, review, or cancel state.",
+      "All steps are visible as visited while hidden required setup is inserted later, so the step count and current heading are dishonest."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects Zendesk, enters a token, runs a connection test, reviews generated sync settings, goes Back, and the token and test state are preserved or clearly invalidated when changed.",
+      "A user clicks Cancel halfway through setup and sees a paused draft or discard confirmation instead of losing the partial configuration."
+    ],
+    "bad": [
+      "A user clicks Finish before the connector was tested and later discovers the integration never ran.",
+      "A user goes Back to change the connector and the wizard silently keeps review answers from the old connector."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Complex setup tasks become risky when users must know the dependency order, test requirements, generated outputs, and final consequences without a guided assistant that keeps each step honest.",
+  "solution": "Guide users through a bounded wizard with explicit step state, prerequisite validation, step-specific actions, generated preview or test feedback, review before finish, safe cancellation, and recomputation of dependent steps after earlier choices change.",
+  "problemContext": [
+    "The task creates or configures something with dependencies, such as an integration, report, import, automation rule, device setup, or account configuration.",
+    "Later steps depend on earlier selections or credentials and may need tests, generated previews, or external validation.",
+    "Users need a clear path to finish or cancel without accidentally activating an incomplete setup."
+  ],
+  "selectionRules": [
+    "Choose a wizard when the product must guide users through a strict or mostly strict setup sequence with dependent choices.",
+    "Use multi-step form instead when the task is primarily collecting submitted answers across saved pages.",
+    "Use step navigation only as progress display inside a wizard or multi-step form, not as the wizard logic itself.",
+    "Use a process list when users need to understand or complete a broader process outside one controlled assistant.",
+    "Use a single-page form when all inputs are short, related, and safer to scan together before one save.",
+    "Gate Next, Review, and Finish using real prerequisites such as a valid choice, credential, import mapping, test result, or generated preview.",
+    "Use step-specific primary actions when they describe the real work better than Next, such as Test connection, Map columns, Generate preview, or Confirm review.",
+    "Provide Cancel or Close behavior that preserves, pauses, or explicitly discards setup state rather than silently losing it.",
+    "Retest or mark later steps stale when an earlier connector, template, permission, mapping, or option changes."
+  ],
+  "requiredStates": [
+    "Not-started state that explains what the wizard will configure and how many major steps follow.",
+    "Current guided step with a clear heading, local controls, and step-specific primary action.",
+    "Disabled future step state before prerequisites pass.",
+    "Completed step state based on saved valid setup data.",
+    "Validation or test-failed state that keeps users on the owning step with recovery guidance.",
+    "Generated preview or test-passed state before review unlocks.",
+    "Review state that summarizes choices and generated consequences before finish.",
+    "Cancel or close state that explains draft preservation or discard.",
+    "Finished state only after required steps, tests, and review are complete.",
+    "Stale dependent step state after an earlier wizard choice changes."
+  ],
+  "interactionContract": [
+    "Next validates and stores the current step before moving forward.",
+    "Step links can move only to completed or currently available steps unless the wizard explicitly supports non-linear editing.",
+    "Back preserves entered data and returns to the previous guided step without activating finish or rerunning side effects.",
+    "Step-specific actions such as Run test or Generate preview must complete before Review or Finish unlocks.",
+    "Cancel and Close never discard a partial setup without an explicit saved, paused, or discard state.",
+    "Changing an upstream setup choice invalidates or recomputes dependent tests, previews, review summaries, and finish eligibility.",
+    "Finish performs the final commit only once all required steps and review gates are satisfied."
+  ],
+  "implementationChecklist": [
+    "Model wizard steps with stable IDs, route or panel ownership, prerequisites, completion rules, side effects, and stale-dependency rules.",
+    "Write step-specific footer actions and disable or explain unavailable future steps.",
+    "Persist draft state before navigation and restore it on Back, close, refresh, validation errors, and return from review.",
+    "Separate local step validation from final Finish side effects.",
+    "Provide test, preview, or generated-output states for steps that create external consequences.",
+    "Add a review step for irreversible, high-cost, external, or generated setup changes.",
+    "Confirm cancel or clearly communicate whether the wizard draft is saved, paused, or discarded.",
+    "Move focus to the new step heading or first invalid control after navigation and validation.",
+    "Test keyboard navigation through step list, footer actions, disabled steps, cancel, review change links, and final finish."
+  ],
+  "commonMisuses": [
+    "Using wizard chrome for a short edit form with no dependent sequence.",
+    "Letting users finish before required tests, previews, or review pass.",
+    "Treating step navigation as the whole wizard while leaving draft state and finish behavior undefined.",
+    "Hiding conditional steps until after users relied on the displayed count.",
+    "Using generic Next on steps whose actual obligation is Test, Map, Preview, or Confirm.",
+    "Discarding partial setup on Cancel without a warning or draft recovery.",
+    "Keeping stale generated settings after an earlier connector or template changes."
+  ],
+  "critiqueQuestions": [
+    "What dependency makes this a wizard rather than an ordinary multi-step form?",
+    "Which step-specific action proves a step is complete?",
+    "Can users cancel safely without losing work unexpectedly?",
+    "What later steps become stale when each earlier choice changes?",
+    "Is Finish impossible until every required test, preview, and review gate has passed?",
+    "Would a process list or task list be more honest because users can work out of order?"
+  ],
+  "useWhen": [
+    "A setup, import, object creation, or configuration task has strict sequencing.",
+    "Later steps depend on earlier choices, credentials, templates, mappings, permissions, or tests.",
+    "Users need guided completion with a final Finish action and a safe Cancel path.",
+    "The product must preview, test, or review generated consequences before committing."
+  ],
+  "avoidWhen": [
+    "The task is a short form that users should scan and submit on one page.",
+    "The flow is primarily a public-service transaction where a multi-step form is clearer.",
+    "Users can complete tasks in any order and need a task list or process list.",
+    "The system cannot preserve wizard draft state or explain cancel behavior.",
+    "The step count changes heavily enough that visible progress would mislead users."
+  ],
+  "variants": [
+    "Linear setup wizard",
+    "Progressive wizard",
+    "Modal wizard",
+    "Full-page wizard",
+    "Configuration wizard",
+    "Import wizard",
+    "Onboarding wizard",
+    "Creation wizard with generated preview",
+    "Wizard with required test step",
+    "Wizard with review before finish"
+  ],
+  "accessibility": [
+    "Use one clear wizard title and one current step heading; keep browser title, heading, and progress context synchronized.",
+    "Expose step navigation as navigation or an ordered list with current, complete, disabled, error, and stale text states.",
+    "Do not rely on color alone for completed, disabled, current, failed-test, or review-ready states.",
+    "Move focus to the step heading after Next or Back, or to the first invalid control after validation fails.",
+    "Make Cancel, Back, step-specific primary action, Review, and Finish reachable in predictable keyboard order.",
+    "If step navigation is interactive, keep disabled future steps unfocusable or announce why they are unavailable.",
+    "Ensure icon-only progress segments have accessible names or hide decorative connectors from assistive technology."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the current step controls, step-specific primary action, Back, Cancel, and available step links in a predictable order.",
+    "Enter or Space activates available step navigation and footer buttons.",
+    "After Next or Back, focus moves to the new step heading or the first validation error.",
+    "Disabled future steps do not trap focus and expose unavailable status where they remain visible.",
+    "Escape may close a modal wizard only if it follows the same cancel confirmation or draft-preservation rule as Cancel.",
+    "Finish is not reachable as an enabled action until required steps, tests, previews, and review are complete."
+  ],
+  "failureModes": [
+    "Finish commits an incomplete or untested setup.",
+    "Cancel discards draft state with no warning or recovery.",
+    "Back clears credentials, mappings, or generated preview data unexpectedly.",
+    "Review remains valid after upstream choices changed and dependent setup should be retested.",
+    "The visible step list, current heading, and route disagree.",
+    "A wizard hides conditional required steps until the end.",
+    "Users are forced through a wizard for independent tasks that should be selectable from a task list.",
+    "Screen reader users hear only numbers or icons for steps with no accessible names or statuses."
+  ],
+  "relatedPatterns": [
+    "multi-step-form",
+    "step-navigation",
+    "process-list",
+    "single-page-form"
+  ],
+  "comparisons": [
+    "wizard-vs-multi-step-form-vs-step-navigation-vs-process-list"
+  ],
+  "examples": [
+    {
+      "product": "PatternFly Wizard",
+      "url": "https://www.patternfly.org/components/wizard/",
+      "platform": "web",
+      "notes": "Documents wizard workflows for complex tasks, object creation, step sequences, disabled and progressive steps, review, cancel, custom footer, save, and focus behavior.",
+      "screenshot": "screenshots/patterns/wizard.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Material Design Steppers",
+      "url": "https://m1.material.io/components/steppers.html",
+      "platform": "web",
+      "notes": "Documents logical numbered steps, editable and non-editable variants, optional steps, and avoiding short-form overuse.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Service Manual Structuring forms",
+      "url": "https://www.gov.uk/service-manual/design/form-structure",
+      "platform": "web",
+      "notes": "Helps distinguish ordinary multi-page form structure from heavier wizard framing by emphasizing one thing per page, saving answers, and branching.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "patternfly-wizard-component",
+      "note": "PatternFly documents wizard workflows with guided steps, disabled and progressive behavior, review, cancel, custom footer, save, and focus-after-navigation behavior."
+    },
+    {
+      "id": "material-design-steppers-component",
+      "note": "Material defines steppers as logical numbered steps with editable, optional, linear, and non-linear variants plus overuse guidance."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance supports distinguishing ordinary multi-page forms from heavier guided setup assistants."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08"
+}

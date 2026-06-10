@@ -1,0 +1,219 @@
+{
+  "id": "dead-end-empty-state",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for blank or actionless empty surfaces, with source-backed distinctions from legitimate empty, no-results, and error states, a unique recovery-diagnosis demo, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names blank content regions, unexplained silence, missing object/cause/action, misleading decorative-only messages, permission dead ends, filtered dead ends, failed-load dead ends, and focus/fallback traps.",
+    "relatedPatternDistinction": "The entry separates dead-end empty state from legitimate empty state by absence of explanation or valid next action, from no-results recovery by missing visible criteria/recovery, and from error state by hiding failure behind blankness.",
+    "liveDemoBehavior": "The live demo compares a blank dead-end panel against a diagnostic recovery flow that classifies the empty cause as first-use, filtered, no-access, or failed-load and changes the available next action.",
+    "comparisonDecisionRules": "The linked dead-end-empty-state-vs-empty-state-vs-no-results-recovery-vs-error-state comparison gives concrete rules for flagging blank/actionless states and choosing the correct replacement pattern.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/dead-end-empty-state.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, unique dead-end interactions, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/dead-end-empty-state.png"
+    ]
+  },
+  "name": "Dead-end empty state",
+  "aliases": [
+    "blank dead end",
+    "actionless empty state",
+    "empty page with no action",
+    "orphan empty panel"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users reach a blank or nearly blank area and cannot tell what is missing, why it is missing, or what they can do next.",
+  "solution": "Treat the blank surface as an anti-pattern: determine the actual cause, then replace it with a legitimate empty state, no-results recovery, error state, permission explanation, setup step, or navigation escape.",
+  "problemContext": [
+    "A list, table, dashboard, workspace, inbox, or panel can render with no visible items.",
+    "The product may not yet know whether the cause is first use, filters, permissions, loading failure, deletion, unavailable data, or a hidden prerequisite.",
+    "Users need enough context to decide whether to create, import, clear criteria, request access, retry, restore, or leave."
+  ],
+  "selectionRules": [
+    "Flag dead-end empty state when a blank area lacks a specific object name, cause, and reachable next action.",
+    "Flag decorative-only empty states when illustration or friendly copy replaces actionable explanation.",
+    "Flag states that show a primary action the current user cannot perform, because a failed action is still a dead end.",
+    "Replace with empty state when the absence is legitimate and the user has a setup, create, import, sample, or request-access path.",
+    "Replace with no-results recovery when visible search, filter, or sort criteria produced zero matches.",
+    "Replace with error state when expected content failed to load, save, sync, authorize, or compute.",
+    "Do not mark the state resolved until keyboard, focus, screen-reader reading order, and post-action transition all give users a real path out."
+  ],
+  "requiredStates": [
+    "Unexplained blank state that is being audited as the anti-pattern.",
+    "Diagnosed first-use or legitimate absence state with object-specific copy and valid action.",
+    "Filtered or searched no-results state with visible criteria and recovery controls.",
+    "Permission or prerequisite state with explanation and request/setup path.",
+    "Failure state with retry, fallback, or support path.",
+    "Escaped or recovered state after the user takes a valid next action."
+  ],
+  "interactionContract": [
+    "A blank or actionless content region is not a valid terminal state.",
+    "The replacement state must name what is absent and why the system believes it is absent.",
+    "The next action must be available to the current user or replaced with a permission/prerequisite explanation.",
+    "If the cause is uncertain, the UI should show loading, retry, or diagnostic recovery instead of pretending the area is empty.",
+    "Focus should not remain on removed content or an inert blank panel after data changes.",
+    "The state must update when content appears, criteria are cleared, access changes, or retry succeeds."
+  ],
+  "implementationChecklist": [
+    "Track data status separately from rendered item count: loading, empty, no-results, permission, error, and ready.",
+    "Render the surrounding context such as table title, filter chips, workspace, owner, or object type.",
+    "Write a cause-specific heading and short explanation before adding illustration.",
+    "Show one valid primary action or a clear reason no action is available.",
+    "Do not offer create/import/reset/retry controls unless they are permitted and wired to a state change.",
+    "Keep keyboard focus in a useful place after the blank region resolves or changes cause.",
+    "Instrument blank states so repeated dead ends can be found and replaced."
+  ],
+  "commonMisuses": [
+    "Blank table body with no heading, count, cause, or action.",
+    "Friendly illustration plus vague text such as Nothing here yet with no task path.",
+    "Create button shown to a read-only user and failing after activation.",
+    "No-results caused by filters but active criteria are hidden above the fold.",
+    "Failed load rendered as empty content to avoid showing an error.",
+    "A removed item leaves keyboard focus on a now-empty region with nowhere to go."
+  ],
+  "critiqueQuestions": [
+    "Can users name what is absent after reading this state?",
+    "Can users tell whether the cause is first-use, filters, permission, setup, deletion, loading, or failure?",
+    "Is the visible next action valid for this user and wired to a meaningful state change?",
+    "Would the same blank copy still appear if the cause changed to error or no-results?"
+  ],
+  "useWhen": [
+    "Auditing generated UIs, dashboards, tables, lists, or panels for blank states that strand users.",
+    "A surface has no visible content but the current UI does not prove why or what can happen next.",
+    "An existing empty-state treatment is decorative, permission-blind, or not connected to recovery."
+  ],
+  "avoidWhen": [
+    "The surface already explains the cause and offers a valid next step.",
+    "The product intentionally hides the existence of data for privacy or safety and provides safe navigation or explanation.",
+    "The state is transient loading with clear progress, timeout, or cancellation behavior.",
+    "A regulatory or security flow must deny access without disclosing object existence, while still giving a safe next step."
+  ],
+  "variants": [
+    "Blank dashboard dead end",
+    "Empty table with no action",
+    "Permission dead end",
+    "Filtered dead end",
+    "Failed-load-as-empty",
+    "Decorative-only empty state",
+    "Focus orphan after deletion"
+  ],
+  "accessibility": [
+    "Do not use an unlabeled blank region as the only state announcement.",
+    "Keep the cause, affected object, and recovery controls in normal reading order.",
+    "Move focus to a useful heading, recovery action, or restored content when the state changes.",
+    "Do not strand keyboard focus on removed rows, disabled mystery controls, or inert illustrations."
+  ],
+  "keyboardBehavior": [
+    "Tab order should reach the explanation and the valid recovery action without passing through inert filler.",
+    "After clearing criteria, retrying, creating, or requesting access, focus should move to the updated result, confirmation, or still-recoverable state.",
+    "If no action is available, provide a reachable navigation or explanation instead of a keyboard trap.",
+    "Avoid disabled controls without an adjacent explanation of the missing prerequisite."
+  ],
+  "failureModes": [
+    "No object name.",
+    "No cause.",
+    "No valid next action.",
+    "Wrong replacement pattern for the cause.",
+    "Permission-blind action that fails after click.",
+    "Hidden filters or failed load presented as true emptiness.",
+    "Focus and screen-reader users cannot discover the recovery path."
+  ],
+  "relatedPatterns": [
+    "empty-state",
+    "no-results-recovery",
+    "error-state",
+    "loading-skeleton"
+  ],
+  "comparisons": [
+    "dead-end-empty-state-vs-empty-state-vs-no-results-recovery-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Empty States",
+      "url": "https://carbondesignsystem.com/patterns/empty-states-pattern/",
+      "platform": "web",
+      "notes": "Distinguishes no-data, user-action no-results, and error-management states, which provides the replacement decision model for the anti-pattern.",
+      "screenshot": "screenshots/patterns/dead-end-empty-state.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Atlassian Design System Empty State",
+      "url": "https://atlassian.design/components/empty-state/",
+      "platform": "web",
+      "notes": "Documents empty states with explanation, action, and variants for filtered, permission, and error cases.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "SAP Fiori Illustrated Message",
+      "url": "https://experience.sap.com/fiori-design-web/illustrated-message/",
+      "platform": "web",
+      "notes": "Documents contextual message states with situation-matched title, description, optional actions, and illustration.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-empty-states-pattern",
+      "note": "Carbon distinguishes no-data, user-action no-results, and error-management empty states, which helps diagnose dead-end blanks."
+    },
+    {
+      "id": "atlassian-empty-state",
+      "note": "Atlassian documents empty states with explanation, action, and variants for permission, filtered, and error causes."
+    },
+    {
+      "id": "sap-fiori-illustrated-message",
+      "note": "SAP Fiori documents contextual illustrated messages with title, description, optional action, and situation-matched content."
+    },
+    {
+      "id": "polaris-empty-state",
+      "note": "Polaris documents empty states with focused explanation, illustration, primary action, and optional secondary action."
+    },
+    {
+      "id": "govuk-design-system-patterns",
+      "note": "GOV.UK service patterns emphasize task progress, recovery, and clear next steps rather than blank terminal states."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-08",
+  "patternType": "ux",
+  "surfaceType": "Actionless blank-state anti-pattern",
+  "uiGuidance": [
+    "A dead-end empty state is visible as blank space, vague art, hidden filters, disabled mystery controls, or an empty table body with no object name, cause, or action.",
+    "Replace it with a cause-specific state that keeps surrounding context visible and presents a valid action, recovery path, permission explanation, or safe escape."
+  ],
+  "uxGuidance": [
+    "Diagnose why the surface is empty before choosing copy or controls: first-use, configured-empty, filtered, permission-limited, failed, loading, deleted, or unavailable.",
+    "Prevent users from getting stranded by ensuring every resolved empty state either changes the system, changes criteria, requests access, retries, restores, or explains why no action exists."
+  ],
+  "uiExamples": {
+    "good": [
+      "A replacement state names No projects yet, explains the workspace has no projects, and offers Create project or Import CSV only when permitted.",
+      "A filtered blank state keeps filter chips visible and offers Remove archived filter and Clear all filters.",
+      "A failure replacement says Reports could not load and keeps Retry, cached view, or support actions visible."
+    ],
+    "bad": [
+      "An empty table body with pale placeholder lines and no label.",
+      "A decorative illustration with Nothing here and no action.",
+      "A disabled Create button with no explanation for read-only users."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can classify the absence and take the correct path: create, import, clear filters, request access, retry, restore, or leave safely.",
+      "When an item is deleted and the list becomes empty, focus moves to a recovery state with undo or next navigation instead of an inert void."
+    ],
+    "bad": [
+      "Users cannot tell whether content is still loading, filtered out, unavailable, failed, or nonexistent.",
+      "The only visible action fails because the current user lacks permission.",
+      "A failed API request is silently rendered as an empty dashboard."
+    ]
+  }
+}

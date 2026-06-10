@@ -1,0 +1,180 @@
+{
+  "id": "tabs",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a sibling-panel switching pattern with source-backed tablist/tab/tabpanel semantics, manual activation behavior, panel-state preservation, and comparison rules against segmented controls and pagination.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names sibling panel scope, active tab and controlled panel relationship, manual versus automatic activation, arrow-key focus movement, panel-local state preservation, and when hidden panels make tabs the wrong fit.",
+    "relatedPatternDistinction": "The entry separates tabs from segmented controls by requiring content panels rather than mode toggles, and from pagination by keeping the user in one local page context rather than moving through ordered result pages.",
+    "liveDemoBehavior": "The live demo uses role=tablist, role=tab, aria-controls, role=tabpanel, separate focused and selected tab state, Arrow Left/Right movement, Enter/Space activation, and a panel note that survives tab switching.",
+    "comparisonDecisionRules": "The linked tabs-vs-segmented-control-vs-pagination comparison gives concrete rules for sibling panels, mode switches, ordered page traversal, hidden content, and state preservation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/tabs.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/tabs.png"
+    ]
+  },
+  "name": "Tabs",
+  "aliases": [
+    "tabbed interface",
+    "tab list"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Disclosure And Attention Management"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to switch between peer sections without leaving the current page context.",
+  "solution": "Group sibling panels behind labeled tabs, keep one active at a time, and make the active section and panel relationship explicit.",
+  "problemContext": [
+    "The content areas are peers under the same parent task.",
+    "Users benefit from quick switching without page navigation.",
+    "Only one section should be visible at a time and hidden sections are not required for sequential reading."
+  ],
+  "selectionRules": [
+    "Choose tabs for sibling sections at the same hierarchy level that share one surrounding page context.",
+    "Keep tab labels short, stable, and content-specific so users can predict the panel before opening it.",
+    "Use segmented controls when the choice changes a local mode or presentation rather than revealing a content panel.",
+    "Use pagination when users are moving through one ordered collection split into pages.",
+    "Use page navigation, headings, or a table of contents when users need to read content in order or compare sections side by side."
+  ],
+  "requiredStates": [
+    "Default active tab and visible panel.",
+    "Inactive tab states that remain readable and selectable.",
+    "Focused tab that may differ from the selected tab during manual activation.",
+    "Panel state after a tab is selected.",
+    "Hidden panel state that is not exposed as current content.",
+    "Overflow or small-screen state when labels no longer fit."
+  ],
+  "interactionContract": [
+    "Changing tabs updates the visible panel without losing the surrounding page context.",
+    "The active tab is programmatically exposed with its controlled panel.",
+    "Keyboard users can move between tabs and reach panel content.",
+    "When activation is manual, arrow keys move focus and Enter or Space activates the focused tab.",
+    "Panel-local inputs, scroll, or draft content are preserved or intentionally reset with clear feedback."
+  ],
+  "implementationChecklist": [
+    "Use tablist, tab, and tabpanel semantics or equivalent native structure.",
+    "Expose selected state and panel ownership.",
+    "Keep panel content mounted or restore state intentionally.",
+    "Do not overload tabs with unrelated navigation.",
+    "Decide whether activation is automatic or manual based on panel latency.",
+    "Provide a responsive fallback when tab labels wrap or overflow."
+  ],
+  "commonMisuses": [
+    "Using tabs as a primary site navigation system.",
+    "Hiding required form steps in tabs without completion state.",
+    "Using ambiguous tab labels that force users to inspect every panel.",
+    "Putting content that users must compare into mutually hidden panels."
+  ],
+  "critiqueQuestions": [
+    "Are these sections truly peers in the same task context?",
+    "Would users miss, forget, or need to compare content hidden in another panel?"
+  ],
+  "useWhen": [
+    "Users switch between sibling panels frequently.",
+    "Only one section needs to be visible at a time."
+  ],
+  "avoidWhen": [
+    "The destinations are unrelated pages.",
+    "Users need to compare all sections at once.",
+    "The content must be read in sequence.",
+    "There are too many labels to fit without wrapping, truncation, or horizontal scrolling."
+  ],
+  "variants": [
+    "Horizontal tabs",
+    "Vertical tabs",
+    "Icon and label tabs"
+  ],
+  "accessibility": [
+    "Expose the active tab and associated panel.",
+    "Keep focus order predictable between tab list and panel.",
+    "Use aria-controls and aria-labelledby so each tab and panel relationship is explicit."
+  ],
+  "keyboardBehavior": [
+    "Arrow keys move focus between tabs when using ARIA tabs.",
+    "Enter or Space activates a focused tab when activation is manual.",
+    "Tab moves from the active tab area to the current panel content.",
+    "Do not make all hidden panel controls reachable in the page tab order."
+  ],
+  "failureModes": [
+    "Changing URL pages while presenting the control as local tabs.",
+    "Dropping focus into hidden panels.",
+    "Making tabs wrap unpredictably on small screens.",
+    "Destroying unsaved panel state when users switch tabs."
+  ],
+  "relatedPatterns": [
+    "segmented-control",
+    "pagination"
+  ],
+  "comparisons": [
+    "tabs-vs-segmented-control-vs-pagination"
+  ],
+  "examples": [],
+  "sources": [
+    {
+      "id": "wai-aria-apg-tabs",
+      "note": "APG documents tablist, tab, tabpanel, aria-controls, aria-selected, arrow-key movement, and manual activation."
+    },
+    {
+      "id": "govuk-tabs-component",
+      "note": "GOV.UK supports tabs for related content shown one section at a time and warns against page navigation, sequential reading, and cross-panel comparison."
+    },
+    {
+      "id": "carbon-tabs-component",
+      "note": "Carbon distinguishes line, contained, and vertical tabs, connects selected tabs to panels, and warns not to use vertical tabs as replacement navigation."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Section-switching component",
+  "uiGuidance": [
+    "Render a tablist with short tab labels, selected tab styling, visible keyboard focus, and a single associated tabpanel that is visually connected to the active tab.",
+    "Show enough panel identity, heading, and preserved state for users to understand what changed when a tab is activated."
+  ],
+  "uxGuidance": [
+    "Help users switch between sibling sections in the same page context without changing routes or losing local work.",
+    "Avoid tabs when users must compare panels, read panels sequentially, or complete required workflow steps."
+  ],
+  "uiExamples": {
+    "good": [
+      "Tab labels are short, active tab is obvious, focused tab is distinguishable, and panel content is visually attached to the selected tab.",
+      "The current panel has a heading and stateful controls while inactive panels stay hidden from the visual surface."
+    ],
+    "bad": [
+      "Tabs wrap unpredictably or look like unrelated buttons.",
+      "Low-contrast active tab that users cannot distinguish from focused or inactive tabs."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users switch between sibling sections without leaving page context or losing panel-local notes.",
+      "Keyboard users can move focus with arrows, activate with Enter or Space, and then reach the selected panel."
+    ],
+    "bad": [
+      "Using tabs as primary navigation to unrelated pages.",
+      "Hiding required workflow steps or comparison-critical content in mutually exclusive panels."
+    ]
+  },
+  "examples": [
+    {
+      "product": "GOV.UK Design System Tabs",
+      "url": "https://design-system.service.gov.uk/components/tabs/",
+      "platform": "web",
+      "notes": "Shows related content sections displayed one at a time with warnings about page navigation, sequential reading, and comparison tasks.",
+      "screenshot": "screenshots/patterns/tabs.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon Design System Tabs",
+      "url": "https://carbondesignsystem.com/components/tabs/usage/",
+      "platform": "web",
+      "notes": "Shows line, contained, and vertical tab variants and guidance for connecting selected tabs to their panels.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

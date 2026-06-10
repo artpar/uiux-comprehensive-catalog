@@ -1,0 +1,48 @@
+{
+  "id": "page-not-found-page-vs-service-unavailable-page-vs-error-state-vs-empty-state",
+  "title": "Page not found page vs service unavailable page vs error state vs empty state",
+  "summary": "Use a page not found page when the site or service is reachable but the requested URL or resource cannot be found; use service unavailable page for closed or unavailable services, error state for a failed operation inside a valid route, and empty state for a valid area that legitimately has no objects.",
+  "patternIds": [
+    "page-not-found-page",
+    "service-unavailable-page",
+    "error-state",
+    "empty-state"
+  ],
+  "decisionRules": [
+    "Choose page not found page when the user follows a broken link, mistypes or pastes an incomplete address, opens a removed page, or returns to an expired deep link and the product cannot resolve a valid destination.",
+    "Choose service unavailable page when the route exists but the service, transaction, or entry point is closed, under maintenance, overloaded, or temporarily unable to handle requests.",
+    "Choose error state when a valid page or component fails to load, save, sync, authorize, or compute and recovery can happen within the surrounding shell.",
+    "Choose empty state when a valid page loads successfully and the resolved collection, dashboard, inbox, or workspace legitimately has no content.",
+    "A page not found page should keep service identity, state that the page cannot be found, explain likely causes without blame, and offer search, start page, dashboard, contact, report-broken-link, or current-task routes.",
+    "Do not auto-redirect from a page not found page without explanation; users need to know that their URL or link did not resolve and how to recover.",
+    "For protected or sensitive objects, use privacy-preserving not-found copy only when the product intentionally does not disclose existence; do not reveal private titles, owners, or record IDs unless access policy allows it.",
+    "Set the HTTP response and analytics so the missing URL is measurable as a 404, not a successful page with not-found copy or a service outage."
+  ],
+  "failureModes": [
+    "A missing route shows a bare code and leaves users without search, start, dashboard, contact, or report-broken-link routes.",
+    "A planned maintenance window is labeled page not found, so users think a valid service was removed or their bookmark is wrong.",
+    "A failed data load inside an existing route opens a 404 page, losing the user's filters, draft, and retry context.",
+    "A valid empty dashboard is treated as page not found, hiding the creation or setup action that should help the user start.",
+    "A protected record page reveals the record name and owner in the not-found copy, confirming sensitive resource existence.",
+    "A 404 page returns a successful status or redirects to the homepage, preventing teams from finding broken links and users from understanding what happened."
+  ],
+  "sources": [
+    {
+      "id": "govuk-page-not-found-pages",
+      "note": "GOV.UK documents page-not-found use cases, concise no-blame copy, page title and H1, contact guidance, and exclusions such as technical jargon and breadcrumbs."
+    },
+    {
+      "id": "mdn-http-404-not-found",
+      "note": "MDN documents 404 as the response when the server cannot find the requested resource and distinguishes it from permanent 410 Gone semantics."
+    },
+    {
+      "id": "cms-404-page-guidance",
+      "note": "CMS documents next actions, search or homepage recovery, header and footer continuity, responsive behavior, functional links, analytics, and accessibility requirements."
+    },
+    {
+      "id": "epa-page-not-found-standard",
+      "note": "EPA requires a clear page title, a way to find information, homepage or search links, domain homepage link, and additional helpful information."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

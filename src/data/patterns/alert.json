@@ -1,0 +1,239 @@
+{
+  "id": "alert",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an urgent current-task status pattern with source-backed urgency semantics, current-context placement, persistence and dismissal rules, alert-role limits, related-pattern distinctions, comparison rules, unique live behavior, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets urgent visible status messages for the current task, including severity, consequence copy, one direct next step, dynamic announcement, persistence, dismissal safety, and escalation to banner, inline message, toast, error state, or confirmation dialog.",
+    "relatedPatternDistinction": "The entry separates alert from inline message by page or task scope instead of object-local placement, from toast notification by urgency and persistence, from confirmation dialog by not requiring a modal response, and from error state by not replacing a failed content region.",
+    "liveDemoBehavior": "The live demo switches between session, connection, payment, success, and resolved alert states; toggles detail and dismissal behavior; exposes role alert only for urgent dynamic messages; and contrasts disappearing, silent, vague, modal-like, and wrong-scope misuse.",
+    "comparisonDecisionRules": "The alert-vs-inline-message-vs-toast-notification-vs-confirmation-dialog comparison gives concrete rules for urgency, scope, persistence, user response, assistive-technology announcement, and escalation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/alert.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, payment alert detail state, adjacent actions, wrong-scope misuse, related links, comparison link, and source-backed guidance; the live route was also exercised through connection, dismissal, saved, and resolved states.",
+    "screenshots": [
+      "screenshots/patterns/alert.png"
+    ]
+  },
+  "name": "Alert",
+  "aliases": [
+    "status alert",
+    "system alert",
+    "warning alert",
+    "error alert",
+    "urgent notice"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Disclosure And Attention Management",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Urgent current-task status message",
+  "uiGuidance": [
+    "Render an alert as a visible message in the current task area with a clear severity cue, short title, consequence-focused body, and one direct action or safe dismissal when appropriate.",
+    "Use assertive alert semantics only when an urgent message appears dynamically and needs immediate notice; use calmer status or region semantics for advisory, success, or already-visible page-load information."
+  ],
+  "uxGuidance": [
+    "Use alerts when the user must notice a time-sensitive condition that affects their current task, such as session expiry, lost connection, unsaved work risk, failed submission, or a security-sensitive hold.",
+    "Keep alerts tied to the current task outcome: name what changed, why it matters, what happens if the user does nothing, and which one next step resolves or clarifies the condition."
+  ],
+  "uiExamples": {
+    "good": [
+      "A session alert appears above the active editor, says the session expires in 2 minutes, and offers Save draft while keeping the editor usable.",
+      "A connection alert stays near the workspace header and says changes are stored locally until the server reconnects."
+    ],
+    "bad": [
+      "A vague red strip says Warning with no object, consequence, or next step.",
+      "A payment hold alert opens as a modal with only OK even though no decision is needed."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users can renew the session, save a draft, or inspect details without losing typed work.",
+      "When the connection returns, the alert downgrades to a success status and then can be dismissed safely."
+    ],
+    "bad": [
+      "The only warning that unsaved work will be lost disappears after five seconds.",
+      "A routine saved message interrupts screen reader output with assertive alert semantics on every keystroke."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need immediate notice of a time-sensitive task condition, but moving focus into a dialog or hiding the message in a transient notification would either over-interrupt the task or make the condition too easy to miss.",
+  "solution": "Show a concise persistent alert in the current task context, choose urgency semantics from consequence, provide one direct next step or safe dismissal, and update or remove the alert when the condition resolves.",
+  "problemContext": [
+    "A system, validation, connection, security, payment, save, or submission condition affects the user's current task now.",
+    "The message is more urgent than routine status but does not require the user to answer a modal decision.",
+    "The affected scope is the current page, workspace, step, or task flow rather than one table row, one input value, or the whole product.",
+    "Users can understand the situation from a short title and body, with optional detail routed elsewhere."
+  ],
+  "selectionRules": [
+    "Choose alert when a time-sensitive warning, error, or important status change must be noticed immediately without moving focus.",
+    "Use inline message instead when the message belongs directly beside one visible object, row, card, panel, or form section.",
+    "Use toast notification instead when the message can expire safely and does not need to remain in the task layout.",
+    "Use confirmation dialog instead when the user must explicitly choose before a consequential action proceeds.",
+    "Use error state instead when an expected content region failed and needs retry, fallback, support, or preserved-task recovery.",
+    "Use banner or site alert instead when the message applies across the product, service, account, or multiple pages.",
+    "Use role alert only for dynamically updated urgent text, and use status or region for less urgent messages.",
+    "Allow dismissal only when the underlying condition is resolved, recoverable elsewhere, or purely informational."
+  ],
+  "requiredStates": [
+    "No-alert state with the task operating normally.",
+    "Urgent warning or error alert that appears dynamically and is announced without taking focus.",
+    "Advisory or success state that uses calmer status semantics rather than assertive alert semantics.",
+    "Actionable alert with one direct next step such as Save draft, Renew session, Retry sync, or Update payment.",
+    "Detail-revealed state for a short consequence explanation without expanding into a full recovery workflow.",
+    "Dismissed state when hiding the alert is safe.",
+    "Resolved state where the alert updates, downgrades, or disappears when the condition changes.",
+    "Escalated state where the condition moves to inline message, error state, banner, notification center, or confirmation dialog."
+  ],
+  "interactionContract": [
+    "The alert appears close to the task area whose outcome it affects and before the controls users need next.",
+    "The alert title names the condition or affected process, not only the severity.",
+    "The body states the consequence and the most useful next step in one or two short sentences.",
+    "The alert does not steal focus, but its action and dismiss controls are reachable in normal tab order.",
+    "Urgent dynamic text is announced with alert semantics; advisory updates use status or region semantics.",
+    "Dismissal does not hide an unresolved critical condition with no alternate route.",
+    "When the condition resolves, the alert is removed, converted to lower-urgency status, or replaced by the correct recovery surface."
+  ],
+  "implementationChecklist": [
+    "Classify the condition by urgency, affected scope, user consequence, and whether a user response is required.",
+    "Place the alert in the current task region, not in a detached corner or global header unless the scope truly spans the product.",
+    "Write a title that names the issue, such as Session expires soon or Connection lost.",
+    "Write body text that explains what will happen and what the user can do next.",
+    "Limit actions to one direct command or one detail route; move multi-step recovery into a dedicated flow.",
+    "Choose role alert for urgent dynamic text, role status for lower-urgency status, and alertdialog when closure or response is required.",
+    "Do not create several assertive alerts at once; queue, merge, or prioritize them by consequence.",
+    "Test repeated alerts, dismissal, resolved state, screen reader announcement, keyboard reachability, zoom, and narrow layouts."
+  ],
+  "commonMisuses": [
+    "Using a disappearing toast for warnings users must act on before continuing.",
+    "Using a modal dialog for a message that only needs immediate notice and one optional next step.",
+    "Using alert semantics for routine success messages, progress ticks, or page-load content.",
+    "Putting product-wide maintenance or outage messages inside one task alert.",
+    "Showing several assertive alerts at the same time.",
+    "Writing severity-only copy such as Error or Attention without consequence or action.",
+    "Letting users dismiss a critical unresolved condition with no way to rediscover it."
+  ],
+  "critiqueQuestions": [
+    "Is the condition urgent enough to interrupt assistive technology output, or should it be a calmer status message?",
+    "Can users tell which current task, process, or page condition the alert affects?",
+    "Does the alert say what will happen if users do nothing?",
+    "Is one direct action enough, or does this need an error state, dialog, page, or panel?",
+    "Can the alert be dismissed safely, and how can users rediscover unresolved conditions?",
+    "What happens when the condition resolves, repeats, or coexists with another warning?"
+  ],
+  "useWhen": [
+    "A current task has a time-sensitive warning, error, or important status change.",
+    "Users need immediate notice but should not be forced into a modal response.",
+    "The alert can be resolved, downgraded, or dismissed safely according to the underlying condition."
+  ],
+  "avoidWhen": [
+    "The message belongs beside one object, row, field, or local section.",
+    "The message can safely disappear after a few seconds.",
+    "The user must confirm, cancel, or choose before a high-consequence action proceeds.",
+    "A content region failed and needs a full recovery state.",
+    "The message applies across the site, product, account, or multiple sessions.",
+    "The update is routine, repeated, or low urgency."
+  ],
+  "variants": [
+    "Error alert",
+    "Warning alert",
+    "Information alert",
+    "Success alert",
+    "Actionable alert",
+    "Dismissible alert",
+    "Connection alert",
+    "Session-expiry alert",
+    "Validation alert"
+  ],
+  "accessibility": [
+    "Use role alert for urgent dynamic text and avoid putting interactive controls inside the role-alert node itself.",
+    "Place actions adjacent to, but not inside, the asserted alert text when the alert needs controls.",
+    "Use status or region semantics for nonurgent messages and already-visible page-load content.",
+    "Do not move focus when the alert appears unless the user requested a detail route or a blocking response is required.",
+    "Do not rely on color, icon, or severity label alone; include visible text that names the condition.",
+    "Avoid multiple simultaneous assertive alerts and provide a clear reading order for title, consequence, and next step."
+  ],
+  "keyboardBehavior": [
+    "Alert appearance does not move focus away from the current task control.",
+    "The first alert action appears after the alert text in normal tab order.",
+    "A dismiss control, when present, has an accessible name that includes the alert subject.",
+    "After dismissal, focus stays on the dismiss control's logical successor or returns to the invoking control when the user opened alert details.",
+    "If the alert opens a detail page, panel, or dialog, that destination follows the keyboard contract of that surface."
+  ],
+  "failureModes": [
+    "Users miss an urgent condition because the message auto-expires or appears far from the affected task.",
+    "Assistive technology users are interrupted by repeated low-urgency alerts.",
+    "Users dismiss a critical warning and cannot find it again.",
+    "A modal-style alert asks for acknowledgement but does not help the user resolve the condition.",
+    "A row-level issue is raised as a page alert, losing the affected object.",
+    "A page-level alert is used for an outage that should be a banner or site alert.",
+    "The alert remains after the underlying issue has resolved."
+  ],
+  "relatedPatterns": [
+    "inline-message",
+    "toast-notification",
+    "confirmation-dialog",
+    "error-state",
+    "toast-only-critical-error",
+    "error-summary"
+  ],
+  "comparisons": [
+    "alert-vs-inline-message-vs-toast-notification-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "U.S. Web Design System Alert",
+      "url": "https://designsystem.digital.gov/components/alert/",
+      "platform": "web",
+      "notes": "Documents alert guidance for system status, validation, next steps, dismissibility, scope, and ARIA role choice by urgency.",
+      "screenshot": "screenshots/patterns/alert.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Carbon Design System Notification",
+      "url": "https://carbondesignsystem.com/components/notification/usage/",
+      "platform": "web",
+      "notes": "Documents notification variants, statuses, placement, concise content, persistence, and escalation when a message requires more action or reading time.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN ARIA Alert Role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/alert_role",
+      "platform": "web",
+      "notes": "Documents role alert as assertive live-region text for important time-sensitive updates, with cautions about overuse and interactive content.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "WCAG 2.2 Status Messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Explains that status changes should be exposed programmatically so assistive technologies can announce them without moving focus.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "uswds-alert-component",
+      "note": "USWDS describes alerts for system status and validation messages, with guidance for next steps, dismissibility, context, and ARIA role selection."
+    },
+    {
+      "id": "mdn-aria-alert-role",
+      "note": "MDN defines role alert as assertive live-region text for important time-sensitive messages and warns against overuse or required interaction."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon distinguishes notification types by placement, duration, interaction, and whether a message should persist or escalate."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing content changes without changing focus."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

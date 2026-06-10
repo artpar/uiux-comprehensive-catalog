@@ -1,0 +1,271 @@
+{
+  "id": "name-entry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a personal-name capture pattern with source-backed guidance for necessity, full-name versus split fields, common versus official names, preferred form of address, previous-name wording, autocomplete name tokens, spellcheck off, long and multi-script names, punctuation and case preservation, title avoidance, update paths, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers personal-name capture only when needed, full-name field preference, deliberate split fields, common name versus official-document name, preferred address name, previous-name wording, native-script and Latin transcription needs, autocomplete name and component tokens, spellcheck false, long-name capacity, punctuation, spaces, single-letter names, case preservation, title avoidance, name changes, field errors, and review before correspondence or official submission.",
+    "relatedPatternDistinction": "The entry separates name entry from text input by adding personal-name semantics, cultural-name handling, autocomplete tokens, spellcheck behavior, and respectful use rules; from autocomplete by capturing a new or changed name rather than resolving a known record; from select by avoiding title lists unless unavoidable; and from inline validation or error summary by owning name-specific correction states while summaries link back after submit.",
+    "liveDemoBehavior": "The rendered exercise accepts accented, hyphenated, multi-part, single-letter, and native-script names; preserves case and punctuation; captures preferred form of address separately; switches to official-document wording; records neutral previous-name wording; asks for Latin transcription only when needed; reviews the exact spelling; and contrasts a broken split-field title flow that strips accents and requires a family name.",
+    "comparisonDecisionRules": "The linked name-entry-vs-text-input-vs-autocomplete-vs-select-vs-inline-validation-vs-error-summary comparison gives concrete rules for personal-name capture, ordinary short text, existing-person lookup, title or select avoidance, full-name versus split-field capture, autocomplete tokens, spellcheck and casing, preferred address, official names, previous names, validation, submitted-form recovery, and name-change paths.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/name-entry.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, full-name entry, autocomplete name, spellcheck false, Unicode or punctuation preservation, preferred address, native-script or transcription behavior, official-name wording, previous-name wording, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/name-entry.png"
+    ]
+  },
+  "name": "Name entry",
+  "aliases": [
+    "full name field",
+    "personal name field",
+    "legal name field",
+    "official name field",
+    "preferred name field",
+    "given name and family name fields",
+    "name capture"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Personal-name capture field or field group",
+  "uiGuidance": [
+    "Render name entry with a visible label that says exactly which name is needed, such as Full name, name on your passport, given names, family name, previous name, or what should we call you.",
+    "Use a single full-name field when the service can store the name as provided, and keep enough width, Unicode-capable text entry, autocomplete, spellcheck false, field-specific errors, review text, and change actions visible."
+  ],
+  "uxGuidance": [
+    "Use name entry when a product must identify, address, verify, correspond with, or officially record a person by name.",
+    "Make as few assumptions as possible about name parts, order, gender, marital status, script, casing, length, punctuation, or permanence; ask only for the name information the service will actually use."
+  ],
+  "uiExamples": {
+    "good": [
+      "A profile form asks for Full name, uses autocomplete name and spellcheck false, accepts María-José Carreño Quiñones, and shows the exact value before saving.",
+      "An identity form asks for Name as shown on your passport and separately asks What should we call you? for correspondence."
+    ],
+    "bad": [
+      "A form forces Title, First name, Middle initial, and Last name before it knows whether those parts exist or are needed.",
+      "A name field rejects accents, apostrophes, hyphens, spaces, native script, or a one-letter name."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user enters 小林康宏, optionally adds Yasuhiro Kobayashi as a Latin transcription for staff, and sees both values reviewed separately.",
+      "A user who changed their name is asked for Previous name where relevant, not Maiden name, and can update stored details without restarting the service."
+    ],
+    "bad": [
+      "A user with one name cannot continue because Last name is required and enters a period just to pass validation.",
+      "A user enters van der Waals and the system changes it to Van Der Waals in correspondence."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Names are personal identifiers with cultural, legal, language, script, privacy, and identity implications, so ordinary text fields, split-name assumptions, title lists, and overstrict validation can misidentify people or make a service feel disrespectful.",
+  "solution": "Ask only for the name the service needs, prefer a full-name field when possible, split only for real downstream requirements, support broad characters and scripts, preserve user-entered spelling and case, avoid unnecessary titles, capture preferred address or transcription separately, allow updates, and review exact spelling before use.",
+  "problemContext": [
+    "The service may need a name for account display, correspondence, booking, official records, identity checks, payments, school or health records, support queues, legal documents, search, sorting, or relationship management.",
+    "Users may have one name, multiple given names, multiple family names, patronymics, particles, prefixes, suffixes, titles, nicknames, native-script names, Latin transcriptions, changed names, or names that do not fit first-name and last-name order.",
+    "Some flows need the name a person commonly uses, while others need the exact name on a passport, driving licence, bank account, payment card, court document, or government record.",
+    "Name fields can reveal gender, marital status, family structure, religion, caste, migration history, or gender transition, so unnecessary collection and wording can create harm.",
+    "Downstream systems often pressure teams to split, sort, capitalize, or ASCII-normalize names even when the user-facing service does not need those assumptions."
+  ],
+  "selectionRules": [
+    "Choose name entry when the product must capture a person's name for identification, correspondence, display, official records, booking, payment, verification, support, or relationship handling.",
+    "Do not ask for a name if the service can work with an account identifier, email address, username, customer number, or anonymous flow instead.",
+    "Use a single Full name field when the service can store and use the name as provided.",
+    "Use split fields only when downstream systems genuinely need separate parts, and then label them as Given names and Family name for international audiences rather than relying on first and last order.",
+    "Make it clear whether the service needs a common name, preferred name, official-document name, billing name, cardholder name, previous name, native-script name, or Latin transcription.",
+    "Use autocomplete name for a full-name field, and use given-name, additional-name, family-name, honorific-prefix, honorific-suffix, or nickname only when deliberately collecting those parts.",
+    "Set spellcheck false and avoid automatic casing, ASCII-only filters, title-case transforms, or stripping punctuation unless a hard external constraint is explained.",
+    "Support long names, one-letter names, single-part names, spaces, hyphens, apostrophes, accents, non-Latin scripts, particles, prefixes, suffixes, numbers, and symbols where the service can store them.",
+    "Avoid asking for title; if unavoidable, use an optional text input rather than a fixed dropdown list.",
+    "Ask What should we call you? when the service wants a form of address instead of guessing a given name from the full name.",
+    "Use Previous name instead of maiden name when asking about earlier names.",
+    "Allow users to change stored names and review exact spelling before correspondence, official submission, or identity matching."
+  ],
+  "requiredStates": [
+    "Initial full-name state with visible label, purpose hint, autocomplete name, spellcheck false, and adequate width for long names.",
+    "Focused state with normal text editing, paste, undo, selection, browser autofill, and no forced capitalization.",
+    "Accented or punctuation state preserving hyphens, apostrophes, spaces, particles, and case.",
+    "Native-script state accepting non-Latin characters with correct display direction and storage.",
+    "Latin transcription state shown only when the service needs staff recognition, search, or back-office processing.",
+    "Official-document state with wording that asks for the name as shown on the relevant document.",
+    "Preferred address state asking what the service should call the user rather than guessing a name part.",
+    "Previous-name state using neutral wording and making the need clear.",
+    "Missing required name error state with the typed value preserved after correction.",
+    "Unsupported character or legacy-system constraint state that explains the external reason and gives a recovery path.",
+    "Reviewed name state showing the exact spelling, script, preferred address, and change action.",
+    "Name update state for stored personal details."
+  ],
+  "interactionContract": [
+    "Users can type, paste, autofill, edit, select, undo, and correct names through native text behavior.",
+    "The interface preserves the entered spelling, case, accents, punctuation, spacing, and script unless a visible external constraint requires a separate representation.",
+    "Submitting an empty or constrained name preserves the typed value and places correction text next to the field or in a linked summary.",
+    "The product never infers title, gender, marital status, family name, sorting key, or preferred address from the entered name without a designed field or confirmation.",
+    "If multiple name representations are needed, each representation has its own label, purpose text, storage field, and review row.",
+    "Users can change stored names without restarting the whole service when the product stores personal details.",
+    "The backend treats display name, official name, preferred address, previous name, native-script name, Latin transcription, and verified identity match as separate states."
+  ],
+  "implementationChecklist": [
+    "Decide which name representation the service needs and where it will appear before selecting fields.",
+    "Use a native text input with visible labels, stable ids, autocomplete tokens, spellcheck false, and aria-describedby for hints, errors, and status text.",
+    "Prefer autocomplete name for full name; use component tokens only for intentional split fields.",
+    "Store Unicode text and avoid byte-length assumptions; set database, API, export, search, and display paths to preserve long and multi-script names.",
+    "Validate required presence and documented external constraints without rejecting real names because they are short, single-part, long, accented, hyphenated, punctuated, spaced, or non-Latin.",
+    "Avoid title dropdowns, forced middle initials, forced family-name requirements, automatic capitalization, ASCII-only sanitization, and algorithmic name splitting.",
+    "Provide review, change, and update paths for names used in correspondence, official submissions, identity checks, or payment.",
+    "Test screen readers, browser autofill, mobile keyboards, paste, zoom, right-to-left or native-script names, one-letter names, multiple family names, particles, previous names, and name-change flows."
+  ],
+  "commonMisuses": [
+    "Requiring first name and last name when a full-name field would work.",
+    "Blocking one-part names or one-letter names.",
+    "Using a title dropdown that forces gender or marital-status disclosure.",
+    "Stripping accents, apostrophes, hyphens, spaces, particles, or native-script characters.",
+    "Automatically changing case or capitalization.",
+    "Asking for maiden name instead of previous name.",
+    "Guessing what to call someone from the first token of their full name.",
+    "Treating a name captured for display as proof of legal identity.",
+    "Making middle names required when the service does not need them.",
+    "Storing only split parts and being unable to display the exact name the user provided."
+  ],
+  "critiqueQuestions": [
+    "Why does the service need this person's name, and where will it be displayed or used?",
+    "Does the label ask for common name, full name, official-document name, previous name, or preferred address?",
+    "Can the field accept long, single-part, one-letter, accented, punctuated, spaced, and native-script names?",
+    "Does the implementation preserve case and spelling exactly as entered?",
+    "Is any split into name parts required by a real downstream use, or is it a storage habit?",
+    "Can users update their name and review exact spelling before correspondence or official submission?"
+  ],
+  "useWhen": [
+    "The product must capture a person's name for display, correspondence, booking, application, payment, account details, identity matching, support, or official records.",
+    "Users need to know which representation of their name the service needs.",
+    "The service can preserve and review the exact spelling the user provides.",
+    "The product can distinguish display name, official name, preferred address, previous name, and verified identity states."
+  ],
+  "avoidWhen": [
+    "The product only needs a username, email address, account number, organization name, reference, or anonymous interaction.",
+    "The user should choose an existing person record rather than type a new name.",
+    "The service cannot store or display the characters users need and cannot offer a clear alternate representation path.",
+    "The flow is asking for a name merely to personalize copy without a genuine user need.",
+    "The task needs a password, phone number, postal address, bank account, payment card, or other specialized field instead."
+  ],
+  "variants": [
+    "Full name field",
+    "Name as shown on official document",
+    "Given names and family name fields",
+    "Preferred name",
+    "What should we call you",
+    "Previous name",
+    "Name in native script",
+    "Latin transcription",
+    "Name with title only when required",
+    "Name change flow",
+    "Name review before submit"
+  ],
+  "accessibility": [
+    "Use visible labels that state the exact name representation requested.",
+    "Use autocomplete tokens that match the field purpose so browser autofill and assistive technology can identify the input.",
+    "Connect hints, errors, review status, and external-constraint explanations to the relevant field.",
+    "Do not make required meaning depend on field position within a split-name group.",
+    "Allow screen reader users to hear non-Latin, accented, and punctuated names as entered where platform support allows.",
+    "Keep review and change controls keyboard reachable.",
+    "Do not force title or gender disclosure as an accessibility shortcut for addressing the user."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows the full-name field, optional preferred-address or transcription fields, previous-name field, review action, and submit action.",
+    "Typing, paste, selection, deletion, undo, redo, and autofill use native text behavior.",
+    "Enter submits the surrounding form only when that form contract is clear.",
+    "Submitting an invalid name moves focus to the error summary or name field without clearing typed content.",
+    "Optional extra name fields can be skipped without trapping focus.",
+    "Split-field flows do not auto-advance or force users across name parts."
+  ],
+  "failureModes": [
+    "The form rejects a real name because it lacks a family name.",
+    "A split field loses a middle, patronymic, particle, suffix, or second family name.",
+    "The database truncates a long or multi-byte name.",
+    "Correspondence uses an unwanted guessed first name or title.",
+    "A title field reveals gender or marital status without need.",
+    "ASCII-only filtering changes the user's name.",
+    "Automatic capitalization changes meaningful case.",
+    "A previous-name question uses gendered or marital wording.",
+    "The product cannot update a stored name after a legal, family, or gender-related name change.",
+    "Search and sorting assume family-name order where that expectation does not apply."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "autocomplete",
+    "select",
+    "inline-validation",
+    "error-summary",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "name-entry-vs-text-input-vs-autocomplete-vs-select-vs-inline-validation-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Names",
+      "url": "https://design-system.service.gov.uk/patterns/names/",
+      "platform": "web",
+      "notes": "Documents full-name fields, when to split names, long and broad character support, common versus official-name wording, autocomplete name tokens, spellcheck false, title avoidance, name-change support, and name errors.",
+      "screenshot": "screenshots/patterns/name-entry.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "W3C Personal names around the world",
+      "url": "https://www.w3.org/International/questions/qa-personal-names",
+      "platform": "web",
+      "notes": "Documents cultural variation in name order, parts, scripts, patronymics, multiple family names, nicknames, transcription, and risks in field design.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "W3C Internationalization Best Practices personal names",
+      "url": "https://w3c.github.io/bp-i18n-specdev/#personal-names",
+      "platform": "web",
+      "notes": "Documents not assuming name order, preserving casing, allowing punctuation and spaces, accepting single-letter and single-part names, and providing transcription fields where needed.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Baymard Avoid splitting single input entities",
+      "url": "https://baymard.com/blog/mobile-form-usability-single-input-fields",
+      "platform": "web",
+      "notes": "Documents user confusion and interaction cost from splitting names into first-name and last-name fields when users perceive their name as one entity.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "MDN autocomplete name tokens",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete",
+      "platform": "web",
+      "notes": "Documents autocomplete name for full names and component tokens for deliberate split-name fields.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-names-pattern",
+      "note": "GOV.UK supports needed-only name collection, full-name labels, split-field choice, long and broad character support, common or official-name wording, autocomplete tokens, spellcheck false, title avoidance, name changes, and specific errors."
+    },
+    {
+      "id": "w3c-personal-names-around-world",
+      "note": "W3C supports global-name variation, native scripts, single names, multiple family names, different order, transcription, preferred address, and caution around splitting or parsing names."
+    },
+    {
+      "id": "w3c-i18n-specdev-personal-names",
+      "note": "W3C best practices support preserving casing, allowing punctuation and spaces, accepting single-letter and single-part names, avoiding family-name requirements, and adding transcription fields when needed."
+    },
+    {
+      "id": "baymard-avoid-splitting-single-input-fields",
+      "note": "Baymard supports avoiding unnecessary split-name fields because users often perceive their name as a single coherent entity."
+    },
+    {
+      "id": "mdn-html-autocomplete-name",
+      "note": "MDN supports autocomplete name and split-name component tokens only when those parts are deliberately collected."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

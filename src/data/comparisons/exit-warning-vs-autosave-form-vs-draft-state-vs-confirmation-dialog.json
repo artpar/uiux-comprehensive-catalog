@@ -1,0 +1,50 @@
+{
+  "id": "exit-warning-vs-autosave-form-vs-draft-state-vs-confirmation-dialog",
+  "title": "Exit warning vs autosave form vs draft state vs confirmation dialog",
+  "summary": "Exit warning interrupts an attempted departure when leaving would lose unrecoverable work or context. Autosave form prevents loss by saving progress, draft state exposes a durable unpublished version, and confirmation dialog confirms an explicit risky action rather than navigation away.",
+  "patternIds": [
+    "exit-warning",
+    "autosave-form",
+    "draft-state",
+    "confirmation-dialog"
+  ],
+  "decisionRules": [
+    "Use exit warning when the user has started leaving the current surface and departure would lose unsaved work, unsent files, payment state, authentication context, or another unrecoverable in-progress task.",
+    "Use autosave form when the main solution is to persist progress automatically so navigation can usually happen without interruption.",
+    "Use draft state when the work exists as a durable unpublished object that users can resume, compare, discard, or publish from lists and deep links.",
+    "Use confirmation dialog when the user explicitly chose a risky action such as delete, submit, discard, or cancel; exit warning is for attempted route, tab, reload, back, or sign-out departure.",
+    "Exit warnings should be conditional on real unsaved or unsafe state and removed after save, submit, discard, or successful autosave.",
+    "Do not warn on every navigation for analytics, retention, or engagement; warnings must identify a user-facing loss or consequence.",
+    "For in-app route changes, show a custom decision surface that can name Save and leave, Discard and leave, and Stay editing; for browser close or reload, expect the browser-owned message and keep a local recovery path visible before the attempt.",
+    "If autosave is pending or failed, the exit warning must say whether Save and leave can complete, whether Retry is needed, or whether leaving discards the latest change.",
+    "If a draft is recoverable after leaving, do not overstate loss; route users to Resume draft or View saved draft instead of blocking departure.",
+    "A confirmation dialog that discards changes can be the UI used inside an exit warning flow, but the pattern boundary is still the attempted exit trigger and dirty-state logic."
+  ],
+  "failureModes": [
+    "A form warns even when no fields changed, training users to ignore the warning.",
+    "A user clicks Back after a failed autosave and loses the latest answer without any interruption.",
+    "The warning says You have changes but does not name what will be lost or offer Save, Discard, and Stay choices.",
+    "The app traps users by disabling Leave even after they choose to discard changes.",
+    "The beforeunload listener remains after the draft is saved, harming navigation and browser cache behavior.",
+    "A browser-close warning uses custom in-app copy that cannot appear in the browser-owned dialog, leaving users with misleading expectations."
+  ],
+  "sources": [
+    {
+      "id": "mdn-beforeunload-event",
+      "note": "MDN documents beforeunload as a browser event for warning about unsaved data loss and recommends conditional listeners."
+    },
+    {
+      "id": "webdev-bfcache",
+      "note": "web.dev documents the browser-cache cost of unload handling and recommends using beforeunload only when necessary."
+    },
+    {
+      "id": "w3c-wcag-timeouts",
+      "note": "W3C documents warning users before inactivity can cause data loss."
+    },
+    {
+      "id": "w3c-wcag-reauthenticating",
+      "note": "W3C documents preserving user activity after re-authentication instead of losing data at a session boundary."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

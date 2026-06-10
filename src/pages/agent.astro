@@ -3,7 +3,9 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 
-const featuredPatterns = patterns.slice(0, 4);
+const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
+const stubCount = patterns.length - completePatterns.length;
+const featuredPatterns = completePatterns.slice(0, 4);
 const patternBrief = featuredPatterns
   .map((pattern) => [
     `Pattern: ${pattern.name}`,
@@ -11,7 +13,7 @@ const patternBrief = featuredPatterns
     `Must include: ${pattern.requiredStates.slice(0, 2).join("; ")}`,
     `Avoid: ${pattern.commonMisuses[0]}`
   ].join("\n"))
-  .join("\n\n");
+  .join("\n\n") || "No patterns are currently marked complete. Stub entries are excluded from agent-ready guidance.";
 
 const decisionBrief = [
   "Before generating UI:",
@@ -22,14 +24,14 @@ const decisionBrief = [
 ].join("\n");
 
 const antiPatternBrief = patterns
-  .filter((pattern) => pattern.maturity === "anti-pattern")
+  .filter((pattern) => pattern.completionStatus === "complete" && pattern.maturity === "anti-pattern")
   .map((pattern) => [
     `Anti-pattern: ${pattern.name}`,
     `Detect: ${pattern.problemContext[0]}`,
     `Replace with: ${pattern.implementationChecklist[0]}`,
     `Review: ${pattern.critiqueQuestions[0]}`
   ].join("\n"))
-  .join("\n\n");
+  .join("\n\n") || "No anti-patterns are currently marked complete. Stub entries are excluded from this checklist.";
 ---
 
 <BaseLayout title="Agent Exports | UI/UX Pattern Catalog">
@@ -39,6 +41,7 @@ const antiPatternBrief = patterns
       Static context files for LLM agents that need to choose better UI/UX patterns before generating
       code. These files are generated from validated pattern data during the build.
     </p>
+    <p>{completePatterns.length} complete patterns exported. {stubCount} stub entries excluded.</p>
   </section>
 
   <div class="agent-export-grid">

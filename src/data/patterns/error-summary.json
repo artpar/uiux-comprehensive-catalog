@@ -1,0 +1,165 @@
+{
+  "id": "error-summary",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a submitted-form recovery pattern with source-backed summary guidance, linked multi-error recovery, field-message pairing, focus behavior, explicit inline-validation distinction, duplicate audit, and screenshot spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names top-of-form placement, summary heading, linked error items, focus movement after failed submit, matching field messages, preserved values, and multi-field recovery.",
+    "relatedPatternDistinction": "The entry separates error summary from inline validation by making the summary a submitted-page navigation and orientation aid rather than the primary local field correction.",
+    "liveDemoBehavior": "The live demo submits a form, shows a top summary with multiple linked errors, preserves entered values, moves focus to the summary, and lets users jump to the affected fields.",
+    "comparisonDecisionRules": "The linked inline-validation-vs-error-summary comparison distinguishes local field correction from failed-submit recovery with top-of-page linked errors and matching inline messages.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/error-summary.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, top summary links, field-level pairing, and submitted-form recovery behavior.",
+    "screenshots": [
+      "screenshots/patterns/error-summary.png"
+    ]
+  },
+  "name": "Error summary",
+  "aliases": [
+    "form error summary",
+    "validation summary"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users submit a page or step with validation errors and need an immediate overview plus a route to each answer that must be fixed.",
+  "solution": "Show a focused summary near the form heading with a clear title and linked error messages, then repeat matching messages at the affected fields.",
+  "problemContext": [
+    "The form can fail after submit, cross-field validation, or server validation.",
+    "Errors may be below the fold, spread across sections, or easy to miss when focus remains on the submit control."
+  ],
+  "selectionRules": [
+    "Choose an error summary when submit-time validation can leave one or more errors across a page or step.",
+    "Link each summary item to the exact field, first invalid field in a group, or section that contains the failing answer.",
+    "Keep summary wording consistent with field-level messages so the user does not have to reconcile two explanations."
+  ],
+  "requiredStates": [
+    "Neutral form before submit with no summary.",
+    "Failed-submit state with summary visible near the form heading.",
+    "Summary-link navigation to the affected field or first invalid grouped input.",
+    "Corrected form state with the summary removed or replaced by a success outcome."
+  ],
+  "interactionContract": [
+    "The summary appears after failed submit where keyboard and screen-reader users can perceive it.",
+    "Each summary item names one error and moves focus or scroll position to the relevant answer.",
+    "Field messages and summary messages use the same correction wording."
+  ],
+  "implementationChecklist": [
+    "Place the summary near the form heading before the fields that contain errors.",
+    "Move focus to the summary after failed submit unless the platform has an equivalent announcement pattern.",
+    "Link each summary message to the field, group, or first invalid subfield it describes.",
+    "Keep entered values intact so users can edit rather than start again.",
+    "Repeat matching field-level error messages at the affected controls."
+  ],
+  "commonMisuses": [
+    "Showing a red banner or toast with no links to the invalid answers.",
+    "Replacing field-level messages with only a top-level summary.",
+    "Using vague summary messages that do not identify the answer or correction."
+  ],
+  "critiqueQuestions": [
+    "Can users recover from the first failed submit without scanning the full page?",
+    "Do summary links land on the same fields whose messages repeat the correction?"
+  ],
+  "useWhen": [
+    "Form submission can produce one or more errors.",
+    "Errors may appear outside the current viewport or across multiple form sections."
+  ],
+  "avoidWhen": [
+    "A single local field issue can be corrected before submit without page-level orientation.",
+    "The message is a system failure, permission problem, or outage rather than a validation issue."
+  ],
+  "variants": [
+    "Page-level summary",
+    "Step-level summary",
+    "Server validation summary",
+    "Grouped-field summary link"
+  ],
+  "accessibility": [
+    "Use a heading and alert behavior that makes the summary discoverable.",
+    "Link summary items to fields with stable focus targets.",
+    "Keep the summary text and field error text consistent for screen-reader and visual users."
+  ],
+  "keyboardBehavior": [
+    "Focus can move to the summary after failed submit.",
+    "Summary links move focus to the affected field, fieldset, or first invalid grouped control.",
+    "Tab order continues from the summary into the form without trapping the user."
+  ],
+  "failureModes": [
+    "Dead links to missing or hidden fields.",
+    "Focus remains on the submit button with no announcement.",
+    "Summary and inline messages contradict each other.",
+    "A summary is shown before submit even though no recovery route is needed."
+  ],
+  "relatedPatterns": [
+    "inline-validation"
+  ],
+  "comparisons": [
+    "inline-validation-vs-error-summary"
+  ],
+  "examples": [],
+  "sources": [
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance requires a top-of-page summary, keyboard focus, linked error items, and matching field messages."
+    },
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK error message guidance supports the paired field-level messages that remain beside each invalid answer."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Form recovery summary",
+  "uiGuidance": [
+    "Render a top-of-form summary block with heading, linked error list, and matching field-level error messages.",
+    "Place the summary near the form heading after failed submit, not as an unrelated toast or detached banner."
+  ],
+  "uxGuidance": [
+    "Help users recover from one or more submitted-form errors without scanning the entire page.",
+    "Move users from the summary to the exact field, group, or first invalid control that needs correction."
+  ],
+  "uiExamples": {
+    "good": [
+      "Top-of-form summary with a clear heading, linked error list, and matching inline field messages.",
+      "Each error link text names the correction and visually matches the message at the affected field."
+    ],
+    "bad": [
+      "Red banner saying fix errors with no links.",
+      "Summary and field messages visually disconnected or contradictory."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "After failed submit, focus or reading order makes the summary discoverable before users scan the form.",
+      "Choosing a summary item moves to the relevant field while preserving the submitted values."
+    ],
+    "bad": [
+      "Only showing errors below the fold.",
+      "Replacing field-level guidance with only a top summary."
+    ]
+  },
+  "examples": [
+    {
+      "product": "GOV.UK Design System Error summary component",
+      "url": "https://design-system.service.gov.uk/components/error-summary/",
+      "platform": "web",
+      "notes": "Documents top-of-page summaries, focus movement, linked error items, and consistency with messages beside invalid inputs.",
+      "screenshot": "screenshots/patterns/error-summary.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Design System Error message component",
+      "url": "https://design-system.service.gov.uk/components/error-message/",
+      "platform": "web",
+      "notes": "Documents the paired field-level validation messages used with error summaries.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

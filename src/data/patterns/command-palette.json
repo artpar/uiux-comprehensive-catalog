@@ -1,0 +1,180 @@
+{
+  "id": "command-palette",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a keyboard-first command surface pattern with source-backed shortcut, scope, dialog/listbox, execution, dismissal, and destructive-command safeguards.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance names shortcut-triggered opening, dialog input focus, scoped command results, active result highlighting, Enter execution, Escape dismissal, no-match recovery, and destructive-command confirmation.",
+    "relatedPatternDistinction": "The entry separates command palettes from basic search by requiring action/destination execution across a product, while keeping basic search for content retrieval and modal dialog for focused task interruption.",
+    "liveDemoBehavior": "The live demo opens a command dialog, moves focus to the command input, filters scoped command rows, supports Arrow Up/Down active-row movement, Enter activation, Escape close, no-match feedback, and confirmation-required handling for a destructive command.",
+    "comparisonDecisionRules": "The linked basic-search-vs-command-palette comparison gives concrete rules for content retrieval versus cross-product action execution, side effects, shortcut access, and novice workflow fallback.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across patterns and currently reports no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/command-palette.png was inspected after rendering and shows Good UI, Bad UI, Good UX, Bad UX, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/command-palette.png"
+    ]
+  },
+  "name": "Command palette",
+  "aliases": [
+    "command menu",
+    "quick switcher",
+    "action palette"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Task And Workflow Patterns"
+  ],
+  "platforms": [
+    "web",
+    "desktop"
+  ],
+  "problem": "Experienced users need a fast keyboard-first way to jump to actions, destinations, and objects across a large product.",
+  "solution": "Open a searchable modal command surface that lists actions and destinations, supports filtering, and clearly previews what each command does.",
+  "problemContext": [
+    "The product has many actions spread across menus and pages.",
+    "Users repeat expert workflows and benefit from keyboard acceleration.",
+    "Commands may depend on the current workspace, repository, object, or page scope."
+  ],
+  "selectionRules": [
+    "Choose a command palette when users need to run commands or jump across destinations faster than the visible navigation allows.",
+    "Use it as an accelerator layered on top of visible navigation, never as the only path to primary workflows.",
+    "Label commands by outcome and scope, such as Open billing or Create report in Workspace, rather than internal feature names.",
+    "Require an additional confirmation or separate flow before irreversible, destructive, or permission-changing commands execute."
+  ],
+  "requiredStates": [
+    "Closed state with discoverable trigger.",
+    "Open dialog state with focus in the command input.",
+    "Scoped suggested commands state.",
+    "Filtered result state with one active command.",
+    "No matching commands state with query revision.",
+    "Command executed, confirmation-required, or dismissed state."
+  ],
+  "interactionContract": [
+    "Opening the palette moves focus to the command input.",
+    "Arrow keys move the active command without changing the query.",
+    "Enter activates the active command or opens a required confirmation flow.",
+    "Escape closes and returns focus to the opener.",
+    "Activating a command performs the labeled action or navigates to the labeled destination.",
+    "The visible scope explains what object, workspace, or page the command will affect."
+  ],
+  "implementationChecklist": [
+    "Provide a visible trigger and a keyboard shortcut hint where appropriate.",
+    "Use dialog semantics for the overlay and listbox or equivalent composite semantics for command results.",
+    "Keep focus inside the palette while open and return focus to the opener after close.",
+    "Show current scope, command type, active row, empty state, and execution feedback.",
+    "Keep destructive commands out of one-keystroke execution unless they open a confirmation step."
+  ],
+  "commonMisuses": [
+    "Hiding basic navigation behind a keyboard-only palette.",
+    "Mixing irreversible destructive actions into the same low-friction list.",
+    "Returning vague commands such as Settings without context.",
+    "Treating content search results and side-effect commands as the same kind of row."
+  ],
+  "critiqueQuestions": [
+    "Is this an accelerator for known workflows or a crutch for weak navigation?",
+    "Can users tell whether the highlighted row navigates, changes state, or opens a confirmation?"
+  ],
+  "useWhen": [
+    "Users need to traverse a broad product surface quickly.",
+    "Commands can be named and filtered predictably."
+  ],
+  "avoidWhen": [
+    "The app has only a few obvious actions.",
+    "Users are mainly first-time or low-frequency visitors.",
+    "The command set contains mostly high-risk actions that need deliberate review."
+  ],
+  "variants": [
+    "Global command palette",
+    "Quick switcher",
+    "Contextual command menu"
+  ],
+  "accessibility": [
+    "Use dialog semantics with a clear name and modal behavior when the rest of the page is inert.",
+    "Expose the result list and active option to assistive technology.",
+    "Do not rely on a keyboard shortcut as the only way to open the palette."
+  ],
+  "keyboardBehavior": [
+    "A visible trigger and optional shortcut may open the palette.",
+    "Arrow keys move through results.",
+    "Enter activates the highlighted command.",
+    "Escape closes the palette and restores focus.",
+    "Tab movement stays within the palette while it is open."
+  ],
+  "failureModes": [
+    "No mouse-accessible trigger.",
+    "Focus lost behind the overlay.",
+    "Command names that do not match outcomes.",
+    "A destructive command runs directly from fuzzy matching without preview or confirmation."
+  ],
+  "relatedPatterns": [
+    "basic-search",
+    "modal-dialog"
+  ],
+  "comparisons": [
+    "basic-search-vs-command-palette"
+  ],
+  "examples": [],
+  "sources": [
+    {
+      "id": "github-command-palette",
+      "note": "GitHub documents keyboard opening, scoped suggestions, command mode, arrow-key highlighting, Enter activation, and Escape dismissal."
+    },
+    {
+      "id": "vscode-command-palette",
+      "note": "VS Code documents a keyboard-first command palette for commands, files, symbols, and command discovery in one interactive window."
+    },
+    {
+      "id": "wai-aria-apg",
+      "note": "APG dialog and listbox patterns define focus, Escape, active option, and semantic requirements used by accessible palette implementations."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08",
+  "patternType": "ui-ux",
+  "surfaceType": "Modal command surface",
+  "uiGuidance": [
+    "Render a compact dialog-like command surface with a search input, current scope, typed command mode, active result, command metadata, and empty state.",
+    "Make the visible trigger, shortcut hint, focused input, highlighted row, command type, and destructive confirmation requirement easy to scan."
+  ],
+  "uxGuidance": [
+    "Accelerate expert navigation and repeated actions across a large product while preserving ordinary navigation for novice and low-frequency users.",
+    "Make command execution predictable by showing scope, consequence, keyboard behavior, dismissal, and recovery before activation."
+  ],
+  "uiExamples": {
+    "good": [
+      "Centered command surface with input, shortcut hint, scope chip, grouped commands, command type labels, and a visible active row.",
+      "Rows distinguish navigation, creation, settings, and confirmation-required actions without relying on icons alone."
+    ],
+    "bad": [
+      "Huge branded modal that buries the input below decorative content.",
+      "Commands with identical labels, no scope, no active row, and no indication whether Enter navigates or changes data."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Keyboard shortcut or visible trigger opens the palette, focus lands in the command input, arrows move the active row, and Enter activates the highlighted safe command.",
+      "Escape closes and returns focus to the opener; destructive commands open a confirmation-required state."
+    ],
+    "bad": [
+      "Palette is the only way to reach important navigation.",
+      "Destructive commands execute from fuzzy search with no confirmation or recovery."
+    ]
+  },
+  "examples": [
+    {
+      "product": "GitHub Command Palette",
+      "url": "https://docs.github.com/en/get-started/accessibility/github-command-palette",
+      "platform": "web",
+      "notes": "Shows a command palette for scoped navigation, search, and command execution from the keyboard.",
+      "screenshot": "screenshots/patterns/command-palette.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Visual Studio Code Command Palette",
+      "url": "https://code.visualstudio.com/docs/editing/userinterface#_command-palette",
+      "platform": "desktop",
+      "notes": "Shows a command palette that gives keyboard access to commands, files, symbols, and quick outline actions.",
+      "checkedAt": "2026-06-08"
+    }
+  ]
+}

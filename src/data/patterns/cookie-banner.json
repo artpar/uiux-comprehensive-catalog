@@ -1,0 +1,251 @@
+{
+  "id": "cookie-banner",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed cookie and tracking consent control with guidance for essential versus non-essential storage, accept and reject parity, purpose-level settings, saved confirmation, returning visits, withdrawal, no-JavaScript form handling, runtime blocking, related-pattern boundaries, comparison rules, unique live behavior, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets cookie and similar-technology consent only, including essential-cookie disclosure, non-essential purpose choices, accept and reject actions, settings handoff, saved preference confirmation, stored consent versioning, withdrawal, no-JavaScript/server-side submission, no optional tracking before consent, and network/runtime verification.",
+    "relatedPatternDistinction": "The entry separates cookie banner from banner by collecting storage consent rather than broad interface context, from notification banner by controlling privacy preferences rather than before-H1 service notices, from site alert by avoiding urgent public-status messaging, and from modal dialog by warning against blocking consent traps unless a separate high-consequence decision truly requires a dialog.",
+    "liveDemoBehavior": "The live demo switches a benefits service through First visit, Accept, Reject, Manage, Confirmation, Return visit, Withdraw, and No JS states, including purpose toggles and runtime preference records, while contrasting Accept-only, Preselected, Tracking first, Deceptive contrast, Sticky block, and No withdrawal misuse.",
+    "comparisonDecisionRules": "The cookie-banner-vs-banner-vs-notification-banner-vs-site-alert comparison gives concrete rules for consent control, broad interface messaging, before-heading service notices, urgent sitewide alerts, reject-path visibility, optional-storage blocking, misleading contrast, preselected purposes, and legal/privacy notice separation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reports 124 complete patterns, 0 stubs, 176 missing goal patterns, and 0 duplicate field groups after this pattern is marked complete.",
+    "manualSpotCheck": "Rendered /patterns/cookie-banner/ and /compare/cookie-banner-vs-banner-vs-notification-banner-vs-site-alert/ on 2026-06-09. Live check exercised First visit, Accept, Reject, Manage, purpose toggles, Confirmation, Return visit, Withdraw, No JS, Accept-only, Preselected, Tracking first, Deceptive contrast, Sticky block, and No withdrawal controls. screenshots/patterns/cookie-banner.png captures Good UI, Bad UI, Good UX, Bad UX, equal accept/reject actions, runtime storage state, preference record, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/cookie-banner.png"
+    ]
+  },
+  "name": "Cookie banner",
+  "aliases": [
+    "cookie consent banner",
+    "cookie notice",
+    "tracking consent banner",
+    "cookie preferences banner",
+    "consent management banner",
+    "analytics cookie banner",
+    "privacy cookie banner"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Disclosure And Attention Management",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Cookie and tracking consent control",
+  "uiGuidance": [
+    "Render a clearly labelled cookie banner at the top of the document before ordinary page content, with service-specific copy, essential-cookie information, equal accept and reject actions for non-essential purposes, and a link to detailed cookie settings.",
+    "After a choice, replace the consent prompt with a confirmation message and hide control, then keep a stable settings route available so users can review or withdraw their choice later."
+  ],
+  "uxGuidance": [
+    "Use a cookie banner to collect or confirm choices for non-essential cookies, local storage, pixels, service-worker storage, analytics, advertising, personalization, or similar device storage technologies.",
+    "Make the privacy choice truthful in the runtime: do not set optional storage until the relevant consent is given, save the preference with version and purpose context, and respect the most recent user choice on the same device."
+  ],
+  "uiExamples": {
+    "good": [
+      "A service banner says it uses essential cookies and asks to use analytics cookies, with Accept analytics cookies, Reject analytics cookies, and View cookies controls at the same level.",
+      "A category banner lets users manage analytics, personalization, and advertising purposes with all non-essential toggles off until selected.",
+      "A saved-preference message says cookie preferences have been saved and offers Hide this message while a footer Cookies link remains available."
+    ],
+    "bad": [
+      "A banner has a large Accept all button and a small Manage settings link but no reject action on the first layer.",
+      "A banner says by continuing you accept cookies and fires analytics before any button is clicked.",
+      "A sticky cookie overlay covers page controls and cannot be reached or dismissed reliably with keyboard."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A first-time visitor rejects analytics cookies and the site loads without optional analytics, while essential security cookies remain explained.",
+      "A returning visitor does not see the banner because a purpose-level preference was saved, but can reopen settings from the footer.",
+      "A user changes their mind from Accept to Reject in cookie settings and optional tracking stops for future page loads."
+    ],
+    "bad": [
+      "Reject only closes the banner while ad pixels and analytics continue firing.",
+      "The settings screen contains preselected non-essential options and a Save button that silently accepts them.",
+      "Refusing cookies blocks access to normal service content even though only non-essential tracking is being refused."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile"
+  ],
+  "problem": "Users need a real, understandable choice about cookies and similar tracking technologies before optional storage is used, but many banners obscure refusal, set tracking before consent, mix legal text with product notices, or make later withdrawal difficult.",
+  "solution": "Show a service-specific cookie banner that explains essential and non-essential purposes, offers accept and reject actions with comparable prominence, supports detailed settings, saves and confirms the choice, blocks optional storage until consent, and keeps withdrawal reachable.",
+  "problemContext": [
+    "The site or service uses cookies, local storage, pixels, analytics, personalization, advertising, service-worker storage, or other technology that stores or accesses information on a user's device.",
+    "Some storage is strictly necessary for security, sessions, basket state, load balancing, or the requested service, while other storage needs consent.",
+    "Users may arrive on public pages, signed-in routes, embedded flows, mobile screens, JavaScript-disabled sessions, or shared devices where the most recent choice should govern.",
+    "The organization needs evidence of what was offered, what purposes were accepted or rejected, and whether the runtime respected the stored preference."
+  ],
+  "selectionRules": [
+    "Choose cookie banner when a user must be told about cookies or similar technologies and must be able to accept or reject non-essential storage before it is set.",
+    "Do not show a banner only for strictly necessary cookies; instead explain those cookies on a cookies page or privacy route.",
+    "Offer accept and reject actions for non-essential cookies at the same decision level when asking for consent.",
+    "Use manage settings when users need purpose-level choices, but do not hide the only reject path behind multiple steps.",
+    "Show a confirmation after a choice and save the preference by purpose, version, timestamp, and device scope for an appropriate period.",
+    "Keep cookie settings reachable after the banner is hidden so users can withdraw or change consent.",
+    "Use banner, notification banner, or site alert for operational or service messages that do not collect privacy consent.",
+    "Use modal dialog only when a separate, high-consequence decision truly requires blocking interaction; do not make cookie consent a trap.",
+    "Block optional cookies, tracking pixels, analytics, personalization, advertising, and similar storage until the relevant consent is present.",
+    "Use a server-side or no-JavaScript route when optional storage can be set before client code runs."
+  ],
+  "requiredStates": [
+    "First visit with no saved preference.",
+    "Essential-only service with no banner and a visible cookies page link.",
+    "Accept non-essential cookies state.",
+    "Reject non-essential cookies state.",
+    "Manage purpose-level preferences state.",
+    "Saved preference confirmation message.",
+    "Returning visitor with banner hidden and stored choice applied.",
+    "Changed cookie version or new purpose requiring renewed choice.",
+    "Withdrawal or change-preference state from a stable cookies page link.",
+    "No-JavaScript or server-side submission state.",
+    "Runtime blocked state where optional scripts wait for consent."
+  ],
+  "interactionContract": [
+    "The banner appears before non-essential storage is set and remains until the user accepts, rejects, or saves preferences.",
+    "Accept, reject, and manage controls are keyboard reachable, clearly labelled by purpose, and visually comparable enough that one choice is not pushed over another.",
+    "Reject means non-essential purposes remain off, not merely that the banner is closed.",
+    "Manage settings shows non-essential purposes off unless the user already saved consent for them.",
+    "Saving a choice updates runtime consent state, records the preference, hides the prompt, and shows a short confirmation that can be closed.",
+    "The cookies page or footer link lets users review, withdraw, or change choices without searching through unrelated privacy copy.",
+    "The banner does not obscure focused content, trap focus, auto-accept on scroll, or make ordinary service access depend on accepting optional tracking."
+  ],
+  "implementationChecklist": [
+    "Audit and classify each cookie or similar technology as strictly necessary or non-essential before writing banner copy.",
+    "Map each non-essential purpose to a clear user-facing label such as analytics, personalization, advertising, or feedback measurement.",
+    "Block optional tags, pixels, analytics, local storage, service-worker storage, and third-party scripts until the stored consent state permits them.",
+    "Provide equal-level accept and reject actions, plus manage settings when purpose-level choices are needed.",
+    "Persist preference version, purposes, timestamp, and expiry, and refresh consent when purposes or storage behavior change.",
+    "Show a confirmation message after accept, reject, or save, then provide a hide control without losing the settings route.",
+    "Link to a cookies page from the banner and footer, and let that page update the same consent store.",
+    "Test first visit, return visit, reject, accept, manage settings, withdrawal, no JavaScript, shared devices, mobile wrapping, zoom, keyboard order, screen readers, and network proof that optional storage is blocked."
+  ],
+  "commonMisuses": [
+    "Accept-only banners.",
+    "Reject hidden behind settings while accept is shown as the only button.",
+    "Preselected non-essential categories.",
+    "Firing optional tracking before consent.",
+    "Treating scroll, swipe, close, or continued browsing as consent.",
+    "Using deceptive contrast so reject appears disabled or secondary beyond recognition.",
+    "Blocking service access after a user refuses non-essential cookies.",
+    "Saving one vague consent flag with no purpose, version, or withdrawal route.",
+    "Using cookie banner for outage, marketing, validation, or account notices."
+  ],
+  "critiqueQuestions": [
+    "Which cookies or similar technologies are strictly necessary, and which need consent?",
+    "Can users reject non-essential purposes with effort comparable to accepting them?",
+    "Does the runtime actually block optional storage until consent exists?",
+    "What preference version, purposes, timestamp, and expiry are saved?",
+    "Where can users change or withdraw the choice after the banner is hidden?",
+    "Does this message belong to cookie consent, or is it a banner, notification banner, site alert, modal dialog, privacy settings, or legal acceptance flow?"
+  ],
+  "useWhen": [
+    "The service sets non-essential cookies or similar device storage technologies.",
+    "Users need a first-layer accept or reject choice and possibly purpose-level settings.",
+    "The product can connect the visible choice to script loading, tag firing, storage writes, and preference records.",
+    "A stable cookies page or settings route can support later review and withdrawal."
+  ],
+  "avoidWhen": [
+    "The service uses only strictly necessary cookies and can explain them on a cookies page.",
+    "The message is an outage, public alert, product announcement, deadline, success confirmation, validation error, or account notice.",
+    "The product cannot prevent optional tracking before consent.",
+    "A full privacy settings area is needed after onboarding rather than a first-visit consent surface.",
+    "A legal agreement or terms acceptance requires a separate explicit acceptance record.",
+    "The design would block normal access unless users accept non-essential tracking."
+  ],
+  "variants": [
+    "Analytics-only cookie banner",
+    "Additional cookies banner",
+    "Purpose-level cookie banner",
+    "Server-side cookie banner form",
+    "No-JavaScript cookie banner",
+    "Saved preference confirmation",
+    "Renewed consent banner",
+    "Cookie settings handoff",
+    "Essential-only cookies page"
+  ],
+  "accessibility": [
+    "Label the cookie banner region with the service name so users know which service is asking for the choice.",
+    "Place the banner before ordinary page content and keep it in reading order without using fixed positioning that obscures focused elements.",
+    "Use buttons for accept, reject, and save actions, and links for detailed cookie information or settings pages.",
+    "Do not rely on color, contrast imbalance, iconography, or button size to steer the choice.",
+    "Use alert or focus movement for the saved-preference confirmation only when it helps users understand that their action completed.",
+    "Ensure category controls have clear names, on/off state, and purpose descriptions.",
+    "Keep the settings or withdrawal route reachable by keyboard after the banner is closed."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches accept, reject, manage settings, and cookies-page links in a predictable order before the main page controls.",
+    "Enter or Space activates accept, reject, save, and hide controls according to their button semantics.",
+    "Opening manage settings keeps focus inside the settings region only if it is a true dialog; inline settings keep normal page order.",
+    "After saving a choice, focus moves to or announces the confirmation message and then proceeds to the skip link or page content.",
+    "Reject and save actions never move focus to a hidden banner element.",
+    "The footer or cookies-page route lets keyboard users change preferences after the first visit."
+  ],
+  "failureModes": [
+    "Users think they rejected tracking, but optional tags still load.",
+    "Users cannot find reject because it is a low-contrast link outside the decision area.",
+    "A settings screen saves preselected advertising categories.",
+    "A sticky banner covers the first focused link or mobile navigation.",
+    "A changed cookie purpose keeps using old consent without renewal.",
+    "A shared device keeps the previous user's consent when the current user rejects it.",
+    "A cookies page and banner write to different stores, so the visible preference is not the active one."
+  ],
+  "relatedPatterns": [
+    "banner",
+    "notification-banner",
+    "site-alert",
+    "modal-dialog"
+  ],
+  "comparisons": [
+    "cookie-banner-vs-banner-vs-notification-banner-vs-site-alert"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK cookie banner",
+      "url": "https://design-system.service.gov.uk/components/cookie-banner/",
+      "platform": "web",
+      "notes": "Documents cookie banner actions, confirmation behavior, preference persistence, cookies-page linkage, no non-essential cookies before acceptance, and non-sticky placement.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "ICO cookies and similar technologies guidance",
+      "url": "https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/cookies-and-similar-technologies/",
+      "platform": "web",
+      "notes": "Documents clear information, active consent, no non-essential cookies before consent, strictly necessary exemptions, user controls, consent records, and review duties.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "EDPB Cookie Banner Taskforce report",
+      "url": "https://www.edpb.europa.eu/system/files/2023-01/edpb_20230118_report_cookie_banner_taskforce_en.pdf",
+      "platform": "web",
+      "notes": "Documents cookie banner failure practices such as missing reject option, pre-ticked boxes, deceptive link design, misleading contrast, essential-cookie claims, and withdrawal access.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "CNIL cookies and tracking devices guidelines",
+      "url": "https://www.cnil.fr/en/cookies-and-other-tracking-devices-cnil-publishes-new-guidelines",
+      "platform": "web",
+      "notes": "Documents consent requirements, no scroll or swipe consent, proof of consent, no storage before consent, continued access after refusal, and easy withdrawal.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-cookie-banner-component",
+      "note": "GOV.UK documents cookie banner actions, confirmation behavior, preference persistence, no non-essential cookies before acceptance, cookies-page linkage, and non-sticky placement."
+    },
+    {
+      "id": "ico-cookies-and-similar-technologies",
+      "note": "ICO guidance covers clear information, active consent, no non-essential cookies before consent, strictly necessary exemptions, enable or disable controls, consent records, and review of cookie use."
+    },
+    {
+      "id": "edpb-cookie-banner-taskforce-report",
+      "note": "EDPB taskforce guidance covers missing reject options, pre-ticked boxes, deceptive link design, misleading contrast, essential-cookie classification, and withdrawal access."
+    },
+    {
+      "id": "cnil-cookies-tracking-guidelines",
+      "note": "CNIL guidance supports no tracking before consent, no scroll or swipe consent, service access after refusal, proof of consent, and easy withdrawal."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

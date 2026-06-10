@@ -1,0 +1,50 @@
+{
+  "id": "search-result-highlighting-vs-basic-search-vs-search-suggestions-vs-no-results-recovery",
+  "title": "Search result highlighting vs basic search vs search suggestions vs no-results recovery",
+  "summary": "Use search result highlighting to explain why returned results matched, basic search to retrieve the result set, search suggestions to help form a query before submission, and no-results recovery after a query finds nothing.",
+  "patternIds": [
+    "search-result-highlighting",
+    "basic-search",
+    "search-suggestions",
+    "no-results-recovery"
+  ],
+  "decisionRules": [
+    "Prefer search result highlighting when users already have results and need to see the exact title, snippet, or metadata fields that matched their query.",
+    "Prefer basic search when the design problem is the query input, submission, result count, clear action, and stable result-list placement rather than match emphasis inside each hit.",
+    "Prefer search suggestions when users are still composing a query and need possible query phrases before the result page exists.",
+    "Prefer no-results recovery when the result count is zero and users need spelling, filter, scope, or query-broadening paths instead of highlighted snippets.",
+    "Highlight only terms or fragments that correspond to the executed query, synonym, or configured highlight query; do not highlight unrelated popularity, category, or sponsored terms as if they explain relevance.",
+    "Show enough surrounding snippet text to make the highlight meaningful, and use ellipsis or fragment boundaries when text was removed.",
+    "Use highlight styling in addition to text, match counts, field labels, or snippet placement so color is not the only way users infer why a result matched.",
+    "When highlighting comes from backend markup, sanitize or render it through a trusted highlighter component rather than injecting arbitrary HTML into the result card.",
+    "When complex boolean, fuzzy, or semantic queries produce approximate highlight fragments, avoid presenting the highlight as proof that every query condition matched exactly.",
+    "Do not use search result highlighting as a substitute for ranking, filtering, query correction, result grouping, or clear result titles."
+  ],
+  "failureModes": [
+    "Every result card receives a yellow wash, so users cannot tell which words caused the match.",
+    "The UI highlights sponsored terms, categories, or synonyms without explaining that they differ from the submitted query.",
+    "A snippet contains a highlighted word but too little surrounding text to explain why the result is useful.",
+    "Backend highlight HTML is inserted unsafely and can break markup or create script-injection risk.",
+    "The highlight uses color alone, making the match hard to perceive for users with low vision or color vision differences.",
+    "A zero-result state still shows old highlights from the previous query, implying matches that are no longer present."
+  ],
+  "sources": [
+    {
+      "id": "algolia-highlighting-snippeting",
+      "note": "Algolia frames highlighting and snippeting as ways to show searchers why a result matched and documents matched words, snippets, pre/post tags, performance limits, and sanitization."
+    },
+    {
+      "id": "elastic-search-highlighting",
+      "note": "Elastic documents highlighted fragments per search hit and warns that highlighters may not reflect all boolean query logic in complex cases."
+    },
+    {
+      "id": "mdn-html-mark-element",
+      "note": "MDN documents mark as suitable for passages relevant to the user's current activity, including search-result matches."
+    },
+    {
+      "id": "w3c-wcag-use-of-color",
+      "note": "WAI explains that information conveyed by color needs an additional visual cue, which applies to highlighted match styling."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

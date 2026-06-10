@@ -1,0 +1,242 @@
+{
+  "id": "accordion",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed multi-section content disclosure pattern with heading-button semantics, expanded state, controlled panels, multi-open behavior, expand/collapse all, hidden-summary requirements, keyboard behavior, related-pattern boundaries, comparison rules, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets grouped show-hide page sections, including section heading buttons, expanded and collapsed state, controlled panels, multi-open versus single-open rules, expand all and collapse all, hidden error or changed-value summaries, deep-link and validation opening, focus order, optional arrow, Home, and End navigation, and preserving panel content while toggling.",
+    "relatedPatternDistinction": "The entry separates accordion from one-section details disclosure by using multiple related sections, from tabs by revealing page sections rather than selecting peer panels, from side navigation by staying on one page rather than changing routes or current-page state, from filter panel by showing content rather than narrowing result sets, and from process list by avoiding ordered journey task guidance.",
+    "liveDemoBehavior": "The live demo opens and closes return-policy sections, expands all, collapses all, opens the Proof needed error section, preserves the receipt-status field while toggling, simulates arrow, Home, End, and Enter or Space heading movement, and contrasts icon-only, hidden-error, single-open-loss, mixed-navigation, state-loss, and vague-label failures.",
+    "comparisonDecisionRules": "The accordion-vs-tabs-vs-side-navigation-vs-filter-panel comparison gives concrete rules for multi-section page disclosure, peer tab panels, route-changing local hierarchy, grouped filtering controls, one-section details disclosure, ordered process lists, collapsed summaries, comparison needs, and navigation-mimic misuse.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/accordion/ and /compare/accordion-vs-tabs-vs-side-navigation-vs-filter-panel/ on 2026-06-10. Live check exercised Expand all, Collapse all, Open error section, section toggle, receipt field preservation, Arrow up, Arrow down, Enter / Space toggle, Home, End, Icon only, Hidden error, Single-open loss, Mixed navigation, State loss, and Vague labels controls. screenshots/patterns/accordion.png captures Good UI, Bad UI, Good UX, Bad UX, section state, error summary, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/accordion.png"
+    ]
+  },
+  "name": "Accordion",
+  "aliases": [
+    "expandable sections",
+    "collapsible sections",
+    "show hide sections",
+    "collapsible content group",
+    "accordion list",
+    "multi-section disclosure"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Data Display And Exploration",
+    "Input And Data Entry",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Grouped show-hide sections for related page content",
+  "uiGuidance": [
+    "Render each section title as a real button inside an appropriate heading, expose expanded or collapsed state, and connect the button to the panel it controls.",
+    "Keep section labels specific and scannable, show whether each section is open, and provide expand-all or collapse-all only when users often need to inspect several sections together."
+  ],
+  "uxGuidance": [
+    "Use an accordion when a page has several related sections that users may inspect selectively while still needing an overview of all section labels.",
+    "Do not use accordions to hide required sequential tasks, critical errors, primary actions, or content that users must compare side by side."
+  ],
+  "uiExamples": {
+    "good": [
+      "A product policy page shows Shipping, Returns, Warranty, and Contact sections as heading buttons with clear expanded states and one open panel.",
+      "A form uses Billing address, Shipping address, and Contact details section buttons, with changed or error counts visible while sections are collapsed."
+    ],
+    "bad": [
+      "A page hides every required instruction behind plus icons with no headings, state, or expand-all route.",
+      "Collapsed rows look like navigation links, but clicking them only reveals hidden page text."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens Returns, then Warranty, scans both sections, collapses Returns, and the page keeps focus and open-state feedback stable.",
+      "A keyboard user moves across section buttons, toggles with Enter or Space, and reaches the revealed content in the expected reading order."
+    ],
+    "bad": [
+      "A user misses eligibility requirements because the only required step is hidden inside a collapsed section by default.",
+      "Opening one section unexpectedly closes another section that contained partially entered form values."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Long pages with several related sections can become hard to scan, but hiding content without clear headings, state, and keyboard behavior can make important information harder to find or compare.",
+  "solution": "Group related content under explicit expandable section headings, expose each button's expanded state and controlled panel, preserve open-panel state intentionally, and only collapse content when selective reading helps more than always-visible content.",
+  "problemContext": [
+    "A page contains multiple related sections under one topic, form, policy, help article, settings group, or result detail.",
+    "Users may need an overview of section labels before choosing which detail to read.",
+    "Some sections may be optional, reference-heavy, or repeated enough that always showing all content would bury the page's main task.",
+    "The product can keep headings, content order, open state, focus, and validation or status indicators synchronized."
+  ],
+  "selectionRules": [
+    "Choose accordion when multiple related page sections can be independently shown or hidden without changing route, page context, or selected mode.",
+    "Use a single details disclosure when there is only one less-prominent revealable section.",
+    "Use tabs when only one peer panel should be active and users are switching between sibling sections rather than scanning many section headings.",
+    "Use side navigation when sections are separate pages or a persistent local hierarchy, not content panels on one page.",
+    "Use filter panel when the collapsed groups contain controls that narrow a result set and need active-filter counts, applied summaries, and result synchronization.",
+    "Use process list when expandable items are ordered journey steps with task links, costs, and branch guidance.",
+    "Keep required errors, submit buttons, urgent warnings, and primary instructions visible or summarized outside collapsed sections.",
+    "Allow several panels to remain open when comparison or form editing across sections is common; if only one panel can stay open, explain and preserve data before closing another section.",
+    "Use expand-all or collapse-all for long accordion groups when users commonly need to scan or print several panels.",
+    "Do not use accordion labels as page navigation unless the interaction actually navigates and exposes current-page state."
+  ],
+  "requiredStates": [
+    "All collapsed state with every section title visible.",
+    "One section expanded state with button and controlled panel synchronized.",
+    "Multiple sections expanded state when the accordion supports independent panels.",
+    "Expand all and collapse all state when group controls are present.",
+    "Collapsed section with error, changed, selected, or required-count summary when hidden content affects completion.",
+    "Focused section header state that remains visible during keyboard navigation.",
+    "Disabled or unavailable section state with explanation when expansion is blocked.",
+    "Responsive state where long labels and panel content remain readable."
+  ],
+  "interactionContract": [
+    "Activating a section header toggles only the panel it owns unless the component is explicitly single-open.",
+    "The header button exposes expanded or collapsed state and stays in the heading order.",
+    "Revealed content appears immediately after its heading in reading and focus order.",
+    "Enter or Space toggles the focused header; optional arrow, Home, and End support must not break normal Tab movement.",
+    "Expand all opens every section and Collapse all closes every closable section without losing form values or scroll context.",
+    "Collapsed sections that contain errors, active filters, changed values, or selected options expose a concise summary at the header.",
+    "Deep links, validation, search hits, or find-in-page targets inside a panel open that panel or provide a clear route to it."
+  ],
+  "implementationChecklist": [
+    "Use button elements for section headers and place them inside semantic headings that match the page outline.",
+    "Connect each button to its panel with stable identifiers and keep expanded state synchronized with visibility.",
+    "Decide whether multiple panels can be open and implement that rule consistently.",
+    "Keep content in source order so headings and panels make sense when styles or scripts fail.",
+    "Expose hidden-error counts, selected-count summaries, or changed-state badges on collapsed headers when users need them.",
+    "Avoid overusing landmark regions for every panel on pages with many sections.",
+    "Test Enter, Space, Tab order, optional arrows, Home, End, screen reader announcements, print, no-JavaScript fallback, deep links, and mobile wrapping."
+  ],
+  "commonMisuses": [
+    "Using divs or links as section toggles without button semantics or expanded state.",
+    "Hiding content users must read sequentially before completing a task.",
+    "Making collapsed section labels too vague, such as More, Details, or Information.",
+    "Removing form values or validation messages when another section opens.",
+    "Showing errors only inside collapsed panels without a header summary or error link.",
+    "Using an accordion as local navigation to separate pages.",
+    "Forcing one panel open at a time when users need to compare multiple sections."
+  ],
+  "critiqueQuestions": [
+    "Are these sections related content on one page, or are they separate destinations?",
+    "Can users understand every collapsed section from its label and summary?",
+    "What important content, errors, or changed values are hidden when panels collapse?",
+    "Should users be able to open multiple panels at once?",
+    "Does keyboard focus move predictably from heading button to revealed content?",
+    "Would always-visible headings, a details disclosure, tabs, side navigation, or a process list better match the task?"
+  ],
+  "useWhen": [
+    "A page has several related sections and users do not need all details visible at once.",
+    "Section headings provide a useful overview and users can choose which details to inspect.",
+    "Hidden content is optional, reference-heavy, repeated, or summarized well enough in collapsed headers.",
+    "The interface can expose expanded state, controlled panels, and hidden-error or selected-count summaries."
+  ],
+  "avoidWhen": [
+    "There is only one revealable section and a simpler details disclosure is enough.",
+    "Users must compare content across sections continuously.",
+    "The content is a required step sequence, primary page instruction, or critical warning.",
+    "The sections are separate pages that need navigation state.",
+    "Hidden form fields can fail validation without visible header summaries or error links."
+  ],
+  "variants": [
+    "Single-open accordion",
+    "Multi-open accordion",
+    "Bordered accordion",
+    "Borderless accordion",
+    "Accordion with expand all",
+    "Accordion with section counts",
+    "Form section accordion",
+    "FAQ accordion",
+    "Mobile content accordion"
+  ],
+  "accessibility": [
+    "Use native buttons for section controls and expose expanded or collapsed state.",
+    "Place each button in a heading element so the accordion preserves page structure.",
+    "Associate each button with its controlled panel and give each panel an accessible relationship to its heading.",
+    "Keep focus visible on section headers and do not move focus unexpectedly when content opens.",
+    "Do not rely on plus or chevron icons alone; include text and programmatic state.",
+    "Summarize collapsed errors, required fields, or selected values outside hidden panels.",
+    "Use region landmarks only when panels are large enough to benefit navigation and the page will not create excessive regions."
+  ],
+  "keyboardBehavior": [
+    "Tab moves to each accordion header button and into expanded panel content in source order.",
+    "Enter or Space toggles the focused section header.",
+    "Arrow Down and Arrow Up may move focus between headers when implemented consistently.",
+    "Home and End may move focus to the first or last header in the accordion.",
+    "Escape should not be required to leave an accordion; normal Tab order must work.",
+    "Expand all and Collapse all controls are reachable before the section list when present."
+  ],
+  "failureModes": [
+    "Screen readers hear only plus icons or links without expanded state.",
+    "Find-in-page, validation links, or deep links land inside hidden content that remains collapsed.",
+    "Panel content disappears from the DOM and form state is lost when another panel opens.",
+    "Collapsed headers do not reveal that hidden fields contain errors or selected values.",
+    "Too many long accordion sections make the page harder to scan than a normal heading structure.",
+    "A single-open accordion closes another panel users were comparing without warning.",
+    "The mobile layout wraps controls so section labels and expand icons no longer align."
+  ],
+  "relatedPatterns": [
+    "tabs",
+    "side-navigation",
+    "filter-panel",
+    "process-list",
+    "in-page-anchor-navigation"
+  ],
+  "comparisons": [
+    "accordion-vs-tabs-vs-side-navigation-vs-filter-panel"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Accordion Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/",
+      "platform": "web",
+      "notes": "Documents heading buttons, expanded state, controlled panels, keyboard interaction, and optional region landmarks for accordions.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "USWDS Accordion component",
+      "url": "https://designsystem.digital.gov/components/accordion/",
+      "platform": "web",
+      "notes": "Documents accordions as header lists that hide or reveal content with bordered, borderless, multiselectable, and accessibility-tested variants.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "GOV.UK Design System Accordion",
+      "url": "https://design-system.service.gov.uk/components/accordion/",
+      "platform": "web",
+      "notes": "Documents showing and hiding related content sections on a page, including section controls and expand-all behavior.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "GOV.UK Design System Details",
+      "url": "https://design-system.service.gov.uk/components/details/",
+      "platform": "web",
+      "notes": "Documents choosing details for one less-prominent revealable section and accordions for multiple related sections.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-accordion",
+      "note": "APG documents accordion header button, heading, expanded state, controlled panel, optional region, and keyboard interaction expectations."
+    },
+    {
+      "id": "uswds-accordion-component",
+      "note": "USWDS documents accordion sections that hide and reveal related content, including multiselectable behavior and accessibility testing."
+    },
+    {
+      "id": "govuk-accordion-component",
+      "note": "GOV.UK documents accordions for showing and hiding related content sections on a page."
+    },
+    {
+      "id": "govuk-details-component",
+      "note": "GOV.UK details guidance distinguishes one-section details disclosures from accordions and tabs."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

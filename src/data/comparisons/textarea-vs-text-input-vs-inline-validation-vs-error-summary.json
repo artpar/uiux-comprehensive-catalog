@@ -1,0 +1,50 @@
+{
+  "id": "textarea-vs-text-input-vs-inline-validation-vs-error-summary",
+  "title": "Textarea vs text input vs inline validation vs error summary",
+  "summary": "Use textarea for multi-line freeform writing, text input for short one-line answers, inline validation for field-level feedback, and error summary for page-level navigation to errors.",
+  "patternIds": [
+    "textarea",
+    "text-input",
+    "inline-validation",
+    "error-summary"
+  ],
+  "decisionRules": [
+    "Prefer textarea when the expected answer needs sentences, paragraphs, line breaks, or visible review of longer freeform text.",
+    "Prefer text input when the expected answer is a short single-line value such as a name, title, code, or one-line reference.",
+    "Use inline validation with textarea when feedback belongs directly next to the long-answer field, such as required, too short, too long, or disallowed-character errors.",
+    "Use an error summary when one or more textarea or form errors need a page-level list that moves users back to the exact field.",
+    "Add a character count only when a limit is real and useful; do not show a counter merely to decorate an unrestricted long-answer field.",
+    "Do not hide paragraph entry in a one-line input; users need wrapping, scrolling, line-break behavior, and enough visible rows to review what they wrote.",
+    "Do not replace textarea with a rich text editor unless formatting, links, headings, or structured content are genuinely part of the task.",
+    "Set rows and visible height based on expected answer length, not on a generic form layout.",
+    "When collecting sensitive explanations, provide hint text about what not to include and preserve user text through validation and navigation.",
+    "For server-returned long-answer errors, keep the user's submitted text in the textarea and associate both hint and error messages with the field."
+  ],
+  "failureModes": [
+    "A paragraph answer is forced into a one-line text input, hiding most of the response.",
+    "A textarea has no visible label or hint, so users do not know the expected detail or sensitive-data boundary.",
+    "A character limit exists but no remaining count or too-long recovery is shown until final submit.",
+    "The field clears a long drafted answer after validation fails.",
+    "An error summary links to the page but not to the textarea, leaving keyboard users to search for the problem.",
+    "A rich text editor is used for plain comments and creates formatting, paste, and accessibility problems."
+  ],
+  "sources": [
+    {
+      "id": "govuk-textarea-component",
+      "note": "GOV.UK documents textarea labels, hints, rows, errors, aria-describedby, spellcheck, and error text for empty or length failures."
+    },
+    {
+      "id": "uswds-text-input-component",
+      "note": "USWDS advises using a text area instead of a single-line input for paragraph responses."
+    },
+    {
+      "id": "uswds-character-count-component",
+      "note": "USWDS documents textarea character-count markup and remaining-count association when limits are needed."
+    },
+    {
+      "id": "wai-aria-apg-names-and-descriptions",
+      "note": "WAI-ARIA APG names and descriptions guidance supports accessible names and descriptions for textarea fields."
+    }
+  ],
+  "lastVerified": "2026-06-08"
+}

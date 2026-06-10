@@ -1,0 +1,238 @@
+{
+  "id": "input-mask",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a fixed-format entry pattern with source-backed guidance for grouped characters, literal separators, paste normalization, deletion and cursor recovery, masked-versus-canonical values, related-pattern distinctions, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers stable character patterns, grouped digits, literal separators, mask slot markers, hint text, paste normalization, deletion behavior, cursor movement, canonical unmasked values, validation timing, mobile keyboards, localization, and when masks block legitimate data.",
+    "relatedPatternDistinction": "The entry separates input mask from text input by live formatting and fixed character slots, from inline validation by preventing or shaping entry before submit instead of only reporting errors after entry, from autocomplete by formatting a user-entered value rather than resolving to a known record, and from prefix/suffix by not using masks for constant units or symbols.",
+    "liveDemoBehavior": "The rendered exercise formats pasted and typed container references into a fixed ABCD 123456 7 structure, strips invalid characters, groups separators, reports raw canonical value, validates incomplete groups, clears the mask safely, and contrasts a broken phone mask that rejects valid international or pasted values.",
+    "comparisonDecisionRules": "The linked input-mask-vs-text-input-vs-inline-validation-vs-autocomplete comparison gives concrete rules for stable formatted values, freeform text, post-entry validation, known-value autocomplete, paste and deletion requirements, prefix/suffix boundaries, picker conflicts, and canonical storage.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/input-mask.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, live grouped formatting, paste normalization, incomplete-value validation, canonical value display, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/input-mask.png"
+    ]
+  },
+  "name": "Input mask",
+  "aliases": [
+    "masked input",
+    "format mask",
+    "formatted input",
+    "grouped character input",
+    "fixed-format field",
+    "masked text field"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Fixed-format text entry control",
+  "uiGuidance": [
+    "Show a persistent label, visible example or hint, fixed grouping, literal separators, and field-adjacent error text so users understand which characters are typed and which are supplied by the mask.",
+    "Keep the entered value reviewable as both a formatted display value and, when relevant, a canonical stored value so users can see what will be submitted."
+  ],
+  "uxGuidance": [
+    "Use an input mask to help users enter data that has a stable character structure, especially when grouping matches the physical document, card, container code, or serial key users are copying from.",
+    "Preserve normal editing behavior: users must be able to paste, delete, select, correct the middle of the value, use undo, and submit without learning the mask implementation."
+  ],
+  "uiExamples": {
+    "good": [
+      "A container number field shows the example ABCD 123456 7, groups pasted characters into that shape, and displays the raw value ABCD1234567 before submit.",
+      "A card-number field groups digits as users type and keeps helper text visible so the expected length does not disappear with the placeholder."
+    ],
+    "bad": [
+      "A phone field hard-codes a domestic mask and rejects valid international numbers.",
+      "The field shows underscores and separators as the only instruction, then jumps the cursor unpredictably when users paste or delete."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pastes abcd1234567, sees ABCD 123456 7, reviews the canonical value, and fixes one middle digit without retyping the whole code.",
+      "A user submits ABCD 123 and receives a precise error that the six-digit serial group and check digit are incomplete."
+    ],
+    "bad": [
+      "A user pastes a valid value with spaces and the mask discards characters because it only supports one-character-at-a-time typing.",
+      "A user enters an exception value required by a real document, but the mask blocks it with no alternative recovery path."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users make avoidable format errors when long codes, numbers, or identifiers require grouping, but rigid masks can also reject valid values, break paste and editing, or obscure what will actually be stored.",
+  "solution": "Use a mask only for stable formats, show persistent format guidance, normalize typed and pasted input into readable groups, preserve correction behavior, validate the canonical value, and provide an escape path when real values do not fit the mask.",
+  "problemContext": [
+    "The field value has known character positions, group lengths, literal separators, or check digits.",
+    "Users often copy the value from a document, card, label, shipment record, serial plate, or system-generated code.",
+    "The grouped display reduces transcription errors and matches the user's source material.",
+    "The product can define whether separators are stored, displayed only, copied, or stripped before backend validation.",
+    "Valid exceptions, localization, alternate lengths, or picker-based entry have been checked before choosing a mask."
+  ],
+  "selectionRules": [
+    "Choose input mask when the value has a stable, narrow structure with predictable character classes and grouping.",
+    "Use text input when users may need to enter values outside one fixed structure, such as company names, freeform identifiers, or international contact details.",
+    "Use inline validation when normal typing should remain unconstrained and the system can explain a format error after blur or submit.",
+    "Use autocomplete when the typed value should resolve to an existing record instead of merely being shaped into a format.",
+    "Use prefix/suffix when a constant symbol, unit, currency, or domain is separate from the user's typed value.",
+    "Use a date picker, time picker, or domain-specific picker when the picker owns entry and masks would conflict with it.",
+    "Do not mask emails, broad phone-number formats, addresses, names, or values with common legitimate exceptions.",
+    "Keep hint text visible for complex formats; do not rely on placeholder mask characters alone.",
+    "Support paste from both formatted and unformatted values.",
+    "State or reveal whether literals are included in copied and submitted values."
+  ],
+  "requiredStates": [
+    "Empty untouched state with label and visible format example.",
+    "Focused state that reveals grouping or mask affordance without replacing the label.",
+    "Partially entered state with incomplete groups and stable cursor behavior.",
+    "Pasted unformatted value normalized into the mask.",
+    "Pasted formatted value accepted without duplicating separators.",
+    "Invalid character attempted state with a non-blocking explanation or ignored-character status.",
+    "Incomplete required value error after submit.",
+    "Complete formatted display state with canonical stored value visible or inspectable.",
+    "Deletion or correction state where placeholders do not shift remaining characters unpredictably.",
+    "Exception or unsupported-format state with a fallback path."
+  ],
+  "interactionContract": [
+    "Typing valid characters fills the next available mask slot and inserts literal separators automatically.",
+    "Typing invalid characters either ignores them with a clear status or leaves the value unchanged without corrupting existing characters.",
+    "Pasting formatted or unformatted content normalizes into the same display value.",
+    "Deleting, selecting, replacing, undoing, and correcting middle groups remain predictable.",
+    "Submitting an incomplete mask keeps the partial value visible and names the missing group or character count.",
+    "The canonical value sent to the backend is derived deterministically and can be validated server-side.",
+    "The mask does not remove browser, keyboard, or assistive technology access to label, hint, and error text."
+  ],
+  "implementationChecklist": [
+    "Define the canonical value, formatted display value, accepted character classes, group lengths, literals, optional groups, and storage behavior before building the UI.",
+    "Choose native input attributes such as inputmode, autocomplete, autocapitalize, maxlength, spellcheck, and aria-describedby to match the data type.",
+    "Normalize paste from formatted and unformatted sources and test paste with spaces, dashes, parentheses, lowercase letters, and clipboard content longer than the mask.",
+    "Preserve user control over deletion, selection, overwrite, cursor movement, undo, redo, and browser autofill.",
+    "Validate the canonical value on client and server and show incomplete or invalid-group errors next to the field.",
+    "Provide visible helper text for the expected format and do not make placeholder mask characters the only instruction.",
+    "Test localization, right-to-left layouts, screen readers, mobile keyboards, zoom, saved drafts, browser Back, copy behavior, and exception values."
+  ],
+  "commonMisuses": [
+    "Using a mask because a format exists even though many valid values do not fit it.",
+    "Rejecting pasted values that include spaces, dashes, parentheses, or lowercase characters.",
+    "Letting separators appear in the field but silently storing a different value without user or developer clarity.",
+    "Using underscores or placeholder symbols as the only format guidance.",
+    "Breaking deletion or middle-character correction so users must clear the entire field.",
+    "Combining a mask with a picker or prefix/suffix that should own the format instead.",
+    "Masking data that needs localization or exception handling without a fallback."
+  ],
+  "critiqueQuestions": [
+    "Is this value truly fixed-format, or are there legitimate exceptions?",
+    "Can users paste the value from the source document and get the same result as typing?",
+    "Can users correct one middle character without retyping the field?",
+    "Are separators stored, displayed only, copied, or stripped before submit?",
+    "Does the hint remain visible after the placeholder disappears?",
+    "Would text input plus inline validation, autocomplete, prefix/suffix, or a picker be less fragile?"
+  ],
+  "useWhen": [
+    "The value has a stable character pattern and users benefit from live grouping.",
+    "Formatting mirrors a source users copy from, such as a card, container, serial label, or activation key.",
+    "The product can handle pasted values, partial values, exceptions, and canonical storage deliberately.",
+    "A mask reduces transcription errors without blocking valid data."
+  ],
+  "avoidWhen": [
+    "Valid values have many lengths, regions, scripts, or exception formats.",
+    "Users need to enter data in a different format than the mask supports.",
+    "The field is better handled by a picker, autocomplete, prefix/suffix, or ordinary text input.",
+    "The implementation cannot preserve paste, deletion, undo, selection, and assistive technology behavior.",
+    "The mask hides what will be submitted or stores separators inconsistently."
+  ],
+  "variants": [
+    "Grouped card number mask",
+    "Container number mask",
+    "Serial key mask",
+    "Postal code mask",
+    "Phone mask with fallback",
+    "Date mask fallback",
+    "Mask with literal separators",
+    "Mask with optional groups",
+    "Mask with canonical value preview",
+    "Paste-normalizing mask"
+  ],
+  "accessibility": [
+    "Keep a real visible label and do not use the mask pattern or placeholder as a substitute for the field name.",
+    "Connect hint, format example, canonical-value note, and error text to the input with descriptive relationships where supported.",
+    "Do not announce every inserted separator as a disruptive status update; reserve live regions for meaningful validation or paste-normalization changes.",
+    "Ensure screen reader users can understand which characters they typed and which separators are supplied by the mask.",
+    "Avoid placeholder symbols that create noisy or misleading announcements.",
+    "Maintain visible focus, text selection, high-contrast affordances, and zoom-friendly grouping."
+  ],
+  "keyboardBehavior": [
+    "Tab moves to the field in normal order and does not focus literal separators separately.",
+    "Typing fills the next editable slot while separators are inserted or skipped predictably.",
+    "Backspace and Delete remove editable characters without trapping focus or corrupting remaining groups.",
+    "Arrow keys, Home, End, selection shortcuts, paste, undo, and redo behave as close to native text editing as possible.",
+    "Submit with an incomplete mask moves focus to the error summary or masked field without clearing the partial value.",
+    "Mobile keyboards expose the needed letters, numbers, and symbols for the mask."
+  ],
+  "failureModes": [
+    "The mask rejects real values with different lengths, regions, scripts, or exception formats.",
+    "Pasting a complete value produces missing or duplicated separators.",
+    "Cursor jumps make middle-character correction impossible.",
+    "The placeholder pattern disappears and users forget the expected grouping.",
+    "The display includes separators but the backend stores a different value without validation parity.",
+    "The mask strips meaningful leading zeros or letters.",
+    "A picker and mask fight over the same date or time format.",
+    "Assistive technology users hear noisy placeholder characters instead of useful format guidance."
+  ],
+  "relatedPatterns": [
+    "text-input",
+    "inline-validation",
+    "autocomplete",
+    "error-summary",
+    "select"
+  ],
+  "comparisons": [
+    "input-mask-vs-text-input-vs-inline-validation-vs-autocomplete"
+  ],
+  "examples": [
+    {
+      "product": "Maersk Design System Input masks",
+      "url": "https://designsystem.maersk.com/guidelines/input-masks/",
+      "platform": "web",
+      "notes": "Documents when to use masks for specific expected formats, credit-card grouping, copy/paste and mistyping recovery, hint text for complex patterns, and alternatives for prefix/suffix or ordinary input.",
+      "screenshot": "screenshots/patterns/input-mask.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "SAP Fiori Mask Input",
+      "url": "https://www.sap.com/design-system/fiori-design-web/v1-136/ui-elements/generic-mask-input/usage",
+      "platform": "web",
+      "notes": "Documents fixed-length mask anatomy, label and aria-described requirements, immutable characters, focus reveal, paste normalization, deletion behavior, and localization.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Access Input Masks",
+      "url": "https://support.microsoft.com/en-us/office/control-data-entry-formats-with-input-masks-e125997a-7791-49e5-8672-4a47832de8da",
+      "platform": "desktop",
+      "notes": "Documents mask characters, placeholders, literal separators, stored-versus-displayed literals, examples, and when not to use masks.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "maersk-input-masks",
+      "note": "Maersk supports using masks for stable expected formats while preserving copy/paste and correction, and distinguishes masks from prefix/suffix or ordinary inputs."
+    },
+    {
+      "id": "sap-fiori-mask-input",
+      "note": "SAP Fiori supports mandatory labels, mask patterns, immutable characters, aria-described guidance, paste behavior, deletion behavior, and mask avoidance when valid data would be blocked."
+    },
+    {
+      "id": "microsoft-access-input-masks",
+      "note": "Microsoft documents masks as placeholder and literal-character constraints, including canonical storage choices and warnings against exceptions or date picker conflicts."
+    },
+    {
+      "id": "material-design-text-fields",
+      "note": "Material Design supports grouped formatted input, helper text, error text, and prefix/suffix alternatives for text fields."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-09"
+}

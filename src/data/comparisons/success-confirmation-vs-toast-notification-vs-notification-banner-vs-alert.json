@@ -1,0 +1,43 @@
+{
+  "id": "success-confirmation-vs-toast-notification-vs-notification-banner-vs-alert",
+  "title": "Success confirmation vs toast notification vs notification banner vs alert",
+  "summary": "Use success confirmation when users need durable in-context proof that a just-finished action succeeded; use toast for disposable feedback, notification banner for previous-page outcomes before an H1, and alert for urgent task status.",
+  "patternIds": ["success-confirmation", "toast-notification", "notification-banner", "alert"],
+  "decisionRules": [
+    "Choose success confirmation when a completed action changes an important object and users need to verify the exact object, reference, timestamp, or next step before continuing.",
+    "Choose toast notification when the success message is short, low consequence, safely disposable, and any receipt or durable record is visible elsewhere.",
+    "Choose notification banner when the success outcome belongs immediately before the next page heading after navigation and the service journey continues.",
+    "Choose alert when the message is not a success outcome but an urgent current-task condition that must remain visible until resolved or safely dismissed.",
+    "Use success confirmation for saved applications, uploaded evidence, copied reference numbers, submitted drafts, permission updates, and payment setup changes when users need proof in the same task area.",
+    "Do not use success confirmation as the final service endpoint; when the whole journey is finished, route to a confirmation page with reference, next steps, and what happens next.",
+    "Do not show both a durable success confirmation and a toast for the same low-risk action unless the toast merely points back to the persistent confirmation.",
+    "Remove or downgrade the success confirmation after the user starts a new unrelated task, views the referenced record, or the confirmed state becomes ordinary page state."
+  ],
+  "failureModes": [
+    "A saved application only shows Done, so users cannot tell which draft, timestamp, or next step was confirmed.",
+    "A file-upload success disappears as a toast before the user can copy the receipt number.",
+    "A previous-page success message remains in the current form long after the user has moved to an unrelated task.",
+    "A failed save is styled as success before server confirmation arrives.",
+    "A current connection warning is green success copy, so users keep working while sync is blocked.",
+    "A completed application flow uses a small in-page success message instead of a confirmation page with reference and next steps."
+  ],
+  "sources": [
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon defines success notification status as confirmation that a task completed as expected and distinguishes inline and toast variants by context."
+    },
+    {
+      "id": "govuk-notification-banner-component",
+      "note": "GOV.UK describes success notification banners for outcomes of just-completed actions when the user has not finished the journey."
+    },
+    {
+      "id": "adobe-spectrum-toast",
+      "note": "Spectrum describes toast as brief temporary confirmation for simple notifications that should not disrupt the user experience."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing success updates without moving focus when the message does not require a modal response."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}

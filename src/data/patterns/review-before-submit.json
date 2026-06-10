@@ -1,0 +1,242 @@
+{
+  "id": "review-before-submit",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a final check-answers gate with source-backed guidance for captured-answer summaries, relevant sections, Change links, accessible action text, pre-populated returns, dependent-answer invalidation, explicit submit action copy, confirmation-page boundary, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a final pre-submit review page, sectioned answer summaries, summary rows with key/value/action structure, relevant-only answers, skipped optional answers, Change links with accessible context, pre-populated return pages, return-to-review behavior, dependent question invalidation, explicit submit action copy, and post-submit boundary.",
+    "relatedPatternDistinction": "The entry separates review before submit from multi-step form by owning the final editable gate rather than the whole journey, from complete complex form by reviewing captured answers rather than editing a sectioned settings surface, from error summary by not being only validation recovery, and from confirmation page by appearing before data is committed.",
+    "liveDemoBehavior": "The rendered exercise changes a contact answer from the review page, returns directly to review, marks evidence stale when eligibility changes, shows a not-provided optional answer, blocks submit until stale answers are rechecked, then submits into a receipt state; the bad demo shows Continue-only review and lost return context.",
+    "comparisonDecisionRules": "The linked review-before-submit-vs-multi-step-form-vs-complete-complex-form-vs-error-summary comparison gives concrete rules for final review gates, journey collection, sectioned settings save, validation recovery, post-submit confirmation boundary, Change links, dependent answers, action copy, skipped answers, and low-risk exceptions.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/review-before-submit.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, sectioned answers, Change links, pre-populated edit return, stale dependent answer handling, not-provided answer, explicit submit, comparison link, related patterns, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/review-before-submit.png"
+    ]
+  },
+  "name": "Review before submit",
+  "aliases": [
+    "check answers",
+    "check your answers",
+    "review answers",
+    "review before send",
+    "final review page",
+    "pre-submit review",
+    "answers summary"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Final editable answer summary before committing a transaction",
+  "uiGuidance": [
+    "Render a single review page immediately before commit with a clear title, grouped answer sections, readable key/value rows, per-answer or per-section Change actions, skipped optional answers when meaningful, and a primary button whose label names the committed action.",
+    "Keep Change links close to the answer they affect and add accessible context so repeated links such as Change remain distinguishable to screen reader users."
+  ],
+  "uxGuidance": [
+    "Use review before submit to give users one final chance to verify and correct captured answers before a transaction is sent, paid, published, applied, or otherwise committed.",
+    "Return users from a Change link to the exact owning question with answers pre-populated, then route them back to review without forcing unrelated pages, while asking any newly required dependent questions first."
+  ],
+  "uiExamples": {
+    "good": [
+      "A claim review page has Applicant, Contact details, Evidence, and Declaration sections; each row shows the captured answer and a Change link with hidden context such as Change email address.",
+      "A payment review page shows amount, payer, payment method, and billing address, then uses Pay now as the primary action rather than Continue."
+    ],
+    "bad": [
+      "A final page says Check your answers but shows only a paragraph and a Continue button with no answers, section headings, or change links.",
+      "A review table shows Change repeated in every row with no hidden context and places the action far from the answer it changes."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user changes their phone number from review, lands on the phone page with the old value pre-filled, saves, and returns directly to review with other answers preserved.",
+      "A user changes eligibility from Yes to No, the evidence section is marked needs review, the service asks the new required question, and final submit remains blocked until the review is current."
+    ],
+    "bad": [
+      "A user selects Change address, edits one field, then has to repeat every later page before finding the review page again.",
+      "A user clicks Continue from a review page thinking there is another step, but the service submits the application immediately."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users make mistakes in long or consequential transactions when they cannot inspect what the service captured, correct individual answers, or recognize that the next action will commit the data.",
+  "solution": "Add a final review page that summarizes relevant captured answers, lets users change specific answers without losing progress, handles dependent changes before returning to review, and uses explicit submit copy before the post-submit confirmation page.",
+  "problemContext": [
+    "The user has answered several questions across one or more pages and the next action has legal, financial, account, eligibility, publication, payment, or service-routing consequences.",
+    "Users may need to spot typos, wrong addresses, stale evidence, skipped optional answers, or conditional answers that no longer apply.",
+    "The product can pre-populate previous answer pages and preserve state while users move between review and editing.",
+    "A later confirmation page will provide receipt, reference number, next steps, or status after the irreversible or high-friction action is complete."
+  ],
+  "selectionRules": [
+    "Choose review before submit when users need to verify multiple captured answers immediately before committing a transaction.",
+    "Use multi-step form for collecting and saving the answers that lead to review, not as a substitute for the final check gate.",
+    "Use complete complex form when users are actively editing many related settings on one surface and need review before save inside that editor.",
+    "Use error summary when the user needs to recover from validation errors, not when all valid answers need a final confirmation before submit.",
+    "Use confirmation page only after submit, when the task should show receipt, reference number, and next steps instead of pre-submit Change links.",
+    "Group answers into sections that match the journey or user mental model, and omit irrelevant conditional branches.",
+    "Show skipped optional answers as Not provided when the absence itself needs review or can affect the outcome.",
+    "Use Change links for individual answers or coherent sections; each link must return users to the correct answer with previous values pre-filled.",
+    "After a changed answer creates new required questions or invalidates downstream answers, resolve that dependency before returning to review.",
+    "Use a submit button label that states the action and consequence, not generic Continue."
+  ],
+  "requiredStates": [
+    "Initial review state with grouped captured answers, relevant sections, and explicit submit action.",
+    "Answer changed state where the user returns to the owning question with the old value pre-populated.",
+    "Return-to-review state after a changed answer saves without repeating unrelated pages.",
+    "Skipped optional answer state shown as Not provided when meaningful.",
+    "Stale dependent answer state after an upstream change invalidates a downstream answer.",
+    "New dependent question state before returning to review when a change requires extra information.",
+    "Validation blocking state when review cannot submit because a required answer is missing or stale.",
+    "Submit-ready state after all shown answers are current and required declarations are satisfied.",
+    "Submitted handoff state that routes to a confirmation page rather than keeping pre-submit Change links active."
+  ],
+  "interactionContract": [
+    "Review loads only after required upstream answers are saved or clearly marks missing required sections.",
+    "Each Change action stores return context so saving the edited answer returns to review, not the next ordinary journey page.",
+    "Edited pages show previous values exactly as last saved unless the answer was invalidated by a dependency rule.",
+    "Changing an upstream answer recomputes later relevance and marks affected answers stale, removed, or newly required before submit.",
+    "The review page excludes branches that do not apply, unless showing Not provided helps users verify an optional skipped answer.",
+    "The primary action commits the transaction only after current answers, stale dependencies, and required declarations pass.",
+    "After commit, the user lands on a confirmation page with receipt and next steps; review Change links are no longer the main recovery path."
+  ],
+  "implementationChecklist": [
+    "Inventory every answer, section heading, display label, stored value, edit route, dependency rule, optional-answer display rule, and final submit consequence.",
+    "Build summary rows from canonical saved answers rather than reformatting ad hoc page text.",
+    "Add Change links with specific accessible text and return-to-review context for each row or section.",
+    "Pre-populate edit pages from saved data and preserve all unrelated answers after edit, validation, browser Back, and server errors.",
+    "Recompute conditional branches after every changed answer and ask newly required questions before returning to review.",
+    "Mark stale sections clearly and block submit until the affected answers are reviewed or corrected.",
+    "Use final action copy that names the consequence, such as Send application, Pay now, Publish listing, or Update account.",
+    "Route successful submit to a confirmation page with reference, receipt, status, or next steps.",
+    "Test keyboard order, screen reader context for repeated Change links, mobile summary wrapping, long addresses, hidden conditional answers, skipped optional answers, browser Back, edit return, stale answers, and double-submit prevention."
+  ],
+  "commonMisuses": [
+    "Using a review page that contains no captured answers.",
+    "Labelling the final commit button Continue.",
+    "Sending users through every later page after they change one answer.",
+    "Showing irrelevant conditional sections that the user never answered.",
+    "Hiding skipped optional answers even when Not provided affects the outcome.",
+    "Keeping stale downstream answers after an upstream answer changes.",
+    "Putting repeated Change links in a table without accessible context.",
+    "Treating a post-submit confirmation page as if it were the review step."
+  ],
+  "critiqueQuestions": [
+    "What exactly changes in the system when the user presses the final button?",
+    "Can users see every relevant answer and tell which section each answer belongs to?",
+    "Does each Change link return to the owning question with the current answer pre-populated?",
+    "After saving a changed answer, does the service return to review without repeating unrelated pages?",
+    "Which downstream answers become stale or irrelevant after each possible change?",
+    "Does the page clearly separate pre-submit review from post-submit confirmation?"
+  ],
+  "useWhen": [
+    "A user has provided multiple answers and should verify them before a consequential submit action.",
+    "The product can preserve answers and return users from edit pages back to review.",
+    "The transaction has enough risk, branching, length, or legal/financial consequence that a second chance to correct errors is valuable.",
+    "Users need to confirm that captured data is complete and correct before the confirmation page."
+  ],
+  "avoidWhen": [
+    "The task is a single low-risk field with clear inline validation and an obvious submit action.",
+    "Users are still actively editing a sectioned settings surface rather than reviewing already captured answers.",
+    "The product cannot pre-populate previous answers or route users back to review after a change.",
+    "The transaction has already been committed and the user needs a confirmation page, receipt, or next steps.",
+    "The review page would simply duplicate a short single-page form visible immediately above the submit button."
+  ],
+  "variants": [
+    "Check your answers page",
+    "Review answers page",
+    "Sectioned answer summary",
+    "Review before send",
+    "Review before payment",
+    "Review before publish",
+    "Review with declaration",
+    "Review with section-level Change links",
+    "Review with not-provided answers",
+    "Review with stale dependent answers"
+  ],
+  "accessibility": [
+    "Use headings that make the review task explicit, such as Check your answers before sending your application.",
+    "Use semantic key/value structures or accessible tables so answer labels, values, and actions remain associated.",
+    "Add hidden context to repeated Change links, such as Change email address, so screen reader users can distinguish them.",
+    "Keep action links close to the answer or section they affect, especially for screen magnifier users.",
+    "Do not rely on color alone to mark stale, missing, changed, or not-provided answers.",
+    "Move focus to the edited page heading after a Change link and back to the review summary or changed row after save.",
+    "Ensure long values such as addresses, file names, and declarations wrap without obscuring Change actions."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows section heading, answer rows, Change actions, declaration controls, and final submit in reading order.",
+    "Enter activates Change links and preserves return-to-review context.",
+    "After saving a changed answer, focus returns to the review page heading, status message, or changed answer row.",
+    "If a change creates new required questions, keyboard focus moves through those questions before returning to review.",
+    "Final submit is a real button and is disabled or reports a clear blocking reason while answers are stale.",
+    "Browser Back from an edit page restores the expected previous review or answer state without losing saved answers."
+  ],
+  "failureModes": [
+    "Users cannot find the submit button because the page title and primary action do not explain the final task.",
+    "Change links lack context, so assistive technology users hear a list of identical Change links.",
+    "A changed eligibility answer leaves irrelevant evidence answers visible and submit-ready.",
+    "The edit page is blank instead of pre-populated with the previous answer.",
+    "Returning from a changed answer restarts the journey or forces unrelated pages.",
+    "Optional skipped answers are hidden even though their absence is significant.",
+    "The review page appears after final submission, making recovery expectations false.",
+    "A duplicate submit creates two transactions because the review gate does not protect the final action."
+  ],
+  "relatedPatterns": [
+    "multi-step-form",
+    "complete-complex-form",
+    "single-page-form",
+    "error-summary",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "review-before-submit-vs-multi-step-form-vs-complete-complex-form-vs-error-summary"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Check answers",
+      "url": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "platform": "web",
+      "notes": "Documents one check answers page before confirmation, confidence and error reduction, sectioned relevant answers, explicit submit action, Change links, pre-populated edit pages, returning to review, newly required questions, and Not provided optional answers.",
+      "screenshot": "screenshots/patterns/review-before-submit.png",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "GOV.UK Design System Summary list",
+      "url": "https://design-system.service.gov.uk/components/summary-list/",
+      "platform": "web",
+      "notes": "Documents key/value/action rows, summary cards for multiple related lists, and visually hidden action context for Change links.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "USWDS Summary box",
+      "url": "https://designsystem.digital.gov/components/summary-box/",
+      "platform": "web",
+      "notes": "Documents a summary region for key information from longer pages or next steps, supporting review-summary emphasis where a full answer table is not needed.",
+      "checkedAt": "2026-06-09"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-check-answers-pattern",
+      "note": "GOV.UK supports review before confirmation, sectioned relevant answers, confidence and error reduction, Change links, pre-populated returns, not-provided answers, and newly required dependent questions."
+    },
+    {
+      "id": "govuk-summary-list-component",
+      "note": "GOV.UK summary list supports key/value/action rows, summary cards, row actions, and visually hidden Change-link context."
+    },
+    {
+      "id": "govuk-form-structure-service-manual",
+      "note": "GOV.UK form-structure guidance supports collecting answers across pages and saving them as users go before final review."
+    },
+    {
+      "id": "uswds-summary-box-component",
+      "note": "USWDS summary box supports using a named summary region to highlight key information from longer pages or next steps."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-09"
+}

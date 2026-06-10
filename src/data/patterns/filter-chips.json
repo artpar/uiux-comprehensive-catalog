@@ -1,0 +1,243 @@
+{
+  "id": "filter-chips",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a compact filter-control and applied-filter-summary pattern with source-backed chip variants, selected and removable states, keyboard removal, stable ordering, overflow limits, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers compact chip sets, high-frequency filter toggles, selected and unselected states, dismissible applied chips, short category-value labels, stable chip order, focusable remove controls, keyboard removal, no-result recovery, and escalation to panels when chip rows become too long.",
+    "relatedPatternDistinction": "The entry separates filter chips from filter panels by treating chips as compact direct toggles or active summaries, from multi-select by keeping chips scoped to result filtering rather than form value selection, from choice chips by allowing multiple selections, and from badges by requiring interactive filter behavior.",
+    "liveDemoBehavior": "The live demo toggles several chips without reordering them, updates the result count immediately, removes individual chips while preserving query and sort, clears all chips, shows a no-result recovery path, and contrasts bad chips that reorder, use vague labels, and reset unrelated state.",
+    "comparisonDecisionRules": "The linked filter-chips-vs-filter-panel-vs-multi-select comparison gives concrete rules for compact chip sets, grouped filter panels, form-value multi-select, dismissible applied chips, stable order, label specificity, overflow, badges, sort separation, and keyboard removal.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/filter-chips.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, multiple selected chips, stable chip order, clear-one and clear-all behavior, no-result recovery, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/filter-chips.png"
+    ]
+  },
+  "name": "Filter chips",
+  "aliases": [
+    "filter chip",
+    "filter tags",
+    "filter pills",
+    "applied filter chips",
+    "removable filters",
+    "selectable tags"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Selection And Choice",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Compact chip set for toggling or removing result filters",
+  "uiGuidance": [
+    "Render filter chips as a compact set of short, consistently styled controls near the content they filter, with clear selected, unselected, focused, disabled, and removable states.",
+    "When chips summarize applied filters, include the category and value in the chip label and a clear remove affordance that remains keyboard focusable."
+  ],
+  "uxGuidance": [
+    "Use filter chips for quick, low-cost filtering when users can understand the available criteria at a glance and combine a few chips without opening a larger panel.",
+    "Keep chip order stable, update result count or active criteria immediately, and let users remove one chip or clear all filters without resetting query, sort, page, or view state."
+  ],
+  "uiExamples": {
+    "good": [
+      "A search results page shows chips for Open, Urgent, Appeals, and Benefits below the search box, with selected chips using a checkmark and stronger background.",
+      "Applied filters above a table read Status: Open and Team: Benefits, each with a named remove button and a separate Clear all control.",
+      "A horizontally scrollable mobile chip row keeps the most common filters first and shows no more than a few rows before offering More filters."
+    ],
+    "bad": [
+      "A single pill labelled Filter sits alone and behaves like a vague button.",
+      "Selected chips jump to the front of the row after every click, so the user has to rescan the whole set.",
+      "A non-removable status badge looks identical to removable filter chips."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user taps Urgent and Appeals, sees the result count drop immediately, then removes Appeals without losing the search query or sort order.",
+      "A user tabs to Status: Open, presses Delete, and focus moves to the next applied chip while the result summary updates.",
+      "A no-result chip combination keeps every active chip visible and offers Clear all plus the ability to remove one restrictive chip."
+    ],
+    "bad": [
+      "Tapping a chip changes the page route and clears the result context.",
+      "Removing a chip clears all filters, search text, and sorting.",
+      "A chip row wraps into six lines and pushes the results out of view."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need quick visibility and control over simple filters, but compact chip UI can become ambiguous, unstable, inaccessible, or confused with decorative tags and badges.",
+  "solution": "Provide a labelled chip set where each chip clearly represents a filter value, selected chips update the result set predictably, applied chips can be removed one at a time, and overflow or complex criteria escalate to a filter panel.",
+  "problemContext": [
+    "The page has a result set with a small number of high-frequency filters users often toggle directly.",
+    "Filters may have been selected elsewhere and need a compact active-state summary near the result count.",
+    "The UI must distinguish chips that filter results from decorative tags, status badges, choice chips, action chips, and selected form values."
+  ],
+  "selectionRules": [
+    "Choose filter chips when there are a few high-frequency filters that can stay visible near the result set without overwhelming scanning.",
+    "Use selected-state chips when each chip itself toggles a filter on or off.",
+    "Use dismissible applied-filter chips when criteria were chosen from search, filter panel, or advanced search and users need a compact way to remove them.",
+    "Include category names in applied chips when values are ambiguous, such as Status: Open instead of only Open.",
+    "Keep chip order stable after selection; do not reorder existing chips to the front or remove unselected options unless the entire model is clearly an applied-chip summary.",
+    "Use a filter panel when filters need categories, ranges, dates, many options, batch apply, or mobile full-screen management.",
+    "Use multi-select when chips represent selected form values that will be submitted or saved rather than filters applied to current results.",
+    "Use choice chips, radio groups, or segmented controls when exactly one option must be active.",
+    "Use badges or read-only tags when labels are informational and cannot be toggled or removed.",
+    "Use sort controls when users need to change order rather than include or exclude items."
+  ],
+  "requiredStates": [
+    "Unselected chip set state with no active filters and a clear result count.",
+    "Selected chip state with visible selected indicator and updated result count.",
+    "Applied dismissible chip state with category-value label and remove affordance.",
+    "Focused chip or remove-control state for keyboard operation.",
+    "Overflow state for many chips, such as horizontal scrolling, More filters, or escalation to a panel.",
+    "No-result state that preserves active chips and offers clear-one or clear-all recovery."
+  ],
+  "interactionContract": [
+    "Selecting a filter chip toggles only that filter and updates the result count or result list without changing unrelated query, sort, pagination, or view state.",
+    "Removing an applied chip removes only that criterion and keeps the remaining chip set stable.",
+    "Clear all removes user-applied chip filters as a group while preserving unrelated search and sort controls.",
+    "Selected chips remain discoverable by text and icon or state, not color alone.",
+    "Chip labels stay short, do not wrap, and expose a fuller accessible label when visible text is abbreviated.",
+    "Keyboard users can focus each interactive chip and remove or toggle it with Enter, Space, Backspace, or Delete according to the component contract."
+  ],
+  "implementationChecklist": [
+    "Place the chip set near the search field, result count, or content region it filters.",
+    "Use button semantics for toggling chips and named remove buttons for dismissible applied chips.",
+    "Show selected state with text, icon, border, or checkmark in addition to color.",
+    "Keep chip labels concise; include category plus value when the value alone is ambiguous.",
+    "Preserve chip order after selection and avoid animated reordering that makes options harder to find.",
+    "Expose clear-one and clear-all controls when more than one filter can be active.",
+    "Set an overflow strategy before chips wrap into many lines, such as horizontal scrolling, a More filters chip, or a filter panel.",
+    "Update a result-count status region when chip filters change and keep focus near the chip set or result summary."
+  ],
+  "commonMisuses": [
+    "Using a lone chip as a generic Filter button.",
+    "Styling decorative tags, status badges, and removable filters the same way.",
+    "Reordering all selected chips to the front after each click.",
+    "Using vague labels such as New, Hot, 1, or More without category or result meaning.",
+    "Letting chip rows wrap into several lines that hide the content they filter.",
+    "Removing a chip but resetting query, sort, pagination, view density, or saved view.",
+    "Making the visible chip focusable while hiding the actual remove control from keyboard and screen-reader users."
+  ],
+  "critiqueQuestions": [
+    "Is each chip a filter control, an applied-filter summary, a selected form value, a status badge, or an action?",
+    "Can users tell which chips are selected without relying on color alone?",
+    "Does selecting or removing one chip preserve query, sort, pagination, and remaining filters?",
+    "Does chip order remain stable enough for users to find the same option again?",
+    "Are chip labels short but still specific enough to explain the filtered criterion?",
+    "At what point should this chip row become a filter panel or More filters control?"
+  ],
+  "useWhen": [
+    "A few common filters should stay visible and directly toggleable near the content.",
+    "Users need a compact summary of applied filters with one-click or keyboard removal.",
+    "The filtered result set changes quickly enough for immediate chip feedback.",
+    "Mobile users need a compact horizontal filter row above content."
+  ],
+  "avoidWhen": [
+    "There are many criteria, ranges, dates, or grouped fields that need a panel or form.",
+    "The control represents a saved form value rather than a filter on current results.",
+    "Only one option can be active and a radio group, segmented control, or choice chip set would be clearer.",
+    "The label is informational and should not be interactive.",
+    "Changing the criterion requires a complex picker, confirmation, or batch apply workflow."
+  ],
+  "variants": [
+    "Selectable filter chips",
+    "Dismissible applied-filter chips",
+    "Category-value chips",
+    "Horizontal scroll chip row",
+    "Chip row with More filters",
+    "Selected chip with checkmark",
+    "Disabled unavailable chip"
+  ],
+  "accessibility": [
+    "Use button semantics for interactive chips and expose selected state with aria-pressed or equivalent semantics.",
+    "For dismissible applied chips, give the remove action an accessible name such as Remove Status: Open filter.",
+    "Make each chip or remove control keyboard focusable and visually obvious when focused.",
+    "Do not rely on color alone for selected or active state; include checkmarks, text, borders, or pressed state.",
+    "Announce result-count changes in a stable status region after chip selection or removal.",
+    "Keep touch targets large enough and spacing sufficient so adjacent chips are not accidentally activated."
+  ],
+  "keyboardBehavior": [
+    "Tab moves through interactive chips or chip remove controls in a predictable order.",
+    "Enter or Space toggles a selectable filter chip.",
+    "Enter, Backspace, or Delete removes a dismissible applied chip when focused if the component supports those shortcuts.",
+    "After removing a chip, focus moves to the next chip, previous chip, clear-all control, or result summary predictably.",
+    "Horizontal chip rows remain scrollable or reachable by keyboard without trapping focus."
+  ],
+  "failureModes": [
+    "Users cannot tell whether a chip is selected, removable, or merely a label.",
+    "Screen-reader users hear only Open instead of Remove Status: Open filter.",
+    "Selecting one chip moves other chips, making repeated filtering slow.",
+    "Too many chips wrap and displace the result list.",
+    "Chip removal clears unrelated query, sort, or view state.",
+    "A no-result state hides the chips that caused the empty result set.",
+    "A disabled chip gives no explanation or alternative path."
+  ],
+  "relatedPatterns": [
+    "filter-panel",
+    "faceted-search",
+    "multi-select",
+    "checkbox-group",
+    "segmented-control",
+    "no-results-recovery"
+  ],
+  "comparisons": [
+    "filter-chips-vs-filter-panel-vs-multi-select"
+  ],
+  "examples": [
+    {
+      "product": "Material Design Chips",
+      "url": "https://m2.material.io/components/chips/android",
+      "platform": "mobile",
+      "notes": "Documents filter chips for collections, selected and unselected behavior, selected icons, placement below search, wrapping, and horizontal scrolling.",
+      "screenshot": "screenshots/patterns/filter-chips.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "CMS Design System Filter Chip",
+      "url": "https://design.cms.gov/components/filter-chip/?theme=cmsgov",
+      "platform": "web",
+      "notes": "Documents dismissible applied filter chips, short labels, clear labels, keyboard removal, focus, spacing, and badge alternatives.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Carbon Design System Tag",
+      "url": "https://carbondesignsystem.com/components/tag/usage/",
+      "platform": "web",
+      "notes": "Documents selectable and dismissible tags for filtering data, concise titles, spacing, keyboard behavior, and variants that separate labels from controls.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "Wise Design Chip",
+      "url": "https://www.wise.design/components/chip",
+      "platform": "web",
+      "notes": "Documents filter chip multi-select behavior, placement below search and above content, stable order, short text, and limits on long chip sets.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-design-chips",
+      "note": "Material Design distinguishes chip types and documents filter chips for collections, selected states, selected icons, placement, wrapping, and scrolling."
+    },
+    {
+      "id": "cms-filter-chip-component",
+      "note": "CMS filter chip guidance documents applied-filter removal, accessible clear labels, focusability, keyboard removal, spacing, and short labels."
+    },
+    {
+      "id": "carbon-tag-component",
+      "note": "Carbon tag guidance documents selectable and dismissible tags for filtering, concise titles, keyboard operation, spacing, and avoiding multi-function tags."
+    },
+    {
+      "id": "wise-chip-component",
+      "note": "Wise chip guidance distinguishes filter chips from choice chips, supports multiple filter selections, stable order, placement above content, and short labels."
+    },
+    {
+      "id": "visa-product-design-filters",
+      "note": "Visa filter guidance documents applied filter chips, active indicators, clear-all controls, and their relationship to filter panels."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

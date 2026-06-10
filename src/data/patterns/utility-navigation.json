@@ -1,0 +1,239 @@
+{
+  "id": "utility-navigation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a persistent utility-control navigation pattern with source-backed separation from primary/global/service navigation, account and sign-out behavior, utility panels, notification state, mobile overflow, related-pattern distinctions, comparison rules, duplicate audit coverage, and manual screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers persistent search, help, notifications, profile, account, sign out, language, and product-switcher controls; right-aligned or separate utility grouping; utility panel behavior; badges; session state; focus return; mobile utility overflow; and preservation of the current destination.",
+    "relatedPatternDistinction": "The entry separates utility navigation from global navigation by system/session tools versus primary destinations, from service navigation by account-wide or GOV.UK-wide tools versus service sections, from headers by utility cluster ownership versus current-view title/actions, and from basic search by persistent access to search rather than the search experience itself.",
+    "liveDemoBehavior": "The live demo opens notification and account utility panels, clears unread notification state, confirms sign out separately from primary navigation, preserves the current primary section while utilities open, exposes a mobile utility overflow, and contrasts a bad row that treats Help, Sign out, and Alerts as current destinations.",
+    "comparisonDecisionRules": "The linked utility-navigation-vs-global-navigation-vs-service-navigation comparison gives concrete rules for utility scope, primary destination scope, service scope, visual separation, badges, panels, focus return, mobile overflow, sign-out placement, and state preservation.",
+    "duplicateAudit": "npm run audit:completion compares normalized guidance fields across complete patterns and must report no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "screenshots/patterns/utility-navigation.png is required after rendering and must show Good UI, Bad UI, Good UX, Bad UX, utility panel or overflow behavior, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/utility-navigation.png"
+    ]
+  },
+  "name": "Utility navigation",
+  "aliases": [
+    "utility nav",
+    "utility links",
+    "account utilities",
+    "header utilities",
+    "top utility bar",
+    "system utility navigation"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent utility controls separated from destination navigation",
+  "uiGuidance": [
+    "Render utility controls such as search, help, notifications, profile, account settings, language, product switcher, and sign out as a visually distinct utility group rather than as peer primary destinations.",
+    "Use clear labels, accessible names, badges, panel anchors, and responsive overflow so users can identify utility scope without confusing it with the current product, service, or page section."
+  ],
+  "uxGuidance": [
+    "Use utility navigation to keep session, support, discovery, account, and cross-product tools reachable from many pages without changing the user's current destination or local work state.",
+    "When a utility opens a panel or menu, make the transient state reversible, keyboard reachable, dismissible, and synchronized with badges or session feedback."
+  ],
+  "uiExamples": {
+    "good": [
+      "A product header shows Dashboard, Projects, and Reports as primary links, while Search, Help, Notifications, Account, and Sign out sit in a separate utility group.",
+      "The notifications utility shows an unread count badge and opens a panel anchored to the icon instead of highlighting Notifications as a primary destination.",
+      "On mobile, utility controls collapse into a labelled Utilities button whose menu keeps Search, Help, Notifications, Account, and Sign out separate from service links."
+    ],
+    "bad": [
+      "A nav row lists Home, Cases, Help, Sign out, Alerts, Profile, Reports, and Billing as equal section links.",
+      "A bell icon has no label, no unread state text, and no panel or destination when activated.",
+      "The mobile menu puts sign out between service links and page anchors with no account or session grouping."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens Notifications, reviews three unread items, the badge clears, and the current Projects section remains selected.",
+      "A user opens Account, chooses Manage sign-in details or Sign out, and receives a clear session outcome without losing unsaved page work unexpectedly.",
+      "A keyboard user opens Help, presses Escape, and focus returns to the Help utility trigger without moving the current page."
+    ],
+    "bad": [
+      "Clicking Help changes the current nav highlight to Help while the main content remains Projects.",
+      "A sign-out link is hidden in an unlabeled overflow and immediately ends the session without confirming or explaining the account boundary.",
+      "Inspecting notifications leaves the unread badge unchanged, so users cannot tell whether the utility action succeeded."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need persistent access to support, search, session, account, notification, language, and cross-product tools, but those tools are often mixed with primary destinations and make the current navigation state ambiguous.",
+  "solution": "Provide a separate utility navigation group or utility header layer that exposes non-destination tools, opens scoped panels or menus where needed, preserves the current content destination, and communicates utility state such as unread counts or signed-in status.",
+  "problemContext": [
+    "A product or service has recurring support, account, session, search, language, notification, or switcher controls needed from many pages.",
+    "Primary navigation already represents destinations such as Dashboard, Projects, Reports, or service sections.",
+    "Some utilities open transient panels while others navigate to account or support areas, so scope and state must be explicit."
+  ],
+  "selectionRules": [
+    "Choose utility navigation for controls whose primary job is session management, account access, support, search entry, notifications, language, product switching, or global tools.",
+    "Keep utility controls out of primary or service navigation unless the label and placement make their different scope obvious.",
+    "Right-align, group, or layer utilities separately from destination links, and give the group a distinct navigation or toolbar label.",
+    "Use badges only for meaningful utility state such as unread notifications, pending approvals, or account attention, and update the badge after inspection.",
+    "Open utility panels from buttons with expanded state when the user needs a quick view; use normal links only when the utility truly goes to a full utility page.",
+    "Preserve the active primary or service destination while utilities open, close, or update.",
+    "For destructive session utilities such as sign out, explain the boundary and confirm or provide a clear final session state.",
+    "On small screens, collapse utilities into a labelled utility overflow or account menu without merging them into service destinations or page anchors."
+  ],
+  "requiredStates": [
+    "Default state with destination navigation and a separated utility group.",
+    "Utility panel open state for notifications, account, help, search, or switcher controls.",
+    "Badge state before and after inspecting notifications or pending account items.",
+    "Signed-in and signed-out or sign-out-confirmed states.",
+    "Keyboard dismissal state where Escape closes an open utility panel and returns focus to the trigger.",
+    "Mobile utility overflow state that preserves utility labels and grouping.",
+    "Current destination preserved state while a utility is open."
+  ],
+  "interactionContract": [
+    "Activating a utility button opens the corresponding panel, menu, tray, or inline search surface without changing the current primary destination.",
+    "Only one transient utility panel is open at a time unless the shell explicitly supports pinned utilities.",
+    "The utility trigger exposes expanded state while its panel is open and returns focus on Escape or close.",
+    "Notification, message, and attention badges update when the utility has been inspected or resolved.",
+    "Sign out, account switching, and permission-changing utilities clearly communicate scope and prevent accidental loss of unsaved work.",
+    "Utility links that navigate to full pages do not masquerade as current product or service sections.",
+    "Mobile utility overflow exposes the same utility set or an intentionally reduced, documented signed-out utility set."
+  ],
+  "implementationChecklist": [
+    "Inventory every header item and classify it as primary destination, service destination, current-view action, local page link, or utility before placing it.",
+    "Give the utility group an accessible label such as Utilities, Account tools, or GOV.UK-wide tools.",
+    "Choose button semantics for utilities that open panels and link semantics for utilities that navigate.",
+    "Implement expanded state, Escape dismissal, outside-click close, and focus return for utility panels.",
+    "Keep badges synchronized with underlying notification or account state.",
+    "Handle sign-out, account switching, and language changes with explicit state preservation, warning, or final confirmation.",
+    "Test desktop and mobile layouts to make sure utilities remain distinct from global, service, and page-level navigation."
+  ],
+  "commonMisuses": [
+    "Treating help, search, profile, notifications, and sign out as primary navigation destinations.",
+    "Using unlabeled utility icons whose purpose is not obvious.",
+    "Leaving utility panels open across route changes or focus changes with no dismissal path.",
+    "Showing stale unread counts after users inspect notifications.",
+    "Hiding sign out so deeply that users cannot end the session confidently.",
+    "Letting mobile menus merge account utilities, service navigation, breadcrumbs, and page anchors into one undifferentiated list.",
+    "Using utility navigation for rare destructive commands that belong in a settings or confirmation flow."
+  ],
+  "critiqueQuestions": [
+    "Which header items are destinations, and which are utilities?",
+    "Can users tell whether activating this control will change section, open a panel, search, or affect the session?",
+    "Does opening a utility preserve the current page, form draft, filter, and selected section?",
+    "How do badges, account state, or signed-out state change after the utility is used?",
+    "On mobile, are utilities still grouped and labelled separately from service or primary links?"
+  ],
+  "useWhen": [
+    "Users need persistent access to support, search, account, notifications, language, switching, or sign-out controls.",
+    "The product or service has primary navigation that would become ambiguous if utilities were placed as peer destinations.",
+    "A utility has live state such as unread notifications, signed-in identity, or account attention.",
+    "Utilities need to open compact panels without taking users away from their current work."
+  ],
+  "avoidWhen": [
+    "The control is a primary destination such as Dashboard, Projects, Reports, or Applications.",
+    "The control is a current-view command such as Save, Edit, Share, Archive, or Filter for the current page.",
+    "The control belongs inside a specific service navigation row because it is service-level, not account-wide or product-wide.",
+    "The utility is used so rarely that a settings page, footer link, or contextual help link would be clearer.",
+    "You cannot provide labels, focus management, and state updates for the utility panel."
+  ],
+  "variants": [
+    "Header utility link group",
+    "Icon utility bar",
+    "Account utility menu",
+    "Notification utility panel",
+    "Search utility tray",
+    "Language utility switcher",
+    "Product switcher utility",
+    "Mobile utility overflow"
+  ],
+  "accessibility": [
+    "Label the utility group separately from primary or service navigation.",
+    "Give icon-only utility buttons accessible names and visible labels when the meaning is not universal.",
+    "Expose expanded state on utility buttons that open panels or menus.",
+    "Announce badge state in text, such as 3 unread notifications, not only with a colored dot.",
+    "Return focus to the utility trigger when a panel closes.",
+    "Keep utility panels keyboard reachable and dismissible without pointer input.",
+    "Avoid using color or position alone to distinguish utilities from primary destinations."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches primary navigation, then the utility group in a predictable order that matches visual scope.",
+    "Enter or Space opens utility buttons and activates utility links.",
+    "Escape closes an open utility panel or menu and returns focus to the trigger.",
+    "Tab moves through only the open utility panel controls and then to the next logical control.",
+    "After sign out or account navigation, focus follows the destination page or confirmation state rather than remaining on a stale header control."
+  ],
+  "failureModes": [
+    "Utilities are mixed with primary links and become false current sections.",
+    "Utility controls navigate unexpectedly when users expected a panel, or open panels when users expected a destination.",
+    "Badges do not update after inspection.",
+    "Account and sign-out controls are hidden or ambiguous.",
+    "Utility panel focus is trapped, lost, or not restored.",
+    "Mobile overflow removes utility labels or changes utility scope.",
+    "Service-level tools and account-wide tools appear in the wrong order or layer."
+  ],
+  "relatedPatterns": [
+    "global-navigation",
+    "service-navigation",
+    "header",
+    "basic-search",
+    "command-palette"
+  ],
+  "comparisons": [
+    "utility-navigation-vs-global-navigation-vs-service-navigation"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Global Header pattern",
+      "url": "https://carbondesignsystem.com/patterns/global-header/",
+      "platform": "web",
+      "notes": "Documents utility icons as globally persistent system controls that open panels, with system and product links separated in the header.",
+      "screenshot": "screenshots/patterns/utility-navigation.png",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK One Login service header",
+      "url": "https://www.sign-in.service.gov.uk/documentation/design-recommendations/let-users-navigate-sign-out",
+      "platform": "web",
+      "notes": "Documents persistent access to GOV.UK One Login and sign out in a distinct signed-in service header area.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "GOV.UK Navigate a service pattern",
+      "url": "https://design-system.service.gov.uk/patterns/navigate-a-service/",
+      "platform": "web",
+      "notes": "Documents ordering from general GOV.UK-wide tools to service-level tools and page-specific elements.",
+      "checkedAt": "2026-06-08"
+    },
+    {
+      "product": "USWDS Header component",
+      "url": "https://designsystem.digital.gov/components/header/",
+      "platform": "web",
+      "notes": "Shows search as a separate labelled header surface alongside primary navigation and describes labelled navigation and keyboard requirements.",
+      "checkedAt": "2026-06-08"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-global-header",
+      "note": "Carbon identifies utility icons as globally persistent system-level controls that should open panels, while system and product links have separate placement."
+    },
+    {
+      "id": "govuk-one-login-service-header",
+      "note": "GOV.UK One Login guidance supports persistent account and sign-out access as a distinct header layer for signed-in services."
+    },
+    {
+      "id": "govuk-navigate-service",
+      "note": "GOV.UK Navigate a service defines ordering from GOV.UK-wide tools to service-level tools and page-specific elements."
+    },
+    {
+      "id": "uswds-header-component",
+      "note": "USWDS header guidance supports separating search, labelled primary navigation, keyboard behavior, and current section state."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-08"
+}

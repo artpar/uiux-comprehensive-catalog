@@ -1,0 +1,43 @@
+{
+  "id": "notification-center-vs-toast-notification-vs-alert-vs-inline-message",
+  "title": "Notification center vs toast notification vs alert vs inline message",
+  "summary": "Use a notification center for durable, user-opened notification history and actions; use toast for brief transient feedback, alert for urgent current-task status, and inline message for object-local context.",
+  "patternIds": ["notification-center", "toast-notification", "alert", "inline-message"],
+  "decisionRules": [
+    "Choose notification center when users receive many system-generated or collaboration notifications and need to revisit, filter, mark, or act on them after the initial interruption has passed.",
+    "Choose toast notification when the message is short, low consequence, tied to the current action, and safe to expire because any durable record lives elsewhere.",
+    "Choose alert when a time-sensitive condition affects the current task now and must remain visible until resolved, downgraded, or safely dismissed.",
+    "Choose inline message when the message belongs beside a specific row, field group, card, panel, invoice, upload, or object users can see on the page.",
+    "Put export-ready, approval-requested, comment-mention, assignment, failed-background-job, and policy-reminder items in a notification center when users may need later proof or action.",
+    "Do not use notification center as the only place for critical current-task blockers; surface the active blocker as an alert, inline message, or error state and also record it if later review matters.",
+    "Separate unseen badge count from unread item state: opening the center can clear the badge while individual items may remain unread until selected or marked.",
+    "Clean up or mark items read consistently when users view the related object elsewhere, so the center does not contradict the current product state."
+  ],
+  "failureModes": [
+    "A critical session-expiry warning is hidden only inside the notification center and the user loses work.",
+    "Expired toasts vanish with no notification-center record even though users need the export reference later.",
+    "Opening the drawer clears every item as read, so users cannot triage unread work.",
+    "The badge count stays high after users open the drawer, because unseen count and unread state are treated as the same thing.",
+    "Resolved background-job notifications remain actionable and send users to completed or missing tasks.",
+    "Row-specific validation problems are dumped into the center instead of appearing beside the affected row or field."
+  ],
+  "sources": [
+    {
+      "id": "carbon-notification-pattern",
+      "note": "Carbon identifies notification panels as user-opened centers for system-generated messages and recommends chronological order, grouping, preferences, and duplicate avoidance."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Carbon notification usage recommends a notification center when users need to revisit and act on notifications after transient surfaces disappear."
+    },
+    {
+      "id": "atlassian-cloud-notification-drawer",
+      "note": "Atlassian documents notification-drawer behavior including unseen count, read-state distinction, direct notifications, and notification highlighting."
+    },
+    {
+      "id": "microsoft-windows-notification-ux-guidance",
+      "note": "Microsoft documents Notification Center cleanup, suppressed notifications, contextual activation, and predictable notification removal after related content is viewed."
+    }
+  ],
+  "lastVerified": "2026-06-09"
+}
