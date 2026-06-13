@@ -1,0 +1,282 @@
+{
+  "id": "scheduling",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed scheduling pattern with guidance for attendees, rooms, resources, free/busy availability, suggested times, buffers, minimum notice, booking limits, checked calendars, timezone, recurrence, reminders, save versus send outcome, attendee responses, reschedule, cancel, stale availability, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers arranging meetings, events, availability schedules, and recurring time plans across required and optional attendees, rooms, resources, calendars, conferencing, location, agenda, attachments, availability sources, working hours, buffers, minimum notice, maximum bookings, hidden calendars, timezone, daylight saving, recurrence expansion, reminders, invitations, attendee responses, reschedule, cancel, and stale availability states.",
+    "relatedPatternDistinction": "The entry separates scheduling from booking by focusing on organizer-side coordination across people and calendars rather than customer reservation of a fixed service slot, from calendar view by creating or changing the schedule rather than spatially inspecting events, from date picker, time picker, and date range picker by owning availability and invitation consequences rather than single field entry, from notification center by editing the event rather than showing alerts, from conflict state by using conflicts as blockers inside the schedule, and from review before submit or confirmation page by covering the planning workflow before and after send.",
+    "liveDemoBehavior": "The live demo uses a Product review meeting with Maya, Priya, and Omar; free/busy bars; a Tue 11:30 AM suggestion; Magnolia 3 room conflict recovery to Magnolia 4; America/New_York and Europe/London timezone text; weekly recurrence; reminder and Meet link setup; save-only versus send behavior; attendee response tracking; reschedule; cancellation; stale availability blocking; and recurring series scope choices, plus bad states for date-only entry, hidden conflict, timezone shift, series mistake, missing send state, and stale slot send.",
+    "comparisonDecisionRules": "The linked scheduling-vs-booking-vs-calendar-view-vs-date-picker comparison gives concrete rules for organizer scheduling, service or resource booking, calendar inspection, single date entry, time entry, date span entry, notification handling, conflict blockers, free/busy checks, recurring scheduling, timezone stability, and save or send consequences.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/scheduling/ on 2026-06-11 in Chromium: verified People, Availability, Suggested, Room, Timezone, Recurrence, Reminder, Save only, Send, Responses, Reschedule, Cancel, Stale, Series scope, Date only, Hidden conflict, Timezone shift, Series mistake, No send state, and Stale slot controls; verified Product review meeting, Maya, Priya, Omar, Tue 11:30 AM, Wed 14:00, Magnolia 3, Magnolia 4, America/New_York, Europe/London, weekly recurrence, reminder, Meet link, pending responses, cancellation, stale availability, and series scope render; verified no duplicate IDs and no scheduling-surface horizontal overflow; verified /compare/scheduling-vs-booking-vs-calendar-view-vs-date-picker/ concrete decision rules; and checked mobile viewport with collapsed scheduling frame, fields, bad grid, key good and bad states, all controls, and no scheduling-surface horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/scheduling.png"
+    ]
+  },
+  "name": "Scheduling",
+  "aliases": [
+    "schedule meeting",
+    "event scheduling",
+    "meeting scheduler",
+    "calendar scheduling",
+    "availability scheduling",
+    "schedule assistant",
+    "recurring meeting setup",
+    "schedule event",
+    "rescheduling",
+    "availability setup"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Collaboration And Social Interaction",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Workflow for arranging time, attendees, availability, recurrence, and reminders",
+  "uiGuidance": [
+    "Render scheduling as a coordinated time-planning workflow with title, calendar, attendees, required and optional people, rooms or resources, location or conference link, date, start and end time, timezone, recurrence, availability, reminders, and save or send outcome.",
+    "Show free/busy conflicts, unavailable resources, hidden calendars, buffer rules, minimum notice, maximum bookings, recurrence scope, attendee response state, and timezone interpretation as explicit states rather than treating scheduling as only date and time entry."
+  ],
+  "uxGuidance": [
+    "Use scheduling when users arrange a meeting, event, availability rule, or recurring time plan that must account for people, calendars, rooms, buffers, time zones, recurrence, reminders, invitations, or conflicts.",
+    "Keep users clear about whether they are drafting, saving to their own calendar, sending invitations, rescheduling one occurrence, changing a full series, or publishing availability for others to choose."
+  ],
+  "uiExamples": {
+    "good": [
+      "A meeting scheduler shows required attendees, free/busy bars, suggested times, selected timezone, room availability, video link, recurrence, reminders, and a Send invitation button.",
+      "An availability schedule editor shows working hours, buffers before and after meetings, minimum notice, maximum bookings per day, checked calendars, and start time increments before sharing the scheduling page."
+    ],
+    "bad": [
+      "A form asks for date and time only, then sends invitations without checking attendee or room conflicts.",
+      "A recurring event editor hides whether changes apply to one occurrence or the whole series."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A team lead adds three required attendees, sees one conflict at 10:00, chooses an 11:30 suggested time, adds a room and video link, sends invitations, and sees pending responses.",
+      "A consultant sets availability from 9:00 to 15:00, adds 15-minute buffers, locks the event to Europe/London, limits bookings to four per day, and checks the public scheduling page."
+    ],
+    "bad": [
+      "A scheduler sees an empty-looking time grid because hidden calendars are not included, books a meeting, and later discovers the host is already busy.",
+      "A user moves one weekly event and unintentionally shifts every event in the series."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Scheduling fails when products reduce the task to date and time fields, hiding availability, attendees, calendars, rooms, recurrence, timezone, buffers, reminders, invitation state, and the difference between saving a draft and sending a scheduled event.",
+  "solution": "Provide a scheduling workflow that gathers event details, checks availability and constraints, previews conflicts and timezone effects, supports recurrence and reminders, distinguishes save versus send, and provides clear reschedule, cancellation, and response states.",
+  "problemContext": [
+    "The user is arranging time for a meeting, event, availability schedule, class, service window, internal review, reminder, or recurring series.",
+    "The schedule may involve required and optional attendees, rooms, resources, calendars, conferencing, location, agenda, attachments, and reminders.",
+    "Availability can depend on free/busy calendars, hidden calendars, working hours, buffers, minimum notice, maximum bookings, resource capacity, and attendee response.",
+    "Timezone, daylight saving, locale, recurrence expansion, and travel can change what a displayed time means.",
+    "Scheduling may create invitations, reserve calendar time, publish availability, notify people, update a series, or reschedule/cancel existing events."
+  ],
+  "selectionRules": [
+    "Choose scheduling when users coordinate time across participants, calendars, availability, resources, recurrence, reminders, or invitations.",
+    "Use booking when an invitee or customer reserves an available service, resource, or appointment slot with capacity, confirmation, cancellation, or payment rules.",
+    "Use calendar view when users need to inspect existing scheduled events by spatial placement rather than complete the scheduling workflow.",
+    "Use date picker or time picker for single field entry inside scheduling only when availability and conflict rules are handled elsewhere.",
+    "Use date range picker when selecting a span is the main input, not when attendees, recurrence, reminders, and invitations define the task.",
+    "Use notification center for schedule-related alerts and responses, not as the scheduling editor.",
+    "Expose required attendees, optional attendees, room or resource availability, selected calendar, timezone, duration, recurrence, reminders, and send/save outcome before committing.",
+    "Show conflicts and suggested alternatives when required attendees, rooms, checked calendars, or buffers are unavailable.",
+    "For recurring events, show recurrence pattern, timezone, end condition, exceptions, and edit scope for one occurrence or the whole series.",
+    "Distinguish draft, saved only, invitation sent, pending responses, accepted, declined, tentative, rescheduled, canceled, and failed-send states."
+  ],
+  "requiredStates": [
+    "Draft event state",
+    "Attendee entry and resolution state",
+    "Availability loading state",
+    "Free/busy conflict state",
+    "Suggested time state",
+    "Room or resource unavailable state",
+    "Timezone selected or changed state",
+    "Recurring series setup state",
+    "Edit one occurrence or full series state",
+    "Reminder and notification setup state",
+    "Save without sending state",
+    "Send invitation state",
+    "Pending attendee response state",
+    "Accepted, declined, or tentative response state",
+    "Reschedule state",
+    "Cancel event state",
+    "Failed send or stale availability state"
+  ],
+  "interactionContract": [
+    "Changing date, time, duration, attendees, resources, timezone, recurrence, or checked calendars recomputes availability before send.",
+    "Required attendee and resource conflicts block or warn before sending, while optional attendee conflicts are clearly marked as optional.",
+    "Suggested times identify why they are available, which people and rooms are free, and what timezone is displayed.",
+    "Saving to a personal calendar and sending invitations are distinct actions when the platform supports both.",
+    "Recurring events preserve timezone and require users to choose whether edits affect one occurrence, future occurrences, or the full series.",
+    "Rescheduling retains agenda, conferencing, attachments, reminders, attendees, and response history unless the user changes them.",
+    "Cancellation explains whether notifications will be sent and whether rooms, resources, and availability slots are released.",
+    "Notifications and calendar updates deep-link back to the current event state rather than stale draft details."
+  ],
+  "implementationChecklist": [
+    "Define event fields, attendee roles, room/resource model, availability sources, checked calendars, timezone policy, recurrence rules, reminder rules, save/send semantics, and audit or notification requirements.",
+    "Build availability checks for attendee free/busy, rooms, resources, buffers, working hours, minimum notice, maximum bookings, hidden calendars, and permission-limited calendars.",
+    "Expose date, start time, end time, duration, timezone, recurrence, location, conferencing, calendar selection, reminders, attachments, and description with validation and conflict states.",
+    "Add suggested time logic that names available people/resources and explains why a time is blocked.",
+    "Implement recurrence expansion, exception editing, timezone stability, daylight-saving checks, and series edit scope.",
+    "Support save draft, save without sending, send invitations, reschedule, cancel, remove attendee, change room, and update reminders with clear status messages.",
+    "Test required attendee conflict, optional attendee conflict, room unavailable, hidden calendar, timezone change, recurring series, one-occurrence edit, daylight-saving boundary, stale availability, failed invitation send, mobile, keyboard, and screen reader status updates."
+  ],
+  "commonMisuses": [
+    "Treating scheduling as only a date field and a time field.",
+    "Hiding attendee or room conflicts until after invitations are sent.",
+    "Sending invitations when users expected to save a draft.",
+    "Changing an entire recurring series when users intended one occurrence.",
+    "Showing times without timezone when attendees are in different regions.",
+    "Ignoring buffers, minimum notice, maximum daily meetings, or checked calendars.",
+    "Treating optional attendee conflicts the same as required attendee conflicts.",
+    "Letting stale availability produce double-booked meetings."
+  ],
+  "critiqueQuestions": [
+    "Who or what is being scheduled, and which participants or resources are required?",
+    "Which calendars, working hours, buffers, and availability rules are included or hidden?",
+    "What timezone is the user seeing, and will attendees see the same local time?",
+    "Is this a one-time event, recurring series, one occurrence, or availability schedule?",
+    "Does the action save a draft, reserve time, send invitations, publish availability, reschedule, or cancel?",
+    "What happens when availability changes between viewing the schedule and sending it?"
+  ],
+  "useWhen": [
+    "Users coordinate time across people, resources, calendars, availability, or recurrence.",
+    "Conflicts, timezone, reminders, invitations, or response state matter.",
+    "The product can compute or at least expose availability and schedule consequences before saving or sending."
+  ],
+  "avoidWhen": [
+    "The user only needs one remembered date or time field.",
+    "The task is customer booking of a fixed service slot with provider confirmation and cancellation rules.",
+    "The product only displays existing events without creating or changing them.",
+    "The system cannot expose or validate availability, timezone, or send outcome.",
+    "The event is so simple that inline date and time fields with clear labels are sufficient."
+  ],
+  "variants": [
+    "Meeting scheduling",
+    "Event scheduling",
+    "Availability schedule",
+    "Appointment schedule setup",
+    "Recurring meeting setup",
+    "Scheduling assistant",
+    "Resource scheduling",
+    "Room scheduling",
+    "Team scheduling",
+    "Rescheduling",
+    "Cancel scheduled event"
+  ],
+  "accessibility": [
+    "Use labelled fields for title, attendees, required/optional role, date, start time, end time, timezone, recurrence, location, conferencing, reminders, and calendar selection.",
+    "Announce availability loading, conflicts, suggested times, stale availability, invitation sent, saved draft, response updates, rescheduled, and canceled states through status text.",
+    "Do not rely on color alone for busy, free, tentative, accepted, declined, optional, required, room unavailable, or conflict states.",
+    "Make attendee chips, suggested time choices, room options, recurrence controls, reminder controls, Save, Send, Reschedule, and Cancel keyboard reachable.",
+    "Associate conflict messages with the attendee, room, date, time, or recurrence field that caused them.",
+    "Expose timezone and daylight-saving information as text near the time controls.",
+    "Preserve focus after availability refresh, suggested-time selection, recurrence edit, send, reschedule, cancel, and error recovery."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows title, attendees, availability summary, date, start time, end time, timezone, recurrence, room, conferencing, reminders, and action controls.",
+    "Attendee entry supports keyboard selection and removal without losing typed values.",
+    "Suggested times are reachable as buttons or options with accessible conflict summaries.",
+    "Changing date, time, attendee, room, or timezone does not move focus unexpectedly while availability refreshes.",
+    "After selecting a suggested time, focus moves to the updated availability summary or next required field.",
+    "After sending or saving, focus moves to the event status and next action."
+  ],
+  "failureModes": [
+    "Required attendees are double-booked because free/busy data was not shown.",
+    "A room is assigned even though it is unavailable.",
+    "A recurring meeting shifts by one hour after daylight saving because timezone was not stable.",
+    "A schedule says saved but no invitations were sent.",
+    "A stale suggested time is sent after another event claimed the slot.",
+    "A buffer rule is ignored and meetings become back-to-back.",
+    "A cancellation does not notify attendees or release a room.",
+    "A one-occurrence edit accidentally changes the full series."
+  ],
+  "relatedPatterns": [
+    "calendar-view",
+    "date-picker",
+    "time-picker",
+    "date-range-picker",
+    "notification-center",
+    "conflict-state",
+    "review-before-submit",
+    "confirmation-page"
+  ],
+  "comparisons": [
+    "scheduling-vs-booking-vs-calendar-view-vs-date-picker"
+  ],
+  "examples": [
+    {
+      "product": "Google Calendar create event",
+      "url": "https://support.google.com/calendar/answer/72143?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents event creation with calendar selection, details, guests, rooms, location, conferencing, description, attachments, and save behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Calendar appointment schedules",
+      "url": "https://support.google.com/calendar/answer/10729749?hl=en",
+      "platform": "web",
+      "notes": "Documents appointment duration, availability, buffers, maximum bookings, guest permissions, calendar selection, and checking calendars for availability.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Outlook Scheduling Assistant",
+      "url": "https://support.microsoft.com/en-us/office/schedule-a-meeting-or-event-in-outlook-5c9877bc-ab91-4a7c-99fb-b0b68d7ea94f",
+      "platform": "web",
+      "notes": "Documents Scheduling Assistant free/busy times, recurrence, suggested time slots, and manual date and start/end time entry.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Calendly availability settings",
+      "url": "https://calendly.com/help/how-to-fine-tune-your-availability-settings",
+      "platform": "web",
+      "notes": "Documents availability, buffers, limits, free/busy rules, start time increments, notice periods, date ranges, and checking the booking page.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Calendly time zones",
+      "url": "https://calendly.com/help/time-zones-overview",
+      "platform": "web",
+      "notes": "Documents booking page timezone behavior, event type schedule settings, local timezone detection, chooser, and locked timezone behavior.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-calendar-create-event",
+      "note": "Google Calendar supports event details, calendar selection, guests, rooms, location, conferencing, attachments, and save behavior."
+    },
+    {
+      "id": "google-calendar-appointment-schedule",
+      "note": "Google Calendar supports availability, appointment duration, buffer time, maximum bookings, selected calendars, and conflict checks."
+    },
+    {
+      "id": "microsoft-outlook-schedule-meeting-event",
+      "note": "Outlook supports Scheduling Assistant free/busy visibility, recurrence, suggested slots, and manual date and start/end time entry."
+    },
+    {
+      "id": "microsoft-outlook-web-scheduling-assistant",
+      "note": "Outlook on the web supports free/busy Scheduling Assistant, recurring meetings, save or send behavior, and multi-timezone scheduling context."
+    },
+    {
+      "id": "calendly-availability-settings",
+      "note": "Calendly supports limits, buffers, free/busy rules, start time increments, notice periods, date ranges, and saving availability settings."
+    },
+    {
+      "id": "calendly-time-zones-overview",
+      "note": "Calendly supports local timezone detection, timezone choice, locked event timezones, and event-specific timezone behavior."
+    },
+    {
+      "id": "google-calendar-api-recurring-timezone",
+      "note": "Google Calendar API requires a timezone for recurring events so recurrences expand correctly."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

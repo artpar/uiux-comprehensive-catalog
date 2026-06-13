@@ -1,0 +1,265 @@
+{
+  "id": "sensitive-data-reveal",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed sensitive-data reveal pattern with controlled masked, reveal, hide, copy, timeout, reauthentication, audit, redaction, related-pattern distinction, comparison-rule coverage, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers masked state, reveal action, hide action, hold-to-reveal, timed reveal, reauthentication, partial reveal, full reveal, copy while hidden, clipboard warning, audit event, redaction boundary, shoulder-surfing warning, expired reveal, screen reader announcement, mobile compact, password, API key, token, recovery code, bank account, card number, tax identifier, health identifier, DOM, logs, URLs, analytics, clipboard history, and raw-value protection.",
+    "relatedPatternDistinction": "The entry separates sensitive-data reveal from password input by focusing on controlled exposure of stored, generated, reviewed, or redacted values rather than authentication-secret entry; from input mask by separating privacy masking from structured entry formatting; from typed confirmation by separating secret exposure from visible target-phrase verification before a severe action; from permission request by separating already-held sensitive values from OS or browser device-resource access; from permission denied state by treating policy-limited redaction as a boundary rather than a reveal; from warning text by requiring actual reveal and hide state management; and from bank details or payment card entry by covering the privacy surface around exposing the value rather than the field-entry format itself.",
+    "liveDemoBehavior": "The live demo shows masked state, reveal action, hide action, hold-to-reveal, timed reveal, reauthentication, partial reveal, full reveal, copy while hidden, clipboard warning, audit event, redaction boundary, shoulder-surfing warning, expired reveal, screen reader announcement, and mobile compact states. Bad states cover auto-revealed secret, permanent visible, copied silently, wrong field revealed, no hide action, reveals after blur, and logs raw secret failures.",
+    "comparisonDecisionRules": "The linked sensitive-data-reveal-vs-password-input-vs-input-mask-vs-typed-confirmation-vs-permission-request comparison gives concrete rules for sensitive-data reveal, password input, input mask, typed confirmation, permission request, masked state, reveal action, hide action, hold-to-reveal, timed reveal, reauthentication, partial reveal, full reveal, copy while hidden, clipboard warning, audit event, redaction boundary, shoulder-surfing warning, expired reveal, screen reader announcement, authentication secret, structured entry, visible target phrase, device resource, camera, microphone, location, photos, contacts, notifications, Bluetooth, clipboard, motion sensors, raw value, DOM, logs, URLs, and analytics.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and compact-width checks rendered /patterns/sensitive-data-reveal/ with the live demo, exercised Masked state, Reveal action, Hide action, Hold-to-reveal, Timed reveal, Reauthentication, Partial reveal, Full reveal, Copy while hidden, Clipboard warning, Audit event, Redaction boundary, Shoulder-surfing warning, Expired reveal, Screen reader announcement, Mobile compact, Auto-revealed secret, Permanent visible, Copied silently, Wrong field revealed, No hide action, Reveals after blur, and Logs raw secret states, and found no duplicate IDs, page overflow, or sensitive-reveal demo overflow on desktop or compact width. The comparison route /compare/sensitive-data-reveal-vs-password-input-vs-input-mask-vs-typed-confirmation-vs-permission-request/ included sensitive-data reveal, password input, input mask, typed confirmation, permission request, masked state, reveal action, hide action, hold-to-reveal, timed reveal, reauthentication, partial reveal, full reveal, copy while hidden, clipboard warning, audit event, redaction boundary, shoulder-surfing warning, expired reveal, screen reader announcement, authentication secret, structured entry, visible target phrase, device resource, camera, microphone, location, photos, contacts, notifications, Bluetooth, clipboard, motion sensors, raw value, DOM, logs, URLs, and analytics with no duplicate IDs or content overflow on desktop or compact width.",
+    "screenshots": [
+      "screenshots/patterns/sensitive-data-reveal.png"
+    ]
+  },
+  "name": "Sensitive-data reveal",
+  "aliases": [
+    "masked value reveal",
+    "show sensitive value",
+    "hide sensitive value",
+    "secret reveal",
+    "API key reveal",
+    "token reveal",
+    "password reveal",
+    "masked input reveal",
+    "peek sensitive data",
+    "redacted value reveal"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Disclosure And Attention Management",
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Controlled reveal and re-hiding of masked sensitive values, secrets, tokens, credentials, identifiers, or private records",
+  "uiGuidance": [
+    "Render sensitive-data reveal as a masked value with an explicit reveal action, visible hide action, clear field identity, safe default state, reveal duration or hold behavior, and status feedback that explains what is visible now.",
+    "Use partial reveal, hold-to-reveal, timed reveal, reauthentication, clipboard warnings, and audit events according to the sensitivity and consequence of the value."
+  ],
+  "uxGuidance": [
+    "Use sensitive-data reveal when users need to verify, compare, copy, rotate, recover, or transcribe a sensitive value that is normally masked or redacted.",
+    "Keep the user in control of when the value appears, make hiding easy, avoid accidental reveal on focus or hover, and never leak the raw value into logs, URLs, analytics, screenshots, or unrelated UI."
+  ],
+  "uiExamples": {
+    "good": [
+      "An API key row shows sk_live_****9H2Q by default, requires Reauthenticate before Full reveal, logs the reveal event, and automatically hides after 30 seconds.",
+      "A bank-account review shows only the last 4 digits until the user chooses Reveal full account number, then offers Hide now and warns before copying to clipboard."
+    ],
+    "bad": [
+      "A dashboard shows API keys in plain text by default and copies them to clipboard without warning or audit.",
+      "A password field reveals after focus leaves the field and has no hide action, so the secret stays visible while the user moves through the form."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A developer needs to rotate a webhook secret, reveals it after step-up verification, copies it with a visible clipboard warning, then sees it auto-hide with an audit ID.",
+      "A support agent can partially reveal a customer's phone number for verification but cannot reveal the full tax ID because policy allows only the last four digits."
+    ],
+    "bad": [
+      "A user opens billing details in a shared office and the full card number appears automatically with no warning.",
+      "A user taps a copied state and the interface silently places a raw token on the clipboard while the token remains hidden on screen."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Products often need to let users inspect or transfer sensitive values, but uncontrolled reveal exposes secrets to shoulder surfing, screenshots, logs, clipboard leakage, support tools, or accidental persistence.",
+  "solution": "Provide a controlled reveal surface that starts masked, names the sensitive field, gates high-risk access, reveals only the minimum needed scope, gives an immediate hide path, manages copy and timeout behavior, announces state changes, and records auditable access without storing or emitting the raw value in unsafe places.",
+  "problemContext": [
+    "The value may be a password, API key, token, recovery code, secret variable, certificate, bank account, card number, tax identifier, health identifier, email, phone number, address, or private record excerpt.",
+    "The user may need to check a typed value, compare a stored value, copy a generated secret, verify identity, transcribe a code, rotate a credential, or confirm a financial identifier.",
+    "The surface may need different policies for partial reveal, full reveal, one-character peek, hold-to-reveal, timed reveal, reauthentication, admin approval, audit logging, copy restrictions, and permanent redaction.",
+    "The design must balance entry accuracy and accessibility with the risk of nearby observers, shared screens, screenshots, clipboard history, browser autofill, and telemetry leaks."
+  ],
+  "selectionRules": [
+    "Choose sensitive-data reveal when a normally masked or redacted value needs a deliberate temporary reveal, hide, peek, copy, partial reveal, reauthentication, or audited access path.",
+    "Use password input when the main task is entering a memorized secret into an authentication form rather than revealing a stored or generated sensitive value.",
+    "Use input mask when the goal is entry formatting for a stable structured value, not privacy masking or secure reveal control.",
+    "Use typed confirmation when users type a visible target phrase to confirm a destructive action; do not mask that phrase as if it were a secret.",
+    "Use permission request when the user grants OS or browser access to a device resource rather than showing an already-held sensitive value.",
+    "Use warning text when the main need is consequence warning before an action, not controlled exposure of a sensitive field.",
+    "Use permission denied state when policy prevents reveal or only allows partial reveal; explain the boundary without leaking the restricted value.",
+    "Use partial reveal for verification tasks where the last four characters, domain, issuer, or masked suffix is enough.",
+    "Use reauthentication, step-up verification, or admin review before full reveal of high-risk secrets such as API keys, recovery codes, financial identifiers, or customer data.",
+    "Do not reveal on page load, hover, focus, validation, copied state, print view, export, analytics event, URL, or console log."
+  ],
+  "requiredStates": [
+    "Masked state with the field identity, safe suffix or count, and reveal eligibility.",
+    "Reveal action state with an explicit button or toggle that names what will become visible.",
+    "Hide action state while the value is visible.",
+    "Hold-to-reveal or peek state for short-lived inspection.",
+    "Timed reveal state with countdown and automatic re-mask.",
+    "Reauthentication or step-up required state before high-risk full reveal.",
+    "Partial reveal state for last four, prefix plus suffix, or policy-limited values.",
+    "Full reveal state when policy permits complete value display.",
+    "Copy while hidden state with a clear clipboard warning and copied status.",
+    "Clipboard warning state for values that may remain in clipboard history.",
+    "Audit event state showing reveal actor, time, reason, and access ID without raw value.",
+    "Redaction boundary state when the user can never reveal the full value.",
+    "Shoulder-surfing warning or shared-screen state before high-risk reveal.",
+    "Expired reveal state after timeout, blur, navigation, or focus loss.",
+    "Screen reader announcement state for shown, hidden, copied, expired, and denied reveal outcomes.",
+    "Mobile compact state where masked value, reveal, hide, copy, timeout, and policy status remain readable."
+  ],
+  "interactionContract": [
+    "The value is masked by default unless the user is actively entering it and the platform-specific control intentionally permits display.",
+    "Reveal requires a deliberate keyboard- and pointer-accessible action that names the target value and does not sit so close to unrelated controls that accidental reveal is likely.",
+    "Visible values have an equally reachable hide action and may auto-hide after timeout, blur, navigation, screen lock, or policy-triggered expiry.",
+    "High-risk values require step-up verification, role check, reason capture, approval, or audit recording before full reveal.",
+    "Copy actions work from masked or revealed state only when allowed, warn about clipboard exposure, and confirm copy without showing the raw value in status text.",
+    "Partial reveal and redaction boundaries are enforced by the data returned to the client, not only by CSS or text decoration.",
+    "Logs, analytics, DOM labels, URLs, screenshots, exports, error messages, and support metadata do not contain the raw value unless explicitly designed as a protected evidence export.",
+    "Assistive technology receives accurate state announcements without reading a secret aloud unexpectedly."
+  ],
+  "implementationChecklist": [
+    "Classify sensitive fields by value type, reveal scope, allowed roles, reauthentication needs, copy policy, audit requirements, timeout, and redaction boundary.",
+    "Fetch only the minimum value needed for the current reveal state; avoid sending full raw values to the browser when policy allows only partial reveal.",
+    "Implement masked, partial, full, hold, timed, copied, expired, denied, policy-limited, and audit-recorded states with explicit state transitions.",
+    "Keep reveal and hide controls keyboard accessible, labelled by the specific field, and separated from adjacent destructive or navigation controls.",
+    "Disable automatic reveal on focus, hover, validation, print, export, preview, screen share, or copied state unless the user explicitly requested it.",
+    "Scrub raw values from telemetry, console logs, error messages, URLs, browser history, client storage, and test snapshots.",
+    "Test shoulder surfing, mobile tap targets, screen readers, copy clipboard behavior, reauthentication failure, audit recording, timeout, focus loss, print/export, and restricted-role redaction."
+  ],
+  "commonMisuses": [
+    "Showing sensitive values in plain text by default.",
+    "Revealing values on hover, focus, validation error, print preview, copied status, or after blur.",
+    "Providing a reveal action without a hide action.",
+    "Copying a hidden secret to the clipboard without warning or status.",
+    "Logging raw secrets in analytics, console output, support tickets, screenshots, or audit records.",
+    "Masking with CSS while the full value remains exposed in DOM text to unauthorized users.",
+    "Using one broad Show all control for unrelated secrets with different policies."
+  ],
+  "critiqueQuestions": [
+    "What exact sensitive value is masked, and why does this user need to reveal it?",
+    "Is partial reveal enough for this task?",
+    "What policy, role, reauthentication, reason, or audit event is required before full reveal?",
+    "How does the user hide the value immediately, and when does it auto-hide?",
+    "What happens if the user copies while hidden or while visible?",
+    "Can screen readers announce the state without unexpectedly reading the secret?",
+    "Where could the raw value leak through DOM text, logs, URLs, analytics, screenshots, exports, or clipboard history?"
+  ],
+  "useWhen": [
+    "Users need to inspect, copy, verify, rotate, transcribe, or compare a sensitive value that should normally stay masked or redacted.",
+    "The product can enforce reveal policy, provide hide and timeout behavior, and protect logs, clipboard, telemetry, and client data from accidental raw-value leakage."
+  ],
+  "avoidWhen": [
+    "The task is only entering a password into an authentication form; use password input.",
+    "The task is formatting a non-secret structured value while typing; use input mask.",
+    "The user is confirming a destructive target phrase; use typed confirmation.",
+    "The user is granting access to a device resource; use permission request.",
+    "The current role is not allowed to view even a partial value; use permission denied state or a redaction boundary."
+  ],
+  "variants": [
+    "Password show and hide",
+    "API key reveal",
+    "Token reveal",
+    "Recovery code reveal",
+    "Masked bank detail reveal",
+    "Card number partial reveal",
+    "Tax ID last-four reveal",
+    "Hold-to-reveal secret",
+    "Timed reveal with countdown",
+    "Step-up reveal",
+    "Copy secret while hidden",
+    "Policy redacted value"
+  ],
+  "accessibility": [
+    "Use a labelled button or toggle whose accessible name includes the field, such as Show API key or Hide account number.",
+    "Expose pressed or expanded state for persistent reveal toggles and status text for temporary peek or timed reveal states.",
+    "Announce shown, hidden, copied, expired, denied, and redacted outcomes through status text without placing the raw secret in the announcement unless the user explicitly requested reading it.",
+    "Keep reveal, hide, copy, reauthenticate, and cancel controls reachable by keyboard and separated from adjacent destructive controls.",
+    "Do not rely on icons, bullets, blur, color, or letter spacing alone to communicate masked, visible, copied, expired, or denied states.",
+    "On mobile, preserve tap target size, wrapping, and state text so long secret labels do not collide with reveal controls."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the masked value label, reveal control, copy control, policy detail, and hide control in a logical order.",
+    "Enter or Space activates reveal, hide, copy, reauthenticate, cancel, and reason-submit controls according to native button or toggle semantics.",
+    "Escape hides a currently visible value or closes a reveal confirmation without clearing the underlying value.",
+    "Hold-to-reveal alternatives exist for keyboard and assistive technology users, such as press-and-hold plus a persistent timed reveal option.",
+    "After auto-hide or expired reveal, focus remains stable and the status region announces that the value is hidden again."
+  ],
+  "failureModes": [
+    "A secret is visible on page load, print, export, screenshot, or shared-screen mode.",
+    "The reveal button is next to an unrelated control and users reveal accidentally.",
+    "The interface offers Show but no Hide or timeout.",
+    "A copy action silently places a secret on the clipboard while the UI remains masked.",
+    "The DOM, analytics, logs, URLs, support payloads, audit records, or error messages contain the raw sensitive value.",
+    "A user with partial-view permission receives the full value in the browser and CSS hides most characters.",
+    "Screen readers unexpectedly announce the raw value after a state change."
+  ],
+  "relatedPatterns": [
+    "password-input",
+    "input-mask",
+    "typed-confirmation",
+    "permission-request",
+    "permission-denied-state",
+    "warning-text",
+    "bank-details",
+    "payment-card-entry",
+    "two-factor-authentication",
+    "review-before-submit",
+    "inline-message"
+  ],
+  "comparisons": [
+    "sensitive-data-reveal-vs-password-input-vs-input-mask-vs-typed-confirmation-vs-permission-request"
+  ],
+  "examples": [
+    {
+      "product": "NIST SP 800-63B passwords",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "platform": "web",
+      "notes": "Supports display option while entering a password, paste support, password managers, and user choice based on observation risk.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Microsoft Edge password reveal",
+      "url": "https://learn.microsoft.com/en-us/microsoft-edge/web-platform/password-reveal",
+      "platform": "web",
+      "notes": "Documents native reveal behavior, default masked state, focus and script-change safeguards, and reveal availability limits.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "HashiCorp Helios masked input",
+      "url": "https://helios.hashicorp.design/components/form/masked-input",
+      "platform": "web",
+      "notes": "Documents masked input for sensitive values such as secret keys or tokens, show and hide behavior, copy option, and visual-obfuscation limits.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "OWASP mobile sensitive data disclosure testing",
+      "url": "https://mas.owasp.org/MASTG/0x04b-Mobile-App-Security-Testing/",
+      "platform": "mobile",
+      "notes": "Supports checking whether UI components disclose sensitive information that should not be exposed.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "nist-sp-800-63b-passwords",
+      "note": "Supports offering a display option for entered passwords, paste support, password-manager compatibility, and user control based on observation risk."
+    },
+    {
+      "id": "microsoft-edge-password-reveal",
+      "note": "Supports native password reveal behavior, masked default, revealed state, focus loss safeguards, script-change safeguards, and autofill behavior."
+    },
+    {
+      "id": "microsoft-windows-password-box",
+      "note": "Supports password masking, peek reveal, spacing to avoid accidental reveal, focus-dependent reveal behavior, and custom show-password controls."
+    },
+    {
+      "id": "hashicorp-helios-masked-input",
+      "note": "Supports masked input for non-password sensitive values, show and hide controls, copy button behavior, secret-key and token examples, and visual-obfuscation limits."
+    },
+    {
+      "id": "owasp-mastg-sensitive-data-disclosure-ui",
+      "note": "Supports checking whether sensitive information is disclosed through application UI components."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-12"
+}

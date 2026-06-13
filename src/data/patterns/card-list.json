@@ -1,0 +1,258 @@
+{
+  "id": "card-list",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed single-column rich object-card browsing pattern with distinct boundaries from list view, collection, browse by category, table, data grid, details panel, and preview panel; includes stable card anatomy, preview fallbacks, title, summary, metadata, status, saved state, selected state, expansion, secondary actions, hidden selected counts, load-more behavior, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers bounded vertical object cards, stable card anatomy, preview or missing-preview fallback, title, summary, metadata, status, primary activation, Save, Select, More actions, expansion, selection, saved state, filtering, sorting, loading more, hidden selected count, empty state, no-results state, responsive stacking, and avoiding dense-row wrappers or action-collision misuse.",
+    "relatedPatternDistinction": "The entry separates card list from list view by prioritizing richer bounded card summaries over dense row scanning, from collection by avoiding set ownership and membership management, from browse by category by representing objects rather than taxonomy destinations, from table and data grid by avoiding aligned column comparison and cell interaction, and from details panel or preview panel by keeping enough summary in each card while preserving routes to deeper inspection.",
+    "liveDemoBehavior": "The live demo shows grant opportunity cards with preview fallback, title, summary, metadata, status, selected state, saved state, expansion, Save pantry, Expand pantry, Closing soon filter with hidden selected count, Select arts, Load more, Missing preview, and bad-mode contrasts for row wrapper, action collision, anatomy drift, hidden selection, compare cards, missing preview, and too many actions.",
+    "comparisonDecisionRules": "The card-list-vs-list-view-vs-collection-vs-browse-by-category comparison gives concrete rules for rich card summaries, compact row scanning, named managed sets, taxonomy navigation, single-column reading order, card anatomy, action ownership, visual-gallery boundaries, and table or data-grid boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/card-list/ and /compare/card-list-vs-list-view-vs-collection-vs-browse-by-category/ on 2026-06-10. Live check exercised Save pantry, Expand pantry, Closing soon, Select arts, Load more, Missing preview, Action collision, Anatomy drift, Hidden selection, and Compare cards controls while the page was in review state, plus a 390px narrow viewport check. screenshots/patterns/card-list.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/card-list.png"
+    ]
+  },
+  "name": "Card list",
+  "aliases": [
+    "vertical card list",
+    "stacked cards",
+    "card feed",
+    "object cards",
+    "content cards",
+    "resource cards",
+    "result cards",
+    "media card list",
+    "card-based list"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Single-column sequence of bounded rich object summaries",
+  "uiGuidance": [
+    "Render each item as a bounded card with a stable anatomy: preview or icon, title, concise summary, metadata, status, and one clear primary action or activation target.",
+    "Keep cards in a single-column sequence when reading order, mobile behavior, and rich per-item summaries matter more than dense rows or multi-column visual browsing."
+  ],
+  "uxGuidance": [
+    "Use card list when users browse rich object summaries and need enough context to choose or act without opening every item.",
+    "Preserve predictable card anatomy, action ownership, selected state, and visible result counts as users sort, filter, expand, select, or load more cards."
+  ],
+  "uiExamples": {
+    "good": [
+      "A grant-opportunity card shows program name, eligibility summary, deadline, award range, status, agency, and a labelled Save action in the same position on every card.",
+      "A media review card shows thumbnail, title, transcript excerpt, content type, duration, review status, and an overflow menu with actions named for that item."
+    ],
+    "bad": [
+      "Every card uses a different layout, so deadline, owner, status, and actions appear in different places.",
+      "A one-line row is wrapped in a large decorative card with no preview, summary, metadata, or additional decision support."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user filters opportunities to Closing soon, saves two cards, expands one summary, changes sort order, and the saved count and card identities remain clear.",
+      "A keyboard user tabs from card title to Save and More actions, and each control names the opportunity it affects."
+    ],
+    "bad": [
+      "A user clicks inside a card to select text but the whole card opens, while a nearby icon deletes the item with no item name.",
+      "A user tries to compare award amounts across cards, but each amount appears in a different location and some cards hide it behind expansion."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to browse and act on objects that require more context than a compact row can hold, but a grid would weaken reading order, a table would overemphasize columns, and a named collection would imply set-management behavior that is not present.",
+  "solution": "Present each object as a self-contained card in a vertical list, using consistent anatomy for preview, title, summary, metadata, status, primary activation, secondary actions, selection, expansion, loading, empty, and responsive states.",
+  "problemContext": [
+    "Items are objects such as opportunities, articles, courses, products, files, people, reports, cases, media assets, or search results.",
+    "Each item benefits from multiple information types: image or icon, title, description, metadata, status, owner, date, tags, and actions.",
+    "Users are browsing or triaging rather than doing strict column comparison or spreadsheet-like editing.",
+    "The surface may be filtered, sorted, paginated, infinitely loaded, selectable, expandable, or paired with a preview or detail route."
+  ],
+  "selectionRules": [
+    "Choose card list when each item needs more context, imagery, or mixed metadata than a dense row can comfortably show.",
+    "Choose card list when a single-column order is important and users should read one rich summary at a time.",
+    "Use list view when compact scanning, aligned row placement, and high item density matter more than rich card summaries.",
+    "Use collection when the item set itself has title, owner, membership, sharing, ordering, or management behavior.",
+    "Use browse by category when cards are topic or category destinations rather than object summaries.",
+    "Use table or data grid when users need aligned comparison, numeric analysis, column sorting, range selection, or cell editing.",
+    "Use details panel or preview panel when the card should remain compact and detailed inspection belongs beside or beyond the list.",
+    "Avoid card list when card chrome does not add decision-making value beyond a simple row.",
+    "Avoid card list when inconsistent card heights and anatomy make scanning or comparison harder than rows.",
+    "Avoid card list when the main task is seeing many thumbnails at once in multiple columns."
+  ],
+  "requiredStates": [
+    "Default card list with heading or label, result count, and visible card summaries.",
+    "Card default, hover, focus, active, selected, disabled, loading, unavailable, saved, new, updated, and error states.",
+    "Primary card activation state and separate secondary action, overflow menu, save, share, select, and destructive action states.",
+    "Expanded card and collapsed card states when summaries reveal more detail inline.",
+    "Filtered, sorted, searched, paginated, loading-more, no-results, empty, and failed-load states.",
+    "Hidden selected, selected-away, bulk action, and saved-count states when selection or saving is supported.",
+    "Responsive narrow-screen state with stable title, summary, metadata, status, and actions.",
+    "Long title, missing image, missing metadata, mixed media type, permission-limited, and stale item states."
+  ],
+  "interactionContract": [
+    "Each card represents one object or concept and exposes one primary identity that stays visible across all states.",
+    "The card's primary activation, secondary buttons, menu, selection control, and destructive actions have distinct hit targets and accessible names.",
+    "Card anatomy remains consistent enough that users can predict where title, status, metadata, and actions appear.",
+    "Filtering and sorting update card order or membership without losing selected, saved, expanded, or focused card state unexpectedly.",
+    "Expansion reveals additional summary detail without moving key controls out of reach or hiding the card's primary identity.",
+    "Loading more cards preserves scroll position, focus, card labels, and result counts.",
+    "Missing images or unavailable previews have meaningful fallbacks that do not collapse card dimensions.",
+    "Bulk or saved actions state whether they affect visible cards, selected cards, hidden selected cards, or the whole result set."
+  ],
+  "implementationChecklist": [
+    "Define the card object, primary title, preview media, summary, metadata fields, status labels, primary action, secondary actions, and optional selection model.",
+    "Use semantic list markup for the card sequence and article, link, button, checkbox, or menu semantics inside each card according to behavior.",
+    "Give the card list a heading or accessible label and expose result count, active filters, selected count, and saved count near the list.",
+    "Keep card anatomy stable across missing media, long text, selected state, hover, focus, and responsive widths.",
+    "Label icon-only card actions with the card title, such as Save Grant opportunity G-2048.",
+    "Separate card click, title link, Save, More actions, selection checkbox, and destructive actions so their hit targets do not overlap.",
+    "Design empty, no-results, loading, failed-load, saved, selected, expanded, unavailable, permission-limited, and missing-preview states.",
+    "Test keyboard order, focus visibility, screen reader card identity, action labels, long text, localization, zoom, mobile wrapping, and missing image fallbacks."
+  ],
+  "commonMisuses": [
+    "Using cards as decorative wrappers for dense rows.",
+    "Making the entire card clickable while nesting conflicting buttons or links inside it.",
+    "Changing card anatomy item by item until scanning becomes unpredictable.",
+    "Hiding key metadata behind expansion when users need it to choose among cards.",
+    "Using card list for strict price, date, owner, or numeric comparison that needs aligned columns.",
+    "Letting images define the card when missing or low-quality images are common.",
+    "Showing many secondary actions on every card until the list becomes an action maze.",
+    "Failing to preserve selected, saved, or expanded card state after sort, filter, or load more."
+  ],
+  "critiqueQuestions": [
+    "What extra decision support does the card provide that a compact row cannot?",
+    "Is the user browsing rich summaries, comparing attributes, managing a named set, or navigating categories?",
+    "What is the card's primary activation, and which actions are separate secondary controls?",
+    "Can users predict where title, status, metadata, and actions appear on every card?",
+    "What happens to saved, selected, expanded, and focused cards after sorting, filtering, or loading more?",
+    "Would list view, table, data grid, collection, details panel, preview panel, or browse by category better fit the task?"
+  ],
+  "useWhen": [
+    "Users need to browse rich object summaries with preview, summary text, metadata, status, and actions.",
+    "A single-column reading order is more important than showing many thumbnails at once.",
+    "Cards provide enough context to decide whether to open, save, compare lightly, or act on an item.",
+    "The layout must work well on mobile without collapsing item identity or action ownership."
+  ],
+  "avoidWhen": [
+    "The content is dense and homogeneous enough for a compact list view.",
+    "Users need aligned column comparison or cell-level interaction.",
+    "The item set has collection-level ownership, membership, sharing, or ordering behavior.",
+    "The main task is visual thumbnail browsing across many items at once.",
+    "Cards would contain many independent controls or inconsistent content structures."
+  ],
+  "variants": [
+    "Search result card list",
+    "Article card list",
+    "Opportunity card list",
+    "Product card list",
+    "Asset card list",
+    "Media card list",
+    "Selectable card list",
+    "Expandable card list",
+    "Saved-card list",
+    "Card list with preview panel",
+    "Card list with filters",
+    "Card list with pagination",
+    "Compact card list"
+  ],
+  "accessibility": [
+    "Use a real list or region with a heading for the card sequence.",
+    "Ensure each card has a programmatic name based on the visible title and enough context to identify the object.",
+    "Do not put multiple interactive descendants inside a single wrapping link or button.",
+    "Give Save, Share, More, Select, Expand, Remove, and destructive actions accessible names that include the card title.",
+    "Expose selected, saved, expanded, unavailable, disabled, loading, and error states with visible and programmatic state where applicable.",
+    "Keep focus indicators visible on the card's primary activation and every internal action.",
+    "Provide text alternatives or stable fallbacks for preview media and missing images.",
+    "Announce result-count, selected-count, saved-count, expanded, removed, and loaded-more changes when they are not otherwise obvious."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the card's primary activation and internal actions in a predictable order.",
+    "Enter activates the focused card link or button; Space toggles checkboxes, save toggles, or expandable controls according to their role.",
+    "Escape closes card action menus or collapses transient overlays and returns focus to the invoking card control.",
+    "After saving, removing, expanding, sorting, filtering, or loading more, focus stays on the triggering control, the same card, a status message, or the next sensible card.",
+    "If cards support multi-selection, keyboard selection follows checkbox or list selection conventions rather than hidden card-click rules.",
+    "If cards can be reordered, provide keyboard controls such as Move up and Move down rather than pointer-only drag."
+  ],
+  "failureModes": [
+    "A card's title, image, and body all navigate while the footer button performs a different action without clear boundaries.",
+    "Cards with missing images collapse, causing focus and action placement to jump.",
+    "Long titles push status and action controls out of view on mobile.",
+    "A filter hides selected cards but bulk actions still affect them without a hidden-selection count.",
+    "The card list is used for comparison, but key values appear in inconsistent locations.",
+    "Every card has many action buttons, creating a long tab sequence before users can reach the next card.",
+    "Expanded card content repeats the full detail page and turns each card into a mini page.",
+    "Loading more cards moves focus to the top and users lose their place."
+  ],
+  "relatedPatterns": [
+    "list-view",
+    "collection",
+    "browse-by-category",
+    "details-panel",
+    "preview-panel",
+    "filter-panel",
+    "sort-controls",
+    "pagination",
+    "empty-state",
+    "table"
+  ],
+  "comparisons": [
+    "card-list-vs-list-view-vs-collection-vs-browse-by-category"
+  ],
+  "examples": [
+    {
+      "product": "Material Design Cards",
+      "url": "https://m3.material.io/components/cards/guidelines",
+      "platform": "web",
+      "notes": "Documents cards for single-topic content and actions that should be easy to scan for relevant actionable information.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "React Spectrum Card",
+      "url": "https://react-spectrum.adobe.com/Card",
+      "platform": "web",
+      "notes": "Documents selectable and navigable cards with preview, title, description, status, footer, action menu, and multiple object-card variants.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "NN/g Cards component",
+      "url": "https://www.nngroup.com/articles/cards-component/",
+      "platform": "web",
+      "notes": "Explains cards as bounded summaries that group related pieces of information, link to details, and work best for browsing heterogeneous content.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Fluent 2 Card",
+      "url": "https://fluent2.microsoft.design/components/web/react/core/card/usage",
+      "platform": "web",
+      "notes": "Documents card anatomy, alignment, size, behavior, preview, header, footer, actions, and accessibility considerations.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-cards-guidelines",
+      "note": "Material cards guidance supports single-topic card content, actions, and scannable actionable information."
+    },
+    {
+      "id": "react-spectrum-card",
+      "note": "React Spectrum supports card anatomy, object selection or navigation, preview, title, description, metadata, footer, status, action menu, and object-card variants."
+    },
+    {
+      "id": "nng-cards-component",
+      "note": "NN/g supports card boundaries, grouped related information, detail-entry behavior, flexible layouts, and cautions against cards for dense search and comparison."
+    },
+    {
+      "id": "fluent-react-card",
+      "note": "Fluent card guidance supports one-object card containers with preview, header, footer, information hierarchy, behavior, and accessibility."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

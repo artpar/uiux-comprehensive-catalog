@@ -1,0 +1,262 @@
+{
+  "id": "carousel-auto-advance-without-pause",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed carousel motion anti-pattern with distinct boundaries from standard carousel, tabs, recommendations, pagination, touch gestures, banners, progressive disclosure, and feed behavior, unique pause-first, focus-stop, hover-stop, reduced-motion, reading, form, background-return, announcement, and recommendation-feedback demo states, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers timed carousel rotation as an interruptive anti-pattern when pause or stop is missing, including pause-first tab order, user-start rotation, focus stop, hover stop, reduced-motion override, safe resume, stable slide actions, reading locks, form entry locks, background tab return, live-region announcement limits, and recommendation feedback stability.",
+    "relatedPatternDistinction": "The entry separates unpausable auto-advance from a standard carousel by the missing motion-control contract, from tabs by named panels that must not rotate, from recommendations by ranked suggestions whose reasons and feedback must remain stable, from pagination by large ordered result navigation with current page and totals, and from touch gesture, banner, notification banner, progressive disclosure, and feed by their separate control and attention contracts.",
+    "liveDemoBehavior": "The live demo exposes a campaign carousel with controlled rotation and 19 scoped exercise controls: pause first, user-start rotation, focus stop, hover stop, reduced motion, resume safely, slide action stable, reading lock, form entry lock, background return, no pause, hidden pause, focus ignored, hover ignored, reduced motion ignored, reading interrupted, form entry advanced, constant announcements, and feedback rail rotated.",
+    "comparisonDecisionRules": "The carousel-auto-advance-without-pause-vs-carousel-vs-tabs-vs-recommendations-vs-pagination comparison gives concrete rules for flagging unpausable timed rotation, choosing controlled carousel for small peer slide sets, choosing tabs for named sibling panels, choosing recommendations for ranked suggestions with stable feedback, and choosing pagination for large ordered result sets with current page, ranges, totals, and return position.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 285 complete patterns, 1 stub pattern, 12 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Rendered /patterns/carousel-auto-advance-without-pause/ and /compare/carousel-auto-advance-without-pause-vs-carousel-vs-tabs-vs-recommendations-vs-pagination/ on 2026-06-13. Live check verified all required motion, pause, focus, hover, reduced-motion, reading, form, announcement, recommendation, feedback, and rotation terms, found 19 .carousel-auto-controls buttons, found no duplicate IDs or horizontal overflow on desktop or compact viewport, exercised Reduced motion, Form entry lock, Background return, No pause, Constant announcements, and Feedback rail rotated controls, and saw only Vite/React development console messages. screenshots/patterns/carousel-auto-advance-without-pause.png captures the pre-promotion page with Good UI, Bad UI, Good UX, Bad UX, scoped state controls, source-backed guidance, related links, and comparison link.",
+    "screenshots": [
+      "screenshots/patterns/carousel-auto-advance-without-pause.png"
+    ]
+  },
+  "name": "Carousel auto-advance without pause",
+  "aliases": [
+    "auto rotating carousel with no pause",
+    "unpausable carousel",
+    "auto forwarding carousel",
+    "rotating hero without stop",
+    "slideshow without pause",
+    "motion carousel trap"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Data Display And Exploration",
+    "Search, Browse, And Discovery",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Anti-pattern where timed carousel rotation changes visible content without user control",
+  "uiGuidance": [
+    "Treat automatic slide rotation as motion that must be controlled before it changes content: expose a reachable pause or stop control, current slide position, named slide controls, and a visible motion state.",
+    "Do not let a carousel rotate while users focus controls, hover to read, enter form data, inspect recommendation reasons, or use reduced-motion settings."
+  ],
+  "uxGuidance": [
+    "Prefer user-started rotation or a static first slide; users should never need to race a timer to read, compare, submit, dismiss, or recover information.",
+    "If the business insists on auto-advance, the pause or stop path must be first, obvious, persistent, keyboard reachable, and honored across focus, hover, background-tab return, mobile interaction, and reduced-motion states."
+  ],
+  "uiExamples": {
+    "good": [
+      "A campaign carousel loads paused, shows Stop rotation before Next and Previous, names each slide, and changes only after the user chooses Start rotation.",
+      "A recommendation rail pauses when a user focuses a Save button, hovers over a card reason, or opens feedback, and it resumes only through an explicit control."
+    ],
+    "bad": [
+      "A homepage hero advances every four seconds, hides Pause after the slide dots, and keeps moving while keyboard focus is inside a slide CTA.",
+      "A rotating offer rail changes while the user types in a visible form field, causing the field and recommendation feedback controls to disappear."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A keyboard user tabs into the carousel, lands on Pause rotation first, stops motion, opens the visible slide action, and focus remains stable.",
+      "A user with reduced motion enabled receives a static carousel with manual slide controls and no automatic announcements."
+    ],
+    "bad": [
+      "A reader starts scanning eligibility details and the carousel advances before they finish, with no way to stop or restore the slide.",
+      "A screen reader user hears frequent slide-change announcements that were not initiated by the user and cannot silence them from the carousel."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Auto-advancing carousels without a reachable pause or stop path interrupt reading, hide controls, move focused or hovered content, create noisy announcements, and can make users miss critical information.",
+  "solution": "Disable auto-advance by default or make it explicitly user-started; if timed rotation exists, provide a first reachable pause or stop control, stop on focus and hover, respect reduced motion, keep interaction state stable, and use static, tabbed, recommendation, or paginated alternatives when rotation hides real work.",
+  "problemContext": [
+    "A carousel, hero, promotion rail, onboarding slider, or recommendation strip changes visible content on a timer.",
+    "The slide can contain text, calls to action, form fields, recommendation reasons, feedback controls, warnings, or decision-support information.",
+    "Users may read slowly, use keyboard or assistive technology, hover for detail, switch tabs, use mobile gestures, or prefer reduced motion.",
+    "The product wants motion for attention, but users need control over timing, focus, announcements, and recovery."
+  ],
+  "selectionRules": [
+    "Flag the anti-pattern whenever visible carousel content changes automatically and a pause or stop control is missing, delayed, hidden, or unreachable before the moving content.",
+    "Choose a standard carousel only when the slide set is small, supplemental, manually controllable, and safe to browse one slide at a time.",
+    "Use tabs when users are switching among named sibling panels; tab panels should not rotate on a timer.",
+    "Use recommendations when the rail contains ranked or personalized suggestions that need reasons, dismissal, sponsored labels, and feedback controls that must not rotate away mid-action.",
+    "Use pagination, a list, or a grid when users need stable position, large result sets, comparison, or repeated scanning.",
+    "Disable auto-advance for text-heavy, task-critical, form, consent, legal, eligibility, warning, checkout, or assistive-technology sensitive content.",
+    "If auto-advance remains, put Pause or Stop before slide-changing controls in tab order and keep it visible in every responsive layout.",
+    "Stop rotation when keyboard focus enters the carousel, when pointer hover suggests reading, when a slide control opens, and when the page returns from the background.",
+    "Respect reduced-motion preferences by disabling timed rotation and minimizing animated transitions.",
+    "Do not announce automatic slide changes repeatedly; reserve polite status updates for user-initiated changes or explicit motion-state changes."
+  ],
+  "requiredStates": [
+    "Rotation stopped by default state with visible current slide, total count, and Pause or Start rotation control.",
+    "Pause first state where the stop control is first in the carousel tab order before previous, next, pickers, or slide actions.",
+    "User-start rotation state that begins motion only after an explicit command and exposes how to stop it.",
+    "Focus stop state where keyboard focus inside the carousel stops rotation and preserves focus.",
+    "Hover stop state where pointer hover or slide interaction stops rotation while the user reads.",
+    "Reduced-motion state where automatic rotation and nonessential animation are disabled.",
+    "Resume safely state where rotation resumes only after explicit user action and does not skip unread slides.",
+    "Slide action stable state where activating a slide link, save, dismiss, or feedback control does not trigger a timed advance.",
+    "Reading lock state for long copy, captions, disclosures, warnings, or eligibility details.",
+    "Form entry lock state where typed input, validation, and focus persist without the slide disappearing.",
+    "Background tab return state where a hidden page does not fast-forward slides or restart motion without consent.",
+    "Bad no-pause state with moving slides and no reachable stop control.",
+    "Bad hidden-pause state where pause exists after anonymous dots, in an overflow, or only on hover.",
+    "Bad focus-ignored and hover-ignored states where rotation continues during keyboard or pointer reading.",
+    "Bad constant-announcement state where assistive technology receives unsolicited slide updates."
+  ],
+  "interactionContract": [
+    "Pause or Stop rotation immediately freezes the visible slide, updates the motion state, and remains available for resume or restart.",
+    "Start rotation is explicit, reversible, and does not remove manual previous, next, picker, or slide action controls.",
+    "Focus entering any carousel control or slide action stops rotation before timed content changes.",
+    "Pointer hover, touch exploration, opened popovers, expanded text, recommendation feedback, and form fields keep the current slide stable.",
+    "Reduced-motion and user-disabled animation settings override any configured auto-advance timer.",
+    "Returning from a background tab, minimized app, or locked mobile screen does not fast-forward through missed slides.",
+    "User-initiated slide changes may update a polite status; timer-driven changes must not create repeated unsolicited announcements."
+  ],
+  "implementationChecklist": [
+    "Decide whether auto-advance is needed at all; default to paused or static content unless the user starts motion.",
+    "Place Pause or Stop rotation first in the carousel DOM and visible control order when rotation can occur.",
+    "Bind focusin, pointer hover, touch interaction, form input, popover open, and recommendation feedback states to stop or suspend rotation.",
+    "Check prefers-reduced-motion and product-level motion settings before enabling timers or animated transitions.",
+    "Preserve current slide, focused element, typed values, open disclosures, selected recommendation feedback, and live-region behavior while pausing and resuming.",
+    "Use named slide controls and a visible slide count so users can recover the slide that moved.",
+    "Throttle or suppress automatic live-region announcements and announce only user-commanded changes.",
+    "Test keyboard, screen reader, hover, touch, mobile viewport, reduced motion, background tab return, slow reading, form entry, recommendation feedback, and failure recovery."
+  ],
+  "commonMisuses": [
+    "Hiding Pause behind carousel dots, hover-only controls, or an overflow menu.",
+    "Starting rotation automatically because marketing wants movement without testing reading time or assistive technology impact.",
+    "Continuing to rotate while focus is inside a slide, a form field has text, or the pointer is hovering over details.",
+    "Treating a recommendation rail as a decorative carousel and rotating away reasons, dismiss buttons, sponsored labels, or feedback.",
+    "Announcing every timer-driven slide change to screen readers.",
+    "Ignoring reduced-motion preferences because the slide transition seems slow.",
+    "Fast-forwarding through several slides when the tab regains visibility.",
+    "Using auto-advance to hide stakeholder prioritization problems instead of choosing a static hierarchy."
+  ],
+  "critiqueQuestions": [
+    "Can users stop the carousel before any automatic change happens?",
+    "What exactly happens when keyboard focus enters the carousel?",
+    "Does hover, touch exploration, or reading a long caption suspend motion?",
+    "Does reduced motion fully disable auto-advance or only shorten the animation?",
+    "Can a user recover a slide that moved while they were reading or typing?",
+    "Are recommendation reasons, feedback, sponsored labels, warnings, or form fields rotating away?",
+    "Would tabs, a static section, a recommendation list, a grid, or pagination better match the content job?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit or reject timed carousels that cannot provide immediate pause, stop, focus, hover, reduced-motion, and interaction-stability behavior.",
+    "Use it when a design review needs concrete evidence that motion is interrupting reading, form entry, recommendation feedback, or assistive-technology output."
+  ],
+  "avoidWhen": [
+    "Do not treat this as permission to build an auto-rotating carousel; use the standard carousel pattern when motion is fully controlled or avoided.",
+    "Do not apply it to user-commanded slide changes with stable controls and no timer-driven content movement."
+  ],
+  "variants": [
+    "Homepage hero auto-advance",
+    "Marketing slideshow without pause",
+    "Promotion rail timer",
+    "Auto-rotating recommendation rail",
+    "Onboarding carousel timer",
+    "Image rotator with hidden pause",
+    "Background tab fast-forward carousel",
+    "Form slide that advances while typing",
+    "Screen-reader noisy carousel"
+  ],
+  "accessibility": [
+    "Provide a keyboard-reachable pause or stop control before rotating content and before slide navigation controls.",
+    "Stop automatic rotation when any element inside the carousel receives focus.",
+    "Stop or suspend motion while pointer hover, touch exploration, or opened detail content indicates active reading.",
+    "Respect prefers-reduced-motion by disabling automatic rotation and minimizing slide animation.",
+    "Avoid repeated live-region announcements for timer-driven slides; announce user-initiated changes and motion-state changes concisely.",
+    "Keep hidden slide controls out of the tab order and do not move focus when a timer fires.",
+    "Preserve typed form data, validation text, expanded details, and recommendation feedback state when pausing or changing slides.",
+    "Keep the pause or stop path visible and large enough on small screens."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches Pause or Stop rotation first when rotation can occur.",
+    "Enter or Space on Pause freezes the current slide and updates the motion label.",
+    "Tabbing into slide content stops rotation before focus reaches links, buttons, fields, or feedback controls.",
+    "Previous, Next, and named picker controls remain available while paused.",
+    "Activating slide navigation keeps focus on the activated control unless a documented picker pattern says otherwise.",
+    "Hidden slide controls are not reachable and timer changes never move focus into hidden content.",
+    "No keyboard shortcut is required to stop motion; the visible control is sufficient."
+  ],
+  "failureModes": [
+    "Slides advance before users finish reading.",
+    "No pause or stop control exists, or it is not reachable before the moving content.",
+    "Rotation continues during keyboard focus, hover, touch exploration, form entry, or feedback.",
+    "Reduced-motion users still receive auto-advance or large animated transitions.",
+    "Automatic updates create constant screen-reader announcements.",
+    "Slide CTAs, warnings, legal copy, or recommendation reasons disappear during interaction.",
+    "A background tab returns with several skipped slides and no recovery path.",
+    "The auto-rotating rail is used instead of a stable list, grid, tabs, recommendations, or pagination."
+  ],
+  "relatedPatterns": [
+    "carousel",
+    "tabs",
+    "recommendations",
+    "pagination",
+    "touch-gesture",
+    "banner",
+    "notification-banner",
+    "progressive-disclosure",
+    "feed"
+  ],
+  "comparisons": [
+    "carousel-auto-advance-without-pause-vs-carousel-vs-tabs-vs-recommendations-vs-pagination"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Carousel Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/carousel/",
+      "platform": "web",
+      "notes": "Supports rotation controls, accessible carousel structure, and stopping automatic slide rotation when focus enters or pointer hover occurs.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WAI Carousels Tutorial",
+      "url": "https://www.w3.org/WAI/tutorials/carousels/",
+      "platform": "web",
+      "notes": "Supports providing animation controls, stopping movement, and making carousel items and announcements understandable.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "NN/g Auto-Forwarding Carousels",
+      "url": "https://www.nngroup.com/articles/auto-forwarding/",
+      "platform": "web",
+      "notes": "Supports avoiding auto-forwarding because timer-driven content changes interrupt reading and reduce content visibility.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Chrome Developers Accessible Carousel",
+      "url": "https://developer.chrome.com/blog/accessible-carousel",
+      "platform": "web",
+      "notes": "Supports accessible carousel behavior, user controls, and avoiding hidden interactive content in slide implementations.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-carousel",
+      "note": "APG supports first reachable rotation controls and stopping automatic rotation on focus or hover."
+    },
+    {
+      "id": "wai-carousels-tutorial",
+      "note": "WAI tutorial supports animation controls and accessible carousel item behavior."
+    },
+    {
+      "id": "nng-auto-forwarding-carousels",
+      "note": "NN/g supports avoiding auto-forwarding when it interrupts reading and hides content."
+    },
+    {
+      "id": "nng-effective-carousels",
+      "note": "NN/g supports visible understandable controls and static alternatives when carousel discovery is weak."
+    },
+    {
+      "id": "chrome-accessible-carousel",
+      "note": "Chrome supports accessible carousel structure and avoiding hidden interactive slide content."
+    },
+    {
+      "id": "wcag-focus-order",
+      "note": "WCAG focus order supports keeping keyboard traversal meaningful when carousel controls and slide content update."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

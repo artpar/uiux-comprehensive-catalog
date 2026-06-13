@@ -1,0 +1,272 @@
+{
+  "id": "presence",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed presence pattern with guidance for labelled availability, active, away, busy, do-not-disturb, offline, unknown, stale, privacy-hidden, co-viewing, file-activity, source, freshness, action-aware affordances, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers labelled presence badges, status source, freshness, last seen, manual and automatic status, calendar-derived and activity-derived status, do-not-disturb behavior, offline and unknown fallbacks, privacy-hidden activity, co-viewer counts, action affordance changes, and file activity limits.",
+    "relatedPatternDistinction": "The entry separates presence from mentions, notification-center inboxes, activity-log evidence, comments, threaded discussion, profile setup, settings management, permission-denied recovery, sync state, offline state, and feed stream consumption.",
+    "liveDemoBehavior": "The demo shows reviewer availability with available, busy, do-not-disturb, away, offline, unknown, stale, privacy, co-viewer, notify-later, and activity-note states, plus bad-state contrasts for color-only dots, stale active status, interrupting busy users, privacy leaks, audit misuse, and anonymous-count failures.",
+    "comparisonDecisionRules": "The linked presence-vs-mentions-vs-notification-center-vs-activity-log comparison gives concrete rules for availability signals, inline attention events, retained notification inboxes, durable event history, conversations, settings, permission boundaries, stale data, and current-user offline recovery.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Desktop browser check verified two presence frames, two bad grids, all good and bad controls, no duplicate IDs, no presence overflow, state assertions for available, busy, do-not-disturb, away, offline, unknown, stale, privacy, co-viewers, notify later, activity note, color-only, stale-active, interrupt-busy, privacy-leak, audit-misuse, and anonymous-count states. Comparison page check verified presence, mentions, notification center, activity log, comments, threaded discussion, settings management, permission denied state, available, busy, privacy, stale, and audit terms with no overflow. Mobile browser check verified single-column presence frames, stacked summary rows, stale, privacy, co-viewer, activity, interrupt-busy, and anonymous-count states with no presence overflow.",
+    "screenshots": [
+      "screenshots/patterns/presence.png"
+    ]
+  },
+  "name": "Presence",
+  "aliases": [
+    "availability indicator",
+    "online status",
+    "active status",
+    "away status",
+    "busy status",
+    "do not disturb status",
+    "last seen",
+    "co-presence",
+    "viewer presence",
+    "presence badge"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Person or group availability signal with status label, recency, source, privacy boundary, and action-aware affordances",
+  "uiGuidance": [
+    "Render presence as a labelled availability signal near the person, team, object, or conversation it describes; pair color, shape, text, timestamp, and source so users can distinguish active, away, busy, do not disturb, offline, unknown, viewing, and recently active states.",
+    "Show presence controls and explanations where users act on the signal: status menu, status duration, last updated time, working-hours note, privacy restriction, stale value, co-viewer list, and action changes such as call disabled, message allowed, or notify later."
+  ],
+  "uxGuidance": [
+    "Use presence when users need to decide whether to interrupt, wait, route work, join a session, assign follow-up, or understand who is currently viewing or recently active in a shared space.",
+    "Treat presence as a transient, privacy-bounded signal, not a proof of productivity or accountability; expose freshness, source, manual overrides, notification effects, and privacy limits before users rely on it."
+  ],
+  "uiExamples": {
+    "good": [
+      "A reviewer row shows Priya as Busy in a meeting until 14:30, disables Call, keeps Message available, and offers Notify when available.",
+      "A document header shows three current viewers, one anonymous viewer, last updated recency, and a privacy note explaining that external viewer activity is hidden."
+    ],
+    "bad": [
+      "A green dot appears next to every name with no label, timestamp, or meaning.",
+      "A stale active badge remains after the user has gone offline and the call button still looks primary."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user sees that Dana is in Do not disturb, sends a message without a banner interruption, and schedules a reminder to follow up when Dana is available.",
+      "A file owner sees who has viewed the document within the same domain, respects hidden view-history settings, and uses the signal for follow-up rather than audit proof."
+    ],
+    "bad": [
+      "A manager treats Away as an attendance record even though it came from device inactivity and privacy-limited activity data.",
+      "A co-editing page shows that someone is present but gives no accessible name, role, location, or privacy reason for unknown viewers."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Collaboration becomes disruptive or misleading when availability is represented as an unexplained dot, stale activity, hidden privacy state, or surveillance-like signal instead of a contextual, fresh, labelled, and action-aware presence indicator.",
+  "solution": "Provide presence badges and co-viewing summaries with explicit status labels, availability hierarchy, recency, source, manual or automatic origin, privacy boundary, unknown and stale states, and action behavior that respects busy, do-not-disturb, offline, and restricted visibility.",
+  "problemContext": [
+    "Users are deciding whether to message, call, assign, review, wait, join, follow up, or interpret another person's current availability in a workspace, document, channel, dashboard, issue, or task.",
+    "Presence may be calculated from app activity, device activity, calendar events, active calls, focus time, working hours, manual overrides, notification pause, file views, or current co-viewing sessions.",
+    "The signal may be delayed, stale, privacy-limited, hidden for external users, unknown, or suppressed by user preference, admin setting, domain boundary, or object permission.",
+    "Presence may affect actions such as call routing, notification delivery, assignment timing, follow-up reminders, co-editing awareness, and escalation paths, but it is not automatically an audit record."
+  ],
+  "selectionRules": [
+    "Choose presence when the user needs a transient availability, co-attendance, last-seen, or active-viewer signal attached to a person, group, file, channel, task, or conversation.",
+    "Use mentions when the task is to address or notify someone inside authored content; mentions can consult presence but they create an attention event rather than display availability.",
+    "Use notification center when the user needs retained inbox triage, unread state, preference controls, and notification history across objects.",
+    "Use activity log when the product must preserve durable evidence of who viewed, changed, routed, or was notified about something.",
+    "Use comments or threaded discussion when the collaboration unit is authored conversation; presence can show who is reading or available but should not replace conversation state.",
+    "Use profile setup for stable identity and work details; presence should only show time-bound state, recency, and availability source.",
+    "Use settings management for configuring status defaults, working hours, privacy visibility, external sharing, and notification behavior.",
+    "Show restricted, unknown, stale, or hidden presence states instead of guessing when privacy, domain, permission, stale sync, or API limits prevent a reliable signal."
+  ],
+  "requiredStates": [
+    "Available, active, away, busy, in a meeting, in a call, presenting, focusing, do not disturb, out of office, offline, unknown, and hidden states where supported.",
+    "Manual status, automatic status, status duration, status message, working-hours state, paused-notification state, and calendar-derived state.",
+    "Fresh, stale, reconnecting, delayed, last-updated, last-seen, and source-unavailable states.",
+    "Single-person presence, group summary, co-viewer list, anonymous viewer, external viewer hidden, same-domain activity visible, and privacy-restricted states.",
+    "Action-aware states such as call available, call blocked, message allowed, banner suppressed, notify when available, route to next available, and follow-up scheduled.",
+    "Mobile condensed badge, expanded presence detail, tooltip or popover detail, accessible text label, and screen-reader-only state summary.",
+    "Permission denied, external access hidden, user view-history hidden, admin privacy mode enabled, and activity-dashboard-not-audit states.",
+    "Presence conflict, multiple devices, manual override, automatic reset, and presence unknown fallback states."
+  ],
+  "interactionContract": [
+    "Presence badges identify the person or group, status label, recency, and source in text, not color alone.",
+    "Selecting or focusing a presence indicator reveals more detail such as status message, last updated time, working-hours note, privacy reason, current object viewers, or action options.",
+    "Actions that depend on presence respect do-not-disturb, busy, offline, privacy, and priority rules; they explain whether messages, calls, banners, or routing will behave differently.",
+    "Stale or delayed presence values show last updated time and fallback behavior rather than staying visually equivalent to live status.",
+    "Privacy settings, external access rules, hidden view history, and domain restrictions are honored before showing viewer names, last-seen times, or status details.",
+    "Presence changes update without moving focus, stealing attention, or rewriting user intent; screen-reader users receive concise state changes only when relevant.",
+    "If presence is used for routing, escalation, or assignment, the system records the actual decision event separately from the transient presence value."
+  ],
+  "implementationChecklist": [
+    "Define presence states, source priority, stale thresholds, privacy boundaries, external sharing rules, status duration, user override behavior, and action implications before drawing badges.",
+    "Design badge, label, expanded detail, co-viewer list, unknown state, hidden state, stale state, and action affordances for desktop, mobile, keyboard, and screen-reader access.",
+    "Map presence to actions such as call, message, notify later, route, assign, join, or wait without assuming every available-looking person can be interrupted.",
+    "Show status freshness and source when the value comes from calendar, device activity, manual override, co-viewing, file activity, or API updates.",
+    "Respect privacy controls for view history, external access, same-domain limits, hidden users, anonymous users, and admin privacy mode.",
+    "Test delayed updates, multiple devices, manual overrides, do-not-disturb, out-of-office, offline fallback, anonymous viewers, hidden activity, and stale API data."
+  ],
+  "commonMisuses": [
+    "Using only color dots without text labels, source, or recency.",
+    "Treating presence as employee monitoring or audit evidence.",
+    "Leaving stale active states on screen after disconnects or sync failures.",
+    "Ignoring do-not-disturb, busy, call, meeting, or priority rules when offering interruptive actions.",
+    "Showing viewer names or last-seen times across privacy, domain, guest, or external organization boundaries.",
+    "Conflating presence with unread notifications, mentions, assignments, comments, or activity history.",
+    "Hiding unknown or restricted presence and making users think nobody is present.",
+    "Letting presence animations distract from the primary task or cause layout shifts."
+  ],
+  "critiqueQuestions": [
+    "What exact person, group, file, channel, task, or object does this presence signal describe?",
+    "What status is shown in text, and when was it last updated?",
+    "Is the signal automatic, manual, calendar-derived, device-derived, activity-derived, or co-viewing-derived?",
+    "What privacy setting, external access rule, or permission boundary controls whether the signal is visible?",
+    "Which actions change when the person is busy, in do-not-disturb, offline, away, or unknown?",
+    "Can users tell the difference between live presence, last-seen activity, file view history, and audit history?"
+  ],
+  "useWhen": [
+    "Users need to understand current or recent availability before messaging, calling, assigning, routing, or joining.",
+    "A shared object needs to show who is viewing, recently active, hidden, anonymous, or unavailable.",
+    "Actions should adapt to busy, do-not-disturb, offline, privacy, or stale presence state.",
+    "Presence can reduce interruption, duplicate work, or uncertainty when paired with clear labels and recovery paths."
+  ],
+  "avoidWhen": [
+    "The product needs a durable audit trail or compliance record.",
+    "The UI only needs a notification inbox, mention target, assignment owner, or profile identity.",
+    "Presence cannot be sourced, refreshed, labelled, or privacy-limited reliably.",
+    "The signal would encourage surveillance, attendance inference, or coercive monitoring rather than collaboration."
+  ],
+  "variants": [
+    "Availability badge",
+    "Do not disturb badge",
+    "Last seen indicator",
+    "Co-viewer list",
+    "Document viewer presence",
+    "Team availability summary",
+    "Out of office presence",
+    "Working-hours presence",
+    "Status message",
+    "Presence-aware routing"
+  ],
+  "accessibility": [
+    "Expose presence state as text, such as Dana Lee, Busy in a meeting until 14:30, not just a colored dot.",
+    "Use shape, label, and text detail in addition to color for available, away, busy, do-not-disturb, offline, unknown, and restricted states.",
+    "Make presence detail reachable by keyboard and touch without hover-only tooltips.",
+    "Announce meaningful presence changes only when they affect the current task or selected person.",
+    "Label co-viewer lists with names, roles, and privacy-limited counts where allowed.",
+    "Keep badges, labels, and status messages from wrapping over primary actions or changing row height unpredictably."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches presence indicators only when they reveal details or actions; decorative status text remains in the reading order.",
+    "Enter or Space opens presence detail for the focused person and Escape closes it without moving focus away from the row or composer.",
+    "Arrow keys can move through co-viewer or team availability lists when they are presented as selectable rows.",
+    "Notify later, message, call, route, and privacy controls are reachable in the same logical order as the visible layout.",
+    "Presence updates do not steal focus from the user's current form, editor, message, or selected row.",
+    "Screen-reader users can discover stale, hidden, unknown, or privacy-restricted state without relying on hover."
+  ],
+  "failureModes": [
+    "Color-only dots make busy, away, offline, and unknown states indistinguishable to some users.",
+    "The UI calls someone who is in Do not disturb without warning that calls may route differently.",
+    "A delayed API response overwrites a fresher manual status or calendar-derived status.",
+    "A person who hides view history still appears in a viewer list.",
+    "Presence labels imply live co-editing when the data is only a last-viewed time.",
+    "External users can infer private meeting, focus, or working-hours data they should not see.",
+    "Presence changes animate or reorder a list so users lose their place.",
+    "Stale presence is used to decide ownership, escalation, billing, or attendance without a separate durable event."
+  ],
+  "relatedPatterns": [
+    "mentions",
+    "notification-center",
+    "activity-log",
+    "comments",
+    "threaded-discussion",
+    "profile-setup",
+    "settings-management",
+    "permission-denied-state",
+    "sync-state",
+    "offline-state",
+    "feed"
+  ],
+  "comparisons": [
+    "presence-vs-mentions-vs-notification-center-vs-activity-log"
+  ],
+  "examples": [
+    {
+      "product": "Slack status and availability",
+      "url": "https://slack.com/intl/en-gb/help/articles/201864558-set-your-slack-status-and-availability",
+      "platform": "web",
+      "notes": "Documents active and away dots, paused-notification visibility, automatic active or away determination, inactivity behavior, manual active or away controls, and automatic status signals.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack presence API",
+      "url": "https://docs.slack.dev/apis/web-api/user-presence-and-status/",
+      "platform": "web",
+      "notes": "Documents active and away presence values, automatic away detection, manual away, users.setPresence, and the inability to force a user status to active.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Teams presence",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/presence-admins",
+      "platform": "web",
+      "notes": "Documents rich presence states, automatic status from activity, app state, calendar, and devices, manual status duration, notification behavior, last seen, and privacy settings.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Graph presence resource",
+      "url": "https://learn.microsoft.com/en-us/graph/api/resources/presence?view=graph-rest-1.0",
+      "platform": "web",
+      "notes": "Documents presence as availability and user activity with get, set, preferred presence, status message, work-location signals, and change notifications.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Workspace Activity Dashboard",
+      "url": "https://knowledge.workspace.google.com/admin/drive/let-users-see-file-activity",
+      "platform": "web",
+      "notes": "Documents viewer names and view times for Docs, Sheets, and Slides, edit-access and same-domain limits, privacy controls, follow-up use, and the warning that it is not an audit record.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Docs live edits accessibility",
+      "url": "https://workspaceupdates.googleblog.com/2019/08/real-time-collab-accessibility.html",
+      "platform": "web",
+      "notes": "Documents a periodically updated live edits summary of collaborator changes for assistive technology users.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "slack-status-availability",
+      "note": "Slack documents active and away dots, paused-notification visibility, automatic activity-based availability, manual active or away controls, and automatic status signals."
+    },
+    {
+      "id": "slack-user-presence-status-api",
+      "note": "Slack Developer Docs model user presence as active or away, with automatic and manual away behavior and limits on forcing active presence."
+    },
+    {
+      "id": "microsoft-teams-presence-admins",
+      "note": "Microsoft Teams documents rich presence states, automatic status from activity, app state, calendar and devices, manual status duration, notification behavior, last seen, and privacy settings."
+    },
+    {
+      "id": "microsoft-graph-presence-resource",
+      "note": "Microsoft Graph models presence as availability plus activity, supports change notifications, and exposes values such as available, busy, doNotDisturb, focusing, in a call, in a meeting, offline, presenting, out of office, and unknown."
+    },
+    {
+      "id": "google-workspace-activity-dashboard",
+      "note": "Google Workspace documents file activity visibility, viewer names and view times, edit-access and same-domain limits, follow-up use, privacy controls, and the warning that Activity Dashboard is not an audit record."
+    },
+    {
+      "id": "google-docs-live-edits-accessibility",
+      "note": "Google Docs live edits provide accessible collaborator-change summaries for real-time collaboration awareness."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

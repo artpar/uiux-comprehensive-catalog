@@ -1,0 +1,56 @@
+{
+  "id": "model-update-notice-vs-notification-banner-vs-warning-text-vs-phase-beta-banner-vs-confidence-uncertainty-display-vs-source-grounding-display",
+  "title": "Model update notice vs notification banner vs warning text vs phase beta banner vs confidence uncertainty display vs source grounding display",
+  "summary": "Use model update notice for AI model lifecycle, version, replacement, migration, and retirement changes; notification banner for general page-flow notices; warning text for consequence copy near risky actions; phase beta banner for service maturity; confidence uncertainty display for reliability of one output; and source grounding display for evidence coverage behind one answer.",
+  "patternIds": [
+    "model-update-notice",
+    "notification-banner",
+    "warning-text",
+    "phase-beta-banner",
+    "confidence-uncertainty-display",
+    "source-grounding-display"
+  ],
+  "decisionRules": [
+    "Choose model update notice when the user must understand current model, new model, replacement model, model version, lifecycle stage, effective date, retirement date, shutdown date, affected usage, migration path, test replacement, rollout, rollback, and whether action is required.",
+    "Choose notification banner when the message is a general page-flow notice before an H1 and does not need model version, model lifecycle, affected AI surfaces, or migration ownership.",
+    "Choose warning text when users are about to take one risky action and need consequence copy near the control, not a model migration or retirement plan.",
+    "Choose phase beta banner when signalling alpha, beta, private beta, public beta, or live service maturity; use model update notice when a specific AI model or deployment changes inside the product.",
+    "Choose confidence uncertainty display when the user is judging the reliability of one AI output, prediction, classification, or recommendation; use model update notice when a model change affects many future outputs or integrations.",
+    "Choose source grounding display when the user needs evidence coverage for one answer; use model update notice when the issue is model availability, behavior, compatibility, migration, or replacement.",
+    "A model update notice should include affected prompts, assistants, workflows, automations, API calls, fine-tunes, evaluations, regions, quotas, deployment type, owner, testing state, action requirement, and completion state when those values affect the user's next step.",
+    "Distinguish no-action informational updates, auto-upgrade scheduled, manual migration required, preview short-notice, deprecated, retired, failed migration, behavior-only update, and completed migration states.",
+    "Do not let dismiss, snooze, or notification-center read state stand in for verified migration completion when a retired model will fail or a manual migration is required.",
+    "Do not explain a model update with source citations, confidence percentages, marketing release notes, stale changelog links, or broad warning copy when users need impacted usage and migration actions."
+  ],
+  "failureModes": [
+    "The notice says new model available but does not name the old model, replacement model, affected surfaces, deadline, or action requirement.",
+    "A model retirement appears only as a broad release note and product owners cannot find impacted workflows before shutdown.",
+    "The UI marks a retired model as healthy, selectable, or high-confidence until API calls fail.",
+    "An auto-upgrade notice hides behavior changes, testing paths, rollback constraints, or region and quota differences.",
+    "Users dismiss a required migration notice and no owner is accountable for testing or rollout.",
+    "A source-grounding panel or confidence label is used to communicate provider lifecycle changes instead of model version and migration state."
+  ],
+  "sources": [
+    {
+      "id": "openai-api-deprecations",
+      "note": "Supports deprecation notices, recommended replacements, shutdown dates, and notice periods."
+    },
+    {
+      "id": "microsoft-foundry-models-lifecycle",
+      "note": "Supports lifecycle stages, auto-upgrade, manual migration, notifications, and lifecycle API fields."
+    },
+    {
+      "id": "microsoft-foundry-model-retirement-schedule",
+      "note": "Supports retirement schedules with lifecycle stage, date, and replacement."
+    },
+    {
+      "id": "anthropic-model-deprecation-commitments",
+      "note": "Supports accounting for model replacement impacts on dependent users."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible migration and status messaging."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

@@ -1,0 +1,267 @@
+{
+  "id": "window-splitter",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed moveable separator pattern with distinct boundaries from details panel, drawer, preview panel, side navigation, navigation drawer, tabs, accordion, and toolbar, unique value-bearing resize, min-max, collapse-restore, and state-preservation behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers named adjacent panes, focusable separator role, aria-valuenow, aria-valuemin, aria-valuemax, orientation, visible resize affordance, pointer and keyboard resizing, Home and End boundaries, collapse and restore, min and max useful pane sizes, multiple splitter naming, responsive alternatives, and preservation of selection, scroll, input, zoom, and focus.",
+    "relatedPatternDistinction": "The entry separates window splitter from details panel by adjustable pane ratio versus fixed selected-object inspection, from drawer by durable resizable boundary versus temporary edge surface, from preview panel by pane boundary behavior versus media or document preview, from side navigation and navigation drawer by content resizing versus destination hierarchy, and from tabs and accordion by side-by-side panes versus content switching or in-flow reveal.",
+    "liveDemoBehavior": "The live demo shows a labelled separator between incident list and detail panes with value, min, max, orientation, Arrow left and Arrow right resize steps, Home min, End max, Collapse pane, Restore panes, preserved incident selection and activity scroll marker, Report value, and bad-mode contrasts for pointer-only, no-value, over-collapse, state-loss, unlabeled, and mobile-sliver failures.",
+    "comparisonDecisionRules": "The window-splitter-vs-details-panel-vs-drawer-vs-side-navigation comparison gives concrete rules for durable adjustable panes, fixed selected-object inspection, temporary edge drawers, destination side navigation, static divider misuse, responsive fallback, preserving task state during resize, and pane-content ownership.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/window-splitter/ and /compare/window-splitter-vs-details-panel-vs-drawer-vs-side-navigation/ on 2026-06-10. Live check exercised Arrow right, Home min, Collapse pane, Restore panes, Over collapse, and State loss controls while the page was in pre-completion state, then refreshed after completion. screenshots/patterns/window-splitter.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/window-splitter.png"
+    ]
+  },
+  "name": "Window splitter",
+  "aliases": [
+    "splitter",
+    "split pane",
+    "split view",
+    "resizable panes",
+    "pane splitter",
+    "resize handle",
+    "moveable separator"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Input And Data Entry",
+    "Navigation And Wayfinding",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Moveable separator for resizing adjacent panes",
+  "uiGuidance": [
+    "Render a window splitter as a visible, focusable moveable separator between adjacent panes with a clear resize affordance, accessible name, orientation, current value, minimum and maximum pane limits, and preserved pane headings.",
+    "Keep both panes readable and task-relevant while resizing; expose collapse, restore, min/max boundary, and responsive alternatives instead of letting panes disappear or become unusable."
+  ],
+  "uxGuidance": [
+    "Use a window splitter when users need to tune workspace layout, compare content, inspect detail beside a source, or balance editing and preview space without leaving the current task.",
+    "Make resizing predictable across pointer, keyboard, touch, zoom, and small screens so users can change pane ratios without losing selection, scroll position, focus, or data entry state."
+  ],
+  "uiExamples": {
+    "good": [
+      "A mail workspace has a message list and reading pane separated by a labelled vertical splitter showing 42 percent list width, with arrow-key resizing and restore from collapse.",
+      "An editor preview has Code and Preview panes with a visible splitter, min widths, keyboard step controls, and a status message when the preview reaches its minimum size."
+    ],
+    "bad": [
+      "A thin visual line between a table and details pane appears draggable but cannot be focused, named, or moved by keyboard.",
+      "Dragging a splitter can shrink the left pane to 12 pixels and hide the selected row with no restore control."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A keyboard user focuses the separator, presses Right Arrow to widen the preview by 5 percent, presses Home to return to the minimum source pane, and focus remains on the splitter.",
+      "A user collapses the activity pane to read a form, restores it, and the form field, selection, and activity scroll position are preserved."
+    ],
+    "bad": [
+      "A user drags the divider and the selected record disappears because the source pane collapses below its minimum usable width.",
+      "A screen reader user hears Separator with no value or pane names and cannot tell which side will resize."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Complex workspaces often place related panes side by side, but fixed pane sizes waste space for some tasks while unlabeled or pointer-only splitters make resizing inaccessible, unpredictable, and state-destructive.",
+  "solution": "Provide a named moveable separator with defined pane ownership, min and max limits, pointer and keyboard resizing, collapse and restore behavior, status feedback, and responsive fallbacks that preserve pane state.",
+  "problemContext": [
+    "Two or more adjacent panes must remain visible in one workspace, such as list and reading pane, editor and preview, navigation and content, form and activity, or table and inspector.",
+    "Users have legitimate reasons to allocate more space to one pane at different moments.",
+    "Pane contents have state such as selected rows, scroll positions, text entry, zoom, filters, or preview focus that must survive resizing.",
+    "The product can define minimum usable sizes, collapse behavior, keyboard steps, and narrow-screen alternatives."
+  ],
+  "selectionRules": [
+    "Choose window splitter when adjacent panes are both part of the same durable workspace and users need control over their relative sizes.",
+    "Use a fixed details panel when the panel's job is selected-object inspection and user-controlled pane ratios are unnecessary.",
+    "Use a drawer when the surface is temporary, edge-aligned, and should close after supplemental detail or light action.",
+    "Use side navigation when the side region contains destination hierarchy rather than resizable content.",
+    "Use tabs, accordion, or full-page routes when the viewport cannot support readable side-by-side panes.",
+    "Do not use a splitter for a purely decorative divider.",
+    "Do not use a splitter when one pane can be safely hidden without restore, orientation, value, or state preservation.",
+    "Do not allow either pane to resize below its minimum useful content width or height.",
+    "Define whether collapse happens by Enter, double-click, a button, or a dedicated command, and provide restore behavior.",
+    "When multiple splitters exist, label each one by the panes it separates."
+  ],
+  "requiredStates": [
+    "Default split state with two labelled panes and a visible splitter position.",
+    "Keyboard-focused splitter state with accessible name, orientation, value, min, and max.",
+    "Pointer drag or step resize state with live pane size update.",
+    "Arrow-key resize state with predictable increments.",
+    "Home and End or min and max boundary state.",
+    "Collapsed pane state with a clear restore affordance.",
+    "Restored pane state preserving selection, scroll, and input state.",
+    "Minimum and maximum boundary feedback state.",
+    "Responsive narrow-screen state with stacking, route, or collapsed pane alternative.",
+    "Multiple splitter state where each separator has a distinct name and target panes."
+  ],
+  "interactionContract": [
+    "The splitter separates two named panes and communicates which pane size its value represents.",
+    "Pointer dragging changes pane size within defined min and max limits and does not select text or lose pane state.",
+    "Keyboard focus can land on the splitter when it is moveable.",
+    "Arrow keys resize the panes by an intentional step; larger modified steps may be supported.",
+    "Home and End move to minimum or maximum where those shortcuts are implemented.",
+    "Enter toggles collapse or restore only when the design explicitly supports that behavior.",
+    "The splitter updates aria-valuenow or equivalent value text as the pane size changes.",
+    "Resize, collapse, restore, and responsive changes preserve active selection, scroll, input, and focus unless the user explicitly navigates away.",
+    "When a pane reaches a boundary, the interface communicates the limit without moving focus away from the splitter."
+  ],
+  "implementationChecklist": [
+    "Name both panes and define which pane the splitter value measures.",
+    "Choose vertical or horizontal orientation and provide matching visual affordance.",
+    "Set initial size, minimum size, maximum size, step size, and collapse threshold.",
+    "Use role separator with aria-valuenow, aria-valuemin, aria-valuemax, orientation, and an accessible name when implementing an ARIA splitter.",
+    "Implement pointer drag, keyboard arrow steps, boundary feedback, collapse, restore, and responsive fallback deliberately.",
+    "Preserve pane state including selected item, scroll position, text entry, preview zoom, and focus after resize.",
+    "Avoid hidden tiny panes by enforcing minimum useful sizes and exposing restore.",
+    "Test keyboard, pointer, touch, screen reader output, zoom, high contrast, localization, nested scroll panes, and narrow breakpoints."
+  ],
+  "commonMisuses": [
+    "Using a static separator line and calling it a splitter.",
+    "Making resizing pointer-only with no keyboard or assistive-technology value.",
+    "Letting panes collapse to unusable slivers without restore.",
+    "Using a splitter when a drawer, details panel, or responsive layout would better match the task.",
+    "Forgetting min and max limits, causing text clipping and broken controls.",
+    "Resetting form input, selection, or scroll position after resize.",
+    "Adding several unlabeled splitters to one workspace.",
+    "Treating the splitter as the pane content pattern instead of separately designing the table, preview, editor, or navigation pane."
+  ],
+  "critiqueQuestions": [
+    "Which two panes does the splitter separate, and why must both stay visible?",
+    "Which pane does the current value measure, and what are its minimum and maximum useful sizes?",
+    "Can pointer, keyboard, and assistive-technology users resize, collapse, and restore the panes?",
+    "What happens to selection, scroll, focus, and input while resizing?",
+    "What is the narrow-screen alternative when panes cannot remain side by side?",
+    "Would a fixed details panel, drawer, side navigation, tabs, or full-page route be clearer?"
+  ],
+  "useWhen": [
+    "Users need to compare, edit, inspect, or preview adjacent panes in one durable workspace.",
+    "The best pane ratio varies by task, user preference, data density, or viewport size.",
+    "Both panes can retain useful content at defined minimum sizes."
+  ],
+  "avoidWhen": [
+    "The divider is only decorative or structural.",
+    "One side is temporary supplemental content that should close like a drawer.",
+    "The side region is navigation hierarchy rather than adjustable content.",
+    "Small-screen layouts cannot keep both panes useful and no fallback is planned.",
+    "The product cannot preserve pane state and keyboard access during resize."
+  ],
+  "variants": [
+    "Vertical splitter",
+    "Horizontal splitter",
+    "Two-pane split view",
+    "Multi-pane splitter",
+    "Editor preview splitter",
+    "List and reading pane splitter",
+    "Table and inspector splitter",
+    "Collapsible splitter",
+    "Resizable side pane",
+    "Nested splitter"
+  ],
+  "accessibility": [
+    "Use role separator for a focusable moveable splitter and give it an accessible name that identifies the panes it separates.",
+    "Expose aria-valuenow, aria-valuemin, and aria-valuemax for the pane size represented by the splitter.",
+    "Expose aria-orientation when the splitter orientation is not the default or when vertical and horizontal splitters coexist.",
+    "Keep the splitter keyboard focusable and show a visible focus indicator.",
+    "Support arrow-key resizing and define Home, End, Enter, and modified-step behavior where used.",
+    "Announce or show boundary feedback when the pane reaches minimum or maximum size.",
+    "Do not rely on drag affordance alone; provide keyboard and touch-friendly controls or handles.",
+    "Preserve focus and pane state after resize, collapse, restore, and responsive layout changes."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the splitter when it is moveable.",
+    "Left Arrow and Right Arrow resize a vertical splitter according to writing direction and implementation rules.",
+    "Up Arrow and Down Arrow resize a horizontal splitter.",
+    "Home moves to the minimum size for the primary pane when implemented.",
+    "End moves to the maximum size for the primary pane when implemented.",
+    "Enter collapses or restores the primary pane only when that behavior is explicitly supported.",
+    "Escape cancels an active drag or returns to the previous size only when the product provides a cancellable resize mode.",
+    "Focus remains on the splitter after resizing unless a command intentionally moves focus."
+  ],
+  "failureModes": [
+    "The splitter cannot be reached by keyboard.",
+    "The separator has no accessible name or value, so users cannot tell which panes it controls.",
+    "Panes resize below readable width or height and hide critical controls.",
+    "Collapse has no restore path.",
+    "Resize resets the selected row, text selection, form input, preview zoom, or scroll position.",
+    "Multiple splitters share the same label and value.",
+    "The mobile layout keeps a tiny draggable pane instead of switching to stacked or routed content.",
+    "The splitter is used for navigation hiding rather than real pane resizing."
+  ],
+  "relatedPatterns": [
+    "details-panel",
+    "drawer",
+    "preview-panel",
+    "side-navigation",
+    "navigation-drawer",
+    "tabs",
+    "accordion",
+    "toolbar"
+  ],
+  "comparisons": [
+    "window-splitter-vs-details-panel-vs-drawer-vs-side-navigation"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Window Splitter Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/",
+      "platform": "web",
+      "notes": "Supports moveable separator semantics, value attributes, orientation, keyboard resizing, collapse or restore, and pane naming.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "MDN ARIA separator role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/separator_role",
+      "platform": "web",
+      "notes": "Supports separator semantics for focusable moveable splitters, including value, orientation, accessible name, and keyboard expectations.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Salt Splitter",
+      "url": "https://www.saltdesignsystem.com/salt/components/splitter/accessibility",
+      "platform": "web",
+      "notes": "Supports workspace layout customization by interactively adjusting boundaries between horizontal or vertical panels.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "ServiceNow Horizon Resizable Panes",
+      "url": "https://horizon.servicenow.com/workspace/components/now-resizable-panes",
+      "platform": "web",
+      "notes": "Supports two content panes with resize or hide behavior for workspaces such as a form beside an activity stream.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Fluent UI Blazor MultiSplitter",
+      "url": "https://fluentui-blazor.azurewebsites.net/MultiSplitter",
+      "platform": "web",
+      "notes": "Supports pane sizes, minimum and maximum values, resizable panes, collapsible panes, and multiple pane arrangements.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-window-splitter",
+      "note": "APG defines window splitter behavior, role separator use, value attributes, orientation, keyboard resizing, collapse or restore, and pane naming."
+    },
+    {
+      "id": "mdn-aria-separator-role",
+      "note": "MDN documents focusable moveable separator role requirements, accessible names, values, orientation, and keyboard expectations."
+    },
+    {
+      "id": "salt-splitter-accessibility",
+      "note": "Salt describes splitters as adjustable boundaries between panels for customized horizontal or vertical workspace layout."
+    },
+    {
+      "id": "servicenow-resizable-panes",
+      "note": "ServiceNow documents resizable panes for two content regions with resize and hide behavior."
+    },
+    {
+      "id": "fluent-blazor-multisplitter",
+      "note": "Fluent MultiSplitter documents pane sizes, min and max limits, resizable behavior, collapsible panes, and multiple panes."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

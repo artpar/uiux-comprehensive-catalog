@@ -1,0 +1,51 @@
+{
+  "id": "preview-panel-vs-details-panel-vs-hover-card-vs-drawer",
+  "title": "Preview panel vs details panel vs hover card vs drawer",
+  "summary": "Use a preview panel for durable side-by-side rendered content, details panel for structured selected-object metadata, hover card for transient pre-navigation context, and drawer for a temporary edge surface with its own open and close lifecycle.",
+  "patternIds": [
+    "preview-panel",
+    "details-panel",
+    "hover-card",
+    "drawer"
+  ],
+  "decisionRules": [
+    "Choose preview panel when selecting a file, message, attachment, image, video, PDF, or document should render its body or media beside the source list while users keep scanning nearby items.",
+    "Choose details panel when the important task is inspecting attributes, ownership, status, dates, permissions, or activity rather than reading or viewing the selected content itself.",
+    "Choose hover card when the preview is compact, transient, and exists only to help users decide whether to open a person, file, link, or record.",
+    "Choose drawer when a user explicitly opens a temporary edge surface for related detail or a child task, and the surface needs close behavior, focus movement, and state return.",
+    "A preview panel needs content fidelity controls such as page, zoom, fit, play, transcript, alt text, unsupported-file fallback, or open-full-preview route; metadata-only summaries are details panels.",
+    "Keep preview selection synchronized with the source row; if a preview is loading, blocked, unavailable, or stale, show that state in the preview region instead of leaving old rendered content visible.",
+    "Use a preview panel for repeat review workflows like triaging documents, invoices, images, designs, messages, or attachments; use a full viewer when annotation, deep reading, shareable URL state, or large-screen inspection becomes primary.",
+    "Do not hide essential safety or permission warnings behind the rendered content; a risky or unsupported file needs a clear blocked state and a safer open/download path.",
+    "Do not make a hover card carry zoom, paging, form controls, or long reading content; those duties require a preview panel or full preview route.",
+    "When the panel would shrink the source list or preview below usable size, offer collapse, resize, split adjustment, or a full-screen/full-page preview rather than forcing tiny content."
+  ],
+  "failureModes": [
+    "The selected row changes but the panel still renders the previous file.",
+    "The panel only shows owner, date, and size when users need to inspect the PDF page or image content.",
+    "A suspicious downloaded file renders remote content without a warning or blocked state.",
+    "The preview lacks page, zoom, fit, or open-full-preview controls for a multi-page document.",
+    "The preview pane is so narrow that users cannot read the content and no larger route is available.",
+    "A transient hover card is used for long reading, trapping keyboard users in content that disappears.",
+    "Opening a temporary drawer is treated as persistent preview, so focus and close behavior do not match user expectations."
+  ],
+  "sources": [
+    {
+      "id": "apple-quick-look",
+      "note": "Apple Quick Look supports previewing common file types with basic preview interactions."
+    },
+    {
+      "id": "google-drive-view-open-files",
+      "note": "Google Drive documents file viewing and PDF preview mode inside the Drive interface."
+    },
+    {
+      "id": "google-drive-file-types-preview",
+      "note": "Google Drive documents supported preview file types and scaled preview limitations."
+    },
+    {
+      "id": "microsoft-file-preview-security",
+      "note": "Microsoft documents blocked preview behavior for downloaded files with security risk."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

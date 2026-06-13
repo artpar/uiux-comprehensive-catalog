@@ -1,0 +1,257 @@
+{
+  "id": "confirm-phone",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed phone reachability confirmation pattern with guidance for SMS and voice codes, target-number visibility, blocking and non-blocking loops, resend timing, change-number recovery, incorrect, expired, rate-limited, no-access, and verified states, PSTN risk boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers phone access proof after number capture, sent-code state, target number display when safe, SMS and voice channels, code entry with inputmode numeric and one-time-code autocomplete, expiry, resend limits, change-number invalidation, blocking and non-blocking loops, incorrect-code handling, expired-code recovery, rate limiting, no-phone support, verified-phone state, and PSTN risk boundaries.",
+    "relatedPatternDistinction": "The entry separates confirm phone from phone number entry by proving reachability after capture rather than collecting or formatting the number, from confirm email by using SMS or voice instead of mailbox links or codes, from two-factor authentication by not claiming a complete MFA program and by calling out PSTN restrictions, and from password reset by avoiding forgotten-password replacement unless the code is explicitly part of recovery.",
+    "liveDemoBehavior": "The live demo uses a phone confirmation lifecycle with sent code, blocking pending state, non-blocking pending state, SMS code entry, voice code fallback, resend wait, change number with old-code invalidation, wrong code, expired code, rate limit, verified phone, no-access support, and bad modes for hidden number, no resend, SMS only, false verified, stale code, logged code, and account reveal.",
+    "comparisonDecisionRules": "The linked confirm-phone-vs-phone-number-entry-vs-confirm-email-vs-two-factor-authentication comparison gives concrete rules for phone reachability confirmation, phone-number entry, mailbox confirmation, two-factor authentication boundaries, password reset boundaries, target-number visibility, channel choice, expiry, resend, single-purpose codes, and verified-phone state.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/confirm-phone/ on 2026-06-11 in Chromium: verified Sent, Blocking, Non-blocking, SMS code, Voice code, Resend wait, Change number, Wrong code, Expired, Rate limit, Verified, No access, Hidden number, No resend, SMS only, False verified, Stale code, Logs code, and Account reveal states; verified inputmode numeric and one-time-code autocomplete in SMS and voice code states; verified changed-number state shows +44 7700 900441 and old-code invalidation; verified /compare/confirm-phone-vs-phone-number-entry-vs-confirm-email-vs-two-factor-authentication/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/confirm-phone.png"
+    ]
+  },
+  "name": "Confirm phone",
+  "aliases": [
+    "phone confirmation",
+    "phone verification",
+    "verify phone number",
+    "confirm mobile number",
+    "SMS confirmation code",
+    "phone security code",
+    "voice verification code",
+    "verified phone access",
+    "phone OTP"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Phone reachability confirmation loop",
+  "uiGuidance": [
+    "Render confirm phone as a code-confirmation loop with the target number when safe, channel, code entry, expiry, resend timing, change-number route, no-phone or no-access support, and verified-phone state.",
+    "Keep phone confirmation separate from phone number entry, confirm email, password reset, and two-factor authentication: it proves reachability of a captured phone route, not number syntax, mailbox access, password recovery, or a complete MFA program."
+  ],
+  "uxGuidance": [
+    "Use confirm phone only when the service must prove that the user can receive a text-message or voice code at the captured number before relying on it for activation, recovery, notification, or sensitive contact.",
+    "Design for delayed SMS, mistyped numbers, expired codes, repeated failures, landlines, shared phones, inaccessible devices, SIM-swap risk, and users who need a non-phone route."
+  ],
+  "uiExamples": {
+    "good": [
+      "After account creation, the page says a 5-digit code was sent by text message to 07700 900982, shows the code expiry, accepts pasted digits with one-time-code autocomplete, and offers request-new-code and change-number actions.",
+      "A recovery settings page lets the user request a voice call when SMS is unavailable and records verified-phone state only after the code succeeds."
+    ],
+    "bad": [
+      "A page says Enter code but hides which number received it and has no way to request another code or correct a typo.",
+      "A service marks a phone number verified because it matches a local number format, before any SMS or voice challenge succeeds."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user realizes the code was sent to a mistyped number, changes it, and receives a fresh code while the previous code can no longer verify the account.",
+      "A user cannot receive SMS, requests a voice call or support route, and still has a recoverable path without exposing account ownership."
+    ],
+    "bad": [
+      "A user waits for a text that never arrives and cannot resend, change the number, use voice, or contact support.",
+      "A user signs in with SMS as the only second factor and is given no warning or alternative despite PSTN risk."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Services need proof that a captured phone route can receive a code, but phone confirmation can trap users with mistyped numbers, delayed messages, expired codes, SMS-only assumptions, and misplaced confidence in phone-based authentication.",
+  "solution": "Use a short-lived phone-code loop only when phone access matters; show the destination and channel when safe, support paste and OTP autofill, explain expiry and retry limits, provide resend, change-number, voice or support recovery, and store verified-phone state separately from number syntax and authentication strength.",
+  "problemContext": [
+    "The product has already collected a phone number and must decide whether number format, dialability, SMS capability, or actual access must be proven.",
+    "Confirmation may be needed for account activation, phone-number change, account recovery, sensitive notifications, high-risk actions, or a verified contact route.",
+    "Users may receive SMS late, enter the wrong number, use a landline, share a phone, lack cellular service, lose access, or face privacy and safety risks from phone contact.",
+    "SMS and voice codes depend on the public telephone network and can be affected by interception, SIM-swap, forwarding, number recycling, roaming, and device access limitations.",
+    "Some flows can show the destination number safely; sign-in and recovery flows may need to mask it or use neutral copy to avoid account or number exposure."
+  ],
+  "selectionRules": [
+    "Choose confirm phone when the product must prove that the user can receive a time-limited text-message or voice code at an already captured number.",
+    "Use phone number entry when the task is collecting, formatting, validating, warning about, reviewing, or changing the phone number before access is proven.",
+    "Use confirm email when the proof route is a mailbox link or code rather than SMS or voice call.",
+    "Use two-factor authentication when an enrolled factor protects sign-in or authorization; do not present one-time phone confirmation as equivalent to a complete MFA strategy.",
+    "Use password reset when the phone code is part of replacing a forgotten password rather than confirming ordinary phone reachability.",
+    "Show the exact phone number when it is safe and useful; mask or omit it in sign-in recovery contexts where revealing the number could expose account data.",
+    "Explain whether the code was sent by SMS, voice call, or another approved route, and provide an alternative when SMS is unavailable or inappropriate.",
+    "Make codes short-lived, single-purpose, rate-limited, and bound to the number, user or pending record, and flow purpose.",
+    "Invalidate previous codes when the number changes, when confirmation succeeds, or when the pending record is revoked.",
+    "Do not force phone confirmation for low-risk contact collection, receipts, or flows where a review step is enough.",
+    "Treat PSTN-based SMS or voice authentication as risk-bearing; provide notice and unrestricted alternatives when assurance requirements demand them."
+  ],
+  "requiredStates": [
+    "Sent-code state with target phone number when safe, channel, purpose, code length, expiry, resend, and change-number or support action.",
+    "Blocking pending state where the task cannot continue until phone access is confirmed.",
+    "Non-blocking pending state where users can continue with limited access while verified-phone state remains pending.",
+    "SMS code-entry state with a labelled input, inputmode numeric, one-time-code autocomplete, paste support, and visible expiry.",
+    "Voice code state for users who cannot receive SMS or are confirming a voice-capable number.",
+    "Resend-limited state with server-backed wait time and clear current-code behavior.",
+    "Change-number state that sends a fresh code and invalidates previous codes for the old number.",
+    "Incorrect-code state with specific error copy and preserved input affordances.",
+    "Expired-code state with request-new-code recovery.",
+    "Too-many-attempts or rate-limited state with wait time, support, and abuse-protection copy.",
+    "No access to phone state with voice, backup, support, or alternative-contact route.",
+    "Verified phone state that returns to the originating task and clears pending warnings."
+  ],
+  "interactionContract": [
+    "The confirmation page states why phone access is required, what channel was used, and what phone number is being confirmed when disclosure is safe.",
+    "Code entry accepts paste, spaces, hyphens, and familiar formatting, then normalizes only for comparison.",
+    "Resend, voice-call, change-number, no-access, and support actions preserve the originating task or pending account context.",
+    "Changing the number invalidates previous codes and sends a fresh code to the new number.",
+    "Expired, incorrect, reused, or rate-limited codes do not expose raw token values and always offer a safe next step.",
+    "Verified phone state is stored separately from phone number syntax validity, dialability, SMS capability, two-factor enrollment, and account authentication.",
+    "Phone confirmation does not reveal whether a number or account exists unless the user is already in a safer authenticated route."
+  ],
+  "implementationChecklist": [
+    "Define why phone access is required, which channels are allowed, whether the loop blocks the task, code length, expiry, retry limits, resend behavior, change-number behavior, and alternatives.",
+    "Design sent, SMS code, voice code, pending, resend-limited, changed-number, incorrect, expired, rate-limited, no-access, verified, and support-needed states.",
+    "Use a labelled text input with inputmode numeric and autocomplete one-time-code for short code entry rather than a numeric spinbox.",
+    "Allow paste and common separators while validating code length and numeric content with specific messages.",
+    "Bind each code to the phone number, pending record, channel, purpose, expiry, and retry policy; invalidate it after use, number change, or revocation.",
+    "Protect phone numbers, codes, token status, and failure reasons from logs, analytics, referrers, support tools, screenshots, and notification previews.",
+    "Provide voice, backup, support, or non-phone alternatives for landline, no-SMS, inaccessible-device, shared-phone, or no-phone situations.",
+    "Apply abuse controls such as resend throttling, retry limits, monitoring, and progressive delays without trapping legitimate users.",
+    "Test delayed delivery, wrong number, no signal, number change, resend, multiple active messages, expired code, too many attempts, voice fallback, mobile autofill, screen readers, high zoom, and browser Back."
+  ],
+  "commonMisuses": [
+    "Treating phone-number format validation as proof that the user can receive texts or calls.",
+    "Hiding the destination number when users need it to spot a typo.",
+    "Providing no resend, wait time, change-number, voice, no-phone, or support route.",
+    "Forcing SMS for users with landlines, shared phones, inaccessible devices, no cellular signal, or no phone.",
+    "Using SMS confirmation as the only high-assurance authentication option without risk notice or an unrestricted alternative.",
+    "Letting previous codes remain valid after the phone number changes or confirmation succeeds.",
+    "Logging codes, full phone numbers, token failure reasons, or replayable verification URLs.",
+    "Revealing account or number ownership through request-new-code, activation, or error messages."
+  ],
+  "critiqueQuestions": [
+    "Why does this flow need proof of phone access rather than only a phone number field and review?",
+    "Does the page make clear whether phone proof stops the task, grants limited pending access, or only verifies a contact route?",
+    "Can users see, mask, or change the target number appropriately for the context?",
+    "What happens when SMS is delayed, the number is wrong, the code expires, too many attempts fail, or the user cannot access the phone?",
+    "Are SMS and voice codes being treated as authentication, and if so, what alternatives and risk notices exist?",
+    "How are codes bound, expired, invalidated, throttled, and protected from leakage?"
+  ],
+  "useWhen": [
+    "A captured phone number must be proven reachable before activation, contact-route reliance, recovery eligibility, phone-number change, or a sensitive action continues.",
+    "The service can send a short-lived SMS or voice code and maintain pending versus verified-phone state.",
+    "Users need recoverable resend, change-number, expired-code, too-many-attempts, no-phone, and verified-return behavior."
+  ],
+  "avoidWhen": [
+    "The product only needs to collect or review a phone number for low-risk contact.",
+    "The user is still entering or correcting the phone number and access proof is not yet needed.",
+    "The task is mailbox confirmation, password reset, or a full multi-factor authentication enrollment and management flow.",
+    "The service cannot invalidate old codes, throttle attempts, offer alternatives, or protect verification artifacts.",
+    "Users can complete the task safely with review, consent, and another contact route instead of a phone-code loop."
+  ],
+  "variants": [
+    "SMS security code",
+    "Voice-call confirmation code",
+    "Account creation phone confirmation",
+    "Phone-number change confirmation",
+    "Recovery phone confirmation",
+    "Blocking phone confirmation",
+    "Non-blocking pending phone",
+    "Resend phone code",
+    "Change pending phone number",
+    "Expired phone code",
+    "Too many code attempts",
+    "No access to phone recovery",
+    "Verified phone state"
+  ],
+  "accessibility": [
+    "Use a clear heading such as Check your phone and label the code input as a security code or phone confirmation code.",
+    "Use inputmode numeric and autocomplete one-time-code while keeping the field as text so leading zeros and paste behavior are preserved.",
+    "Expose destination, channel, expiry, resend wait, retry limits, and pending or verified status as text, not only color or icons.",
+    "Do not rely on SMS delivery alone; keep request-new-code, voice, change-number, support, and no-access controls keyboard reachable.",
+    "Move focus to incorrect, expired, rate-limited, no-access, and verified state headings or the first recovery action.",
+    "Avoid multi-field code inputs that trap focus unless paste, deletion, and screen-reader reading order are proven.",
+    "Offer non-SMS routes for users who cannot access text messages, cellular service, or a private phone."
+  ],
+  "keyboardBehavior": [
+    "Initial focus lands on the confirmation heading or code input depending on the page contract.",
+    "Tab order reaches code entry, continue, request-new-code, voice-call, change-number, no-access, and support controls in a predictable order.",
+    "Enter submits the visible code form only when a code field is present.",
+    "Expired, incorrect, and rate-limited states focus the heading or first recovery action without clearing useful context.",
+    "After changing the number, focus moves to the new sent-code state and announces the updated channel and destination when safe.",
+    "After successful confirmation, focus lands on the resumed task, activation result, or verified-phone status."
+  ],
+  "failureModes": [
+    "Users are blocked because SMS is delayed and there is no request-new-code, voice, pending, or support route.",
+    "Users cannot fix a mistyped phone number after the code is sent.",
+    "Old codes confirm a new or changed phone number incorrectly.",
+    "The service claims a phone is verified when it only passed format validation.",
+    "A security code or full phone number is leaked through logs, analytics, screenshots, notification previews, or support tooling.",
+    "Activation and resend messages reveal whether an account or phone number already exists.",
+    "An SMS-only loop adds unnecessary friction or excludes users from a low-risk flow.",
+    "Expired, incorrect, reused, or rate-limited codes dead-end without a request-new-code or help route."
+  ],
+  "relatedPatterns": [
+    "phone-number-entry",
+    "confirm-email",
+    "two-factor-authentication",
+    "password-reset",
+    "account-creation",
+    "inline-validation",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "confirm-phone-vs-phone-number-entry-vs-confirm-email-vs-two-factor-authentication"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Confirm a phone number",
+      "url": "https://design-system.service.gov.uk/patterns/confirm-a-phone-number/",
+      "platform": "web",
+      "notes": "Documents phone confirmation by text-message security code, one-time-code autocomplete, numeric input, familiar formatting, expiry, new-code request, change-number recovery, no-phone access support, and repeated-failure controls.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NIST SP 800-63B restricted authenticators",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/#restricted-authenticators",
+      "platform": "web",
+      "notes": "Treats PSTN out-of-band authentication as restricted and requires risk assessment, notice, alternatives, mitigation, and migration planning.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "MDN WebOTP API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebOTP_API",
+      "platform": "web",
+      "notes": "Documents web OTP retrieval from specially formatted SMS messages and recommends one-time-code autocomplete for OTP fields.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-confirm-phone-number-pattern",
+      "note": "GOV.UK supports text-message security codes, one-time-code autocomplete, numeric input, familiar formatting, 15-minute expiry, new-code request, change-number recovery, no-phone support, and repeated-failure controls."
+    },
+    {
+      "id": "govuk-phone-numbers-pattern",
+      "note": "GOV.UK phone-number guidance supports collecting phone details only when needed and separates phone entry from access confirmation."
+    },
+    {
+      "id": "nist-sp-800-63b-pstn-restricted",
+      "note": "NIST supports treating PSTN out-of-band authentication as restricted and requiring alternatives, notice, and risk acceptance when SMS or voice is used for authentication."
+    },
+    {
+      "id": "mdn-webotp-api",
+      "note": "MDN supports SMS OTP retrieval behavior and one-time-code autocomplete for phone-code confirmation fields."
+    },
+    {
+      "id": "mdn-autocomplete-credentials",
+      "note": "MDN documents one-time-code as an autocomplete token for short-lived code entry."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,251 @@
+{
+  "id": "filter-reset-that-clears-unrelated-search",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed anti-pattern for Clear filters, Reset filters, chip removal, mobile drawer reset, no-results recovery, saved filter application, and generated reset controls that erase independent search query, saved search, sort, scope, pagination, URL, history, or view state, with scoped replacement guidance, related-pattern distinctions, unique live demo behavior, comparison decision rules, duplicate audit coverage, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets Clear filters, Clear one filter, Clear search, Reset draft, no-results recovery, saved filter versus saved search boundaries, sort preservation, pagination policy, mobile drawer reset, undo, URL state, and search-history preservation so resets affect only the state named by the control.",
+    "relatedPatternDistinction": "The entry separates this anti-pattern from filter-panel by over-broad reset behavior versus healthy filter composition, from basic-search by query ownership, from filter-chips by one-chip removal scope, from saved-search by intentional query-plus-filter bundles, and from saved-filter, no-results-recovery, sort-controls, and search-history by preserving independent result context.",
+    "liveDemoBehavior": "The live demo renders a case search page with visible Query, Sort, Scope, Saved, and Page owners. Good UX switches through clear one filter, clear all filters, clear search, reset draft, no-results recovery, saved filter boundary, saved search bundle, sort preserved, pagination policy, mobile reset, undo reset, and URL state. Bad UX switches through query wiped, one chip clears all, mobile reset wipes search, broad start over, saved filter wipes query, sort reset, history deleted, and draft reset clears applied failures.",
+    "comparisonDecisionRules": "The comparison gives concrete rules for flagging Clear filters or Reset filters when they clear unrelated query, URL, saved, sort, pagination, scope, history, or view state; choosing filter panel, basic search, filter chips, or saved search by state ownership; separating no-results, mobile, draft, and saved-filter reset actions; and labeling broader Clear search and filters or Start over actions explicitly.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 282 complete patterns, 1 stub pattern, 15 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Desktop and compact browser checks covered the pattern page and comparison page, required filter-reset terms, duplicate IDs, main overflow, and 20 live demo controls. Browser console had no warnings or errors. Screenshot captured after promotion at screenshots/patterns/filter-reset-that-clears-unrelated-search.png.",
+    "screenshots": [
+      "screenshots/patterns/filter-reset-that-clears-unrelated-search.png"
+    ]
+  },
+  "name": "Filter reset that clears unrelated search",
+  "aliases": [
+    "clear filters clears search",
+    "filter reset wipes query",
+    "reset filters loses search",
+    "clear all over-resets",
+    "unscoped filter reset",
+    "filter clear loses sort",
+    "filter reset destroys context"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Data Display And Exploration",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Over-broad filter reset anti-pattern",
+  "uiGuidance": [
+    "Treat Clear filters or Reset filters as scoped to filter criteria only; keep the submitted search query, query field, search scope, saved search identity, sort, pagination policy, and view settings visible and unchanged unless the control explicitly names those states.",
+    "Show separate removable state tokens for query, filters, sort, saved search, and scope so users can predict the blast radius of Clear filters, Clear search, Clear all filters, and broader Start over actions."
+  ],
+  "uxGuidance": [
+    "Use this anti-pattern during review when users try to loosen filters but lose the search term or saved search context that got them to the result set.",
+    "Design reset behavior as a scoped recovery path: users can remove one filter, clear all filters, clear search, or reset the whole result state deliberately, with wording and undo proportional to the amount of state affected."
+  ],
+  "uiExamples": {
+    "good": [
+      "A result page shows Query: appeal and filters Status: Open, Date: Last 30 days; Clear filters removes only the filter chips and keeps the query token.",
+      "A no-results state offers Remove Date filter, Clear all filters, and Clear search as separate actions.",
+      "A saved filter applies Status and Team criteria while preserving the current search query and sort order."
+    ],
+    "bad": [
+      "A Clear filters button removes selected filters and empties the search field without warning.",
+      "Removing one filter chip resets the entire query and sort state.",
+      "A Start over link in a no-results state silently clears search, filters, saved search identity, and view settings."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user searching appeal clears all filters and still sees results for appeal sorted by Newest.",
+      "A keyboard user removes Status: Open, focus stays near remaining applied filters, and the submitted query remains in the result summary.",
+      "A mobile user resets draft filter controls inside the filter drawer without erasing the search already submitted on the results page."
+    ],
+    "bad": [
+      "A user widens results by clearing filters, then cannot remember the exact search phrase that disappeared.",
+      "A no-results recovery button says Reset filters but removes the saved search the user was editing.",
+      "Clearing one chip also returns sort to default and jumps the user back to page one without saying why."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to loosen or remove filters, but the reset action silently clears unrelated search or result state that should remain independent.",
+  "solution": "Treat over-broad filter reset as an anti-pattern: make reset scope explicit, preserve unrelated search and result state, separate query reset from filter reset, and show affected state before any broader clear-all action.",
+  "problemContext": [
+    "The result set combines keyword search, filter criteria, sort, scope, saved search, saved filter, pagination, view density, or layout state.",
+    "The UI offers Clear filters, Reset, Clear all, Start over, chip removal, mobile drawer reset, no-results recovery, or saved-filter apply actions.",
+    "Users expect a filter reset to widen results by removing constraints, not to destroy the query or saved context that defines the result universe.",
+    "The page may use batch filter drafts, applied filter chips, saved presets, URL parameters, search history, or mobile drawers that make state ownership hard to see."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a filter reset clears or changes query text, submitted search, search scope, saved search identity, search history, sort order, page size, view mode, selected rows, or route context that is not visibly part of the filters.",
+    "Use Clear filters for user-applied filter criteria only.",
+    "Use Clear search or Clear query when the action removes search text or submitted search context.",
+    "Use Clear search and filters, Reset all, or Start over only when the label names the broader effect and the UI lists the affected state.",
+    "Use chip removal for one applied criterion and clear-all chips for the filter chip group, preserving query, sort, scope, and view state.",
+    "Use saved filter when only reusable filter criteria are applied; preserve query and sort unless the preset explicitly stores them.",
+    "Use saved search when query text, filters, sort, scope, and alert subscriptions are intentionally bundled into a saved object.",
+    "In no-results recovery, offer scoped loosening actions before broad reset.",
+    "In batch filter panels, distinguish Reset draft from Clear applied filters.",
+    "If broad reset is destructive or hard to reconstruct, provide undo, confirmation, or a visible before/after state list."
+  ],
+  "requiredStates": [
+    "Default state with visible query, filters, sort, scope, and result count separated by ownership.",
+    "Clear one filter state that removes only one criterion and preserves query and sort.",
+    "Clear all filters state that removes all filter criteria and keeps the submitted query.",
+    "Clear search state that removes query text without pretending it is a filter reset.",
+    "Reset draft state in a batch panel that reverts pending filter controls without changing applied results.",
+    "No-results recovery state with scoped loosen-filter and clear-search actions.",
+    "Saved filter or saved search state showing whether the saved object owns query text.",
+    "Pagination and sort preservation state after filter reset.",
+    "Mobile drawer reset state where returning to results keeps the submitted query.",
+    "Bad state showing query wiped, sort reset, saved identity lost, history deleted, and one-chip removal over-clearing state."
+  ],
+  "interactionContract": [
+    "Every reset control names the state it changes.",
+    "Clear filters removes only filter criteria and updates the result count without clearing the search query.",
+    "Clear search removes only query text and leaves filters visible unless the action explicitly says it clears both.",
+    "Removing one chip removes one criterion; Clear all filters removes the filter group only.",
+    "Sort order, view density, search scope, selected saved search, and pagination policy are preserved or explicitly listed as affected.",
+    "No-results recovery keeps active state visible while users choose which constraint to loosen.",
+    "Batch filter reset distinguishes draft selections from applied filters.",
+    "Focus remains near the changed control or result summary after scoped reset.",
+    "Undo or confirmation is available when a broad reset would be surprising or hard to reconstruct."
+  ],
+  "implementationChecklist": [
+    "Model query, filters, sort, scope, saved identity, pagination, and view mode as separate state owners.",
+    "Name reset functions after the state they affect, such as clearFilters, clearQuery, clearSort, or resetAllResultState.",
+    "Render query tokens separately from filter chips.",
+    "Place Clear filters near applied filter chips and Clear search near the search field or query token.",
+    "Keep one-chip removal, clear-all-filters, reset-draft, clear-query, and reset-all code paths separate.",
+    "Preserve URL parameters and history entries for unrelated state when clearing filters.",
+    "Add no-results recovery actions that loosen filters without erasing query text.",
+    "Test saved filter application and saved search reruns to confirm only the intended state bundle changes.",
+    "Test keyboard focus, mobile filter drawer reset, browser back, pagination, sort, and reload after every reset path."
+  ],
+  "commonMisuses": [
+    "Implementing Clear filters by reinitializing the whole search page state object.",
+    "Using one Reset button for draft filters, applied filters, query, sort, and saved search.",
+    "Treating query text as just another filter chip without showing the difference.",
+    "Clearing search history or saved search identity when only visible filters were reset.",
+    "Resetting sort and pagination without explaining that the result set was re-ranked or repaged.",
+    "Using Start over in no-results recovery when a scoped Remove date filter action would preserve useful context.",
+    "Applying saved filters as if they were saved searches, clearing query and sort accidentally."
+  ],
+  "critiqueQuestions": [
+    "What state does this reset control actually own?",
+    "If the label says Clear filters, does the search query survive?",
+    "Can users see query, filters, sort, scope, saved identity, and page state as separate tokens or controls?",
+    "Does one-chip removal affect only one criterion?",
+    "Does no-results recovery preserve the query that produced the empty set?",
+    "What happens to saved search identity, search history, sort, pagination, URL parameters, and focus after reset?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern to review search result pages, list filters, dashboard filters, saved filters, saved searches, mobile filter drawers, no-results recovery, and generated clear/reset actions.",
+    "Use it when a reset label is narrower than the actual state it clears."
+  ],
+  "avoidWhen": [
+    "The action is intentionally a full Start over reset and the UI clearly lists search, filters, sort, scope, and view state as affected.",
+    "The query is explicitly part of a saved search or advanced search definition that users are resetting as a whole.",
+    "The page has only filter criteria and no independent search, sort, saved identity, pagination, or view state.",
+    "The issue is unclear filter visibility rather than over-broad reset behavior."
+  ],
+  "variants": [
+    "Clear filters clears query",
+    "Clear one chip clears all state",
+    "Mobile reset wipes search",
+    "No-results start-over over-reset",
+    "Saved filter clears search",
+    "Reset draft clears applied query",
+    "Sort reset hidden in filter reset",
+    "Search history erased by filter clear"
+  ],
+  "accessibility": [
+    "Give reset controls precise accessible names such as Clear all filters, Clear search query, or Clear search and filters.",
+    "Announce result-count changes and preserved query state through a polite status region after reset.",
+    "Keep focus near remaining applied filters, the query token, or result summary after reset.",
+    "Expose query and filter state as text, not color-only chips or icons.",
+    "Do not surprise keyboard or screen reader users by clearing offscreen search state from a filter-panel control.",
+    "Provide undo or confirmation for broad resets that clear multiple state owners."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches query clear, individual filter removals, clear-all-filters, reset-draft, and reset-all controls separately.",
+    "Enter or Space on an applied filter chip removes only that chip.",
+    "After Clear filters, focus moves to the result summary or remaining state tokens and the query remains readable.",
+    "After Clear search, focus returns to the search input or query area.",
+    "Escape or Back from mobile filter drawers cancels draft filter changes without clearing the submitted query unless documented."
+  ],
+  "failureModes": [
+    "Clear filters empties the search field.",
+    "Clear one chip clears all chips and the query.",
+    "Reset draft filters clears the applied query and results.",
+    "No-results recovery deletes useful search context.",
+    "Saved filter application behaves like saved search replacement.",
+    "Sort, pagination, or view mode reset without being named.",
+    "Search history or saved identity is deleted by a visible filter reset.",
+    "Users cannot reconstruct the lost query after the filter reset."
+  ],
+  "relatedPatterns": [
+    "filter-panel",
+    "filter-chips",
+    "basic-search",
+    "saved-search",
+    "saved-filter",
+    "no-results-recovery",
+    "search-history",
+    "sort-controls"
+  ],
+  "comparisons": [
+    "filter-reset-that-clears-unrelated-search-vs-filter-panel-vs-basic-search-vs-filter-chips-vs-saved-search"
+  ],
+  "examples": [
+    {
+      "product": "Carbon Design System Filtering",
+      "url": "https://carbondesignsystem.com/patterns/filtering/",
+      "platform": "web",
+      "notes": "Documents filtering state, reset behavior, batch and instant filter models, and hidden active indicators.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "DWP Filter component research",
+      "url": "https://design-system.dwp.gov.uk/research/filters/design-notes",
+      "platform": "web",
+      "notes": "Documents selected filters, result counts, clear-all behavior, and synchronization between filtering controls and results.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MOJ Search component",
+      "url": "https://design-patterns.service.justice.gov.uk/components/search/",
+      "platform": "web",
+      "notes": "Supports treating search query entry and query clearing as separate from list filtering controls.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-filtering-pattern",
+      "note": "Documents filtering reset behavior, batch and instant update models, hidden active indicators, and reset scope."
+    },
+    {
+      "id": "dwp-filter-component-research",
+      "note": "Documents selected filters, result counts, clear-all controls, and filter/result synchronization."
+    },
+    {
+      "id": "visa-product-design-filters",
+      "note": "Documents active indicators, applied filter chips, clear-all controls, apply buttons, and mobile filtering considerations."
+    },
+    {
+      "id": "moj-design-system-filter",
+      "note": "Documents selected filters, grouped controls, clear filters, and apply behavior for search result lists."
+    },
+    {
+      "id": "moj-design-system-search",
+      "note": "Supports search query entry, submit action, and no-results recovery as search behavior separate from filter reset."
+    },
+    {
+      "id": "servicenow-save-use-list-filters",
+      "note": "Supports saved list filters as reusable filter criteria, distinguishing saved filters from broader saved search state."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

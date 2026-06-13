@@ -1,0 +1,257 @@
+{
+  "id": "permission-request",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed device and browser permission request pattern with contextual request guidance, platform prompt states, denial recovery, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers permission request, contextual request, feature-triggered ask, system prompt ready, grant permission, deny permission, denied fallback, ask again later, previously denied, permanently denied, settings required, limited access, while-in-use, one-time, permission revoked, permission status check, manual fallback, mobile compact, device resource, OS or browser prompt, camera, microphone, location, photos, contacts, notifications, Bluetooth, clipboard, motion sensors, resource mismatch, status checking, and platform settings recovery.",
+    "relatedPatternDistinction": "The entry separates permission request from consent prompt by focusing on device resource and platform powerful-feature access rather than optional data use; from permission sharing by separating OS or browser grants from durable access grants to users, groups, guests, links, service accounts, keys, roles, scope, expiry, and revoke paths; from permission recovery by separating device settings recovery from owner or admin access requests after denial; from permission denied state by separating platform permission outcomes from account authorization boundary, role, policy, license, share, wrong-account, or no-disclosure states; from notification preferences by separating the initial OS notification permission request from channels, topics, frequency, quiet hours, digest, and subscription settings; and from privacy settings by treating account-level privacy controls as long-term management rather than a just-in-time system permission prompt.",
+    "liveDemoBehavior": "The live demo shows contextual request, feature-triggered ask, system prompt ready, grant permission, deny permission, denied fallback, ask again later, previously denied, permanently denied, settings required, limited access, while-in-use, one-time, permission revoked, permission status check, manual fallback, and mobile compact states. Bad states cover cold-start prompt, vague reason, blocked on deny, repeat nag, fake required, no settings path, and permission mismatch failures.",
+    "comparisonDecisionRules": "The linked permission-request-vs-consent-prompt-vs-permission-sharing-vs-permission-recovery-vs-permission-denied-state-vs-notification-preferences comparison gives concrete rules for permission request, consent prompt, permission sharing, permission recovery, permission denied state, notification preferences, device resource, camera, microphone, location, photos, contacts, notifications, Bluetooth, motion sensors, contextual timing, system permission prompt, manual fallback, grant, deny, previously denied, settings route, optional data use, durable access grants, owner or admin, authorization boundary, account-level privacy controls, message channels, topics, and frequency.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and compact-width checks rendered /patterns/permission-request/ with the live demo, exercised Contextual request, Feature-triggered ask, System prompt ready, Grant permission, Deny permission, Denied fallback, Ask again later, Previously denied, Permanently denied, Settings required, Limited access, While-in-use, One-time, Permission revoked, Permission status check, Manual fallback, Mobile compact, Cold-start prompt, Vague reason, Blocked on deny, Repeat nag, Fake required, No settings path, and Permission mismatch states, and found no duplicate IDs, page overflow, or perm-request demo overflow on desktop or compact width. The comparison route /compare/permission-request-vs-consent-prompt-vs-permission-sharing-vs-permission-recovery-vs-permission-denied-state-vs-notification-preferences/ included permission request, consent prompt, permission sharing, permission recovery, permission denied state, notification preferences, device resource, camera, microphone, location, photos, contacts, notifications, Bluetooth, motion sensors, contextual timing, system permission prompt, manual fallback, grant, deny, previously denied, settings route, optional data use, durable access grants, owner or admin, authorization boundary, account-level privacy controls, message channels, topics, and frequency with no duplicate IDs or content overflow on desktop or compact width.",
+    "screenshots": [
+      "screenshots/patterns/permission-request.png"
+    ]
+  },
+  "name": "Permission request",
+  "aliases": [
+    "runtime permission request",
+    "device permission request",
+    "browser permission prompt",
+    "app permission prompt",
+    "location permission",
+    "camera permission",
+    "microphone permission",
+    "photos permission",
+    "notification permission",
+    "permission pre-prompt"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Contextual operating-system or browser permission request for device resources, powerful browser features, private user data, or local capabilities",
+  "uiGuidance": [
+    "Render a permission request as a contextual feature gate that names the resource, user action, immediate benefit, system prompt timing, available choices, and fallback before invoking the OS or browser permission prompt.",
+    "Show the permission status after grant, denial, revocation, limited access, one-time access, or settings-required outcomes, and keep a useful manual path when permission is not available."
+  ],
+  "uxGuidance": [
+    "Use permission request when a feature needs operating-system or browser authorization for resources such as location, camera, microphone, photos, contacts, notifications, Bluetooth, clipboard, motion sensors, or other powerful features.",
+    "Ask only after the user starts the feature that needs the resource, explain why access is needed in product language, handle grant and deny outcomes cleanly, and degrade the feature without blocking unrelated work."
+  ],
+  "uiExamples": {
+    "good": [
+      "A field service app asks for location only when the user taps Start route, explains that current location will verify arrival, then opens the system permission prompt and offers manual address entry if declined.",
+      "A video support tool asks for camera and microphone when the user starts a call, shows device test controls, and offers chat-only support if either permission is denied."
+    ],
+    "bad": [
+      "An app asks for location, contacts, photos, and notifications on first launch before the user knows why any resource is needed.",
+      "A notification opt-in prompt says Enable important updates but triggers an unrelated camera permission prompt."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user taps Scan receipt, sees why camera access is needed for scanning, grants access, scans the receipt, and can later revoke camera access from settings without losing account access.",
+      "A user denies precise location, chooses approximate location instead, and the app still shows nearby pickup points with lower accuracy."
+    ],
+    "bad": [
+      "A user denies microphone access and the app loops the same system prompt every time they tap anything in the support screen.",
+      "A user previously denied photos access permanently and the product keeps showing Try again instead of explaining the settings route or limited library option."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users distrust and reject permission prompts when products ask too early, ask for the wrong resource, fail to explain the feature need, provide no fallback after denial, or ignore revoked and limited permission states.",
+  "solution": "Ask for the minimum device or browser permission at the moment a feature needs it, explain the resource and user benefit before the system prompt, respect grant and deny outcomes, show permission status, and provide fallback or settings recovery when access is unavailable.",
+  "problemContext": [
+    "The permission boundary is controlled by the operating system or browser rather than only the product's own account settings.",
+    "The resource can expose private user data, device sensors, local files, camera, microphone, notifications, location, contacts, Bluetooth devices, clipboard contents, storage access, payment handlers, or other powerful platform features.",
+    "The product may see granted, denied, prompt-ready, previously denied, permanently denied, limited, approximate, while-in-use, one-time, revoked, blocked-by-policy, or unavailable states.",
+    "The user may need a manual fallback such as upload file, enter address, paste code, type contact, use chat-only mode, open settings, or continue without the optional feature."
+  ],
+  "selectionRules": [
+    "Choose permission request when the user is authorizing an OS, browser, or device resource such as camera, microphone, location, photos, contacts, notifications, clipboard, Bluetooth, motion sensors, storage access, or another powerful feature.",
+    "Ask in context when the user starts the feature that requires the resource rather than during cold start, account creation, or unrelated navigation.",
+    "Explain why the resource is needed, what action triggered the request, what the user can do without granting it, and whether the permission is one-time, while-in-use, limited, approximate, or persistent.",
+    "Use consent prompt when the decision is active opt-in to optional data use such as marketing, research, personalization, partner sharing, AI training, or sensitive-data processing.",
+    "Use permission sharing when a user or admin grants durable access to another person, group, link, service account, key, or role.",
+    "Use permission recovery when a denied user requests access from an owner or admin after an account authorization boundary.",
+    "Use permission denied state when the product is explaining a role, policy, license, or share boundary after authorization fails.",
+    "Use notification preferences when the user already has or does not need OS notification access and is choosing message channels, topics, frequency, quiet hours, digest behavior, or subscriptions.",
+    "Use privacy settings when the task is long-term account-level privacy controls rather than a just-in-time platform permission prompt.",
+    "Do not use a custom pre-prompt to pressure, mislabel, or repeatedly nag after the user has declined the system prompt."
+  ],
+  "requiredStates": [
+    "Contextual request state tied to the user action that needs the resource.",
+    "Feature-triggered ask state that names the resource, task, benefit, and optional fallback.",
+    "System prompt ready state immediately before invoking the browser or OS permission prompt.",
+    "Grant permission state with enabled feature, saved status, and next step.",
+    "Deny permission state with respectful refusal copy and no unrelated blocking.",
+    "Denied fallback state with manual address entry, file upload, chat-only mode, or another route that does not need the permission.",
+    "Ask again later state when the user dismisses the explanation before the system prompt.",
+    "Previously denied state that explains why the system prompt may not appear again.",
+    "Permanently denied or settings required state with a stable settings route.",
+    "Limited access state for photo library selection, approximate location, or partial resource grant.",
+    "While-in-use and one-time permission states with clear lifetime expectations.",
+    "Permission revoked state detected when the user changes OS or browser settings.",
+    "Permission status check state for granted, denied, prompt, blocked, unavailable, or policy-limited outcomes.",
+    "Manual fallback state that lets the user complete eligible work without the resource.",
+    "Mobile compact state where resource name, reason, choices, and fallback stay visible."
+  ],
+  "interactionContract": [
+    "The product evaluates whether permission is truly needed before declaring or requesting the platform permission.",
+    "The pre-prompt appears only after a feature-triggering action and can be canceled without accepting the system prompt.",
+    "The system prompt is invoked from the feature action or explicit continue action, not from passive page load or hidden timers.",
+    "The requested permission matches the visible feature; a camera action must not trigger contacts, precise location, or notifications without explanation.",
+    "Granting permission enables only the named feature and updates visible status before continuing.",
+    "Denying permission leaves unrelated navigation, account access, and eligible non-resource work available.",
+    "Previously denied, permanently denied, revoked, blocked, and limited states show a settings route or manual fallback instead of repeating a failing prompt.",
+    "The interface updates when permission status changes and records telemetry without collecting resource data before permission exists."
+  ],
+  "implementationChecklist": [
+    "Inventory every requested permission, the feature that needs it, the user action that triggers it, and whether a lower-permission alternative exists.",
+    "Minimize permission requests and avoid declaring resources that can be handled with pickers, file uploads, manual entry, transient activation, or feature-specific APIs.",
+    "Write pre-prompt copy that names the resource, task, benefit, choice, fallback, and settings path in the same words used by the feature.",
+    "Implement status checks for granted, denied, prompt, limited, one-time, while-in-use, revoked, unavailable, and blocked-by-policy outcomes where the platform exposes them.",
+    "Provide denial fallbacks such as manual address entry, upload file, choose from limited library, continue without notifications, use chat, or open settings.",
+    "Test first ask, grant, deny, dismiss, previously denied, permanently denied, limited photo access, approximate location, revoked permission, mobile layout, keyboard order, and screen-reader labels."
+  ],
+  "commonMisuses": [
+    "Asking for multiple resources at launch before the user has attempted the relevant feature.",
+    "Using vague copy such as improve your experience instead of naming the resource and task.",
+    "Blocking an entire product after denial even though only one optional feature needed the permission.",
+    "Looping the same system prompt or custom prompt after the user declines.",
+    "Pretending permission is required when a manual fallback or platform picker would work.",
+    "Providing no settings route after the platform stops showing the prompt.",
+    "Requesting a different permission than the visible feature implies."
+  ],
+  "critiqueQuestions": [
+    "What specific user action makes this permission necessary now?",
+    "Can the task be completed with less access, a picker, limited library, approximate location, one-time access, or manual entry?",
+    "Does the prompt name the exact resource and feature benefit before the system dialog appears?",
+    "What happens after grant, denial, dismissal, limited access, revocation, or settings-required outcomes?",
+    "Can users continue unrelated work when they decline?",
+    "Is the settings route clear when the platform will not show the prompt again?",
+    "Does the requested permission exactly match the resource described in the UI?"
+  ],
+  "useWhen": [
+    "A feature needs operating-system, browser, or device authorization to access location, camera, microphone, photos, contacts, notifications, Bluetooth, clipboard, motion sensors, storage access, or another powerful feature.",
+    "The product can ask in context, explain the resource need, honor denial, and provide a fallback or settings route where appropriate."
+  ],
+  "avoidWhen": [
+    "The decision is consent to optional data use rather than access to a device or browser resource.",
+    "The user is granting another person, group, link, service account, or key access to a protected object.",
+    "The user is recovering from an account role, policy, license, or sharing denial.",
+    "The product can complete the feature through a lower-permission picker or manual input and does not need a runtime permission.",
+    "The request would appear before the user understands the feature that needs the resource."
+  ],
+  "variants": [
+    "Location permission request",
+    "Camera permission request",
+    "Microphone permission request",
+    "Photos limited-library request",
+    "Contacts permission request",
+    "Notification permission request",
+    "Bluetooth device permission request",
+    "Clipboard permission request",
+    "Motion sensor permission request",
+    "Browser powerful-feature request",
+    "Permission settings recovery",
+    "Manual fallback after denial"
+  ],
+  "accessibility": [
+    "Use a labelled region or dialog title that names the resource and feature, such as Allow location for route check-in.",
+    "Do not rely on platform icons, color, button size, or OS dialog order as the only explanation of why permission is needed.",
+    "Associate each fallback, settings route, and status message with the same resource name used in the request.",
+    "Announce granted, denied, limited, revoked, settings-required, unavailable, and fallback states through status text.",
+    "Keep long resource names, settings paths, and fallback descriptions wrapped on mobile without horizontal scrolling.",
+    "Return focus to the feature task after the system prompt closes, whether the outcome is grant, denial, or dismissal."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the permission explanation, continue, not now, manual fallback, settings route, and feature controls in a logical order.",
+    "Enter or Space activates continue, cancel, fallback, open settings, retry status check, and save fallback controls according to native button behavior.",
+    "Escape closes only the custom explanation surface before the system prompt is invoked; it must not grant permission or hide a denial state.",
+    "After the platform prompt resolves, focus moves to the enabled feature, denial fallback, or settings guidance with the outcome announced.",
+    "If permission status changes while the surface is open, focus remains stable and the status region updates without resetting the task."
+  ],
+  "failureModes": [
+    "The first-run screen asks for location, camera, microphone, contacts, photos, and notifications before the user starts any related feature.",
+    "The prompt says allow access for better service without naming the resource, task, or fallback.",
+    "The product blocks the account, checkout, or unrelated workflow after the user denies an optional permission.",
+    "The same prompt repeats after denial until the user accepts.",
+    "The system prompt asks for a resource that does not match the custom explanation.",
+    "A permanently denied state has no settings route, so the feature cannot recover.",
+    "The product treats limited, approximate, one-time, or revoked permission as fully granted."
+  ],
+  "relatedPatterns": [
+    "consent-prompt",
+    "permission-sharing",
+    "permission-recovery",
+    "permission-denied-state",
+    "notification-preferences",
+    "preference-center",
+    "settings-management",
+    "file-upload",
+    "error-state"
+  ],
+  "comparisons": [
+    "permission-request-vs-consent-prompt-vs-permission-sharing-vs-permission-recovery-vs-permission-denied-state-vs-notification-preferences"
+  ],
+  "examples": [
+    {
+      "product": "Android runtime permissions",
+      "url": "https://developer.android.com/training/permissions/requesting",
+      "platform": "mobile",
+      "notes": "Documents asking in context, not blocking users, graceful degradation after denial or revocation, and associating actions with specific runtime permissions.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "MDN Permissions API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API",
+      "platform": "web",
+      "notes": "Documents permission status query behavior, prompt state, API-specific prompt triggers, manual revocation, and browser permission-aware APIs.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "W3C Permissions",
+      "url": "https://www.w3.org/TR/permissions/",
+      "platform": "web",
+      "notes": "Defines permission infrastructure for powerful browser features and user choices to allow or deny access.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "NN/G permission request UX",
+      "url": "https://www.nngroup.com/articles/permission-requests/",
+      "platform": "mobile",
+      "notes": "Documents contextual timing, request copy, user benefit framing, informed choice, reversal, and dark-pattern avoidance for mobile permission requests.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "android-runtime-permissions",
+      "note": "Supports asking for runtime permissions in context, avoiding blocked flows, graceful degradation after denial or revocation, evaluating whether permission is necessary, and associating user actions with specific permissions."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports browser permission status checks, prompt state, API-specific prompt triggers, manual revocation through settings, and examples of permission-aware APIs including geolocation, camera, microphone, notifications, clipboard, sensors, and storage access."
+    },
+    {
+      "id": "w3c-permissions-api",
+      "note": "Supports powerful-feature permission state, allow or deny choices, state-change notification, permission lifetime, and revocation handling."
+    },
+    {
+      "id": "nng-permission-requests",
+      "note": "Supports contextual timing, clear request copy, user benefit framing, informed choice, reversal, and dark-pattern avoidance."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-12"
+}

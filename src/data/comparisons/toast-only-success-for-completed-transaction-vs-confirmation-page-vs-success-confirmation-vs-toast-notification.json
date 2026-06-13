@@ -1,0 +1,55 @@
+{
+  "id": "toast-only-success-for-completed-transaction-vs-confirmation-page-vs-success-confirmation-vs-toast-notification",
+  "title": "Toast-only success for completed transaction vs confirmation page vs success confirmation vs toast notification",
+  "summary": "Flag toast-only success for completed transaction when a committed application, booking, payment, order, account change, or submitted response is confirmed only by a disappearing toast. Use confirmation page for final journey endpoints, success confirmation for durable in-context proof, and toast notification only as optional low-risk or supplemental feedback.",
+  "patternIds": [
+    "toast-only-success-for-completed-transaction",
+    "confirmation-page",
+    "success-confirmation",
+    "toast-notification"
+  ],
+  "decisionRules": [
+    "Flag toast-only success for completed transaction when the only proof of a committed transaction is a transient toast, snackbar, flash message, or notification that can disappear before users copy the reference, save a receipt, understand what happens next, or prove completion later.",
+    "Choose confirmation page when the user has finished a service journey or transaction and needs durable endpoint proof such as completion heading, reference number, receipt details, submitted summary, next-step timing, tracking, contact, save, print, or start-again behavior.",
+    "Choose success confirmation when the surrounding task continues but users still need in-context proof near the changed object, such as uploaded evidence, sent invite, saved draft, payment method added, or completed checklist item.",
+    "Choose toast notification only for low-risk, disposable status where the changed state is self-evident or durable proof remains available elsewhere; a toast may be supplemental to a confirmation page or success confirmation but must not replace it for completed transactions.",
+    "A completed transaction needs an authoritative success signal before confirmation, a transaction name, object identity, timestamp or receipt when useful, and a durable path to reference, print, email, track, amend, cancel, or contact support.",
+    "Do not clear the form, navigate to a blank dashboard, mark an item complete, or charge a payment while leaving users with only a timed toast as evidence.",
+    "If the transaction is still pending, queued, async, or only locally saved, use pending, offline mobile retry, sync state, or progress feedback rather than a completed-transaction success message.",
+    "If the transaction failed or was denied, use error state, permission denied state, or recovery guidance rather than a green success toast.",
+    "For accessibility, do not rely on a short-lived live-region announcement as the only confirmation; screen reader users must be able to revisit the proof and actions through normal reading and focus order.",
+    "During generated UI review, flag any submit handler that calls a toast success and then discards the transaction context without rendering a durable confirmation surface or duplicate-submit guard."
+  ],
+  "failureModes": [
+    "A grant application redirects to a dashboard and shows Application submitted for five seconds, with no reference number or what-happens-next content.",
+    "A payment displays a Paid toast but provides no receipt, transaction ID, amount, merchant, or support path.",
+    "A booking form clears after a snackbar says Booked, leaving users unable to verify time, location, cancellation rules, or email receipt.",
+    "A survey response is accepted but the only completion signal disappears before screen reader users can act on it.",
+    "A user refreshes or returns later and cannot tell whether the transaction happened because no confirmation page, history, or receipt exists; retrying can create a duplicate transaction.",
+    "A success toast is shown before the authoritative commit finishes, and the later failure is hidden or handled as a separate error.",
+    "A toast says Done for several different transactions, so users cannot identify which application, booking, order, or payment completed."
+  ],
+  "sources": [
+    {
+      "id": "govuk-confirmation-pages-pattern",
+      "note": "Supports confirmation pages for completed transactions with reference, next steps, useful onward links, feedback, save-record behavior, and return handling."
+    },
+    {
+      "id": "nhs-confirmation-page-pattern",
+      "note": "Supports booking-complete confirmation with green panel, detail summary, next steps, and restrained endpoint content."
+    },
+    {
+      "id": "ons-confirmation-page-pattern",
+      "note": "Supports survey completion pages and the boundary against using confirmation pages for failed or denied outcomes."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Supports distinguishing transient toast notifications from persistent or actionable notification treatments."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing status changes without moving focus, but not replacing visible durable confirmation where proof is required."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

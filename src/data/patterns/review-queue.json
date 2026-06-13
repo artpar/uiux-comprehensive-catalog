@@ -1,0 +1,275 @@
+{
+  "id": "review-queue",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed many-item triage pattern with guidance for queue scope, counts, filters, row reasons, ownership, SLA and age ordering, preview context, claim, assign, skip, escalate, bulk preview, stale-row handling, already-reviewed conflicts, permission-limited rows, empty filters, notification handoff, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers actionable review queues for many independently changing tickets, comments, pull requests, cases, records, and content items; queue membership criteria; shared and personal scopes; counts; filters; sort; grouping; row reason; owner; age; SLA; priority; source; preview context; claim; assignment; skip; snooze; escalation; row decisions; bulk preview; stale-row conflict checks; permission-limited metadata; already-reviewed rows; empty filter recovery; next-item focus; and notification deep links.",
+    "relatedPatternDistinction": "The entry separates review queue from approval workflow by focusing on repeated triage across many items rather than one submitted request's routed decision gates, from saved filter by requiring review ownership, queue counts, row reasons, decision actions, workload handling, and stale checks rather than reusable criteria alone, from activity log by supporting future decisions rather than showing past events, from notification center by using notifications as handoffs into the queue, and from table or list view by requiring review-specific state, claim, SLA, actions, and bulk safeguards.",
+    "liveDemoBehavior": "The live demo uses shared triage queue rows TCK-118, COM-441, and PR-92 with scope, preview, claim, assign, SLA sort, bulk preview, stale row, skip, escalate, reviewed, empty, and permission-limited states, plus bad modes for title-only rows, hidden bulk scope, double work, stale action after new commits, no next-item focus, and unsafe preview leakage.",
+    "comparisonDecisionRules": "The linked review-queue-vs-approval-workflow-vs-saved-filter-vs-activity-log comparison gives concrete rules for many-item triage, one-request approval routes, reusable list criteria, historical event logs, notification deep links, passive table/list browsing, row reasons, SLA and ownership, bulk scope preview, stale rows, mixed eligibility, and permission-limited states.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/review-queue/ on 2026-06-11 in Chromium: verified Scope, Preview, Claim, Assign, SLA sort, Bulk preview, Stale row, Skip, Escalate, Reviewed, Empty, Permission, Title only, Hidden bulk, Double work, Stale action, No next, and Unsafe preview states; verified TCK-118, COM-441, PR-92, 18 visible, 17 visible, 5 selected, Billing, You, SLA due, changed row, no matching rows, restricted details, hidden filtered rows, duplicate reviewer work, new commits, lost place, and sensitive preview warnings render; verified no duplicate IDs and no page-level horizontal overflow; verified /compare/review-queue-vs-approval-workflow-vs-saved-filter-vs-activity-log/ concrete decision rules; and checked mobile viewport with collapsed frame, row grid, bad grid, bulk, stale, permission, all controls, and no horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/review-queue.png"
+    ]
+  },
+  "name": "Review queue",
+  "aliases": [
+    "review inbox",
+    "triage queue",
+    "moderation queue",
+    "work queue",
+    "ticket queue",
+    "items awaiting review",
+    "review requests",
+    "approval queue",
+    "content review queue",
+    "held for review"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Collaboration And Social Interaction",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Actionable queue for triaging many items that need human review",
+  "uiGuidance": [
+    "Render review queue as an actionable worklist with queue scope, counts, filters, sort order, row reason, owner, priority, age or SLA, status, preview context, selection, and row actions.",
+    "Separate queue-level triage from item-level review: the queue helps reviewers find, claim, prioritize, bulk-process, skip, escalate, or open items, while detailed records carry full evidence and decision history."
+  ],
+  "uxGuidance": [
+    "Use review queue when a team repeatedly processes a changing set of tickets, comments, pull requests, content items, cases, requests, or records that require human inspection and action.",
+    "Keep the reviewer oriented across the whole workload by showing what changed, what is urgent, what is already claimed, which rows are stale, and what happens after each decision."
+  ],
+  "uiExamples": {
+    "good": [
+      "A support queue shows New triage, SLA at risk, owner, customer, status, priority, age, preview text, assignment, and next actions without opening every ticket.",
+      "A moderation queue has Held, Likely spam, Reported, and Escalated tabs, row evidence, policy reason, reviewer claim state, approve/remove/escalate actions, and bulk-action preview."
+    ],
+    "bad": [
+      "A review queue shows a flat list of titles with no reason, age, owner, status, priority, or action controls.",
+      "A bulk Approve button processes every hidden filtered row without showing count, stale rows, or mixed eligibility."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer claims the oldest SLA-at-risk ticket, opens a preview, assigns it to Billing, returns to the queue with the row removed, and lands on the next oldest item.",
+      "A moderator filters held comments by likely spam, bulk removes five visible comments after previewing the count, skips one uncertain row, and sees the queue count update immediately."
+    ],
+    "bad": [
+      "Two reviewers open the same unclaimed item, both act, and the second decision overwrites the first with no stale-row warning.",
+      "A reviewer marks a pull request reviewed from an old queue row after the author pushed new commits and re-requested review."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Review work becomes slow and unsafe when products show items needing attention as an ordinary list, hide why each item is queued, lose ownership, allow stale decisions, make urgency invisible, or provide bulk actions without clear scope and exceptions.",
+  "solution": "Provide a focused review queue that filters and orders items by review criteria, exposes enough row context to triage safely, supports claim, assign, skip, escalate, inspect, decide, and bulk actions, refreshes counts and stale states, and hands reviewers into the right item detail or next item.",
+  "problemContext": [
+    "Many items can independently enter and leave the queue based on status, assignment, SLA, requested review, moderation hold, reported content, code ownership, customer tier, priority, or workflow state.",
+    "Reviewers often need to choose the next item, scan workload, process visible rows, avoid duplicate work, and recover when the underlying item changes.",
+    "The queue may be personal, shared, team-scoped, role-restricted, saved, filtered, sorted, grouped, or ordered by SLA or priority.",
+    "Actions may be low-risk triage such as assign or skip, or consequential review decisions such as approve, request changes, remove, reject, merge-block, publish-block, or escalate."
+  ],
+  "selectionRules": [
+    "Choose review queue when the interface is primarily for processing multiple items that need review or triage over time.",
+    "Use approval workflow when the focus is one submitted request and its governed route of required approvers.",
+    "Use saved filter when the product only saves list criteria and does not provide review ownership, queue counts, row reasons, decision actions, or workload handling.",
+    "Use activity log when users need to inspect past events rather than decide which queued item to handle next.",
+    "Use notification center when reviewers need alerts, but route notifications into the queue or item rather than replacing queue state.",
+    "Use table or list view when users are browsing records without review-specific state, assignment, SLA, or actions.",
+    "Show queue membership reason, owner, age, priority, SLA or due state, review status, and source so reviewers can triage without opening every item.",
+    "Support claim or assignment for shared queues when duplicate work is costly.",
+    "Treat stale, already handled, reassigned, permission-limited, blocked, duplicate, and empty states as queue states with clear recovery.",
+    "Require bulk-action previews for selected count, hidden filtered rows, stale rows, mixed eligibility, and irreversible outcomes."
+  ],
+  "requiredStates": [
+    "Queue loading and count state",
+    "Filtered or grouped queue state",
+    "Empty queue state",
+    "Row preview state",
+    "Claimed or assigned row state",
+    "Unassigned row state",
+    "SLA at risk or overdue row state",
+    "Stale row changed since load state",
+    "Selected rows and bulk-action preview state",
+    "Action succeeded and row removed or moved state",
+    "Skipped or snoozed row state",
+    "Escalated or blocked row state",
+    "Permission-limited row state",
+    "Already reviewed by someone else state"
+  ],
+  "interactionContract": [
+    "Queue membership is derived from canonical item state and refreshes counts when items enter, leave, or change status.",
+    "Each row exposes why it is in the queue and enough context for safe triage before opening the full record.",
+    "Opening a row preserves queue position, filter, sort, selection, and return context.",
+    "Claim, assign, skip, snooze, escalate, approve, reject, remove, request changes, and mark reviewed actions update the canonical item and the queue row.",
+    "Shared queues prevent or surface duplicate work through claim state, active reviewer state, stale-row warnings, or optimistic conflict checks.",
+    "Bulk actions apply only to the previewed scope and report per-row exceptions for stale, ineligible, hidden, permission-limited, or already processed items.",
+    "After a row action, focus moves to the updated row, next row, or queue status rather than resetting to the top without explanation.",
+    "Notifications, reminders, and direct links open the matching queue, filtered queue, or item detail with current state."
+  ],
+  "implementationChecklist": [
+    "Define queue sources, membership criteria, personal and shared scopes, row columns, sort order, grouping, count semantics, permissions, and stale-row detection.",
+    "Model queue row state separately from item detail so the list can show reason, status, owner, age, priority, SLA, source, preview, and action eligibility.",
+    "Implement filters, saved queue views, priority ordering, search within queue, selection, bulk preview, row preview, claim, assign, skip, snooze, escalate, and next-item navigation.",
+    "Add conflict checks before row and bulk decisions to detect rows handled by someone else, changed since load, reassigned, or no longer eligible.",
+    "Update counts, empty states, row positions, active filters, and focus after each decision.",
+    "Show per-row failure and retry for failed actions instead of silently removing rows.",
+    "Limit sensitive preview details by reviewer permission and provide safe disclosure when content cannot be shown in a shared queue.",
+    "Test stale rows, concurrent reviewers, hidden filtered selection, mobile row wrapping, long titles, high counts, empty queues, permission-limited rows, keyboard action order, screen reader status updates, and bulk exceptions."
+  ],
+  "commonMisuses": [
+    "Using an ordinary table with no review reason, urgency, ownership, or decision actions.",
+    "Treating review queue as approval workflow and hiding many-item workload controls.",
+    "Making queue counts stale after a row action.",
+    "Allowing hidden rows to be bulk-processed without preview.",
+    "Letting two reviewers unknowingly work the same row.",
+    "Hiding SLA, age, priority, or source context needed for triage.",
+    "Dropping reviewers back at the top after every item.",
+    "Sending notification links to a generic dashboard instead of the queue or item."
+  ],
+  "critiqueQuestions": [
+    "Why is each row in this queue, and can reviewers see that reason before opening it?",
+    "What tells reviewers which item should be handled next?",
+    "Can reviewers claim, assign, skip, escalate, or bulk-process without losing scope clarity?",
+    "How does the queue handle rows changed or completed by someone else?",
+    "Do counts, filters, empty states, and focus update immediately after actions?",
+    "Are notifications and saved views aligned with the canonical queue state?"
+  ],
+  "useWhen": [
+    "A team or individual repeatedly reviews many independently queued items.",
+    "Queue membership changes based on status, request, moderation hold, SLA, ownership, priority, workflow state, or assignment.",
+    "Reviewers need scan, prioritize, claim, assign, inspect, decide, skip, escalate, and bulk action behavior."
+  ],
+  "avoidWhen": [
+    "The task is a single request moving through a governed approval route.",
+    "The user only needs a saved search or filter with no review actions.",
+    "The page is only a historical event log.",
+    "The system cannot represent current item state, ownership, or stale-row conflicts.",
+    "The action is so consequential that every item must be opened in full before decision."
+  ],
+  "variants": [
+    "Personal review queue",
+    "Shared team queue",
+    "Moderation queue",
+    "Support triage queue",
+    "Pull request review queue",
+    "Content review queue",
+    "SLA priority queue",
+    "Escalation queue",
+    "Unassigned work queue",
+    "Held for review queue",
+    "Bulk review queue"
+  ],
+  "accessibility": [
+    "Use labelled queue name, count, filters, sort, group, row status, selection, preview, and action controls.",
+    "Announce count changes, row removals, stale-row warnings, bulk exceptions, and empty states through status text.",
+    "Do not rely on color, row position, badges, or timers alone to communicate priority, SLA risk, ownership, or review status.",
+    "Make row preview, claim, assign, skip, escalate, approve, reject, request changes, and bulk actions keyboard reachable.",
+    "Associate bulk-action warnings and exception counts with the confirmation controls.",
+    "Preserve focus after row actions and avoid resetting keyboard users to the start of the queue.",
+    "Expose row action names with item-specific labels, such as Approve comment from Maya or Claim ticket TCK-118."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows queue tabs or saved views, filters, sort, bulk selection, rows, row preview, row actions, and pagination or next-item controls.",
+    "Arrow keys may move within a data-grid queue only when the grid implements expected grid semantics.",
+    "Opening and returning from an item detail restores queue filter, scroll position, row focus, and selection state.",
+    "After approving, rejecting, assigning, or skipping a row, focus moves to the next actionable row or the queue status message.",
+    "Bulk action dialogs return focus to the selection summary or first exception row after completion.",
+    "Stale-row recovery is reachable without pointer hover."
+  ],
+  "failureModes": [
+    "A reviewer cannot tell why an item is in the queue.",
+    "The most urgent or oldest item is buried by default sort.",
+    "Queue counts and row state are stale after actions.",
+    "Rows completed by someone else remain actionable.",
+    "Bulk action scope includes hidden or stale rows.",
+    "A row has sensitive content visible to reviewers who only need metadata.",
+    "The reviewer loses place after opening one item.",
+    "Queue filters hide all rows but the empty state does not explain active filters."
+  ],
+  "relatedPatterns": [
+    "approval-workflow",
+    "saved-filter",
+    "activity-log",
+    "notification-center",
+    "table",
+    "filter-panel",
+    "list-view",
+    "details-panel"
+  ],
+  "comparisons": [
+    "review-queue-vs-approval-workflow-vs-saved-filter-vs-activity-log"
+  ],
+  "examples": [
+    {
+      "product": "Jira Service Management queues",
+      "url": "https://support.atlassian.com/jira-service-management-cloud/docs/what-are-queues/",
+      "platform": "web",
+      "notes": "Documents filtered queues for central work management, triage, assignment, summary/status/customer columns, priority groups, and SLA clocks.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Zendesk ticket views",
+      "url": "https://support.zendesk.com/hc/en-us/articles/4408888828570-Creating-views-to-build-customized-lists-of-tickets",
+      "platform": "web",
+      "notes": "Documents ticket views for unsolved, triage, pending, personal, shared, service-level, escalation-tier, and ordered workflow handling.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Zendesk Views API",
+      "url": "https://developer.zendesk.com/api-reference/ticketing/business-rules/views/",
+      "platform": "web",
+      "notes": "Documents view conditions, restrictions, columns, grouping, sorting, preview counts, ticket listing, and view execution.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub pull request reviews",
+      "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews",
+      "platform": "web",
+      "notes": "Documents pull requests awaiting review, review statuses, comments, approvals, requested changes, code owner review, and re-request behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "YouTube Studio held comments",
+      "url": "https://support.google.com/youtubecreatorstudio/answer/9482367?co=GENIE.Platform%3DDesktop&hl=en-IN",
+      "platform": "web",
+      "notes": "Documents Published and Held comment tabs, held-by-settings and likely-spam comments, filter bar, topic search, and moderation actions.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-jira-service-management-queues",
+      "note": "Jira Service Management supports focused central queues for filtered work items, triage, assignment, priority groups, columns, and SLA clocks."
+    },
+    {
+      "id": "zendesk-ticket-views-workflow",
+      "note": "Zendesk supports personal and shared ticket views for triage, unsolved work, pending work, service-level handling, escalation tiers, and workflow order."
+    },
+    {
+      "id": "zendesk-views-api",
+      "note": "Zendesk supports view conditions, access restrictions, active state, execution columns, grouping, sorting, preview counts, and listing tickets from a view."
+    },
+    {
+      "id": "github-requesting-pull-request-review",
+      "note": "GitHub supports requesting review from people or teams, reviewer notifications, suggested reviewers, team assignment, and re-requesting review after changes."
+    },
+    {
+      "id": "github-about-pull-request-reviews",
+      "note": "GitHub supports pull requests awaiting review, comment, approve, request changes, code owner review, and review timeline behavior."
+    },
+    {
+      "id": "youtube-studio-held-comments-review",
+      "note": "YouTube Studio supports Published and Held comment tabs, likely-spam holds, filters, topic search, and moderation actions."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

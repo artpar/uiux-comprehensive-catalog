@@ -1,0 +1,63 @@
+{
+  "id": "source-grounding-display-vs-citation-display-vs-chat-interface-vs-streaming-response-vs-related-links",
+  "title": "Source grounding display vs citation display vs chat interface vs streaming response vs related links",
+  "summary": "Use source grounding display for whole-answer evidence coverage across sources, retrieved material, used evidence, unsupported claims, and source scope; citation display for inspecting one claim-level source; chat interface for the conversation transcript; streaming response for partial generated output; and related links for onward navigation.",
+  "patternIds": [
+    "source-grounding-display",
+    "citation-display",
+    "chat-interface",
+    "streaming-response",
+    "related-links"
+  ],
+  "decisionRules": [
+    "Choose source grounding display when users need whole-answer evidence coverage across source scope, retrieved material, used evidence, and unsupported claims, not just one citation marker.",
+    "Choose citation display when the task is opening a selected claim-level source preview, quote, metadata, and open source action.",
+    "Choose chat interface when the main design problem is the conversation transcript, multi-turn container, prompt composer, history, and follow-up context.",
+    "Choose streaming response when the product must expose partial generated output, pending source events, stop generation, or response failure while text arrives.",
+    "Choose related links when destinations are optional onward navigation, not evidence used by the generated answer.",
+    "A source grounding display must name source scope, searched sources, retrieved sources, used sources, unsupported claims, partial support, missing sources, permission-limited sources, stale sources, and out-of-scope answer parts.",
+    "Show grounded, partially grounded, unsupported, source unavailable, permission-limited, stale, retrieval failed, and not searched states separately.",
+    "Do not collapse source grounding into a single confidence score; source coverage, source quality, permissions, recency, and claim support are different evidence dimensions.",
+    "When grounding is still resolving during a stream, show pending source coverage and delay answer-wide grounded status until retrieval and final answer text settle.",
+    "If no suitable source is found, say no supporting source found rather than displaying unrelated links or decorative citations."
+  ],
+  "failureModes": [
+    "The answer shows citations but hides that several claims are unsupported.",
+    "The display claims the whole answer is grounded when only one paragraph has a source.",
+    "Retrieved sources, used sources, and available source scope are mixed together so users cannot tell what evidence was actually used.",
+    "Permission-limited or stale sources look the same as checked sources.",
+    "A single confidence badge replaces source coverage, unsupported claims, and retrieval status.",
+    "The UI shows related links as if they were grounding evidence for the answer."
+  ],
+  "sources": [
+    {
+      "id": "openai-retrieval",
+      "note": "Supports retrieval and vector-store source scope for grounded responses."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports including search results and annotations that connect outputs to files."
+    },
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports visible inline citations for web-search-backed output."
+    },
+    {
+      "id": "microsoft-copilot-studio-knowledge-sources",
+      "note": "Supports knowledge-source scope, source limits, and user-authenticated source access."
+    },
+    {
+      "id": "microsoft-copilot-studio-generative-answers",
+      "note": "Supports topic-specific generative answers over selected knowledge sources."
+    },
+    {
+      "id": "microsoft-365-copilot-web-references",
+      "note": "Supports web-grounded responses and policy-controlled source availability."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing source coverage and grounding status changes without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

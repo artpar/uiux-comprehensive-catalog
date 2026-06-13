@@ -1,0 +1,52 @@
+{
+  "id": "delete-account-vs-destructive-action-confirmation-vs-typed-confirmation-vs-data-export-vs-settings-management-vs-restore-from-trash",
+  "title": "Delete account vs destructive action confirmation vs typed confirmation vs data export vs settings management vs restore from trash",
+  "summary": "Use delete account for account-level closure and associated data deletion. Use destructive action confirmation for one destructive object command, typed confirmation for severe target verification, data export for keeping a copy before deletion, settings management for durable configuration, and restore from trash for reversible deletion recovery.",
+  "patternIds": [
+    "delete-account",
+    "destructive-action-confirmation",
+    "typed-confirmation",
+    "data-export",
+    "settings-management",
+    "restore-from-trash"
+  ],
+  "decisionRules": [
+    "Choose delete account when the user intends account-level closure with associated data deletion, including removal or requested removal of associated personal, profile, authentication, app, subscription, and service data.",
+    "Choose destructive action confirmation when the target is one project, file, record, subscription, key, or workspace object rather than the user's account identity and legal/data-retention lifecycle.",
+    "Choose typed confirmation as an added gate inside delete account only when the account identifier, workspace, or broad data scope is severe enough that wrong-account deletion is plausible.",
+    "Choose data export when users need to download or transfer a portable copy before deletion; export does not itself close the account or erase source data.",
+    "Choose settings management when users are changing privacy, notification, profile, billing, or account preferences that keep the account active.",
+    "Choose restore from trash when the product can faithfully recover a deleted object or account within a clear recovery window; do not present irreversible account closure as a trash move.",
+    "A delete-account flow should show account identity, affected services, retained data, subscriptions or billing, linked sign-in methods, export-before-delete, waiting period or scheduled deletion, cancellation or recovery window, and final deleted/blocked status.",
+    "Do not hide account deletion behind support-only contact, an unrelated settings page, a toggle, an unlabeled Delete button, or a data export flow when platform or product policy requires a discoverable deletion path.",
+    "When legal, safety, fraud, billing, child-account, enterprise, or regulated-industry retention prevents immediate erasure, the flow should say what is retained, why, for how long or by what policy, and what request state was recorded.",
+    "When deletion affects third-party recipients, published data, linked apps, or backups, the flow should distinguish live-account deactivation, personal data erasure, recipient notification, backup overwrite timing, and recoverability."
+  ],
+  "failureModes": [
+    "The account settings page only offers deactivate account even though users expect deletion of the account record and associated personal data.",
+    "Users delete the wrong account because the flow hides the email, provider, workspace, child account, or signed-in identity being closed.",
+    "A data export screen implies that downloading data also deletes the source account.",
+    "The product says account deleted while subscriptions, app-store billing, Sign in with Apple tokens, linked apps, or recovery email dependencies remain unresolved.",
+    "The flow claims all data is erased immediately while legal retention, backups, fraud logs, or public recipients remain undisclosed.",
+    "The account can be deleted only by emailing support even though the product has ordinary self-serve account creation and no regulated exception."
+  ],
+  "sources": [
+    {
+      "id": "apple-account-deletion-in-app",
+      "note": "Supports discoverable in-app deletion initiation, full account-record deletion, transparency, direct web completion, and billing guidance."
+    },
+    {
+      "id": "google-play-account-deletion-requirements",
+      "note": "Supports in-app and web deletion paths, associated data deletion, store-listing disclosure, sensitive data scope, and retained-data expectations."
+    },
+    {
+      "id": "google-account-delete-help",
+      "note": "Supports user-facing review, download-before-delete, dependent-service updates, whole-account versus service deletion distinction, and recovery window."
+    },
+    {
+      "id": "ico-right-to-erasure",
+      "note": "Supports erasure request handling, non-absolute rights, response timing, recipient notification, backup handling, and legal exceptions."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

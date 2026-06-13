@@ -1,0 +1,247 @@
+{
+  "id": "full-screen-takeover",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed temporary full-viewport modal task mode with distinct boundaries from modal dialog, sheet, drawer, single-page form, wizard, preview panel, alert dialog, and confirmation dialog, unique capture-review-exit behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers full-viewport temporary mode selection, parent-context restoration, visible title and exit controls, Close versus internal Back behavior, contained focus, inert parent content, save and cancel outcomes, browser or system back handling, dirty-exit review, state preservation, orientation and safe-area resilience, and avoiding stacked takeovers.",
+    "relatedPatternDistinction": "The entry separates full-screen takeover from modal dialog by full-viewport task space versus compact blocking layer, from sheet by complete viewport occupation rather than adaptive edge attachment, from drawer and details panel by no side-by-side comparison, from single-page form and wizard by temporary overlay lifecycle rather than routable progress, from preview panel by task completion rather than inspection, and from alert or confirmation dialog by not being a short response decision.",
+    "liveDemoBehavior": "The live demo shows an expense receipt capture takeover with modal dialog semantics, preserved parent row and filter context, Capture receipt, Review scan, Internal Back to Capture, Close or Escape or Browser back dirty-exit review, Keep editing, Discard scan, Save scan return to parent state, and bad-mode contrasts for no-exit, ambiguous-back, silent-discard, route-trap, focus-leak, and stacked-overlay failures.",
+    "comparisonDecisionRules": "The full-screen-takeover-vs-modal-dialog-vs-sheet-vs-single-page-form comparison gives concrete rules for full-viewport temporary capture or dense editing, compact modal tasks, adaptive sheet tasks, routable single-page forms, drawer alternatives, short-message alternatives, internal Back versus Close, dirty-exit protection, stacked takeover avoidance, and parent-state restoration.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/full-screen-takeover/ and /compare/full-screen-takeover-vs-modal-dialog-vs-sheet-vs-single-page-form/ on 2026-06-10. Live check exercised Capture receipt, Review scan, Internal Back, Escape close, Keep editing, Browser back, Save scan, and Stacked overlay controls while the page was in pre-completion state, then refreshed after completion. screenshots/patterns/full-screen-takeover.png captures Good UI, Bad UI, Good UX, Bad UX, full-screen modal task behavior, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/full-screen-takeover.png"
+    ]
+  },
+  "name": "Full-screen takeover",
+  "aliases": [
+    "full-screen dialog",
+    "full-screen modal",
+    "full-page overlay",
+    "takeover modal",
+    "immersive overlay",
+    "temporary full-screen mode"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding",
+    "Input And Data Entry",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Temporary full-viewport modal task mode",
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Some temporary tasks need the whole viewport for focus, capture, dense content, or immersive preview, but ordinary full pages break the return path and compact modals, sheets, or drawers do not provide enough space.",
+  "solution": "Present a full-screen takeover as a named temporary mode with visible exit, internal navigation rules, contained focus, parent-state preservation, unsaved-change protection, and a predictable return to the invoking context.",
+  "problemContext": [
+    "The user starts from a parent page, list, map, editor, object, or setup context that should still be restored after the temporary mode closes.",
+    "The task needs full-viewport space for camera capture, media review, map detail, multi-section setup, dense editing, or focused scanning.",
+    "Background interaction must stop while the takeover is open.",
+    "The takeover can define exact behavior for Close, Back, Escape, system back, route history, unsaved edits, and completion."
+  ],
+  "selectionRules": [
+    "Choose full-screen takeover when the task is temporary and modal, but needs the whole viewport to be usable.",
+    "Use a modal dialog when the task is compact and does not need full-screen space, internal navigation, or immersive focus.",
+    "Use a sheet when adaptive sizing, edge attachment, partial parent visibility, or detents are part of the interaction.",
+    "Use a drawer or details panel when users need to compare continuously with the parent page.",
+    "Use a full page or single-page form when the task needs its own URL, browser history, saved progress, sharing, or long-form navigation.",
+    "Use a preview panel or full-page preview when the main job is reading or inspecting media rather than completing a temporary task.",
+    "Use alert dialog or confirmation dialog for urgent decisions and high-consequence review rather than expanding a tiny decision to full screen.",
+    "Do not stack full-screen takeovers; route nested content to an internal step, page, sheet, or separate flow with clear navigation.",
+    "Do not make Close, Back, browser back, Escape, and gesture dismissal disagree about whether they leave the takeover or move one level up.",
+    "Protect unsaved work on every exit route, including close button, system back, browser back, Escape, refresh, and gesture dismissal."
+  ],
+  "requiredStates": [
+    "Closed parent state with the selected object, filters, scroll, and opener visible.",
+    "Opening state that moves focus into the takeover title, first field, camera control, or main task start.",
+    "Open takeover state with full-viewport layout, task title, exit control, primary action, and blocked parent content.",
+    "Internal step or subview state when Back means previous takeover step rather than leaving the entire mode.",
+    "Dirty state when edits, uploads, captures, or selections inside the takeover are not saved.",
+    "Exit-review state when a dismissal route would discard unsaved work.",
+    "Completed state that closes or navigates intentionally and reports what changed.",
+    "Dismissed state that restores focus and parent-page state to the opener or relevant object.",
+    "Responsive and orientation-change state that keeps actions, title, and exit controls reachable."
+  ],
+  "interactionContract": [
+    "The opener communicates the object or task that will enter a full-screen temporary mode.",
+    "Opening the takeover blocks parent-page pointer and keyboard interaction and places focus inside the takeover.",
+    "The top area includes a clear title and a labelled Close, Exit, Done, or Back control according to the current navigation depth.",
+    "Internal Back returns to the previous takeover view when one exists; Close or Exit leaves the takeover and returns to the parent context.",
+    "Primary completion actions use outcome-specific labels such as Save scan, Attach photo, or Finish setup.",
+    "Escape, browser back, phone back, close button, and gesture dismissal follow the same unsaved-change rule.",
+    "Completion, cancellation, and dismissal preserve or intentionally update the parent selection, scroll, filters, and draft context.",
+    "The takeover avoids nested overlay stacks and routes secondary help, pickers, or confirmations through clear inline or child-surface behavior."
+  ],
+  "implementationChecklist": [
+    "Define why the task needs the entire viewport and what parent context must be restored afterward.",
+    "Name the takeover with a visible heading and expose it as the modal surface name.",
+    "Provide labelled exit controls and distinguish internal Back from leaving the takeover.",
+    "Make background content inert while the takeover is open and contain focus when implemented as a modal layer.",
+    "Track unsaved edits, captures, selected media, uploads, and partial setup progress.",
+    "Send every exit route through the same save, discard, or continue decision when work is dirty.",
+    "Preserve opener focus, parent scroll, selected object, filters, and drafts on cancel or close.",
+    "Decide whether completion closes back to the parent, moves to a result page, or leaves a receipt state.",
+    "Test keyboard, screen reader, phone back, browser back, Escape, gestures, orientation change, zoom, safe areas, and refresh recovery."
+  ],
+  "commonMisuses": [
+    "Using a full-screen takeover as a dramatic wrapper for a short confirmation, single text field, or routine message.",
+    "Making the takeover look like a normal page while route history and browser back behave like an overlay.",
+    "Providing both Back and Close controls that exit different amounts of the flow without clear labels.",
+    "Stacking another full-screen overlay, sheet, or browser inside the takeover.",
+    "Discarding scans, uploads, or edits when users press Escape, system back, or browser back.",
+    "Closing the takeover and resetting the parent list, filters, selected object, or scroll position.",
+    "Leaving parent controls focusable or clickable behind the full-screen surface."
+  ],
+  "critiqueQuestions": [
+    "What capability requires the entire viewport instead of a compact modal, sheet, drawer, or page?",
+    "Is this a temporary mode that returns to a parent context, or should it be a normal route?",
+    "What does Back mean inside the takeover, and how is that different from Close or Exit?",
+    "Which parent state must be preserved after cancel, close, save, and system back?",
+    "What unsaved work can exist, and do all dismissal routes protect it consistently?",
+    "Could stacking or ambiguous close controls cause users to lose work or leave the wrong level?"
+  ],
+  "useWhen": [
+    "A temporary task needs the whole viewport for capture, immersive preview, focused setup, scanning, or dense editing.",
+    "The parent page should be restored after the mode closes.",
+    "Background interaction would be unsafe, distracting, or state-conflicting while the task is active.",
+    "The team can implement route, back, focus, and dirty-state behavior deliberately."
+  ],
+  "avoidWhen": [
+    "The task is short enough for a compact modal dialog.",
+    "The content should remain beside the parent page for comparison.",
+    "The workflow needs durable page navigation, saved progress, deep links, or sharing.",
+    "The surface only shows an urgent message or consequence decision.",
+    "The design cannot preserve parent state or intercept all exit routes safely."
+  ],
+  "variants": [
+    "Full-screen form takeover",
+    "Camera capture takeover",
+    "Media review takeover",
+    "Full-screen setup task",
+    "Immersive map overlay",
+    "Document annotation takeover",
+    "Full-screen mobile dialog",
+    "Temporary editor mode"
+  ],
+  "accessibility": [
+    "Expose the takeover as a modal surface with an accessible name from the visible title.",
+    "Move focus into the takeover on open and return focus to the opener or relevant parent object on close.",
+    "Keep parent content inert while the takeover is active.",
+    "Keep Tab and Shift+Tab within the takeover when it is implemented as a modal layer.",
+    "Provide labelled Close, Back, Done, Save, and Cancel controls instead of relying only on gestures.",
+    "Announce dirty-state and exit-review messages when dismissal would lose work.",
+    "Keep exit controls, titles, and primary actions reachable at zoom, landscape, portrait, and small safe-area-constrained screens."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the opener launches the takeover.",
+    "Initial focus moves to the takeover heading, first field, camera control, or first meaningful step.",
+    "Tab and Shift+Tab stay within the takeover while it is active.",
+    "Escape requests the same close path as the visible exit control when dismissal is allowed.",
+    "Backspace, browser back, or system back follows the documented internal-back or exit rule for the current state.",
+    "Save, Done, Cancel, Discard, or Close returns focus to the opener or next logical result."
+  ],
+  "failureModes": [
+    "The takeover has no visible exit or the exit is gesture-only.",
+    "Keyboard focus reaches controls behind the takeover.",
+    "Browser back exits the parent page instead of closing or stepping back within the takeover.",
+    "Close discards unsaved edits without review.",
+    "Internal Back and Close are visually similar but have different consequences.",
+    "A nested overlay hides which layer will close.",
+    "The parent page loses selected object, filters, scroll, or draft values after dismissal.",
+    "A routable long workflow is trapped in an overlay lifecycle."
+  ],
+  "relatedPatterns": [
+    "modal-dialog",
+    "sheet",
+    "drawer",
+    "single-page-form",
+    "wizard",
+    "preview-panel",
+    "confirmation-page",
+    "alert-dialog",
+    "confirmation-dialog"
+  ],
+  "comparisons": [
+    "full-screen-takeover-vs-modal-dialog-vs-sheet-vs-single-page-form"
+  ],
+  "examples": [
+    {
+      "product": "Material Design full-screen dialog",
+      "url": "https://m3.material.io/components/dialogs/guidelines",
+      "platform": "mobile",
+      "notes": "Supports full-viewport dialog presentations with explicit save and dismiss actions.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Apple Human Interface Guidelines Modality",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/modality",
+      "platform": "mobile",
+      "notes": "Frames modality as a dedicated mode that blocks parent interaction until exit or task completion.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "NN/g Accidental Dismissal of Overlays",
+      "url": "https://www.nngroup.com/articles/accidental-overlay-dismissal/",
+      "platform": "mobile",
+      "notes": "Documents risks of full-page overlays, unclear close and back behavior, overlay stacks, and lost work.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-full-screen-dialog",
+      "note": "Material full-screen dialog guidance supports full-viewport dialog presentation and explicit save or dismiss actions."
+    },
+    {
+      "id": "apple-hig-modality",
+      "note": "Apple modality guidance supports the dedicated temporary mode that blocks parent interaction."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "APG modal dialog guidance supplies inert background, contained focus, Escape, initial focus, and focus-return requirements."
+    },
+    {
+      "id": "fluent-dialog-component",
+      "note": "Fluent dialog documentation reinforces inert background content and contained tab sequence for modal dialogs."
+    },
+    {
+      "id": "nng-accidental-overlay-dismissal",
+      "note": "NN/g overlay research supports clear close and back behavior, avoiding overlay stacks, and preventing lost work."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "uiGuidance": [
+    "Render a full-screen takeover as a full-viewport modal surface with a visible title, labelled exit control, primary outcome action, and blocked parent content.",
+    "Use layout, top-bar wording, and navigation controls to show that the user is in a temporary mode, not an ordinary page or a partial side surface."
+  ],
+  "uxGuidance": [
+    "Use the takeover only when full-viewport focus materially improves the temporary task and users must return to the invoking context afterward.",
+    "Make Close, Back, Escape, system back, completion, unsaved-change review, and focus return predictable so users do not lose work or exit the wrong level."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document scan opens a full-screen capture mode with title Attach receipt, Close, Save scan, internal Review back behavior, and the parent expense row restored after close.",
+      "A media annotation takeover uses the full viewport for zoomed inspection while exposing Done, Cancel, and current item identity."
+    ],
+    "bad": [
+      "A full-screen layer titled Details hides the page, offers only an X, and behaves differently from browser back.",
+      "A one-field nickname edit takes over the whole screen even though a compact modal or inline edit would fit."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens camera capture from an expense row, moves to Review, uses Back to return to Capture, presses Close, sees an unsaved-scan review, keeps editing, saves, and returns to the same row.",
+      "Browser back while dirty opens the same leave-review state as the close button instead of throwing users out of the parent workflow."
+    ],
+    "bad": [
+      "A user presses the visible X inside a nested takeover and loses the entire product-selection flow rather than only the current detail view.",
+      "Closing the takeover resets the parent search filters and selected record, forcing the user to reconstruct context."
+    ]
+  }
+}

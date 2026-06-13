@@ -1,0 +1,258 @@
+{
+  "id": "data-export",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed data export and portability workflow pattern with specific guidance for scoped package selection, account and workspace context, identity and permission checks, asynchronous archive preparation, partial and failed exports, secure download and transfer, expiry and regeneration, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets data export, portable copy, personal data export, organization data export, category selection, date range, account, workspace, format, destination, identity check, permission check, approval, export requested, queued, estimating size, packaging archive, large background job, partial export, package ID, expiry, size, manifest, checksum, secure download, transfer destination, expired link, regenerate link, failed export, canceled export, rate limited, unsupported format, storage full, and post-download states.",
+    "relatedPatternDistinction": "The entry separates data export from bulk import by focusing on taking data out rather than mapping records into the product; from audit log by handling export packages rather than governed event evidence review; from table and data grid export by requiring account, workspace, category, privacy, retention, package, and expiry context beyond a visible row set; and from sensitive-data reveal by preparing a durable archive rather than briefly exposing one protected value.",
+    "liveDemoBehavior": "The live demo shows Category selection, Date range, Format choice, Destination, Identity check, Permission check, Export requested, Queued, Estimate size, Packaging archive, Background job, Partial export, Ready package, Secure download, Transfer destination, Expired link, Regenerate link, Failed export, Canceled export, Rate limited, Unsupported format, Storage full, Post-download, and Mobile compact export states. Bad states cover Export-all mystery, Delete confusion, Visible rows only, Permanent link, Silent partial, Wrong-account download, and Raw-secret manifest failures.",
+    "comparisonDecisionRules": "The linked data-export-vs-bulk-import-vs-audit-log-vs-table-vs-sensitive-data-reveal comparison gives concrete rules for portable copy, bulk import, audit log, table, data grid, sensitive-data reveal, category selection, account, workspace, date range, format, destination, package ID, expiry, manifest, checksum, visible row set, raw secrets, and partial export boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero normalized duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and compact-width checks rendered /patterns/data-export/ with the live demo, exercised Category selection, Date range, Format choice, Destination, Identity check, Permission check, Export requested, Queued, Estimate size, Packaging archive, Background job, Partial export, Ready package, Secure download, Transfer destination, Expired link, Regenerate link, Failed export, Canceled export, Rate limited, Unsupported format, Storage full, Post-download, Mobile compact export, Export-all mystery, Delete confusion, Visible rows only, Permanent link, Silent partial, Wrong-account download, and Raw-secret manifest states, and found no missing state terms, duplicate IDs, page overflow, or data-export demo overflow. The comparison route /compare/data-export-vs-bulk-import-vs-audit-log-vs-table-vs-sensitive-data-reveal/ included portable copy, bulk import, audit log, table, data grid, sensitive-data reveal, category selection, account, workspace, date range, format, destination, package ID, expiry, manifest, checksum, visible row set, raw secrets, and partial distinctions with no duplicate IDs or content overflow on desktop or compact width.",
+    "screenshots": [
+      "screenshots/patterns/data-export.png"
+    ]
+  },
+  "name": "Data export",
+  "aliases": [
+    "download my data",
+    "personal data export",
+    "data portability export",
+    "export archive",
+    "account data download",
+    "DSR export",
+    "organization data export",
+    "export evidence package"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "User or administrator workflow for selecting, preparing, securing, downloading, transferring, and verifying data export packages",
+  "uiGuidance": [
+    "Render data export as a job-based workflow with export scope, data categories, format, destination, estimated size, preparation status, expiry, security requirements, and download or transfer actions.",
+    "Show what is included, excluded, redacted, delayed, permission-limited, or unavailable before the export starts; keep package readiness, partial success, failure, and link expiry visible until resolved."
+  ],
+  "uxGuidance": [
+    "Use data export when users need a portable copy of personal, account, workspace, product, activity, or organization data for reuse, compliance, migration, backup, or review.",
+    "Protect trust by separating export from deletion, import, audit evidence, reporting, and settings changes; make identity checks, sensitive-data handling, package retention, and recovery explicit."
+  ],
+  "uiExamples": {
+    "good": [
+      "A privacy dashboard lets a user choose activity, profile, files, messages, and billing categories, shows JSON or CSV availability, requires reauthentication, creates archive EXP-2048, then shows download expiry and checksum.",
+      "An admin export page shows workspace data families, estimated size, cloud archive destination, support requirements, preparation progress, partial failures, and a manifest before download."
+    ],
+    "bad": [
+      "A button says Export all data but does not say which services, formats, accounts, dates, or unavailable records are included.",
+      "The export link stays valid forever, exposes sensitive files to the wrong account, and is presented next to Delete account as though export deletes data."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user requests a machine-readable archive, sees which data categories are eligible for portability, waits for preparation, downloads the package before expiry, and gets a manifest listing omitted records.",
+      "A workspace owner exports organization data to a cloud archive, sees that chat history is delayed, retries the failed category, and verifies that the final package matches the visible scope."
+    ],
+    "bad": [
+      "A user downloads a huge ZIP with no manifest, cannot tell whether messages or attachments are missing, and assumes export completed because one file downloaded.",
+      "A support admin exports another user's data without role explanation, approval, redaction, audit trail, or notification."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Data export workflows become risky when they hide scope, confuse export with deletion or import, omit format and portability limits, expose sensitive archives through weak links, or provide no recovery when a long-running export is partial, delayed, expired, or failed.",
+  "solution": "Provide a scoped export workflow that explains eligible data, category selection, format, destination, identity or permission checks, job progress, manifest, omissions, package security, expiry, download or transfer actions, retry paths, and completion evidence.",
+  "problemContext": [
+    "The exported data may include personal information, activity history, files, messages, contacts, billing records, audit records, workspace content, settings, generated outputs, or organization archives.",
+    "Exports may be requested by account holders, admins, compliance staff, support agents, organization owners, or migration operators.",
+    "The export may be synchronous for small tables, asynchronous for archives, category-scoped for privacy dashboards, destination-based for cloud archives, or API-driven for enterprise tools.",
+    "Data may be unavailable because of retention, permission, product support, legal hold, deleted objects, redaction policy, processing delay, or format limits."
+  ],
+  "selectionRules": [
+    "Choose data export when the user needs a copy or transfer of existing data outside the current product workflow.",
+    "Use bulk import when the task is bringing structured records into the product, including mapping and validation, rather than taking data out.",
+    "Use audit log when the primary task is governed event evidence; data export may package audit records but does not replace audit-log review.",
+    "Use table or data grid export for local row downloads when the scope is one visible dataset; use data export when the workflow needs account, workspace, category, privacy, retention, or package handling.",
+    "Use sensitive-data reveal when the task is briefly exposing one protected value, not preparing a portable archive.",
+    "Require identity, permission, or approval checks when export contains sensitive personal data, organization data, financial data, private files, or another user's records.",
+    "Show data categories, date range, services, account, workspace, format, destination, estimated size, and expected preparation time before starting export.",
+    "State whether export includes deleted, archived, redacted, unavailable, retained, encrypted, or third-party data.",
+    "Provide a manifest, checksum, package ID, or export reference when users need to verify what was produced.",
+    "Keep export distinct from delete account, privacy setting changes, consent withdrawal, notification preferences, and migration import actions."
+  ],
+  "requiredStates": [
+    "Eligible data categories and unavailable categories state.",
+    "Category selection, date range, account, workspace, format, and destination state.",
+    "Identity verification, permission check, approval required, or policy blocked state.",
+    "Export requested, queued, preparing, estimating size, compressing, and packaging states.",
+    "Large export background job with progress, expected wait, and notification route.",
+    "Partial export with omitted records, redacted fields, failed categories, and retry actions.",
+    "Export ready with package ID, expiry time, size, format, checksum or manifest, and download action.",
+    "Secure download, transfer to another service, copy link, expired link, and regenerate link states.",
+    "Export failed, canceled, rate limited, storage full, unsupported format, and recovery states.",
+    "Post-download state that explains export does not delete source data and records completion where appropriate."
+  ],
+  "interactionContract": [
+    "Export scope is explicit before the job starts and remains visible through progress, completion, failure, and download.",
+    "The product does not imply that export removes, deletes, imports, transfers, or anonymizes source data unless that separate action is actually happening.",
+    "Start export records selected categories, filters, format, destination, requester, account or workspace, and timestamp.",
+    "Long-running exports can be left and resumed from a status page, notification, email, or job history without losing context.",
+    "Ready packages show expiry, size, format, checksum or manifest, sensitive-data warning, and the account or destination that can download them.",
+    "Partial or failed exports name affected categories and provide retry, regenerate, support, or archive-request paths.",
+    "Export links, API tokens, and package URLs are time-limited, permission-checked, and do not expose data to the wrong account.",
+    "After download or transfer, the UI states whether the package was downloaded, transferred, expired, canceled, or still available."
+  ],
+  "implementationChecklist": [
+    "Model export jobs with request ID, requester, account/workspace, category set, filters, date range, format, destination, status, package ID, expiry, manifest, checksum, and error details.",
+    "Classify export data by sensitivity, portability eligibility, file size, product support, retention, legal hold, redaction, and permission requirements.",
+    "Add identity verification, role check, approval, or policy gates for sensitive, admin, organization, or cross-user exports.",
+    "Provide progress for queued, preparing, packaging, ready, partial, failed, canceled, expired, and regenerated-link states.",
+    "Generate a manifest that names included categories, omitted categories, redacted fields, unavailable products, file counts, record counts, format, and timestamps.",
+    "Make download links short-lived and account-bound; support link regeneration and clear expired-link recovery.",
+    "Test large archives, many categories, slow packaging, failed category, partial result, expired link, wrong account, mobile download handoff, storage limits, and screen-reader progress updates.",
+    "Log export requests and downloads without logging raw exported contents in unrelated telemetry."
+  ],
+  "commonMisuses": [
+    "Using one Export all button with no scope, format, account, destination, date range, or size estimate.",
+    "Confusing export with delete account, privacy preference changes, migration import, or audit-log investigation.",
+    "Leaving sensitive export archives available forever or downloadable by any signed-in user with the link.",
+    "Claiming the export is complete when categories failed, were redacted, or were outside retention.",
+    "Exporting only visible table rows while labelling the result as full account data.",
+    "Putting raw secrets, tokens, private files, or AI prompts into export manifests where broad admins can see them.",
+    "Failing silently after a long-running export job expires or hits an archive size limit."
+  ],
+  "critiqueQuestions": [
+    "What exact data categories, services, date range, account, workspace, and format are included?",
+    "Which data is not eligible, redacted, delayed, deleted, archived, outside retention, or permission-limited?",
+    "What identity, role, approval, or policy check protects the export?",
+    "How does the user verify the package contents: manifest, checksum, file count, record count, or package ID?",
+    "How long is the package available, who can download it, and how can an expired link be regenerated?",
+    "Does the interface clearly say that exporting data does not delete, import, or transfer source data unless a separate action occurs?"
+  ],
+  "useWhen": [
+    "Users need to download or transfer a copy of account, workspace, personal, product, activity, or organization data.",
+    "The export is asynchronous, sensitive, scoped, multi-category, format-dependent, or subject to portability or compliance obligations.",
+    "Users need a manifest, package status, expiry, secure download, or retry path.",
+    "The product must distinguish included, excluded, redacted, delayed, and unavailable data."
+  ],
+  "avoidWhen": [
+    "The user is importing records into the product; use bulk import.",
+    "The user is exporting one visible table view and no broader package, privacy, or account scope is involved.",
+    "The task is viewing audit evidence rather than downloading a data package.",
+    "The user is deleting account data or changing privacy preferences.",
+    "Security policy forbids export for the requested category; show a policy-blocked state and support path."
+  ],
+  "variants": [
+    "Personal data portability export",
+    "Account data archive",
+    "Organization data export",
+    "Workspace export",
+    "Report export package",
+    "Privacy dashboard data export",
+    "Export to cloud archive",
+    "Direct transfer to another service",
+    "Export manifest and checksum",
+    "Expired export link",
+    "Partial export retry"
+  ],
+  "accessibility": [
+    "Use persistent status text for queued, preparing, ready, partial, failed, expired, and downloaded states rather than relying on a spinner or toast alone.",
+    "Associate category checkboxes, date ranges, format choices, and destination controls with clear labels and descriptions.",
+    "Expose package ID, expiry, size, format, manifest, checksum, omitted categories, and download status as text.",
+    "Do not rely on color alone to show sensitive, unavailable, redacted, failed, or ready categories.",
+    "Keep download, regenerate link, retry failed category, cancel export, and view manifest controls keyboard reachable.",
+    "Announce progress milestones and completion without repeatedly interrupting screen reader users during long-running jobs."
+  ],
+  "keyboardBehavior": [
+    "Tab order reaches category selection, select all or none, date range, format, destination, verification, start export, job status, manifest, download, retry, and cancel controls.",
+    "Enter or Space toggles categories and activates export, download, retry, regenerate link, and cancel controls.",
+    "Escape closes format, destination, or manifest dialogs without canceling the export job unless the user explicitly chooses cancel.",
+    "After starting export, focus moves to a status region or remains near the start control with status announced.",
+    "After a package becomes ready, focus can move to the download action or ready status without losing the job reference.",
+    "Expired link recovery returns focus to the regenerated link or package status."
+  ],
+  "failureModes": [
+    "Users download a package but cannot tell whether messages, files, audit events, or activity history are missing.",
+    "The export link expires without a visible regenerate path.",
+    "A cross-user admin export exposes another person's data without role, approval, or audit context.",
+    "The manifest lists raw sensitive values instead of safe category and count information.",
+    "A partial export looks successful because the failed category is hidden below the fold.",
+    "A table CSV export is labelled as full account data.",
+    "Direct transfer to another service fails after source export succeeded, leaving users unsure where the data is."
+  ],
+  "relatedPatterns": [
+    "bulk-import",
+    "audit-log",
+    "activity-log",
+    "table",
+    "data-grid",
+    "file-upload",
+    "sensitive-data-reveal",
+    "permission-denied-state",
+    "notification-center",
+    "settings-management"
+  ],
+  "comparisons": [
+    "data-export-vs-bulk-import-vs-audit-log-vs-table-vs-sensitive-data-reveal"
+  ],
+  "examples": [
+    {
+      "product": "ICO right to data portability",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-data-portability/",
+      "platform": "web",
+      "notes": "Documents obtaining, reusing, moving, copying, or transferring personal data in structured and machine-readable form.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Google Workspace Data Export",
+      "url": "https://knowledge.workspace.google.com/admin/migrate/export-all-your-organizations-data",
+      "platform": "web",
+      "notes": "Documents organization data export to a cloud archive and download workflow.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Microsoft privacy DSR export",
+      "url": "https://learn.microsoft.com/en-us/power-automate/privacy-dsr-export-msa",
+      "platform": "web",
+      "notes": "Documents a privacy dashboard workflow for selecting categories, creating an archive, and downloading the data.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Google Takeout",
+      "url": "https://takeout.google.com/",
+      "platform": "web",
+      "notes": "Provides signed-in account data export archive creation for Google Account data.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ico-right-to-data-portability",
+      "note": "Supports obtaining and reusing personal data across services in structured, commonly used, machine-readable forms."
+    },
+    {
+      "id": "dataprotection-ie-right-to-data-portability",
+      "note": "Supports portability as machine-readable data and technically feasible transfer to another controller."
+    },
+    {
+      "id": "google-workspace-data-export-tool",
+      "note": "Supports organization export archives, cloud destination, download, and product-specific export constraints."
+    },
+    {
+      "id": "microsoft-privacy-dsr-export-msa",
+      "note": "Supports archive creation, category selection, and download from a privacy dashboard."
+    },
+    {
+      "id": "google-takeout-download-data",
+      "note": "Supports user-facing account data export archive creation."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

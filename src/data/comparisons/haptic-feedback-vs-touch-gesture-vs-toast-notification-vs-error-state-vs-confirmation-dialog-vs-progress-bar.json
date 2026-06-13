@@ -1,0 +1,61 @@
+{
+  "id": "haptic-feedback-vs-touch-gesture-vs-toast-notification-vs-error-state-vs-confirmation-dialog-vs-progress-bar",
+  "title": "Haptic feedback vs touch gesture vs toast notification vs error state vs confirmation dialog vs progress bar",
+  "summary": "Use haptic feedback when a tactile pulse confirms direct manipulation, boundary crossing, selection, warning, or completion without carrying essential information alone. Use touch gesture for input recognition, toast notification for transient visual status, error state for blocking recovery, confirmation dialog for explicit risk decisions, and progress bar for measurable duration.",
+  "patternIds": [
+    "haptic-feedback",
+    "touch-gesture",
+    "toast-notification",
+    "error-state",
+    "confirmation-dialog",
+    "progress-bar"
+  ],
+  "decisionRules": [
+    "Choose haptic feedback when a physical pulse should reinforce a specific interaction event such as press, drag threshold, detent, snap, selection, boundary, success, warning, or destructive confirmation, while the same information remains visible or audible elsewhere.",
+    "Choose touch gesture when the design problem is recognizing a tap, swipe, long press, pinch, drag, threshold, cancellation, scroll conflict, or equivalent control; haptics may reinforce gesture milestones but does not define the gesture contract.",
+    "Choose toast notification when users need short visible status copy after an action; haptic feedback can accompany the toast but cannot replace the message, action label, undo, or durable status.",
+    "Choose error state when a task is blocked, invalid, unavailable, or failed and needs persistent explanation and recovery controls; a warning pulse can draw attention but must not be the only error communication.",
+    "Choose confirmation dialog when users must review and explicitly decide before a risky or destructive action; haptics can emphasize the final commit, not substitute for consequence copy or explicit choice.",
+    "Choose progress bar when users need measurable elapsed or remaining work; repeated vibration must not be used as progress feedback for long-running tasks because it is imprecise, fatiguing, and inaccessible.",
+    "Haptic feedback needs a semantic vocabulary: light tap for selection, detent for snapped position, medium impact for committed action, warning pattern for recoverable risk, and strong or rare effect only for serious events.",
+    "Respect hardware support, browser support, user settings for haptics or vibration, reduced-motion or accessibility preferences, quiet contexts, battery, and notification mode before playing effects.",
+    "Never make haptics the sole channel for success, failure, warning, validation, progress, or confirmation; provide visual text, state, or audio alternatives.",
+    "Avoid repeated, long, surprising, or decorative vibration patterns that feel like alarms, drain battery, mask notification semantics, or trigger discomfort."
+  ],
+  "failureModes": [
+    "A form error is communicated only by vibration with no visible field message.",
+    "Every tap vibrates with the same strong pulse until users cannot tell selection, warning, and success apart.",
+    "A long upload uses repeated vibration instead of progress text and cancellation controls.",
+    "A destructive delete uses a heavy pulse as confirmation without consequence copy or explicit user choice.",
+    "The app ignores system haptic settings and vibrates in quiet or reduced-feedback contexts.",
+    "A custom web vibration pattern is assumed to work on every browser and device.",
+    "Haptics play after delayed network success, disconnected from the action that caused them."
+  ],
+  "sources": [
+    {
+      "id": "mdn-vibration-api",
+      "note": "Supports web vibration availability, pulse patterns, cancellation, and no-op behavior on unsupported devices."
+    },
+    {
+      "id": "w3c-vibration-api",
+      "note": "Supports standardized vibration patterns, cancellation, user-agent limits, and limited availability."
+    },
+    {
+      "id": "android-haptics-principles",
+      "note": "Supports matching haptic strength and timing to interaction meaning while avoiding overuse."
+    },
+    {
+      "id": "android-haptic-feedback-events",
+      "note": "Supports event-specific haptic APIs, predefined constants, hardware support, and user settings."
+    },
+    {
+      "id": "apple-hig-playing-haptics",
+      "note": "Supports platform-conventional haptics that complement visual and audio feedback."
+    },
+    {
+      "id": "apple-hig-feedback",
+      "note": "Supports multi-channel feedback for action results, available actions, and mistake prevention."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

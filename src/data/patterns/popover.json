@@ -1,0 +1,237 @@
+{
+  "id": "popover",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed anchored contextual overlay pattern with distinct boundaries from menu button, modal dialog, sheet, disclosure details, and inline message, unique due-date popover behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets small anchored contextual overlays, including exact anchor ownership, compact local content, auto versus manual dismissal tradeoffs, collision handling, focus order near the invoker, Escape and outside dismissal, value application, anchor scroll behavior, and small-screen constraints.",
+    "relatedPatternDistinction": "The entry separates popover from menu button by rich local context versus command-list semantics, from modal dialog by nonblocking page use versus blocking task mode, from sheet by compact anchored content versus roomier child tasks, from disclosure details by overlay versus inline page flow, and from inline message by temporary context versus persistent instruction or feedback.",
+    "liveDemoBehavior": "The live demo opens a Due date popover from a task row, moves focus to the first date option, applies Today, Tomorrow, Friday, or a custom date to the anchor, flips placement when the anchor moves near the viewport edge, supports outside and Escape dismissal with focus return, and contrasts hover-only, detached, focus-loss, overstuffed, modal-mask, and menu-role failures.",
+    "comparisonDecisionRules": "The popover-vs-menu-button-vs-modal-dialog-vs-sheet comparison gives concrete rules for small anchored local content, command-list popups, blocking compact tasks, larger temporary sheet tasks, required critical instruction, long forms, menu keyboard expectations, dirty dismissal, and focus return.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/popover/ and /compare/popover-vs-menu-button-vs-modal-dialog-vs-sheet/ on 2026-06-10. Live check exercised Open popover, Tomorrow selection, Move near edge, keyboard Escape close, outside dismissal, Hover only, Detached, Focus loss, Overstuffed, Modal mask, and Menu roles. screenshots/patterns/popover.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/popover.png"
+    ]
+  },
+  "name": "Popover",
+  "aliases": [
+    "contextual popover",
+    "anchored popover",
+    "floating panel",
+    "callout",
+    "teaching popover",
+    "light-dismiss overlay"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Small anchored contextual overlay",
+  "uiGuidance": [
+    "Render a popover as a compact surface visually tied to the trigger, field, selection, or object that opened it, with a clear title or labelled content when the body is more than a short sentence.",
+    "Keep the layer small enough to remain local: brief copy, a few choices, light controls, optional close action, and placement that flips or shifts before it disconnects from the anchor."
+  ],
+  "uxGuidance": [
+    "Use a popover when users need local context, clarification, or a small edit without losing their place in the page.",
+    "Make opening, light dismissal, Escape, outside click, anchor scrolling, focus order, and focus return predictable so the surface feels contextual rather than interruptive."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Due date button in a task row opens a small popover beside the field with Today, Tomorrow, Friday, a custom date field, and a visible close control.",
+      "A billing plan marker opens a short contextual popover with an explanation, one Learn more link, and placement that shifts away from the viewport edge."
+    ],
+    "bad": [
+      "A large floating panel appears in the middle of the screen with no arrow, no title, no trigger relationship, and hidden controls below the fold.",
+      "A hover-only popover contains required instructions and a form field that touch and keyboard users cannot reliably reach."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Opening the due-date popover moves focus to the first date option, choosing Tomorrow updates the field, closes the layer, and returns focus to the Due date trigger.",
+      "Pressing Escape or clicking outside closes a clean popover without changing the task, while reopening preserves the user's current page context."
+    ],
+    "bad": [
+      "The user scrolls and the popover stays in the old position, so it appears to describe the wrong field.",
+      "A popover is used for a multi-step workflow, then outside click closes it and loses partially entered data."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need extra local context or a small set of nearby controls, but interrupting the page with a modal or hiding the content behind hover-only hints makes the task slower and less reliable.",
+  "solution": "Open a small anchored popover from a clear trigger, keep the content brief and local, place it near the anchor with collision handling, allow predictable dismissal, and restore focus to the invoking control or local result.",
+  "problemContext": [
+    "A field, row, map pin, chart mark, term, or object needs explanation or light editing without navigating away.",
+    "The content is more than a tooltip label but smaller than a dialog, drawer, sheet, or page.",
+    "Users should keep seeing and using the surrounding page unless they are interacting directly inside the popover.",
+    "The implementation can maintain anchor position, focus order, outside dismissal, Escape behavior, and screen reader relationships."
+  ],
+  "selectionRules": [
+    "Choose popover when a local trigger needs a compact contextual layer with short copy, a few actions, or light controls that belong to that exact anchor.",
+    "Use menu button when the popup is primarily a command list and should use menu item roles, active-item movement, and command activation behavior.",
+    "Use modal dialog when users must complete or cancel a compact blocking task before returning to the page.",
+    "Use sheet when the surface needs more room, sticky actions, adaptive sizing, or protected dirty-state dismissal.",
+    "Use disclosure details when the content can stay inline and should remain part of the page flow after expansion.",
+    "Use inline text, validation, or an inline message for essential instructions that must not disappear on light dismissal.",
+    "Use tooltip-style help only for short noninteractive hints; do not hide required instructions, form controls, or complex content in hover-only behavior.",
+    "Use a full page when the interaction needs routing, long reading, saved progress, or multiple steps."
+  ],
+  "requiredStates": [
+    "Closed trigger state with visible label, icon name, or field relationship.",
+    "Open anchored state with position tied to the trigger, selected text, field, or object.",
+    "Collision state where the surface flips, shifts, or changes side before it clips or disconnects.",
+    "Interactive focus state when controls inside the popover are reachable after the trigger in the keyboard order.",
+    "Clean light-dismiss state through outside click, Escape, close button, or another trigger.",
+    "Applied state where a local choice updates the anchor value and closes the popover.",
+    "Anchor changed or scrolled state where the popover follows, closes, or clearly reanchors.",
+    "Small-screen state where the same contract still works without becoming an unlabeled modal or hidden sheet."
+  ],
+  "interactionContract": [
+    "The trigger name and visible placement make clear which object or field the popover belongs to.",
+    "Opening from keyboard moves focus to the first meaningful control inside the popover or keeps focus on the trigger only when the content is purely informational and still reachable.",
+    "Focusable content inside the popover follows the invoker in the tab order and does not trap focus like a modal dialog.",
+    "Escape closes the popover and returns focus to the trigger or local result.",
+    "Outside click or another local trigger closes a clean auto popover without applying a hidden action.",
+    "A manual popover has an explicit close path and a reason to stay open after outside interaction.",
+    "Placement updates with scrolling, viewport edges, zoom, and responsive changes so the surface remains visually tied to its anchor.",
+    "If a control inside the popover changes the anchor value, the update is visible at the anchor after close."
+  ],
+  "implementationChecklist": [
+    "Identify the exact anchor element and name the relationship in trigger text, aria attributes, or visible copy.",
+    "Choose auto, manual, or hint behavior based on whether light dismissal and one-at-a-time behavior match the task.",
+    "Keep content brief and remove unrelated navigation, long forms, tables, and multi-step workflows.",
+    "Implement Escape, outside click, close button when needed, opener toggling, and focus return consistently.",
+    "Put popover controls in a predictable keyboard order near the invoker and avoid modal focus traps for nonmodal popovers.",
+    "Handle placement collision, scroll containers, clipping, portals, zoom, and small screens without detaching from the anchor.",
+    "Use semantics that match content: ordinary buttons and links for rich popovers, menu roles only for menu behavior, and dialog semantics only for truly dialog-like surfaces.",
+    "Test keyboard, touch, screen readers, high zoom, viewport edges, nested overlays, and anchor changes."
+  ],
+  "commonMisuses": [
+    "Using a popover as a hidden modal, drawer, sheet, command menu, or full workflow.",
+    "Showing required instructions only in a hover-only layer that cannot be opened or kept open on touch and keyboard.",
+    "Letting the popover appear detached from its trigger after scrolling, collision, or portal rendering.",
+    "Putting long forms or unsaved edits in a surface that can light-dismiss without review.",
+    "Mixing menu roles with arbitrary buttons, links, inputs, and explanatory content.",
+    "Opening several overlapping popovers at once with no ownership, close order, or focus return.",
+    "Failing to restore focus to the invoker after Escape, close, outside click, or applied selection."
+  ],
+  "critiqueQuestions": [
+    "What exact field, object, or selection anchors this popover?",
+    "Is the content local and brief enough to stay nonmodal?",
+    "Does the surface need command-menu keyboard behavior, dialog modality, a sheet, or inline disclosure instead?",
+    "What happens on Escape, outside click, anchor scroll, viewport collision, and trigger reactivation?",
+    "Where does focus move on open, inside the popover, after applying a choice, and after dismissal?",
+    "Is any required instruction hidden in a dismissible or hover-only layer?"
+  ],
+  "useWhen": [
+    "A local control needs brief explanatory content or light editing while page context remains visible.",
+    "The content belongs to one trigger, field, selected object, chart mark, map pin, or inline term.",
+    "The surface can be dismissed without losing important work.",
+    "The page benefits from avoiding a modal interruption or full navigation."
+  ],
+  "avoidWhen": [
+    "The content is essential instruction that must remain visible for task completion.",
+    "The surface contains long forms, tables, multi-step work, destructive review, or unsaved edits.",
+    "The popup is a pure command menu that needs menu button semantics.",
+    "The task must block the rest of the page until completed or cancelled.",
+    "Placement cannot remain tied to the anchor across scroll, resize, and zoom."
+  ],
+  "variants": [
+    "Auto popover",
+    "Manual popover",
+    "Hint popover",
+    "Teaching popover",
+    "Field help popover",
+    "Quick edit popover",
+    "Chart annotation popover",
+    "Map marker popover",
+    "Rich informational popover"
+  ],
+  "accessibility": [
+    "Use a real button or equivalent control as the trigger whenever possible.",
+    "Keep the trigger's expanded state and controlled relationship synchronized when the framework exposes those attributes.",
+    "Ensure focusable content inside the popover is reachable by keyboard immediately after the trigger.",
+    "Return focus to the trigger or local result when the popover closes.",
+    "Use Escape and visible close controls for dismissible interactive popovers.",
+    "Do not use hover as the only way to reveal interactive or required content.",
+    "Do not trap focus unless the surface is actually modal and should be implemented as a dialog.",
+    "Expose titles, descriptions, selected values, disabled states, and close controls in text and semantics, not only by placement or color."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the trigger opens or toggles the popover.",
+    "Tab moves from the trigger to focusable popover content when the popover contains controls.",
+    "Shift+Tab moves back through popover controls and can return to the trigger without a modal trap.",
+    "Escape closes the popover and returns focus to the trigger.",
+    "Enter or Space activates focused controls inside the popover and may apply the local choice.",
+    "After a choice applies, focus returns to the trigger or the updated local field.",
+    "Arrow keys are used only when the contained controls require them, not as a generic popover navigation model."
+  ],
+  "failureModes": [
+    "The popover opens with no visible or semantic relationship to the trigger.",
+    "Keyboard users cannot move from the trigger into interactive content.",
+    "Escape closes the layer but focus disappears or jumps to the top of the page.",
+    "The popover clips under a scroll container or remains on screen after the anchor scrolls away.",
+    "Outside click silently loses entered data.",
+    "Several popovers stack over each other with no one-at-a-time rule.",
+    "The surface uses menu roles even though it contains forms, paragraphs, links, and mixed controls.",
+    "Critical instructions are hidden in a transient hover layer."
+  ],
+  "relatedPatterns": [
+    "menu-button",
+    "modal-dialog",
+    "sheet",
+    "disclosure-details",
+    "inline-message"
+  ],
+  "comparisons": [
+    "popover-vs-menu-button-vs-modal-dialog-vs-sheet"
+  ],
+  "examples": [
+    {
+      "product": "MDN Popover API examples",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Popover_API/Using",
+      "platform": "web",
+      "notes": "Shows declarative and scripted popover behavior, close requests, focus order, and focus return expectations.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "HTML popover attribute",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/popover",
+      "platform": "web",
+      "notes": "Documents auto, manual, and hint popover values, including light dismissal and one-at-a-time auto behavior.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Fluent 2 Popover",
+      "url": "https://fluent2.microsoft.design/components/web/react/core/popover/usage",
+      "platform": "web",
+      "notes": "Provides design guidance for brief contextual popover content, sizing, positioning, nesting limits, and accessibility.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-popover-api-using",
+      "note": "Supports popover focus order, Escape close requests, invoker focus return, and auto, manual, and hint behavior."
+    },
+    {
+      "id": "mdn-popover-attribute",
+      "note": "Supports the popover attribute values and light-dismiss behavior."
+    },
+    {
+      "id": "open-ui-popover-explainer",
+      "note": "Supports popover as an ephemeral top-layer surface that closes when users move on."
+    },
+    {
+      "id": "fluent-popover-component",
+      "note": "Supports brief nonessential contextual content, positioning, sizing, and nesting cautions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

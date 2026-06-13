@@ -1,0 +1,58 @@
+{
+  "id": "chart-drilldown-vs-data-visualization-vs-details-panel-vs-table",
+  "title": "Chart drilldown vs data visualization vs details panel vs table",
+  "summary": "Use Chart drilldown when a chart mark represents an aggregate that can be explored through a governed hierarchy without leaving the analytic context; use the alternatives when the task is top-level pattern reading, object inspection, or exact row work.",
+  "patternIds": [
+    "chart-drilldown",
+    "data-visualization",
+    "details-panel",
+    "table"
+  ],
+  "decisionRules": [
+    "Choose Chart drilldown when users start from an aggregate mark and need to descend to the next planned level, such as region to country to store, while preserving the same metric, filter scope, and chart question.",
+    "Choose Data visualization when the user only needs to read the current trend, comparison, distribution, or anomaly and does not need to traverse a hierarchy or change granularity from a selected mark.",
+    "Choose Details panel when selecting a chart object should reveal descriptive attributes, notes, ownership, or related records without replacing the chart's visible aggregate series.",
+    "Choose table when users need exact child rows, reconciliation, export, sorting, editing, or audit work more than visual aggregate-to-child navigation.",
+    "A Chart drilldown should expose the current level, selected parent mark, breadcrumb or drill-up path, child-level label, inherited filters, metric continuity, and a reset or return path before users rely on the deeper view.",
+    "Use drilldown for bounded hierarchies with clear parent-child relationships; do not use it for arbitrary filtering, unrelated dashboard navigation, or a hidden route to a different report page.",
+    "Use drillthrough instead of in-chart drilldown when the user must move to a different page focused on a single entity with richer detail visuals and a clear Back control.",
+    "Keep selected aggregate, child marks, tooltip, table alternative, announcement text, and breadcrumbs synchronized so keyboard and assistive-technology users understand the level change.",
+    "Do not let drilldown silently change aggregation, unit, time range, sample, or filters; disclose any change next to the chart and in exported context.",
+    "Limit depth or provide orientation aids when hierarchy levels become long, sparse, or asymmetric, because deep drill paths can hide peer context and make comparison unreliable."
+  ],
+  "failureModes": [
+    "A clicked mark replaces the chart with child data but gives no breadcrumb, selected parent, or way back to the previous level.",
+    "Drilling changes metric, unit, baseline, time range, or filter scope without a visible disclosure.",
+    "The drill target is not a real child of the selected aggregate, causing users to interpret unrelated data as a breakdown.",
+    "Keyboard and screen-reader users receive no announcement when the chart data changes after drilldown.",
+    "Deep levels hide peer totals and make the user forget whether they are viewing all data or one branch.",
+    "The chart uses drilldown as a substitute for row-level auditing where a table would be more accurate."
+  ],
+  "sources": [
+    {
+      "id": "highcharts-drilldown",
+      "note": "Highcharts documents point-linked drilldown series, visible series replacement, animation, and multi-level drilling."
+    },
+    {
+      "id": "highcharts-breadcrumbs",
+      "note": "Highcharts documents breadcrumbs for returning through previous drilldown or hierarchy levels."
+    },
+    {
+      "id": "microsoft-power-bi-drill-down-support",
+      "note": "Microsoft documents hierarchy-level drill-down support, selections, context menus, and matrix traversal for Power BI visuals."
+    },
+    {
+      "id": "microsoft-power-bi-drillthrough",
+      "note": "Microsoft documents drillthrough as navigation to a filtered detail page, useful for distinguishing it from in-chart drilldown."
+    },
+    {
+      "id": "tableau-hierarchies-drill",
+      "note": "Tableau documents adding or removing hierarchy levels in a visualization through plus and minus controls."
+    },
+    {
+      "id": "highcharts-accessible-dynamic-data",
+      "note": "Highcharts documents screen-reader announcements for dynamic data and drilldown changes."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "context-menu-vs-action-menu-vs-menu-button-vs-popover",
+  "title": "Context menu vs action menu vs menu button vs popover",
+  "summary": "Use a context menu for commands invoked at a specific object or pointer/focus location, an action menu for the command taxonomy, a menu button for a visible named trigger, and a popover for small contextual content or controls that are not command menus.",
+  "patternIds": [
+    "context-menu",
+    "action-menu",
+    "menu-button",
+    "popover"
+  ],
+  "decisionRules": [
+    "Choose context menu when users invoke commands from a specific object, text selection, canvas item, table row, file, or map mark using right click, long press, context-menu key, or Shift+F10.",
+    "Choose action menu when the design problem is the command list itself: object scope, grouping, disabled reasons, destructive separation, bulk labels, and result handling.",
+    "Choose menu button when the commands should be discoverable from a visible named trigger and must not depend on secondary click, long press, or keyboard context-menu shortcuts.",
+    "Choose popover when the anchored surface contains contextual information, light editing, or small controls rather than menuitem-style command activation.",
+    "A context menu must open at the invoked object or keyboard-focused item, not at a stale pointer location or unrelated toolbar button.",
+    "Provide an alternate visible route for important commands because many users will not discover right-click or long-press behavior.",
+    "Use the same eligible command set across pointer and keyboard invocation unless platform conventions require a documented difference.",
+    "Do not use a context menu for primary, urgent, onboarding, destructive-only, or form-completion actions that need visible affordance or stronger review.",
+    "When a context menu opens from keyboard, place focus in the menu and return focus to the invoking object on Escape or after safe activation.",
+    "If menu content needs inputs, previews, filters, date pickers, or long descriptions, it has moved beyond a context menu into popover, drawer, sheet, dialog, or page territory."
+  ],
+  "failureModes": [
+    "Right click on one row opens commands for a previously selected row.",
+    "Shift+F10 opens the context menu at the viewport corner instead of the focused object.",
+    "The only way to archive a file is a hidden context menu, so touch and keyboard users miss the command.",
+    "The context menu contains a search field, date picker, preview card, and destructive action in one mixed layer.",
+    "Pointer users and keyboard users see different command availability for the same selected object.",
+    "Escape closes the menu but drops focus at the top of the page instead of returning to the file or row."
+  ],
+  "sources": [
+    {
+      "id": "mdn-contextmenu-event",
+      "note": "MDN supports right-click and context-menu-key invocation and browser compatibility caveats."
+    },
+    {
+      "id": "wai-aria-apg-menu-menubar",
+      "note": "APG supports menu roles, keyboard movement, activation, Escape behavior, and Shift+F10 context-specific invocation."
+    },
+    {
+      "id": "fluent-menu-component",
+      "note": "Fluent supports menus as hidden action or navigation lists, not input collection surfaces."
+    },
+    {
+      "id": "apple-hig-context-menus",
+      "note": "Apple supports context menus as item-related functionality without cluttering the interface."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

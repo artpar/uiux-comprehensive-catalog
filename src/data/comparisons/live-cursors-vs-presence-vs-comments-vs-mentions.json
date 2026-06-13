@@ -1,0 +1,60 @@
+{
+  "id": "live-cursors-vs-presence-vs-comments-vs-mentions",
+  "title": "Live cursors vs presence vs comments vs mentions",
+  "summary": "Use live cursors for ephemeral real-time pointer or selection awareness, presence for availability, comments for durable object-attached discussion, and mentions for targeted attention inside authored content.",
+  "patternIds": [
+    "live-cursors",
+    "presence",
+    "comments",
+    "mentions",
+    "threaded-discussion",
+    "notification-center",
+    "activity-log",
+    "sync-state",
+    "offline-state",
+    "tooltip"
+  ],
+  "decisionRules": [
+    "Choose live cursors when collaborators need to see where other people are pointing, selecting, hovering, typing, or focused in the same document, canvas, slide, diagram, whiteboard, code editor, or design file right now.",
+    "Choose presence when the question is whether a person is available, away, busy, offline, unknown, viewing, or recently active; presence can feed live cursors, but it does not show exact pointer or selection location.",
+    "Choose comments when feedback must persist on a specific object, region, line, or selection with author, timestamp, reply, resolve, edit, and moderation state; live cursors disappear when the collaboration session ends.",
+    "Choose mentions when a user needs to call someone's attention inside a message, comment, task, or document; mentions may bring someone into a shared surface, but they are not a pointer stream.",
+    "Choose threaded discussion when the work is a topic conversation with branches, unread state, answer marking, follow, or mute behavior; live cursors may show who is reading the topic but should not carry discussion state.",
+    "Use notification center when cursor-related activity needs retained inbox behavior such as someone requesting attention or following a pointer session; raw cursor movement should not become notification history.",
+    "Use activity log when the product must record a durable event such as a shared session start, annotation creation, or handoff; cursor coordinates and hover paths are ephemeral awareness data unless explicitly captured.",
+    "Use sync state when cursor positions are delayed, disconnected, stale, or reconnecting; show cursor freshness separately from document-save state so users do not mistake lag for content loss.",
+    "Use offline state when the current user cannot send or receive live cursor updates; hide or mark remote cursors stale instead of freezing them as if live.",
+    "Use tooltip for static contextual help; cursor labels, pointer names, and cursor chat are transient collaborator signals and need identity, color, recency, and privacy behavior."
+  ],
+  "failureModes": [
+    "Remote cursors stay visible after collaborators disconnect and the UI gives no stale or last-seen state.",
+    "Every pointer movement triggers layout, notification, or history updates, turning ephemeral awareness into noise.",
+    "Cursor labels rely only on color, so users cannot identify people with low vision or many collaborators.",
+    "A user cannot hide their own pointer or reduce other users' cursors during focused work or presenting.",
+    "Cursor chat is treated as durable feedback even though the message is temporary and not attached to an object or timeline.",
+    "A live cursor on a private object reveals hidden position, selection, or viewing behavior across a permission boundary."
+  ],
+  "sources": [
+    {
+      "id": "liveblocks-live-cursors",
+      "note": "Liveblocks documents realtime cursor rendering with cursor coordinates and other-user presence."
+    },
+    {
+      "id": "yjs-awareness-presence",
+      "note": "Yjs documents awareness data such as presence, cursor locations, user names, and colors as collaboration metadata."
+    },
+    {
+      "id": "google-slides-live-pointers",
+      "note": "Google Slides live pointers document user-controlled pointer visibility and collaborator pointer display during co-creation."
+    },
+    {
+      "id": "figma-cursor-chat",
+      "note": "Figma cursor chat documents temporary cursor-attached live messages for quick communication in a shared design file."
+    },
+    {
+      "id": "tiptap-awareness-collaboration",
+      "note": "Tiptap describes awareness as real-time activity information including presence and cursor positions without historical records."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

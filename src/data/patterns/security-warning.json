@@ -1,0 +1,271 @@
+{
+  "id": "security-warning",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed security-warning pattern with threat-specific interruption guidance, safe-path and override rules, report and policy handling, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers security warning, safe path, phishing warning, deceptive-site warning, malware warning, dangerous download warning, invalid certificate, insecure connection, mixed-content form, suspicious redirect, lookalike domain, file preview blocked, unknown publisher, details expanded, override requested, policy blocked, false-positive report, safe return, mobile compact, unsafe destination, Back to safety, Visit unsafe site, password, token, card number, recovery code, DOM, logs, URLs, analytics, and raw secret protection.",
+    "relatedPatternDistinction": "The entry separates security warning from warning text by requiring a detected active security-risk signal rather than known severe consequence copy; from alert by interrupting unsafe navigation, download, submission, preview, or account-risk steps rather than showing current-task status; from permission denied state by separating unsafe trust, malware, phishing, certificate, transport, and file risk from authorization boundaries; from sensitive-data reveal by separating unsafe destinations or objects from controlled exposure of already-held private values; and from site alert by focusing on one risky step rather than whole-service messaging.",
+    "liveDemoBehavior": "The live demo shows safe path, phishing warning, deceptive-site warning, malware warning, dangerous download warning, invalid certificate, insecure connection, mixed-content form, suspicious redirect, lookalike domain, file preview blocked, unknown publisher, details expanded, override requested, policy blocked, false-positive report, safe return, and mobile compact states. Bad states cover vague security issue, continue primary, after exposure, no destination, fake urgency, report requires visit, and logs secrets failures.",
+    "comparisonDecisionRules": "The linked security-warning-vs-warning-text-vs-alert-vs-permission-denied-state-vs-sensitive-data-reveal comparison gives concrete rules for security warning, warning text, alert, permission denied state, sensitive-data reveal, phishing, malware, deceptive site, dangerous download, invalid certificate, insecure connection, mixed-content submission, suspicious redirect, file preview risk, unknown publisher, unsafe destination, Back to safety, Remove download, Cancel submission, Visit anyway, authorization, controlled exposure, already-held values, DOM, logs, URLs, and analytics.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and compact-width checks rendered /patterns/security-warning/ with the live demo, exercised Safe path, Phishing warning, Deceptive-site warning, Malware warning, Dangerous download warning, Invalid certificate, Insecure connection, Mixed-content form, Suspicious redirect, Lookalike domain, File preview blocked, Unknown publisher, Details expanded, Override requested, Policy blocked, False-positive report, Safe return, Mobile compact, Vague security issue, Continue primary, After exposure, No destination, Fake urgency, Report requires visit, and Logs secrets states, and found no duplicate IDs, page overflow, or security-warning demo overflow on desktop or compact width. The comparison route /compare/security-warning-vs-warning-text-vs-alert-vs-permission-denied-state-vs-sensitive-data-reveal/ included security warning, warning text, alert, permission denied state, sensitive-data reveal, phishing, malware, deceptive site, dangerous download, invalid certificate, insecure connection, mixed-content submission, suspicious redirect, file preview risk, unknown publisher, unsafe destination, Back to safety, Remove download, Cancel submission, Visit anyway, authorization, controlled exposure, already-held, DOM, logs, URLs, and analytics with no duplicate IDs or content overflow on desktop or compact width.",
+    "screenshots": [
+      "screenshots/patterns/security-warning.png"
+    ]
+  },
+  "name": "Security warning",
+  "aliases": [
+    "unsafe-site warning",
+    "deceptive-site warning",
+    "phishing warning",
+    "malware warning",
+    "dangerous download warning",
+    "certificate warning",
+    "mixed-content warning",
+    "connection not secure warning",
+    "suspicious link warning",
+    "browser interstitial warning"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Security-risk warning and safe interruption before unsafe navigation, download, submission, preview, or sensitive action",
+  "uiGuidance": [
+    "Render a security warning as a high-clarity interruption that names the detected risk, identifies the destination or object, explains the concrete threat, presents the safest action as the primary path, and separates any override behind deliberate risk detail.",
+    "Use risk-specific labels for phishing, malware, deceptive site, dangerous download, invalid certificate, insecure connection, mixed-content submission, suspicious redirect, file preview blocked, or account-risk states instead of a vague warning banner."
+  ],
+  "uxGuidance": [
+    "Use security warning when a product, browser, operating system, or service has evidence that proceeding could expose credentials, install harmful software, leak sensitive data, bypass trust, or weaken account protection.",
+    "Help users choose the safe path quickly, make override rare and accountable, preserve task context when returning to safety, and provide report, learn-more, administrator, or site-owner paths without normalizing unsafe continuation."
+  ],
+  "uiExamples": {
+    "good": [
+      "A browser interstitial says Deceptive site ahead, shows the suspicious domain, explains that attackers may steal passwords, and makes Back to safety the primary action while placing Visit unsafe site behind Details.",
+      "A download shelf says File blocked: malware suspected, names the file, shows the detection source and timestamp, offers Remove file, and routes Keep anyway through a secondary risk detail control."
+    ],
+    "bad": [
+      "A red page says Security issue with Continue as the only visible action.",
+      "An account app shows a security warning after the user already entered a password into an insecure embedded form."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user clicks a payroll link that visually resembles the company domain, sees the suspicious-domain warning, returns to the trusted site, and reports the link to security.",
+      "A user submits customer data to an HTTP endpoint, sees that the form action is not trustworthy, cancels submission, and keeps the draft intact."
+    ],
+    "bad": [
+      "A user sees a vague warning, assumes it is routine maintenance, proceeds, and enters credentials into a phishing page.",
+      "A user downloads an unknown installer after the warning hides file reputation, publisher, source URL, and safer alternatives."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Security warnings fail when they look like ordinary alerts, hide the actual threat, make override too easy, appear after damage is done, or force users to choose without enough destination, evidence, recovery, or reporting context.",
+  "solution": "Intercept the risky step before exposure, state the specific security threat and affected destination or file, make the safe action obvious, require deliberate inspection for override, preserve or discard unsafe task state according to policy, and offer reporting or remediation paths without leaking sensitive data.",
+  "problemContext": [
+    "The risk may be phishing, social engineering, malware, unwanted software, dangerous download, scareware, invalid certificate, insecure connection, mixed content, unsafe form action, suspicious redirect, file preview risk, compromised site, unknown publisher, or account takeover signal.",
+    "Users may be navigating from email, search, chat, ads, QR codes, embedded links, downloads, file previews, admin consoles, password reset flows, payment forms, or internal tools.",
+    "The product may need different outcomes for block, warn, details, report false positive, report phishing, back to safety, open settings, contact administrator, delete file, keep file, use trusted route, or continue with an audited override.",
+    "Security warnings must be noticeable without becoming habituating; routine warnings, fake security copy, and easy bypasses train users to ignore real risk."
+  ],
+  "selectionRules": [
+    "Choose security warning when the system has a security-risk signal and proceeding could expose credentials, personal data, payment data, device integrity, account access, or organization assets.",
+    "Use a blocking interstitial when navigation, submission, download, preview, or launch would immediately put the user in a risky context before the normal task can continue.",
+    "Name the risk type in user language: deceptive site, suspected phishing, malware suspected, dangerous download, certificate problem, insecure connection, suspicious redirect, or unsafe form submission.",
+    "Show the destination, file, certificate, publisher, source URL, redirect target, or account event when safe to reveal, and redact sensitive values when the warning itself could leak private information.",
+    "Make the safe action primary, such as Back to safety, Remove download, Cancel submission, Use trusted site, Open settings, Contact admin, or Review activity.",
+    "Place override behind Details, More information, administrator policy, or a secondary action that states the risk; do not present Continue as the default action.",
+    "Use warning text when the issue is a known consequence before a product action rather than a detected active security threat.",
+    "Use alert when a current-task status needs urgent notice but the task can continue safely without a security interstitial.",
+    "Use permission denied state when access is blocked by authorization rather than unsafe trust, malware, phishing, or transport security evidence.",
+    "Use sensitive-data reveal when the main task is controlled exposure of a value already held by the product, not warning about an unsafe destination or object.",
+    "Use site alert when the security message applies across a whole service and does not block one risky navigation, file, form, or action.",
+    "Do not let the warning collect passwords, payment data, recovery codes, or other secrets; route users to a verified destination for remediation."
+  ],
+  "requiredStates": [
+    "Safe path state with primary Back to safety, Cancel, Remove, Use trusted route, or Contact admin action.",
+    "Detected phishing or deceptive-site state.",
+    "Malware or dangerous-download state.",
+    "Invalid certificate or connection-not-secure state.",
+    "Mixed-content or unsafe form-submission state.",
+    "Suspicious redirect or lookalike-domain state.",
+    "File preview blocked or unknown publisher state.",
+    "Details expanded state with evidence, affected object, and why override is risky.",
+    "Override requested state with deliberate secondary action, policy check, or administrator gate.",
+    "Override blocked by organization policy state.",
+    "False-positive or report-site state that does not require users to visit the unsafe destination.",
+    "Dismissed safe-return state that preserves safe draft context and removes dangerous content from view.",
+    "Mobile compact state where risk, destination, primary safe action, and details remain readable."
+  ],
+  "interactionContract": [
+    "The warning appears before the risky navigation, submission, download open, file preview, install, or sensitive account action completes.",
+    "The first heading or announcement names the security risk, not only a severity word.",
+    "The safe action is visually and semantically primary, receives the clearest label, and returns users to a safe context without losing recoverable safe work.",
+    "Details disclose evidence such as domain mismatch, certificate problem, file reputation, redirect target, insecure form action, or detection source without exposing raw secrets.",
+    "Override, when allowed, requires an explicit secondary path and may require administrator approval, policy acknowledgement, or audit logging.",
+    "If policy blocks override, the state explains the boundary and provides a support or administrator path instead of a disabled button alone.",
+    "Report false positive, report phishing, and site-owner remediation routes are separated from Visit anyway.",
+    "Security-warning text is not reused for fake urgency, marketing pressure, routine maintenance, validation, or optional consent."
+  ],
+  "implementationChecklist": [
+    "Classify security warning triggers by threat type, evidence source, confidence, affected object, safe default action, override policy, reporting path, and audit requirement.",
+    "Render risk-specific headings, destination/file identity, consequence copy, primary safe action, details, and any allowed override consistently across web, mobile, and desktop surfaces.",
+    "Use server, browser, operating-system, or security-service verdicts as authoritative signals; avoid client-only cosmetic security warnings for real threats.",
+    "Keep dangerous content, preview, script, download open, form submission, or credential entry blocked until the user chooses a permitted path.",
+    "Log warning shown, safe return, report, override request, override allow or block, policy reason, and affected object without logging secrets.",
+    "Preserve safe drafts and return targets, but clear or quarantine unsafe content according to threat policy.",
+    "Test phishing links, lookalike domains, malware downloads, unknown publishers, invalid certificates, mixed-content submissions, redirects, false-positive reports, admin override policy, mobile wrapping, keyboard access, and screen reader announcement."
+  ],
+  "commonMisuses": [
+    "Using vague warning copy that does not say phishing, malware, certificate, insecure connection, dangerous download, or suspicious redirect.",
+    "Making Continue the primary or only visible action.",
+    "Showing the warning after credential entry, file execution, form submission, or preview rendering already happened.",
+    "Hiding destination, file, publisher, redirect, or evidence details that users need to make a safe choice.",
+    "Using fake security urgency to pressure consent, upgrade, payment, or marketing decisions.",
+    "Letting every low-risk informational notice use the same severe security-warning treatment.",
+    "Logging raw passwords, tokens, payment data, or private file contents while producing the warning."
+  ],
+  "critiqueQuestions": [
+    "What concrete security signal caused this warning, and how fresh is it?",
+    "What exact navigation, download, submission, preview, install, or account action is being stopped?",
+    "Can the user identify the unsafe destination or object without exposing private information?",
+    "Is the safe action clearly primary, and does it preserve safe task context?",
+    "Is any override necessary, policy-allowed, deliberate, and auditable?",
+    "Does the warning offer a false-positive, report, administrator, or site-owner remediation path?",
+    "Could this warning train users to ignore real security risk because it is overused or vague?"
+  ],
+  "useWhen": [
+    "A threat signal indicates phishing, malware, deceptive site, unsafe download, invalid certificate, insecure connection, mixed-content submission, suspicious redirect, file preview risk, or account-security danger.",
+    "The product can stop the risky step before exposure and can offer a safer route or remediation path.",
+    "Users need to decide whether to go back, cancel, remove, report, contact admin, or proceed through a controlled override."
+  ],
+  "avoidWhen": [
+    "The message is only a general severe consequence before a product action; use warning text.",
+    "The message is urgent current-task status without unsafe navigation, download, connection, form, file, or account-risk evidence; use alert.",
+    "The issue is missing authorization; use permission denied state.",
+    "The user is choosing whether to reveal an already-held secret; use sensitive-data reveal.",
+    "The message applies to the whole service without blocking one risky step; use site alert or notification banner.",
+    "The product cannot identify a real security signal and is only trying to create fear or urgency."
+  ],
+  "variants": [
+    "Unsafe-site interstitial",
+    "Deceptive-site warning",
+    "Phishing warning",
+    "Malware warning",
+    "Dangerous-download warning",
+    "Unknown-publisher warning",
+    "Invalid-certificate warning",
+    "Connection-not-secure warning",
+    "Mixed-content form warning",
+    "Suspicious-redirect warning",
+    "Lookalike-domain warning",
+    "File-preview blocked warning",
+    "Organization-policy block",
+    "False-positive report path"
+  ],
+  "accessibility": [
+    "Use a heading and text that name the risk before the destination or details, so screen reader users hear the warning context first.",
+    "Do not rely on red color, shield icons, skull icons, or browser chrome alone; include visible risk words and a primary safe action.",
+    "Move focus to the warning heading when it blocks navigation, preview, or submission, and keep focus within the warning until a safe or permitted override action is chosen.",
+    "Keep Details, Report, Back to safety, Remove, Cancel, Contact admin, and permitted override controls keyboard reachable in a logical order.",
+    "Announce report, policy-blocked override, removed file, cancelled submission, and safe-return outcomes through status text without exposing secrets.",
+    "On mobile and zoomed layouts, wrap long domains, file names, certificate names, and URLs without truncating the risk or primary safe action."
+  ],
+  "keyboardBehavior": [
+    "Focus lands on the security warning heading or primary safe action when the warning replaces the destination.",
+    "Tab order reaches the primary safe action before Details, Report, and any secondary override.",
+    "Enter or Space activates Back to safety, Remove download, Cancel submission, Details, Report, and allowed override controls according to native button semantics.",
+    "Escape may choose the safe return path when the warning is an interrupting surface; it must not silently proceed to the unsafe destination.",
+    "Opening Details keeps focus within the warning and exposes override explanation before the override control.",
+    "After safe return, focus returns to the link, file row, submit button, or task control that triggered the warning when safe."
+  ],
+  "failureModes": [
+    "Users proceed because the warning says only Security issue and makes the unsafe action primary.",
+    "A phishing page loads and captures credentials before the product shows a warning.",
+    "A dangerous file preview renders active content before the blocked-preview state appears.",
+    "An override button bypasses organization policy or leaves no audit trail.",
+    "False-positive reporting is mixed with Visit anyway, so users proceed just to report the issue.",
+    "The warning leaks the full secret, token, file content, or private account event in its evidence details.",
+    "Mobile truncation hides the domain mismatch or the Back to safety action."
+  ],
+  "relatedPatterns": [
+    "warning-text",
+    "alert",
+    "site-alert",
+    "permission-denied-state",
+    "sensitive-data-reveal",
+    "session-timeout-warning",
+    "confirmation-dialog",
+    "toast-only-critical-error",
+    "error-state"
+  ],
+  "comparisons": [
+    "security-warning-vs-warning-text-vs-alert-vs-permission-denied-state-vs-sensitive-data-reveal"
+  ],
+  "examples": [
+    {
+      "product": "Google Safe Browsing",
+      "url": "https://safebrowsing.google.com/",
+      "platform": "web",
+      "notes": "Shows warnings before users visit dangerous sites or download dangerous files across products and browsers.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Chrome unsafe-site warnings",
+      "url": "https://support.google.com/chrome/answer/99020?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents phishing, social-engineering, malware, unwanted-software, typo-squatting, risky override, and download-warning behavior.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Microsoft Defender SmartScreen",
+      "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/virus-and-threat-protection/microsoft-defender-smartscreen/",
+      "platform": "desktop",
+      "notes": "Documents warning pages for suspicious sites, phishing, malware, downloads, file reputation, app reputation, and certificate reputation.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "W3C Mixed Content",
+      "url": "https://www.w3.org/TR/mixed-content/",
+      "platform": "web",
+      "notes": "Documents insecure mixed-content risks, warnings before unsafe form submission, abort behavior, and accessible override controls.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-safe-browsing-overview",
+      "note": "Supports warnings before dangerous site visits and dangerous downloads."
+    },
+    {
+      "id": "google-chrome-unsafe-site-warnings",
+      "note": "Supports phishing, social-engineering, malware, unwanted-software, typo-squatting, unsafe-download, and risky override states."
+    },
+    {
+      "id": "microsoft-defender-smartscreen-overview",
+      "note": "Supports suspicious-site, phishing, malware, file-reputation, app-reputation, and certificate-based warning pages."
+    },
+    {
+      "id": "microsoft-edge-smartscreen-unexpected-warning",
+      "note": "Supports block-page criteria, unsafe-site reporting, false-positive reporting, and site-owner remediation."
+    },
+    {
+      "id": "w3c-mixed-content",
+      "note": "Supports warnings and abort behavior for insecure form submission and accessible user controls for overrides."
+    },
+    {
+      "id": "microsoft-file-preview-security",
+      "note": "Supports blocked preview behavior for files downloaded from the internet."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-12"
+}

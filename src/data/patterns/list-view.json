@@ -1,0 +1,262 @@
+{
+  "id": "list-view",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed vertical object-summary browsing surface with distinct boundaries from table, data grid, details panel, listbox, card layouts, feed, timeline, and collection patterns; includes row identity, metadata, status, selection, active detail context, row menus, filtering, sorting, hidden selection counts, loading more rows, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers labelled vertical object rows, primary row identity, supporting text, metadata, leading media, status, row-scoped actions, row menus, selection versus active detail, unread and pinned states, grouping, sorting, filtering, pagination, virtualization, loading more rows, hidden selected rows, row action labels, mobile stacking, and avoiding fake-table or action-maze misuse.",
+    "relatedPatternDistinction": "The entry separates list view from table by object-summary scanning rather than shared column comparison, from data grid by avoiding cell editing and grid keyboard behavior, from details panel by keeping summaries in the source list while a panel can add durable detail, from listbox by not being a form value picker, from card layouts by prioritizing dense row scanning over visual browsing, and from feed or timeline by managing a collection rather than consuming a stream.",
+    "liveDemoBehavior": "The live demo shows a ticket queue with primary row labels, summaries, metadata, status chips, unread marker, row selection, active row preview context, row-specific menus, critical filtering with hidden selected count, sort changes, selecting another row, loading an older row, and bad-mode contrasts for fake table, action maze, row conflict, lost selection, virtual jump, and mobile overlap failures.",
+    "comparisonDecisionRules": "The list-view-vs-table-vs-data-grid-vs-details-panel comparison gives concrete rules for object-summary rows, aligned column comparison, cell-level interaction, durable selected-object inspection, row action ownership, preserved selection and active detail across updates, and mobile alternatives.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/list-view/ and /compare/list-view-vs-table-vs-data-grid-vs-details-panel/ on 2026-06-10. Live check exercised Critical filter, Change sort, Select SSO, Preview active, Row menu, Load more, Action maze, Row conflict, Lost selection, Virtual jump, and Mobile overlap controls while the page was in review state, then refreshed after completion. screenshots/patterns/list-view.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/list-view.png"
+    ]
+  },
+  "name": "List view",
+  "aliases": [
+    "object list",
+    "record list",
+    "row list",
+    "results list",
+    "summary list",
+    "item list",
+    "resource list"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Vertical object-summary browsing surface",
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to scan, choose, open, and act on a set of objects, but tables overemphasize columns, card layouts waste space or depend on imagery, and dense row actions can make each item hard to identify or operate safely.",
+  "solution": "Present objects as a vertical list of stable row summaries with a clear primary label, supporting text, metadata, status, optional leading media, row-scoped actions, selection and grouping state, and predictable behavior for sorting, filtering, pagination, virtualization, and detail handoff.",
+  "problemContext": [
+    "Items are objects such as tickets, messages, files, tasks, orders, people, alerts, search results, or resources.",
+    "Users need to scan names and short summaries more than compare every item by the same set of columns.",
+    "Rows may include status, metadata, unread state, thumbnail or icon, selection checkbox, trailing action, row menu, swipe action, or open-detail behavior.",
+    "The list may be grouped, sorted, filtered, paginated, virtualized, synced with a details panel, or used as a source for bulk actions."
+  ],
+  "selectionRules": [
+    "Choose list view when each row is a compact object summary and users scan primarily by name, title, snippet, status, or recency.",
+    "Use table when aligned columns and header-to-cell comparison are central to the task.",
+    "Use data grid when users edit cells, navigate cells with arrow keys, select ranges, copy and paste, or operate on keyboard-managed row widgets.",
+    "Use details panel when the selected row needs durable adjacent detail beyond the row summary.",
+    "Use card list, card grid, or collection when images, previews, varied item sizes, or visual discovery are more important than dense row scanning.",
+    "Use feed or timeline when item order is event-centered and users consume a stream rather than manage a collection.",
+    "Use listbox or select when the list is a form control for choosing values rather than a browsable object surface.",
+    "Avoid list view when every row needs many comparable attributes that would become pseudo-columns.",
+    "Avoid list view when row actions are more important than identifying the item.",
+    "Avoid list view when rows cannot keep labels, metadata, status, and actions readable at the target viewport width."
+  ],
+  "requiredStates": [
+    "Default list state with label or heading, row count or context, visible row summaries, and primary row identity.",
+    "Focused row or focused row action state with visible focus and accessible row identity.",
+    "Selected row, multi-selected row, bulk-selection count, and selected-away state when selection is supported.",
+    "Active row state when a row controls a details panel, preview panel, route, or selected object context.",
+    "Unread, new, updated, pinned, priority, archived, disabled, unavailable, or locked row states when applicable.",
+    "Row action menu, primary row action, secondary trailing action, swipe action, and destructive action states.",
+    "Grouped, sorted, filtered, searched, paginated, infinite-loaded, virtualized, and loading-more states.",
+    "Empty list, no-results, permission-limited, loading, partial-load, and failed-load states.",
+    "Narrow-screen state with stacked metadata, reachable actions, and preserved row identity.",
+    "Detail-open or preview-open state when list selection drives adjacent or routed detail."
+  ],
+  "interactionContract": [
+    "Each row has one primary object identity that remains visible across selection, hover, focus, filtering, and responsive states.",
+    "The row's primary action, checkbox, menu, and trailing action have distinct hit targets and accessible names that include the item identity.",
+    "A row click opens, selects, or previews according to one stable rule; secondary actions do not conflict with that rule.",
+    "Selection state is not confused with focus, hover, unread, active-detail, or checked status.",
+    "Sorting and filtering update row order or membership while preserving selected rows, active detail context, and scroll position when possible.",
+    "Grouping labels describe meaningful sets and do not replace row-level identity.",
+    "Virtualized or infinite lists preserve row labels, row positions, loading boundaries, and focus restoration.",
+    "Bulk actions clearly state which visible or hidden selected rows are affected."
+  ],
+  "implementationChecklist": [
+    "Define the row object, primary label, supporting text, metadata fields, status indicators, leading media, and available row actions.",
+    "Choose list semantics for ordinary object rows, listbox semantics only for option selection, or grid semantics only when row interaction needs grid navigation.",
+    "Give the list a heading or accessible label and expose row count, active filters, and selection count near the list.",
+    "Keep row layout stable: primary text, secondary text, metadata, status, and actions should not jump when rows are selected, updated, or hovered.",
+    "Label icon-only row actions with the object identity, such as Archive ticket TCK-1042.",
+    "Define whether row activation opens detail, toggles selection, previews, expands, or navigates, and keep it consistent.",
+    "Support empty, no-results, loading, error, selected, active, unread, pinned, disabled, sorted, filtered, paginated, and virtualized states deliberately.",
+    "Test keyboard navigation, screen reader row identity, row action labels, selection count, virtualized focus restoration, long labels, localization, zoom, and mobile hit targets."
+  ],
+  "commonMisuses": [
+    "Using list view as a table without column headers or column-state feedback.",
+    "Putting too many independent controls in every row until the list becomes a keyboard trap.",
+    "Making the entire row, title link, checkbox, and trailing icon all trigger different undocumented actions.",
+    "Using color alone to show unread, selected, active, pinned, or failed rows.",
+    "Hiding status, owner, due date, or selection state on mobile so rows become indistinguishable.",
+    "Letting filters remove selected rows without explaining whether bulk actions still affect hidden selections.",
+    "Virtualizing rows without stable row labels, positions, loading boundaries, or focus recovery.",
+    "Repeating the same row summary in a details panel without adding useful detail."
+  ],
+  "critiqueQuestions": [
+    "What does one row represent and what text uniquely identifies it?",
+    "Is the user scanning object summaries, comparing columns, editing cells, or inspecting one selected object?",
+    "What is the row's primary action, and which controls are separate secondary actions?",
+    "Can users distinguish focus, selection, active detail, unread, pinned, disabled, and hover states?",
+    "What happens to selected rows and active detail after sort, filter, pagination, refresh, or virtualization?",
+    "Would table, data grid, details panel, card layout, feed, timeline, listbox, or tree grid better fit the task?"
+  ],
+  "useWhen": [
+    "Users need to scan and act on a collection of objects using compact summaries.",
+    "The item title, snippet, metadata, and status are more important than strict column comparison.",
+    "Rows need one primary action and a small number of row-scoped secondary actions.",
+    "The layout must adapt well across desktop and mobile without losing item identity."
+  ],
+  "avoidWhen": [
+    "Users need to compare many records across shared attributes.",
+    "Users need spreadsheet-like cell editing or grid keyboard navigation.",
+    "Items depend on imagery, large previews, or uneven content blocks.",
+    "The list is actually a form value picker.",
+    "Every row requires many independent controls or long multi-column detail."
+  ],
+  "variants": [
+    "Single-line list view",
+    "Two-line list view",
+    "Three-line list view",
+    "Selectable list view",
+    "Grouped list view",
+    "Search results list",
+    "Message list",
+    "File list",
+    "Task list",
+    "Notification list",
+    "Contained list",
+    "Virtualized list",
+    "List with detail panel",
+    "List with swipe actions"
+  ],
+  "accessibility": [
+    "Use semantic list markup for ordinary object lists; use listbox only when rows are options in a single control.",
+    "Give the list a heading or accessible label and expose result count, filter state, and selection count in text.",
+    "Ensure each row's accessible name includes the primary label and enough supporting context to identify the object.",
+    "Give row actions accessible names that include the row identity.",
+    "Do not nest conflicting interactive controls inside a row-level link or button.",
+    "Expose selected, current, expanded, disabled, unread, or busy states using appropriate native or ARIA state plus visible text.",
+    "Keep focus visible on both the row and individual row actions.",
+    "For virtualized lists, restore focus to the same object when rows mount or unmount and announce loading boundaries."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches row-level controls and row actions in a predictable order without forcing users through hidden actions.",
+    "If the whole row is actionable, Enter activates the row and Space follows the chosen selection or activation model consistently.",
+    "If multi-action list-item keyboard navigation is used, arrow keys move between actions inside the focused row only when that behavior is documented and discoverable.",
+    "Arrow-key roving focus is appropriate only when the list behaves as a composite widget such as listbox or grid.",
+    "Selection checkboxes, row menus, trailing actions, and destructive actions remain keyboard reachable and named with the row identity.",
+    "After sort, filter, pagination, refresh, or action completion, focus stays on the triggering control, the same row, or a clear status summary.",
+    "Escape closes row menus or swipe-action panels and returns focus to the invoking row action."
+  ],
+  "failureModes": [
+    "Users cannot tell which row an icon-only action will affect.",
+    "The row opens detail, the title is a link, and the checkbox selects, but hit targets overlap.",
+    "A selected row and the row currently shown in the details panel use the same visual state.",
+    "Long titles, status chips, dates, and actions wrap over each other on narrow screens.",
+    "Filtering the list removes selected rows but the bulk action count still includes hidden rows without explanation.",
+    "A virtualized list jumps to the top after an item update and loses keyboard focus.",
+    "The list is used for column comparison, but dates, owners, and amounts are visually aligned without headers.",
+    "Swipe-only actions have no keyboard or visible alternative."
+  ],
+  "relatedPatterns": [
+    "table",
+    "data-grid",
+    "details-panel",
+    "filter-panel",
+    "sort-controls",
+    "pagination",
+    "empty-state",
+    "listbox"
+  ],
+  "comparisons": [
+    "list-view-vs-table-vs-data-grid-vs-details-panel"
+  ],
+  "examples": [
+    {
+      "product": "Material Design Lists",
+      "url": "https://m3.material.io/components/lists/guidelines",
+      "platform": "web",
+      "notes": "Documents list anatomy, item text density, leading and trailing elements, supporting text, metadata, actions, and selection.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Apple HIG Lists and tables",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/lists-and-tables",
+      "platform": "mobile",
+      "notes": "Documents list and table use for grouped or hierarchical data, selecting, adding, deleting, moving, disclosure, swipe actions, and row behavior.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Carbon Structured list",
+      "url": "https://carbondesignsystem.com/components/structured-list/usage/",
+      "platform": "web",
+      "notes": "Documents structured list rows for scannable grouped information with stacked hierarchy and selectable or read-only rows.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Fluent React List",
+      "url": "https://fluent2.microsoft.design/components/web/react/core/list/usage",
+      "platform": "web",
+      "notes": "Documents list role choices and keyboard expectations for list items with multiple actions.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-lists-guidelines",
+      "note": "Material list guidance supports vertical object rows, item anatomy, supporting text, leading and trailing elements, metadata, actions, and selection."
+    },
+    {
+      "id": "apple-hig-lists-tables",
+      "note": "Apple lists and tables guidance supports row organization, grouping, selection, adding, deleting, moving, disclosure, swipe actions, and platform list behavior."
+    },
+    {
+      "id": "carbon-structured-list",
+      "note": "Carbon structured list guidance supports scannable grouped rows, stacked row hierarchy, read-only rows, and selectable rows."
+    },
+    {
+      "id": "carbon-contained-list",
+      "note": "Carbon contained list guidance supports compact contained lists with headers, inline actions, interactive rows, and related content in smaller regions."
+    },
+    {
+      "id": "fluent-react-list",
+      "note": "Fluent list guidance supports role selection, list-item actions, and keyboard navigation inside multi-action list rows."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "uiGuidance": [
+    "Render a labelled vertical list where each row has a strong primary label, concise supporting text, metadata, status, optional leading media, and row-scoped actions with clear hit targets.",
+    "Use spacing, dividers, grouping labels, unread or selected markers, and responsive stacking to keep row identity and action ownership clear without turning the list into a table."
+  ],
+  "uxGuidance": [
+    "Use list view when scanning and opening object summaries is faster than comparing columns or inspecting large visual cards.",
+    "Preserve row identity, selection, active detail context, and scroll position as users sort, filter, paginate, refresh, or act on rows."
+  ],
+  "uiExamples": {
+    "good": [
+      "A ticket list row shows TCK-2048 Database backup failed, a one-line incident summary, Critical status, owner, updated time, selected state, and a labelled More actions menu.",
+      "A file list row shows a PDF icon, file name, folder path, modified date, sharing status, and a trailing Preview action that names the file."
+    ],
+    "bad": [
+      "A list row shows columns of owner, amount, due date, and status but no headers or column sort state.",
+      "Every row has five unlabeled icon buttons, and the whole row also navigates."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user filters tickets to Critical, selects two rows, opens the details panel for one ticket, then clears the filter and the selected count and active ticket remain understandable.",
+      "A keyboard user opens a row menu, archives the ticket, and focus moves to a status message naming the archived ticket and the next row."
+    ],
+    "bad": [
+      "A user selects rows, changes sort order, and the bulk action count still includes hidden rows without saying which rows are affected.",
+      "A user tries to preview a file but the row click opens navigation while the small trailing icon deletes the file."
+    ]
+  }
+}

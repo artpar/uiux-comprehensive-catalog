@@ -1,0 +1,59 @@
+{
+  "id": "streaming-response-vs-chat-interface-vs-progress-bar-vs-loading-spinner-vs-feed",
+  "title": "Streaming response vs chat interface vs progress bar vs loading spinner vs feed",
+  "summary": "Use streaming response for rendering partial generated output as events arrive; chat interface for the whole multi-turn conversation surface; progress bar for measurable operation completion; loading spinner for short indeterminate waits; and feed for chronological browsing of finished items or activity.",
+  "patternIds": [
+    "streaming-response",
+    "chat-interface",
+    "progress-bar",
+    "loading-spinner",
+    "feed"
+  ],
+  "decisionRules": [
+    "Choose streaming response when the product can safely show partial generated text, tokens, tool progress, citations, or structured chunks as events arrive before the final answer is complete.",
+    "Choose chat interface when the design problem is the whole multi-turn conversation container with transcript history, user and assistant turns, conversation controls, and follow-up context.",
+    "Choose progress bar when users need measurable operation completion for upload, export, import, or batch processing rather than partial generated content.",
+    "Choose loading spinner when the wait is short, active, and cannot expose useful partial output or measurable progress.",
+    "Choose feed when users browse chronological browsing surfaces for completed items, posts, or events rather than one response that is actively being generated.",
+    "A streaming response must show receiving, first token, partial output, paused or stalled stream, stop generation, completed stream, failed stream, moderation hold, retry, and final answer states.",
+    "Do not treat streamed text as final while sources, safety checks, tool calls, JSON validity, code fences, tables, citations, or final usage metadata are still pending.",
+    "If a stream is interrupted, preserve the partial output with a clear label and provide retry, continue, copy partial, discard, or regenerate actions according to task risk.",
+    "When streaming includes citations, tool calls, or structured output, mark which parts are pending, verified, revised, or removed instead of letting early chunks look fully grounded.",
+    "For assistive technology, batch or summarize frequent deltas and announce meaningful milestones such as answer started, still generating, stopped, failed, complete, or citation ready."
+  ],
+  "failureModes": [
+    "Partial generated text looks complete, so users copy or act before final checks, citations, or tool results arrive.",
+    "The interface streams every token to a live region and overwhelms screen reader users.",
+    "A stopped stream is displayed like a complete answer with no partial label or continue action.",
+    "A failed stream erases useful partial output and the original prompt.",
+    "Early citations appear beside claims before the cited source has actually been resolved.",
+    "A spinner hides useful first-token progress even though output could be streamed safely."
+  ],
+  "sources": [
+    {
+      "id": "openai-streaming-responses",
+      "note": "Supports rendering model output as it is generated through streaming responses."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports event-specific handling for streamed response lifecycle states."
+    },
+    {
+      "id": "azure-openai-content-streaming",
+      "note": "Supports content-filter timing and customer-visible implications of streamed content."
+    },
+    {
+      "id": "mdn-server-sent-events",
+      "note": "Supports web delivery through server-sent event streams."
+    },
+    {
+      "id": "mdn-eventsource",
+      "note": "Supports persistent event-stream connections and closing behavior."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing stream status changes without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

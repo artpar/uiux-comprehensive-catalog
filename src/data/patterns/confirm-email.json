@@ -1,0 +1,249 @@
+{
+  "id": "confirm-email",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed mailbox-access confirmation pattern with guidance for confirmation links and codes, target-address visibility, blocking and non-blocking loops, resend timing, change-address recovery, expired and used links, verified state, account activation boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers mailbox-access proof after address capture, pending sent state, target address display, confirmation link and code options, expiry, resend limits, change-address invalidation, blocking and non-blocking loops, limited pending access, expired link recovery, already-used link handling, verified-email state, delivery trouble, and account-enumeration-safe activation copy.",
+    "relatedPatternDistinction": "The entry separates confirm email from email address entry by proving mailbox access after capture rather than validating address text, from account creation by handling one activation or contact proof state rather than the whole account lifecycle, from password reset by avoiding password replacement through recovery artifacts, from two-factor authentication by not serving as an enrolled authentication factor, and from review before submit by requiring message delivery and proof.",
+    "liveDemoBehavior": "The live demo uses a mailbox confirmation lifecycle with sent message, blocking activation, non-blocking limited access, email code with one-time-code autocomplete, resend wait, change address with old-link invalidation, expired link, already-used link, verified email, delivery trouble, and bad modes for hidden address, no resend, dead expired link, false verified state, unnecessary block, stale link, and account reveal.",
+    "comparisonDecisionRules": "The linked confirm-email-vs-email-address-entry-vs-account-creation-vs-password-reset comparison gives concrete rules for mailbox-access confirmation, address entry, account lifecycle, password reset, two-factor boundaries, target-address visibility, blocking behavior, expiry, resend, single-use artifacts, and verified-email state.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/confirm-email/ on 2026-06-11 in Chromium: verified Sent, Blocking, Non-blocking, Code, Resend wait, Change address, Expired, Used link, Verified, Trouble, Hidden address, No resend, Dead expired, False verified, Unneeded block, Stale link, and Account reveal states; verified one-time-code autocomplete in the code state; verified /compare/confirm-email-vs-email-address-entry-vs-account-creation-vs-password-reset/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/confirm-email.png"
+    ]
+  },
+  "name": "Confirm email",
+  "aliases": [
+    "email confirmation",
+    "email verification",
+    "verify email address",
+    "confirm email address",
+    "activation email",
+    "email confirmation code",
+    "verify mailbox",
+    "email access confirmation",
+    "account activation email"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Mailbox access confirmation loop",
+  "uiGuidance": [
+    "Render confirm email as a mailbox-access proof loop with the target address, sent-message status, link or code instructions, expiry, resend timing, change-address route, pending or verified state, and clear blocking or non-blocking behavior.",
+    "Keep email confirmation separate from email address entry, account creation, password reset, and two-factor authentication: it proves access to a specific mailbox, not just syntax, account persistence, password recovery, or an authentication factor."
+  ],
+  "uxGuidance": [
+    "Use confirm email when the service must know that the user can access the mailbox before activating an account, enabling recovery, sending sensitive notifications, accepting an invitation, or relying on the address for future access.",
+    "Help users recover from delayed, expired, already-used, or mistyped confirmation messages by showing what was sent, where it was sent, how long it lasts, how to resend, and how to change the address."
+  ],
+  "uiExamples": {
+    "good": [
+      "After account creation, the page says We sent a confirmation link to maya@example.com, explains the link expires in 30 minutes, offers Resend email and Change email address, and returns to the draft after verification.",
+      "A code confirmation page accepts a pasted 6-digit code, shows the pending email address, and lets the user request a new code when the previous one expires."
+    ],
+    "bad": [
+      "The page says Check your inbox but hides which email address was used and has no resend or change-address action.",
+      "A service blocks a low-risk receipt until the email is confirmed even though the user only needs a one-time copy."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user mistypes the address, notices the pending address on the confirmation page, changes it, receives a fresh link, and continues from the same account-activation step.",
+      "A user opens an expired confirmation link, sees that the link no longer works, requests a new message, and returns to the verified account state after using it."
+    ],
+    "bad": [
+      "A user never receives the activation email and cannot resend, change the address, or continue in a limited pending state.",
+      "A user clicks an old confirmation link and the page shows a raw token error with no explanation or recovery."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Services often need proof that a user controls an email address, but confirmation loops can block tasks unnecessarily, trap users with mistyped addresses, leak account state, or confuse email access proof with authentication.",
+  "solution": "Use a confirmation loop only when mailbox access matters; show the target address, delivery state, link or code instructions, expiry, resend and change-address actions, pending versus verified status, and safe recovery for expired or already-used messages.",
+  "problemContext": [
+    "The service has already captured an email address and must decide whether syntactic validity is enough or mailbox access must be proven.",
+    "Confirmation may be needed for account activation, email change, invitation acceptance, recovery eligibility, sensitive notifications, legal notices, or high-impact communication.",
+    "The user may not receive the email immediately, may have entered the wrong address, may be using a shared mailbox, or may open a link after it expires.",
+    "Confirmation links and codes are short-lived artifacts that must not leak through logs, analytics, referrers, screenshots, or support transcripts.",
+    "Some services can continue in a pending or limited state while confirmation is outstanding; others must block until access is proven."
+  ],
+  "selectionRules": [
+    "Choose confirm email when the service must prove that the user can access the mailbox for account activation, recovery, sensitive notifications, invitation acceptance, or a verified contact route.",
+    "Use email address entry when the task is collecting, formatting, validating, warning about, or reviewing the address before mailbox access is proven.",
+    "Use account creation when the broader task is establishing a persistent account and confirm email is only one verification state inside that flow.",
+    "Use password reset when the email message is a recovery artifact for replacing a forgotten password rather than confirming a normal contact address.",
+    "Use two-factor authentication when an enrolled factor is needed for authentication or authorization; do not present email confirmation as equivalent to MFA.",
+    "Decide whether the loop is blocking, non-blocking, or limited-access before designing the confirmation page.",
+    "Show the exact email address that received the message and provide a direct way to change it when policy allows.",
+    "Explain link or code expiry, resend timing, spam or delivery delay guidance, and what will happen after confirmation.",
+    "Make confirmation links and codes time-limited, bound to the address and pending record, single-use where appropriate, and invalid after address change or successful confirmation.",
+    "Use neutral activation and resend copy where account enumeration matters.",
+    "After confirmation, update verified-email state, clear pending warnings, continue the blocked task, and notify or log according to security policy."
+  ],
+  "requiredStates": [
+    "Pending sent state with target email address, purpose, next step, expiry, resend, and change-address action.",
+    "Blocking pending state where the task cannot continue until confirmation succeeds.",
+    "Non-blocking pending state where users can continue with limited access while confirmation remains outstanding.",
+    "Code entry state with paste support, autocomplete one-time-code when a short code is used, expiry hint, and submit control.",
+    "Resend-limited state with server-backed wait time.",
+    "Change-address state that invalidates previous confirmation artifacts.",
+    "Expired link or code state with request-new-message action.",
+    "Already-used or revoked link state with safe explanation and restart route.",
+    "Verified state that confirms mailbox access and returns to the original task.",
+    "Delivery trouble or support-needed state for inaccessible mailbox, delayed email, or repeated failed confirmations."
+  ],
+  "interactionContract": [
+    "The confirmation page states which email address is pending and why access to that mailbox is required.",
+    "Resend, change-address, and support actions preserve the originating task or account context.",
+    "Changing the address invalidates previous confirmation links or codes and sends a fresh confirmation to the new address.",
+    "Expired, already-used, malformed, or revoked artifacts never show raw token values and always offer a safe next step.",
+    "Code entry supports paste, correction, mobile keyboards, and one-time-code autocomplete when the code is short-lived.",
+    "Confirmed state is stored separately from address syntax validity, deliverability, and account authentication.",
+    "The loop does not expose whether another account owns the address unless the user is already in a safer authenticated route."
+  ],
+  "implementationChecklist": [
+    "Define why email access is required, whether the loop blocks the task, the pending-state permissions, link or code expiry, resend limits, change-address behavior, and support route.",
+    "Design sent, pending, resend-limited, changed-address, expired, already-used, malformed, verified, and delivery-trouble states.",
+    "Bind confirmation artifacts to the email address, pending account or record, purpose, and expiry window; invalidate them after change, use, or account deletion.",
+    "Protect links, codes, address status, and token failure reasons from logs, analytics, referrers, screenshots, support tools, and URLs.",
+    "Use neutral copy for account activation and duplicate-account cases where account enumeration matters.",
+    "Test delayed delivery, wrong address, resend, multiple messages, expired link, already-used link, code paste, mobile email app handoff, browser Back, deep-link return, screen readers, and high zoom."
+  ],
+  "commonMisuses": [
+    "Forcing email confirmation when the service only needs a low-risk contact or receipt address.",
+    "Hiding the email address that received the confirmation message.",
+    "Providing no resend, change-address, expiry, or support route.",
+    "Treating email syntax validation as verified mailbox access.",
+    "Treating email confirmation as a second authentication factor for future sign-in.",
+    "Letting old confirmation links remain valid after the address changes or confirmation succeeds.",
+    "Showing raw token errors for expired or malformed links.",
+    "Revealing account existence through activation, resend, or duplicate-address messages."
+  ],
+  "critiqueQuestions": [
+    "Why does this flow need proof of mailbox access rather than only a valid email address?",
+    "Is the loop blocking, non-blocking, or limited-access, and is that visible to the user?",
+    "Can users see and change the email address before waiting for another message?",
+    "What happens when the email is delayed, expired, already used, opened on another device, or sent to a mistyped address?",
+    "How are confirmation artifacts bound, expired, invalidated, and protected from leakage?",
+    "Does any activation or resend path reveal whether an account already exists?"
+  ],
+  "useWhen": [
+    "A user must prove access to a mailbox before account activation, invitation acceptance, recovery eligibility, or sensitive notifications.",
+    "The service can send a time-limited link or code and maintain pending versus verified email state.",
+    "Users need recoverable resend, change-address, expired-link, and verified-return behavior."
+  ],
+  "avoidWhen": [
+    "The email is only needed for a low-risk receipt, newsletter, or optional contact route.",
+    "The user is still entering or correcting the address and mailbox access proof is not yet needed.",
+    "The task is password reset, multi-factor authentication, or phone confirmation.",
+    "The service cannot invalidate old links, limit resends, or protect confirmation artifacts.",
+    "The user can complete the task safely with review and change instead of a confirmation loop."
+  ],
+  "variants": [
+    "Account activation link",
+    "Email confirmation code",
+    "Change-email confirmation",
+    "Invitation email confirmation",
+    "Sensitive notification verification",
+    "Blocking confirmation loop",
+    "Non-blocking confirmation loop",
+    "Limited-access pending email",
+    "Expired confirmation link",
+    "Already-used confirmation link",
+    "Resend confirmation email",
+    "Change pending email address"
+  ],
+  "accessibility": [
+    "Use a clear heading such as Confirm your email address and show the pending email address as text.",
+    "Do not rely on email delivery alone; keep resend, change-address, support, and continue-later controls keyboard reachable.",
+    "Expose expiry, resend wait, and pending or verified status as text, not only color or icons.",
+    "For code confirmation, use a labelled input that supports paste and one-time-code autocomplete.",
+    "Move focus to expired, already-used, and verified state headings or the first recovery action.",
+    "Avoid multi-field code inputs that trap focus unless paste, deletion, and screen-reader reading order are proven."
+  ],
+  "keyboardBehavior": [
+    "Initial focus lands on the confirmation heading or first useful pending-state action after the sent page loads.",
+    "Tab order reaches resend, change address, support, continue, and code entry controls in a predictable order.",
+    "Enter submits the visible code form only when a code field is present.",
+    "Expired or already-used link pages focus the heading or request-new-message action.",
+    "After changing the address, focus moves to the new sent-state heading and announces the updated target address.",
+    "After successful confirmation, focus lands on the resumed task, account activation result, or verified-email status."
+  ],
+  "failureModes": [
+    "Users are blocked because the confirmation email is delayed and there is no resend or pending route.",
+    "Users cannot fix a mistyped address after the message is sent.",
+    "Old links confirm a new or changed email address incorrectly.",
+    "The service claims an email is verified when it only passed format validation.",
+    "A confirmation code or token is leaked through logs, URLs, analytics, or support tooling.",
+    "Activation and resend messages reveal whether an account already exists.",
+    "A confirmation loop adds unnecessary friction to a low-risk flow.",
+    "Expired or already-used links dead-end without a request-new-message route."
+  ],
+  "relatedPatterns": [
+    "email-address-entry",
+    "account-creation",
+    "password-reset",
+    "two-factor-authentication",
+    "inline-validation",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "confirm-email-vs-email-address-entry-vs-account-creation-vs-password-reset"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Confirm an email address",
+      "url": "https://design-system.service.gov.uk/patterns/confirm-an-email-address/",
+      "platform": "web",
+      "notes": "Documents email confirmation by link or security code, expiry, resend, blocking and non-blocking loops, and account activation page design.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GOV.UK Design System Email addresses",
+      "url": "https://design-system.service.gov.uk/patterns/email-addresses/",
+      "platform": "web",
+      "notes": "Documents email address capture and says confirmation loops should be used only when access to the mailbox is essential.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NIST SP 800-63B Authenticators",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b/authenticators/",
+      "platform": "web",
+      "notes": "Distinguishes email address validation codes from authentication processes and warns that email is not suitable as an out-of-band authenticator.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-confirm-email-address-pattern",
+      "note": "GOV.UK supports confirmation links or codes, expiry conditions, resend, blocking and non-blocking loops, and activation page design."
+    },
+    {
+      "id": "govuk-email-addresses-pattern",
+      "note": "GOV.UK email guidance supports confirmation only where mailbox access is essential."
+    },
+    {
+      "id": "owasp-authentication-account-enumeration",
+      "note": "OWASP supports neutral registration and activation responses where account enumeration risk exists."
+    },
+    {
+      "id": "nist-sp-800-63b-email-confirmation-codes",
+      "note": "NIST distinguishes confirmation codes sent to validate email addresses from authentication processes."
+    },
+    {
+      "id": "mdn-autocomplete-credentials",
+      "note": "MDN documents one-time-code autocomplete for short-lived code entry when a confirmation code is used."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-11"
+}

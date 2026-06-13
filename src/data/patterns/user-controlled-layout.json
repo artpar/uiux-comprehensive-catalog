@@ -1,0 +1,253 @@
+{
+  "id": "user-controlled-layout",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a scoped workspace-arrangement pattern with source-backed guidance for split, focus, stacked, inspector, preview, personal save, reset, managed, unavailable mobile, hidden-pane recovery, state preservation, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers user-selectable pane arrangement for queues, records, activity streams, inspectors, previews, and editors; named layout choices; affected regions; scope labels; preview; personal save; reset; managed ownership; unavailable arrangements; mobile fallback; hidden-pane return paths; and preserved selected item, filters, draft edits, validation, scroll, focus, open panels, and permission state.",
+    "relatedPatternDistinction": "The entry separates user-controlled layout from user-controlled density by changing region arrangement rather than spacing, from window splitter by requiring layout modes beyond separator resizing, from saved view by avoiding filter and column persistence as the main object, from custom dashboard by avoiding widget composition, and from dashboard layout by focusing on user-chosen workspace arrangement rather than product-authored monitoring hierarchy.",
+    "liveDemoBehavior": "The live demo shows a case review workspace with Split, Focus, Stacked, Inspector, Preview inspector, Save personal, Reset layout, Managed, Unsafe mobile, and Preserve draft states. Bad states cover unlabeled controls, state loss, shared overwrite, saved view mix, splitter confusion, mobile offscreen, and no reset.",
+    "comparisonDecisionRules": "The linked user-controlled-layout-vs-custom-dashboard-vs-dashboard-layout-vs-saved-view-vs-window-splitter comparison gives concrete rules for single-pane, side-by-side, stacked, inspector, focus, arrangement, visibility, scope, preview, save, reset, temporary, personal, device, workspace, policy-managed, selected item, filters, draft, validation, scroll position, keyboard focus, density, theme, zoom, text size, dashboard composition, split-pane, pixel sizes, mobile, and horizontal scrolling behavior.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/user-controlled-layout/ with the live demo, changed Split, Focus, Stacked, Inspector, Preview inspector, Save personal, Reset layout, Managed, Unsafe mobile, Preserve draft, Unlabeled, State loss, Shared overwrite, Saved view mix, Splitter confusion, Mobile offscreen, and No reset states, and found no duplicate IDs, page overflow, or user-layout overflow. The comparison route /compare/user-controlled-layout-vs-custom-dashboard-vs-dashboard-layout-vs-saved-view-vs-window-splitter/ included user-controlled layout, custom dashboard, dashboard layout, saved view, window splitter, single-pane, side-by-side, stacked, inspector, focus, arrangement, visibility, scope, preview, save, reset, temporary, personal, device, workspace, policy-managed, selected item, filters, draft, validation, scroll position, keyboard focus, density, theme, zoom, text size, dashboard composition, split-pane, pixel sizes, mobile, and horizontal scrolling terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/user-controlled-layout.png"
+    ]
+  },
+  "name": "User-controlled layout",
+  "aliases": [
+    "workspace layout switcher",
+    "layout preference",
+    "personal workspace layout",
+    "pane arrangement",
+    "split layout mode",
+    "focus layout mode",
+    "stacked layout",
+    "inspector layout",
+    "layout preset",
+    "workspace arrangement"
+  ],
+  "category": "Personalization And Preference",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Task And Workflow Patterns",
+    "Disclosure And Attention Management",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "User-selectable arrangement of panes, regions, or workspace modes around one active task",
+  "uiGuidance": [
+    "Render layout control as an in-context segmented control, menu, or layout picker with named arrangements such as Split, Focus, Stacked, Inspector, or Reading, plus scope, preview, save, and reset indicators.",
+    "Show affected regions with stable labels, order, visibility, and return paths so users can tell which pane moved, which pane is hidden, and how to restore the prior arrangement without losing work."
+  ],
+  "uxGuidance": [
+    "Use user-controlled layout when the same task can be done more effectively with different pane arrangements, such as comparing list and detail, focusing on one record, placing an inspector beside content, or stacking regions on narrow screens.",
+    "Preserve task state across layout changes: selected item, active filters, open panels, draft edits, validation state, scroll anchor, focus target, and unsaved-change warnings must survive pane reordering or hiding."
+  ],
+  "uiExamples": {
+    "good": [
+      "A review workspace lets users switch between Split, Focus, and Stacked layouts, labels the current scope as This workspace, and keeps the selected case and draft visible after each switch.",
+      "A record editor offers a right-inspector layout and a below-content layout with preview thumbnails, reset to default, and an explanation when mobile forces stacked order."
+    ],
+    "bad": [
+      "A layout icon toggles panes with no names, no reset path, and no visible cue that the notes pane is hidden.",
+      "A focus layout removes the activity pane from the DOM and loses the user's unsaved comment draft."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A support agent opens a case in Split layout, switches to Focus to write a long response, returns to Split, and the same case, filters, scroll position, and draft reply remain intact.",
+      "A tablet user chooses Stacked layout, moves between Queue, Case, and Activity regions with labelled controls, and can reset the layout without resetting queue filters."
+    ],
+    "bad": [
+      "A user saves a personal inspector layout and later discovers it changed the team's default workspace arrangement.",
+      "A responsive breakpoint hides the secondary pane off screen, so keyboard users cannot reach the validation errors inside it."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Complex work surfaces often contain lists, details, activity streams, inspectors, previews, and editors, but one fixed arrangement forces every user, device, and task phase into the same layout and can hide state when panes move or collapse.",
+  "solution": "Provide explicit user-controlled layouts that rearrange or reveal panes without changing data scope, preserve active task state, explain persistence and responsive fallbacks, and give users preview, save, reset, and recovery paths.",
+  "problemContext": [
+    "The interface has multiple regions that support one task, such as a queue, selected record, notes, preview, activity, metadata, or action panel.",
+    "Users alternate between comparing regions side by side, focusing on one region, reading long content, editing details, or using a narrow screen.",
+    "Layout choice may be temporary, personal, device-specific, workspace-specific, inherited from an organization policy, or unavailable on small screens.",
+    "Pane arrangement affects focus order, screen-reader order, keyboard shortcuts, scroll anchoring, unsaved changes, validation visibility, and responsive navigation.",
+    "The product may also offer splitters, saved views, dashboards, density settings, themes, and preferences that must remain separate from layout arrangement."
+  ],
+  "selectionRules": [
+    "Choose user-controlled layout when users choose the arrangement, visibility, or order of workspace regions around the same task object.",
+    "Use window splitter when users only resize adjacent panes with a separator and the broader region arrangement does not change.",
+    "Use custom dashboard when users compose dashboard widgets, add or remove tiles, and persist a dashboard canvas.",
+    "Use dashboard layout when the product defines a fixed monitoring page with widget hierarchy, filters, and drill paths.",
+    "Use saved view when users persist columns, filters, sort, grouping, density, or display mode for one data surface.",
+    "Use user-controlled density when spacing or row height changes but region arrangement stays the same.",
+    "Offer named layouts only when each arrangement has a real task benefit and can preserve selection, focus, drafts, validation, and scroll position.",
+    "Show whether the layout change is temporary, this workspace only, device-specific, account-wide, workspace-wide, or organization-managed.",
+    "Provide reset to default and avoid resetting filters, density, theme, columns, dashboard widgets, or saved views when only layout is reset.",
+    "On mobile or high zoom, translate side-by-side layouts into explicit stacked or focus navigation rather than forcing horizontal scroll."
+  ],
+  "requiredStates": [
+    "Default layout state with current layout name, scope, affected regions, and reset availability.",
+    "Split or side-by-side layout state showing primary and secondary regions together.",
+    "Focus layout state that hides secondary regions while preserving their state and return controls.",
+    "Stacked or mobile layout state with labelled navigation between regions.",
+    "Inspector-left, inspector-right, or below-content arrangement state when pane position changes.",
+    "Preview-before-save, saved personal layout, workspace-managed layout, and reset-to-default states.",
+    "Unavailable layout state when screen width, policy, permission, or content length makes an arrangement unsafe.",
+    "State-preservation proof for selected item, filters, draft edit, validation, scroll anchor, and focus target."
+  ],
+  "interactionContract": [
+    "Changing layout rearranges regions but does not change the active record, dataset, filters, columns, sort, density, theme, or saved view unless the user explicitly chooses those changes.",
+    "The current layout and scope are visible before and after change, and a status region announces the new arrangement.",
+    "Hidden panes remain recoverable and keep their draft, scroll, validation, loading, and permission state.",
+    "Saving layout is a distinct action when persistence goes beyond the current session or current workspace.",
+    "Reset restores only the named layout scope and leaves data filters, density, saved view, and dashboard composition untouched.",
+    "Keyboard order and screen-reader order follow the visible arrangement or provide clear region navigation when stacked.",
+    "Responsive fallback maps each desktop layout to a usable mobile or high-zoom state with no off-screen essential pane."
+  ],
+  "implementationChecklist": [
+    "Define a layout model with layout ID, region order, region visibility, pane position, scope, persistence, responsive fallback, saved timestamp, and policy owner.",
+    "Keep layout state separate from filters, sort, columns, density, splitter sizes, theme, zoom, dashboard widgets, and saved views.",
+    "Provide named controls for switch layout, preview, save, reset, return to hidden pane, and explain managed or unavailable arrangements.",
+    "Preserve selected item, focused control, draft edits, validation messages, scroll anchor, open panels, loading state, and permission state across layout changes.",
+    "Align DOM order, keyboard order, visible order, and mobile navigation for every supported arrangement.",
+    "Test narrow widths, zoom, long localized pane titles, active form edits, validation errors in hidden panes, keyboard shortcuts, screen readers, and browser back behavior."
+  ],
+  "commonMisuses": [
+    "Treating layout as a cosmetic preference while losing task state when panes hide or move.",
+    "Combining layout with filters, density, columns, theme, or saved view settings so users cannot reset one without the others.",
+    "Saving a personal layout as a workspace default without scope warning or permission checks.",
+    "Using a side-by-side desktop layout on mobile and creating horizontal scroll or unreachable panes.",
+    "Offering vague icons for layout modes with no labels, preview, current state, or recovery.",
+    "Calling a single resizable splitter a full user-controlled layout when no arrangement or visibility choice exists."
+  ],
+  "critiqueQuestions": [
+    "Which regions can move, hide, stack, or switch sides, and which task state must survive every change?",
+    "Can users distinguish layout from density, saved view, dashboard customization, and splitter resizing?",
+    "Is the selected layout temporary, personal, device-specific, workspace-wide, inherited, or policy-managed?",
+    "What happens to drafts, validation, scroll, focus, and hidden pane content when the layout changes?",
+    "Does the mobile or high-zoom fallback preserve region order and task completion without horizontal scrolling?",
+    "Can users preview, save, reset, and recover a layout without changing data filters or shared defaults by accident?"
+  ],
+  "useWhen": [
+    "Users work with multiple panes or regions around one active task and need different arrangements for comparison, editing, reading, or focus.",
+    "The product can preserve task state while panes are moved, hidden, stacked, or restored.",
+    "Layout scope and responsive fallback can be explained clearly enough that users know what will persist."
+  ],
+  "avoidWhen": [
+    "The only need is changing row spacing, text size, theme, or zoom.",
+    "Users need to save filters, columns, or sort as a view rather than arrange regions.",
+    "Users are composing dashboard widgets instead of changing a workspace layout around one task.",
+    "The product cannot preserve drafts, focus, validation, or hidden-pane state across layout changes.",
+    "The arrangement is safety-critical or policy-fixed and should not vary by user."
+  ],
+  "variants": [
+    "Split workspace layout",
+    "Focus mode layout",
+    "Stacked mobile layout",
+    "Inspector side layout",
+    "Reading layout",
+    "Comparison layout",
+    "Personal workspace layout",
+    "Device-specific layout",
+    "Managed workspace layout",
+    "Temporary layout preview"
+  ],
+  "accessibility": [
+    "Expose layout name, scope, affected regions, hidden panes, reset availability, and managed state in text.",
+    "Keep every region reachable by keyboard after layout changes, including panes that become stacked, collapsed, or hidden behind a region switcher.",
+    "Maintain visible focus and restore focus to the invoking control or equivalent region after the layout transition.",
+    "Avoid relying on icon shape, pane position, or drag handles alone to communicate layout choices.",
+    "Announce layout changes through a stable status region when panes move, hide, or reorder.",
+    "Ensure DOM order, heading order, landmarks, and screen-reader navigation match the visible or declared region order.",
+    "Do not use layout changes to hide validation errors, required actions, permission limits, or unsaved changes."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the layout control, preview, save, reset, region navigation, and any return-to-hidden-pane controls.",
+    "Arrow keys may move within a segmented layout control when semantic roles support it.",
+    "Enter or Space applies a selected layout according to native control behavior.",
+    "After switching layout, focus remains on the layout control or moves to the corresponding region control with a status announcement.",
+    "Escape closes layout menus without changing arrangement and returns focus to the trigger.",
+    "Keyboard shortcuts for panes continue to target the same logical region even if the region has moved or stacked."
+  ],
+  "failureModes": [
+    "Changing to focus layout destroys the hidden activity pane and loses a draft comment.",
+    "Layout reset also clears filters, density, saved view, or theme.",
+    "A personal layout save overwrites the shared workspace arrangement.",
+    "Mobile layout leaves a secondary pane off screen with horizontal scrolling.",
+    "Keyboard order remains desktop side-by-side while the visual layout stacks regions.",
+    "A managed layout is disabled with no owner, explanation, or request path.",
+    "A layout mode hides validation errors or required actions without a visible return path.",
+    "Users cannot tell whether they changed layout, dashboard widgets, split-pane width, or saved view state."
+  ],
+  "relatedPatterns": [
+    "custom-dashboard",
+    "dashboard-layout",
+    "saved-view",
+    "window-splitter",
+    "user-controlled-density",
+    "settings-management",
+    "master-detail",
+    "details-panel"
+  ],
+  "comparisons": [
+    "user-controlled-layout-vs-custom-dashboard-vs-dashboard-layout-vs-saved-view-vs-window-splitter"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG window splitter",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/",
+      "platform": "web",
+      "notes": "Defines keyboard and accessibility behavior for resizing adjacent panes, a lower-level control often used inside user-controlled layouts.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Salt splitter accessibility",
+      "url": "https://www.saltdesignsystem.com/salt/components/splitter/accessibility",
+      "platform": "web",
+      "notes": "Describes interactive panel-boundary adjustment as customization of workspace layout.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "ServiceNow resizable panes",
+      "url": "https://horizon.servicenow.com/workspace/components/now-resizable-panes",
+      "platform": "web",
+      "notes": "Documents side-by-side workspace panes that users can resize or hide for forms and activity streams.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Tableau dashboard size and layout",
+      "url": "https://help.tableau.com/current/pro/desktop/en-us/dashboards_organize_floatingandtiled.htm",
+      "platform": "desktop",
+      "notes": "Documents layout containers, positioning, spacing, and responsive sizing that distinguish authored layout from user workspace layout.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-window-splitter",
+      "note": "Supports accessible pane resizing, collapse, restore, orientation, and keyboard behavior used inside layout-changing workspaces."
+    },
+    {
+      "id": "salt-splitter-accessibility",
+      "note": "Supports the idea that users customize workspace layout by adjusting boundaries between panels."
+    },
+    {
+      "id": "servicenow-resizable-panes",
+      "note": "Shows workspace panes that can be resized or hidden to fit user needs while preserving adjacent content."
+    },
+    {
+      "id": "tableau-dashboard-size-layout",
+      "note": "Provides layout-container and responsive-sizing evidence for distinguishing authored dashboards from user-selected workspace layouts."
+    },
+    {
+      "id": "microsoft-windows-app-settings-guidelines",
+      "note": "Helps separate durable app settings surfaces from in-context layout controls and layout persistence."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

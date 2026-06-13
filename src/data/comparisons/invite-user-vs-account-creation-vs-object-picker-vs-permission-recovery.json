@@ -1,0 +1,58 @@
+{
+  "id": "invite-user-vs-account-creation-vs-object-picker-vs-permission-recovery",
+  "title": "Invite user vs account creation vs object picker vs permission recovery",
+  "summary": "Use invite user for sending and managing another person's access invitation, account creation for the current user's own account, object picker for selecting an existing entity, and permission recovery for requesting access after a denial.",
+  "patternIds": [
+    "invite-user",
+    "account-creation",
+    "object-picker",
+    "permission-recovery",
+    "bulk-import",
+    "profile-setup",
+    "review-before-submit"
+  ],
+  "decisionRules": [
+    "Choose invite user when an authorized inviter sends a trackable invitation that may be pending, accepted, expired, resent, edited, canceled, approved, or denied before another person gains access.",
+    "Choose account creation when the current user is establishing their own persistent credentials, verification, recovery, and return-to-task behavior.",
+    "Choose object picker when the user is selecting an existing person, team, account, file, or record by stable identity without creating a new invitation lifecycle.",
+    "Choose permission recovery when the current user is blocked by missing access and needs to request a grant, switch accounts, escalate policy, or use a fallback.",
+    "Choose bulk import when admins provision or update many user records from structured data, mapping, validation, duplicate review, and result reports rather than sending a few inspectable invites.",
+    "Choose profile setup when the invited or existing user is completing visible identity details after access exists.",
+    "Use review before submit or confirmation behavior when the invitation grants admin, owner, external, billable, broad-channel, or organization-wide access.",
+    "Invite user must show recipient identity, role, destination, scope, guest or billing implications, expiry, delivery channel, and pending management before or immediately after send.",
+    "Invite user must treat sent as pending until acceptance or approval changes membership status; do not label pending invitees as active members.",
+    "Pending invitation management should expose resend, extend, edit role or team, cancel, duplicate detection, expired state, and accepted state where supported."
+  ],
+  "failureModes": [
+    "A product says user added when the invitation is only pending.",
+    "An invite defaults to Admin or organization-wide access without review.",
+    "A duplicate pending invite is sent with a different role instead of updating the original invitation.",
+    "A member request requiring admin approval is shown as failed rather than pending approval.",
+    "A person picker selects an existing user but does not send the needed invitation email.",
+    "A bulk user import silently sends hundreds of invitations without mapping, validation, preview, or result reporting.",
+    "A profile setup task is forced before the invitee has accepted or even received the invitation."
+  ],
+  "sources": [
+    {
+      "id": "slack-invite-new-members",
+      "note": "Slack documents invite permission, admin approval, invite delivery, guest constraints, pending duration, and resend behavior."
+    },
+    {
+      "id": "slack-manage-pending-invitations",
+      "note": "Slack documents pending invitations, extend, resend, delete, invite links, and deactivate behavior."
+    },
+    {
+      "id": "slack-guest-roles",
+      "note": "Slack documents guest roles, channel scope, plan limits, and billing implications."
+    },
+    {
+      "id": "github-invite-users-organization",
+      "note": "GitHub documents role and team selection, email delivery, acceptance requirement, verified email constraints, and edit or cancel before acceptance."
+    },
+    {
+      "id": "github-edit-cancel-organization-invitation",
+      "note": "GitHub documents editing pending invitation role or team and canceling invitations before acceptance."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

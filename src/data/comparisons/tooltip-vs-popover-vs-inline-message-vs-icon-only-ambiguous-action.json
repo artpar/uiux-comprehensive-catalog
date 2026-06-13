@@ -1,0 +1,50 @@
+{
+  "id": "tooltip-vs-popover-vs-inline-message-vs-icon-only-ambiguous-action",
+  "title": "Tooltip vs popover vs inline message vs icon-only ambiguous action",
+  "summary": "Use a tooltip for short noninteractive supplemental descriptions on focus or hover, a popover for small anchored controls or richer context, an inline message for persistent important guidance, and labelled controls instead of relying on mystery icons.",
+  "patternIds": [
+    "tooltip",
+    "popover",
+    "inline-message",
+    "icon-only-ambiguous-action"
+  ],
+  "decisionRules": [
+    "Choose tooltip when a focusable trigger already has a usable name and only needs a brief supplemental description that can appear on focus or hover and disappear without changing state.",
+    "Choose popover when the anchored layer needs buttons, links, form controls, choices, a title, or user-driven open and close behavior.",
+    "Choose inline message when the information is required, time-sensitive, validation-related, or must remain visible while the user completes the task.",
+    "Choose visible labels or labelled icon buttons when the user cannot predict the action before activation; do not make tooltip text the only action name.",
+    "Use aria-describedby from the trigger to the tooltip text when the tooltip is meant to describe, not rename, the target.",
+    "Do not put links, inputs, buttons, menus, or other focusable controls inside a tooltip because focus stays on the trigger.",
+    "If the content needs more than a short sentence, has structure, or must be read after focus moves, make it inline help, details disclosure, or a popover instead.",
+    "If a disabled control needs explanation, make the explanation reachable without requiring focus on a disabled element that cannot receive keyboard focus.",
+    "A tooltip may supplement an icon-only control, but the accessible name and visible affordance must still be clear before activation.",
+    "Escape should hide the tooltip without moving focus from the triggering control."
+  ],
+  "failureModes": [
+    "A destructive icon has no accessible name and depends on a hover-only tooltip that touch and keyboard users may never see.",
+    "A tooltip contains a Learn more link, but focus cannot enter the tooltip because the trigger still owns focus.",
+    "Required password rules are hidden in a tooltip, so users lose the instructions while typing.",
+    "A disabled button's only explanation appears on hover even though keyboard users cannot focus the disabled control.",
+    "A long policy explanation is squeezed into a tiny tooltip instead of inline help or a popover.",
+    "Pressing Escape hides the tooltip but also moves focus away from the control, breaking the user's place in the toolbar."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-tooltip",
+      "note": "APG supports focus and hover triggering, focus remaining on the trigger, and Escape dismissal."
+    },
+    {
+      "id": "mdn-aria-tooltip-role",
+      "note": "MDN supports aria-describedby ownership and the no-interactive-content boundary."
+    },
+    {
+      "id": "fluent-tooltip-component",
+      "note": "Fluent supports concise supplemental content, placement, arrows, and disabled-control explanation guidance."
+    },
+    {
+      "id": "redhat-tooltip-accessibility",
+      "note": "Red Hat supports the Tab and Escape keyboard contract for showing and hiding tooltips."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

@@ -1,0 +1,269 @@
+{
+  "id": "scope-clarification",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed scope clarification pattern with AI request narrowing guidance, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers scope clarification, ambiguous request, original request, missing boundary, clarifying question, bounded choices, object set, audience, timeframe, source set, action target, selected scope, visible default, skip clarification, blocked until clarified, permission-limited scope, conflicting scope, stale clarification, resume answer, change scope, mobile clarification, task boundaries, answer scope, plan scope, retrieval scope, and tool-action scope.",
+    "relatedPatternDistinction": "The entry separates scope clarification from prompt box by treating it as post-request boundary repair rather than original request composition, from search scope selector by clarifying AI task intent rather than choosing a search corpus, from agent plan preview by resolving ambiguity before plan generation, from human approval gate by narrowing intent before an action is armed, and from chat interface by focusing on one clarification turn rather than the whole transcript surface.",
+    "liveDemoBehavior": "The live demo shows ambiguous request, original request, missing boundary, clarifying question, bounded choices, object set, audience, timeframe, source set, action target, selected scope, visible default, skip clarification, blocked until clarified, permission-limited scope, conflicting scope, stale clarification, resume answer, change scope, and mobile clarification states. Bad states cover broad-assumption, endless-questions, hidden-default, prompt-rewrite, asks-after-acting, option-dump, and forgets-scope failures.",
+    "comparisonDecisionRules": "The linked scope-clarification-vs-prompt-box-vs-search-scope-selector-vs-agent-plan-preview-vs-human-approval-gate-vs-chat-interface comparison gives concrete rules for scope clarification, prompt box, search scope selector, agent plan preview, human approval gate, chat interface, ambiguous AI request, object set, audience, timeframe, source set, workspace, permission, output depth, authority, selected records, visible filtered records, entire workspace, current item, allowed action scope, original natural-language AI request, search corpus, multi-step plan, runtime step, conversation history, original request, missing boundary, clarification question, bounded choices, selected scope, visible default, blocked state, permission-limited scope, stale clarification, resume target, before planning, before retrieving, before acting, hidden defaults, broad assumptions, long questionnaires, and prompt rewrite.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and 390px mobile checks rendered /patterns/scope-clarification/ with the live demo, exercised Ambiguous request, Original request, Missing boundary, Clarifying question, Bounded choices, Object set, Audience, Timeframe, Source set, Action target, Selected scope, Visible default, Skip clarification, Blocked until clarified, Permission-limited scope, Conflicting scope, Stale clarification, Resume answer, Change scope, Mobile clarification, Broad assumption, Endless questions, Hidden default, Prompt rewrite, Asks after acting, Option dump, and Forgets scope states, and found no duplicate IDs or scope-clarification demo overflow. The comparison route /compare/scope-clarification-vs-prompt-box-vs-search-scope-selector-vs-agent-plan-preview-vs-human-approval-gate-vs-chat-interface/ included scope clarification, prompt box, search scope selector, agent plan preview, human approval gate, chat interface, object set, audience, timeframe, source set, selected records, visible filtered records, entire workspace, current item, allowed action scope, original request, missing boundary, clarification question, bounded choices, selected scope, visible default, permission-limited scope, stale clarification, resume target, before planning, before retrieving, before acting, hidden defaults, broad assumptions, long questionnaires, and prompt rewrite terms with no duplicate IDs on desktop and mobile. The only mobile overflow observed was the existing global navigation, outside this pattern demo.",
+    "screenshots": [
+      "screenshots/patterns/scope-clarification.png"
+    ]
+  },
+  "name": "Scope clarification",
+  "aliases": [
+    "AI clarification question",
+    "clarify scope",
+    "scope question",
+    "ask a clarifying question",
+    "narrow AI task",
+    "disambiguate request",
+    "clarify before acting",
+    "assistant scope prompt",
+    "missing scope prompt",
+    "task boundary clarification"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Input And Data Entry",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "AI clarification surface that asks for missing task boundaries before answering, planning, retrieving, or using tools",
+  "uiGuidance": [
+    "Render scope clarification as a focused question tied to the user's request, with the missing boundary named in plain language: object set, timeframe, audience, source set, authority, output depth, risk limit, or action target.",
+    "Offer constrained choices when possible, preserve the original request, show what will proceed after the answer, and provide safe skip, use default, or cancel paths when ambiguity is acceptable."
+  ],
+  "uxGuidance": [
+    "Use scope clarification when an AI request is too broad, underspecified, conflicting, high-impact, or likely to produce the wrong answer unless the user narrows the task first.",
+    "Ask the smallest useful clarification before the system answers, plans, retrieves, or acts; avoid turning clarification into a long interview or silently choosing hidden defaults."
+  ],
+  "uiExamples": {
+    "good": [
+      "An assistant receives Summarize the issues and asks Which issue set should I summarize? with Current sprint, All open issues, and Selected label choices before generating.",
+      "A policy assistant asks Should I answer for contractors, full-time employees, or both? and shows that the original prompt will resume after the user chooses."
+    ],
+    "bad": [
+      "The assistant guesses all workspaces, creates a long answer, and never reveals that the original request lacked an object boundary.",
+      "The assistant responds with ten open-ended questions even though one scope choice would let the task proceed."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user asks for a customer email draft; the assistant asks whether the audience is trial users, enterprise admins, or all affected accounts before drafting.",
+      "A user asks an agent to clean up records; the agent asks whether to apply changes to visible filtered records or the whole workspace before showing a plan."
+    ],
+    "bad": [
+      "A user asks to update permissions and the AI acts on every team because the UI did not clarify the target scope.",
+      "A user answers a clarification question, but the assistant forgets the answer on the next step and asks again."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI systems often receive requests with missing boundaries, conflicting references, or risky scope, and answering or acting immediately can create irrelevant output, wrong assumptions, privacy exposure, unsafe tool use, or user mistrust.",
+  "solution": "Ask a concise, task-specific clarification question before proceeding, preserve the original request, show the missing boundary, provide bounded choices and defaults when safe, store the chosen scope for the current task, and explain how the answer or action will use that scope.",
+  "problemContext": [
+    "Users may refer to unclear objects, pronouns, dates, audiences, repositories, workspaces, source sets, accounts, policies, regions, files, tools, or authority levels.",
+    "An AI answer may need different evidence, tone, output structure, or safety handling depending on selected scope.",
+    "An AI agent may be able to retrieve data, draft messages, edit records, send notifications, create tickets, delete items, or run tools across multiple possible targets.",
+    "A hidden default may be harmless in low-risk writing tasks but unsafe for permission changes, customer actions, payments, deletes, policy advice, or public publication.",
+    "Clarification answers should become explicit task state, not accidental prompt text that disappears after one model turn."
+  ],
+  "selectionRules": [
+    "Choose scope clarification when the AI needs a missing boundary before producing a reliable answer, plan, retrieval query, or tool action.",
+    "Use prompt box when the main task is composing the original AI request; use scope clarification after submission when the system detects an important missing boundary.",
+    "Use search scope selector when users are choosing where a search query runs across corpora; use scope clarification when an AI task itself is ambiguous or risky.",
+    "Use agent plan preview when a multi-step plan is ready to inspect; use scope clarification before plan generation when the target, source set, or authority is unclear.",
+    "Use human approval gate when automation is paused at an armed runtime step; use scope clarification before an action is armed or when the user must narrow intent first.",
+    "Use chat interface when the problem is the whole conversation surface; scope clarification is a focused turn or panel inside that conversation.",
+    "Ask one or a small set of clarifying questions only when the answer materially changes result quality, risk, privacy, or action target.",
+    "Provide recognizable options, such as current item, selected items, visible filtered records, entire workspace, last 30 days, this quarter, internal audience, customer audience, cited sources only, or all available sources.",
+    "Let users skip or use a visible default only when the default is low-risk and honestly described.",
+    "Do not answer, plan, retrieve, edit, send, publish, or delete at a broad scope while a consequential scope question is unresolved."
+  ],
+  "requiredStates": [
+    "Ambiguous request state with original prompt preserved and missing scope named.",
+    "Ambiguous object, audience, timeframe, source set, record set, workspace, permission, output depth, and authority states.",
+    "Clarification question state with bounded choices, custom answer option, recommended default when safe, and cancel path.",
+    "Selected scope state that previews how the answer, plan, retrieval, or tool action will use the scope.",
+    "Skipped clarification or visible default state for low-risk ambiguity.",
+    "High-impact blocked state where the system refuses to proceed until scope is clarified.",
+    "Conflicting scope state where the user request contains incompatible boundaries.",
+    "Permission-limited scope state where some choices are unavailable with explanation.",
+    "Clarification answered, answer resumed, plan regenerated, stale clarification, and change-scope states.",
+    "Mobile compact clarification state with original request, missing boundary, choices, and next step visible."
+  ],
+  "interactionContract": [
+    "The system identifies what boundary is missing before asking the user to clarify.",
+    "The clarification question references the original request and explains why the answer matters.",
+    "Choosing a clarification updates structured task state such as target objects, timeframe, source set, audience, output depth, or allowed action scope.",
+    "The original request remains visible or recoverable so users can tell what will resume after clarification.",
+    "If a default is used, the UI names the default and lets users change it before high-impact work begins.",
+    "High-risk actions remain blocked until required scope is chosen and permissions are rechecked.",
+    "Clarification answers persist for the current task, plan, answer, or run and are not silently reused across unrelated tasks.",
+    "The UI exposes stale or changed context when a previous clarification no longer applies."
+  ],
+  "implementationChecklist": [
+    "Model the original request, ambiguity type, missing boundary, candidate scopes, selected scope, default rationale, user answer, confidence, risk level, permissions, stale triggers, and resume target separately.",
+    "Classify ambiguity by object set, timeframe, source set, audience, account, workspace, policy region, output depth, action target, authority, and risk.",
+    "Generate one concise clarification question with bounded choices when the product can enumerate likely scopes.",
+    "Block broad or irreversible actions until target scope, authority, and permissions are explicit.",
+    "Preserve the original request, conversation turn, source context, and pending plan so clarification does not become a new unrelated prompt.",
+    "Show how the chosen scope will affect answer, retrieval, plan, tool call, or output format before continuing.",
+    "Store clarification answers with task or run identity and expire them when the selected object, source, permission, or context changes.",
+    "Test ambiguous pronouns, broad requests, conflicting scopes, permission-limited choices, custom answers, skip defaults, stale clarification, mobile wrapping, keyboard operation, and screen-reader status updates."
+  ],
+  "commonMisuses": [
+    "Guessing broad scope without revealing the assumption.",
+    "Asking a long questionnaire when one boundary would let the task proceed.",
+    "Using a clarification question to rewrite the user's prompt invisibly.",
+    "Asking for clarification after the system has already acted.",
+    "Forgetting the user's clarification answer in the next response or plan.",
+    "Reusing a scope answer across unrelated tasks without confirmation.",
+    "Showing backend source names or permission IDs as clarification choices."
+  ],
+  "critiqueQuestions": [
+    "What specific boundary is missing from the user's request?",
+    "Will answering, planning, retrieving, or acting before clarification materially change risk or usefulness?",
+    "Can the product offer bounded scope choices instead of an open-ended question?",
+    "What visible default is safe, and when must the task be blocked until the user chooses?",
+    "Where is the user's clarification answer stored, and when does it expire?",
+    "Would prompt box, search scope selector, agent plan preview, human approval gate, or chat interface better match the actual problem?"
+  ],
+  "useWhen": [
+    "A user's AI request has missing object, audience, timeframe, source, workspace, permission, output-depth, or action-target boundaries.",
+    "The system can detect likely scope choices and explain how each choice changes the answer, plan, retrieval, or action.",
+    "Proceeding without clarification would create irrelevant output, hidden assumptions, privacy risk, broad side effects, or unsafe automation.",
+    "The product can preserve the original request and resume after the user answers."
+  ],
+  "avoidWhen": [
+    "The request is clear enough to answer safely and clarification would only slow the user down.",
+    "The task is ordinary search corpus selection already handled by a search scope selector.",
+    "The user is still composing the original request in a prompt box.",
+    "The agent already has a concrete plan ready for review.",
+    "The automation is already paused at an executable approval gate.",
+    "The product cannot honor, store, or explain the user's scope answer."
+  ],
+  "variants": [
+    "Single clarifying question",
+    "Bounded scope choices",
+    "Object-set clarification",
+    "Audience clarification",
+    "Timeframe clarification",
+    "Source-set clarification",
+    "Authority clarification",
+    "Output-depth clarification",
+    "Tool-action scope clarification",
+    "Clarify before plan",
+    "Visible default clarification",
+    "Mobile clarification sheet"
+  ],
+  "accessibility": [
+    "Expose original request, missing boundary, choices, selected scope, default, blocked state, and resume status as text.",
+    "Do not rely on chips, color, icons, or animation alone to show which scope is selected.",
+    "Make clarification choices, custom answer, change scope, use default, skip, cancel, and continue controls keyboard reachable.",
+    "Announce clarification needed, scope selected, default used, blocked until scope selected, and answer resumed as status messages.",
+    "Keep focus near the clarification question after validation errors and near the resumed answer or plan after continuation.",
+    "Ensure long object names, workspace names, source titles, date ranges, and choice labels wrap at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the clarification question, all scope choices, custom answer, cancel, skip, use default, and continue controls in order.",
+    "Arrow keys move among radio-style scope choices when those semantics are used.",
+    "Enter or Space selects a scope choice and Continue resumes only after required scope is valid.",
+    "Escape closes a compact clarification sheet or returns to the original request without discarding it.",
+    "After clarification is answered, focus moves to the resumed answer, plan preview, or pending action status.",
+    "Keyboard users can change a previous clarification answer before high-impact work begins."
+  ],
+  "failureModes": [
+    "The system guesses the broadest scope and returns irrelevant or risky output.",
+    "Clarification appears as an open-ended interrogation instead of a focused missing-boundary question.",
+    "The UI hides the original request while asking for scope, so users cannot tell what will resume.",
+    "The selected scope is treated as prompt text and lost in the next turn.",
+    "The assistant asks for clarification only after retrieval, tool use, publication, or record edits already happened.",
+    "Permission-limited scope choices return empty or unauthorized results without explanation.",
+    "Screen reader users hear only a new chat message and not that the task is blocked until scope is chosen."
+  ],
+  "relatedPatterns": [
+    "prompt-box",
+    "search-scope-selector",
+    "agent-plan-preview",
+    "human-approval-gate",
+    "chat-interface",
+    "recommended-next-action",
+    "filter-panel",
+    "confirmation-dialog"
+  ],
+  "comparisons": [
+    "scope-clarification-vs-prompt-box-vs-search-scope-selector-vs-agent-plan-preview-vs-human-approval-gate-vs-chat-interface"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Supports AI systems asking for clarification, preserving user control, and avoiding inappropriate assumptions.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Google People + AI Guidebook",
+      "url": "https://pair.withgoogle.com/guidebook/",
+      "platform": "ai",
+      "notes": "Supports human-centered AI expectation setting, trust, explanation, and feedback when system uncertainty affects outcomes.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "OpenAI conversation state guide",
+      "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "platform": "ai",
+      "notes": "Supports preserving the original request, clarification answer, message identity, and response state across turns.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "OpenAI prompt engineering guide",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+      "platform": "ai",
+      "notes": "Supports explicit goals, context, constraints, and iterative refinement when instructions are incomplete.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "WCAG status messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Supports accessible clarification-needed, blocked, selected, and resumed status announcements.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports clarification, control, and avoiding inappropriate AI assumptions."
+    },
+    {
+      "id": "google-people-ai-guidebook",
+      "note": "Supports expectation setting, trust, explanation, and uncertainty-aware AI decisions."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports preserving original request and clarification answer across AI turns."
+    },
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports explicit goals, context, constraints, and iterative refinement when instructions are incomplete."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible status updates for clarification and resume states."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-12"
+}

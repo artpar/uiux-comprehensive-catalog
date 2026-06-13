@@ -1,0 +1,248 @@
+{
+  "id": "disabled-controls-without-recovery",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for unavailable controls that strand users without a way to satisfy prerequisites, request permission, unlock dependencies, retry safely, choose an alternate route, preserve work, contact an owner, or stop with a truthful explanation.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets disabled buttons, menu items, toggles, toolbar commands, form controls, checkout actions, invite flows, publish controls, exports, destructive actions, and workflow steps across prerequisite, missing-field, permission, dependency, saving, offline, role-limited, admin-managed, expired-session, alternative-route, and support states.",
+    "relatedPatternDistinction": "The entry separates disabled-controls-without-recovery from disabled-button-no-explanation by broader recovery lifecycle scope, from inline validation and error summary by control availability versus correction surfaces, from permission recovery by authorization request lifecycle, from fallback path by alternate completion route, and from tooltip-only required information by essential instructions being hidden in hover-only help.",
+    "liveDemoBehavior": "The live demo shows Good UI and Bad UI panels plus 18 interactive state controls: 10 recoverable states for prerequisite map, missing fields, permission request, dependency unlock, saving retry, offline fallback, role limited, admin managed, expired session, and alternative route, plus 8 failure states for dead disabled, hidden reason, tooltip only, infinite disabled, permission dead end, stale disabled, invalid hidden, and mobile trap.",
+    "comparisonDecisionRules": "The disabled-controls-without-recovery-vs-disabled-button-no-explanation-vs-inline-validation-vs-error-summary-vs-permission-recovery-vs-fallback-path comparison gives concrete rules for choosing unrecoverable disabled-control anti-pattern, single-button explanation, local field correction, submitted-form recovery, authorization recovery, or alternate route.",
+    "duplicateAudit": "Before promotion, node --import tsx scripts/catalog-completion-audit.ts reported 290 complete patterns, 1 stub pattern, 7 missing goal patterns, and 0 normalized duplicate field groups.",
+    "manualSpotCheck": "Rendered /patterns/disabled-controls-without-recovery/ and /compare/disabled-controls-without-recovery-vs-disabled-button-no-explanation-vs-inline-validation-vs-error-summary-vs-permission-recovery-vs-fallback-path/ on 2026-06-13. Pattern checks found all 18 .disabled-recovery-controls buttons, no duplicate IDs, no desktop or compact overflow, and exercised Permission request, Dependency unlock, Offline fallback, Alternative route, Tooltip only, Permission dead end, Stale disabled, and Mobile trap controls. Comparison checks found required comparison terms, no duplicate IDs, no desktop or compact overflow, and only Vite connection debug console messages. Screenshot captured at screenshots/patterns/disabled-controls-without-recovery.png.",
+    "screenshots": [
+      "screenshots/patterns/disabled-controls-without-recovery.png"
+    ]
+  },
+  "name": "Disabled controls without recovery",
+  "aliases": [
+    "dead disabled controls",
+    "unrecoverable disabled action",
+    "blocked control with no route",
+    "disabled trap",
+    "inert primary action"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users encounter disabled buttons, menu items, toggles, form controls, or workflow actions that block progress without a usable route to meet the requirement, request access, resolve a dependency, recover from state, or choose a safe alternate path.",
+  "solution": "Treat unrecoverable disabled controls as an anti-pattern: expose the blocking condition, keep recovery controls reachable, model the prerequisite lifecycle, and provide the next viable action such as edit, request access, unlock dependency, retry after state changes, save draft, contact owner, switch account, use fallback, or stop honestly.",
+  "problemContext": [
+    "The interface gates an action behind form completion, permission, quota, account status, dependency setup, offline state, session expiry, review approval, or safety policy.",
+    "The unavailable control is visible but inert, skipped by focus, or only explained by color, hover, or hidden text.",
+    "Users may not know whether they need to edit fields, ask an admin, wait for processing, reconnect, upgrade a plan, sign in again, finish another step, or use another route.",
+    "The product has enough state to name at least one recovery path or to state that no recovery is possible from this surface."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a disabled control blocks a task and the surrounding UI does not provide a reachable next step.",
+    "Use disabled-button-no-explanation when the problem is a single unexplained inactive button; use this pattern when the broader control state also lacks recovery, escalation, fallback, retry, or stop conditions.",
+    "Use inline validation when users can correct a specific field locally; use error summary when a submitted page returns linked corrections across multiple fields.",
+    "Use permission recovery when a permission boundary can be resolved through request, approval, account switch, owner contact, policy escalation, or safe fallback.",
+    "Use fallback path when the primary route cannot complete but another method can finish the same user outcome.",
+    "Do not rely on tooltip-only explanations for disabled controls; required recovery information must be visible or reachable without hovering the disabled element.",
+    "Prefer an enabled action that returns actionable validation when disabling hides requirements that users need to discover.",
+    "Disable only for short processing or duplicate-prevention windows, and pair the state with visible progress, preserved input, and a retry or completion outcome."
+  ],
+  "requiredStates": [
+    "Prerequisite map state that shows each requirement and whether it is met.",
+    "Missing fields state with visible correction targets.",
+    "Permission request state with current account, required role, owner or admin path, and pending outcome.",
+    "Dependency unlock state that names the upstream setup step and link.",
+    "Saving or processing state with retry, cancel, or completion feedback.",
+    "Offline state with local save, reconnect, or alternate route.",
+    "Role-limited state with read-only work preserved and request-access path.",
+    "Admin-managed state with owner contact or policy escalation.",
+    "Expired session state with sign-in recovery that preserves the current work.",
+    "Alternative route state when the primary control cannot become available from this path.",
+    "Support or contact state with a reference when no self-service route exists.",
+    "Bad dead-disabled state with no cause.",
+    "Bad hidden-reason state where the requirement exists but is not visible.",
+    "Bad tooltip-only state where recovery depends on hover or pointer access.",
+    "Bad infinite-disabled state where processing never resolves.",
+    "Bad permission dead-end state where access is blocked but no request or fallback exists.",
+    "Bad stale-disabled state where the control stays unavailable after requirements are met."
+  ],
+  "interactionContract": [
+    "Users can discover the cause of unavailability without activating or hovering the disabled control itself.",
+    "Every recoverable block has at least one reachable control that changes the state, such as edit field, request access, unlock dependency, retry, sign in, save draft, or use fallback.",
+    "Every unrecoverable block states why progress cannot continue from this surface and gives the safest next step.",
+    "Eligibility changes update the visible prerequisite map and action state in the same region.",
+    "Keyboard and assistive technology users can reach recovery text, links, status messages, and alternate actions even when the primary control remains disabled.",
+    "Processing, permission, validation, offline, and dependency states use different copy so users do not confuse waiting with missing input or missing access."
+  ],
+  "implementationChecklist": [
+    "Inventory each disabled control and record the exact condition, owner, timeout, retry rule, and recovery path.",
+    "Place prerequisite, permission, offline, dependency, or session recovery text before or next to the disabled control.",
+    "Add visible controls for Edit missing fields, Request access, Open setup step, Retry save, Sign in again, Save draft, Contact admin, or Use alternate route when those actions are valid.",
+    "Use aria-describedby or nearby status regions for unavailable controls that remain visible.",
+    "Avoid hiding the only reason in a disabled element tooltip, disabled menu item title, color, icon, or inaccessible hover card.",
+    "Clear stale disabled state when prerequisites are met, permissions refresh, network returns, session recovery completes, or the dependency unlocks.",
+    "Test keyboard order, screen reader announcement, touch, high zoom, offline, slow save, expired session, role change, admin policy, and reload while blocked."
+  ],
+  "commonMisuses": [
+    "A Continue button remains disabled until all fields are valid but no field or checklist names the missing work.",
+    "A disabled Invite teammate action hides that billing setup, owner approval, or admin policy is required.",
+    "A disabled menu item has a title tooltip as the only explanation, so touch and keyboard users never see the recovery step.",
+    "A Save button is disabled during processing with no progress, timeout, retry, or draft preservation.",
+    "A role-limited user loses read-only access because the disabled edit control consumes the whole surface.",
+    "A stale disabled state remains after the user fixes the field, reconnects, refreshes permissions, or signs back in."
+  ],
+  "critiqueQuestions": [
+    "What exact condition makes the control unavailable?",
+    "Can the current user do anything to change that condition from here?",
+    "If another person or system owns the block, is the request, contact, or status route visible?",
+    "Does the UI distinguish missing input from permission, dependency, session, offline, and processing states?",
+    "Can keyboard, touch, and assistive technology users reach the recovery instructions?",
+    "What proves the disabled state clears when recovery succeeds?"
+  ],
+  "useWhen": [
+    "Auditing disabled primary actions, toolbar commands, menu items, toggles, form controls, checkout actions, invite flows, publish controls, exports, destructive actions, and workflow steps.",
+    "A generated or existing UI shows inactive controls without a clear way to make them available or continue safely."
+  ],
+  "avoidWhen": [
+    "The control is briefly disabled only to prevent duplicate submission and visible progress explains the temporary state.",
+    "The unavailable state already includes visible, reachable requirements and a tested recovery path.",
+    "The action remains enabled and returns actionable validation after activation.",
+    "The product truthfully has no route from this surface and provides a clear stop state with support-safe guidance."
+  ],
+  "variants": [
+    "Prerequisite-gated disabled control",
+    "Permission-gated disabled control",
+    "Dependency-locked action",
+    "Offline disabled action",
+    "Expired-session disabled submit",
+    "Admin-managed disabled setting",
+    "Processing disabled action with no retry",
+    "Disabled menu item with hidden reason",
+    "Stale disabled action after recovery",
+    "Mobile disabled control with no touch explanation"
+  ],
+  "accessibility": [
+    "Do not make recovery depend on focusing or hovering a disabled element that may not be focusable or may suppress pointer events.",
+    "Keep requirement and recovery text in reading order before or adjacent to the unavailable control.",
+    "Ensure recovery actions, contact routes, setup links, sign-in controls, and fallback paths are keyboard reachable.",
+    "Announce state changes such as permission refreshed, saved draft, offline restored, dependency unlocked, or session recovered through visible status text.",
+    "Use text and structure rather than color alone to indicate unavailable, pending, blocked, and recovered states."
+  ],
+  "keyboardBehavior": [
+    "Tab order reaches the prerequisite map, recovery controls, support route, fallback action, and any enabled validation submit.",
+    "If the disabled control itself is skipped, users still encounter the explanation and recovery controls in a predictable order.",
+    "When recovery changes state, focus stays near the updated control group or moves to the newly available action.",
+    "Retry and sign-in recovery preserve input and return focus to the original blocked task.",
+    "Menus and toolbars expose disabled command reasons through reachable detail or companion status, not only disabled menu item focus."
+  ],
+  "failureModes": [
+    "Users abandon the task because every visible route is inert.",
+    "Users guess at fields, permissions, or account state because no prerequisite map exists.",
+    "Keyboard and touch users cannot discover hover-only disabled reasons.",
+    "A permission block is mistaken for validation or a temporary loading state.",
+    "A disabled state never clears after the user satisfies the requirement.",
+    "Support receives low-quality tickets because the product did not provide a reference, owner, or block reason."
+  ],
+  "relatedPatterns": [
+    "disabled-button-no-explanation",
+    "inline-validation",
+    "error-summary",
+    "permission-recovery",
+    "permission-denied-state",
+    "fallback-path",
+    "retry",
+    "tooltip-only-required-information"
+  ],
+  "comparisons": [
+    "disabled-controls-without-recovery-vs-disabled-button-no-explanation-vs-inline-validation-vs-error-summary-vs-permission-recovery-vs-fallback-path"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Button",
+      "url": "https://design-system.service.gov.uk/components/button/",
+      "platform": "web",
+      "notes": "Documents button guidance, including disabled behavior and the need to communicate what is happening during slow post-action states.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "VA.gov Design System Button",
+      "url": "https://design.va.gov/components/button/",
+      "platform": "web",
+      "notes": "Discourages disabled form controls except in narrow cases and supports visible recovery rather than inactive form dead ends.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "GOV.UK Error Summary",
+      "url": "https://design-system.service.gov.uk/components/error-summary/",
+      "platform": "web",
+      "notes": "Supports submitted-form recovery with linked errors when an enabled action and validation is a better route than hiding requirements behind disabled controls.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-button-component",
+      "note": "GOV.UK button guidance covers disabled button behavior and communicating action progress."
+    },
+    {
+      "id": "va-button-component",
+      "note": "VA.gov button guidance discourages disabled form controls except in narrow in-between states."
+    },
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK error messages support local correction when disabled controls hide field requirements."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports linked recovery after failed submit."
+    },
+    {
+      "id": "nng-required-fields-forms",
+      "note": "Required field guidance supports visible requirements instead of hidden eligibility rules."
+    },
+    {
+      "id": "nng-permission-requests",
+      "note": "Permission request guidance supports contextual recovery paths when access or device capability is gated."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Status message guidance supports perceivable updates when disabled or blocked states change."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13",
+  "patternType": "ui-ux",
+  "surfaceType": "Blocked-control anti-pattern",
+  "uiGuidance": [
+    "Pair unavailable controls with visible requirement maps, state messages, owner routes, and recovery actions that can be reached without interacting with the disabled element.",
+    "Prefer enabled validation, request access, retry after state change, save draft, sign-in recovery, dependency setup, contact owner, or fallback actions over inert controls with hidden causes."
+  ],
+  "uxGuidance": [
+    "Model disabled controls as a lifecycle: unavailable with cause, recoverable, pending, available, processing, completed, or honestly stopped.",
+    "Separate validation, permission, dependency, offline, session, role, admin, and processing causes so users choose the right recovery path instead of guessing."
+  ],
+  "uiExamples": {
+    "good": [
+      "An Invite teammate panel shows missing billing setup, owner approval, and team domain checks, with Open billing, Request owner approval, Save draft, and Contact admin actions.",
+      "A disabled Export control is paired with a role message, request access path, read-only fallback, and status showing when permissions refresh."
+    ],
+    "bad": [
+      "Invite teammate is greyed out with no visible requirement, owner route, or alternate way to keep the draft.",
+      "A disabled Save button says nothing during sync, never times out, and leaves no retry or draft-preservation path."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user sees which prerequisites are complete, opens billing setup for the missing prerequisite, saves the invite draft, requests owner approval, and returns to send once eligibility changes.",
+      "A role-limited user keeps read-only work available and requests editor access instead of being trapped behind an inactive edit button."
+    ],
+    "bad": [
+      "A user repeatedly edits random fields because the disabled Continue control never names the remaining condition.",
+      "A mobile user cannot reveal the tooltip attached to a disabled command and has no other route to learn the requirement."
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "activity-log-vs-timeline-vs-notification-center-vs-search-history",
+  "title": "Activity log vs timeline vs notification center vs search history",
+  "summary": "Use activity log for inspectable event records with actor/action/object evidence; use timeline for summarized chronological history, notification center for user triage, and search history for user-managed query activity.",
+  "patternIds": [
+    "activity-log",
+    "timeline",
+    "notification-center",
+    "search-history"
+  ],
+  "decisionRules": [
+    "Choose activity log when users need to inspect, search, filter, export, or investigate recorded events with actor, action, object, timestamp, source, and technical context.",
+    "Choose timeline when users need a readable summary of important events for one case, order, application, or process rather than exhaustive evidence.",
+    "Choose notification center when asynchronous messages need unread, unseen, mark-read, preference, and related-object triage behavior.",
+    "Choose search history when the activity being managed is the user's stored query history with delete, pause, and privacy controls.",
+    "Activity logs should expose event schema, filters, retention, permissions, export, timezone, and immutable-or-corrected-event semantics before users rely on them for investigation.",
+    "Do not use activity log as a feed; it should favor evidence, filtering, and completeness over live reading-position behavior.",
+    "Do not use activity log as a notification center; log records are evidence and should not disappear merely because a user marks a message read.",
+    "Do not use a timeline when users need field-level changes, actor IDs, IP addresses, scopes, exportable records, or retention proof.",
+    "Search history can be user-deletable privacy data, while administrative activity logs may have retention, legal hold, or role-gated access that must be stated.",
+    "When a log is filtered, exported, or partially unavailable, state which records are visible, hidden, redacted, delayed, duplicated, retained, or outside the user's permission scope."
+  ],
+  "failureModes": [
+    "A timeline summary is used for incident investigation and hides changed fields, IP address, actor ID, or export path.",
+    "A notification center clears log entries when messages are marked read, destroying evidence users expected to inspect later.",
+    "A search history delete control is copied into an administrative activity log even though retention policy prevents deletion.",
+    "Filters silently exclude system events, redacted records, or older retention ranges and users assume the visible log is complete.",
+    "Export produces a different date range or timezone than the on-screen query.",
+    "Activity records use vague labels such as update or changed something, forcing users to infer actor, object, and action from context."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-view-audit-log-activities",
+      "note": "Atlassian documents activity tables with activity type, date, time, actor, app, location, and IP address."
+    },
+    {
+      "id": "github-organization-audit-log",
+      "note": "GitHub documents audit logs with who, what, when, search, export, and API access."
+    },
+    {
+      "id": "github-enterprise-audit-log-api",
+      "note": "GitHub documents date-range querying, retention windows, API records, and UTC timestamp handling."
+    },
+    {
+      "id": "microsoft-purview-audit-search",
+      "note": "Microsoft documents role-gated audit search, scoped access, search jobs, retention, and export behavior."
+    },
+    {
+      "id": "microsoft-purview-audit-solutions",
+      "note": "Microsoft supports unified audit logs for security investigation and compliance obligations across services."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

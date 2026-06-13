@@ -1,0 +1,51 @@
+{
+  "id": "prompt-box-vs-prompt-suggestions-vs-command-palette-vs-search-suggestions-vs-textarea",
+  "title": "Prompt box vs prompt suggestions vs command palette vs search suggestions vs textarea",
+  "summary": "Use prompt box for the primary editable AI request surface; prompt suggestions for starter requests that load into that surface; command palette for known app commands; search suggestions for retrieval-query formulation; and textarea when the design problem is only multi-line human-authored text input.",
+  "patternIds": [
+    "prompt-box",
+    "prompt-suggestions",
+    "command-palette",
+    "search-suggestions",
+    "textarea"
+  ],
+  "decisionRules": [
+    "Choose prompt box when users need to compose, edit, review, attach context to, and intentionally submit a natural-language request to an AI system.",
+    "Choose prompt suggestions when users need contextual starter prompts or prompt-gallery examples that fill the prompt box but do not own the primary input surface.",
+    "Choose command palette when the input resolves to known application commands, navigation targets, or actions with predictable side effects rather than open-ended model generation.",
+    "Choose search suggestions when the input formulates a retrieval query and returns matching records, pages, or documents rather than asking a model to transform or generate content.",
+    "Choose textarea when the product only needs a long-form text field with labels, validation, character count, and submission, not AI context, model state, attachments, or generated-output review.",
+    "A prompt box must make the send action explicit, distinguish draft from submitted prompt, and show whether the request will use selected text, attached files, current page context, workspace data, tools, or no extra context.",
+    "Prompt boxes need empty, typing, over-limit, attachment, unavailable context, blocked send, submitted, generation pending, error, retry, edit-and-resend, and cleared draft states.",
+    "Do not silently run a prompt from empty-field hint text, starter chips, paste, Enter key, route changes, or model suggestions when the request can affect people, records, permissions, money, or published content.",
+    "When the model cannot use a selected source, file, tool, language, or permission scope, the prompt box should block send or show a specific repair path before submission.",
+    "For chat interfaces, the prompt box is the input component inside a broader conversation surface; the conversation history, turn ordering, streaming output, citations, and follow-up behavior belong to the chat interface pattern."
+  ],
+  "failureModes": [
+    "Empty-field hint text acts like a prompt and users submit a vague request without knowing what context the model will use.",
+    "Pressing Enter always sends the prompt even when the user expected a newline in a multi-line AI request.",
+    "The prompt box claims to use current document context, but the selected file is unavailable, stale, or outside the user's permission scope.",
+    "Prompt suggestions are auto-submitted instead of loaded into an editable draft.",
+    "The prompt box is styled like a search field, so users expect exact retrieval results rather than generated output that needs review.",
+    "A command palette action is hidden behind a prompt box, making destructive or administrative side effects look conversational."
+  ],
+  "sources": [
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "OpenAI guidance supports explicit instructions, context, constraints, and iteration for model prompts."
+    },
+    {
+      "id": "microsoft-365-copilot-writing-prompts",
+      "note": "Microsoft documents prompt elements such as goal, context, expectations, and source."
+    },
+    {
+      "id": "microsoft-copilot-studio-prompt-assistant",
+      "note": "Microsoft Prompt Assistant documents draft, review, edit, keep, and test prompt flows."
+    },
+    {
+      "id": "microsoft-copilot-prompt-gallery",
+      "note": "Microsoft Prompt Gallery helps distinguish prompt suggestions from the prompt input box itself."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

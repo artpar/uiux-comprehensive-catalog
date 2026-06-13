@@ -1,0 +1,275 @@
+{
+  "id": "share-dialog",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed object sharing pattern with guidance for current access, resolved recipients, link scope, roles, notifications, copy-link, external-domain warnings, expiration, download protection, native share boundaries, revoke flows, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers object identity, current access, direct recipients, groups, external domains, duplicate and unresolved recipients, Viewer, Commenter, Editor, and custom roles, restricted, organization, public, and anyone-with-link scope, notify and message behavior, copy-link state, expiration, password, block-download, native share, inherited access, policy approval, manage access, remove, delete link, stop sharing, owner controls, and failure recovery.",
+    "relatedPatternDistinction": "The entry separates share dialog from invite user by focusing on access to one object instead of workspace or organization membership, from object picker by requiring access and delivery side effects rather than selection alone, from modal dialog and popover by treating those as containers rather than access models, from permission denied state by giving an authorized sharer controls rather than a blocked user recovery path, from review before submit and confirmation dialog by using them only for high-risk sharing changes, and from notification center and related links by keeping immediate permission changes in the share surface.",
+    "liveDemoBehavior": "The live demo shows a Quarterly report share surface with resolved recipients, role and link scope, notification message, copy-link feedback, external approval warning, expiration, block download, native share distribution boundary, stop-sharing review, manage access, and bad modes for public default, hidden role, missing warning, copy mismatch, no revoke path, and native-only sharing.",
+    "comparisonDecisionRules": "The linked share-dialog-vs-invite-user-vs-object-picker-vs-modal-dialog comparison gives concrete rules for object sharing, invitation lifecycle, entity picking, container choice, permission-denied recovery, high-risk review, notification follow-up, related-link navigation, current access, pending changes, copy-link, and native Web Share boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/share-dialog/ on 2026-06-11 in Chromium: verified status, Good UI and Bad UI frames, Good UX controls for People, Link scope, Role, Notify, Copy link, External, Expire, Block download, Native share, and Stop sharing, Bad UX controls for Public default, Hidden role, No warning, Copy mismatch, No revoke, and Native only, no duplicate IDs, and no page-level horizontal overflow. Checked /compare/share-dialog-vs-invite-user-vs-object-picker-vs-modal-dialog/ for share dialog, invite user, object picker, modal dialog, copy-link, native Web Share, permission review, and current access decision terms with no overflow. Checked 390px mobile emulation for External, Block download, Native share, Stop sharing, Copy mismatch, and Native only states with no duplicate IDs and no overflow.",
+    "screenshots": [
+      "screenshots/patterns/share-dialog.png"
+    ]
+  },
+  "name": "Share dialog",
+  "aliases": [
+    "share sheet",
+    "sharing dialog",
+    "sharing modal",
+    "share file dialog",
+    "copy link dialog",
+    "manage access dialog",
+    "link sharing",
+    "grant access dialog",
+    "send link dialog",
+    "native share sheet"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Object-level sharing control for recipients, link scope, roles, delivery, copy-link, native share, and access management",
+  "uiGuidance": [
+    "Render share dialog as an object-specific access panel that names the shared object, current access, recipient entry, link scope, role, notification and message choices, copy-link state, external-domain warnings, expiration, download controls, and revoke or manage-access actions.",
+    "Separate harmless distribution actions from permission-changing actions: copying an already-valid restricted link, sending an email to existing collaborators, widening link scope, adding editors, making content public, and removing access need distinct labels and review states."
+  ],
+  "uxGuidance": [
+    "Use share dialog when a user is granting, narrowing, distributing, or reviewing access to a concrete object such as a file, folder, document, dashboard, board, recording, report, calendar item, or media asset.",
+    "Prevent accidental exposure by showing who can open the object, what each role can do, whether recipients are inside or outside the organization, what link holders can access, whether notifications are sent, and how the share can be changed or stopped later."
+  ],
+  "uiExamples": {
+    "good": [
+      "A report share dialog shows the report title, current viewers and editors, a recipient field, role dropdown, Notify people checkbox, message field, link set to Restricted, Copy link, and Manage access.",
+      "A mobile share sheet offers native device targets for an already-public article while keeping product access controls separate for private workspace files."
+    ],
+    "bad": [
+      "A Share button instantly copies an Anyone with the link can edit URL without showing the current access level or role.",
+      "A dialog asks for an email address but hides whether the person gets viewer, commenter, or editor access and whether an email will be sent."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A manager adds finance@example.com as Viewer, keeps the link restricted, writes a notification note, copies the link, and sees that the file can be unshared from Manage access.",
+      "A user changes a folder from restricted to anyone with the link, sees an external exposure warning and an expiration control, then confirms the broader share."
+    ],
+    "bad": [
+      "A native share sheet sends a private file URL to a chat app, but the recipient cannot open it because the product never granted access.",
+      "A collaborator is removed from a document with no summary of who lost access or how the link behavior changed."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Sharing an object changes who can see, edit, copy, download, forward, or request access to sensitive material, but many interfaces collapse recipient entry, link copying, native sharing, role changes, and revocation into a single ambiguous Share action.",
+  "solution": "Provide an object-specific dialog that exposes current access, lets users add recipients and groups, choose link scope and role, decide notification and message behavior, copy or send links, use native share only where appropriate, review risky changes, and manage or revoke access after sharing.",
+  "problemContext": [
+    "The shared object may be private, organization-only, public, domain-restricted, password-protected, expiring, downloadable, editable, commentable, or view-only.",
+    "Recipients may be people, groups, domains, meeting attendees, chat spaces, external guests, anonymous link holders, or native device share targets.",
+    "The action may create a new grant, update a link, send a notification email, copy an existing URL, open a native share sheet, revoke access, or expose an access request path.",
+    "Policies may restrict external domains, public links, editor sharing, download and copy permissions, link expiration, passwords, ownership, or who can manage access."
+  ],
+  "selectionRules": [
+    "Choose share dialog when the primary task is sharing a specific object by recipients, groups, link scope, role, notification, copy-link, native share, or access-management controls.",
+    "Use invite user when the user is bringing a person into a workspace, organization, channel, team, repository, or tenant with pending invitation state.",
+    "Use object picker when users only select existing entities without sending access, changing roles, creating links, or notifying people.",
+    "Use permission denied state when the current user lacks access and must request access or switch account before sharing.",
+    "Use review before submit or confirmation dialog when the change is high risk, such as public links, external recipients, editor roles, removal of many people, disabled download protection, or organization-wide exposure.",
+    "Use notification center for retained share events and access-request follow-up after the share action, not as the immediate permission editor.",
+    "Use related links when the UI only navigates to nearby material and does not alter who can access it.",
+    "Offer native Web Share only for device-target distribution of already-shareable content or after product permissions are correct.",
+    "Show current access and pending changes in one place so users can distinguish adding people, changing role, changing link scope, copying a link, and stopping sharing.",
+    "Keep revoke, remove, disable link, stop sharing, expiration, and password changes discoverable from the same access-management path used to share."
+  ],
+  "requiredStates": [
+    "Object identity and current access summary state",
+    "Recipient entry, group entry, suggested recipient, unresolved recipient, duplicate recipient, and external recipient states",
+    "Role selection states such as Viewer, Commenter, Editor, Owner, Can view, Can edit, and custom product roles",
+    "Link scope states such as Restricted, specific people, organization, team, anyone with link, public, password-protected, and expired link",
+    "Notify people, message, send, copy-link, link-copied, native share available, native share unavailable, and share canceled states",
+    "Expiration date, password, block download, prevent copy, editor-can-share, and advanced owner-control states where the product supports them",
+    "External sharing blocked, policy approval required, too many recipients, inherited access, parent-folder access, and anonymous viewer states",
+    "Manage access, changed permission, removed person, disabled link, stopped sharing, transfer ownership, and failed update states",
+    "Mobile sheet, desktop dialog, keyboard focus, screen-reader summary, loading, retry, offline, and permission-limited states"
+  ],
+  "interactionContract": [
+    "Opening the dialog identifies the object and fetches current access before presenting share controls.",
+    "Recipient entry resolves people, groups, domains, or spaces before send and labels external, duplicate, unresolved, and already-access states.",
+    "Role and link-scope controls update a pending change summary before the system grants broader access.",
+    "Copy link copies the URL that matches the visible link scope and role; if the user changes link settings first, the copied link uses the updated settings or explains why it cannot.",
+    "Send shares with the selected recipients, role, notification setting, and message, then reports whether access was granted, approval was requested, or delivery failed.",
+    "Native share is triggered by a user action and is treated as distribution to device targets, while product-specific permissions remain visible and enforceable.",
+    "Removing access, disabling a link, changing public access, and stopping sharing require clear affected-party summaries and return focus to the access list after completion.",
+    "Policy restrictions, inherited folder access, organization controls, anonymous access, and owner-only settings explain what users can and cannot change."
+  ],
+  "implementationChecklist": [
+    "Define the object identity, current access model, direct grants, inherited grants, link grants, roles, group behavior, external-domain policy, notification channel, and audit fields before designing the dialog.",
+    "Implement recipient lookup, duplicate detection, role eligibility, domain warnings, link scope choices, copy-link feedback, notification toggle, message validation, expiration, password, download protection, and revoke paths according to the real backend.",
+    "Distinguish link creation from access granting: copying an existing restricted link should not silently make the object public or editable.",
+    "Add review or confirmation for public, anyone-with-link, editor, external, organization-wide, inherited-access, owner-transfer, and mass-removal changes.",
+    "Support manage-access actions such as change role, remove person, delete link, stop sharing, edit expiration, remove password, and inspect pending access requests.",
+    "Handle native Web Share with feature detection, user activation, permission-policy failures, unsupported file types, cancellation, no targets, and fallback copy-link or email actions.",
+    "Log actor, object, old access, new access, recipients, link scope, role, notification choice, message presence, copied link, expiration, revoke, and failure reasons without leaking secret link tokens.",
+    "Test mobile layout, keyboard navigation, screen-reader labels, long object names, long recipient lists, external domains, anonymous link holders, inherited folders, blocked policy, offline retry, and localization."
+  ],
+  "commonMisuses": [
+    "Using Share as a one-click public-link generator without showing the link scope.",
+    "Treating native OS share as if it grants product access.",
+    "Hiding current viewers, editors, and link holders from the user who is about to change access.",
+    "Defaulting to broad editor access when most shares should be restricted or view-only.",
+    "Copying a link whose access does not match the visible role or scope.",
+    "Making revoke, delete link, stop sharing, expiration, or password settings harder to find than the initial share action.",
+    "Sending notifications without telling the user which recipients will be emailed.",
+    "Letting inherited parent-folder access look like a removable direct grant."
+  ],
+  "critiqueQuestions": [
+    "What exact object is being shared, and can users verify it before they change access?",
+    "Who can open the object now, who will gain access, and who will lose access after this action?",
+    "What can recipients do: view, comment, edit, download, copy, reshare, or manage permissions?",
+    "Does the link apply to specific people, an organization, anyone with the link, or the public web?",
+    "Will anyone be notified, and does the message match the role and link being sent?",
+    "Can users revoke access, delete the link, stop sharing, or change expiration after sending?",
+    "What happens when native share is unavailable, canceled, blocked by permission policy, or unable to share the selected data?"
+  ],
+  "useWhen": [
+    "A user needs to share one object or a small set of selected objects with people, groups, domains, links, or device targets.",
+    "The product can show current access and enforce role, scope, notification, expiration, and revoke behavior.",
+    "Users need a quick path to copy a link while still understanding access consequences.",
+    "Access changes may cross privacy, organization, external, public, or download-permission boundaries."
+  ],
+  "avoidWhen": [
+    "The task is inviting a person to become a workspace, organization, or team member rather than sharing a specific object.",
+    "The user is only choosing an object or person and no access or delivery side effect occurs.",
+    "The current user lacks permission to share and needs a request-access or account-switch flow.",
+    "The action is a bulk provisioning, role-administration, policy-management, or ownership-transfer workflow that requires a broader admin surface.",
+    "The product cannot reliably show who has access or revoke the access it creates."
+  ],
+  "variants": [
+    "File share dialog",
+    "Folder share dialog",
+    "Document sharing",
+    "Dashboard sharing",
+    "Copy-link panel",
+    "Manage access dialog",
+    "External share warning",
+    "Public-link confirmation",
+    "Native mobile share sheet",
+    "Recipient share form",
+    "Group share form",
+    "Link settings panel"
+  ],
+  "accessibility": [
+    "Use labelled fields for recipient entry, role, link scope, notification toggle, message, expiration, password, download controls, copy-link, send, revoke, and stop-sharing actions.",
+    "Expose current access, pending changes, external-domain warnings, link-copied feedback, send result, and policy restrictions as text associated with the relevant control or live region.",
+    "Do not rely only on avatars, role colors, lock icons, globe icons, or link icons to communicate access scope.",
+    "Make recipient chips, role menus, link-scope menus, copy-link, send, native-share, remove, change role, and delete-link controls keyboard reachable.",
+    "Give repeated remove and role-change controls accessible names that include the recipient, group, or link they affect.",
+    "Keep focus inside modal dialogs and mobile sheets, return focus to the Share trigger on close, and move focus to result summaries after send or revoke.",
+    "Provide readable summaries for inherited access and anonymous link holders without forcing screen-reader users to inspect every avatar."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows object summary, current access, recipient entry, role, notification, message, link scope, copy link, advanced link settings, send, and manage-access actions.",
+    "Recipient lookup supports arrow-key navigation, Enter to commit a highlighted recipient, Escape to close suggestions, and Backspace to remove a focused recipient chip.",
+    "Role and link-scope menus announce the current value and whether choosing it broadens access.",
+    "Copy-link feedback returns focus to the Copy link button and announces that the copied link matches the current visible settings.",
+    "High-risk confirmation returns focus to the changed control if canceled and to the access summary if confirmed.",
+    "Native share cancellation, unavailable targets, and permission-policy failures return focus to a fallback action.",
+    "Removing a recipient or deleting a link returns focus to the next access row or the current access summary."
+  ],
+  "failureModes": [
+    "A private file becomes publicly editable because copy link implicitly changed scope.",
+    "External recipients gain access without a domain warning or policy review.",
+    "A recipient gets a notification email with a link but no permission to open the object.",
+    "The user cannot tell whether a link is restricted, organization-only, anyone-with-link, or public.",
+    "The share dialog hides inherited access, so users think removing one person fully protects a folder.",
+    "A revoke action removes the wrong collaborator because identical names are not disambiguated.",
+    "A native share call fails on an unsupported browser with no fallback.",
+    "The UI claims sharing stopped while active links, groups, or parent-folder permissions still grant access."
+  ],
+  "relatedPatterns": [
+    "invite-user",
+    "object-picker",
+    "modal-dialog",
+    "popover",
+    "permission-denied-state",
+    "review-before-submit",
+    "confirmation-dialog",
+    "notification-center",
+    "related-links",
+    "mentions",
+    "activity-log"
+  ],
+  "comparisons": [
+    "share-dialog-vs-invite-user-vs-object-picker-vs-modal-dialog"
+  ],
+  "examples": [
+    {
+      "product": "Google Drive sharing dialog",
+      "url": "https://support.google.com/drive/answer/2494822",
+      "platform": "web",
+      "notes": "Documents recipient sharing, role selection, notification message, restricted and anyone-with-link access, copy link, expiration, and owner controls.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft OneDrive sharing",
+      "url": "https://support.microsoft.com/en-us/office/share-files-and-folders-in-microsoft-onedrive-9fcc2f7d-de0c-4cec-93b0-a82024800c07",
+      "platform": "web",
+      "notes": "Documents file and folder sharing through direct access or links with editing, expiration, password, copy-link, and link removal behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Dropbox shared links",
+      "url": "https://help.dropbox.com/share/create-and-share-link",
+      "platform": "web",
+      "notes": "Documents Share, Copy link, edit links, view-only links, and managing links after sharing.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Web Share API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share",
+      "platform": "mobile",
+      "notes": "Documents native device share behavior, supported data, secure context requirement, user activation, and failure states.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-drive-share-files",
+      "note": "Google Drive documents recipient sharing, roles, notification messages, general access, anyone-with-link access, copy link, and owner controls."
+    },
+    {
+      "id": "microsoft-onedrive-share-files-folders",
+      "note": "Microsoft documents OneDrive sharing by direct access or link with permission, expiration, password, copy-link, and link removal behavior."
+    },
+    {
+      "id": "microsoft-onedrive-manage-sharing-permissions",
+      "note": "Microsoft documents managing access, stopping sharing, changing direct access, and deleting sharing links."
+    },
+    {
+      "id": "dropbox-sharing-permissions",
+      "note": "Dropbox documents who-has-access and what-people-can-do permissions for shared links."
+    },
+    {
+      "id": "dropbox-create-share-links",
+      "note": "Dropbox documents Share, Copy link, edit links, view-only links, and link-management behavior."
+    },
+    {
+      "id": "mdn-web-share-api",
+      "note": "MDN documents the Web Share API for sharing links, text, files, and other content to user-selected operating-system targets."
+    },
+    {
+      "id": "mdn-navigator-share",
+      "note": "MDN documents navigator.share secure-context, activation, data, permission, cancellation, and unsupported-data constraints."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

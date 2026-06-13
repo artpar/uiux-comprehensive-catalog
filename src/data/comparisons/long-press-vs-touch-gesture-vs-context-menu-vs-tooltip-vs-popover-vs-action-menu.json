@@ -1,0 +1,53 @@
+{
+  "id": "long-press-vs-touch-gesture-vs-context-menu-vs-tooltip-vs-popover-vs-action-menu",
+  "title": "Long press vs touch gesture vs context menu vs tooltip vs popover vs action menu",
+  "summary": "Use long press for the sustained-contact gesture and its threshold, feedback, cancellation, and equivalent path. Use touch gesture for the broad gesture system, context menu for the command surface opened by invocation, tooltip for brief noninteractive help, popover for richer contextual content, and action menu for visible explicit commands.",
+  "patternIds": [
+    "long-press",
+    "touch-gesture",
+    "context-menu",
+    "tooltip",
+    "popover",
+    "action-menu"
+  ],
+  "decisionRules": [
+    "Choose long press when users press and hold a target long enough to reveal secondary actions, enter selection mode, open preview, or begin drag pickup.",
+    "Choose touch gesture when the design problem spans multiple gestures such as tap, swipe, pinch, drag, threshold, cancellation, target sizing, and system gesture boundaries.",
+    "Choose context menu when the primary issue is the target-scoped command menu itself: command labels, grouping, disabled reasons, focus movement, and keyboard context-menu invocation.",
+    "Choose tooltip when the content is short, supplemental, noninteractive text tied to hover or focus rather than sustained touch contact.",
+    "Choose popover when the target opens richer nonmodal contextual content or lightweight controls that need focus and dismissal behavior.",
+    "Choose action menu when commands should be exposed by a visible button or menu trigger instead of discovered through sustained contact.",
+    "Long press must define hold duration, press-down feedback, progress or threshold cue, movement tolerance, release-before-threshold cancellation, destination after threshold, and equivalent non-gesture control.",
+    "Long press must not be the only path to primary, destructive, required, security-sensitive, payment, consent, or account actions.",
+    "Long press conflicts must be resolved against tap, double tap, vertical scroll, swipe action, pull-to-refresh, drag pickup, text selection, hover tooltip, and system gestures.",
+    "Do not treat a context menu, tooltip, popover, or action menu as long press unless the sustained-contact invocation itself is designed and tested."
+  ],
+  "failureModes": [
+    "A hidden long press is the only way to select, archive, delete, inspect, or open item actions.",
+    "Slow tap accidentally opens a menu because hold duration and cancellation are poorly tuned.",
+    "A press-and-hold tooltip contains required instructions but cannot be reached through keyboard or assistive technology.",
+    "Long press starts drag pickup while users are trying to scroll.",
+    "The long-press destination and the visible action menu expose different commands.",
+    "A destructive action commits when the hold threshold is reached instead of revealing a label, confirmation, or undo path.",
+    "The comparison confuses the input gesture with the menu, tooltip, popover, or command surface it may open."
+  ],
+  "sources": [
+    {
+      "id": "material-design-gestures",
+      "note": "Supports long press as a recognized gesture for additional functionality and selection."
+    },
+    {
+      "id": "android-gesture-detector-common-gestures",
+      "note": "Supports platform long-press detection through common gesture handling."
+    },
+    {
+      "id": "apple-hig-gestures",
+      "note": "Supports standard gesture consistency and system gesture boundaries."
+    },
+    {
+      "id": "w3c-wcag-target-size-minimum",
+      "note": "Supports target size and spacing expectations for touch targets and equivalents."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

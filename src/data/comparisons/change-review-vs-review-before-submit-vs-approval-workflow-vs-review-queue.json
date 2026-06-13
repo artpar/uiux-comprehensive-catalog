@@ -1,0 +1,59 @@
+{
+  "id": "change-review-vs-review-before-submit-vs-approval-workflow-vs-review-queue",
+  "title": "Change review vs review before submit vs approval workflow vs review queue",
+  "summary": "Use change review when users inspect proposed edits or diffs and decide whether to accept, reject, apply, batch, or request changes; use review before submit for a user's final answer check, approval workflow for routed authorization, and review queue for triaging many items.",
+  "patternIds": [
+    "change-review",
+    "review-before-submit",
+    "approval-workflow",
+    "review-queue",
+    "comments",
+    "compare-view",
+    "version-history",
+    "activity-log",
+    "permission-denied-state"
+  ],
+  "decisionRules": [
+    "Choose change review when the primary object is a proposed edit, diff hunk, tracked change, suggested change, or file change that a reviewer can inspect and then accept, reject, apply, batch, mark viewed, comment on, or request changes for.",
+    "Choose review before submit when the same user is checking their own captured answers immediately before committing a transaction; there is no external proposed edit or reviewer decision about another change set.",
+    "Choose approval workflow when a submitted request needs authorized approvers, required counts, route state, due date, rejection, requested changes, delegation, timeout, or downstream blocking.",
+    "Choose review queue when reviewers process many independently queued items and need workload controls such as row reason, owner, SLA, claim, skip, bulk action, and next-item focus.",
+    "Use comments to discuss a proposed change, ask questions, or explain a decision; comments support change review but do not replace the accept, reject, apply, viewed, and stale-change states.",
+    "Use compare view when the user only needs side-by-side comparison of alternatives; change review adds decision state and proposed-change lifecycle on top of comparison.",
+    "Use version history when users browse durable previous snapshots; change review concerns pending or proposed changes before they become accepted current content.",
+    "Use activity log after decisions happen to record who accepted, rejected, applied, requested changes, or dismissed a suggestion; it is not the decision surface.",
+    "Use permission-denied state when a user can see a change but cannot accept, reject, apply, or submit review because ownership, branch, document, or role permissions do not allow it.",
+    "A change review surface must label base versus proposed content, changed scope, reviewer progress, pending comments, suggestion status, accept or reject consequence, batch scope, stale or outdated state, and final submission state."
+  ],
+  "failureModes": [
+    "A reviewer cannot tell whether they are accepting one suggestion, all visible suggestions, or every hidden change.",
+    "Accepting a proposed change applies stale content after the underlying file, paragraph, or branch changed.",
+    "The UI shows a visual diff but provides no explicit review decision state or next unresolved change.",
+    "Pending review comments are mistaken for submitted feedback because draft and submitted states look identical.",
+    "Rejecting a suggestion deletes reviewer rationale or hides the dismissed change from audit.",
+    "A read-only reviewer sees Apply suggestion or Accept change controls that will fail after click."
+  ],
+  "sources": [
+    {
+      "id": "github-reviewing-proposed-changes",
+      "note": "GitHub documents file-by-file pull request review, suggested changes, pending review comments, mark viewed, approve, comment, request changes, and stale review behavior."
+    },
+    {
+      "id": "gitlab-merge-request-suggestions",
+      "note": "GitLab documents applying, batching, rejecting, and resolving suggested changes in merge request reviews."
+    },
+    {
+      "id": "google-docs-suggest-edits",
+      "note": "Google Docs documents reviewing suggested edits, previewing accepted or rejected outcomes, and accepting or rejecting suggestions."
+    },
+    {
+      "id": "microsoft-word-accept-reject-tracked-changes",
+      "note": "Microsoft Word documents moving through tracked changes and accepting or rejecting individual or all changes."
+    },
+    {
+      "id": "azure-repos-review-pull-requests",
+      "note": "Azure Repos documents commenting on proposed changes, suggesting changes, responding to comments, and pull request review work."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

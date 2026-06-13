@@ -1,0 +1,261 @@
+{
+  "id": "feed",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed dynamic stream pattern with distinct boundaries from card list, list view, recommendations, notification center, timeline, and activity log; includes feed item anatomy, ordering disclosure, queued live updates, position preservation, load-newer and load-older behavior, unread handling, promoted-content labelling, accessibility semantics, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers labelled feed regions, article-like item boundaries, source or author, timestamp, type, order labels, queued new items, live pause, jump to latest, load older, unread state, sponsored and recommended labels, loading boundaries, end state, failed loading, position preservation, virtualized item identity, and feed-specific accessibility semantics.",
+    "relatedPatternDistinction": "The entry separates feed from card list by dynamic stream consumption instead of bounded object-card browsing, from list view by article-like updates instead of compact object rows, from recommendations by order and position behavior instead of ranked suggestion reasons and feedback, from notification center by avoiding notification badge and retention lifecycle, from timeline by not requiring a bounded milestone path, and from activity log by not serving as audit history.",
+    "liveDemoBehavior": "The live demo shows a project stream with source, time, item type, unread marker, article boundaries, queued-new-items banner, live pause and resume, explicit jump to latest, team filter, load older boundary, mark-read behavior, and bad-mode contrasts for auto jump, mixed order, hidden sponsored item, stale unread state, missing context, and endless scrolling trap.",
+    "comparisonDecisionRules": "The feed-vs-card-list-vs-recommendations-vs-notification-center comparison gives concrete rules for dynamic streams, bounded object-card sets, ranked suggestions, durable notification drawers, source and timestamp ownership, promotion labels, notification lifecycle boundaries, and loading controls that preserve reading position.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/feed/ and /compare/feed-vs-card-list-vs-recommendations-vs-notification-center/ on 2026-06-10. Live check exercised New post arrives, queued banner Jump latest, Pause and Resume live, Filter team, Load older, Mark read, Auto jump, Mixed order, Hidden sponsored, Stale unread, No context, and Endless trap controls while the page was in review state, plus a 390px narrow viewport check. screenshots/patterns/feed.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/feed.png"
+    ]
+  },
+  "name": "Feed",
+  "aliases": [
+    "content feed",
+    "activity feed",
+    "news feed",
+    "social feed",
+    "stream",
+    "update stream",
+    "post feed",
+    "story feed",
+    "infinite feed"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Collaboration And Social Interaction",
+    "Search, Browse, And Discovery",
+    "Feedback, Status, And System State",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Dynamic stream of article-like updates that may load or insert content at either end",
+  "uiGuidance": [
+    "Render the feed as a labelled stream of item boundaries where each item has a source or author, timestamp, title or body summary, type, actions, and enough context to stand alone as an article-like update.",
+    "Expose ordering, loading, unread, inserted, sponsored, recommended, and paused-new-items states in the interface instead of relying on silent automatic insertion."
+  ],
+  "uxGuidance": [
+    "Use feed when users consume a continuing stream of posts, updates, stories, events, or collaboration activity and need to keep their reading position while new or older content appears.",
+    "Protect orientation by preserving scroll position, announcing new items without moving focus, offering load-more or jump-to-latest controls, and labelling non-chronological, promoted, or personalized insertions."
+  ],
+  "uiExamples": {
+    "good": [
+      "A project feed shows source avatar, actor, timestamp, object name, excerpt, item type, unread marker, reply and save actions, and a visible queued-new-items banner while the reader is midstream.",
+      "A community feed separates chronological posts from recommended posts with labels and keeps Load older updates after the last rendered item."
+    ],
+    "bad": [
+      "New posts appear above the current paragraph and shift the page while the user is reading.",
+      "Sponsored stories, recommended posts, and chronological updates use identical cards with no reason, source, or timestamp."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pauses live updates, reads three older posts, sees 2 new updates waiting, then chooses Jump to latest when ready.",
+      "A keyboard user moves through article items, loads older content, and focus remains near the loading boundary with the new item count announced."
+    ],
+    "bad": [
+      "A feed keeps loading forever, hides the footer, and gives no way to resume from a saved position.",
+      "A product uses an activity feed as the only notification history, but it has no unread semantics, preferences, or mark-read lifecycle."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to consume a changing stream of updates, posts, events, or stories, but dynamic insertion, infinite loading, mixed ranking, and unlabeled stream items can destroy orientation and trust.",
+  "solution": "Present updates as a labelled feed with article-like item boundaries, source and timestamp metadata, ordering disclosure, controlled loading, queued-new-item handling, position preservation, accessible feed semantics, and clear labels for recommended, promoted, unread, or stale content.",
+  "problemContext": [
+    "Items are posts, stories, comments, collaboration updates, activity cards, status updates, messages, media, or event summaries.",
+    "The stream may be chronological, ranked, personalized, filtered, live, paused, or loaded incrementally.",
+    "Users may read in place for a long time while new content arrives, older content loads, or items are updated, removed, or inserted.",
+    "The surface often mixes browsing, social interaction, lightweight actions, media, and links to related objects."
+  ],
+  "selectionRules": [
+    "Choose feed when the core experience is consuming a continuing stream rather than managing a fixed set of objects.",
+    "Use card list when the content is a bounded set of object cards with filtering, sorting, and object-management behavior.",
+    "Use list view when users need compact row scanning and row actions instead of rich article-like stream consumption.",
+    "Use timeline when items represent a bounded sequence of milestones or events along an explicit temporal path.",
+    "Use activity log when the surface is durable audit history, provenance, or compliance evidence rather than a consumable stream.",
+    "Use notification center when items need unseen and unread semantics, badge behavior, retention, preferences, and mark-read lifecycle.",
+    "Use recommendations when the surface is a ranked suggestion set requiring reason labels, feedback, dismissal, and personalization controls.",
+    "Label feed order honestly as latest, ranked, following, popular, sponsored, recommended, or mixed.",
+    "Offer a deliberate control for new incoming items when automatic insertion above the viewport would move the reader's place.",
+    "Prefer Load more or explicit page boundaries when users need footer access, comparison, task completion, or resumable position.",
+    "Avoid feed when users need aligned attribute comparison, spreadsheet interaction, named collection management, or exact search result review."
+  ],
+  "requiredStates": [
+    "Default feed with heading, order label, rendered item count or range, and article-like items.",
+    "New item waiting, live updates paused, jump to latest, loaded newer, and loaded older states.",
+    "Loading more, busy, end-of-feed, failed-load, retry, offline, and partial-load states.",
+    "Unread, read, new, updated, removed, muted, hidden, saved, liked, replied, and shared item states when supported.",
+    "Sponsored, promoted, recommended, following-only, filtered, ranked, chronological, and mixed-order disclosure states.",
+    "Empty feed, no matching updates, first-run follow suggestions, permission-limited, blocked-author, and stale-content states.",
+    "Focused item, focused action, keyboard reading boundary, and restored-position states.",
+    "Responsive state where item identity, source, timestamp, action ownership, and loading controls remain visible."
+  ],
+  "interactionContract": [
+    "Each feed item has a stable identity, source, timestamp, item boundary, and primary destination or action.",
+    "New items do not move focus or scroll position unless the user explicitly chooses to jump or refresh.",
+    "Loading older or newer items preserves the reader's position and places focus on the triggering control, the newly loaded boundary, or a clear status message.",
+    "The feed communicates whether ordering is chronological, ranked, filtered, or personalized before users rely on recency.",
+    "Dismiss, mute, save, like, reply, share, and report actions affect the named item and give immediate feedback without collapsing unrelated items.",
+    "Sponsored, promoted, recommended, and following content remain distinguishable even when they share the same card anatomy.",
+    "If virtualization removes items from the DOM, article positions, labels, and focus recovery remain stable.",
+    "If the feed is used for work activity, notification or audit obligations are handled by notification center or activity log instead of being implied by the feed alone."
+  ],
+  "implementationChecklist": [
+    "Define feed item identity, article heading, source or author, timestamp, type, body summary, media, primary route, and item-scoped actions.",
+    "Choose ordering rules and expose them in text: latest first, oldest first, ranked, following, recommended, sponsored, or mixed.",
+    "Use feed and article semantics when automatic reading and loading behavior benefits assistive technology; otherwise use semantic lists with equivalent labels and loading status.",
+    "Maintain aria-busy or loading status while inserting or removing feed items and avoid changing the middle of the stream unexpectedly.",
+    "Add queued-new-item, pause live updates, jump to latest, load newer, load older, end-of-feed, retry, and restored-position behavior.",
+    "Preserve scroll and focus position across refreshes, item updates, media expansion, filters, route return, and incremental loading.",
+    "Label promoted, sponsored, recommended, filtered, muted, hidden, and stale items in the item UI and data model.",
+    "Test keyboard reading order, screen-reader item boundaries, long posts, nested actions, media fallback, virtualization, reduced motion, mobile wrapping, and footer reachability."
+  ],
+  "commonMisuses": [
+    "Calling any vertical card list a feed even when it is a bounded object collection.",
+    "Auto-prepending new content and moving the reader away from the item they were reading.",
+    "Mixing ranked, sponsored, recommended, and chronological items without labels.",
+    "Using infinite scroll when users need a footer, exact position, task completion, or a known end.",
+    "Hiding timestamps or source labels until hover.",
+    "Letting action buttons in one item affect a different item after virtualization or live insertion.",
+    "Using a feed as audit history or notification history without the required lifecycle semantics.",
+    "Removing article boundaries and loading status from assistive technologies."
+  ],
+  "critiqueQuestions": [
+    "Is the user consuming a stream, managing a collection, scanning object rows, reviewing audit history, or triaging notifications?",
+    "What order is the feed using, and can users tell whether an item is latest, ranked, recommended, sponsored, or filtered?",
+    "What happens to the reader's position when new content arrives, older content loads, media expands, or the route is reopened?",
+    "How are new-item counts, unread state, loaded boundaries, failures, and end-of-feed communicated?",
+    "Which actions belong to one item, and how does the UI prevent action ownership errors after live updates?",
+    "Would card list, list view, timeline, activity log, notification center, recommendations, pagination, or saved view better fit the task?"
+  ],
+  "useWhen": [
+    "Users consume a continuing stream of updates, posts, stories, comments, media, or collaboration activity.",
+    "Freshness, order, item boundaries, and reading position matter more than object-management controls.",
+    "The product can preserve position and disclose insertion, ranking, promotion, and loading behavior.",
+    "The stream supports lightweight item actions without turning each item into an overloaded workflow."
+  ],
+  "avoidWhen": [
+    "The content is a finite set of objects that users need to filter, sort, select, compare, or manage.",
+    "Users need durable notification triage, unread lifecycle, preferences, and badge semantics.",
+    "Users need audit history or compliance evidence.",
+    "Users need aligned numeric comparison, exact search review, or spreadsheet-style editing.",
+    "The system cannot preserve reading position or explain why items appear."
+  ],
+  "variants": [
+    "Chronological feed",
+    "Ranked feed",
+    "Following feed",
+    "Activity feed",
+    "Social feed",
+    "News feed",
+    "Project update feed",
+    "Media feed",
+    "Live feed",
+    "Paused live feed",
+    "Feed with load more",
+    "Feed with unread separator",
+    "Feed with recommendations",
+    "Feed with promoted items"
+  ],
+  "accessibility": [
+    "Give the feed a heading or accessible label and expose the current order or filter in text.",
+    "Represent each item as an article-like region with a programmatic name, source, timestamp, and item position when available.",
+    "Use aria-busy or equivalent status messaging while inserting or removing feed content.",
+    "Avoid automatically moving focus when new content arrives; provide a reachable Jump to latest or Load newer control.",
+    "Make item actions keyboard reachable and label them with the item title or source.",
+    "Announce loaded-newer, loaded-older, failure, retry, and end-of-feed status changes through polite status messaging.",
+    "Do not rely on color, motion, or position alone to identify unread, new, sponsored, promoted, or recommended items.",
+    "For virtualized feeds, preserve accessible item identity and focus when articles mount or unmount."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches feed controls, item links, and item-scoped actions in reading order without trapping users in endless item actions.",
+    "Enter or Space activates focused buttons and links according to native behavior.",
+    "Load newer, Jump to latest, Load older, Pause updates, and Retry controls preserve or clearly move focus after the update.",
+    "If feed-specific shortcuts are implemented, standard Tab navigation remains sufficient and shortcuts are documented outside the item body.",
+    "Escape closes item menus, media previews, or reply composers and returns focus to the invoking item control.",
+    "Focus does not move merely because a new item arrived above the current viewport."
+  ],
+  "failureModes": [
+    "The feed jumps to the top whenever a new post arrives.",
+    "Users cannot tell whether a post is from someone they follow, an algorithmic insertion, a sponsored placement, or a stale cached item.",
+    "Older items load above or below the wrong boundary and duplicate content appears.",
+    "A keyboard user tabs through dozens of hidden item controls before reaching Load older.",
+    "Screen-reader users hear a set of anonymous regions with no article names, timestamps, or positions.",
+    "The product calls a notification drawer a feed and then loses unread, retention, and preference obligations.",
+    "Returning from an opened item resets the feed to the top.",
+    "Infinite loading prevents users from reaching footer navigation or legal links."
+  ],
+  "relatedPatterns": [
+    "card-list",
+    "list-view",
+    "recommendations",
+    "notification-center",
+    "pagination",
+    "filter-panel",
+    "sort-controls",
+    "saved-search",
+    "search-history",
+    "empty-state"
+  ],
+  "comparisons": [
+    "feed-vs-card-list-vs-recommendations-vs-notification-center"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Feed Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/feed/",
+      "platform": "web",
+      "notes": "Defines feed as dynamically loaded article content and details keyboard and accessibility expectations for reading a feed.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "MDN ARIA feed role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/feed_role",
+      "platform": "web",
+      "notes": "Documents feed as a dynamic scrollable list of article items where content can be added or removed from either end.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Microsoft Teams activity feed",
+      "url": "https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/design/activity-feed-notifications",
+      "platform": "desktop",
+      "notes": "Shows an activity feed implementation with card variants across desktop and mobile surfaces.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "NN/g infinite scrolling guidance",
+      "url": "https://www.nngroup.com/articles/infinite-scrolling-tips/",
+      "platform": "web",
+      "notes": "Provides UX guidance for continuous loading and when load-more or pagination better supports user orientation.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-feed",
+      "note": "WAI-ARIA APG defines feed semantics, dynamic article loading, article positions, keyboard reading, and busy state guidance."
+    },
+    {
+      "id": "mdn-aria-feed-role",
+      "note": "MDN documents feed as a dynamic scrollable article list that can add or remove content at either end."
+    },
+    {
+      "id": "nng-infinite-scrolling-tips",
+      "note": "NN/g supports orientation and loading rules for feeds that use continuous scrolling or load-more behavior."
+    },
+    {
+      "id": "microsoft-teams-activity-feed-notifications",
+      "note": "Microsoft Teams provides a concrete activity feed example with card variants, source identity, and cross-device behavior."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

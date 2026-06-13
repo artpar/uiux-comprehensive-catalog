@@ -1,0 +1,247 @@
+{
+  "id": "context-menu",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed location-invoked contextual command menu pattern with distinct boundaries from action menu, menu button, popover, command palette, confirmation dialog, and undo, unique pointer and keyboard invocation behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets object-scoped command menus anchored to the invoked object, selection, pointer position, or keyboard-focused item, including right-click, long-press, context-menu-key, and Shift+F10 invocation; visible target scope; menu focus movement; Arrow navigation; disabled reasons; destructive handoff; Escape dismissal; focus return; and visible alternate routes for important commands.",
+    "relatedPatternDistinction": "The entry separates context menu from action menu by invocation source versus command taxonomy, from menu button by secondary location invocation versus a visible named trigger, from popover by command activation versus contextual content or light editing, from command palette by object scope versus product-wide search, and from confirmation dialog or undo by pre-action command selection versus consequence review or recovery.",
+    "liveDemoBehavior": "The live demo opens commands for Forecast.xlsx through Right click Forecast and Shift+F10, moves through commands with Arrow down, reports Export unavailable for the syncing file, routes Delete to review before commitment, closes with Escape and returns focus to the file row, and contrasts stale target, keyboard-corner placement, hidden-primary action, mixed content, pointer-keyboard mismatch, and focus-loss failures.",
+    "comparisonDecisionRules": "The context-menu-vs-action-menu-vs-menu-button-vs-popover comparison gives concrete rules for choosing object-invoked command menus, command-list design, visible menu triggers, or informational and light-editing popovers; it also covers alternate visible routes, same eligible command set across pointer and keyboard invocation, keyboard focus placement, primary-action exclusion, and escalation when content needs inputs or previews.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/context-menu/ and /compare/context-menu-vs-action-menu-vs-menu-button-vs-popover/ on 2026-06-10. Live check exercised Right click Forecast, Shift+F10, Arrow down, Try export, Delete review, Escape, Stale target, Keyboard corner, Hidden primary, Mixed content, Pointer mismatch, and Focus loss controls. screenshots/patterns/context-menu.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/context-menu.png"
+    ]
+  },
+  "name": "Context menu",
+  "aliases": [
+    "right-click menu",
+    "shortcut menu",
+    "secondary click menu",
+    "long-press menu",
+    "object context menu",
+    "selection context menu"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Selection And Choice",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Location-invoked contextual command menu",
+  "uiGuidance": [
+    "Render a context menu as a compact command menu anchored to the object, selection, pointer position, or focused item that invoked it, with clear item labels, disabled reasons, separators, and destructive separation.",
+    "Keep context-menu content to commands or command-like links that apply to the invoked target; do not turn it into a form, preview panel, navigation drawer, or general overflow bucket."
+  ],
+  "uxGuidance": [
+    "Use a context menu when users need fast object-specific commands from a secondary invocation path such as right click, long press, context-menu key, or Shift+F10.",
+    "Make the same target, command eligibility, keyboard focus, dismissal, and focus return work for pointer and keyboard invocation, and keep important commands available through visible routes too."
+  ],
+  "uiExamples": {
+    "good": [
+      "A file row opens a context menu at the selected row with Open, Rename, Duplicate, Download, Archive, and Delete separated at the end.",
+      "A canvas shape opens a context menu at the pointer with Bring forward, Send backward, Duplicate, Lock, and Delete shape, while the selected shape remains highlighted."
+    ],
+    "bad": [
+      "Right clicking a row opens a menu beside the toolbar and still shows actions for the previously selected row.",
+      "A hidden context menu is the only place to find primary commands such as Save, Submit, or Continue."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Right click on Forecast.xlsx opens commands for that file, Arrow keys move through items, Escape closes the menu, and focus returns to the file row.",
+      "Shift+F10 on the focused file opens the same eligible commands at the row, including disabled Export with a reason and Delete routed to review."
+    ],
+    "bad": [
+      "Keyboard invocation opens at the top-left corner with no visible relationship to the focused object.",
+      "Long press opens commands that differ from right click, so users cannot predict which action set applies."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Objects often have secondary commands that experienced users expect near the object, but hiding commands behind pointer-only right click or stale context can make actions undiscoverable, target-ambiguous, or inaccessible.",
+  "solution": "Provide a compact command menu that opens from the invoked object or selection by pointer and keyboard context-menu requests, keeps the target visibly selected, moves focus into the menu, supports menu keyboard behavior, and returns focus to the target on close.",
+  "problemContext": [
+    "A file, row, canvas object, map item, text selection, card, or selected set has several commands that are useful but not always worth visible space.",
+    "Users may invoke commands through right click, secondary click, long press, context-menu key, Shift+F10, or another platform-specific request.",
+    "The target object, selected set, pointer location, permission state, and object state determine which commands are available.",
+    "Important commands still need visible or documented access because context menus are secondary and less discoverable."
+  ],
+  "selectionRules": [
+    "Choose context menu when commands are specific to the object, selection, or location where the user invoked the menu.",
+    "Use action menu when the main work is designing the command taxonomy, grouping, disabled reasons, destructive handoff, and scope labels independent of invocation method.",
+    "Use menu button when users need a visible named trigger for the same short command list.",
+    "Use popover when the anchored layer needs contextual information, controls, or light editing instead of menuitem command activation.",
+    "Use visible buttons for primary, frequent, safety-critical, or onboarding commands that users should not have to discover through secondary invocation.",
+    "Use command palette when commands are product-wide, searchable, shortcut-driven, or not tied to the current object.",
+    "Use native browser or platform context menu when the product does not need custom object-specific commands.",
+    "Use a confirmation dialog, undo, or review flow after high-risk context-menu commands rather than running them silently."
+  ],
+  "requiredStates": [
+    "Resting object or selection state before invocation.",
+    "Pointer-invoked open state anchored to the object or pointer coordinate.",
+    "Keyboard-invoked open state anchored to the focused object or selection, not stale pointer coordinates.",
+    "Visible target state showing which object or selected set commands will affect.",
+    "Menu focus state with active item, Arrow key movement, Enter or Space activation, and Escape dismissal.",
+    "Disabled or unavailable item state with reason when the user can recover.",
+    "Destructive item state separated from safe commands and routed to review or recovery.",
+    "Dismissed state that returns focus to the invoking object or selected set.",
+    "Target changed or selection changed state that closes or recalculates the command set.",
+    "Touch or long-press state with equivalent command availability where the platform supports it."
+  ],
+  "interactionContract": [
+    "The menu opens only for the object, selection, or location that invoked it.",
+    "Pointer and keyboard invocation expose the same applicable commands for the same target.",
+    "The invoked target remains highlighted, focused, or otherwise visibly identified while the menu is open.",
+    "Opening moves focus into the menu or sets an active descendant so Arrow keys operate inside the command list.",
+    "Escape, outside click, scroll away, or target removal closes the menu without running a command.",
+    "Safe activation closes the menu and reports what happened to the target.",
+    "High-risk activation moves to confirmation, undo, restore, or review with the affected target named.",
+    "Focus returns to the invoking target or a logical replacement after dismissal or activation.",
+    "The context menu is not the only route to important commands.",
+    "The menu content stays command-like and does not contain forms, pickers, embedded editors, or long explanatory panels."
+  ],
+  "implementationChecklist": [
+    "Define which objects or selections can invoke a context menu and which commands apply to each state.",
+    "Handle pointer secondary-click, keyboard context-menu key, Shift+F10, and touch or long-press where supported.",
+    "Anchor pointer menus to the invoked object or pointer and keyboard menus to the focused target.",
+    "Keep the target visibly selected or focused while the menu is open.",
+    "Use menu roles and menuitem semantics only when implementing full menu keyboard behavior.",
+    "Implement Arrow keys, Home, End, typeahead when useful, Enter, Space, Escape, outside dismissal, and focus return.",
+    "Recalculate or close the menu if selection, target state, permission, or viewport position changes.",
+    "Expose unavailable commands with reasons when users can act on the reason.",
+    "Keep primary commands visible elsewhere and document advanced shortcuts where appropriate.",
+    "Test repeated rows, stale selection, keyboard invocation placement, touch invocation, zoom, clipping, portal placement, screen readers, and destructive handoff."
+  ],
+  "commonMisuses": [
+    "Making right click or long press the only way to discover important commands.",
+    "Opening a context menu for the wrong row because selection and pointer target are out of sync.",
+    "Ignoring keyboard context-menu invocation or placing the menu at a stale pointer coordinate.",
+    "Showing different command sets for right click and Shift+F10 on the same object.",
+    "Using a context menu as a catch-all for global navigation, filters, forms, previews, and settings.",
+    "Running destructive commands immediately from the menu without confirmation, undo, or object-specific review.",
+    "Leaving focus behind the menu so Arrow keys scroll the page or move the selected object.",
+    "Letting menus remain open after the target disappears, scrolls away, or changes state."
+  ],
+  "critiqueQuestions": [
+    "What exact object, selection, or location invoked this context menu?",
+    "Can users access the same important command through a visible route?",
+    "Does keyboard invocation open at the focused object with the same eligible commands as pointer invocation?",
+    "How are stale selection, target removal, viewport collision, and scroll handled?",
+    "Are commands scoped, labelled, grouped, disabled, and risk-separated according to action-menu rules?",
+    "Where does focus go on open, Arrow navigation, Escape, outside click, safe activation, and destructive handoff?"
+  ],
+  "useWhen": [
+    "Objects or selections have secondary commands that experienced users expect near the target.",
+    "The command set depends on the invoked object, pointer location, selected set, or focused item.",
+    "The product can provide keyboard-equivalent invocation and focus behavior.",
+    "Important commands also remain available through visible controls, menus, shortcuts, or documentation."
+  ],
+  "avoidWhen": [
+    "The command is primary, urgent, safety-critical, or required for task completion.",
+    "Users are choosing form values or editing content inside the layer.",
+    "The product cannot support keyboard context-menu invocation and focus return.",
+    "The action set is product-wide rather than tied to a target object or selection.",
+    "The menu would contain long content, filters, previews, or multi-step workflows."
+  ],
+  "variants": [
+    "Right-click context menu",
+    "Keyboard context menu",
+    "Long-press context menu",
+    "File context menu",
+    "Table row context menu",
+    "Canvas object context menu",
+    "Text selection context menu",
+    "Map marker context menu",
+    "Bulk selection context menu"
+  ],
+  "accessibility": [
+    "Support keyboard invocation through the context-menu key or Shift+F10 where the platform expects it.",
+    "Open keyboard-invoked menus at the focused target or selected object.",
+    "Use accessible names that identify the target or selected set.",
+    "Move focus into the menu and expose active item state when using menu semantics.",
+    "Return focus to the invoking target or its logical replacement after close.",
+    "Keep visible item labels aligned with accessible names and object scope.",
+    "Expose disabled states and reasons without relying on color alone.",
+    "Provide visible alternatives for important commands so context menus are not the only accessible path."
+  ],
+  "keyboardBehavior": [
+    "Context-menu key or Shift+F10 opens the menu for the focused object or selected set.",
+    "Arrow Down and Arrow Up move between menu items.",
+    "Home and End move to the first and last menu item when implemented.",
+    "Enter or Space activates the focused command unless disabled.",
+    "Escape closes the menu and returns focus to the invoking target.",
+    "Tab closes the transient menu according to the chosen menu implementation.",
+    "Printable character keys may move to the next matching item when typeahead is implemented.",
+    "After destructive selection, focus moves to the review or confirmation surface with the target named."
+  ],
+  "failureModes": [
+    "The menu opens for a stale selected object instead of the object under the pointer.",
+    "Keyboard users cannot open the context menu or cannot tell which object it applies to.",
+    "The menu appears at the wrong coordinate after scroll or zoom.",
+    "Commands are unavailable without explanation even though the user can fix the blocker.",
+    "The same object exposes different commands through right click and Shift+F10.",
+    "Focus stays in the page behind the menu and Arrow keys do not move through commands.",
+    "A context menu hides a primary task command that should be visible.",
+    "The menu contains rich editors or long panels that break menu interaction."
+  ],
+  "relatedPatterns": [
+    "action-menu",
+    "menu-button",
+    "menu-menubar",
+    "popover",
+    "command-palette",
+    "confirmation-dialog",
+    "undo"
+  ],
+  "comparisons": [
+    "context-menu-vs-action-menu-vs-menu-button-vs-popover"
+  ],
+  "examples": [
+    {
+      "product": "MDN contextmenu event",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event",
+      "platform": "web",
+      "notes": "Documents right-click and context-menu-key event invocation plus browser support cautions.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "WAI-ARIA APG Menu and Menubar Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/",
+      "platform": "web",
+      "notes": "Documents menu keyboard behavior and context-specific menu invocation with Shift+F10.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Apple HIG Context menus",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/context-menus",
+      "platform": "mobile",
+      "notes": "Frames context menus as item-related functionality that avoids cluttering the interface.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-contextmenu-event",
+      "note": "Supports right-click and context-menu-key invocation plus compatibility cautions."
+    },
+    {
+      "id": "wai-aria-apg-menu-menubar",
+      "note": "Supports menu semantics, keyboard movement, Escape behavior, and Shift+F10 invocation."
+    },
+    {
+      "id": "fluent-menu-component",
+      "note": "Supports menus as hidden lists for immediate actions or navigation rather than input collection."
+    },
+    {
+      "id": "apple-hig-context-menus",
+      "note": "Supports item-related commands without interface clutter."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

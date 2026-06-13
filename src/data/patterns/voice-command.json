@@ -1,0 +1,280 @@
+{
+  "id": "voice-command",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed voice command pattern with spoken-command lifecycle guidance, microphone permission, wake and listening states, partial transcript, recognized phrase, confidence, alternatives, disambiguation, matched command, risky confirmation, execution feedback, undo, dictation boundary, offline fallback, equivalent paths, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers voice command as a bounded spoken-command lifecycle with unsupported state, microphone permission, wake or push-to-talk invocation, visible listening, partial transcript, recognized phrase, low confidence, alternatives, disambiguation, matched command, risky confirmation, executed result, undo, dictation boundary, offline fallback, and equivalent path states.",
+    "relatedPatternDistinction": "Separated from keyboard shortcut as key-chord acceleration, command palette as searchable command browsing, prompt box as AI request composition, text input as ordinary typed or dictated values, touch gesture as pointer movement, and focus traversal as sequential focus movement.",
+    "liveDemoBehavior": "Good demo exercises unavailable, permission, wake, listening, partial transcript, recognized phrase, low confidence, alternatives, disambiguation, matched command, risky confirmation, executed, undo, dictation boundary, offline fallback, and equivalent path states. Bad demo exercises invisible listening, partial execution, hidden phrase, dictation confusion, no fallback, no confirmation, and transcript leak failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes voice command from keyboard shortcut, command palette, prompt box, text input, and touch gesture by spoken activation, microphone permission, listening timeout, transcript visibility, confidence threshold, alternatives, visible labels and accessible names, dictation boundary, destructive command confirmation, non-voice fallback, key chord, searchable command browsing, AI request composition, ordinary field value, and touch movement.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 270 complete patterns, 1 excluded in-progress pattern, 27 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/voice-command/ with required terms present, no duplicate IDs, and no page overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/voice-command-vs-keyboard-shortcut-vs-command-palette-vs-prompt-box-vs-text-input-vs-touch-gesture/ was checked at desktop and compact widths with concrete decision terms present, no duplicate IDs, and no page overflow.",
+    "screenshots": [
+      "screenshots/patterns/voice-command.png"
+    ]
+  },
+  "name": "Voice command",
+  "aliases": [
+    "spoken command",
+    "speech command",
+    "voice control",
+    "speech input command",
+    "hands-free command",
+    "dictation command"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Spoken command interface that listens, recognizes, confirms, and executes bounded user intents",
+  "uiGuidance": [
+    "Render voice command as an explicit listening surface with microphone permission state, wake or push-to-talk trigger, listening indicator, timeout, recognized phrase, confidence, matched command, target object, alternatives, and cancel path.",
+    "Show the exact spoken phrases users can say, keep visible labels aligned with accessible names, and separate dictation text from executable commands so people can speak what they see without triggering hidden side effects."
+  ],
+  "uxGuidance": [
+    "Use voice command when users benefit from hands-free spoken control, accessibility voice input, or quick command activation and the product can manage recognition uncertainty, privacy, confirmation, recovery, and fallback paths.",
+    "Design the command lifecycle from permission request through listening, partial recognition, final transcript, disambiguation, confirmation, execution, feedback, undo, retry, and non-voice alternatives for noisy, private, unsupported, or denied states."
+  ],
+  "uiExamples": {
+    "good": [
+      "A mobile reporting app shows Press and say a command, records the transcript 'send report', matches it to Send report, reads back Incident 482, and requires Confirm send before uploading.",
+      "A dashboard voice overlay displays command chips such as Open alerts, Filter critical, and Read summary, shows confidence and alternatives, and offers Tap instead when the microphone is unavailable.",
+      "A hands-free editor distinguishes Dictation mode from Command mode, so saying 'delete that' edits selected text only when the text field is active."
+    ],
+    "bad": [
+      "A microphone icon starts listening silently and executes the first matched word without a visible transcript.",
+      "The visible button says Export data but the voice command requires 'download CSV', so speech-input users cannot speak the label they see.",
+      "A global voice listener treats dictated prose as commands and navigates away from an unsaved form."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user says 'filter critical alerts', sees the recognized phrase and target list, corrects an alternative before execution, and can undo the applied filter.",
+      "A user in a kitchen denies microphone permission and completes the same timer setup with large touch controls.",
+      "A user says 'delete draft', hears and sees 'Delete draft Budget review?', then cancels before the destructive action runs."
+    ],
+    "bad": [
+      "A user says 'send it later' while dictating a note and the app immediately sends a message.",
+      "A user with a speech difference gets repeated No match errors with no alternative phrase, tap path, or command list.",
+      "A user in a noisy room cannot tell whether the app heard 'archive case' or 'open case' before it changes the record."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "voice"
+  ],
+  "problem": "Voice commands can make products accessible and hands-free, but speech recognition is uncertain, socially constrained, permission-gated, language-dependent, and easy to confuse with dictation, so invisible listening or unconfirmed side effects can execute the wrong command or block users entirely.",
+  "solution": "Design voice command as a visible, bounded command lifecycle with explicit invocation, permission handling, listening state, transcript review, command matching, confidence and alternatives, disambiguation, confirmation for risky actions, status feedback, cancellation, undo or retry, and equivalent non-voice paths.",
+  "problemContext": [
+    "Users may be hands-busy, driving an assistive setup, using switch or speech recognition software, dictating text, controlling a smart device, or using a microphone because touch and keyboard input are difficult.",
+    "The product may need to recognize fixed commands, visible control names, open-ended dictation, text-editing instructions, navigation requests, app actions, or physical-world device controls.",
+    "Microphone permission, offline state, acoustic noise, privacy, accent, language, speech difference, latency, wake-word failure, and confidence thresholds affect whether the command can be recognized safely.",
+    "Voice command surfaces often sit near text input, prompt boxes, command palettes, keyboard shortcuts, touch gestures, screen-reader commands, and platform voice access tools."
+  ],
+  "selectionRules": [
+    "Choose voice command when the interaction problem is spoken activation or control, not typed search, command browsing, key-chord acceleration, or ordinary dictation alone.",
+    "Use text input when speech is only an optional input method for entering a value and no command execution, matching, or confirmation is owned by the product.",
+    "Use prompt box when the spoken content becomes an AI request that users review and send as natural language rather than a bounded command with a known target.",
+    "Use command palette when users need searchable command discovery, ranking, and selection before execution instead of remembering a spoken phrase.",
+    "Use keyboard shortcut when expert users need a key chord accelerator with scope and conflict rules, not microphone permission and recognition feedback.",
+    "Use touch gesture when movement, pressure, or pointer contact is the primary input; voice command can be an equivalent path but should not hide the gesture's visual affordance.",
+    "Prefer visible command phrases that match visible labels and accessible names, then support aliases only as documented alternatives.",
+    "Require read-back, confirmation, undo, or approval before executing destructive, paid, public, permission-changing, data-export, account, or physical-world actions.",
+    "Provide tap, keyboard, switch, text, or command-palette alternatives for every required task because voice can fail or be inappropriate in many environments.",
+    "Separate dictation mode from command mode so spoken prose does not unexpectedly trigger global commands."
+  ],
+  "requiredStates": [
+    "Voice unavailable or unsupported state with non-voice alternatives.",
+    "Microphone permission not requested, denied, granted, and revoked states.",
+    "Wake phrase, push-to-talk, or explicit start-listening state.",
+    "Listening state with visible microphone activity, privacy boundary, and timeout.",
+    "Partial transcript and final recognized phrase state.",
+    "Low-confidence, no-match, and alternative command state.",
+    "Disambiguation state when a phrase maps to multiple commands or targets.",
+    "Command matched state with visible command name, target, scope, and consequence.",
+    "Confirmation state for risky or irreversible commands.",
+    "Cancel, stop listening, retry, edit transcript, and choose fallback states.",
+    "Executed command state with status feedback, focus or context preservation, and undo when available.",
+    "Dictation mode, text-editing command mode, and global command mode boundaries.",
+    "Noisy environment, offline, unsupported language, and screen-reader or platform voice-access coexistence states."
+  ],
+  "interactionContract": [
+    "Voice capture starts only after explicit user invocation, platform voice-access command, or documented wake condition.",
+    "The interface shows when it is listening, what it heard, which command it matched, and what target will be affected before any consequential execution.",
+    "Visible labels, accessible names, and primary spoken command phrases stay aligned so users can speak what they see.",
+    "Dictated text remains text unless the user is in command mode or speaks a documented text-editing command in a focused editing context.",
+    "Low-confidence or ambiguous recognition never executes silently; it asks users to choose, retry, type, tap, or cancel.",
+    "Microphone denial, unsupported browser, offline recognition, language mismatch, or timeout keeps the task available through another input path.",
+    "Risky commands require confirmation that repeats the command and target; cancellation and undo use the same command semantics as visible controls.",
+    "Recognition results, transcript snippets, and command logs respect privacy expectations and do not persist sensitive spoken content unless the user is told."
+  ],
+  "implementationChecklist": [
+    "Inventory commands by phrase, visible label, accessible name, aliases, target type, scope, risk level, confirmation rule, fallback control, and logging policy.",
+    "Define voice states for permission, unsupported platform, start listening, partial transcript, final result, alternatives, no match, timeout, confirmation, execution, failure, retry, and stop listening.",
+    "Keep voice command state separate from dictation text, AI prompt drafts, search queries, keyboard shortcut handlers, and platform voice access events.",
+    "Expose a visible command list or help surface with exact phrases, examples, aliases, language support, microphone status, and fallback controls.",
+    "Use confidence thresholds and command grammars or bounded command matching where available; route ambiguous or low-confidence results to disambiguation.",
+    "Align visible labels and accessible names for controls that users may activate by speech recognition.",
+    "Confirm or require undo for destructive, paid, public, permission-changing, physical-world, or multi-object actions.",
+    "Test quiet, noisy, private, offline, permission-denied, unsupported-language, screen-reader, platform Voice Access or Voice Control, speech-difference, mobile, desktop, and keyboard fallback scenarios."
+  ],
+  "commonMisuses": [
+    "Listening without a visible active state or clear stop control.",
+    "Executing commands from partial recognition or low-confidence results.",
+    "Making voice the only route to a required workflow.",
+    "Using hidden command phrases that do not match visible labels or accessible names.",
+    "Mixing dictation and command mode so prose triggers app actions.",
+    "Saving transcripts of sensitive speech without notice or retention controls.",
+    "Treating a voice command like an AI prompt and letting open-ended language run deterministic side effects.",
+    "Skipping confirmation for destructive or physical-world commands."
+  ],
+  "critiqueQuestions": [
+    "How does the user know the product is listening, what it heard, and which command it matched?",
+    "What happens when microphone permission is denied, recognition is unsupported, the room is noisy, or the language is unavailable?",
+    "Can users speak the visible label of a control, and does that label appear in the accessible name?",
+    "Which phrases are commands, which are dictation, and which require disambiguation or confirmation?",
+    "What prevents low-confidence or partial recognition from executing the wrong target?",
+    "What non-voice path completes the same task, and is it visible before voice fails?",
+    "What transcript or command history is stored, for how long, and can users avoid sensitive capture?"
+  ],
+  "useWhen": [
+    "Users need hands-free control, accessibility speech input, or rapid spoken command activation.",
+    "The command set is bounded enough to show phrases, targets, confidence, alternatives, and confirmation rules.",
+    "The product can provide fallback controls and safe recovery for recognition failure."
+  ],
+  "avoidWhen": [
+    "The task is high-risk and cannot tolerate recognition uncertainty without strong review or approval.",
+    "Users are likely to be in public, noisy, multilingual, privacy-sensitive, or microphone-restricted environments with no equivalent path.",
+    "The product cannot show what was heard, what will run, or how to cancel.",
+    "The spoken input is open-ended AI composition rather than a bounded command.",
+    "A visible button, command palette, shortcut, or text field would be simpler and more reliable."
+  ],
+  "variants": [
+    "Push-to-talk command",
+    "Wake phrase command",
+    "Voice command list",
+    "Visible-label voice activation",
+    "Voice disambiguation",
+    "Voice confirmation",
+    "Voice dictation command",
+    "Text editing voice command",
+    "Hands-free navigation command",
+    "Offline voice fallback"
+  ],
+  "accessibility": [
+    "Keep visible labels and accessible names aligned for speech-input activation.",
+    "Provide non-voice equivalents for all required commands.",
+    "Show and announce listening, recognition, no-match, disambiguation, confirmation, execution, and failure states.",
+    "Do not require continuous speech, exact accent, fast timing, or a single phrase when alternatives can be offered.",
+    "Support users who rely on platform voice access, screen readers, switch devices, keyboard, touch, and assistive touch without conflicting command handlers.",
+    "Avoid audio-only feedback; provide text transcript, command match, visual status, and accessible live updates.",
+    "Protect privacy by making microphone capture explicit and avoiding unnecessary transcript retention.",
+    "Test with speech recognition users, keyboard users, screen readers, mobile voice access, and fallback-only scenarios."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the voice trigger, command list, transcript review, alternatives, confirm, cancel, retry, and fallback controls.",
+    "Space or Enter starts and stops push-to-talk or activates a visible voice trigger without requiring pointer input.",
+    "Escape stops listening, closes command help, or cancels a pending confirmation without executing the command.",
+    "Arrow keys or Tab can choose among recognition alternatives and disambiguation targets.",
+    "A visible text fallback accepts the same bounded command or task input when microphone use is unavailable.",
+    "Keyboard shortcuts and text fields suppress global voice-command handlers where dictated text or editing owns the input state.",
+    "After execution, focus remains on the changed region, confirmation result, or original trigger according to the command's visible equivalent.",
+    "Screen-reader and platform voice-access commands do not conflict with custom voice command shortcuts."
+  ],
+  "failureModes": [
+    "The microphone starts recording before consent or without active-state feedback.",
+    "The app hears the wrong word and immediately runs the wrong command.",
+    "No-match states loop forever instead of offering command help, retry, typing, or touch fallback.",
+    "Command labels, accessible names, and spoken phrases diverge.",
+    "Dictation into a message field accidentally triggers global navigation or deletion.",
+    "The product logs full sensitive transcripts when only command intent was needed.",
+    "A destructive voice command runs without read-back, confirmation, undo, or audit trail.",
+    "Voice access conflicts with screen readers, browser permissions, OS voice control, or mobile hardware controls."
+  ],
+  "relatedPatterns": [
+    "keyboard-shortcut",
+    "command-palette",
+    "prompt-box",
+    "text-input",
+    "touch-gesture",
+    "focus-traversal"
+  ],
+  "comparisons": [
+    "voice-command-vs-keyboard-shortcut-vs-command-palette-vs-prompt-box-vs-text-input-vs-touch-gesture"
+  ],
+  "examples": [
+    {
+      "product": "WAI WCAG Label in Name",
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html",
+      "platform": "web",
+      "notes": "Documents why speech-input users benefit when visible labels are included in accessible names.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Web Speech API",
+      "url": "https://webaudio.github.io/web-speech-api/",
+      "platform": "web",
+      "notes": "Documents speech recognition for forms, continuous dictation, control, alternatives, and recognition results.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Microsoft Windows voice access",
+      "url": "https://support.microsoft.com/en-us/accessibility/windows/voice-access/get-started-with-voice-access",
+      "platform": "desktop",
+      "notes": "Documents controlling a PC and authoring text using voice access.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Google Android Voice Access",
+      "url": "https://support.google.com/accessibility/android/answer/6151848?hl=en",
+      "platform": "mobile",
+      "notes": "Documents spoken commands for opening apps, navigating, and editing text hands-free.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Apple Voice Control",
+      "url": "https://developer.apple.com/documentation/accessibility/voice-control",
+      "platform": "mobile",
+      "notes": "Documents spoken commands for gestures, screen elements, dictation, and editing.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wcag-label-in-name",
+      "note": "Supports visible label and accessible name alignment for speech-input users."
+    },
+    {
+      "id": "wai-speech-recognition-perspective",
+      "note": "Supports speech recognition use for dictation, navigation, and command activation."
+    },
+    {
+      "id": "web-speech-api",
+      "note": "Supports speech recognition, alternatives, activation timing, dictation, and control behavior."
+    },
+    {
+      "id": "microsoft-windows-voice-access",
+      "note": "Supports hands-free desktop control and authoring text by voice."
+    },
+    {
+      "id": "microsoft-voice-access-command-list",
+      "note": "Supports command categories for microphone management, controls, overlays, dictation, editing, and navigation."
+    },
+    {
+      "id": "google-android-voice-access",
+      "note": "Supports mobile spoken commands for app control, navigation, and text editing."
+    },
+    {
+      "id": "apple-voice-control",
+      "note": "Supports voice control of gestures, screen elements, dictation, and editing."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,266 @@
+{
+  "id": "permission-sharing",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed durable permission administration pattern with guidance for direct grants, inherited grants, groups, guests, anonymous users, service accounts, deploy keys, role capabilities, effective access, revocation, high-risk review, audit context, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers protected resource identity, direct grants, inherited grants, groups, teams, guests, anonymous access, service accounts, deploy keys, role levels, capability previews, effective access, remaining-access warnings, add user or group, duplicate grants, role changes, pending changes, high-risk review, approval needs, audit notes, partial failures, mobile table wrapping, and revoke paths.",
+    "relatedPatternDistinction": "The entry separates permission sharing from share dialog by focusing on durable administration across users, groups, inheritance, roles, and effective access rather than quick one-object sharing, from invite user by managing active permission grants rather than pending membership invitations, from permission recovery by serving the owner or admin who can grant access rather than the denied requester, from permission denied state by editing access instead of explaining a boundary, from object picker by treating selection as one input inside a permission model, from approval workflow by applying or preparing changes rather than routing decisions only, and from activity log by creating auditable permission changes rather than viewing evidence.",
+    "liveDemoBehavior": "The live demo shows a revenue-api permission surface with direct, group, inherited, service, deploy-key, anonymous, role-change, revoke, review, and audit states; effective-access summaries; remaining-access warnings; role capability deltas; high-risk public visibility treatment; machine credential visibility; and bad modes for direct-only removal, hidden group access, unclear role labels, missing review, partial save, and no audit trail.",
+    "comparisonDecisionRules": "The linked permission-sharing-vs-share-dialog-vs-invite-user-vs-permission-recovery comparison gives concrete rules for durable permission administration, share dialog, invite user, permission recovery, permission denied state, object picking, approval workflows, high-risk review, activity logs, effective access, inheritance, service credentials, deploy keys, and revocation outcomes.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/permission-sharing/ on 2026-06-11 in Chromium: verified status, Good UI and Bad UI frames, Good UX controls for Direct, Groups, Inherited, Role change, Anonymous, Service, Deploy key, Revoke, Review, and Audit, Bad UX controls for Direct only, Hidden group, Unclear role, No review, Partial save, and No audit, no duplicate IDs, and no page-level or permission-table horizontal overflow. Checked /compare/permission-sharing-vs-share-dialog-vs-invite-user-vs-permission-recovery/ for permission sharing, share dialog, invite user, permission recovery, effective access, inherited, deploy keys, and activity log decision terms with no overflow. Checked 390px mobile emulation for Groups, Inherited, Deploy key, Revoke, Audit, Hidden group, No review, and No audit states with no duplicate IDs and no overflow.",
+    "screenshots": [
+      "screenshots/patterns/permission-sharing.png"
+    ]
+  },
+  "name": "Permission sharing",
+  "aliases": [
+    "access management",
+    "manage permissions",
+    "permission grant",
+    "role assignment",
+    "access sharing",
+    "share permissions",
+    "permission matrix",
+    "user access management",
+    "group permissions",
+    "effective access"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Collaboration And Social Interaction",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Durable permission administration for users, groups, roles, inherited access, effective access, and revocation",
+  "uiGuidance": [
+    "Render permission sharing as an access-management surface with the protected resource, current direct grants, inherited grants, groups, guests, anonymous or link access, role or permission level, effective access, pending changes, and revoke or save actions.",
+    "Make the permission model visible before saving: users should see whether access comes from a direct grant, group membership, parent scope, connected team, service account, deploy key, anonymous access, or owner/admin role."
+  ],
+  "uxGuidance": [
+    "Use permission sharing when authorized owners or admins need to grant, change, audit, or revoke durable access to a space, site, repository, folder, project, board, dataset, environment, or sensitive object.",
+    "Protect least privilege by showing what each role allows, why a person or group still has access, what will change after save, which changes require review, and which grants cannot be removed from this surface."
+  ],
+  "uiExamples": {
+    "good": [
+      "A repository access page lists teams, outside collaborators, deploy keys, and direct users with Read, Triage, Write, Maintain, and Admin roles, showing that only Admin can manage access.",
+      "A space permissions page shows Users, Groups, Guests, and Anonymous access tabs with View, Add, Delete, Export, Restrictions, and Admin columns plus an Effective access summary for selected people."
+    ],
+    "bad": [
+      "A permissions page shows only individual names and Remove buttons even though group membership and parent folder inheritance still grant access.",
+      "A checkbox matrix lets admins grant Export and Space Admin without explaining the data exposure or requiring a high-risk review."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A site owner adds the Finance Reviewers group as Visitors, sees that Members can contribute content, confirms no anonymous access is enabled, and saves with an audit note.",
+      "A space admin removes Maya from a direct grant but sees she still has View through the Contractors group, so they remove the group grant or ask a site admin to update group membership."
+    ],
+    "bad": [
+      "An owner downgrades a user to Viewer, but the user keeps edit rights through a connected team and the UI never explains effective access.",
+      "A repository admin removes a collaborator but forgets a deploy key with write access because the access page treated machine credentials as unrelated settings."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Permission administration is risky when products hide group inheritance, effective access, role capabilities, connected-team membership, anonymous access, service credentials, or revoke outcomes behind a simple share or remove control.",
+  "solution": "Provide a permission sharing surface that exposes direct and inherited grants, users and groups, role meanings, effective access, pending changes, risky grants, approval or confirmation needs, audit context, and complete revoke paths before access is changed.",
+  "problemContext": [
+    "The resource has durable authorization rules such as roles, groups, teams, guests, anonymous users, parent inheritance, folder scope, repository roles, space permissions, service accounts, or keys.",
+    "The user is an owner, admin, space admin, repository admin, site owner, project maintainer, data steward, or delegated access manager.",
+    "Permission changes may apply to many objects, cascade through inheritance, affect connected services, expose confidential data, or remove a person's only route to work.",
+    "The system may need audit evidence, approval, expiration, policy checks, inherited access explanation, and no-disclosure treatment for sensitive resources."
+  ],
+  "selectionRules": [
+    "Choose permission sharing when users manage durable access grants, role assignments, group permissions, effective access, inheritance, anonymous access, or revocation for a protected resource.",
+    "Use share dialog for quick object-level sharing with recipients, link scope, notification, and copy-link behavior.",
+    "Use invite user when access starts through a pending workspace, organization, team, or tenant invitation lifecycle.",
+    "Use permission recovery when a denied user asks an owner or admin to grant access; permission sharing is the owner-facing grant and revoke surface.",
+    "Use permission denied state when the user only needs to understand why they cannot access or perform an action.",
+    "Use approval workflow when the permission change requires an approver or policy decision before it is applied.",
+    "Use review before submit or confirmation dialog for public, anonymous, admin, export, delete, inherited-access break, service-account, deploy-key, and bulk-removal changes.",
+    "Include direct access, inherited access, group access, guest access, anonymous access, service credentials, owner/admin roles, and effective access where those routes exist.",
+    "Show role capabilities in task language such as view, comment, add, edit, delete, export, manage access, administer, or approve.",
+    "Do not claim access is revoked until every active route to access is removed or explicitly named as still active."
+  ],
+  "requiredStates": [
+    "Default access list state with users, groups, guests, anonymous access, roles, and effective access.",
+    "Direct grant, inherited grant, group membership, connected-team membership, service-account, deploy-key, and anonymous-access states.",
+    "Add user or group state with entity lookup, duplicate detection, role selection, and policy checks.",
+    "Role change state with before and after capabilities.",
+    "Pending changes review state that names who gains, loses, or keeps access.",
+    "High-risk grant state for Admin, Owner, Space Admin, Full Control, anonymous access, public access, export, delete, or manage-access permissions.",
+    "Revoke state that detects remaining access through groups, parent scopes, keys, or connected services.",
+    "Approval required, policy blocked, inherited read-only, save failed, audit note required, and saved states.",
+    "Bulk edit, long list, filter, search, sort, empty, loading, and permission-limited states.",
+    "Mobile condensed state where role capability and effective access remain readable."
+  ],
+  "interactionContract": [
+    "Opening the permission sharing surface loads direct grants, inherited grants, group or team grants, anonymous access, service credentials, and owner or admin constraints before edits are saved.",
+    "Adding a user or group requires a resolved entity, role, scope, and policy check before it creates an access grant.",
+    "Changing a role shows the previous role, new role, key capabilities, and whether the change broadens or narrows access.",
+    "Removing a row checks whether effective access remains through another route and labels any remaining group, parent, service, or anonymous grant.",
+    "High-risk grants and removals require review, confirmation, approval, or audit note according to policy.",
+    "Saving produces a clear result that distinguishes applied, pending approval, blocked, partial, and failed permission changes.",
+    "The access list updates after save and preserves enough context for users to verify who can still access the resource.",
+    "Audit records capture actor, resource, affected principal, old role, new role, source of access, timestamp, reason, approval, and policy outcome."
+  ],
+  "implementationChecklist": [
+    "Define the permission graph: direct grants, groups, teams, guests, anonymous users, link grants, parent inheritance, service accounts, deploy keys, roles, custom roles, owners, admins, and policy constraints.",
+    "Compute effective access separately from direct rows and expose why each person or group can view, edit, export, delete, manage access, or administer.",
+    "Build role descriptions, capability previews, before/after summaries, duplicate checks, inherited-read-only labels, and remaining-access warnings.",
+    "Implement add, role change, revoke, bulk change, search, filter, sort, save, approval, audit note, cancel, retry, and rollback paths.",
+    "Protect risky operations such as anonymous access, public export, Full Control, Admin, owner transfer, deploy key write access, service-account grants, and group-wide removal with review or approval.",
+    "Test group overlap, inherited folder access, Teams or Microsoft 365 group connection, anonymous access, deploy keys, service accounts, owner-only controls, partial failures, long names, keyboard use, screen readers, and mobile wrapping."
+  ],
+  "commonMisuses": [
+    "Showing only direct users while group or inherited access remains active.",
+    "Using a share dialog as the only permission administration surface.",
+    "Hiding what a role can actually do until after it is assigned.",
+    "Letting users remove a visible row and believe access is gone when effective access still exists.",
+    "Treating service accounts, deploy keys, anonymous links, or connected teams as separate from human access review.",
+    "Saving high-risk admin, public, export, delete, or anonymous grants with no review, approval, or audit note.",
+    "Making bulk permission changes without before and after counts or rollback guidance."
+  ],
+  "critiqueQuestions": [
+    "What are all active routes by which a person, group, guest, anonymous user, service account, or key can access this resource?",
+    "Can users tell the difference between direct access and inherited or group access?",
+    "What does each role allow in task terms, and which actions are risky?",
+    "Who gains access, who loses access, and who keeps access after the pending change?",
+    "What happens if the user removes a direct grant but effective access remains?",
+    "Which changes need confirmation, approval, audit note, expiry, or policy review?",
+    "Can the saved access state be proven later in an activity log or audit export?"
+  ],
+  "useWhen": [
+    "Owners or admins need to manage durable access to spaces, sites, repositories, projects, folders, datasets, boards, environments, or sensitive objects.",
+    "Access can come from direct grants, groups, teams, inheritance, guests, anonymous users, service accounts, deploy keys, or custom roles.",
+    "Users need to understand effective access and revoke outcomes, not only send a link or invite.",
+    "The product must support least-privilege review, auditability, approval, or policy enforcement for permission changes."
+  ],
+  "avoidWhen": [
+    "The task is quick one-object sharing with a link or a few recipients and no broader permission model.",
+    "The user is requesting access after denial rather than administering access.",
+    "The current user lacks authority to grant, change, or revoke permissions.",
+    "The only needed interaction is selecting a person or group without changing access.",
+    "The permission model cannot reliably calculate effective access or enforce revocation from this surface."
+  ],
+  "variants": [
+    "Role assignment table",
+    "Permission matrix",
+    "Effective access inspector",
+    "Group permissions",
+    "Space permissions",
+    "Repository access management",
+    "Site permissions",
+    "Anonymous access controls",
+    "Inherited permissions",
+    "Unique permissions",
+    "Service account access",
+    "Bulk permission edit"
+  ],
+  "accessibility": [
+    "Use labelled tables or grids with column headers for principal, source, role, capability, status, and actions.",
+    "Expose direct, inherited, group, anonymous, service-account, pending, blocked, and remaining-access states as text, not icon or color alone.",
+    "Give role menus accessible descriptions that include the role's main capabilities and whether the change broadens access.",
+    "Associate remaining-access warnings with the revoke action and affected principal.",
+    "Announce saved, pending approval, blocked, partial failure, and effective-access recalculation updates through status regions.",
+    "Keep add, search, filter, role change, remove, review, save, cancel, and audit-note controls keyboard reachable.",
+    "For permission matrices, provide row and column headers and avoid relying on empty checkbox grids without labels."
+  ],
+  "keyboardBehavior": [
+    "Tab order starts with resource summary, effective access summary, search/filter, add principal, permission table, pending changes, and save or cancel actions.",
+    "Permission tables support keyboard movement through rows and role controls without trapping focus.",
+    "Role selectors announce current role, new role, and whether the change adds or removes capabilities.",
+    "Removing a row moves focus to the remaining-access warning or next principal row.",
+    "High-risk confirmation returns focus to the changed permission if canceled and to pending changes if accepted.",
+    "After save, focus moves to the result summary and then back to the updated access list.",
+    "Bulk selection and matrix checkboxes expose selected counts and affected principals to assistive technology."
+  ],
+  "failureModes": [
+    "A user keeps access through a group after their direct row is removed.",
+    "An inherited parent grant is hidden, so admins cannot explain why access remains.",
+    "An anonymous access checkbox exposes a space or folder publicly without review.",
+    "A role label such as Member hides destructive or export capabilities.",
+    "A service account or deploy key still has write access after human collaborators are removed.",
+    "A partial save applies some grants and fails others without naming which permissions changed.",
+    "Audit trails lack old role, new role, actor, target, or reason, making permission changes impossible to investigate."
+  ],
+  "relatedPatterns": [
+    "share-dialog",
+    "invite-user",
+    "permission-recovery",
+    "permission-denied-state",
+    "object-picker",
+    "approval-workflow",
+    "review-before-submit",
+    "confirmation-dialog",
+    "activity-log",
+    "data-grid"
+  ],
+  "comparisons": [
+    "permission-sharing-vs-share-dialog-vs-invite-user-vs-permission-recovery"
+  ],
+  "examples": [
+    {
+      "product": "SharePoint groups and permissions",
+      "url": "https://support.microsoft.com/en-us/office/understand-groups-and-permissions-on-a-sharepoint-site-258e5f33-1b5a-4766-a503-d86655cf950d",
+      "platform": "web",
+      "notes": "Documents SharePoint groups, permission levels, inheritance, item-level unique permissions, and owner permission management.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Confluence space permissions",
+      "url": "https://support.atlassian.com/confluence-cloud/docs/assign-space-permissions/",
+      "platform": "web",
+      "notes": "Documents user, group, guest, anonymous, additive, checkbox, revoke, and individual permission behavior for spaces.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub repository roles",
+      "url": "https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization",
+      "platform": "web",
+      "notes": "Documents Read, Triage, Write, Maintain, and Admin roles and action-specific access limits.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Drive sharing permissions",
+      "url": "https://support.google.com/drive/answer/2494822",
+      "platform": "web",
+      "notes": "Documents Viewer, Commenter, Editor, owner controls, download/copy restrictions, and role effects for shared files.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-sharepoint-groups-permissions",
+      "note": "Microsoft documents SharePoint groups, Read, Contribute, Full Control, inheritance, unique item permissions, and owner-managed grants."
+    },
+    {
+      "id": "microsoft-sharepoint-modern-sharing-permissions",
+      "note": "Microsoft documents Microsoft 365 group, Teams, channel-site, communication-site, direct-user, security-group, and hub-site permission management."
+    },
+    {
+      "id": "atlassian-confluence-space-permissions",
+      "note": "Atlassian documents user, group, guest, anonymous, additive, matrix, revoke, and individual permission behavior in Confluence spaces."
+    },
+    {
+      "id": "github-repository-roles",
+      "note": "GitHub documents repository role levels and action-specific permission differences for Read, Triage, Write, Maintain, and Admin."
+    },
+    {
+      "id": "google-drive-share-files",
+      "note": "Google Drive documents Viewer, Commenter, Editor, owner controls, download/copy restrictions, and role effects for shared files."
+    },
+    {
+      "id": "microsoft-onedrive-manage-sharing-permissions",
+      "note": "Microsoft documents viewing who has access, changing permissions, stopping sharing, and deleting sharing links."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

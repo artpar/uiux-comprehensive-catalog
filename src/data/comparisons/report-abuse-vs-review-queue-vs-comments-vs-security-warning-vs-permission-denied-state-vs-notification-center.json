@@ -1,0 +1,52 @@
+{
+  "id": "report-abuse-vs-review-queue-vs-comments-vs-security-warning-vs-permission-denied-state-vs-notification-center",
+  "title": "Report abuse vs review queue vs comments vs security warning vs permission denied state vs notification center",
+  "summary": "Use report abuse when a user flags harmful, policy-violating, illegal, spam, impersonation, or disruptive content for safety review with reporter privacy; use review queue for the moderator worklist that receives reports, comments for the ordinary discussion surface, security warning for detected unsafe destinations, permission denied state for authorization boundaries, and notification center for updates about submitted reports.",
+  "patternIds": [
+    "report-abuse",
+    "review-queue",
+    "comments",
+    "security-warning",
+    "permission-denied-state",
+    "notification-center"
+  ],
+  "decisionRules": [
+    "Choose report abuse when the user needs to identify a specific post, comment, profile, message, repository, ad, listing, live chat item, or conversation and submit a policy reason, safety category, evidence, affected person, or context for review.",
+    "Choose review queue when moderators, repository admins, support staff, or trust-and-safety teams need a moderator worklist to triage many submitted reports with ownership, SLA, policy reason, evidence preview, escalation, resolve, and unresolved states.",
+    "Choose comments when the user is replying, resolving, editing, deleting, or moderating discussion on a local object; a comment can expose a Report control, but report abuse owns the reporter-facing submission and safety outcome.",
+    "Choose security warning when the system has already detected unsafe destinations or phishing, malware, unsafe download, certificate, or insecure-submission risk and must stop an unsafe action before exposure; report abuse is for user-submitted concern about content or behavior.",
+    "Choose permission denied state when an authenticated user cannot view or act because of authorization boundaries such as role, license, policy, owner, or access rules; report abuse should not be used to request normal access.",
+    "Choose notification center for later updates about submitted reports such as report received, more information needed, action taken, no violation found, or appeal status; notification center should deep-link to the report receipt or safety center rather than replacing the report flow.",
+    "A report abuse flow should preserve object identity, permalink or snapshot, author when appropriate, timestamp, selected reason, affected person, evidence, reporter privacy handling, confirmation ID, and post-submit safety actions.",
+    "Offer separate routes when the issue is legal, privacy, copyright, child safety, violent threat, emergency, impersonation, spam, harassment, self-harm, or content moderation policy rather than forcing all reports into one vague catch-all category.",
+    "Post-submit UX should make clear that reporting is not an instant takedown, state what the reporter can do next, and expose block, mute, hide, restrict, leave conversation, save evidence, contact emergency services, or view report history where relevant.",
+    "Do not expose the reporter to the reported person, leak sensitive report details in public UI, require the reporter to keep viewing harmful content to complete the report, or make report status imply enforcement before review."
+  ],
+  "failureModes": [
+    "A Report button submits immediately without reason, affected person, content snapshot, confirmation, or safety action.",
+    "The flow asks for a harassment report but then routes it to a vague contact form with no content identity or policy category.",
+    "A reporter must revisit or continue viewing harmful content to check status, collect evidence, or finish the report.",
+    "The report confirmation says the content was removed even though it has only been queued for review.",
+    "Moderator queue state is shown to the reporter, exposing reviewer notes, reporter identity, or unrelated reports.",
+    "A blocked access page asks users to report abuse when they only need to request permission or switch accounts."
+  ],
+  "sources": [
+    {
+      "id": "youtube-report-inappropriate-content",
+      "note": "YouTube documents reason selection, anonymity, review after report, report history, and many reportable content types."
+    },
+    {
+      "id": "github-reporting-abuse-spam",
+      "note": "GitHub documents report entry points, reportable object types, report destinations, reason selection, and support form submission."
+    },
+    {
+      "id": "github-managing-reported-content",
+      "note": "GitHub documents the moderator-side reported-content list, triage, view content, resolve, and unresolved states."
+    },
+    {
+      "id": "x-report-abusive-behavior",
+      "note": "X documents post, account, and direct-message reporting, affected-person selection, added context, confirmation, follow-up, and post-report recommendations."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

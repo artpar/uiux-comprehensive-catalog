@@ -1,0 +1,263 @@
+{
+  "id": "master-detail",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed adaptive list-detail navigation pattern with distinct boundaries from details panel, list view, window splitter, drawer, preview panel, full-page navigation, table, data grid, and row-local disclosure; includes source list and detail destination ownership, selected-item synchronization, stacked list and stacked detail modes, Back to list behavior, side-by-side mode, hidden selected state, draft protection, responsive reflow, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers adaptive master list and detail destination, selected-item identity, side-by-side panes, stacked list mode, stacked detail mode, Back to list, empty detail, hidden selected item, filtered-away selection, viewport changes, route state, deep links, unsaved detail drafts, detail loading, failed detail, and stable object IDs.",
+    "relatedPatternDistinction": "The entry separates master-detail from details panel by requiring a full detail destination and stacked navigation rather than a concise inspector, from list view by adding coordinated detail state, from window splitter by defining ownership and navigation rather than only resize behavior, from drawer and sheet by avoiding temporary close lifecycle, and from table or data grid by focusing on selected-item detail rather than aligned row work.",
+    "liveDemoBehavior": "The live demo shows an order workspace with master list, selected order detail, side-by-side mode, stacked list mode, stacked detail mode, Back to list, order selection, draft protection before replacing detail, filtered-away selected order explanation, restore selection, and bad-mode contrasts for stale detail, missing back path, lost state, random default detail, index-keyed selection, and inspector misuse.",
+    "comparisonDecisionRules": "The master-detail-vs-details-panel-vs-list-view-vs-window-splitter comparison gives concrete rules for adaptive list-detail navigation, concise selected-object inspection, list-only scanning, user-controlled pane resizing, empty detail, stacked navigation, viewport-state preservation, row-local disclosure boundaries, temporary overlay boundaries, and table or data-grid boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/master-detail/ and /compare/master-detail-vs-details-panel-vs-list-view-vs-window-splitter/ on 2026-06-10. Live check exercised Select ORD-1843, Stacked list, Open detail, Back to list, Edit draft, blocked selection replacement, Filter selected away, Restore selection, No back, Lost state, Random default, Index keyed, and Inspector misuse controls while the page was in review state, plus a 390px narrow viewport check with no document overflow. screenshots/patterns/master-detail.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/master-detail.png"
+    ]
+  },
+  "name": "Master-detail",
+  "aliases": [
+    "list-detail",
+    "list/details",
+    "master detail",
+    "split master detail",
+    "adaptive list detail",
+    "two-pane detail",
+    "source detail layout",
+    "inbox detail layout",
+    "split view detail",
+    "primary-detail layout"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Task And Workflow Patterns",
+    "Disclosure And Attention Management",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Adaptive source list and detail layout with coordinated selection and navigation state",
+  "uiGuidance": [
+    "Render a master-detail layout with a primary list or source pane, a detail pane that names the selected item, a visible selected-item indicator, and a clear empty-detail state when no item owns the detail.",
+    "Adapt the same content relationship between side-by-side panes on wider screens and stacked list/detail navigation on narrower screens, with visible Back to list or equivalent return control in stacked mode."
+  ],
+  "uxGuidance": [
+    "Use master-detail when users move repeatedly between a collection of items and full detail content, and the detail can act as a navigable destination rather than only a small inspector.",
+    "Preserve selected item, detail scroll or edit state, list position, filters, and return path as users select items, open detail, go back, and resize or rotate the viewport."
+  ],
+  "uiExamples": {
+    "good": [
+      "An inbox shows conversations in the left pane and the selected message thread in the right pane on desktop, then shows either the conversation list or selected thread with Back to inbox on phone.",
+      "A customer order app keeps the order list, selected order highlight, order detail heading, shipment timeline, and Back to orders path synchronized across side-by-side and stacked layouts."
+    ],
+    "bad": [
+      "Selecting an order highlights one list item while the detail pane still shows a previous order.",
+      "On mobile, tapping a list item replaces the list with detail but provides no return path, selected-item label, or preserved list position."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects a case, scrolls its detail history, narrows the window to stacked mode, goes back to the case list, selects another case, and widening the window shows the new selected case beside the list.",
+      "A keyboard user moves through the master list, opens a detail, returns to the same list position, and the selected row remains tied to the detail heading."
+    ],
+    "bad": [
+      "A user filters the master list after opening detail and the layout keeps showing a hidden case without saying it no longer matches the filter.",
+      "A user rotates a tablet and the app resets to the first list item, discarding the detail draft and scroll position."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to explore a set of items and inspect or work with one item's full detail repeatedly, but separate pages make context switching slow, a small details panel cannot hold the full destination, and a fixed layout can fail across phones, tablets, foldables, and desktop windows.",
+  "solution": "Provide an adaptive master-detail layout with a source list, detail destination, synchronized selected item, empty detail placeholder, stacked detail navigation, Back to list behavior, side-by-side presentation on wider screens, and preserved list, selection, filter, scroll, edit, and route state across layout changes.",
+  "problemContext": [
+    "The source items are conversations, orders, tickets, files, contacts, tasks, articles, cases, settings sections, media, or records.",
+    "The detail content is substantial enough to need its own heading, body, local actions, history, comments, edits, or route state.",
+    "Users often switch between adjacent items while keeping enough context to know where the current detail came from.",
+    "The same product must work in narrow stacked mode and wider side-by-side mode without losing selection or navigation history."
+  ],
+  "selectionRules": [
+    "Choose master-detail when list selection opens or owns a full detail destination and the layout must coordinate source and detail state.",
+    "Choose master-detail when wide screens should show list and detail together while narrow screens should show either list or detail with a return path.",
+    "Use details panel when the detail is a concise adjacent inspector and does not need navigable page-like behavior.",
+    "Use list view when users only need to scan and act on rows without a coordinated detail destination.",
+    "Use window splitter when users need to resize panes; pair it with master-detail only if the list-detail behavior is also defined.",
+    "Use drawer or sheet when detail is temporary, opened by command, and should close after a side task.",
+    "Use preview panel when the detail is primarily rendered document, media, or file preview rather than full object work.",
+    "Use full-page navigation when side-by-side context adds little value or the detail is too deep for a shared layout.",
+    "Avoid master-detail when no stable selected item exists.",
+    "Avoid master-detail when responsive transitions would lose detail state, list position, or back navigation."
+  ],
+  "requiredStates": [
+    "Wide default state with master list, selected item, and detail pane visible together.",
+    "Wide empty-detail state with a prompt when no item is selected.",
+    "Stacked list state where only the master list is visible.",
+    "Stacked detail state with selected-item heading and Back to list control.",
+    "Selection changed state where list highlight, detail heading, route state, and local actions update together.",
+    "Filtered-away selected item state with explanation, clear-filter path, or selection replacement.",
+    "Viewport widened, narrowed, rotated, or folded state preserving list position, selected item, and detail state.",
+    "Loading, failed detail, deleted item, permission-limited detail, unsaved detail draft, and unavailable detail states.",
+    "Back navigation, browser history, deep link, and no-selection return states.",
+    "Multiple-pane or tertiary detail state when the layout can add supporting content on large screens."
+  ],
+  "interactionContract": [
+    "Selecting an item in the master list updates the selected marker and detail heading to the same object.",
+    "In side-by-side mode, selection can update detail without hiding the master list.",
+    "In stacked mode, opening detail moves to the detail view and Back to list returns to the same master list position and filters.",
+    "Changing viewport size preserves the current selected object and chooses whether list, detail, or both panes should be visible based on the active navigation state.",
+    "If the selected item becomes filtered, deleted, or unavailable, the detail pane explains the state instead of showing stale content.",
+    "Detail-local actions state which selected item they affect and do not silently act on a different master row.",
+    "Deep links can open the detail directly and still provide a path to the relevant master list when the product supports it.",
+    "Unsaved changes, scroll position, focus, and local detail state survive layout changes or trigger explicit review before being discarded."
+  ],
+  "implementationChecklist": [
+    "Define the master collection, selected-item ID, detail route or state owner, empty-detail rule, and compact versus expanded layout breakpoints.",
+    "Render a visible selected state in the master list and repeat the selected object name or ID in the detail heading.",
+    "Implement stacked navigation with Back to list, browser history, focus return, and preserved list scroll position.",
+    "Implement side-by-side mode with synchronized selection, detail refresh, and an empty placeholder when no selection exists.",
+    "Persist selected item, filters, sort order, list scroll, detail scroll, local edits, and focus across viewport changes.",
+    "Handle loading, failed detail fetch, deleted item, permission-limited detail, filtered-away item, no results, and direct deep link states.",
+    "Keep resizable splitters, drawers, previews, and inspectors separate from the master-detail ownership model unless deliberately combined.",
+    "Test keyboard selection, screen reader pane names, Back behavior, browser history, mobile rotation, tablet resize, long titles, localization, zoom, and stale-detail prevention."
+  ],
+  "commonMisuses": [
+    "Calling a small metadata inspector master-detail when the detail cannot act as a destination.",
+    "Forgetting the stacked mobile return path from detail back to the master list.",
+    "Showing stale detail after selection, filter, delete, permission, or refresh changes.",
+    "Resetting selection, filters, draft edits, or scroll position when the viewport crosses a breakpoint.",
+    "Using a splitter as the only implementation while leaving selected-item ownership and navigation history undefined.",
+    "Showing an unrelated default detail on wide screens before the user has selected an item.",
+    "Embedding full primary editing in the detail without unsaved-change protection across selection changes.",
+    "Letting list and detail actions target different objects because they are keyed by visible index instead of stable item ID."
+  ],
+  "critiqueQuestions": [
+    "What is the master collection, and which exact selected item owns the detail right now?",
+    "Can the detail stand as a navigable destination, or is it only an inspector suited to details panel?",
+    "What happens to selection, list position, detail scroll, and draft state when the layout switches between stacked and side-by-side?",
+    "How do users return from detail to the list on compact screens?",
+    "What should the wide layout show when there is no selection, a hidden selection, or a deleted item?",
+    "Would list view, details panel, preview panel, drawer, window splitter, table, or full-page route better fit the task?"
+  ],
+  "useWhen": [
+    "Users repeatedly choose items from a collection and work with a substantial detail destination.",
+    "Wide layouts should keep list context visible while detail is active.",
+    "Narrow layouts need stacked navigation between list and detail with preserved state.",
+    "The selected item and detail state can be keyed by stable IDs and synchronized reliably."
+  ],
+  "avoidWhen": [
+    "The detail is only a short metadata summary.",
+    "The content is temporary supplemental information with close behavior.",
+    "The main task is dense row comparison or cell editing.",
+    "Users rarely return to the list after opening detail.",
+    "Responsive transitions cannot preserve selection, history, or unsaved detail work."
+  ],
+  "variants": [
+    "Inbox master-detail",
+    "Order list-detail",
+    "Contact list-detail",
+    "Settings master-detail",
+    "Case review master-detail",
+    "Document list-detail",
+    "Media browser list-detail",
+    "Adaptive two-pane master-detail",
+    "Stacked mobile master-detail",
+    "Three-pane master-detail",
+    "Master-detail with detail draft",
+    "Master-detail with filterable list"
+  ],
+  "accessibility": [
+    "Name the master and detail regions with headings that describe the collection and the selected item.",
+    "Expose selected state in the master list and keep it synchronized with the detail heading.",
+    "Provide a visible and accessible Back to list control in stacked detail mode.",
+    "Move focus intentionally when opening stacked detail and return focus to the selected master item when going back.",
+    "Announce detail changes, filtered-away selection, loading, failed detail, and no-selection states when they update dynamically.",
+    "Keep DOM order, visual order, and keyboard order understandable across stacked and side-by-side layouts.",
+    "Protect unsaved detail changes before changing selection or leaving detail in stacked mode.",
+    "Do not use color, pane position, or viewport width alone to communicate which item owns the detail."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches master controls, the selected master item, detail heading or first detail action, Back to list, and any layout controls in predictable order.",
+    "Arrow keys or list commands may move selection within the master list when the list component supports that behavior.",
+    "Enter or Space on a master item opens or selects the item and updates the detail according to the current layout mode.",
+    "In stacked mode, Back to list returns focus to the selected master item or the closest available item.",
+    "Browser Back returns from stacked detail to the master list when the detail created a navigation entry.",
+    "Selection changes with unsaved detail edits trigger review before replacing the detail.",
+    "Escape does not discard detail or navigate back unless the product explicitly defines that shortcut.",
+    "Viewport changes do not move focus unexpectedly into a hidden pane."
+  ],
+  "failureModes": [
+    "The detail pane shows an object that is not selected in the master list.",
+    "A compact layout opens detail with no visible Back to list control.",
+    "Wide layout starts with a random first detail instead of a no-selection prompt or intentional default.",
+    "Filtering hides the selected item while the detail still appears current.",
+    "Changing selection discards an unsaved detail draft without warning.",
+    "Responsive transition from stacked to side-by-side loses the selected item or returns to the top of the list.",
+    "The master list and detail pane are independently scrollable but focus moves into a hidden pane after resize.",
+    "Deep-linked detail pages have no path back to the relevant collection."
+  ],
+  "relatedPatterns": [
+    "details-panel",
+    "list-view",
+    "window-splitter",
+    "drawer",
+    "preview-panel",
+    "back-link",
+    "breadcrumbs",
+    "table",
+    "data-grid",
+    "pagination"
+  ],
+  "comparisons": [
+    "master-detail-vs-details-panel-vs-list-view-vs-window-splitter"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft List/details pattern",
+      "url": "https://learn.microsoft.com/en-us/windows/apps/develop/ui/controls/list-details",
+      "platform": "desktop",
+      "notes": "Documents list pane and detail pane behavior, stacked and side-by-side styles, selected-item detail updates, and adaptive breakpoints.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Android Canonical list-detail layout",
+      "url": "https://developer.android.com/develop/ui/views/layout/canonical-layouts",
+      "platform": "mobile",
+      "notes": "Documents side-by-side list and detail on expanded displays, stacked list or detail on medium and compact displays, and state preservation across size class changes.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Material Design Canonical layouts",
+      "url": "https://m3.material.io/foundations/adaptive-design/canonical-layouts",
+      "platform": "web",
+      "notes": "Documents list-detail as a canonical adaptive layout for explorable lists of items alongside each item's details.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Apple HIG Split views",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/split-views",
+      "platform": "desktop",
+      "notes": "Documents split views for multiple adjacent panes, supporting primary and detail relationships in adaptive app layouts.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-list-details-pattern",
+      "note": "Supports list pane, details pane, selected-item update, stacked style, side-by-side style, and adaptive breakpoints."
+    },
+    {
+      "id": "android-canonical-list-detail",
+      "note": "Supports canonical list-detail behavior, compact versus expanded layout, state preservation, and back navigation to the list."
+    },
+    {
+      "id": "material-canonical-layouts",
+      "note": "Supports list-detail as a canonical adaptive layout distinct from feed and supporting-pane layouts."
+    },
+    {
+      "id": "apple-hig-split-views",
+      "note": "Supports adjacent split-view pane relationships for primary, supplementary, and detail content."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

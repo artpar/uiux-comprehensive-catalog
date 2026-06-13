@@ -1,0 +1,58 @@
+{
+  "id": "approval-workflow-vs-review-before-submit-vs-permission-recovery-vs-invite-user",
+  "title": "Approval workflow vs review before submit vs permission recovery vs invite user",
+  "summary": "Use approval workflow for routing a submitted request to authorized decision makers, review before submit for the requester's final edit gate, permission recovery for requesting access after denial, and invite user for granting another person access through an invitation lifecycle.",
+  "patternIds": [
+    "approval-workflow",
+    "review-before-submit",
+    "permission-recovery",
+    "invite-user",
+    "confirmation-dialog",
+    "activity-log",
+    "notification-center"
+  ],
+  "decisionRules": [
+    "Choose approval workflow when work cannot proceed until one or more authorized approvers approve, reject, delegate, reassign, request changes, time out, or cancel a submitted request.",
+    "Choose review before submit when the requester is still checking and changing their own captured answers before the request is committed to an approval route.",
+    "Choose permission recovery when the initiating user is blocked by missing access and needs to request, regain, switch, or escalate authorization for themselves.",
+    "Choose invite user when an authorized inviter sends another person a trackable access invitation with pending, accepted, expired, resend, edit, or cancel states.",
+    "Use confirmation dialog only for a local immediate decision such as Approve this item or Reject with reason, not for the multi-step approval route, policy, notification, and audit lifecycle.",
+    "Use activity log to show the historical trail after approval events happen; it is not the workflow surface for collecting required decisions.",
+    "Use notification center to alert approvers and requesters that action or status changed; it must deep-link to the approval record rather than replacing the record.",
+    "Approval workflow must show requester, object, requested action, approver eligibility, required count or sequence, current state, due date or escalation, decision controls, comments, and outcome consequences.",
+    "Sequential approvals must identify the current approver and next gate; parallel approvals must distinguish everyone-must-approve, first-to-respond, threshold, and any-rejection semantics.",
+    "Rejected, change-requested, canceled, expired, bypassed, delegated, and self-review-blocked states need distinct treatment instead of one generic failure banner."
+  ],
+  "failureModes": [
+    "A requester sees Submitted with no approver, required count, due date, or next step.",
+    "An approver sees Approve and Reject buttons without the requested action, risk summary, attachment, or impact.",
+    "A sequential process appears complete after the first approval even though another approver still has the request.",
+    "A rejection loses the comment or does not return the request to the requester with a correction path.",
+    "A request allows self-approval for a protected action that policy says must be reviewed by someone else.",
+    "A notification says approval needed but opens a dashboard with no focused approval record.",
+    "An audit trail cannot explain who approved, who rejected, who bypassed, what changed, or when the approval timed out."
+  ],
+  "sources": [
+    {
+      "id": "github-actions-deployment-protection-rules",
+      "note": "GitHub documents manual deployment approvals, required reviewers, self-review prevention, wait timers, branch restrictions, bypass controls, and custom protection rules."
+    },
+    {
+      "id": "gitlab-merge-request-approvals",
+      "note": "GitLab documents required approval rules, approval counts, reviewer categories, code owners, approval status, additional approval, and revoke approval behavior."
+    },
+    {
+      "id": "microsoft-power-automate-approvals",
+      "note": "Power Automate documents approval request creation, approver notification, everyone-must-approve, first-to-respond, custom response, and sequential approval types."
+    },
+    {
+      "id": "microsoft-power-automate-everyone-must-approve",
+      "note": "Power Automate documents a multi-approver vacation request where every approver must approve and any approver can reject."
+    },
+    {
+      "id": "servicenow-ask-for-approval-action",
+      "note": "ServiceNow documents approval rules, rejection rules, due dates, manual approvers, approval output states, and waiting-state safeguards."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "validation-that-clears-user-input-vs-inline-validation-vs-error-summary-vs-single-page-form-vs-autosave-recovery-vs-error-state",
+  "title": "Validation that clears user input vs inline validation vs error summary vs single-page form vs autosave recovery vs error state",
+  "summary": "Flag validation that clears input when failed validation or recovery destroys safe user-entered values; use inline validation for local correction, error summary for submit recovery, single-page form for preserving related fields, autosave recovery for failed background saves, and error state for broader system failures.",
+  "patternIds": [
+    "validation-that-clears-user-input",
+    "inline-validation",
+    "error-summary",
+    "single-page-form",
+    "autosave-recovery",
+    "error-state"
+  ],
+  "decisionRules": [
+    "Choose the validation-clears-input anti-pattern when client validation, server validation, failed submit, formatter rejection, retry, reload, or reauthentication erases safe user-entered values.",
+    "Choose the validation-clears-input anti-pattern when a failed field clears valid sibling fields, long text, uploaded file names, selected options, pasted raw values, or local draft state.",
+    "Choose inline validation when one field has a correctable problem and the typed value remains visible and editable beside the field message.",
+    "Choose error summary when users need a linked overview after submit; the summary should route to preserved field values, not blank rebuilt controls.",
+    "Choose single-page form when several related values are submitted together and validation must preserve all safe values across the page.",
+    "Choose autosave recovery when background save failure or ambiguity means the newest local value needs retry, copy, restore, or compare controls before it can be trusted.",
+    "Choose error state when a system, network, save, sync, or load failure blocks progress and users need persistent recovery while their context is preserved.",
+    "Use password-input or payment-field security rules only for narrow sensitive values; do not generalize those rules to ordinary text, address, date, phone, textarea, or selection fields.",
+    "Do not silently normalize by deleting user input; preserve raw input, show the interpreted value, or ask for correction.",
+    "Reset, Clear form, Cancel, Discard, and Start over are deliberate actions and must not be triggered as a side effect of validation.",
+    "After server validation, rehydrate submitted values before focusing the error summary or first invalid field; do not rebuild the page from blank defaults.",
+    "If policy clears a sensitive value, keep non-sensitive values intact and explain which field was cleared and why."
+  ],
+  "failureModes": [
+    "A failed email check clears the email field, so the user cannot correct one mistyped character.",
+    "A server-side address validation response rebuilds the form from blank defaults.",
+    "A formatter rejects a pasted phone number and deletes the raw pasted value.",
+    "A textarea length error removes the entire long answer.",
+    "One invalid uploaded file clears every selected valid file.",
+    "Session expiry returns users to a blank form after reauthentication.",
+    "A retry action sends empty values because the failed local payload was discarded.",
+    "Password-clearing behavior is applied to non-secret profile, checkout, or application fields."
+  ],
+  "sources": [
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK error message guidance supports preserving entered answers and clear field-level correction text."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports linked recovery after submit-time validation."
+    },
+    {
+      "id": "uswds-form-templates",
+      "note": "USWDS form templates support aligned validation, grouping, required indicators, and accessible recovery."
+    },
+    {
+      "id": "govuk-textarea-component",
+      "note": "GOV.UK textarea guidance supports preserving and validating multi-line values."
+    },
+    {
+      "id": "govuk-password-input-component",
+      "note": "GOV.UK password input guidance defines the sensitive-field boundary where password clearing can be appropriate."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,47 @@
+{
+  "id": "toolbar-vs-button-group-vs-menu-button-vs-command-palette",
+  "title": "Toolbar vs button group vs menu button vs command palette",
+  "summary": "Use a toolbar for a persistent view-scoped command strip with compact controls and composite keyboard behavior, a button group for a few visible peer actions at one task moment, a menu button for hidden local secondary actions, and a command palette for searchable product-wide command execution.",
+  "patternIds": ["toolbar", "button-group", "menu-button", "command-palette"],
+  "decisionRules": [
+    "Prefer a toolbar when a view or editor needs a persistent strip of related controls such as Undo, Redo, Bold, Align, Filter, Export, and More, and users benefit from one labelled command region rather than scattered buttons.",
+    "Prefer a button group when two to four visible actions belong to one local workflow moment, such as Save, Continue, and Cancel, and ordinary tab order through each button is clearer than composite toolbar focus.",
+    "Prefer a menu button when a single named trigger reveals a compact set of secondary commands and those commands do not need to remain visible as a persistent command surface.",
+    "Prefer a command palette when the command set is broad, searchable, shortcut-driven, product-wide, or includes navigation across distant areas rather than commands for the current view.",
+    "A toolbar may contain buttons, toggle buttons, menu buttons, separators, and compact inputs, but every control must share the toolbar's current view or selection scope.",
+    "Do not use a toolbar as primary app navigation; if controls switch destinations, use navigation patterns such as global navigation, side navigation, tabs, or bottom navigation.",
+    "Do not hide primary task completion in toolbar overflow when a button group, form footer, or dialog action area should make the command visible at the decision point.",
+    "Use toolbar overflow for lower-priority commands that cannot fit, while keeping current selection, critical safe actions, and stateful toggles understandable before and after overflow.",
+    "If icon-only toolbar controls appear, give each one a precise accessible name and use tooltips only as supplemental descriptions, not as the sole label.",
+    "If the toolbar uses one tab stop, implement arrow-key movement, Home and End when useful, disabled-control discoverability, orientation, and focus preservation after activation."
+  ],
+  "failureModes": [
+    "A row of unrelated buttons is labelled toolbar even though actions affect different objects, routes, and tasks.",
+    "Keyboard users tab through every toolbar item in a large editor and lose the efficiency that a composite toolbar should provide.",
+    "Arrow keys move focus but also change a nested slider or select value unexpectedly because nested control keyboard ownership was not defined.",
+    "A More overflow menu contains the only Save or Submit command for the view, hiding the primary task at the moment users need it.",
+    "Icon-only controls rely on tooltip text and screen readers hear Button, Button, Button across the toolbar.",
+    "The toolbar changes selected document state but does not update pressed, disabled, current-selection, or status text after activation.",
+    "Toolbar controls remain enabled when no object is selected, so users can trigger commands with no visible target.",
+    "The toolbar is visually attached to the header but actually controls a nested table, creating scope confusion."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-toolbar",
+      "note": "APG defines toolbar grouping, one-tab-stop focus management, arrow-key navigation, orientation, labelling, and disabled control discoverability."
+    },
+    {
+      "id": "mdn-aria-toolbar-role",
+      "note": "MDN documents toolbar role semantics, focus management, arrow-key behavior, labelling multiple toolbars, and nested-control key conflicts."
+    },
+    {
+      "id": "apple-hig-toolbars",
+      "note": "Apple HIG distinguishes toolbars from tab bars and describes view-level toolbar content such as title, navigation controls, search, actions, and overflow."
+    },
+    {
+      "id": "carbon-text-toolbar-pattern",
+      "note": "Carbon text toolbar guidance demonstrates a persistent editor toolbar with rich text commands, customization, and compact icon-button actions."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

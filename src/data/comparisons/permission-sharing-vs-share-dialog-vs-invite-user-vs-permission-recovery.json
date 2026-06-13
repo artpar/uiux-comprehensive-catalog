@@ -1,0 +1,60 @@
+{
+  "id": "permission-sharing-vs-share-dialog-vs-invite-user-vs-permission-recovery",
+  "title": "Permission sharing vs share dialog vs invite user vs permission recovery",
+  "summary": "Use permission sharing for durable access administration across users, groups, roles, scopes, inheritance, and revocation; share dialog for quick object-level sharing; invite user for membership invitations; and permission recovery for denied users requesting access.",
+  "patternIds": [
+    "permission-sharing",
+    "share-dialog",
+    "invite-user",
+    "permission-recovery",
+    "permission-denied-state",
+    "object-picker",
+    "approval-workflow",
+    "review-before-submit",
+    "confirmation-dialog",
+    "activity-log"
+  ],
+  "decisionRules": [
+    "Choose permission sharing when an authorized owner or admin is managing durable access grants for users, groups, guests, anonymous users, service accounts, roles, permission levels, inherited access, unique permissions, role matrices, or revocation across a space, repository, site, folder, board, or dataset.",
+    "Choose share dialog when the user is sharing one object quickly through recipients, link scope, role, notification, copy-link, expiration, or native share controls rather than maintaining a broader permission model.",
+    "Choose invite user when the primary task is bringing a person into a workspace, organization, team, channel, or tenant with an invitation lifecycle before access is active.",
+    "Choose permission recovery when the current user is blocked and needs to request access, switch accounts, or resume a denied task after approval; permission sharing is used by the person who can grant or revoke access.",
+    "Choose permission denied state when the product only needs to explain the authorization boundary and available recovery path, not provide an owner-facing permission editor.",
+    "Use object picker for selecting people, groups, repositories, spaces, or accounts; the picker is only one input inside permission sharing and does not define the grant model.",
+    "Use approval workflow when granting, removing, or escalating permissions requires a separate approver, policy decision, dual control, or audit signoff before the permission change takes effect.",
+    "Use review before submit or confirmation dialog for high-risk permission changes such as admin role, anonymous access, public export, inherited permission breakage, bulk removal, or deleting a group grant.",
+    "Use activity log when the user needs evidence of who changed permissions, when, from what role to what role, and through which owner or policy path; it is not the editing surface itself.",
+    "Permission sharing must show effective access, not just direct grants, when group membership, inherited site access, parent folders, Teams or Microsoft 365 groups, anonymous access, guest access, deploy keys, or default permissions can keep access active after a direct row is removed."
+  ],
+  "failureModes": [
+    "A permissions page removes one direct user row but the person still has access through a group or inherited parent scope.",
+    "A share dialog is stretched into an admin permission matrix and hides group membership, inherited access, or bulk revocation effects.",
+    "A permission recovery request is approved but the owner cannot see which role, scope, duration, or group grant will actually satisfy the request.",
+    "A permission matrix uses checkboxes with no explanation of effective permissions, so users cannot tell whether View, Edit, Delete, Export, or Admin is implied.",
+    "A high-risk anonymous or admin grant is saved without review, confirmation, or audit trail.",
+    "The interface claims access has stopped while service accounts, deploy keys, parent-folder inheritance, or Teams-connected membership still grants access."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-sharepoint-groups-permissions",
+      "note": "Microsoft documents SharePoint groups, permission levels, inheritance, item-level unique permissions, access requests, and owner permission management."
+    },
+    {
+      "id": "microsoft-sharepoint-modern-sharing-permissions",
+      "note": "Microsoft documents site permission management through Microsoft 365 groups, Teams, channel sites, communication-site groups, and direct or security-group grants."
+    },
+    {
+      "id": "atlassian-confluence-space-permissions",
+      "note": "Atlassian documents user, group, guest, anonymous, additive, matrix, revocation, and individual permission behavior in Confluence spaces."
+    },
+    {
+      "id": "github-repository-roles",
+      "note": "GitHub documents repository role levels and action-specific permission differences such as access management being admin-only."
+    },
+    {
+      "id": "google-drive-share-files",
+      "note": "Google Drive documents Viewer, Commenter, Editor, owner controls, download/copy restrictions, and role effects in file sharing."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

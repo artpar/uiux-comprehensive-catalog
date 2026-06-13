@@ -1,0 +1,269 @@
+{
+  "id": "activity-feed",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed work activity catch-up pattern with guidance for actor-verb-object event anatomy, activity type filters, unread and cleared state, grouped noisy events, custom views, source deep links, retention boundaries, notification synchronization, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers actor, verb, object, source app, timestamp, event type, preview, scope, destination, unread state, clear state, grouped repetition, custom saved views, retention, permission-limited events, app events, repository events, mention and reply events, reaction grouping, notification synchronization, and source-object routing.",
+    "relatedPatternDistinction": "The entry separates activity feed from feed by focusing on work-event catch-up instead of broad content consumption, from notification center by not owning the full badge and notification-preference lifecycle, from activity log by avoiding compliance evidence promises, from timeline by not serving a bounded one-object history, from comments, mentions, and threaded discussion by previewing and routing into conversation surfaces, and from presence by excluding live availability and cursor noise unless it becomes a meaningful work event.",
+    "liveDemoBehavior": "The live demo shows typed team activity with Priya mentions, Build bot deployment failure, Maya reply, grouped teammate reactions, Rahul GitHub merge, Calendar event update, unread filters, mention and reply filters, app and repository filters, grouped noise, custom view, dense and detailed layouts, cleared recovery, source actions, quick reply, clear, and bad modes for vague activity, missing filters, audit confusion, noise flood, badge mismatch, wrong link, and private context leakage.",
+    "comparisonDecisionRules": "The linked activity-feed-vs-feed-vs-activity-log-vs-notification-center comparison gives concrete rules for activity feed, feed, activity log, notification center, timeline, comments, mentions, threaded discussion, presence, actor-verb-object anatomy, unread state, audit evidence, notification badges, and source deep links.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/activity-feed/ on 2026-06-11 in Chromium desktop: verified status, Good UI and Bad UI frames, Good UX controls for Unread, Mentions, Replies, Reactions, App event, Repo event, Grouped, Custom view, Dense, Cleared, Clear reactions, and All, Bad UX controls for No filters, Audit confusion, Noise flood, Badge mismatch, Wrong link, Private leak, and Vague, no duplicate IDs, and no Activity feed demo overflow. Checked /compare/activity-feed-vs-feed-vs-activity-log-vs-notification-center/ for activity feed, feed, activity log, notification center, actor, verb, object, unread, audit, and presence decision terms with no duplicate IDs or overflow. Checked 390px mobile emulation for Unread, App event, Repo event, Grouped, Custom view, Cleared, Clear reactions, All, Noise flood, Badge mismatch, Wrong link, and Private leak states with no Activity feed demo overflow.",
+    "screenshots": [
+      "screenshots/patterns/activity-feed.png",
+      "screenshots/patterns/activity-feed-mobile-check.png"
+    ]
+  },
+  "name": "Activity feed",
+  "aliases": [
+    "activity stream",
+    "workspace activity",
+    "team activity feed",
+    "recent activity feed",
+    "news feed",
+    "organization news feed",
+    "collaboration activity",
+    "event feed",
+    "work activity hub",
+    "activity view"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Catch-up stream of recent collaboration and work events with actor, verb, object, type, destination, and triage controls",
+  "uiGuidance": [
+    "Render activity feed as a typed event stream where each item names the actor or source app, action, object, workspace or channel, timestamp, preview, event type, read or cleared state when supported, and a stable destination for follow-up.",
+    "Expose activity-type filters, unread or cleared state, dense and detailed layouts, grouped repeated events, retention or expiry limits, notification settings, and suppressed/noisy-source controls instead of treating all work events as identical feed cards."
+  ],
+  "uxGuidance": [
+    "Use activity feed when users need to catch up on recent work or collaboration activity across channels, projects, repositories, tasks, apps, or people without opening every underlying object.",
+    "Protect attention by grouping low-value repetition, preserving meaningful actors and destinations, distinguishing mention/reply/reaction/app/reminder/project-change types, and routing audit evidence, long-form content, and live status elsewhere."
+  ],
+  "uiExamples": {
+    "good": [
+      "A team activity feed shows Priya mentioned you in #refunds, Build bot marked release-128 failed, Maya reacted to your handoff note, and Rahul merged PR #742, each with icon, timestamp, preview, type filter, and Open action.",
+      "An organization repository feed shows who opened, closed, merged, commented, pushed, or released, grouped by repository and filtered to issues, pull requests, branches, releases, comments, or pushes."
+    ],
+    "bad": [
+      "A page titled Activity shows Update happened cards with no actor, object, type, timestamp, or destination.",
+      "A feed includes every presence heartbeat and typing event, making mentions and failed deployment events impossible to find."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user filters Activity to mentions and replies, answers one thread inline, clears low-value reactions, saves a custom view for VIPs, and opens a deployment failure in the source app.",
+      "A developer opens an organization activity feed, filters to pull-request activity, sees who merged and commented, and jumps to the relevant repository without using the audit log."
+    ],
+    "bad": [
+      "A user clears a notification in Activity but the notification center badge stays out of sync and the same event reappears as unread.",
+      "A compliance analyst exports an activity feed expecting audit proof, but it lacks immutable event IDs, IP addresses, retention policy, and complete actor data."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Teams need a lightweight way to catch up on what happened, but products often blur activity feeds with broad content feeds, notification inboxes, audit logs, timelines, and live presence streams, causing noisy, unactionable, or misleading activity surfaces.",
+  "solution": "Provide a typed activity feed with actor-verb-object event anatomy, source and timestamp, meaningful preview, filters, unread or clear behavior, grouping, deep links, retention limits, and boundaries that route conversations, audit evidence, notifications, and live status to the right surfaces.",
+  "problemContext": [
+    "Events may come from people, channels, repositories, projects, tasks, apps, bots, automations, meetings, reminders, comments, mentions, reactions, shares, merges, deployments, assignments, or approvals.",
+    "Users open the feed to catch up, triage, scan, reply, clear, mark read, filter, jump to source objects, or personalize which activity types deserve attention.",
+    "Events may be personal to the user, workspace-wide, organization-scoped, repository-scoped, channel-scoped, object-scoped, or app-generated.",
+    "The surface may overlap with notification center, feed, timeline, activity log, comments, mentions, presence, and following/subscription behavior, so event ownership and lifecycle rules must be explicit."
+  ],
+  "selectionRules": [
+    "Choose activity feed when the primary task is catching up on recent collaboration or system activity across work objects rather than reading broad content or managing audit evidence.",
+    "Use feed when the stream is primarily article-like posts, stories, media, recommendations, or content consumption.",
+    "Use notification center when the item lifecycle depends on unseen badges, unread state, mark-read, preferences, cleanup, and retained notification history.",
+    "Use activity log when users need searchable, exportable, retained evidence of actor/action/object records with compliance or investigation detail.",
+    "Use timeline when the user needs a bounded chronological history for one case, process, project, object, or order.",
+    "Use comments, mentions, and threaded discussion for the underlying conversation; activity feed should preview and route to them rather than becoming the conversation system.",
+    "Use presence for current online, viewing, typing, or availability state; only surface presence in activity feed when it becomes a meaningful event such as joined, assigned, or started presenting.",
+    "Include actor, verb, object, source, timestamp, event type, preview, scope, and destination before adding visual density or ranking controls.",
+    "Offer filters for meaningful activity types such as unread, mentions, replies, reactions, channel activity, app events, reminders, repository events, and cleared items.",
+    "Suppress, group, or collapse noisy repeated events such as many reactions, automated sync churn, duplicate app posts, cursor movement, and frequent status changes."
+  ],
+  "requiredStates": [
+    "Default feed state with actor, verb, object, timestamp, source, type icon, preview, scope, and destination for each activity item.",
+    "Unread, read, cleared, selected, replied, opened, muted, hidden, grouped, collapsed, and expanded item states.",
+    "Filters for all activity, unread, mentions, replies, reactions, channel or project activity, app events, reminders, repository events, and cleared items where supported.",
+    "Dense layout, detailed layout, custom saved view, and mobile compact states.",
+    "New activity waiting, live refresh paused, refresh failed, stale feed, offline, loading, empty, no matching filter, and retention-expired states.",
+    "Inline reply, open in source, set reminder, mute thread, turn off noisy type, mark all read, clear one, clear selected, and restore cleared states.",
+    "Grouped repeated activity, bot activity, external app activity, VIP or priority activity, private/no-disclosure activity, and permission-limited activity states.",
+    "Synchronization state with notification center so cleared, read, and opened events do not contradict the badge or inbox.",
+    "Responsive state where actor, verb, object, type, timestamp, and action destination remain readable."
+  ],
+  "interactionContract": [
+    "Each item represents one meaningful work activity or a grouped set with stable actor, action, object, source, timestamp, type, preview, scope, and destination.",
+    "Opening an activity routes to the underlying channel, message, thread, repository, task, meeting, app, file, or object and updates read or cleared state according to product policy.",
+    "Reply, clear, mark read, set reminder, mute, and open-source actions apply to the named activity item or group only.",
+    "Filters change visible items without deleting events; clear and mark-read actions provide immediate feedback and preserve recoverability where supported.",
+    "Dense and detailed layouts preserve the same activity identity and actions, only changing how much preview context is shown.",
+    "Saved views preserve filter combinations and do not silently change notification eligibility or underlying subscription settings.",
+    "Activity feed state synchronizes with notification center, mention surfaces, thread views, and related-object state when the same event appears in multiple places.",
+    "No-disclosure and permission-limited events hide restricted object names, previews, or actors while still explaining why the item cannot be opened."
+  ],
+  "implementationChecklist": [
+    "Define event schema for actor, actor type, verb, object, object type, source app, workspace, channel or project, timestamp, event type, preview, destination URL, read state, clear state, priority, grouping key, and retention.",
+    "Separate activity-feed records from notification records, audit-log records, timeline milestones, comments, mentions, reactions, presence heartbeats, and broad content feed items in the data model.",
+    "Build activity-type filters, unread filter, cleared filter, source filter, custom saved views, dense/detail toggle, mark-read, clear, bulk clear, inline reply, reminder, mute, and open-source actions.",
+    "Group repeated reactions, bot updates, deployment churn, bulk repository events, and high-volume channel posts without hiding high-priority mentions or failures.",
+    "Model retention and expiry, stale feed refresh, offline fallback, permission-limited destinations, deleted objects, private channels, blocked users, and external app failures.",
+    "Synchronize activity state with notification center, thread views, mentions, related object pages, and preferences so items do not reappear unexpectedly.",
+    "Test mobile compact layout, keyboard navigation, screen-reader item names, long actor names, localization of actor-verb-object text, grouped event expansion, filter empty states, and deep-link return behavior."
+  ],
+  "commonMisuses": [
+    "Using activity feed as an audit log without evidence fields, export, or retention guarantees.",
+    "Using activity feed as a notification center without clear unread, badge, preference, or cleanup semantics.",
+    "Dumping every low-level system event, presence update, typing event, or cursor movement into the feed.",
+    "Hiding actor, object, event type, source app, or timestamp until users open the item.",
+    "Making clear, reply, or mute actions affect a thread or channel different from the visible item.",
+    "Mixing algorithmic content recommendations with work events without labels.",
+    "Letting private or permission-limited activity reveal object titles, channel names, or actors.",
+    "Providing filters that only hide items visually while badge and saved-view state still count them."
+  ],
+  "critiqueQuestions": [
+    "What events are meaningful enough for catch-up, and which belong only in audit logs, notifications, comments, or live presence?",
+    "Can users tell who did what, to which object, in which source, and when?",
+    "Which activity types can users filter, clear, mark read, mute, or save as views?",
+    "What happens when the user opens the underlying object from another route?",
+    "How are repeated reactions, bot events, deployment churn, and noisy app updates grouped or suppressed?",
+    "Which items expire from the activity feed, and where can users find durable evidence afterward?",
+    "How are permission-limited or private-channel events represented without leaking restricted context?"
+  ],
+  "useWhen": [
+    "Users need to catch up on recent collaboration, app, repository, channel, project, meeting, reminder, or task activity.",
+    "The product can represent activity as actor-verb-object events with source, timestamp, preview, type, and destination.",
+    "Users need filters, clear or read state, grouping, custom views, or direct action from recent work activity.",
+    "The feed complements notifications, comments, audit logs, and timelines without replacing their stronger lifecycle guarantees."
+  ],
+  "avoidWhen": [
+    "The surface is primarily content consumption, media browsing, or article-like stream reading.",
+    "Users need legal, compliance, security, or operational evidence with export and retention guarantees.",
+    "The item requires urgent current-task interruption or blocking inline status.",
+    "The surface is a bounded object history for one case or workflow.",
+    "The product cannot deep-link to the source work or keep feed state synchronized with notification and object state."
+  ],
+  "variants": [
+    "Team activity feed",
+    "Workspace activity feed",
+    "Organization news feed",
+    "Repository activity feed",
+    "Project activity feed",
+    "Channel activity feed",
+    "Personal activity view",
+    "Mention and reply activity",
+    "App activity feed",
+    "Dense activity layout",
+    "Detailed activity layout",
+    "Custom activity view"
+  ],
+  "accessibility": [
+    "Give the activity feed a heading and expose the current filter, layout, and unread or cleared state in text.",
+    "Name each item with actor, verb, object, source, timestamp, and type so screen-reader users can decide whether to open it.",
+    "Do not rely on activity icons or avatar color alone to communicate mention, reply, reaction, app, reminder, repository, or meeting types.",
+    "Make filters, layout toggles, reply, clear, mark-read, mute, reminder, open-source, and saved-view controls keyboard reachable.",
+    "Announce new activity, mark-read, clear, filter result count, grouped expansion, and failed refresh through polite status messaging.",
+    "Avoid moving focus when activity arrives; provide a reachable new-activity or refresh control.",
+    "For grouped items, expose group count and expansion state programmatically."
+  ],
+  "keyboardBehavior": [
+    "Tab order moves through feed filters, layout or saved-view controls, activity items, item actions, bulk actions, and settings in a predictable order.",
+    "Enter opens the selected activity's source destination; Space activates buttons such as clear, mark read, mute, or expand group.",
+    "Opening inline reply moves focus to the reply editor and Escape returns focus to the activity item.",
+    "Changing filters or saved views keeps focus on the changed control and announces result count.",
+    "Clearing an item moves focus to the next visible activity or the empty-state summary.",
+    "Bulk selection exposes selected count and keeps bulk actions reachable without requiring pointer hover.",
+    "Keyboard users can switch between dense and detailed layouts without losing the current item."
+  ],
+  "failureModes": [
+    "A user opens an activity item and lands on the wrong message, repository, task, or app page.",
+    "Unread, clear, and notification badge states contradict each other across Activity, notification center, and source objects.",
+    "Activity from private channels leaks titles or actors to users who cannot open the channel.",
+    "A noisy integration floods the feed with repeated low-value events and hides human mentions.",
+    "Activity items expire without warning and users assume the feed is a complete history.",
+    "A grouped item hides a high-priority mention or failed deployment inside low-priority reactions.",
+    "Dense layout removes enough context that users cannot tell actor, object, or source before opening.",
+    "Bulk clear removes actionable work with no way to find cleared items."
+  ],
+  "relatedPatterns": [
+    "feed",
+    "activity-log",
+    "notification-center",
+    "timeline",
+    "comments",
+    "mentions",
+    "threaded-discussion",
+    "presence",
+    "filter-panel",
+    "saved-view"
+  ],
+  "comparisons": [
+    "activity-feed-vs-feed-vs-activity-log-vs-notification-center"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Teams Activity feed",
+      "url": "https://support.microsoft.com/en-us/office/explore-the-activity-feed-in-microsoft-teams-91c635a1-644a-4c60-9c98-233db3e13a56",
+      "platform": "desktop",
+      "notes": "Documents a cross-Teams activity summary with filters, unread view, mark all read, activity-type icons, notification settings, and feed retention.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack Activity view",
+      "url": "https://slack.com/help/articles/19693583638803-Get-your-work-done-from-the-Activity-view",
+      "platform": "web",
+      "notes": "Documents recent messages and notifications, dense and detailed layouts, filters, reply, mark-read, clear, bulk clear, and custom saved views.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub organization news feed",
+      "url": "https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/about-your-organizations-news-feed",
+      "platform": "web",
+      "notes": "Documents organization repository activity such as issues, pull requests, branches, releases, comments, and pushed commits.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Graph Teams activity feed notifications",
+      "url": "https://learn.microsoft.com/en-us/graph/teams-send-activityfeednotifications",
+      "platform": "web",
+      "notes": "Documents activity feed notification anatomy with actor, reason, timestamp, preview, topic, icon, deep link, and collaboration use cases.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-teams-explore-activity-feed",
+      "note": "Microsoft documents Teams Activity as a cross-Teams summary with unread messages, mentions, replies, likes, filters, mark all read, icons, settings, and retention."
+    },
+    {
+      "id": "slack-activity-view",
+      "note": "Slack documents Activity as recent messages and notifications with dense and detailed layouts, filters, reply, mark-read, clear, bulk clear, and custom views."
+    },
+    {
+      "id": "github-organization-news-feed",
+      "note": "GitHub documents organization news feed repository activity including issues, pull requests, branches, releases, comments, and pushed commits."
+    },
+    {
+      "id": "microsoft-graph-teams-activity-feed-notifications",
+      "note": "Microsoft Graph documents Teams activity feed notification anatomy including actor, reason, timestamp, preview, topic, icon, deep link, and triage use cases."
+    },
+    {
+      "id": "microsoft-teams-activity-feed-notifications",
+      "note": "Microsoft Teams app guidance documents activity feed notification cards, retention, custom activity icons, and mobile and desktop card variants."
+    },
+    {
+      "id": "wai-aria-apg-feed",
+      "note": "WAI-ARIA APG defines feed behavior for dynamically loaded article content, useful for accessible activity stream reading when article-like semantics apply."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

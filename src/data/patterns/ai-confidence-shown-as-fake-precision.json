@@ -1,0 +1,245 @@
+{
+  "id": "ai-confidence-shown-as-fake-precision",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for AI surfaces that display uncalibrated, stale, out-of-scope, or unexplained model confidence as exact percentages, decimals, ranks, gauges, or probability-looking numbers.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets AI claim classifiers, generated answers, extraction fields, recommendation ranks, retrieval similarity scores, risk assessments, queue triage scores, and customer-impact automation where raw score hidden, calibration unavailable, calibrated range, insufficient evidence, out-of-distribution, stale score, threshold changed, ranking score not probability, and copy caveat states determine whether precision can be shown.",
+    "relatedPatternDistinction": "The entry separates ai-confidence-shown-as-fake-precision from confidence-uncertainty-display by focusing on misleading over-exact score presentation rather than the corrected reliability pattern, from meter by AI reliability versus a read-only bounded scalar gauge, from source-grounding-display by score validity rather than evidence coverage, from warning-text by uncertain model reliability rather than known severe consequence copy, and from human-approval-gate by score display defects rather than runtime authorization checkpoints.",
+    "liveDemoBehavior": "The live demo shows Good UI and Bad UI panels plus 17 interactive precision-validity controls: 9 corrected states for raw score hidden, calibration unavailable, calibrated range, insufficient evidence, out-of-distribution, stale score, threshold changed, ranking score not probability, and copy caveat, plus 8 failure states for exact percent, decimal certainty, color-only precision, gauge precision, hidden caveat, confidence as source proof, stale precision, and copied score.",
+    "comparisonDecisionRules": "The ai-confidence-shown-as-fake-precision-vs-confidence-uncertainty-display-vs-meter-vs-source-grounding-display-vs-warning-text-vs-human-approval-gate comparison gives concrete rules for choosing fake-precision anti-pattern handling, honest confidence and uncertainty display, bounded scalar meter, source grounding display, severe consequence warning text, or human approval gate.",
+    "duplicateAudit": "Before promotion, node --import tsx scripts/catalog-completion-audit.ts reported 293 complete patterns, 1 stub pattern, 4 missing goal patterns, and 0 normalized duplicate field groups.",
+    "manualSpotCheck": "Rendered /patterns/ai-confidence-shown-as-fake-precision/ and /compare/ai-confidence-shown-as-fake-precision-vs-confidence-uncertainty-display-vs-meter-vs-source-grounding-display-vs-warning-text-vs-human-approval-gate/ on 2026-06-13. Pattern checks found all required precision-validity and failure terms, 17 .ai-fake-precision-controls buttons, no duplicate IDs, no desktop or compact overflow, and exercised Out-of-distribution and Confidence as source proof controls. Comparison checks found required decision terms, no duplicate IDs, no duplicate pattern links, no desktop or compact overflow, and no console warnings or errors. Screenshot captured at screenshots/patterns/ai-confidence-shown-as-fake-precision.png.",
+    "screenshots": [
+      "screenshots/patterns/ai-confidence-shown-as-fake-precision.png"
+    ]
+  },
+  "name": "AI confidence shown as fake precision",
+  "aliases": [
+    "fake AI confidence percentage",
+    "uncalibrated confidence score",
+    "false precision confidence",
+    "over-precise AI score",
+    "AI probability theater",
+    "exact model certainty",
+    "spurious confidence decimal"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Anti-pattern for uncalibrated or over-exact AI confidence displays",
+  "uiGuidance": [
+    "Do not render model uncertainty as exact percentages, decimals, star ratings, gauges, or ranked certainty labels unless the score is calibrated, scoped, fresh, and tied to a decision threshold users can understand.",
+    "When calibration is unavailable, show a qualitative reliability state, uncertainty reason, missing input, stale model, out-of-distribution, or review-required label instead of a probability-looking number."
+  ],
+  "uxGuidance": [
+    "Protect users from automation bias by making confidence limits actionable: explain what the number means, where it is valid, what threshold changes the workflow, and what safe action follows.",
+    "If the displayed number cannot support a real decision, replace it with review, source verification, collect more input, explain uncertainty, or hold-for-human paths before apply, send, approve, deny, or publish."
+  ],
+  "uiExamples": {
+    "good": [
+      "A claim classifier says Calibration unavailable, explains that the model is outside its monitored scope, hides the 0.873 raw score, and routes to reviewer triage.",
+      "A support reply shows Medium confidence, calibrated range 71 to 78 percent, review threshold 80 percent, source coverage separate, and Apply disabled until review.",
+      "A document extraction field says Low confidence because the scan is blurred, shows the required invoice field is missing, and offers Open source page instead of a precise percentage."
+    ],
+    "bad": [
+      "A generated legal answer says 97.42 percent confident with no calibration scope, threshold, freshness, evidence, or review path.",
+      "A red-yellow-green confidence meter labels an AI decision as 0.91 certain even though the model has never been calibrated for that task.",
+      "A stale confidence score remains on a regenerated answer after the source, model, and threshold changed."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer sees that exact confidence is unavailable, opens the uncertainty reason, requests missing evidence, and avoids auto-denying a claim.",
+      "A user edits the prompt and the prior confidence disappears until the system recomputes the scoped reliability state.",
+      "A mobile user sees the review threshold and calibration caveat before the primary action, so the exact-looking number does not drive the decision."
+    ],
+    "bad": [
+      "Users trust a confident-looking 98.7 percent label and send an unsupported answer to a customer.",
+      "A team treats ranking decimals as probability of correctness and automates approvals below the review threshold.",
+      "A user cannot tell that the number is a raw model score, not a calibrated probability, source proof, or policy permission."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "Users over-trust AI output when the interface presents raw, uncalibrated, stale, or out-of-scope model scores as exact confidence percentages, decimals, probabilities, or certainty levels.",
+  "solution": "Treat fake precision as an anti-pattern: remove misleading exactness, disclose calibration status and operating scope, show qualitative uncertainty or calibrated ranges only when valid, and gate high-impact actions with review, source verification, missing-input recovery, or fallback routes.",
+  "problemContext": [
+    "The UI displays model output, retrieval ranking, classifier score, extractor score, recommendation rank, generated-answer score, or risk estimate as if it were a calibrated probability.",
+    "The number may come from a raw model logit, internal rank, heuristic score, embedding similarity, confidence token, stale assessment, or population-level metric that does not map to user-facing correctness.",
+    "Users may act on the number by approving, denying, sending, publishing, escalating, triaging, applying an extraction, or trusting a generated answer.",
+    "The product may need uncertainty, threshold, source grounding, warning text, or review controls, but the exact-looking number is doing that work instead."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when an AI or automated surface shows a precise score without calibration scope, decision threshold, freshness, uncertainty reason, or safe next action.",
+    "Flag it when decimals, percentages, color bands, stars, gauges, or ranking scores imply correctness that the system cannot honestly support.",
+    "Use confidence / uncertainty display for the corrected pattern when calibrated reliability, review threshold, reason, stale state, and apply gating can be shown honestly.",
+    "Use source grounding display when users need evidence coverage; confidence is not source proof.",
+    "Use citation display when users need claim-level source inspection instead of a reliability score.",
+    "Use meter only for a read-only bounded scalar value with a meaningful range, not a raw AI certainty score.",
+    "Use warning text when the issue is a known severe consequence before an action rather than uncertain model reliability.",
+    "If confidence cannot be calibrated for this task, show qualitative states such as calibration unavailable, insufficient evidence, out-of-distribution, stale model, or review required.",
+    "If a numeric range is valid, show it as an approximate calibrated range with scope, threshold, and freshness rather than an exact-looking single value.",
+    "Do not let high precision unlock copy, apply, approve, deny, send, or automate without matching threshold rules and audit state."
+  ],
+  "requiredStates": [
+    "Raw score hidden state where an internal score is withheld from the user-facing decision.",
+    "Calibration unavailable state with qualitative reliability label and review path.",
+    "Calibrated range state with task scope, review threshold, and caveat.",
+    "Insufficient evidence state where no numeric confidence is shown because required inputs are missing.",
+    "Out-of-distribution state where confidence is invalid outside monitored scope.",
+    "Stale score state after model, threshold, source, input, or policy changes.",
+    "Threshold changed state that invalidates an old allow or block decision.",
+    "Ranking score not probability state for retrieval or recommendation lists.",
+    "Bad exact percent, decimal certainty, color-only precision, gauge precision, hidden caveat, confidence as source proof, stale precision, and copied score states."
+  ],
+  "interactionContract": [
+    "The interface distinguishes raw internal scores from user-facing calibrated confidence.",
+    "A visible confidence value must name its calibration scope, task population, threshold, freshness, and action consequence.",
+    "Uncalibrated, stale, out-of-distribution, insufficient, or ranking-only scores are replaced with qualitative state and recovery actions.",
+    "Changes to prompt, source scope, input, model version, threshold, or policy invalidate the visible score before users act.",
+    "Copy, export, audit, and handoff preserve calibration caveats or omit raw scores that would mislead downstream users.",
+    "High-impact actions below threshold or outside calibration scope route to review, source verification, collect-more-input, escalation, or fallback.",
+    "Accessible labels state uncertainty meaning in words rather than relying on numeric precision, color, or gauge fill."
+  ],
+  "implementationChecklist": [
+    "Trace each displayed confidence number to its source: calibrated probability, raw score, rank, similarity, heuristic, model confidence, or stale stored value.",
+    "Define whether the number is valid for the current task, population, model version, input quality, source scope, threshold, and consequence.",
+    "Hide or relabel raw scores that cannot be interpreted as user-facing probability.",
+    "Model calibration unavailable, insufficient evidence, out-of-distribution, stale model, threshold changed, ranking-only, copied-score, and review-required states.",
+    "Place uncertainty reason, threshold, freshness, and gated action near the AI output before any commit control.",
+    "Prevent copy, apply, approve, deny, send, publish, or automation from stripping calibration caveats.",
+    "Test exact percent, decimal score, color-only score, gauge score, stale score, source-proof misuse, mobile layout, keyboard flow, high zoom, and status messaging."
+  ],
+  "commonMisuses": [
+    "Formatting an uncalibrated model score as 97.42 percent sure.",
+    "Showing 0.873 certainty without saying it is a raw rank, similarity, or heuristic score.",
+    "Using a confidence meter or color band to imply correctness without threshold, calibration, or explanation.",
+    "Keeping old confidence after the user edits input, changes source scope, or the model updates.",
+    "Treating confidence as source evidence, policy approval, legal correctness, or permission.",
+    "Copying the exact-looking score into an audit note without the caveat that made it interpretable."
+  ],
+  "critiqueQuestions": [
+    "What exactly does this number measure, and can users interpret it as probability of correctness?",
+    "Is the score calibrated for this task, population, model version, data source, threshold, and current input?",
+    "Would a qualitative uncertainty state be more honest than a precise percentage or decimal?",
+    "What changes invalidate the displayed score before the user acts?",
+    "Does the UI separate confidence from source grounding, citations, warning text, policy permission, and severe consequence copy?",
+    "Can the user review, verify sources, collect missing input, escalate, or fallback when confidence is unavailable or below threshold?"
+  ],
+  "useWhen": [
+    "An AI product displays model certainty, extraction confidence, recommendation score, classifier probability, generated-answer confidence, retrieval rank, or risk score with precision the system cannot justify.",
+    "Users may make decisions, send output, approve automation, or trust generated content based on the exact-looking value.",
+    "The system needs to replace raw scores with calibrated ranges, qualitative uncertainty, review thresholds, or safer fallback routes."
+  ],
+  "avoidWhen": [
+    "The value is a validated, calibrated confidence range shown with scope, threshold, reason, and review behavior; use confidence / uncertainty display instead.",
+    "The value is a non-AI bounded resource such as storage, battery, quota, or utilization; use meter.",
+    "The design problem is missing evidence rather than misleading confidence; use AI answer without sources or source grounding display.",
+    "The message warns about a known consequence rather than uncertain model reliability; use warning text.",
+    "The number is purely internal telemetry and never shown to users or downstream artifacts."
+  ],
+  "variants": [
+    "Exact confidence percent",
+    "Decimal certainty",
+    "Raw score shown",
+    "Embedding similarity as probability",
+    "Recommendation rank as correctness",
+    "Confidence meter",
+    "Stale confidence",
+    "Color-only score",
+    "Copied confidence without caveat",
+    "Mobile hidden caveat"
+  ],
+  "accessibility": [
+    "Expose calibration unavailable, stale, out-of-distribution, insufficient evidence, and review-required states as text near the score.",
+    "Do not rely on color bands, gauge fill, decimal precision, or icon-only certainty labels.",
+    "Announce changes from numeric confidence to review-required or calibration-unavailable states without moving focus.",
+    "Keep threshold, reason, caveat, review, verify, and fallback controls keyboard reachable before apply controls.",
+    "Ensure copied or exported content includes caveats when a confidence number remains visible.",
+    "Use concise value text if a calibrated range is shown, including scope and threshold."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the confidence caveat, explanation control, threshold detail, review action, source verification action, and apply control in a predictable order.",
+    "Enter or Space opens the calibration explanation, routes to review, verifies sources, collects missing input, or activates fallback actions.",
+    "If an action is blocked because precision is invalid, focus moves to the uncertainty explanation and recovery controls.",
+    "When input changes invalidate confidence, focus remains stable and a status message announces that the previous score is no longer valid.",
+    "Escape closes calibration, threshold, or caveat panels and returns focus to the invoking control."
+  ],
+  "failureModes": [
+    "Users treat a raw model score as probability of correctness.",
+    "An exact percentage creates more trust than the evidence supports.",
+    "Low or invalid confidence is hidden behind a tooltip or below the primary action.",
+    "Stale confidence survives regeneration, source changes, threshold changes, or model updates.",
+    "A confidence number is treated as source proof and replaces citations or grounding.",
+    "Assistive technology users hear only a number with no calibration meaning or safe next action."
+  ],
+  "relatedPatterns": [
+    "confidence-uncertainty-display",
+    "source-grounding-display",
+    "citation-display",
+    "ai-answer-without-sources",
+    "meter",
+    "warning-text",
+    "human-approval-gate",
+    "correction-feedback"
+  ],
+  "comparisons": [
+    "ai-confidence-shown-as-fake-precision-vs-confidence-uncertainty-display-vs-meter-vs-source-grounding-display-vs-warning-text-vs-human-approval-gate"
+  ],
+  "examples": [
+    {
+      "product": "Google PAIR explainability and trust",
+      "url": "https://pair.withgoogle.com/chapter/explainability-trust/",
+      "platform": "ai",
+      "notes": "Discusses trust calibration, probability and uncertainty, confidence displays, and when users should apply judgment.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Research-backed guidance supports communicating AI uncertainty, capability limits, correction, and control.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Azure OpenAI transparency note",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/transparency-note",
+      "platform": "ai",
+      "notes": "Supports explaining capabilities, limitations, deployment context, performance behavior, and affected users.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-pair-explainability-trust",
+      "note": "Supports trust calibration, probability and uncertainty, confidence displays, and user judgment around AI output."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports AI uncertainty communication, capability limits, correction, and user control."
+    },
+    {
+      "id": "microsoft-azure-openai-transparency-note",
+      "note": "Supports communicating capabilities, limitations, performance behavior, and deployment context for AI systems."
+    },
+    {
+      "id": "mdn-aria-meter-role",
+      "note": "Supports separating read-only bounded meters from AI confidence or probability displays."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing changed confidence validity, calibration, and review states without moving focus."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "notification-preferences-vs-settings-management-vs-notification-center-vs-follow-subscribe",
+  "title": "Notification preferences vs settings management vs notification center vs follow / subscribe",
+  "summary": "Use notification preferences when users configure which notification types, channels, frequency, quiet times, and previews they want; use settings management for broader configuration, notification center for retained inbox triage, and follow / subscribe for per-object future update opt-in.",
+  "patternIds": [
+    "notification-preferences",
+    "settings-management",
+    "notification-center",
+    "follow-subscribe",
+    "activity-feed",
+    "toast-notification",
+    "mentions",
+    "permission-denied-state"
+  ],
+  "decisionRules": [
+    "Choose notification preferences when the user is configuring delivery rules across notification types, delivery channels, devices, urgency, quiet times, previews, sounds, keywords, digests, or source categories.",
+    "Choose settings management when notifications are only one section inside a broader persistent configuration surface that also covers privacy, display, integrations, account, workspace, or system behavior.",
+    "Choose notification center when the problem is where delivered notifications are retained, filtered, marked read, grouped, or acted on after arrival.",
+    "Choose follow / subscribe when a user opts into future updates from a specific thread, page, channel, repository, space, saved view, or topic; notification preferences decide how those updates are delivered.",
+    "Choose activity feed when users need a chronological catch-up stream; notification preferences may determine which activity types enter badges, banners, or feed highlights.",
+    "Choose toast notification for immediate transient feedback; notification preferences may suppress or alter toasts but should not turn critical in-context blockers into silent preferences.",
+    "Choose mentions when another person directs attention to a recipient in authored content; notification preferences decide whether mentions create email, push, banner, badge, or quiet delivery.",
+    "Use permission-denied state when notification choices are unavailable because an admin, workspace owner, device permission, or operating system setting controls delivery.",
+    "A notification preference surface must expose current values, type-by-channel matrix, delivery timing, quiet hours, digest rules, muted sources, overrides, preview privacy, and save or immediate-apply behavior.",
+    "Avoid one master off switch that hides critical, security, billing, or current-task notifications without naming what still breaks through."
+  ],
+  "failureModes": [
+    "Users turn off email but continue receiving push and in-app banners because channels are hidden in separate places.",
+    "A preference says Important only but never defines which events count as important.",
+    "Quiet hours suppress urgent security or incident notifications with no exception model.",
+    "A device permission blocks push notifications, but the app shows the preference as enabled.",
+    "A team or admin policy overrides notification settings without explanation.",
+    "Digest settings batch time-sensitive mentions and make collaborators think they were ignored."
+  ],
+  "sources": [
+    {
+      "id": "github-configuring-notifications",
+      "note": "GitHub documents choosing activity types and delivery methods for notifications."
+    },
+    {
+      "id": "slack-configure-notifications",
+      "note": "Slack documents notification preferences, Activity inclusion, mobile overrides, channel keywords, sound, appearance, and previews."
+    },
+    {
+      "id": "microsoft-teams-manage-notifications",
+      "note": "Microsoft Teams documents notification settings, activity settings, quick views, and notification setting search."
+    },
+    {
+      "id": "atlassian-jira-personal-notification-settings",
+      "note": "Jira documents personal notification settings for work-item activity and in-app or email channels."
+    },
+    {
+      "id": "atlassian-confluence-email-notifications",
+      "note": "Confluence documents email update preferences and administrator-disabled notification choices."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

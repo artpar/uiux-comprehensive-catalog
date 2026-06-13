@@ -1,0 +1,54 @@
+{
+  "id": "payment-collection-vs-checkout-vs-payment-card-entry-vs-bank-details",
+  "title": "Payment collection vs checkout vs payment card entry vs bank details",
+  "summary": "Use payment collection when a service must collect or reconcile a payment amount through one or more payment methods and lifecycle states; use checkout for purchase order finalization, payment card entry for secure card credential capture, and bank details for account identifier capture or verification.",
+  "patternIds": [
+    "payment-collection",
+    "checkout",
+    "payment-card-entry",
+    "bank-details",
+    "retry",
+    "confirmation-page"
+  ],
+  "decisionRules": [
+    "Choose payment collection when the product must request, authorize, confirm, retry, cancel, refund, or reconcile money for a known amount or reference outside the full cart-checkout context.",
+    "Choose checkout when payment is one part of converting a cart or order into a committed purchase with item summary, shipping, tax, discounts, delivery, and inventory state.",
+    "Choose payment card entry when the immediate problem is securely collecting card-network credentials; payment collection may host or redirect to that capture, but it also owns amount, reference, provider status, attempts, receipt, and reconciliation.",
+    "Choose bank details when the task is collecting account identifiers for payout, direct debit, refund, payroll, or account-to-account transfer rather than taking a card, wallet, bank transfer, or hosted payment now.",
+    "Choose retry when the same failed payment operation should be attempted again with preserved idempotency and context; payment collection decides whether retry is allowed, blocked, or requires a different method.",
+    "Choose confirmation page after a payment succeeds or a payment request is accepted, when users need a receipt, reference, status, next steps, and support route rather than editable payment controls.",
+    "A payment-collection flow should show amount due, payment reference, accepted methods, payer context, fees if any, provider handoff, processing status, failure reason category, retry or alternate-method route, receipt state, and reconciliation status.",
+    "Payment attempts should be idempotent, scoped to a stable reference, protected against duplicate charge, and clear about whether money was authorized, captured, pending, canceled, failed, refunded, or not yet attempted."
+  ],
+  "failureModes": [
+    "The user cannot tell whether payment was taken, pending, declined, canceled, or safe to retry.",
+    "The same payment reference can be submitted twice and creates duplicate charges.",
+    "A provider redirect returns without restoring amount, reference, and payment status.",
+    "A declined payment clears the invoice, application, or service context.",
+    "The interface asks for card details directly when the service should redirect to or embed a compliant payment provider surface.",
+    "A confirmation page appears before the payment provider reports success or accepted pending state."
+  ],
+  "sources": [
+    {
+      "id": "govuk-pay-take-a-payment",
+      "note": "GOV.UK Pay supports service payment references, amount, description, return URL, API-created payments, payment links, and hosted payment pages."
+    },
+    {
+      "id": "govuk-pay-api-reference",
+      "note": "GOV.UK Pay supports payment statuses, payment events, refunds, provider rejection, and failure-code handling."
+    },
+    {
+      "id": "stripe-payment-intents-lifecycle",
+      "note": "Stripe supports payment lifecycle states for retry, required action, processing, success, cancellation, and capture boundaries."
+    },
+    {
+      "id": "stripe-payment-element-overview",
+      "note": "Stripe supports a payment method collection component with validation and error handling across many payment methods."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Stripe supports idempotency keys to avoid duplicate request effects during retries."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

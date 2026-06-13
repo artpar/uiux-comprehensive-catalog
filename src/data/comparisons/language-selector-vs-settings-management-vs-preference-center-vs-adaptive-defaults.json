@@ -1,0 +1,51 @@
+{
+  "id": "language-selector-vs-settings-management-vs-preference-center-vs-adaptive-defaults",
+  "title": "Language selector vs settings management vs preference center vs adaptive defaults",
+  "summary": "Use language selector when users need an in-context way to switch the current content or product language; settings management when language is one durable app preference among many; preference center when language is tied to communication, consent, or profile choices; and adaptive defaults when browser or account signals only preselect an initial language.",
+  "patternIds": [
+    "language-selector",
+    "settings-management",
+    "preference-center",
+    "adaptive-defaults"
+  ],
+  "decisionRules": [
+    "Choose language selector when multilingual content exists and users need a visible control to move from the current page to an equivalent page or interface in another language.",
+    "Choose settings management when language is a durable account, app, or device option changed inside a broader configuration surface rather than the primary page-level task.",
+    "Choose preference center when language affects communications, marketing topics, privacy notices, consent records, profile fields, or messages delivered outside the current page.",
+    "Choose adaptive defaults when Accept-Language, browser locale, device locale, account profile, country, or prior behavior only suggests the starting language and the user must still be able to override it.",
+    "A language selector must show language names in recognizable native labels, keep the current language visible, and avoid relying on flags because countries and languages do not map one-to-one.",
+    "Use a direct two-language switch when exactly two equivalent translations are available; use a menu, list, or search-supported selector when three or more translations are available.",
+    "Do not show a language as selectable when the current page has no equivalent translation; instead explain unavailable, partial, fallback, or machine-translated content.",
+    "When users select a language, persist the explicit user language choice across internal navigation without overriding it with Accept-Language or location inference.",
+    "Changing language must preserve task context, current route, selected object, form draft, authentication state, and return path where equivalent translated content exists.",
+    "Do not combine language selector with country, currency, or timezone controls unless the interface explicitly separates text language from market, money, and scheduling consequences.",
+    "Mark page language and language names programmatically with correct lang attributes so screen readers, browsers, captions, and pronunciation rules can change correctly."
+  ],
+  "failureModes": [
+    "The site detects a language from browser settings and provides no visible way to override the result on the page.",
+    "Flags are used as the only labels, so users cannot distinguish language, country, region, and script variants.",
+    "Selecting a language sends users to the home page and loses their current task, object, form draft, or article context.",
+    "A menu lists languages whose current page translations do not exist and silently falls back to English.",
+    "The current page has no lang attribute or language links omit native-language labels, causing assistive technology pronunciation failures.",
+    "A language preference in a communication preference center is treated as the current-page language selector even though it only affects future messages."
+  ],
+  "sources": [
+    {
+      "id": "uswds-language-selector",
+      "note": "USWDS documents language selector variants, equivalent content expectations, lang attributes, and list semantics."
+    },
+    {
+      "id": "w3c-language-negotiation",
+      "note": "W3C explains why automatic negotiation must be paired with visible manual language controls and sticky explicit choices."
+    },
+    {
+      "id": "wcag-language-of-page",
+      "note": "WCAG language-of-page guidance supports programmatic language identification after selection."
+    },
+    {
+      "id": "mdn-accept-language-header",
+      "note": "MDN documents Accept-Language as a hint that should not override explicit user language choice."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

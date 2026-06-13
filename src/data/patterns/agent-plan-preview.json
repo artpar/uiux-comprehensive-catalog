@@ -1,0 +1,269 @@
+{
+  "id": "agent-plan-preview",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed agent plan preview pattern with pre-run plan guidance, state-specific demo coverage, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers objective, ordered steps, planned tools, data access, expected output, editable step, fixed step, optional step, conditional step, blocked permission, missing input, risk warning, approval gate marker, stale plan, regenerated plan, run-ready plan, run-started handoff, mobile compact plan, plan versioning, editability, side effects, and execution handoff.",
+    "relatedPatternDistinction": "The entry separates agent plan preview from task list by agent-owned proposed execution rather than user-owned persistent tasks, from recommended next action by multi-step plan review rather than one suggestion, from human approval gate by pre-run inspection rather than paused runtime authorization, from step navigation by model-generated execution plan rather than fixed human page flow, from prompt box by post-prompt plan review, and from activity log, progress trace, tool-use visibility, and audit trail by treating those as runtime or historical surfaces rather than pre-run preview.",
+    "liveDemoBehavior": "The live demo shows draft plan, editable step, fixed step, optional step, conditional step, blocked permission, missing input, risk warning, approval gate marker, stale plan, regenerated plan, run-ready plan, run-started handoff, and mobile compact plan states. Bad states cover summary-only, hidden tools, executed as preview, edit ignored, mandatory recommendation, stale-runnable, and side-effect hidden failures.",
+    "comparisonDecisionRules": "The linked agent-plan-preview-vs-task-list-vs-recommended-next-action-vs-human-approval-gate-vs-step-navigation comparison gives concrete rules for multi-step agent plan, objective, ordered steps, tool use, data access, dependencies, risks, approval gates, expected outputs, fixed, editable, optional, conditional, blocked, stale plan, permission-limited step, missing input, risk warning, unsupported step, proposed steps, planned tools, planned data access, not status history, progress trace, tool-use visibility, and audit trail.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/agent-plan-preview/ with the live demo, exercised Draft plan, Editable step, Fixed step, Optional step, Conditional step, Blocked permission, Missing input, Risk warning, Approval gate marker, Stale plan, Regenerated plan, Run-ready plan, Run-started handoff, Mobile compact plan, Summary-only, Hidden tools, Executed as preview, Edit ignored, Mandatory recommendation, Stale-runnable, and Side-effect hidden states, and found no duplicate IDs, page overflow, or agent-plan-preview demo overflow. The comparison route /compare/agent-plan-preview-vs-task-list-vs-recommended-next-action-vs-human-approval-gate-vs-step-navigation/ included agent plan preview, task list, recommended next action, human approval gate, step navigation, multi-step agent plan, objective, ordered steps, tool use, data access, dependencies, risks, approval gates, expected outputs, fixed, editable, optional, conditional, blocked, stale plan, permission-limited step, missing input, risk warning, unsupported step, proposed steps, planned tools, planned data access, not status history, progress trace, tool-use visibility, and audit trail terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/agent-plan-preview.png"
+    ]
+  },
+  "name": "Agent plan preview",
+  "aliases": [
+    "AI plan preview",
+    "agent execution plan",
+    "agent task plan",
+    "plan before run",
+    "AI task breakdown",
+    "tool plan preview",
+    "automation plan preview",
+    "agent steps preview",
+    "pre-run agent plan",
+    "AI workflow preview"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Pre-execution preview of an AI agent's proposed multi-step plan, tools, data access, and expected outputs",
+  "uiGuidance": [
+    "Render agent plan preview as a pre-run plan with objective, ordered steps, planned tools, data sources, permissions, assumptions, dependencies, approval gates, expected outputs, and controls to edit, approve, run, save, or cancel.",
+    "Label each step's execution status before run, such as proposed, editable, fixed, optional, conditional, blocked, approval required, permission-limited, stale, or unsupported, without implying those steps have already executed."
+  ],
+  "uxGuidance": [
+    "Use agent plan preview when users need to understand and shape what an AI agent will do before it starts calling tools, changing records, sending messages, spending budget, or making external side effects.",
+    "Keep plan preview distinct from runtime progress: before execution it should support inspection, correction, scoping, and consent; after execution starts, hand off to progress trace, tool-use visibility, approval gates, and audit trail."
+  ],
+  "uiExamples": {
+    "good": [
+      "A sales assistant previews a six-step account-research plan with CRM lookup, web search, draft email, approval gate before send, estimated sources, and editable recipient scope.",
+      "A support agent shows a refund investigation plan with required policy lookup, order check, customer-message draft, approval gate before refund, and blocked step for missing invoice.",
+      "A code assistant previews files it plans to inspect, tests it plans to run, commands needing permission, and an editable step order before starting."
+    ],
+    "bad": [
+      "The UI says I have a plan and immediately starts executing without showing steps, tools, data access, or external side effects.",
+      "A list of completed tool events is titled Plan preview, confusing proposed work with already executed work.",
+      "A plan preview shows friendly step names but hides that one step sends customer email and another edits billing records."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A manager removes the Send email step, narrows the data source to approved knowledge, approves the remaining plan, and sees execution start from the revised version.",
+      "A user sees the plan is stale after changing the objective, regenerates it, and reviews the new tool list before running.",
+      "A mobile user expands a compact plan preview, sees approval gates and permission-limited steps, and cancels before the agent starts."
+    ],
+    "bad": [
+      "Users approve a plan that says Research account but the agent also updates the opportunity stage.",
+      "The agent executes an earlier plan after the user edited step order.",
+      "A blocked plan still shows Run now even though a required source permission is missing."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI agents can perform multi-step work with tools and side effects, but users often see only a summary or prompt response before execution, leaving them unable to inspect the plan, correct unsafe steps, understand data access, or consent to what will happen.",
+  "solution": "Show the proposed plan before execution with objective, steps, tools, inputs, assumptions, data access, permissions, risks, approval gates, expected outputs, and edit/run/cancel controls, then validate that the executed plan matches the reviewed plan.",
+  "problemContext": [
+    "The product can generate, infer, or assemble a plan before running an agent, workflow, tool sequence, research task, code task, content operation, or customer action.",
+    "The plan can include tool calls, data retrieval, edits, messages, payments, deployments, scheduling, deletes, external integrations, or other side effects.",
+    "Users need to know what the agent will do before work starts, especially when plan steps affect other people, systems, money, security, compliance, or public output.",
+    "A plan may become stale after the user changes the objective, source scope, permissions, model instructions, selected record, or available tools.",
+    "Some steps may be editable while others are fixed by policy, required by dependency, conditional, blocked, or gated by human approval."
+  ],
+  "selectionRules": [
+    "Choose agent plan preview when an AI agent's proposed multi-step execution needs review before it starts.",
+    "Use task list when users are choosing from known tasks they own, not reviewing an agent-generated run plan.",
+    "Use recommended next action when the system proposes one immediate action rather than a sequence of planned steps.",
+    "Use human approval gate when a running automation is paused at a specific step and needs authorization to continue.",
+    "Use step navigation when users move through a fixed human-driven sequence instead of shaping an agent run.",
+    "Use prompt box when the main task is composing the initial request; show agent plan preview after the request produces a proposed plan.",
+    "Use agent progress trace after execution starts and tool-use visibility while tools run; do not use plan preview as the runtime log.",
+    "Expose planned tools, data sources, permissions, assumptions, approval gates, external side effects, and expected outputs before Run.",
+    "Allow edits only for plan fields the system can honor, and label fixed or policy-required steps as fixed.",
+    "Invalidate or regenerate the plan when objective, context, source scope, permissions, tool availability, or model instructions change."
+  ],
+  "requiredStates": [
+    "Draft plan state with objective, ordered steps, planned tools, and expected output.",
+    "Editable step state with edit, remove, reorder, or scope controls where safe.",
+    "Fixed or required step state where policy or dependency prevents editing.",
+    "Optional and conditional step states.",
+    "Permission-limited or missing-input blocked step state.",
+    "Risk warning state for external side effects, destructive actions, money movement, or public communication.",
+    "Human approval gate marker state for steps that will pause during execution.",
+    "Plan changed, regenerated, stale, or out-of-date state after context changes.",
+    "Run-ready state with visible run, save, cancel, and review controls.",
+    "Run-started handoff state that preserves the reviewed plan version.",
+    "Mobile compact plan preview state."
+  ],
+  "interactionContract": [
+    "The preview names the objective, plan version, source context, model or workflow instructions, planned tools, and expected output before run.",
+    "Each plan step explains what the agent will do, what data it will access, what side effect may occur, and whether the user can edit it.",
+    "Editing, removing, reordering, or scoping steps updates the plan version and validation state before execution.",
+    "Fixed, required, permission-limited, blocked, stale, and approval-required states change available actions before Run.",
+    "Run starts only the reviewed plan version, or warns that the plan changed and asks the user to review again.",
+    "When execution starts, the UI preserves the reviewed plan and hands off to progress trace, tool-use visibility, human approval gate, and audit trail surfaces.",
+    "Canceling or saving the preview does not silently run tools or commit side effects.",
+    "Keyboard and touch users can inspect, edit, reorder where allowed, approve, run, save, or cancel without losing the plan context."
+  ],
+  "implementationChecklist": [
+    "Model plan ID, plan version, objective, source scope, assumptions, steps, dependencies, tools, permissions, expected outputs, side effects, approval gates, risk level, editability, and stale triggers as structured data.",
+    "Separate proposed plan state from execution progress, tool-call events, human approval gates, recommended next actions, task rows, and audit history.",
+    "Render each step with title, purpose, tool, input, output, side effect, editability, dependency, and status before run.",
+    "Add controls for edit step, remove step, reorder step, change source scope, regenerate plan, save plan, cancel, and run reviewed plan.",
+    "Require explicit review before high-impact steps such as sending messages, changing records, spending money, deleting data, deploying, or publishing.",
+    "Revalidate plan version, permissions, available tools, source scope, objective, and selected record immediately before run.",
+    "Log reviewed plan version, user edits, run-start decision, plan diff, and later execution result for audit where outcomes matter.",
+    "Test hidden tool calls, stale plan, edited step, fixed step, optional step, conditional step, blocked permission, approval gate marker, mobile wrapping, keyboard reordering, and screen-reader status updates."
+  ],
+  "commonMisuses": [
+    "Showing a vague plan summary while hiding planned tool calls, data access, and side effects.",
+    "Calling execution history a plan preview after the work has already run.",
+    "Letting the agent execute a different plan than the one the user reviewed.",
+    "Making every step editable even when policy, dependency, or safety requires fixed steps.",
+    "Showing Run when required inputs, permissions, or approval gates are unresolved.",
+    "Treating one recommended action as a full plan.",
+    "Using task list row status for agent plan steps even though the agent, not the user, owns execution.",
+    "Hiding stale-plan state after objective, context, source scope, or tool availability changes."
+  ],
+  "critiqueQuestions": [
+    "What exact plan version will run if the user selects Run?",
+    "Can users see every planned tool call, data source, side effect, approval gate, and expected output?",
+    "Which steps are editable, fixed, optional, conditional, blocked, or stale, and why?",
+    "What context changes invalidate the plan before execution?",
+    "How does the UI prove that execution followed the reviewed plan version?",
+    "Would task list, recommended next action, human approval gate, step navigation, or progress trace solve the actual problem instead?"
+  ],
+  "useWhen": [
+    "An AI agent or automation can show a proposed multi-step plan before execution.",
+    "Users need to inspect or adjust steps, tools, source scope, permissions, risks, or expected outputs before the agent acts.",
+    "The plan may include side effects, external messages, record edits, customer impact, or approval gates.",
+    "The product can validate that the executed run matches the reviewed plan version."
+  ],
+  "avoidWhen": [
+    "The system cannot generate a reliable plan before execution.",
+    "The work is a simple single recommended action.",
+    "Users are browsing a known set of tasks they own.",
+    "Execution has already started and users need runtime progress or tool-use visibility.",
+    "A policy requires a runtime human approval gate at a specific step rather than pre-run plan review."
+  ],
+  "variants": [
+    "Pre-run agent plan",
+    "Tool plan preview",
+    "Editable agent plan",
+    "Plan with approval gates",
+    "Plan with permission-limited steps",
+    "Plan with side-effect warnings",
+    "Generated task breakdown",
+    "Research plan preview",
+    "Code agent plan preview",
+    "Mobile plan preview"
+  ],
+  "accessibility": [
+    "Expose objective, plan version, step order, step status, tool, data access, side effect, and expected output as text.",
+    "Do not rely on color, drag handles, indentation, or icons alone to communicate editable, fixed, blocked, stale, optional, conditional, or approval-required steps.",
+    "Make edit, remove, reorder, regenerate, save, cancel, and run controls keyboard reachable and labelled by step where relevant.",
+    "Announce plan regenerated, stale plan, blocked step, permission change, validation passed, and run started as status messages.",
+    "Ensure long tool names, file paths, source names, and step explanations wrap at mobile widths and high zoom.",
+    "Provide non-drag reorder controls when step order can be changed."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches plan summary, source scope, each step, step details, edit controls, reorder controls, regenerate, save, cancel, and run in a predictable order.",
+    "Enter or Space opens step details, activates edit controls, regenerates the plan, saves, cancels, or starts run according to native control behavior.",
+    "Arrow keys may reorder steps only when the component implements documented sortable-list behavior and alternative buttons are also available.",
+    "After editing a step, focus returns to the changed step or validation status.",
+    "When the plan becomes stale, focus moves to the stale-plan message and regenerate or review controls.",
+    "Run-start handoff moves focus to the progress trace or first runtime approval gate."
+  ],
+  "failureModes": [
+    "The agent hides destructive or external side-effect steps until after Run.",
+    "The plan says research only but the agent sends a customer message.",
+    "User edits are not included in the executed plan.",
+    "A stale plan remains runnable after tool permissions or source scope changes.",
+    "Blocked steps appear runnable with no reason.",
+    "A plan preview is used as a progress log and users cannot tell what has already happened.",
+    "Mobile users cannot see approval gates or side-effect warnings before starting the run.",
+    "The audit trail cannot connect the reviewed plan version to the executed run."
+  ],
+  "relatedPatterns": [
+    "task-list",
+    "recommended-next-action",
+    "human-approval-gate",
+    "step-navigation",
+    "prompt-box",
+    "activity-log",
+    "confidence-uncertainty-display"
+  ],
+  "comparisons": [
+    "agent-plan-preview-vs-task-list-vs-recommended-next-action-vs-human-approval-gate-vs-step-navigation"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI prompt engineering guide",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+      "platform": "ai",
+      "notes": "Documents explicit goals, context, constraints, and structured output guidance that support plan-like model behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI conversation state guide",
+      "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "platform": "ai",
+      "notes": "Documents multi-turn state, messages, tool calls, tool outputs, and response chaining that affect agent plan context.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Copilot Studio prompt assistant",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/prompt-assistant",
+      "platform": "ai",
+      "notes": "Documents AI-generated drafts that users review, keep, edit, and test before use.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Supports user control, correction, expectations, uncertainty, and capability-boundary guidance.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports goals, context, constraints, structured outputs, and iterative refinement for model behavior."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports state, messages, tool calls, tool outputs, and response chaining that affect agent plans."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports separating pre-run plan preview from later streamed response and tool events."
+    },
+    {
+      "id": "microsoft-copilot-studio-prompt-assistant",
+      "note": "Supports reviewing, keeping, editing, and testing AI-generated drafts before use."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, correction, expectations, uncertainty, and capability boundaries."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing plan updates, blocked steps, validation, and run-start status changes."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

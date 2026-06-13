@@ -1,0 +1,257 @@
+{
+  "id": "account-creation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed persistent account establishment pattern with guidance for account necessity, delayed creation, reused draft details, clear new-account language, sign-in separation, neutral existing-account handling, verification, accessible abuse controls, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers whether an account is truly required, delayed creation after useful service work, account reason copy, identifier choice, new credential labels, existing-account routing, neutral duplicate-account response, verification pending and expired states, reuse of entered service data, accessible alternatives to CAPTCHA, deferred profile or preference setup, and return-to-task behavior.",
+    "relatedPatternDistinction": "The entry separates account creation from start page by establishing persistent access rather than service entry, from onboarding by creating credentials rather than teaching first use, from password creation by owning the wider account lifecycle around one new secret, from email address entry by requiring account persistence rather than contact-only capture, and from password input by creating rather than entering existing credentials.",
+    "liveDemoBehavior": "The live demo uses a permit draft account flow with account-need explanation, reused email, new password field, verification pending state, neutral existing-account email link, deferred profile setup, return-to-draft completion, and bad modes for forced first registration, create/sign-in mode confusion, account-existence disclosure, repeated details, CAPTCHA-only blocking, and lost draft.",
+    "comparisonDecisionRules": "The linked account-creation-vs-start-page-vs-onboarding-vs-password-creation comparison gives concrete rules for persistent accounts, one-off service starts, first-use activation, new password selection, contact-only email capture, delayed account creation, create/sign-in separation, enumeration-safe responses, and avoiding unrelated setup requirements.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/account-creation/ on 2026-06-11 in Chromium: verified why account, reuse email, verify, existing account, defer extras, return to draft, forced first, mode confusion, reveals account, repeat details, CAPTCHA block, and lost draft states; verified password input type for the new secret; verified /compare/account-creation-vs-start-page-vs-onboarding-vs-password-creation/; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/account-creation.png"
+    ]
+  },
+  "name": "Account creation",
+  "aliases": [
+    "create account",
+    "sign up",
+    "registration",
+    "register account",
+    "new account setup",
+    "account registration",
+    "user registration",
+    "service account setup",
+    "create an account",
+    "join flow"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent account establishment flow",
+  "uiGuidance": [
+    "Render account creation as a focused task with a clear reason for the account, one identifier path, new-credential fields, verification or activation state, existing-account route, and post-creation destination.",
+    "Use labels such as Create an account, Create a password, and Email address for this account; keep sign-in, profile setup, marketing preferences, and optional personalization visually and semantically separate."
+  ],
+  "uxGuidance": [
+    "Use account creation only when a persistent account is necessary for repeated access, saved data, updates, security, or legal accountability.",
+    "Delay account creation until it is required, avoid repeated data entry, protect against account enumeration, and route users who already have accounts toward sign-in or recovery without blocking the main service unnecessarily."
+  ],
+  "uiExamples": {
+    "good": [
+      "A service lets users draft an application, then asks them to create an account to save and return later with email, new password, terms acknowledgement, and a clear activation message.",
+      "A workspace app explains that an account stores projects across devices, uses Create an account as the heading, separates Already have an account? Sign in, and sends a verification email without revealing duplicate-account status."
+    ],
+    "bad": [
+      "A checkout asks for account registration before showing shipping cost or guest checkout even though the purchase can complete without an account.",
+      "A registration screen has Sign in and Sign up side by side with identical email and password fields, plus newsletter, profile photo, and referral-code fields."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user completes most of a one-hour permit application, chooses to save progress, creates an account using the email already entered, verifies the email, and returns to the same draft.",
+      "A user enters an email that may already exist and receives a neutral message that a link has been sent, with sign-in and recovery routes in the email rather than account-existence disclosure on the page."
+    ],
+    "bad": [
+      "A user must create an account before learning whether the service is suitable, then abandons because registration feels unnecessary.",
+      "A user who already has an account accidentally creates a second account because the page never separates new-account creation from sign-in."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Accounts can help users return, manage data, and protect access, but unnecessary or confusing account creation adds friction, duplicates accounts, exposes account existence, and can block users before they know whether the service meets their need.",
+  "solution": "Ask users to create an account only when persistence is needed, explain the reason, reuse information already entered, separate new-account creation from sign-in, verify contact routes safely, avoid enumeration and unnecessary challenges, and land users back where the account helps them continue.",
+  "problemContext": [
+    "Users need to regularly access, update, save, resume, manage, or protect data in a service or product.",
+    "The service may need an account for drafts, history, status checks, notifications, recovery, payments, permissions, auditability, or collaboration.",
+    "A one-off transaction may be possible without an account and should not force one unless policy, security, or later management requires it.",
+    "Users may already have an account, may be using a password manager, may need email or phone verification, or may be vulnerable to enumeration if responses reveal account existence.",
+    "Account creation often touches email entry, password creation, terms acceptance, MFA setup, profile setup, and onboarding, but should not absorb those tasks unless they are necessary to establish the account."
+  ],
+  "selectionRules": [
+    "Choose account creation when a persistent account is required for repeated access, saved data, account management, security, authorization, legal accountability, or returning to drafts.",
+    "Avoid account creation when a one-off service can use a reference number, email link, receipt, guest checkout, or existing identity route.",
+    "Let users use as much of the service as practical before account creation when the account is only needed for save, return, submit, or manage-later behavior.",
+    "Use Create an account language rather than ambiguous Register or Sign up copy when the task is establishing a new account.",
+    "Label new credentials clearly, such as Create a password, so users do not think they are entering an existing password.",
+    "Separate account creation from sign-in through page title, copy, route, and recovery link; do not rely only on two adjacent buttons.",
+    "Reuse email, name, phone, address, or other data already entered rather than asking users to repeat it for the account.",
+    "Use neutral messages for duplicate or existing accounts where enumeration risk matters, and route users through email, sign-in, or recovery.",
+    "Ask for verification, MFA, terms, or consent only when needed for the account; defer profile setup, preferences, marketing opt-ins, and onboarding until after creation.",
+    "Avoid CAPTCHAs and similar cognitive tests as the default abuse defense; prefer rate limits, risk controls, email verification, or other accessible security measures.",
+    "Do not use National Insurance numbers or similarly high-risk identifiers as default account verification shortcuts.",
+    "After successful creation, return users to the draft, task, dashboard, or next account-security step that explains why the account was created."
+  ],
+  "requiredStates": [
+    "Need-for-account state explaining why an account is required or beneficial at this point.",
+    "New-account entry state with clear identifier and new credential labels.",
+    "Already-have-account state with sign-in and recovery routes separated from creation.",
+    "Duplicate or existing-account neutral response state that avoids exposing account existence.",
+    "Verification pending state for email, phone, magic link, or activation code.",
+    "Verification failed or expired state with resend, change contact, and support routes.",
+    "Password-manager and autofill state supporting email, username, and new-password fields.",
+    "Save-and-return state that lands back on a draft or interrupted task after creation.",
+    "Optional setup deferred state where profile, preferences, MFA, or onboarding are offered without blocking unnecessary progress.",
+    "Unavailable, rate-limited, or abuse-protection state with accessible recovery and no CAPTCHA-only dead end."
+  ],
+  "interactionContract": [
+    "The flow states why the account is needed before asking for credentials.",
+    "Submitting account details validates required fields, preserves entered values except secrets when appropriate, and never displays raw passwords later.",
+    "Existing-account detection does not reveal account existence on sensitive surfaces; users receive a neutral next step or are routed through email, sign-in, or recovery.",
+    "Create-account and sign-in routes cannot silently switch modes while keeping the same field values in a misleading state.",
+    "Verification links or codes identify the service, expire predictably, support resend, and allow users to change the target email or phone.",
+    "Successful creation establishes an authenticated or pending account state and returns to the task or account area promised by the page.",
+    "Security controls such as rate limits, bot defenses, and MFA setup are explained and accessible without turning into unrelated profile setup.",
+    "Account creation records required consent or terms separately from optional marketing, personalization, or notification preferences."
+  ],
+  "implementationChecklist": [
+    "Decide whether an account is truly required; document the saved data, repeated access, authorization, legal, security, or collaboration need.",
+    "Choose the account identifier, verification channel, credential method, recovery route, existing-account response, and post-creation destination before designing screens.",
+    "Use native email, username, and new-password fields with correct autocomplete values and password-manager compatibility.",
+    "Reuse information already entered in the service and clearly show when it will become part of the account.",
+    "Design neutral duplicate-account, activation-link, expired-link, resend, change-contact, sign-in, recovery, and rate-limited states.",
+    "Separate required account setup from profile details, notification preferences, consent choices, onboarding, and marketing opt-ins.",
+    "Test new user, existing user, duplicate email, password manager, paste, verification timeout, mobile, keyboard, screen reader, slow network, translated copy, and abuse-control states.",
+    "Monitor account-creation abandonment, duplicate-account creation, activation completion, recovery after duplicate attempts, and downstream return-to-task success."
+  ],
+  "commonMisuses": [
+    "Forcing accounts before users can evaluate a service or complete a one-off transaction.",
+    "Using account creation to collect profile, marketing, or preference data that is not needed to establish the account.",
+    "Presenting create account and sign in as identical forms with unclear labels.",
+    "Revealing This email already exists on a public registration page.",
+    "Asking users to retype information they already entered earlier in the service.",
+    "Adding CAPTCHA as the only abuse defense or making it block assistive-technology users.",
+    "Treating password creation, profile setup, onboarding, and account creation as one undifferentiated flow.",
+    "Landing users on a blank account dashboard instead of returning to the draft or task that required the account."
+  ],
+  "critiqueQuestions": [
+    "Why is a persistent account needed here, and could a reference number or email link satisfy the user need?",
+    "Can users do useful service work before account creation becomes necessary?",
+    "How does the page make Create an account different from Sign in?",
+    "What happens if the email or username already belongs to an account?",
+    "Which entered information is reused, and which fields are unnecessary at this point?",
+    "Where does the user land after creation, verification, expiration, or failure?"
+  ],
+  "useWhen": [
+    "Users need to save and resume drafts, regularly update their data, manage records, check ongoing status, collaborate, or protect repeated access.",
+    "The service must bind credentials, verification, recovery, consent, or authorization to a persistent account.",
+    "Account creation can return the user to a meaningful task, saved state, or account management surface."
+  ],
+  "avoidWhen": [
+    "The task is a one-off transaction that can be completed with a reference number, receipt, guest route, or emailed status link.",
+    "The account is mainly for marketing, analytics, personalization, or future engagement rather than the user's current task.",
+    "The user is only creating a password, entering an email, signing in, setting up a profile, or completing onboarding.",
+    "The team cannot support verification, recovery, duplicate-account handling, account deletion, security notifications, or accessible abuse controls."
+  ],
+  "variants": [
+    "Create account after draft",
+    "Create account before protected action",
+    "Email-link account activation",
+    "Passwordless account creation",
+    "Federated account creation",
+    "Invite-based account creation",
+    "Save-and-return account",
+    "Guest-to-account conversion",
+    "Account creation with MFA setup",
+    "Existing-account recovery handoff"
+  ],
+  "accessibility": [
+    "Use a clear H1 such as Create an account and visible labels that say Create a password or Email address rather than ambiguous credential labels.",
+    "Keep the create-account form focused on one task and avoid distracting links that interrupt account establishment.",
+    "Do not require CAPTCHA or visual puzzles as the only route through account creation.",
+    "Connect field errors, password guidance, verification status, and duplicate-account neutral messages to the relevant controls.",
+    "Preserve keyboard and screen reader access for password-manager, resend, change-email, sign-in, and recovery actions.",
+    "Avoid color-only distinction between create-account, sign-in, verification, and error states.",
+    "Make activation emails or codes readable, time-bound, and recoverable without trapping users who cannot access the original channel."
+  ],
+  "keyboardBehavior": [
+    "Initial focus lands on the account-creation heading or first required field after any intro text explaining why the account is needed.",
+    "Tab order follows account reason, identifier, new credential, verification or terms controls, primary create action, existing-account route, and help.",
+    "Password-manager autofill and generated-password suggestions are not covered by custom panels.",
+    "Submit with errors moves focus to the error summary or first invalid field while preserving non-secret values.",
+    "Verification resend, change email, sign in, and recovery links are reachable without leaving the account flow unexpectedly.",
+    "After successful creation, focus lands on the resumed task heading, draft status, verification heading, or account home promised by the flow."
+  ],
+  "failureModes": [
+    "Users abandon because registration is required before the service value is clear.",
+    "Users create duplicate accounts because sign-in, recovery, and create-account routes are not distinguished.",
+    "Attackers enumerate accounts through different registration messages, redirects, response times, or activation behavior.",
+    "Users cannot create an account because CAPTCHA or bot checks are inaccessible.",
+    "Password managers fill existing credentials into new-account fields because labels and autocomplete purposes are wrong.",
+    "Users lose a draft because account creation does not return them to the interrupted task.",
+    "Sensitive identifiers are collected or reused as identity proof without need.",
+    "Optional onboarding, profile setup, or marketing consent blocks the account before the essential task can continue."
+  ],
+  "relatedPatterns": [
+    "start-page",
+    "onboarding",
+    "password-creation",
+    "email-address-entry",
+    "password-input"
+  ],
+  "comparisons": [
+    "account-creation-vs-start-page-vs-onboarding-vs-password-creation"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Create accounts",
+      "url": "https://design-system.service.gov.uk/patterns/create-accounts/",
+      "platform": "web",
+      "notes": "Documents when accounts are justified, avoiding unnecessary accounts, simple create-account journeys, clear language, sign-in separation, and avoiding CAPTCHA-style barriers.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OWASP Authentication Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+      "platform": "web",
+      "notes": "Documents account registration enumeration risk, neutral activation-link response examples, password guidance, and password-manager compatibility.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OWASP WSTG account enumeration testing",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/03-Identity_Management_Testing/04-Testing_for_Account_Enumeration_and_Guessable_User_Account",
+      "platform": "web",
+      "notes": "Documents registration, login, and recovery behavior that can disclose account existence through messages, redirects, response bodies, response times, or user-specific URLs.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NIST SP 800-63B authentication lifecycle",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "platform": "web",
+      "notes": "Documents subscriber accounts, authentication assurance, authenticator lifecycle, return-visit authentication, protected channels, and account-related privacy considerations.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-create-accounts-pattern",
+      "note": "GOV.UK supports account creation only when users need regular access or updates, simple journeys, clear language, sign-in separation, and avoiding repeated information and CAPTCHAs."
+    },
+    {
+      "id": "owasp-authentication-account-enumeration",
+      "note": "OWASP supports neutral account-registration responses that avoid exposing whether an account already exists."
+    },
+    {
+      "id": "owasp-wstg-account-enumeration",
+      "note": "OWASP WSTG supports testing registration and recovery flows for account-enumeration signals."
+    },
+    {
+      "id": "nist-sp-800-63b-authentication-lifecycle",
+      "note": "NIST supports the account and authenticator lifecycle framing for repeated authentication and return visits."
+    },
+    {
+      "id": "mdn-html-autocomplete-password",
+      "note": "MDN supports correct new-password autocomplete for account creation fields."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

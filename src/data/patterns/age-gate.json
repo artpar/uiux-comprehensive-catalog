@@ -1,0 +1,259 @@
+{
+  "id": "age-gate",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed age-gate pattern with distinct eligibility-boundary guidance, live demo states, comparison decision rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "name": "Age gate",
+  "aliases": [
+    "age check",
+    "date of birth gate",
+    "age verification",
+    "age assurance",
+    "age screening",
+    "adult content gate",
+    "minor eligibility check",
+    "parental consent gate",
+    "age-restricted access",
+    "child safety gate"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Eligibility and safety boundary that asks for age, age band, date of birth, verified age, or parent authorization before age-sensitive access, data collection, or content exposure",
+  "uiGuidance": [
+    "Render the age gate as a clear eligibility boundary that states why age is needed, what threshold or age band applies, which answer format is required, and what happens next.",
+    "Use the least intrusive age evidence that matches the risk, with separate states for declared age, age band, verified age, parent or guardian consent, underage denial, and age-assurance handoff."
+  ],
+  "uxGuidance": [
+    "Use an age gate when the product must adapt, restrict, or verify access because of age-sensitive content, child data protection, app-store rating, regulated features, or parent authorization.",
+    "Help users recover honestly by explaining underage outcomes, correction rules, parent or guardian routes, privacy treatment of age evidence, regional thresholds, and appeal or support paths."
+  ],
+  "uiExamples": {
+    "good": [
+      "A video service asks for date of birth before showing mature content, explains that age is needed for content eligibility, and blocks access without previewing restricted media when the user is under the threshold.",
+      "A family app asks a child for an age band, switches to a parent-consent flow for under-13 users, and says which information is collected for the age check."
+    ],
+    "bad": [
+      "A modal asks Are you 18? with the Yes button preselected, no explanation, and mature content visible behind the overlay.",
+      "A low-risk forum demands a government ID scan before showing a text discussion, with no data-minimization, deletion, or fallback explanation."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user enters a birth date, sees that they meet the age threshold for the current region, and can continue without seeing repeated checks during the same signed-in session.",
+      "An underage user is shown a child-safe version, parent consent route, correction support, and privacy note rather than a dead end that encourages guessing a different birth date."
+    ],
+    "bad": [
+      "A user denied by an age check can immediately retry unlimited times until they guess an adult birth year.",
+      "A parent-consent step bundles age authorization with marketing, tracking, and terms acceptance, so users cannot understand what is being authorized."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Age-sensitive products can expose children to unsuitable content, collect child data without the right route, overcollect identity evidence, or deny legitimate users when age checks are vague, easy to game, irreversible, or blended with unrelated consent.",
+  "solution": "Provide a risk-proportionate age gate with clear reason, threshold, input format, data-minimization copy, underage or adult outcomes, parent or guardian route, age-assurance handoff where needed, correction and appeal paths, and content protection before eligibility is known.",
+  "problemContext": [
+    "Age gates may be used for child privacy, mature content, gambling, alcohol, social features, app-store ratings, regional legal thresholds, account creation, creator content, or family settings.",
+    "Evidence strength varies by risk: self-declared age, age band, date of birth, signed-in account age, parental consent, third-party age assurance, document check, payment-card check, or organization-managed birth date.",
+    "The gate itself can create privacy risk when it collects exact birth dates, identity documents, parent contact information, or verification provider data that is not needed for the decision.",
+    "Underage, unknown-age, verified-adult, parent-consent, regional-threshold, retry, and unavailable-verification outcomes need different UI states."
+  ],
+  "selectionRules": [
+    "Choose age gate when age or age band controls whether content, features, data collection, contact, commerce, or personalization is available.",
+    "Use a declared age or age band when the risk is low and the product only needs coarse adaptation, such as child-safe defaults or content filtering.",
+    "Use stronger age assurance when regulated content, adult features, child-data collection, payments, gambling, or platform policy requires higher confidence.",
+    "Use parent or guardian consent when a child may continue only through an adult authorization route.",
+    "Use consent prompt when the user is already eligible and the question is whether to allow a specific data use or action.",
+    "Use permission request when the boundary is access to camera, location, microphone, contacts, files, or another device or account resource.",
+    "Use sensitive-data reveal when age is already known and the user must intentionally expose hidden information.",
+    "Use privacy settings for durable age-related defaults, child profiles, family controls, or data-sharing settings after the eligibility step."
+  ],
+  "requiredStates": [
+    "Age prompt state with reason, threshold, and input format.",
+    "Neutral date-of-birth or age-band entry state without adult-default bias.",
+    "Adult allowed state with session or account recognition where appropriate.",
+    "Underage denied or adapted state that does not leak restricted content.",
+    "Parent or guardian consent required state.",
+    "Age assurance handoff state with provider, data, and return status.",
+    "Data-minimization explanation state.",
+    "Region-specific threshold state.",
+    "Retry, correction, appeal, signed-in known age, expired session, verification unavailable, and mobile compact states."
+  ],
+  "interactionContract": [
+    "The gate appears before restricted content, restricted actions, or child-data collection are exposed.",
+    "The UI states why age is needed and does not ask for exact birth date or identity evidence when an age band would satisfy the decision.",
+    "Age choices are neutral: no preselected adult answer, no highlighted lie path, no mature-content preview, and no reward copy for passing.",
+    "Underage results explain the threshold, available child-safe route, parent route, correction or appeal policy, and what data is retained or deleted.",
+    "Parent consent, legal acceptance, marketing consent, cookie consent, and device permissions remain separate decisions with separate labels.",
+    "Retry and correction rules prevent easy guessing while allowing genuine mistakes to be corrected through a clear route.",
+    "Verification provider handoffs preserve return state, explain data sharing, and handle canceled, failed, unavailable, and pending results without claiming success.",
+    "Known-age signed-in sessions avoid repeated prompts while still refreshing when policy, region, account state, or session risk changes."
+  ],
+  "implementationChecklist": [
+    "Map age-sensitive surfaces, age thresholds, regions, risk levels, required confidence, parent routes, and allowed child-safe alternatives before designing the gate.",
+    "Choose the minimum age evidence needed for each surface and document retention, deletion, verification-provider, and audit behavior.",
+    "Write separate copy for adult allowed, underage denied, child-safe adaptation, parent consent required, verification pending, verification failed, unavailable provider, correction, and appeal states.",
+    "Block restricted content previews, search snippets, recommendations, notifications, and deep links until eligibility is known.",
+    "Keep age-gate decisions separate from terms acceptance, cookie consent, marketing consent, payment consent, and device permission prompts.",
+    "Test long localized threshold copy, low vision, keyboard entry, date formatting, screen readers, mobile numeric keyboards, regional thresholds, family accounts, and locked or managed profiles.",
+    "Audit logs and analytics so age, birth date, parent contact, identity evidence, and failed checks are minimized and protected."
+  ],
+  "commonMisuses": [
+    "Preselecting Yes, I am over 18 or styling the adult path as the obvious safe answer.",
+    "Showing restricted content behind or before the age gate.",
+    "Collecting identity documents when only an age band is needed.",
+    "Letting users retry unlimited birth dates until one passes.",
+    "Bundling parent consent with marketing, tracking, legal acceptance, or cookie consent.",
+    "Giving an underage user a dead end with no child-safe alternative, parent route, correction, or appeal.",
+    "Treating a device permission denial as an age gate result.",
+    "Remembering a failed or sensitive age answer forever without explaining retention or correction."
+  ],
+  "critiqueQuestions": [
+    "What exact content, feature, data collection, or action requires age gating?",
+    "Which age threshold, region, and policy source controls this surface?",
+    "Is exact date of birth necessary, or would an age band or declared age be enough?",
+    "What does an underage user see, and does it leak restricted content?",
+    "Can a genuine mistake be corrected without allowing unlimited guessing?",
+    "What parent, guardian, family, or managed-account route exists?",
+    "What age evidence is collected, where is it stored, and when is it deleted?"
+  ],
+  "useWhen": [
+    "Age or age band controls whether users may access content, features, commerce, community interaction, personalization, or data collection.",
+    "The product needs child-safe defaults, parent authorization, mature-content restriction, or region-specific age eligibility.",
+    "The experience can explain the threshold, data use, recovery route, and underage outcome honestly."
+  ],
+  "avoidWhen": [
+    "The question is whether an eligible user consents to optional data use; use consent prompt.",
+    "The boundary is camera, location, microphone, file, or contact access; use permission request.",
+    "The user is revealing already-authorized hidden content; use sensitive-data reveal.",
+    "The surface needs durable privacy controls after eligibility; use privacy settings.",
+    "The product cannot protect restricted content before the answer or cannot safely process age evidence."
+  ],
+  "variants": [
+    "Date of birth gate",
+    "Age band selector",
+    "Declared adult gate",
+    "Verified age gate",
+    "Age assurance provider handoff",
+    "Parent consent gate",
+    "Child-safe adaptation",
+    "Regional age threshold",
+    "Known-age account check",
+    "Age correction or appeal",
+    "Expired age session",
+    "Managed child account"
+  ],
+  "accessibility": [
+    "Label date, month, year, age band, parent email, verification provider, continue, cancel, correction, and appeal controls with the target threshold or action.",
+    "Use fieldsets and error messages for multi-part birth dates or age bands rather than relying on input examples inside empty fields.",
+    "Do not communicate allowed, underage, pending, failed, or unavailable states by color, lock icon, or blur alone.",
+    "Announce verification pending, underage blocked, parent consent required, and age accepted states through status text.",
+    "Keep parent route, correction, appeal, privacy notice, and child-safe alternative keyboard reachable.",
+    "Use numeric keyboard hints where appropriate, but preserve manual entry, paste, and localized date formats."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the reason text, input fields or age-band controls, privacy details, continue, cancel, parent route, correction, and appeal controls.",
+    "Enter submits only when required fields are valid and focus remains on the first invalid field after validation errors.",
+    "Escape closes optional help or provider detail surfaces without submitting an age answer.",
+    "After an allowed result, focus moves to the newly available content heading or next task step.",
+    "After an underage or failed result, focus moves to the explanation and then to the child-safe, parent, correction, or appeal action.",
+    "Provider handoff cancellation returns focus to the verification choice rather than losing the task."
+  ],
+  "failureModes": [
+    "An adult-default button encourages users to lie about their age.",
+    "The restricted content is visible in the background before eligibility is known.",
+    "The product overcollects identity evidence for a coarse age-band decision.",
+    "Underage denial gives no parent route, child-safe option, correction, or appeal.",
+    "Users can brute-force birth years through unlimited retries.",
+    "A third-party verification failure is presented as if the user is underage.",
+    "Parent consent is mixed with cookies, marketing, tracking, or terms acceptance.",
+    "The same user is prompted repeatedly because known-age session state is not preserved."
+  ],
+  "relatedPatterns": [
+    "consent-prompt",
+    "permission-request",
+    "sensitive-data-reveal",
+    "privacy-settings",
+    "cookie-banner",
+    "account-creation",
+    "password-creation",
+    "two-factor-authentication",
+    "session-timeout",
+    "security-warning"
+  ],
+  "comparisons": [
+    "age-gate-vs-consent-prompt-vs-permission-request-vs-sensitive-data-reveal-vs-privacy-settings-vs-cookie-banner"
+  ],
+  "examples": [
+    {
+      "product": "FTC COPPA age screening guidance",
+      "url": "https://www.ftc.gov/business-guidance/resources/complying-coppa-frequently-asked-questions",
+      "platform": "web",
+      "notes": "Explains COPPA scope, neutral age screening, and actual-knowledge considerations for child-related online services.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "ICO Children's code",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/introduction-to-the-childrens-code/",
+      "platform": "web",
+      "notes": "Explains age-appropriate design expectations for online services likely to be accessed by children.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Google Play Families policy",
+      "url": "https://play.google.com/console/about/programs/families/",
+      "platform": "mobile",
+      "notes": "Explains target-audience declaration and child-audience policy obligations for apps.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Apple age ratings",
+      "url": "https://developer.apple.com/help/app-store-connect/reference/app-information/age-ratings-values-and-definitions/",
+      "platform": "mobile",
+      "notes": "Explains age-rating bands and content categories that affect age suitability.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ftc-coppa-faq-age-screening",
+      "note": "Supports neutral age screening, under-13 scope, directed-to-children and actual-knowledge distinctions, and limits of declared age."
+    },
+    {
+      "id": "ftc-coppa-rule",
+      "note": "Supports child-directed service and child personal-information collection context."
+    },
+    {
+      "id": "ico-childrens-code-introduction",
+      "note": "Supports age-appropriate application, child privacy protection, and online service coverage."
+    },
+    {
+      "id": "google-play-families-policy",
+      "note": "Supports target-audience declaration, child audience handling, and family-policy compliance."
+    },
+    {
+      "id": "apple-age-ratings-values",
+      "note": "Supports age-rating bands, mature-content categories, and region-sensitive suitability context."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers age gate as an eligibility and safety boundary with age prompt, neutral age entry, age band selection, adult allowed, underage adapted, parent consent required, age assurance handoff, data minimization, region threshold, retry correction, known account age, appeal route, expired session, verification unavailable, and mobile compact age gate states.",
+    "relatedPatternDistinction": "Separated from consent prompt as optional user authorization after eligibility, permission request as device or resource access, sensitive-data reveal as deliberate exposure by an already authorized user, privacy settings as durable account controls, cookie banner as tracking consent, account creation and password creation as credential setup, two-factor authentication as identity proof, session timeout as authentication expiry, and security warning as unsafe-destination interruption.",
+    "liveDemoBehavior": "Good demo exercises age prompt, neutral age entry, age band selection, adult allowed, underage adapted, parent consent required, age assurance handoff, data minimization, region threshold, retry correction, known account age, appeal route, expired session, verification unavailable, and mobile compact age gate. Bad demo exercises adult default, content leak, overcollection, no parent route, unlimited retry, bundled consent, and provider confusion failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes age gate from consent prompt, permission request, sensitive-data reveal, privacy settings, and cookie banner by date of birth, age band, declared age, verified age, parent or guardian route, age assurance, underage handling, age-restricted content, child data, data minimization, region threshold, legal acceptance separation, marketing consent separation, device permission separation, tracking consent separation, and appeal rules.",
+    "duplicateAudit": "2026-06-12: node --import tsx scripts/catalog-completion-audit.ts reported 257 complete patterns, 1 excluded pattern, 40 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-12: desktop 1440x940 and compact 500x844 browser checks exercised all good and bad age-gate states; required pattern terms were present; duplicate IDs, page overflow, and demo overflow were absent. Comparison route was checked at desktop and compact widths with required decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/age-gate.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

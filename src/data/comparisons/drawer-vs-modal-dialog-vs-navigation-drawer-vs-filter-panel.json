@@ -1,0 +1,51 @@
+{
+  "id": "drawer-vs-modal-dialog-vs-navigation-drawer-vs-filter-panel",
+  "title": "Drawer vs modal dialog vs navigation drawer vs filter panel",
+  "summary": "Use a drawer for supplemental side content tied to the current page, modal dialog for a blocking contained task, navigation drawer for destinations, and filter panel for narrowing the current result set.",
+  "patternIds": [
+    "drawer",
+    "modal-dialog",
+    "navigation-drawer",
+    "filter-panel"
+  ],
+  "decisionRules": [
+    "Choose drawer when users need to inspect, edit lightly, or act on page-adjacent detail while preserving the main content as visible context.",
+    "Choose modal dialog when the user must complete or cancel a focused task before returning to the page behind it.",
+    "Choose navigation drawer when the sliding surface contains destinations, account sections, or app navigation rather than contextual page detail.",
+    "Choose filter panel when the surface contains grouped criteria that narrow the current result list and must synchronize active counts, result counts, and clear behavior.",
+    "Use a non-modal or pinned drawer when users need to compare drawer content with rows, cards, charts, or page state behind it.",
+    "Use a modal drawer only when the drawer is temporary and background changes would conflict with the open panel; still provide a clear close path and focus return.",
+    "Do not put primary app destinations in a generic drawer; use navigation drawer, side navigation, bottom navigation, or global navigation depending on scope and frequency.",
+    "Do not use a drawer for one sentence of contextual help; use inline help, disclosure, popover, tooltip, or hover card based on interaction and persistence needs.",
+    "Do not use a drawer for irreversible confirmation or mandatory acknowledgement; use confirmation dialog or alert dialog so the response requirement is explicit.",
+    "When the drawer closes, preserve the selected object or page state and return focus to the opener or the related row instead of dropping users at the top of the page."
+  ],
+  "failureModes": [
+    "A details drawer opens with no close control or Escape path, trapping users beside the page.",
+    "The drawer covers the table users need for comparison and offers no pinned or side-by-side state.",
+    "A navigation menu is labelled as a drawer but lacks selected destination state, grouping, and route-change behavior.",
+    "A filter drawer hides active filters and result counts, so users cannot tell why records are missing.",
+    "A drawer launches a long multi-step workflow that needs a page, modal task, or saved progress.",
+    "The drawer stays open with stale details after the selected row changes behind it.",
+    "Closing the drawer loses focus and the user's selected object context."
+  ],
+  "sources": [
+    {
+      "id": "fluent-drawer-component",
+      "note": "Fluent defines drawers as secondary edge surfaces for supplemental information and simple actions related to main content, and distinguishes them from popovers and dialogs."
+    },
+    {
+      "id": "nord-drawer-component",
+      "note": "Nord frames drawers as context-sensitive information and action surfaces that should not block task completion like modals."
+    },
+    {
+      "id": "material-navigation-drawer",
+      "note": "Material navigation drawer guidance supports the distinction between generic contextual drawers and destination drawers."
+    },
+    {
+      "id": "carbon-filtering-pattern",
+      "note": "Carbon filtering guidance supports the distinction between generic side drawers and filter-specific panels with active-state and result synchronization duties."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

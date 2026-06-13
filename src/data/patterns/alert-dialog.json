@@ -1,0 +1,239 @@
+{
+  "id": "alert-dialog",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a blocking urgent-response modal pattern with alertdialog semantics, source-backed modality and focus rules, response-labelled actions, adjacent-pattern distinctions, live good and bad demo behavior, comparison rules, duplicate audit, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets urgent modal messages that require a user response before the current workflow can continue, including alertdialog semantics, accessible title and description, modal background inactivation, initial focus choice, contained Tab movement, Escape or safe response behavior, response-labelled actions, focus return, and limits against page-load announcements or routine prompts.",
+    "relatedPatternDistinction": "The entry separates alert dialog from alert by requiring a modal response instead of non-modal urgent status, from modal dialog by centering an urgent message rather than an ordinary contained task, from confirmation dialog by not necessarily protecting a user-initiated destructive command, from warning text by blocking continuation rather than staying inline, and from site alert by current-workflow scope rather than broad sitewide status.",
+    "liveDemoBehavior": "The live demo opens a security-response alert dialog, keeps background controls unavailable, cycles focus between response actions, handles Escape cancellation, returns focus to the opener, supports Stay signed in and Sign out outcomes, and contrasts non-modal alert, ordinary modal, vague OK, focus leak, auto-open, and no-response failures.",
+    "comparisonDecisionRules": "The alert-dialog-vs-alert-vs-modal-dialog-vs-confirmation-dialog comparison gives concrete rules for blocking urgent responses, non-modal urgent status, ordinary focused modal tasks, user-initiated consequence confirmation, inline warning text, sitewide alerts, initial focus, response labels, and overuse avoidance.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/alert-dialog/ and /compare/alert-dialog-vs-alert-vs-modal-dialog-vs-confirmation-dialog/ on 2026-06-10. Live check exercised Open alert dialog, Try background action, Tab forward, Shift Tab, keyboard Escape, Stay signed in, Sign out, Non-modal alert, Ordinary modal, Vague OK, Focus leak, Auto-open, and No response controls. screenshots/patterns/alert-dialog.png captures Good UI, Bad UI, Good UX, Bad UX, open alert dialog, response-labelled actions, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/alert-dialog.png"
+    ]
+  },
+  "name": "Alert dialog",
+  "aliases": [
+    "alertdialog",
+    "message dialog",
+    "urgent modal alert",
+    "blocking alert",
+    "response-required alert"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Some urgent conditions require users to read a message and choose a response before they can safely continue the current workflow.",
+  "solution": "Open a modal alert dialog with a specific title, consequence-focused description, contained focus, inactive background content, response-labelled actions, and predictable cancellation or focus return.",
+  "problemContext": [
+    "A security, privacy, session, data-loss, permission, billing, or safety condition blocks the current workflow.",
+    "The user must acknowledge, cancel, continue, sign out, retry, review, or choose another response before returning to the page.",
+    "A non-modal alert would be too easy to miss or would leave users able to continue into an unsafe state.",
+    "A generic modal task would understate the urgency or fail to communicate that a response is required."
+  ],
+  "selectionRules": [
+    "Choose an alert dialog when an important message interrupts the current workflow and requires an immediate user response.",
+    "Use a non-modal alert when users only need urgent notice and can continue working without answering the message.",
+    "Use a modal dialog when the surface is a short contained task such as editing a field, choosing an object, or entering settings.",
+    "Use a confirmation dialog when the alert-style decision is caused by a user-initiated consequential action that has not yet committed.",
+    "Use warning text when the severe consequence can be explained inline before the risky action without blocking the whole page.",
+    "Use a site alert or banner when the message applies across a service, account, product, or many pages rather than one current workflow.",
+    "Do not use an alert dialog for page-load announcements, routine success messages, marketing notices, low-risk confirmations, or educational copy that does not need a response.",
+    "Do not open several alert dialogs in a row; prioritize the highest consequence and route secondary detail to the dialog body or a recovery flow."
+  ],
+  "requiredStates": [
+    "Normal workflow state with a visible invoking event or system condition.",
+    "Opening state that moves focus into the alert dialog and marks background content inactive.",
+    "Urgent message state with accessible title, associated description, consequence copy, and response-labelled actions.",
+    "Contained keyboard state where Tab and Shift+Tab stay within the dialog until it closes.",
+    "Safe cancellation or escape state when cancellation is allowed.",
+    "Positive response state that commits the user's chosen continuation, retry, acknowledgement, or sign-out path.",
+    "Closed state that returns focus to the invoker or next logical recovery location.",
+    "Escalated state for conditions that need a page, support route, or longer recovery task after the response."
+  ],
+  "interactionContract": [
+    "The alert dialog appears only for a condition that genuinely requires a response before continuation.",
+    "The dialog has alertdialog semantics or the platform equivalent, an accessible name from the visible title, and a description connected to the consequence text.",
+    "Opening the dialog moves focus to the safest useful element: often a non-destructive response, a detail link, or the message text when reading comes first.",
+    "Background page controls cannot be clicked, focused, or changed while the alert dialog is open.",
+    "Tab and Shift+Tab cycle through only the dialog controls.",
+    "Escape cancels only when cancellation is safe; otherwise the available actions explain what response is required.",
+    "Buttons use response labels such as Stay signed in, Sign out, Retry payment, or Keep editing rather than OK-only labels.",
+    "Closing after any response returns focus to the trigger or a clear outcome state without losing the user's task context."
+  ],
+  "implementationChecklist": [
+    "Classify the condition by urgency, affected workflow, user consequence, and whether a response is mandatory.",
+    "Write a visible title that names the condition, such as Session locked or Payment authorization failed.",
+    "Describe why the interruption is happening, what is blocked, and what each response changes.",
+    "Use role alertdialog with aria-modal true where appropriate, and connect aria-labelledby and aria-describedby to visible content.",
+    "Move focus into the dialog on open and contain focus until a response closes it.",
+    "Make the page behind the dialog inert or otherwise unavailable to pointer and keyboard interaction.",
+    "Prefer a safe or explanatory initial focus target unless the urgent condition has only one safe response.",
+    "Provide Escape and an explicit safe action when cancellation is allowed.",
+    "Return focus to the opener, the blocked control, or the next recovery location after close.",
+    "Log and review alert-dialog frequency so users are not trained to dismiss critical interruptions."
+  ],
+  "commonMisuses": [
+    "Using an alert dialog as a dramatic version of a routine non-modal alert.",
+    "Showing a vague Warning dialog with only OK and no consequence or next step.",
+    "Letting users interact with background controls while the response-required message is visible.",
+    "Opening the dialog automatically on every page load for content that can be shown inline.",
+    "Using alertdialog semantics for marketing, onboarding tips, or passive informational copy.",
+    "Hiding the safe response or making the destructive response the accidental default.",
+    "Failing to return focus after close, leaving keyboard users at the start of the page."
+  ],
+  "critiqueQuestions": [
+    "What unsafe or impossible state would occur if the user ignored this message?",
+    "Does the message require a user response, or would a visible alert be enough?",
+    "Is the interruption caused by a system condition, or by a user-initiated consequence that belongs to confirmation guidance?",
+    "Does the title name the affected workflow or condition?",
+    "Can users predict what each response button will do without rereading the whole body?",
+    "Where does focus move on open, Tab wrap, Escape, response, and close?"
+  ],
+  "useWhen": [
+    "An urgent current-workflow condition requires acknowledgement, cancellation, retry, sign-out, review, or another explicit response before continuation.",
+    "Continuing to use the page behind the message could cause data loss, security risk, privacy exposure, payment failure, or invalid workflow progress.",
+    "The message is important enough to interrupt focus and the product can implement true modality and focus containment."
+  ],
+  "avoidWhen": [
+    "The message is urgent but users can keep working safely after seeing it.",
+    "The surface is an ordinary short task rather than an urgent message.",
+    "The user just invoked a consequential action and the main job is verifying intent before commit.",
+    "Inline warning text, a banner, a page alert, or an error state can communicate the condition without blocking.",
+    "The product cannot reliably keep background content inactive or return focus after close."
+  ],
+  "variants": [
+    "Session lock alert dialog",
+    "Security response dialog",
+    "Payment failure alert dialog",
+    "Connection loss response dialog",
+    "Critical message dialog",
+    "Blocking acknowledgement dialog",
+    "System interruption dialog"
+  ],
+  "accessibility": [
+    "Use alertdialog semantics only for important modal messages that require a response.",
+    "Provide a visible title and use it as the accessible name.",
+    "Associate the consequence or instruction text as the accessible description.",
+    "Set modal behavior so assistive technologies and keyboard users cannot reach background content while the dialog is open.",
+    "Move focus into the dialog when it opens and return focus predictably after close.",
+    "Keep Tab and Shift+Tab within the dialog controls.",
+    "Avoid long, complex content in the dialog description; make longer recovery content reachable as a separate route."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the invoking control may open the alert dialog when the urgent condition is user-triggered.",
+    "Initial focus lands on the safest useful response, a detail/review control, or the message text for severe reading-first conditions.",
+    "Tab moves through the dialog controls and wraps from the last control to the first.",
+    "Shift+Tab wraps from the first control to the last.",
+    "Escape follows the cancel or safe close path only when closing is allowed.",
+    "After response, cancel, or Escape, focus returns to the opener or the next logical blocked-workflow control."
+  ],
+  "failureModes": [
+    "Users continue editing behind a response-required security message because the background is not inert.",
+    "Users dismiss a vague OK dialog without learning what is blocked or what changed.",
+    "Keyboard focus escapes behind the dialog or disappears after the dialog closes.",
+    "A non-modal alert asks for a decision but does not prevent unsafe continuation.",
+    "An ordinary modal form is labelled as urgent even though no urgent response is needed.",
+    "The dialog opens on page load for informational content and trains users to close interruptions automatically.",
+    "Cancellation is possible even though the condition requires a mandatory response."
+  ],
+  "relatedPatterns": [
+    "alert",
+    "modal-dialog",
+    "confirmation-dialog",
+    "warning-text",
+    "site-alert"
+  ],
+  "comparisons": [
+    "alert-dialog-vs-alert-vs-modal-dialog-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Alert and Message Dialogs Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/",
+      "platform": "web",
+      "notes": "Defines alert dialogs as modal interruptions for important messages that require a response.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "WAI-ARIA APG Dialog Modal Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+      "platform": "web",
+      "notes": "Documents the underlying modal behavior, inert background, contained tab sequence, Escape behavior, focus placement, and focus return.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Apple Human Interface Guidelines Alerts",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/alerts",
+      "platform": "mobile",
+      "notes": "Frames alerts as interruptions for important information and cautions against unnecessary alert use.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Microsoft Windows UX Guide Confirmations",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/uxguide/mess-confirm",
+      "platform": "desktop",
+      "notes": "Supports the distinction between necessary consequence decisions, prevention, undo, and excessive interruption.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG defines alert dialogs as modal interruptions for important messages that require a user response."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Modal dialog guidance supplies the focus containment, inert background, Escape, initial-focus, and focus-return behavior."
+    },
+    {
+      "id": "apple-hig-alerts",
+      "note": "Apple alert guidance explains the interruption cost and appropriate critical-use threshold."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance helps separate necessary response decisions from unnecessary prompts and undoable actions."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10",
+  "patternType": "ui-ux",
+  "surfaceType": "Blocking urgent-response modal",
+  "uiGuidance": [
+    "Render an alert dialog as a modal response surface with a condition-specific title, consequence text, role alertdialog or platform equivalent, inactive background, and buttons labelled by outcome.",
+    "Keep the dialog compact enough for immediate decision-making while routing longer recovery or troubleshooting detail to a separate page, panel, or support flow."
+  ],
+  "uxGuidance": [
+    "Interrupt only when a current-workflow condition needs an explicit response before users can safely continue.",
+    "Make each response predictable: name the affected workflow, describe what is blocked, explain what happens next, and return users to a clear recovery point after the dialog closes."
+  ],
+  "uiExamples": {
+    "good": [
+      "A Session locked alert dialog says the editor is paused because the account opened elsewhere, offers Stay signed in and Sign out, and keeps the background editor unavailable.",
+      "A payment authorization alert dialog explains that checkout cannot continue until users Retry payment or Choose another method."
+    ],
+    "bad": [
+      "A popup says Warning with only OK while the page behind it still accepts input.",
+      "A non-modal alert asks users to choose Stay signed in but lets them continue editing expired-session content."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Tab stays inside the dialog, Escape follows the safe cancel path, Stay signed in returns focus to the editor, and Sign out moves to the signed-out state.",
+      "The interruption appears only when the session lock occurs, not every time the page loads."
+    ],
+    "bad": [
+      "Users can click Delete, navigate away, or keep typing behind a blocking security message.",
+      "The same OK-only interruption appears for routine success and warning messages until users close it reflexively."
+    ]
+  }
+}

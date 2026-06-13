@@ -1,0 +1,267 @@
+{
+  "id": "audit-log",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed governance and compliance audit-log pattern with specific guidance for privileged event evidence, retention, legal hold, scoped access, export/API/SIEM handoff, tamper and coverage states, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets audit log, governed audit evidence, audit ID, privileged action record, actor session, actor type, protected object, before and after values, restricted admin scope, retention policy, legal hold, export evidence, API query, SIEM stream, tamper check, duplicate ingestion, corrected record, redacted record, license-limited event, out-of-retention event, permission-limited view, system actor, service account actor, mobile compact audit, custody, evidence manifest, hash verification, hidden count, redacted count, export cap, rate limit, delayed ingestion, and chain-of-custody states.",
+    "relatedPatternDistinction": "The entry separates audit log from activity log by requiring governed security, compliance, forensic, legal, retention, chain-of-custody, export/API/SIEM, and tamper evidence rather than broad event inspection; from AI output audit trail by targeting enterprise audit records rather than one generated output's prompt-response lineage; from version history by proving privileged events rather than restoring snapshots; and from notification center by preserving evidence independent of unread triage or dismissal.",
+    "liveDemoBehavior": "The live demo shows Privileged action record, Restricted admin scope, Retention policy, Legal hold, Export evidence, API query, SIEM stream, Tamper check, Duplicate ingestion, Corrected record, Redacted record, License-limited event, Out-of-retention event, Permission-limited view, System actor, Service account actor, and Mobile compact audit states. Bad states cover Activity-feed masquerade, Missing audit ID, Editable evidence, Hidden scope, Export mismatch, Raw secret audit, and Healthy while delayed failures.",
+    "comparisonDecisionRules": "The linked audit-log-vs-activity-log-vs-ai-output-audit-trail-vs-version-history-vs-notification-center comparison gives concrete rules for governed security, compliance, forensic, legal, privileged-administrator review, activity log, AI output audit trail, version history, notification center, audit ID, retention policy, legal hold, chain-of-custody, SIEM, prompt snapshot, response snapshot, restore earlier versions, unread triage, export mismatch, and why audit records must not be replaced by feeds, transcripts, snapshots, or notification state.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero normalized duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and compact-width checks rendered /patterns/audit-log/ with the live demo, exercised Privileged action record, Restricted admin scope, Retention policy, Legal hold, Export evidence, API query, SIEM stream, Tamper check, Duplicate ingestion, Corrected record, Redacted record, License-limited event, Out-of-retention event, Permission-limited view, System actor, Service account actor, Mobile compact audit, Activity-feed masquerade, Missing audit ID, Editable evidence, Hidden scope, Export mismatch, Raw secret audit, and Healthy while delayed states, and found no duplicate IDs, page overflow, or audit-log demo overflow. The comparison route /compare/audit-log-vs-activity-log-vs-ai-output-audit-trail-vs-version-history-vs-notification-center/ included governed security, compliance, forensic, legal, privileged-administrator review, activity log, AI output audit trail, version history, notification center, audit ID, retention policy, legal hold, chain-of-custody, SIEM, prompt snapshot, response snapshot, restore earlier versions, unread triage, and export mismatch distinctions with no duplicate IDs or content overflow on desktop or compact width.",
+    "screenshots": [
+      "screenshots/patterns/audit-log.png"
+    ]
+  },
+  "name": "Audit log",
+  "aliases": [
+    "compliance audit log",
+    "security audit log",
+    "admin audit log",
+    "enterprise audit log",
+    "governance audit log",
+    "audit evidence log",
+    "immutable event log",
+    "audit record search"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "AI And Automation UX"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Governed audit evidence surface for security, compliance, forensic, and administrative review",
+  "uiGuidance": [
+    "Render audit logs as governed evidence records with audit ID, effective time, actor, actor type, action, protected object, result, source system, IP or session context, retention class, export status, and permission scope.",
+    "Show coverage, custody, retention, legal hold, redaction, administrative-unit scope, API or SIEM handoff, and tamper-evidence state close to the audit records so reviewers know what the log can prove."
+  ],
+  "uxGuidance": [
+    "Use audit log when the product must support security review, compliance obligations, forensic investigation, privileged-action review, or administrator accountability with retained evidence.",
+    "Help reviewers trust and challenge the record: make gaps, delayed ingestion, retention limits, scoped access, redaction, export mismatch, duplicate ingestion, and tamper checks visible rather than treating the log as a normal activity list."
+  ],
+  "uiExamples": {
+    "good": [
+      "A security audit log shows a role escalation with audit ID, UTC effective time, actor session, target account, old role, new role, source IP, retention class, legal-hold badge, and Export evidence action.",
+      "A compliance search result says Restricted admin scope, 48 records visible, 7 records redacted, 10-year retention policy active, and SIEM stream healthy before the reviewer exports."
+    ],
+    "bad": [
+      "A settings page lists Admin changed something with no stable audit ID, actor session, object, result, retention policy, or export trail.",
+      "A log viewer lets admins delete sensitive audit records from the UI without retention policy, legal-hold status, or tamper evidence."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "An investigator filters privileged actions, opens one audit record, verifies the chain of custody, exports the exact scoped result set, and sees which fields are redacted by administrative-unit scope.",
+      "A compliance owner checks that API-key updates stream to the SIEM, that skipped records are marked, and that retention policy covers the required period before closing an investigation."
+    ],
+    "bad": [
+      "A reviewer assumes no event happened because their restricted scope hides system-account records without saying so.",
+      "An export contains more records than the screen, uses another timezone, and has no evidence hash or export job ID."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile",
+    "ai"
+  ],
+  "problem": "Audit-log surfaces fail when they look like ordinary activity histories, hide retention and access boundaries, omit stable evidence fields, allow privileged deletion, or export records that do not match the reviewed scope.",
+  "solution": "Provide an audit log with stable audit records, explicit evidence schema, governed retention, scoped access, redaction reasons, export/API/SIEM behavior, custody and tamper indicators, and clear coverage gaps for security, compliance, and forensic review.",
+  "problemContext": [
+    "Events may include role changes, login policy changes, API key updates, project archival, data export, file access, admin setting changes, AI prompt-response audit, sharing policy changes, and system or service-account activity.",
+    "Reviewers may be security analysts, compliance teams, legal investigators, restricted administrators, enterprise owners, incident responders, auditors, or platform administrators.",
+    "The log may be subject to retention policies, legal hold, role-gated access, administrative-unit scoping, redaction, API rate limits, SIEM streaming, export caps, and licensing differences.",
+    "The design must show whether missing records are outside scope, outside retention, delayed, redacted, not generated by license, deleted by policy, or unavailable because ingestion failed."
+  ],
+  "selectionRules": [
+    "Choose audit log when the record must support governed security, compliance, forensic, or administrator-accountability review.",
+    "Use activity log when users need broad product-event inspection but not retention policy, legal hold, chain-of-custody, SIEM handoff, or compliance-grade evidence.",
+    "Use AI output audit trail when the audit target is one generated AI output with prompt, response, model, source, tool, approval, and downstream-use lineage.",
+    "Use version history when the primary task is restoring or comparing prior content versions rather than proving privileged event evidence.",
+    "Use notification center when the main workflow is personal triage; reading or dismissing notifications must not remove audit records.",
+    "Show audit ID, actor, actor type, effective time, action, object, result, source, request or session context, retention class, permission scope, and export eligibility for each record.",
+    "State coverage limits such as retention period, license tier, event families, API-only records, delayed ingestion, redacted fields, and restricted administrator scope.",
+    "Make export, API query, SIEM stream, legal hold, and evidence package states explicit and reconcile them with the visible query.",
+    "Do not offer delete, edit, mark-read, or dismiss actions on audit evidence unless the backend policy supports that action and the log records the action itself.",
+    "Represent tamper evidence, hash mismatch, missing sequence, duplicate event, corrected record, and ingestion failure as first-class states."
+  ],
+  "requiredStates": [
+    "Default audit-log search state with visible query, result count, scope, timezone, retention class, and evidence coverage.",
+    "Privileged action record with audit ID, actor session or API key, target object, before and after values, result, and source IP.",
+    "Restricted administrator scope state with hidden or redacted counts and reason.",
+    "Retention policy state showing default, extended, legal hold, expired, and archive-needed boundaries.",
+    "Export queued, export ready, export failed, export cap reached, and export mismatch states.",
+    "API query, pagination, rate limit, and SIEM stream healthy or delayed states.",
+    "Tamper evidence, hash mismatch, duplicate ingestion, corrected event, and missing sequence states.",
+    "System actor, service account, automation, integration, and human actor distinctions.",
+    "Permission-limited, redacted, license-limited, delayed-ingestion, out-of-retention, and unavailable record states.",
+    "Mobile compact state where audit ID, action, actor, scope, retention, and export status remain readable."
+  ],
+  "interactionContract": [
+    "Each audit row represents one governed audit record and keeps audit ID, actor, action, object, effective time, result, and retention metadata stable across filters, details, export, and API retrieval.",
+    "Filters narrow the visible evidence without mutating, deleting, or acknowledging records.",
+    "Opening a record shows before/after fields, actor session or API-key context, request ID, source IP, location, administrative scope, and redaction reasons when available.",
+    "Export uses the visible query, timezone, redaction level, field set, retention scope, and permission scope or explains any difference before the export starts.",
+    "Restricted-scope reviewers see that records are hidden or redacted without gaining access to protected values.",
+    "SIEM, API, legal hold, and evidence-package handoffs expose job ID, cursor or page state, hash or integrity status, and failure or retry state.",
+    "Audit evidence is not cleared by notification read state, dashboard dismissal, object deletion, or ordinary activity-feed cleanup.",
+    "Any correction, deletion, retention expiry, legal-hold change, or export action creates its own audit record when the backend supports that event."
+  ],
+  "implementationChecklist": [
+    "Define audit schema with audit ID, immutable event ID, effective timestamp, ingestion timestamp, actor, actor type, action, object, object type, result, source system, request ID, session or API key context, IP, location, before and after fields, retention class, and integrity state.",
+    "Map event families to retention policies, licensing requirements, access roles, administrative-unit scopes, export caps, SIEM destinations, and legal-hold behavior.",
+    "Expose query, filters, timezone, result count, hidden count, redacted count, retention window, ingestion freshness, and permission scope next to the record list.",
+    "Implement details, copy audit ID, export evidence, API query, SIEM stream status, legal hold, retention archive, request access, and incident note actions with visible status.",
+    "Model restricted admin access, no-permission fields, redacted values, out-of-retention records, delayed ingestion, failed export, rate limit, duplicate events, corrected events, and tamper-check failures.",
+    "Prevent UI actions that imply audit evidence can be casually edited, dismissed, or deleted.",
+    "Test privileged role changes, API-key updates, failed logins, data export events, object deletion, system actor events, restricted-scope review, export caps, legal hold, SIEM delay, mobile wrapping, keyboard expansion, and screen reader row identity."
+  ],
+  "commonMisuses": [
+    "Rebranding a recent-activity feed as an audit log without retention, custody, or governed evidence fields.",
+    "Omitting audit ID, actor type, effective time, result, scope, retention, or source system from the visible record.",
+    "Letting privileged users edit, delete, dismiss, or mark audit evidence read without policy and self-auditing.",
+    "Hiding restricted-scope or redacted records so reviewers think no event happened.",
+    "Exporting a different query, timezone, field set, redaction level, or record range than the screen shows.",
+    "Logging raw secrets, tokens, private files, or sensitive AI prompts into broad audit views without redaction.",
+    "Treating delayed ingestion, duplicate delivery, rate limits, or missing sequences as normal empty results."
+  ],
+  "critiqueQuestions": [
+    "What compliance, security, forensic, or administrator-accountability question must this audit log prove?",
+    "Which event families are captured, retained, licensed, delayed, API-only, or out of coverage?",
+    "Can reviewers see audit ID, actor, actor type, action, object, effective time, result, source, scope, retention, and export eligibility?",
+    "What is hidden by role, administrative unit, legal hold, redaction, or retention policy?",
+    "Does export, API access, or SIEM streaming match the visible query and explain caps or delays?",
+    "How does the UI reveal tamper checks, hash mismatch, duplicate ingestion, missing sequence, or corrected records?"
+  ],
+  "useWhen": [
+    "The product must support security investigations, compliance review, legal discovery, privileged-action review, or enterprise governance.",
+    "Records must outlive ordinary UI state and personal notification cleanup.",
+    "Retention policy, access scope, redaction, export, API retrieval, SIEM streaming, or evidence package behavior matters.",
+    "Reviewers need to prove which actor or system changed a protected object, when, from where, and with what result."
+  ],
+  "avoidWhen": [
+    "Users only need recent collaboration updates or a lightweight activity feed.",
+    "The surface is a readable timeline for one object or process with no governed evidence requirement.",
+    "The task is inspecting one generated AI output's prompt-response lineage; use AI output audit trail.",
+    "The task is restoring prior document versions; use version history.",
+    "The backend cannot provide stable records, retention policy, permission scope, or exportable evidence."
+  ],
+  "variants": [
+    "Security audit log",
+    "Compliance audit log",
+    "Enterprise audit log",
+    "Admin audit log",
+    "Privileged-action audit log",
+    "Data-access audit log",
+    "API-key audit log",
+    "SIEM-streamed audit log",
+    "Legal-hold audit log",
+    "Tamper-evident audit log",
+    "Scoped administrator audit log",
+    "Mobile audit log"
+  ],
+  "accessibility": [
+    "Use table or structured record semantics so audit ID, actor, action, object, timestamp, result, scope, and retention are perceivable together.",
+    "Expose hidden-count, redaction, retention, legal-hold, export, SIEM, API, and tamper states as text, not color alone.",
+    "Give detail, copy audit ID, export evidence, API query, SIEM status, legal-hold, and request-access controls accessible names that include the record identity.",
+    "Keep redacted values and hidden records understandable without exposing protected content in accessible names or offscreen text.",
+    "Announce export queued, export ready, rate limited, SIEM delayed, legal hold applied, and tamper check failed through stable status text.",
+    "Wrap long audit IDs, actor emails, object paths, IP details, and JSON summaries without horizontal scrolling on mobile."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches query, filters, date range, scope selector, export, API query, table rows, row expansion, copy audit ID, and evidence actions in predictable order.",
+    "Enter or Space activates row expansion, copy audit ID, export evidence, apply legal hold, retry export, and request access controls.",
+    "Escape closes details, filter popovers, export dialogs, and SIEM panels while returning focus to the invoking control.",
+    "After applying filters, focus remains on the filter control or moves to a result summary that states count, scope, retention, and timezone.",
+    "After opening a record, focus remains stable or moves to the record detail heading without losing the row identity.",
+    "After export or API query failure, focus stays near the status and the error describes retry, cap, permission, or rate-limit recovery."
+  ],
+  "failureModes": [
+    "The audit log cannot prove a privileged change because actor, object, before/after value, or audit ID is missing.",
+    "Restricted administrators see an empty log with no indication that records are outside their scope.",
+    "Retention expiry, license limits, or delayed ingestion are hidden and users infer that no event happened.",
+    "Exported evidence does not match the reviewed query, timezone, redaction, field set, or result count.",
+    "An admin can delete or edit audit rows without another audit record.",
+    "SIEM streaming falls behind but the UI says the audit pipeline is healthy.",
+    "Duplicate or corrected records inflate incident counts without markers.",
+    "Sensitive tokens, raw prompts, or private file contents appear in audit rows without redaction or permission gates."
+  ],
+  "relatedPatterns": [
+    "activity-log",
+    "ai-output-audit-trail",
+    "version-history",
+    "permission-sharing",
+    "security-warning",
+    "table",
+    "data-grid",
+    "notification-center",
+    "change-review",
+    "details-panel"
+  ],
+  "comparisons": [
+    "audit-log-vs-activity-log-vs-ai-output-audit-trail-vs-version-history-vs-notification-center"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Purview auditing solutions",
+      "url": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
+      "platform": "web",
+      "notes": "Documents unified audit logs for security events, forensic investigations, compliance obligations, retention tiers, CSV export, API access, SIEM import, and retention policies.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Microsoft Purview audit search",
+      "url": "https://learn.microsoft.com/en-us/purview/audit-search",
+      "platform": "web",
+      "notes": "Documents audit-log search jobs, result filtering, export caps, details flyout, and administrative-unit scoped access.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "GitHub enterprise audit log API",
+      "url": "https://docs.github.com/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/using-the-audit-log-api-for-your-enterprise",
+      "platform": "web",
+      "notes": "Documents enterprise audit-log API access, event retention windows, UTC timestamps, actor/date/action queries, pagination, and rate limits.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Atlassian audit log activities",
+      "url": "https://support.atlassian.com/security-and-access-policies/docs/view-audit-log-activities/",
+      "platform": "web",
+      "notes": "Documents audit-log tables by activity type, date, time, actor, app, location, and IP address, plus subscription and access constraints.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "OpenAI Admin API audit logs",
+      "url": "https://developers.openai.com/api/reference/resources/admin/subresources/organization/subresources/audit_logs/methods/list",
+      "platform": "web",
+      "notes": "Documents organization audit-log list records with audit-log ID, event type, effective time, actor, API key or session context, IP details, and pagination fields.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-purview-audit-solutions",
+      "note": "Supports unified audit logs, security and compliance investigation, retention tiers, export, API access, SIEM import, and retention policies."
+    },
+    {
+      "id": "microsoft-purview-audit-search",
+      "note": "Supports audit-log search jobs, result details, export caps, scoped access, and administrative-unit permissions."
+    },
+    {
+      "id": "github-enterprise-audit-log-api",
+      "note": "Supports enterprise audit API access, retention windows, UTC timestamps, date/action/actor queries, pagination, and rate limits."
+    },
+    {
+      "id": "atlassian-view-audit-log-activities",
+      "note": "Supports audit records organized by activity type, date, time, actor, app, location, and IP address with access constraints."
+    },
+    {
+      "id": "openai-admin-audit-logs-api",
+      "note": "Supports audit-log IDs, event type, effective time, actor, API key or session context, IP details, and organization audit-log pagination."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

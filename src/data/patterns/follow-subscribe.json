@@ -1,0 +1,279 @@
+{
+  "id": "follow-subscribe",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed future-update subscription pattern with guidance for target scope, current state, delivery destination, event types, auto-follow reason, parent-scope watches, digest timing, muted delivery, permission-limited targets, closed targets, bulk cleanup, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers per-object follow state, subscription target type, exact scope, included event types, delivery destinations, immediate versus digest timing, auto-follow reasons, parent-scope inheritance, unsubscribe and mute behavior, permission loss, closed or archived targets, duplicate delivery prevention, bulk unsubscribe, and management pages.",
+    "relatedPatternDistinction": "The entry separates follow / subscribe from notification center by treating subscription as the opt-in rule rather than the retained inbox, from activity feed by using subscriptions to elevate selected future events rather than broad catch-up, from mentions by making the recipient opt in instead of a sender routing attention, from threaded discussion by controlling future reply delivery rather than reply structure, from comments by not adding authored content, from settings management by keeping per-object state visible beside the target, from saved view by adding future delivery only when selected, and from permission-denied state by pausing or explaining inaccessible subscriptions.",
+    "liveDemoBehavior": "The live demo shows a stateful subscription control with target name, follow state, same-context unfollow, scope, reason, delivery destination, not-following, following, thread scope, parent scope, auto-follow, saved-view delivery, digest timing, muted subscription, permission-limited target, closed target, bulk cleanup, and bad modes for vague scope, hidden unfollow, surprise email, duplicate delivery, stale access, and fake bookmark behavior.",
+    "comparisonDecisionRules": "The linked follow-subscribe-vs-notification-center-vs-mentions-vs-activity-feed comparison gives concrete rules for follow / subscribe, notification center, mentions, activity feed, threaded discussion, settings management, saved view, comments, scope, delivery, unfollow, auto-follow, digest, permission, and avoiding unexplained automatic subscriptions.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/follow-subscribe/ on 2026-06-11 in Chromium desktop: verified status, Good UI and Bad UI frames, Good UX controls for Not following, Follow, Thread scope, Parent scope, Auto-follow, Delivery, Digest, Muted, Permission, Closed, and Bulk cleanup, Bad UX controls for Vague scope, Hidden unfollow, Surprise email, Duplicate delivery, Stale access, and Fake bookmark, no duplicate IDs, and no Follow / subscribe demo overflow. Checked /compare/follow-subscribe-vs-notification-center-vs-mentions-vs-activity-feed/ for follow, subscribe, notification center, mentions, activity feed, threaded discussion, settings management, saved view, comments, scope, delivery, unfollow, auto, digest, and permission decision terms with no duplicate IDs or overflow. Checked 390px mobile emulation for Parent scope, Auto-follow, Delivery, Digest, Muted, Permission, Closed, Bulk cleanup, Surprise email, Duplicate delivery, Stale access, and Fake bookmark states with no Follow / subscribe demo overflow.",
+    "screenshots": [
+      "screenshots/patterns/follow-subscribe.png"
+    ]
+  },
+  "name": "Follow / subscribe",
+  "aliases": [
+    "follow",
+    "subscribe",
+    "watch",
+    "unfollow",
+    "unsubscribe",
+    "watching",
+    "follow thread",
+    "follow channel",
+    "subscribe to updates",
+    "watch page",
+    "watch repository",
+    "notification subscription"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Personalization And Preference",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Per-object opt-in control for future updates from a thread, page, channel, space, repository, saved view, or topic",
+  "uiGuidance": [
+    "Render follow or subscribe as a stateful control attached to the specific object being watched, with current state, target scope, delivery destination, event types, auto-follow reason when present, and an unfollow path.",
+    "Distinguish following from mentions, notifications, activity feeds, comments, saved views, and favorites by showing that the user is changing future update delivery for one target rather than sending attention, reading history, writing content, or bookmarking access."
+  ],
+  "uxGuidance": [
+    "Use follow / subscribe when users want future changes to a specific object, channel, thread, repository, page, space, saved view, or topic to come to them without repeatedly checking it.",
+    "Make subscriptions reversible, scoped, and explainable so users understand why updates arrive, where they arrive, which events are included, and how to stop or narrow noisy delivery."
+  ],
+  "uiExamples": {
+    "good": [
+      "A thread header shows Following, explains replies will appear in the followed-threads list and Activity feed, and offers Unfollow replies from the same menu.",
+      "A Confluence page watch button says Watching page, separates page watch from space watch, and shows that edits and comments are sent by email or in-app notifications according to user settings."
+    ],
+    "bad": [
+      "A Subscribe button changes to Subscribed without saying whether the user subscribed to a page, all child pages, a space, email, push, or in-app updates.",
+      "A repository is watched automatically after one comment, but the user only finds the unsubscribe action three screens deep in global settings."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user follows a support thread before leaving for a meeting, receives only new replies in the promised destination, then unfollows when the incident closes.",
+      "A team member watches a project space for onboarding updates, sees that daily digest is active, and switches one critical page to immediate notifications."
+    ],
+    "bad": [
+      "A user receives a stream of update emails from a space but cannot tell which page, mention, reply, or watch setting caused them.",
+      "A followed saved view keeps sending links after the user loses access to the underlying project."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need to stay informed about future changes to selected work without repeatedly revisiting it, but follow and subscribe controls become noisy or untrustworthy when they hide target scope, delivery channel, auto-follow reasons, included events, permission limits, digest timing, or the unsubscribe path.",
+  "solution": "Provide a per-object follow / subscribe control that names the watched target, shows current state and scope, previews included events and delivery destination, explains automatic subscriptions, supports immediate and digest modes, handles permission changes, and keeps unfollow or unsubscribe available from the same context.",
+  "problemContext": [
+    "Products may allow users to follow threads, pages, spaces, channels, repositories, issues, pull requests, saved searches, saved views, calendars, authors, topics, or entire workspaces.",
+    "Subscriptions can be created manually by clicking Follow, Subscribe, or Watch, or automatically when the user replies, is mentioned, creates content, owns an object, joins a team, or changes notification settings.",
+    "Delivery may happen through notification center, activity feed, email, push, desktop banners, digests, followed-thread lists, channel badges, or integrations.",
+    "The same word can mean different scopes across products: watching a page differs from watching a space, following a thread differs from following a channel, and subscribing to a saved view differs from saving it.",
+    "Noisy subscriptions often persist longer than the user's original need, so users need narrow scope, visible reasons, and quick cleanup."
+  ],
+  "selectionRules": [
+    "Choose follow / subscribe when the user is opting into future update delivery from a specific target.",
+    "Use notification center for the retained inbox where delivered subscription updates are triaged, marked read, filtered, and acted on.",
+    "Use activity feed for broad catch-up across many sources; use follow / subscribe to decide which sources or objects are elevated from that stream.",
+    "Use mentions when another person routes attention to the user inside authored content.",
+    "Use threaded discussion when replies and branches need conversation structure; use follow / subscribe to control future reply delivery.",
+    "Use comments when the user is contributing written feedback; subscribing to comments only controls future comment updates.",
+    "Use saved view when the user stores a filtered surface; add follow / subscribe only when future changes to that view trigger delivery.",
+    "Use settings management for global defaults such as email, push, digest, quiet hours, and channel-level notification behavior.",
+    "Use favorites or pinned items for quick return access without update delivery.",
+    "Show whether the subscription target is one item, one thread, one channel, a page and descendants, a space, a repository, a query, or all matching future items.",
+    "Explain automatic follow reasons such as replied, mentioned, author, assigned, owner, or all-new-posts preference.",
+    "Provide unsubscribe, unfollow, mute, reduce frequency, and delivery-channel controls without forcing users to leave the object context."
+  ],
+  "requiredStates": [
+    "Not following state.",
+    "Following state.",
+    "Watching broader parent scope state.",
+    "Auto-followed because replied, mentioned, authored, assigned, or created state.",
+    "Pending subscription update state.",
+    "Unfollowed or unsubscribed state.",
+    "Muted or delivery disabled state.",
+    "Delivery destination selection state such as Activity feed, notification center, banner, push, email, or digest.",
+    "Event-type selection state such as all updates, replies only, comments, edits, mentions, releases, or status changes.",
+    "Digest or immediate delivery state.",
+    "Permission-limited or inaccessible target state.",
+    "Deleted, archived, completed, closed, or resolved target state.",
+    "Bulk unsubscribe or manage subscriptions state."
+  ],
+  "interactionContract": [
+    "Activating Follow, Subscribe, or Watch creates or updates a subscription record for the named target, not merely a visual bookmark.",
+    "The control updates its visible label and selected state only after the product can explain the resulting scope and delivery behavior.",
+    "Users can inspect why they are receiving updates from the object context or notification item, including manual, auto-follow, parent-scope, mention, or preference reasons.",
+    "Unfollow or unsubscribe removes that subscription without deleting the target, comment, notification history, saved view, or favorite.",
+    "Delivery settings separate target scope, event type, channel, frequency, digest, and quiet-mode behavior.",
+    "If access is lost or a target is archived, completed, deleted, or closed, future updates are stopped or downgraded and stale subscriptions become explainable.",
+    "Bulk management pages show enough context to unsubscribe without losing track of which target or scope is being changed."
+  ],
+  "implementationChecklist": [
+    "Define subscription target types, parent-scope inheritance, event types, delivery channels, frequency, auto-follow triggers, unsubscribe behavior, and cleanup policy.",
+    "Store explicit reason metadata such as manual follow, replied, mentioned, created, assigned, team preference, space watch, repository watch, or saved-view subscription.",
+    "Render per-object state with current label, scope, included events, destination, frequency, and unfollow action.",
+    "Support immediate, digest, muted, paused, and delivery-disabled modes without losing the underlying subscription explanation.",
+    "Synchronize subscriptions with notification center, activity feed, email, push, channel badges, and followed-thread lists.",
+    "Handle permission changes, deleted targets, renamed targets, parent-scope changes, duplicate subscriptions, offline toggles, and bulk unsubscribe safely.",
+    "Test keyboard toggling, menu selection, screen-reader labels, mobile long-press or overflow menus, high-volume subscription lists, digest timing, and cross-device state."
+  ],
+  "commonMisuses": [
+    "Using Follow as a bookmark with no future update delivery.",
+    "Using Subscribe as a mailing-list opt-in without showing which object or event types are included.",
+    "Hiding Unfollow in global notification settings only.",
+    "Automatically following users without showing why they are receiving updates.",
+    "Treating parent-scope watches and item-level watches as the same state.",
+    "Sending both immediate and digest updates for the same event with no deduplication.",
+    "Keeping subscriptions active after target deletion, archive, permission loss, or issue closure.",
+    "Calling a notification center subscription management page the follow control itself."
+  ],
+  "critiqueQuestions": [
+    "What exact object, scope, or query does this control subscribe the user to?",
+    "Which future events will produce updates, and where will those updates appear?",
+    "Can the user see why they were automatically subscribed?",
+    "Can the user unfollow, mute, reduce frequency, or change delivery without losing object context?",
+    "How are parent-scope watches, item-level watches, and duplicates resolved?",
+    "What happens when the object is archived, closed, deleted, renamed, or no longer accessible?"
+  ],
+  "useWhen": [
+    "Users need future updates from a specific object, thread, channel, space, repository, topic, saved view, or query.",
+    "The product can maintain subscription records, delivery rules, event types, frequency, and unsubscribe behavior.",
+    "The user benefits from fewer manual checks and from a visible promise about what will notify them later."
+  ],
+  "avoidWhen": [
+    "The user only needs quick return access without updates.",
+    "Another person needs to notify the user immediately inside authored content.",
+    "The product cannot explain target scope, included events, or delivery destination.",
+    "Updates are critical current-task blockers that must appear in context regardless of subscription.",
+    "The target is too sensitive to reveal follow state, watchers, or update delivery."
+  ],
+  "variants": [
+    "Follow thread",
+    "Subscribe to issue",
+    "Watch repository",
+    "Watch page",
+    "Watch space",
+    "Follow channel",
+    "Subscribe to saved view",
+    "Follow topic",
+    "Digest subscription",
+    "Auto-followed thread",
+    "Bulk unsubscribe",
+    "Muted subscription"
+  ],
+  "accessibility": [
+    "Give the control an accessible name that includes target type, target name, current follow state, and destination when space allows.",
+    "Do not rely on a filled star, bell, eye, or checkmark alone to indicate follow state.",
+    "Announce successful follow, unfollow, mute, failed update, and pending sync through status text.",
+    "Make scope and delivery details reachable from keyboard and touch, including overflow-menu implementations.",
+    "Keep focus stable when the label changes from Follow to Following or Unfollow.",
+    "Expose auto-follow reasons and parent-scope inherited watches as text, not only tooltip hover.",
+    "Ensure bulk subscription lists identify each target, scope, reason, and selected state for screen-reader users."
+  ],
+  "keyboardBehavior": [
+    "Tab moves to the follow control, scope menu, delivery menu, event-type options, frequency controls, and unsubscribe action.",
+    "Enter or Space toggles the primary follow state when there is only one safe default.",
+    "Enter or Space opens a menu instead of toggling when the product must choose scope or delivery first.",
+    "Escape closes scope or delivery menus and returns focus to the invoking control.",
+    "Arrow keys may move inside menu, radio, or listbox controls according to their native pattern.",
+    "After unsubscribe, focus remains on the target row or moves to the next subscription in bulk-management views."
+  ],
+  "failureModes": [
+    "A follow control does not say what target scope it covers.",
+    "The user receives notifications from auto-follow but cannot see the reason.",
+    "Unfollow stops email but leaves in-app and push delivery active without explanation.",
+    "The same event arrives twice because page watch, space watch, and mention delivery are not deduplicated.",
+    "A subscription survives permission loss and sends dead links.",
+    "A digest delays a critical update that should have appeared in context.",
+    "Screen-reader users hear only Starred or Bell without follow state or target name.",
+    "Bulk unsubscribe removes broad parent-scope watches when the user meant to remove one item."
+  ],
+  "relatedPatterns": [
+    "notification-center",
+    "activity-feed",
+    "mentions",
+    "threaded-discussion",
+    "comments",
+    "settings-management",
+    "saved-view",
+    "permission-denied-state"
+  ],
+  "comparisons": [
+    "follow-subscribe-vs-notification-center-vs-mentions-vs-activity-feed"
+  ],
+  "examples": [
+    {
+      "product": "GitHub notifications and subscriptions",
+      "url": "https://docs.github.com/en/subscriptions-and-notifications/concepts/about-notifications",
+      "platform": "web",
+      "notes": "Documents notifications as updates for activity users have subscribed to, with inbox triage, reasons for receiving notifications, customization, and retention.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Confluence Watch",
+      "url": "https://support.atlassian.com/confluence-cloud/docs/watch-pages-spaces-and-blogs/",
+      "platform": "web",
+      "notes": "Documents watching pages, live docs, spaces, whiteboards, blogs, and slides to receive update notifications.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack thread notifications",
+      "url": "https://slack.com/help/articles/115000769927-Use-threads-to-organize-discussions",
+      "platform": "web",
+      "notes": "Documents getting notified about new thread replies or turning off notifications for replies from desktop and mobile thread menus.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Teams followed threads",
+      "url": "https://support.microsoft.com/en-us/teams/teams-channels/follow-threads-in-microsoft-teams",
+      "platform": "web",
+      "notes": "Documents followed threads, automatic follow triggers, followed-thread access, and channel follow settings.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-notifications-subscriptions",
+      "note": "GitHub describes notifications as updates about activity users have subscribed to and documents notification reasons, customization, inbox triage, and retention."
+    },
+    {
+      "id": "github-managing-subscriptions",
+      "note": "GitHub documents reviewing subscriptions, watched repositories, and unsubscribe flows through notification management surfaces."
+    },
+    {
+      "id": "atlassian-confluence-watch-content",
+      "note": "Confluence documents watching content so users stay up to date on pages, live docs, spaces, whiteboards, blogs, and slides."
+    },
+    {
+      "id": "atlassian-confluence-manage-watchers",
+      "note": "Confluence documents adding and removing page or space watchers when notification scope needs to be specific or broad."
+    },
+    {
+      "id": "slack-thread-notifications",
+      "note": "Slack documents thread-specific controls to get notified about new replies or turn off reply notifications."
+    },
+    {
+      "id": "slack-conversation-notification-settings",
+      "note": "Slack documents conversation-specific notification choices for all new posts, just mentions, and mute behavior."
+    },
+    {
+      "id": "microsoft-teams-follow-threads",
+      "note": "Microsoft Teams documents followed threads, automatic follow reasons, and followed-thread access."
+    },
+    {
+      "id": "microsoft-teams-channel-notifications",
+      "note": "Microsoft Teams documents channel notification settings, including channel-specific on/off choices and Activity feed or banner destinations."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "security-warning-vs-warning-text-vs-alert-vs-permission-denied-state-vs-sensitive-data-reveal",
+  "title": "Security warning vs warning text vs alert vs permission denied state vs sensitive-data reveal",
+  "summary": "Use security warning when a detected security-risk signal should stop unsafe navigation, download, submission, preview, or account action; use warning text for known severe consequences before product actions, alert for urgent current-task status, permission denied state for authorization boundaries, and sensitive-data reveal for controlled exposure of already-held private values.",
+  "patternIds": [
+    "security-warning",
+    "warning-text",
+    "alert",
+    "permission-denied-state",
+    "sensitive-data-reveal"
+  ],
+  "decisionRules": [
+    "Choose security warning when phishing, malware, deceptive site, dangerous download, invalid certificate, insecure connection, mixed-content submission, suspicious redirect, file preview risk, unknown publisher, or account-security evidence means proceeding could expose credentials, personal data, device integrity, account access, or organization assets.",
+    "Choose warning text when the risk is a known consequence of a product decision, such as a fine, deletion, eligibility loss, legal responsibility, or data exposure, and the message belongs before the related control without a detected threat verdict.",
+    "Choose alert when the user needs urgent current-task status such as failed sync, payment hold, session expiring, or connection lost, but the task can remain in context and does not need an unsafe-destination interstitial.",
+    "Choose permission denied state when the user is authenticated but role, group, license, share, policy, or owner approval blocks an object or action; the issue is authorization, not trust reputation, malware, certificate, transport, or phishing evidence.",
+    "Choose sensitive-data reveal when the product holds an already-held password, API key, token, recovery code, bank account, card number, tax identifier, health identifier, or private record and the user needs controlled exposure through masked, partial, timed, copied, audited, or reauthenticated reveal rather than a warning about an unsafe destination.",
+    "A security warning must make Back to safety, Remove download, Cancel submission, Use trusted route, Contact admin, or Review activity the primary path; any Visit anyway, Keep anyway, or Continue to unsafe destination action must be secondary, deliberate, and policy-aware.",
+    "Security warnings should name both the risk and the affected object: deceptive site plus domain, dangerous download plus file, invalid certificate plus site, insecure form submission plus destination, suspicious redirect plus target, or file preview blocked plus source.",
+    "Do not use a security warning for fake urgency, marketing, consent pressure, broad maintenance, validation errors, ordinary destructive confirmation, or routine severe-consequence copy.",
+    "Report false positive, report phishing, site-owner remediation, and administrator contact paths must not require visiting the unsafe destination.",
+    "If the full destination, file name, account event, or evidence would leak private information, use a redacted security-warning variant and keep raw secrets out of DOM text, logs, URLs, analytics, support payloads, and screenshots."
+  ],
+  "failureModes": [
+    "The warning says Security issue but hides whether the risk is phishing, malware, certificate, connection, mixed content, download, redirect, or account takeover.",
+    "Continue is the primary action and the safe path is small, hidden, or absent.",
+    "The warning appears after credential entry, form submission, file execution, or active preview rendering has already happened.",
+    "False-positive reporting is coupled to Visit anyway, forcing users through the unsafe site just to report the block.",
+    "The warning leaks raw passwords, tokens, payment data, private file content, or sensitive account-event details.",
+    "A role or access denial is mislabeled as a security warning, so users look for phishing or malware explanations instead of requesting permission.",
+    "A general warning text pattern is over-escalated into a browser-like security block, training users to dismiss real security warnings."
+  ],
+  "sources": [
+    {
+      "id": "google-safe-browsing-overview",
+      "note": "Supports dangerous-site and dangerous-download warning behavior."
+    },
+    {
+      "id": "google-chrome-unsafe-site-warnings",
+      "note": "Supports unsafe-site warning meanings, typo-squatting warnings, and risky override behavior."
+    },
+    {
+      "id": "microsoft-defender-smartscreen-overview",
+      "note": "Supports SmartScreen warning pages for suspicious sites, phishing, malware, downloads, and reputation checks."
+    },
+    {
+      "id": "microsoft-edge-smartscreen-unexpected-warning",
+      "note": "Supports unsafe-site block criteria and false-positive reporting routes."
+    },
+    {
+      "id": "w3c-mixed-content",
+      "note": "Supports warnings before insecure form submission and accessible override controls."
+    },
+    {
+      "id": "microsoft-file-preview-security",
+      "note": "Supports blocked preview treatment for internet-downloaded files."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

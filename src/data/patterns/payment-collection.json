@@ -1,0 +1,265 @@
+{
+  "id": "payment-collection",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed payment request, authorization, and status lifecycle pattern with guidance for amount and reference display, method choice, secure provider handoff, required action, processing, decline, cancel, expired session, duplicate-safe retry, paid, refunded, reconciliation, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers collecting money for a known amount and reference, accepted payment methods, payer and service context, secure provider handoff, hosted or embedded credential capture, required action, processing and pending status, decline recovery, cancel and expired-session recovery, idempotent retry, receipt, refund state, reconciliation, support lookup, and redaction of sensitive payment data.",
+    "relatedPatternDistinction": "The entry separates payment collection from checkout by owning the payment lifecycle outside full cart and order finalization, from payment card entry by owning amount, reference, provider status, attempts, receipt, and reconciliation around secure credential capture, from bank details by collecting money now rather than account identifiers, from retry by deciding whether payment retry is safe, and from confirmation page by appearing before receipt handoff.",
+    "liveDemoBehavior": "The live demo uses a payment lifecycle with request, method, provider handoff, requires action, processing with disabled primary action, declined, canceled, expired, idempotent retry, paid, refunded, reconciliation, and bad modes for hidden amount, duplicate charge, lost reference, vague failure, premature receipt, raw details, and no reconciliation.",
+    "comparisonDecisionRules": "The linked payment-collection-vs-checkout-vs-payment-card-entry-vs-bank-details comparison gives concrete rules for payment collection, checkout, payment card entry, bank details, retry, confirmation page, provider handoff, lifecycle status, duplicate-charge protection, receipt, and reconciliation boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/payment-collection/ on 2026-06-11 in Chromium: verified Request, Method, Handoff, Requires action, Processing, Declined, Canceled, Expired, Retry, Paid, Refunded, Reconcile, Hidden amount, Duplicate charge, Lost reference, Vague failure, Premature receipt, Raw details, and No reconciliation states; verified amount $84.00, reference APP-2048-FEE, and idempotency key pay_APP_2048_fee stay visible; verified processing disables the primary payment action; verified /compare/payment-collection-vs-checkout-vs-payment-card-entry-vs-bank-details/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/payment-collection.png"
+    ]
+  },
+  "name": "Payment collection",
+  "aliases": [
+    "take payment",
+    "collect payment",
+    "payment journey",
+    "payment authorization",
+    "payment request",
+    "hosted payment",
+    "payment handoff",
+    "payment status",
+    "payment retry"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Payment request, authorization, and status lifecycle",
+  "uiGuidance": [
+    "Render payment collection as a money-movement journey with amount due, reference, payer or service context, accepted methods, provider handoff, authorization or processing state, failure and cancel recovery, retry rules, receipt, and reconciliation status.",
+    "Keep payment collection separate from checkout, payment-card entry, bank details, retry, and confirmation page: it owns the payment lifecycle and status, not full order finalization, raw card fields, account identifiers, a retry control alone, or the post-payment receipt."
+  ],
+  "uxGuidance": [
+    "Use payment collection when the user must pay a bill, fee, invoice, application charge, renewal, subscription, donation, deposit, or balance and the service must make the amount, reference, status, and next action unambiguous.",
+    "Protect users from duplicate charges and uncertainty by preserving the payment reference, explaining provider handoffs, distinguishing pending, failed, canceled, requires action, and succeeded states, and giving safe retry or alternate-method paths."
+  ],
+  "uiExamples": {
+    "good": [
+      "A permit-fee payment page shows Reference APP-2048, Amount due $84.00, accepted card and wallet methods, Continue to secure payment, and returns to a status page after provider authorization.",
+      "An invoice payment failure keeps invoice INV-1482, amount, method, status, idempotency reference, Retry payment, and Try another method visible."
+    ],
+    "bad": [
+      "A page says Payment failed after redirect but hides whether the bank declined, the user canceled, the session expired, or money might still be pending.",
+      "The payment button remains active during authorization and a double tap creates two payment attempts with different references."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user returns from bank authentication, sees the payment is processing, waits without retrying, and later sees the receipt once the provider reports success.",
+      "A user receives a decline, keeps the same fee reference and application context, changes method, and retries without creating a duplicate charge."
+    ],
+    "bad": [
+      "A user closes a hosted payment page and returns to a blank form with no way to check whether the payment was canceled or still pending.",
+      "A user pays the same invoice twice because retry generated a second reference instead of reusing a duplicate-safe payment attempt."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Payment journeys create high anxiety and real financial risk when users cannot see the amount and reference, do not understand provider handoffs, lose context after failure, or accidentally create duplicate charges while status is uncertain.",
+  "solution": "Use a payment collection flow that anchors every attempt to a stable amount and reference, delegates sensitive credential capture to an appropriate provider surface, exposes lifecycle status, guards duplicate submission, preserves context through failure or redirects, and hands successful payments to a receipt or confirmation page.",
+  "problemContext": [
+    "The user needs to pay a known fee, invoice, balance, tax, application charge, renewal, subscription, donation, deposit, or service request.",
+    "The service may collect through card, wallet, bank redirect, payment link, hosted page, embedded payment element, saved method, manual reconciliation, or pay-later route.",
+    "The payment lifecycle can include not started, method selection, requires details, requires action, processing, authorized, requires capture, succeeded, failed, canceled, expired, refunded, or disputed states.",
+    "Users may leave for bank authentication or a hosted provider and then return by redirect, browser Back, webhook update, email link, or support route.",
+    "Payment status affects whether the service can continue, issue a receipt, reserve inventory, submit an application, unlock access, or start fulfillment."
+  ],
+  "selectionRules": [
+    "Choose payment collection when the main task is taking or reconciling money for a known amount and reference.",
+    "Use checkout when the payment is embedded inside cart, delivery, tax, discount, inventory, and order finalization.",
+    "Use payment-card entry when the primary surface is card number, expiry, CVC, billing postal code, tokenization, and card-specific field recovery.",
+    "Use bank details when collecting account identifiers for payout, direct debit, refund, payroll, or account-to-account transfer rather than collecting money now.",
+    "Use retry when the same failed request is being attempted again; payment collection decides whether retry uses the same attempt, same reference, new method, or support path.",
+    "Use confirmation page only after the payment succeeds or after the service accepts a pending payment state with clear next steps.",
+    "Show amount, currency, reference, description, payer or account context, and what the payment unlocks before the user leaves for a provider or submits details.",
+    "State who processes the payment, what methods are accepted, whether fees apply, and what happens after bank authentication or redirect.",
+    "Use hosted fields, embedded payment elements, hosted pages, or redirects for sensitive payment credentials when the product should not own credential capture.",
+    "Preserve the payment reference, amount, and service context across redirect, browser Back, failure, cancel, timeout, and support handoff.",
+    "Disable or guard duplicate pay actions while authorization, capture, order creation, or status verification is in flight.",
+    "Distinguish not attempted, requires action, processing, failed, canceled, succeeded, refunded, and pending reconciliation states in user-facing copy."
+  ],
+  "requiredStates": [
+    "Payment request state with amount, currency, reference, description, payer context, accepted methods, and secure provider handoff.",
+    "Method selection state for card, wallet, bank redirect, saved method, payment link, or alternate route.",
+    "Sensitive details state delegated to hosted or compliant payment UI.",
+    "Provider redirect or authentication state with clear return expectations.",
+    "Processing or pending status state that prevents duplicate payment while status is uncertain.",
+    "Requires action state such as bank authentication or mandate acceptance.",
+    "Failed or declined state with reason category, preserved context, and retry or alternate-method route.",
+    "Canceled or abandoned state with safe resume or start-new-payment route.",
+    "Expired payment session state with a new attempt route tied to the same service reference where appropriate.",
+    "Succeeded state with receipt, payment reference, amount paid, date, and next step.",
+    "Refunded, partially refunded, or reversed state when relevant after payment.",
+    "Status lookup or reconciliation state for asynchronous provider updates and support."
+  ],
+  "interactionContract": [
+    "Every payment attempt is tied to a stable service reference, amount, currency, and payer context that remains visible before and after provider handoff.",
+    "The final pay action names the amount or consequence and becomes busy or disabled while the payment attempt is being created or confirmed.",
+    "Redirect returns restore the same payment context and immediately show the latest known provider status or a status-checking state.",
+    "Failure, cancel, timeout, and retry keep non-sensitive service data while clearing or delegating sensitive payment credentials according to provider rules.",
+    "Retry uses idempotency or a clearly new attempt policy so users cannot accidentally create duplicate charges.",
+    "The interface never claims payment succeeded until the provider or trusted backend status supports that state.",
+    "Successful payment removes editable payment controls and hands off to receipt, confirmation, or the next service step."
+  ],
+  "implementationChecklist": [
+    "Define payment owner, amount source, reference format, idempotency strategy, provider surface, accepted methods, status model, retry rules, refund rules, and reconciliation source before designing the UI.",
+    "Design request, method selection, provider handoff, authentication, processing, failed, canceled, expired, succeeded, refunded, and status-lookup states.",
+    "Bind amount, currency, reference, description, and payer context to canonical backend records rather than browser-only state.",
+    "Use hosted provider pages, payment elements, or compliant credential capture for sensitive details and avoid storing payment secrets in application state.",
+    "Handle webhooks or backend status polling for asynchronous success, failure, processing, refund, and reconciliation events.",
+    "Add idempotency keys, duplicate-submit guards, and clear busy states for payment creation, confirmation, capture, and retry.",
+    "Preserve payment context across redirect, browser Back, refresh, session timeout, provider cancel, decline, and support handoff.",
+    "Redact payment credentials, provider tokens, full card data, bank details, failure payloads, and personal data from logs, analytics, screenshots, replay tools, and support transcripts.",
+    "Test double submit, redirect return, bank authentication, wallet cancel, decline, processing delay, status polling, provider outage, expired session, refund display, mobile viewport, screen readers, and high zoom."
+  ],
+  "commonMisuses": [
+    "Showing a Pay button without amount, currency, or reference.",
+    "Letting users submit the same payment twice while the first attempt is processing.",
+    "Clearing the service context after a decline, cancel, or provider redirect.",
+    "Collapsing declined, canceled, expired, processing, and provider-unavailable states into one payment failed message.",
+    "Claiming success before backend or provider status confirms payment.",
+    "Collecting raw card or bank credentials directly when a hosted or compliant provider surface should own them.",
+    "Generating a new reference on every retry without explaining whether a duplicate charge is possible.",
+    "Sending users to a receipt page without payment reference, amount paid, timestamp, and support route."
+  ],
+  "critiqueQuestions": [
+    "What amount, currency, reference, and service outcome is this payment tied to?",
+    "Which surface owns sensitive payment credentials, and what must never enter product logs or state?",
+    "What exact states can the provider return, and how are they shown to the user?",
+    "Can users safely return from authentication, cancel, refresh, browser Back, or support without losing payment context?",
+    "How does retry avoid duplicate charges or duplicate service submissions?",
+    "When is it safe to show receipt or confirmation, and what evidence proves that status?"
+  ],
+  "useWhen": [
+    "The user must pay a known fee, invoice, balance, application charge, renewal, subscription, donation, deposit, or service amount.",
+    "The service must coordinate payment amount, reference, provider handoff, status, retry, receipt, and reconciliation.",
+    "Payment state affects whether the broader service can continue, fulfill, submit, reserve, or unlock access."
+  ],
+  "avoidWhen": [
+    "The task is a full ecommerce checkout with cart, shipping, tax, discounts, and order finalization.",
+    "The task is only secure card field entry, bank account detail capture, or final answer review.",
+    "No money is being requested or reconciled.",
+    "The service cannot make payment status authoritative or guard duplicate charges.",
+    "The user only needs to view past payments, refunds, invoices, or payout records without making a payment."
+  ],
+  "variants": [
+    "Hosted payment page",
+    "Embedded payment element",
+    "Payment link",
+    "Invoice payment",
+    "Application fee payment",
+    "Subscription payment",
+    "Donation payment",
+    "Saved payment method charge",
+    "Bank redirect payment",
+    "Manual reconciliation",
+    "Payment requires action",
+    "Payment processing",
+    "Payment declined",
+    "Payment canceled",
+    "Payment refunded"
+  ],
+  "accessibility": [
+    "Use headings that name the payment task and amount, such as Pay application fee or Pay invoice INV-1482.",
+    "Keep amount, reference, status, and next action visible as text before and after provider handoff.",
+    "Expose processing, failure, cancel, and success states in live regions or focused status headings when they change dynamically.",
+    "Do not rely on color alone for paid, pending, failed, canceled, or refunded status.",
+    "Keep retry, alternate method, cancel, return to service, receipt, and support actions keyboard reachable.",
+    "Ensure embedded provider components or iframes expose accessible names, errors, focus indicators, and keyboard behavior.",
+    "Move focus to the latest payment status after redirect return, decline, cancel, processing timeout, or success."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows payment summary, method choice, provider component or handoff button, terms if required, pay action, status, retry, and support actions.",
+    "Enter or Space activates one visible pay action and cannot trigger duplicate attempts while busy.",
+    "Provider return restores focus to payment status or the next action instead of the page top when possible.",
+    "After failure, focus moves to the failing payment status or first recovery action while preserving context.",
+    "After success, focus lands on receipt, confirmation heading, or the next service step.",
+    "Browser Back from a provider handoff returns to a status or resume state rather than silently reusing stale credentials."
+  ],
+  "failureModes": [
+    "A payment status is uncertain and users retry, creating a duplicate charge.",
+    "A provider decline erases the invoice, application, fee, or service reference.",
+    "A payment is marked paid in the UI before webhook or backend confirmation.",
+    "Users return from bank authentication to a generic start page with no payment status.",
+    "Retry creates a new payment reference and support cannot reconcile which attempt belongs to the service.",
+    "Payment credentials or provider tokens leak through logs, analytics, replay tools, or support screenshots.",
+    "A refund or partial refund is hidden, so the user and support disagree about current payment state.",
+    "A hosted payment outage gives no alternate route, saved reference, or status check."
+  ],
+  "relatedPatterns": [
+    "checkout",
+    "payment-card-entry",
+    "bank-details",
+    "retry",
+    "confirmation-page",
+    "loading-spinner",
+    "error-summary",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "payment-collection-vs-checkout-vs-payment-card-entry-vs-bank-details"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Pay take a payment",
+      "url": "https://docs.payments.service.gov.uk/making_payments/",
+      "platform": "web",
+      "notes": "Documents taking payments through the GOV.UK Pay API or payment links, service references, amount, description, return URL, and hosted payment handoff.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GOV.UK Pay API reference",
+      "url": "https://docs.payments.service.gov.uk/api_reference/",
+      "platform": "web",
+      "notes": "Documents payment status, events, refunds, authorisation failures, and provider rejection details for status and reconciliation.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Stripe PaymentIntent lifecycle",
+      "url": "https://docs.stripe.com/payments/paymentintents/lifecycle",
+      "platform": "web",
+      "notes": "Documents lifecycle states such as requires payment method, requires action, processing, succeeded, canceled, retry after decline, and capture boundaries.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-pay-take-a-payment",
+      "note": "GOV.UK Pay supports references, amount, description, return URL, hosted payment pages, API-created payments, and payment links."
+    },
+    {
+      "id": "govuk-pay-api-reference",
+      "note": "GOV.UK Pay supports payment statuses, payment events, refunds, provider rejection, authorisation failures, and reconciliation data."
+    },
+    {
+      "id": "stripe-payment-intents-lifecycle",
+      "note": "Stripe supports payment lifecycle states for retry, required action, processing, success, cancellation, capture, and decline recovery."
+    },
+    {
+      "id": "stripe-payment-element-overview",
+      "note": "Stripe supports collecting many payment methods through a validated payment component with error handling."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Stripe supports idempotency keys to avoid duplicate effects during payment retries."
+    },
+    {
+      "id": "pci-dss-payment-card-data",
+      "note": "PCI DSS supports protecting payment card data when systems store, process, or transmit cardholder data."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-11"
+}

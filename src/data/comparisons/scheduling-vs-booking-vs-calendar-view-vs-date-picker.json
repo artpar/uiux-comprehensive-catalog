@@ -1,0 +1,66 @@
+{
+  "id": "scheduling-vs-booking-vs-calendar-view-vs-date-picker",
+  "title": "Scheduling vs booking vs calendar view vs date picker",
+  "summary": "Use scheduling for arranging a time plan with attendees, availability, recurrence, reminders, and conflicts; booking for reserving a service/resource slot; calendar view for inspecting scheduled items; and date picker for choosing a single date field.",
+  "patternIds": [
+    "scheduling",
+    "calendar-view",
+    "date-picker",
+    "time-picker",
+    "date-range-picker",
+    "notification-center",
+    "conflict-state"
+  ],
+  "decisionRules": [
+    "Choose scheduling when the task is coordinating a meeting, event, availability schedule, or recurring time plan across people, calendars, time zones, reminders, locations, rooms, conferencing, buffers, limits, or free/busy conflicts.",
+    "Choose booking when the primary job is reserving a service, appointment, inventory, room, seat, or resource slot with customer-facing confirmation, capacity, payment, cancellation, or provider rules.",
+    "Choose calendar view when users need to inspect existing events spatially by day, week, month, resource, duration, overlap, or availability rather than create the scheduling contract itself.",
+    "Choose date picker when the user needs one date value and does not need attendee availability, recurrence, reminders, rooms, conferencing, buffers, or conflict handling.",
+    "Choose time picker when the user is choosing a clock time field from predictable increments inside a larger scheduling or booking flow.",
+    "Choose date range picker when users need a start and end date span; scheduling may use a range but also requires participants, availability, recurrence, timezone, and conflict behavior.",
+    "Use notification center to surface schedule updates, invitations, reminders, acceptances, declines, and cancellations, but keep schedule editing in the scheduling workflow.",
+    "Use conflict state when scheduling is blocked by attendee busy time, resource unavailability, invalid recurrence, hidden calendars, timezone ambiguity, or stale availability.",
+    "Scheduling must expose who or what is being scheduled, duration, start/end, timezone, recurrence, attendee response state, availability source, reminders, location or conference link, and save/send consequences.",
+    "Recurring scheduling must show series scope, recurrence rule, exceptions, end condition, timezone, conflict summary, and whether edits affect one occurrence or the full series."
+  ],
+  "failureModes": [
+    "A meeting is scheduled without showing that a required attendee or room is busy.",
+    "A recurring series expands in the wrong local time because the timezone was hidden or changed silently.",
+    "The interface saves a draft event but users believe invitations were sent.",
+    "A schedule page shows free slots without accounting for buffers, maximum meetings per day, minimum notice, or checked calendars.",
+    "A date picker is used for a meeting with attendees, so users cannot see free/busy conflicts or send invitations.",
+    "Rescheduling one occurrence accidentally changes every recurrence in the series.",
+    "A reminder or video link is missing from the sent event even though it appeared in the draft."
+  ],
+  "sources": [
+    {
+      "id": "google-calendar-create-event",
+      "note": "Google Calendar documents creating events with calendar selection, guests, rooms, location, conferencing, attachments, and save behavior."
+    },
+    {
+      "id": "google-calendar-appointment-schedule",
+      "note": "Google Calendar documents availability, buffers, maximum bookings per day, guest permissions, selected calendars, and conflict checks for appointment schedules."
+    },
+    {
+      "id": "microsoft-outlook-schedule-meeting-event",
+      "note": "Outlook documents Scheduling Assistant free/busy views, recurrence, suggested times, and manual start/end scheduling."
+    },
+    {
+      "id": "microsoft-outlook-web-scheduling-assistant",
+      "note": "Outlook on the web documents free/busy Scheduling Assistant, recurring meetings, save or send, and different time zone usefulness."
+    },
+    {
+      "id": "calendly-availability-settings",
+      "note": "Calendly documents buffers, limits, free/busy rules, start increments, notice periods, date ranges, and checking the booking page."
+    },
+    {
+      "id": "calendly-time-zones-overview",
+      "note": "Calendly documents event time zone settings, local time detection, user-selectable time zones, and locked event time zones."
+    },
+    {
+      "id": "google-calendar-api-recurring-timezone",
+      "note": "Google Calendar API documents recurring event timezone requirements for expanding recurrences correctly."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

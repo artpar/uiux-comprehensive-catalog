@@ -43,6 +43,11 @@ const genericCompletionPhrases = [
   /template/i
 ];
 
+const canonicalGoalAliases: Record<string, string[]> = {
+  "Question page": ["single-question-page"],
+  "Saved filters": ["saved-filter"]
+};
+
 type PatternField = (typeof duplicateAuditFields)[number];
 
 async function listJsonFiles(dir: string): Promise<string[]> {
@@ -105,7 +110,7 @@ function fieldValues(pattern: PatternEntry, field: PatternField) {
 function goalIdCandidates(label: string) {
   const fullLabelId = slugify(label);
   const primaryLabelId = slugify(label.split(/\s+\/\s+/)[0]);
-  return [...new Set([fullLabelId, primaryLabelId])];
+  return [...new Set([fullLabelId, primaryLabelId, ...(canonicalGoalAliases[label] ?? [])])];
 }
 
 async function expectedPatternsFromGoal() {

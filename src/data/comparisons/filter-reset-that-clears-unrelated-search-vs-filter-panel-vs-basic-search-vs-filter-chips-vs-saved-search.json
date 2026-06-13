@@ -1,0 +1,61 @@
+{
+  "id": "filter-reset-that-clears-unrelated-search-vs-filter-panel-vs-basic-search-vs-filter-chips-vs-saved-search",
+  "title": "Filter reset that clears unrelated search vs filter panel vs basic search vs filter chips vs saved search",
+  "summary": "Flag filter reset that clears unrelated search when a Clear filters, Reset filters, chip removal, or preset reset also erases independent query text, saved search criteria, search history, URL state, sort, pagination policy, or view state without saying so. Use filter panel and filter chips for filter criteria, basic search for query text, and saved search when query plus filters are intentionally stored together.",
+  "patternIds": [
+    "filter-reset-that-clears-unrelated-search",
+    "filter-panel",
+    "basic-search",
+    "filter-chips",
+    "saved-search"
+  ],
+  "decisionRules": [
+    "Flag filter reset that clears unrelated search when the control label says Clear filters or Reset filters but the action also clears the submitted query, search box text, search scope, search history item, saved search identity, URL state, sort order, page size, selected view, or layout state.",
+    "Choose filter panel when users need to compose or reset grouped filter criteria; clear-all must return filters to their defaults while preserving independent query, sort, view, scope, and pagination policy unless those are visibly part of the filter set.",
+    "Choose basic search when the user is clearing query text or a submitted keyword search; use labels such as Clear search or Clear query instead of hiding query reset behind Clear filters.",
+    "Choose filter chips when users need to remove one applied criterion or all applied filter chips; removing a chip must remove only that criterion and keep the search query and sort stable.",
+    "Choose saved search when the saved object intentionally includes query text plus filters, sort, scope, alerts, or result subscription; reset or rerun language must show that broader bundle before clearing it.",
+    "If a control clears both filters and search, label it as a broader reset such as Clear search and filters, show the affected state list, and provide an undo or confirmation when loss is surprising.",
+    "When filters and search share a result summary, show separate state tokens for query, filters, sort, scope, and saved identity so users can predict what each reset will affect.",
+    "In no-results recovery, offer scoped actions such as Remove Date filter, Clear all filters, and Clear search separately rather than one broad reset.",
+    "In batch filter panels, Reset draft should affect pending filter controls only; Clear applied filters should affect applied filters only; neither should erase the submitted query unless explicitly included.",
+    "During generated UI review, inspect reset buttons, chip clear-all, empty-state recovery links, mobile filter drawers, saved-filter application, and saved-search reruns for accidental query or history loss."
+  ],
+  "failureModes": [
+    "A Clear filters button removes Status: Open and Date: Last 30 days but also empties the search query appeal.",
+    "Removing a single Team: Benefits chip clears every chip, the submitted query, and the sort order.",
+    "A mobile filter drawer Reset button returns to all results and wipes the search box without warning.",
+    "A no-results empty state offers Start over and silently deletes both search and filters when the user only needed to loosen one filter.",
+    "Applying a saved filter clears the current search query even though the preset stores only filter criteria.",
+    "Reset filters removes the saved search identity and search-history event without showing that saved criteria were part of the reset.",
+    "Clear all in a batch panel resets draft controls, applied controls, query, sort, and pagination using one vague label.",
+    "After filter reset, users cannot reconstruct the original search because the query is gone from the field, result heading, URL, and history."
+  ],
+  "sources": [
+    {
+      "id": "carbon-filtering-pattern",
+      "note": "Supports distinguishing filter reset behavior, batch versus instant filtering, hidden active indicators, and reset scope."
+    },
+    {
+      "id": "dwp-filter-component-research",
+      "note": "Supports applied-filter summaries, result counts, clear-all controls, and synchronization between controls and results."
+    },
+    {
+      "id": "visa-product-design-filters",
+      "note": "Supports applied chips, clear-all controls, active indicators, and filter panel reset behavior."
+    },
+    {
+      "id": "moj-design-system-filter",
+      "note": "Supports selected filters, grouped list filtering, clear filters, and apply behavior for search result lists."
+    },
+    {
+      "id": "moj-design-system-search",
+      "note": "Supports treating query entry and query clearing as a search task separate from filtering controls."
+    },
+    {
+      "id": "servicenow-save-use-list-filters",
+      "note": "Supports saved list filters as reusable filter criteria with a boundary from broader saved searches or view state."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

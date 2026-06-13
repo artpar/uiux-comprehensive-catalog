@@ -1,0 +1,60 @@
+{
+  "id": "ai-answer-without-sources-vs-source-grounding-display-vs-citation-display-vs-confidence-uncertainty-display-vs-streaming-response-vs-correction-feedback",
+  "title": "AI answer without sources vs source grounding display vs citation display vs confidence / uncertainty display vs streaming response vs correction feedback",
+  "summary": "Flag AI answer without sources when a generated answer makes evidence-dependent claims with no visible source route or no-source state. Use the related patterns for answer-wide evidence coverage, claim-level citations, reliability display, source-pending generation, or post-answer correction.",
+  "patternIds": [
+    "ai-answer-without-sources",
+    "source-grounding-display",
+    "citation-display",
+    "confidence-uncertainty-display",
+    "streaming-response",
+    "correction-feedback"
+  ],
+  "decisionRules": [
+    "Choose AI answer without sources when a generated answer includes factual, policy, legal, medical, financial, operational, customer-impact, or data-derived claims and the UI provides no citation, grounding, source scope, not-searched label, retrieval failure, or verification path.",
+    "Choose source grounding display when the product can show answer-wide source scope, searched sources, retrieved sources, used evidence, unsupported claims, partial support, permission-limited sources, stale sources, and retrieval failures.",
+    "Choose citation display when the design problem is mapping specific claims to inline citation markers, selected source previews, source excerpts, and open-source actions.",
+    "Choose confidence / uncertainty display when users need calibrated model reliability, uncertainty reason, review threshold, and action gating; confidence does not prove sources exist.",
+    "Choose streaming response when answer text and source events are still arriving, and keep source status pending until retrieval and final text settle.",
+    "Choose correction feedback when users need to report a wrong, unsupported, stale, missing-source, or wrong-source answer after it appears.",
+    "A no-source answer must say whether sources were not searched, no supporting source was found, retrieval failed, permission blocked the source, or the answer is only a draft from model knowledge.",
+    "Do not present related links, a Learn more list, decorative citation numbers, or a high-confidence badge as evidence used by the answer.",
+    "Gate copy, publish, apply, send, export, or automation when source-dependent claims remain unsourced, or preserve the no-source status in the resulting artifact.",
+    "If a user intentionally continues without sources, record that decision and keep the answer labelled unsourced rather than upgrading it to verified."
+  ],
+  "failureModes": [
+    "A fluent policy answer is sent to a customer with no citation, grounding, or not-searched disclosure.",
+    "Retrieval fails but the UI hides the failure and returns a confident model-memory answer.",
+    "A high confidence badge is shown where users needed source evidence.",
+    "Related links appear under the answer and are mistaken for used evidence.",
+    "Copy final strips the no-source warning from the answer.",
+    "Permission-limited sources vanish, making the answer look fully sourced."
+  ],
+  "sources": [
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports visible source references for web-search-backed output."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports annotations and included search results for file-backed output."
+    },
+    {
+      "id": "openai-retrieval",
+      "note": "Supports retrieval over selected source stores rather than source-free answers."
+    },
+    {
+      "id": "microsoft-copilot-studio-knowledge-sources",
+      "note": "Supports source scope and authenticated knowledge access."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports communicating AI uncertainty and helping users understand system capabilities and limitations."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing changed source, retrieval, and verification status without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

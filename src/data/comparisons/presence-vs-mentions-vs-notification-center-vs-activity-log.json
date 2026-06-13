@@ -1,0 +1,62 @@
+{
+  "id": "presence-vs-mentions-vs-notification-center-vs-activity-log",
+  "title": "Presence vs mentions vs notification center vs activity log",
+  "summary": "Use presence for visible availability and co-attendance signals, mentions for targeted attention inside authored content, notification center for retained inbox triage, and activity log for durable event history.",
+  "patternIds": [
+    "presence",
+    "mentions",
+    "notification-center",
+    "activity-log",
+    "comments",
+    "threaded-discussion",
+    "settings-management",
+    "permission-denied-state"
+  ],
+  "decisionRules": [
+    "Choose presence when users need to judge whether another person is currently available, away, busy, offline, in a meeting, focusing, presenting, viewing the same object, or recently active before interrupting, routing, assigning, joining, or waiting.",
+    "Choose mentions when a composer needs to target a person or group inside a message, comment, issue, task, or document; mention delivery may use presence context, but the mention is an authored attention event rather than an availability signal.",
+    "Use notification center when users need a retained inbox of unread items, reminders, and preference controls; presence may explain why a recipient may not respond now, but it should not become the inbox itself.",
+    "Use activity log when the product must prove who viewed, changed, routed, or was notified about something; presence and view history can inform follow-up, but they are not sufficient compliance evidence unless explicitly captured as audit events.",
+    "Use comments or threaded discussion when the primary task is participating in a conversation; presence can show who is viewing, replying, or available, but it should not replace author, reply, resolve, branch, unread, or moderation state.",
+    "Use profile setup for durable identity details such as name, role, avatar, pronouns, and time zone; presence is a transient signal that can change automatically by activity, calendar, device, or manual override.",
+    "Use settings management when users configure availability defaults, working hours, privacy mode, external sharing, status duration, and automatic status rules; do not hide these controls inside every presence badge.",
+    "Use permission-denied state when a person cannot view presence or activity due to privacy, external access, domain, or object permission limits; show restricted or unknown states rather than inventing availability.",
+    "Use sync state when the problem is whether data has been sent, saved, or refreshed; presence recency should name freshness and source so stale availability is not mistaken for a live connection.",
+    "Use offline state for the current user's connectivity and recovery path; another person's offline or away presence should not imply this user's app is offline."
+  ],
+  "failureModes": [
+    "Presence is shown as a green dot with no label, source, timestamp, or privacy state, leaving users to guess whether it means online, available, viewing, or recently active.",
+    "An old presence value remains visible after a device disconnects and the UI does not show stale, unknown, or last-updated state.",
+    "A busy or do-not-disturb person receives intrusive calls or banners because action controls ignore presence and priority rules.",
+    "The interface exposes view activity or presence across domains, guests, private files, or external organizations without honoring privacy settings.",
+    "Presence is used as a performance or attendance record even though the underlying source is automatic, delayed, preference-limited, or explicitly not an audit record.",
+    "A co-viewing indicator says three people are here but gives no names, roles, access scope, screen-reader label, or way to follow up."
+  ],
+  "sources": [
+    {
+      "id": "slack-status-availability",
+      "note": "Slack documents active and away dots, paused-notification visibility, automatic activity-based availability, manual active or away controls, and automatic status signals."
+    },
+    {
+      "id": "slack-user-presence-status-api",
+      "note": "Slack Developer Docs model user presence as active or away, with automatic and manual away behavior and limits on forcing active presence."
+    },
+    {
+      "id": "microsoft-teams-presence-admins",
+      "note": "Microsoft Teams documents rich presence states, automatic status from activity, app state, calendar and devices, manual status duration, notification behavior, last seen, and privacy settings."
+    },
+    {
+      "id": "microsoft-graph-presence-resource",
+      "note": "Microsoft Graph models presence as availability plus activity, supports change notifications, and exposes values such as available, busy, doNotDisturb, focusing, in a call, in a meeting, offline, presenting, out of office, and unknown."
+    },
+    {
+      "id": "google-workspace-activity-dashboard",
+      "note": "Google Workspace documents file activity visibility, viewer names and view times, edit-access and same-domain limits, follow-up use, privacy controls, and the warning that Activity Dashboard is not an audit record."
+    },
+    {
+      "id": "google-docs-live-edits-accessibility",
+      "note": "Google Docs live edits show collaborator change summaries for assistive technology users, supporting accessible real-time collaboration awareness."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "assignment-vs-task-list-vs-review-queue-vs-approval-workflow",
+  "title": "Assignment vs task list vs review queue vs approval workflow",
+  "summary": "Use assignment to set or change who is responsible for a specific work item, task list to show fixed task rows with status, review queue to triage many items needing work, and approval workflow to route a submitted request through governed decisions.",
+  "patternIds": [
+    "assignment",
+    "task-list",
+    "review-queue",
+    "approval-workflow",
+    "mentions",
+    "object-picker",
+    "notification-center",
+    "activity-feed",
+    "permission-sharing"
+  ],
+  "decisionRules": [
+    "Choose assignment when the user must set, change, clear, or inspect the responsible person, team, bot, or role for one work item, issue, pull request, document comment, task, or ticket.",
+    "Choose task list when the surface is a known set of rows with task names, hints, and completion statuses; assignment may be a field inside a row but does not define the task-list component.",
+    "Choose review queue when reviewers need to process many queued items with claim, assignment, SLA, preview, stale-row checks, and bulk actions; assignment is only one queue action.",
+    "Choose approval workflow when the assigned person is making an authorized approve/reject decision on a submitted request rather than becoming the accountable owner for doing the work.",
+    "Use mentions when the user is drawing someone's attention in a conversation; a mention becomes assignment only when it creates or changes a clear responsibility record.",
+    "Use object picker for the reusable person or team selection control, but assignment additionally needs eligibility, current owner, notification, due date, workload, reassignment, unassignment, and audit behavior.",
+    "Use notification center or activity feed to announce assignment changes, but keep the source of truth on the work item or assignment record.",
+    "Use permission sharing when the change grants access or role capability; assignment should not imply the assignee gained the required permission unless the product explicitly grants it and warns about that side effect.",
+    "Assignment controls must show current assignee, eligible candidates, responsibility semantics, multi-assignee limits, self-assign, automatic assignment, unassigned state, reassignment reason, and notification outcome.",
+    "Reassignment must preserve work context, expose handoff notes or reason when needed, prevent assigning ineligible or overloaded users when policy requires it, and synchronize assigned-to-me views and activity notifications."
+  ],
+  "failureModes": [
+    "A user mentions a teammate and assumes work was assigned, but no assignment record, notification, or assigned-to-me entry is created.",
+    "An issue is assigned to a person without the permission or role needed to act on it.",
+    "A bulk assignment changes hidden selected items without previewing count, current owners, or exceptions.",
+    "Automatic assignment silently chooses a default owner that no longer matches the component, team, or workload.",
+    "Reassignment erases the previous owner, reason, or handoff context, making accountability unclear.",
+    "A review queue treats claim, owner, reviewer, approver, and assignee as one field and routes work to the wrong person."
+  ],
+  "sources": [
+    {
+      "id": "github-assigning-issues-pull-requests",
+      "note": "GitHub documents assignee eligibility, sidebar assignment, bulk assignment, and up to ten assignees for issues and pull requests."
+    },
+    {
+      "id": "atlassian-jira-automatic-assignee",
+      "note": "Jira documents automatic assignment through component default assignees and space default assignees."
+    },
+    {
+      "id": "microsoft-planner-connector-assignees",
+      "note": "Microsoft Planner documents adding and removing task assignees and assigned-to-me task listing."
+    },
+    {
+      "id": "google-docs-comments-action-items",
+      "note": "Google Docs documents action-item assignment from comments, reassignment, and done state."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

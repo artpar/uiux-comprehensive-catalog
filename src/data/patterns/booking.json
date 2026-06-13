@@ -1,0 +1,310 @@
+{
+  "id": "booking",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed booking pattern with guidance for offered services, staff, resources, available slots, capacity, venue timezone, customer details, intake questions, policy acceptance, email verification, deposit or payment requirement, temporary hold, confirmation, cancellation, reschedule, waitlist, stale-slot recovery, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers customer-facing reservation of appointment types, services, rooms, classes, seats, resources, tables, and visits; service duration, staff, venue, business hours, buffers, minimum notice, capacity, party size, intake fields, consent, policy, email verification, deposit, prepayment, temporary hold, stale availability, confirmation delivery, cancellation, reschedule, released slots, waitlist, and provider/customer notifications.",
+    "relatedPatternDistinction": "The entry separates booking from scheduling by focusing on customer reservation of provider-defined availability rather than organizer-side calendar coordination, from checkout by making slot, service, resource, capacity, policy, and confirmation the primary contract even when payment is collected, from date picker, time picker, and date range picker by owning availability and capacity rules rather than field entry, from payment collection by treating deposit or prepayment as one requirement inside the reservation, from confirmation page by appearing before the committed endpoint, and from conflict state by using conflicts as slot, capacity, payment, or verification blockers.",
+    "liveDemoBehavior": "The live demo uses a Haircut with Zara booking flow with service duration, staff, Thu 14:30 venue-time slot, closed and open slot states, party-size capacity check, customer contact, intake, policy, email PIN verification, $20 deposit, temporary hold, booking reference, calendar link, cancellation with slot release, reschedule to Fri 11:00, waitlist, stale slot recovery to 16:00, and bad states for date-only entry, hidden capacity, wrong timezone, pay-first failure, missing policy, and lost cancellation.",
+    "comparisonDecisionRules": "The linked booking-vs-scheduling-vs-checkout-vs-date-picker comparison gives concrete rules for customer booking, organizer scheduling, purchase checkout, date entry, time entry, date span entry, payment collection, confirmation page, conflict state, service and staff selection, capacity, payment, timezone, stale-slot recovery, and cancel or reschedule handling.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/booking/ on 2026-06-11 in Chromium: verified Service, Slot, Capacity, Intake, Policy, Verify, Payment, Hold, Confirmed, Cancel, Reschedule, Waitlist, Stale, Date only, Hidden capacity, Wrong timezone, Pay first, No policy, and Lost cancel controls; verified Haircut, Zara, Thu 14:30, Fri 11:00, venue timezone, party size, intake, consent, late-cancel policy, refund wording, email PIN, $20 deposit, temporary hold, BK-4821 reference, calendar link, slot release, waitlist, stale slot, 16:00 alternative, provider-calendar blocked failure, and no booking-surface horizontal overflow; verified no duplicate IDs; verified /compare/booking-vs-scheduling-vs-checkout-vs-date-picker/ concrete decision rules; and checked mobile viewport with collapsed booking frame, fields, slot list, bad grid, key good and bad states, all controls, and no booking-surface horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/booking.png"
+    ]
+  },
+  "name": "Booking",
+  "aliases": [
+    "appointment booking",
+    "service booking",
+    "reservation booking",
+    "online booking",
+    "book appointment",
+    "book service",
+    "book a slot",
+    "resource booking",
+    "class booking",
+    "booking page",
+    "booking form"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Customer-facing flow for reserving an offered slot, service, resource, appointment, class, or seat",
+  "uiGuidance": [
+    "Render booking as a reservation contract with service or appointment type, provider or staff, location or delivery mode, available date and time slots, duration, timezone, party size or capacity, price or deposit when applicable, customer details, intake questions, policy acceptance, and confirmation action.",
+    "Show unavailable slots, sold-out capacity, provider closed hours, minimum notice, buffers, payment requirement, email verification, cancellation and reschedule policy, stale availability, and confirmation delivery as explicit states before a slot is held."
+  ],
+  "uxGuidance": [
+    "Use booking when a customer, invitee, client, patient, guest, student, or attendee reserves a provider-defined appointment, class, room, seat, resource, or service slot.",
+    "Keep users clear about when a slot is only being browsed, temporarily held, awaiting intake, awaiting email verification, awaiting payment, confirmed, canceled, rescheduled, expired, or released back to availability."
+  ],
+  "uiExamples": {
+    "good": [
+      "A salon booking page shows Haircut, 45 minutes, Zara as stylist, Thu 14:30, two remaining openings, New York timezone, price, intake questions, cancellation policy, and a Book appointment button.",
+      "A class booking flow shows available sessions, sold-out sessions, waitlist state, attendee count, deposit, refund policy, confirmation email, calendar link, and reschedule path before committing."
+    ],
+    "bad": [
+      "A booking page lists calendar dates but hides service duration, staff, capacity, timezone, price, and cancellation policy until after confirmation.",
+      "A form takes payment first, then reports that the chosen appointment slot is no longer available."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A client chooses a 45-minute haircut, sees only available stylist times, enters phone and notes, accepts the late-cancel policy, pays a deposit, receives a reference, and gets cancel and reschedule links.",
+      "A customer tries to book a yoga class for three people, sees only two seats remain, adjusts party size, books one seat, and gets a waitlist option for the rest."
+    ],
+    "bad": [
+      "A guest books a restaurant table shown in local browser time but the venue expected venue time, so the reservation lands in the wrong slot.",
+      "A patient completes intake questions after selecting a slot, then loses the slot when email verification fails."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Booking fails when products treat reservation as simple date and time entry, hiding service type, capacity, staff or resource availability, customer requirements, payment, policy, verification, confirmation, and stale-slot recovery.",
+  "solution": "Provide a booking flow that lets users choose an offered service or resource, inspect real availability and capacity, enter required customer and intake details, satisfy policy, verification, and payment requirements, recheck the slot at commit, and receive a durable confirmation with cancel or reschedule paths.",
+  "problemContext": [
+    "The user is reserving a provider-defined appointment, service, room, class, seat, table, equipment, consultation, visit, or pickup window.",
+    "The booking may require service selection, staff or resource selection, location, duration, date, slot, timezone, party size, customer identity, contact details, intake questions, consent, terms, deposit, prepayment, or cancellation policy.",
+    "Availability can depend on business hours, staff calendars, resource capacity, buffers, minimum notice, lead time, service duration, party size, checked calendars, payment status, and concurrent users.",
+    "Confirmation can create a held slot, calendar event, receipt, email or text notification, cancellation link, reschedule link, waitlist entry, or provider-side queue item.",
+    "Booking errors can have external consequences such as double-booked staff, over-capacity classes, unreleased canceled slots, payment without confirmation, or no-show disputes."
+  ],
+  "selectionRules": [
+    "Choose booking when users reserve an offered appointment, service, class, room, seat, resource, table, or visit from provider-defined availability.",
+    "Use scheduling when the organizer is coordinating people, calendars, recurrence, attendees, and invitations rather than accepting a customer reservation.",
+    "Use checkout when the main commitment is purchase completion; booking may include payment only to hold or confirm the selected appointment, class, or resource.",
+    "Use date picker, time picker, or date range picker as sub-controls only after booking-specific service, capacity, availability, and policy rules are handled.",
+    "Use payment collection inside booking when a deposit, no-show fee, prepaid service, or paid appointment is required before confirmation.",
+    "Use confirmation page after the booking is committed, not as a substitute for slot validation, intake, verification, or payment.",
+    "Expose service, provider or resource, location, duration, timezone, party size, capacity, price, policy, intake requirements, and confirmation delivery before commit.",
+    "Recheck slot availability, capacity, provider/resource state, payment result, and email verification immediately before confirming the booking.",
+    "Show sold-out, unavailable, closed, full, stale, waitlist, email verification, payment required, payment failed, canceled, rescheduled, and released-slot states.",
+    "Keep cancel and reschedule paths tied to the original reference so customer notifications, provider calendars, payments, and released availability stay synchronized."
+  ],
+  "requiredStates": [
+    "Service or appointment type selection state.",
+    "Provider, staff, resource, room, seat, or location selection state.",
+    "Available date and slot list state with duration and timezone.",
+    "Unavailable, closed, blocked, sold-out, or capacity-full state.",
+    "Party size, attendee count, or quantity state.",
+    "Customer contact and identity state.",
+    "Required intake questions, consent, terms, or policy acceptance state.",
+    "Email verification or identity verification state when required.",
+    "Payment, deposit, or card authorization state when required.",
+    "Temporary hold or pending confirmation state while availability is rechecked.",
+    "Stale slot or slot taken state with alternatives.",
+    "Confirmed booking state with reference, calendar option, notification delivery, and next steps.",
+    "Cancel booking state that releases the slot and explains refund or policy effects.",
+    "Reschedule booking state that preserves customer details and policy context.",
+    "Waitlist or notify-me state when capacity is full."
+  ],
+  "interactionContract": [
+    "Changing service, staff, resource, party size, date, timezone, location, or duration recomputes available slots before confirmation.",
+    "A selected slot is not treated as confirmed until required intake, policy acceptance, verification, and payment checks have succeeded.",
+    "The final action names the booking consequence, such as Book appointment, Reserve table, Join class, or Confirm reservation.",
+    "Availability is rechecked at commit and stale slots return users to equivalent alternatives without clearing safe customer details.",
+    "Payment, deposit, and refund terms are shown before payment and remain tied to the booking reference after confirmation.",
+    "Canceling or rescheduling updates provider calendars, customer notifications, capacity counts, waitlist state, and released availability consistently.",
+    "Confirmation includes reference, service, time, timezone, location or meeting mode, provider/resource, customer details summary, policy, and manage-booking links."
+  ],
+  "implementationChecklist": [
+    "Define booking ownership for service catalog, staff/resource calendars, capacity, business hours, buffers, lead time, party size, intake fields, policy, verification, payment, confirmation, cancellation, reschedule, and waitlist.",
+    "Build slot availability from canonical booking services rather than browser-only filtering, including capacity, staff/resource availability, buffers, minimum notice, closed periods, and concurrent holds.",
+    "Expose service, duration, price, location, staff/resource, timezone, available slots, capacity, customer contact, intake, terms, payment, and confirmation action with validation and state text.",
+    "Implement temporary slot hold, stale-slot recheck, sold-out recovery, alternate slot suggestions, waitlist, and release behavior after cancel or timeout.",
+    "Support email verification, payment authorization, deposit, cancellation policy, refund instructions, confirmation email or SMS, calendar attachment, and manage-booking links when required.",
+    "Preserve safe customer and intake details across slot taken, payment failure, verification failure, browser Back, refresh, and reschedule while redacting payment secrets.",
+    "Test sold-out capacity, staff unavailable, closed hours, timezone change, party-size limit, stale slot, payment decline, verification failure, cancellation, refund policy, reschedule, waitlist, mobile, keyboard, and screen reader status updates."
+  ],
+  "commonMisuses": [
+    "Treating booking as only a date picker and time picker.",
+    "Showing slots without service duration, staff/resource, timezone, price, or capacity context.",
+    "Taking payment before proving the selected slot can be held.",
+    "Confirming a booking before required intake, consent, email verification, or payment completes.",
+    "Losing customer details when a slot becomes stale or payment fails.",
+    "Hiding cancellation, refund, no-show, or reschedule policy until after booking.",
+    "Letting canceled bookings keep the provider calendar blocked or fail to notify the customer.",
+    "Using the customer's local timezone for an in-person venue booking without showing venue time."
+  ],
+  "critiqueQuestions": [
+    "What service, staff, resource, room, seat, or appointment type is being reserved?",
+    "Which availability, capacity, business-hours, buffers, minimum notice, and party-size rules define bookable slots?",
+    "What customer details, intake questions, consent, policy, verification, or payment must be complete before the slot is held?",
+    "What timezone does the booking page show, and is that correct for remote and in-person bookings?",
+    "When is the slot temporarily held, confirmed, released, canceled, rescheduled, or waitlisted?",
+    "What happens if another user takes the slot between selection and confirmation?"
+  ],
+  "useWhen": [
+    "Users reserve an offered appointment, service, class, room, resource, seat, table, pickup window, or visit.",
+    "The flow must manage provider availability, capacity, policy, intake, verification, payment, or confirmation.",
+    "Cancel, reschedule, waitlist, or stale-slot recovery affects the real availability surface."
+  ],
+  "avoidWhen": [
+    "The user only needs one standalone date or time field.",
+    "The organizer is coordinating attendees and calendars instead of accepting a customer reservation.",
+    "The task is only purchase checkout with no slot, capacity, service, resource, or appointment commitment.",
+    "The product cannot check availability or capacity before confirmation.",
+    "The reservation is already complete and the user only needs a confirmation page or receipt."
+  ],
+  "variants": [
+    "Appointment booking",
+    "Service booking",
+    "Staff booking",
+    "Room booking",
+    "Resource booking",
+    "Class booking",
+    "Seat booking",
+    "Restaurant reservation",
+    "Paid booking",
+    "Deposit booking",
+    "Intake booking",
+    "Waitlist booking",
+    "Reschedule booking",
+    "Cancel booking"
+  ],
+  "accessibility": [
+    "Use labelled controls for service, staff/resource, location, party size, date, time, timezone, intake fields, policy acceptance, verification, payment, and final booking action.",
+    "Announce availability loading, closed hours, sold-out slots, selected slot, temporary hold, payment required, verification required, confirmed, canceled, rescheduled, waitlisted, and stale-slot states through status text.",
+    "Do not rely on color alone for available, unavailable, sold out, selected, held, paid, verified, policy missing, or stale states.",
+    "Make service cards, slot choices, capacity controls, intake fields, policy links, payment route, Book, Cancel, Reschedule, Join waitlist, and Retry keyboard reachable.",
+    "Associate sold-out, payment, verification, policy, party-size, and stale-slot messages with the controls that caused them.",
+    "Expose timezone, location, duration, price, and policy details as text near the relevant slot and final action.",
+    "Preserve focus after service changes, slot refresh, stale-slot recovery, verification, payment failure, confirmation, cancellation, and reschedule."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows service selection, staff/resource or location, party size, date, slot list, customer details, intake, policy, payment, and booking action.",
+    "Slot options are reachable as buttons or radio options with service, time, duration, capacity, timezone, and unavailable reason text.",
+    "Changing service, party size, staff, resource, date, or timezone does not move focus unexpectedly while availability refreshes.",
+    "After selecting a slot, focus moves to the booking summary or next required customer detail.",
+    "After stale-slot, payment, or verification failure, focus moves to the recovery area while preserving safe entered information.",
+    "After confirmation, focus lands on the booking reference or confirmation heading."
+  ],
+  "failureModes": [
+    "A slot is double-booked because availability was not rechecked at confirmation.",
+    "A class exceeds capacity because party size was not included in availability.",
+    "A venue booking uses the customer's browser timezone instead of venue timezone.",
+    "A customer pays a deposit but the booking is not confirmed or refund terms are missing.",
+    "A required intake answer is collected after confirmation and invalidates the appointment.",
+    "Email verification failure clears the selected service, slot, and customer details.",
+    "Cancellation does not release the slot or notify the provider and customer.",
+    "Rescheduling creates a second booking instead of moving the original reference."
+  ],
+  "relatedPatterns": [
+    "scheduling",
+    "checkout",
+    "date-picker",
+    "time-picker",
+    "date-range-picker",
+    "payment-collection",
+    "confirmation-page",
+    "notification-center",
+    "conflict-state",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "booking-vs-scheduling-vs-checkout-vs-date-picker"
+  ],
+  "examples": [
+    {
+      "product": "Google Calendar appointment schedule sharing",
+      "url": "https://support.google.com/calendar/answer/10733297?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents public booking pages, links, website buttons, embedded booking pages, all booking pages, and single-service booking pages.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Calendar cancel booked appointment",
+      "url": "https://support.google.com/calendar/answer/10737245?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents booked appointment cancellation, cancellation email, calendar removal, and making canceled times available again.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Calendar paid appointment bookings",
+      "url": "https://support.google.com/calendar/answer/13762729?hl=en&ref_topic=10729441",
+      "platform": "web",
+      "notes": "Documents payment requirement, Stripe checkout, amount and currency, cancellation policy, payment and refund responsibility, and appointment information shared with Stripe.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Calendar appointment email verification",
+      "url": "https://support.google.com/calendar/answer/11902347?hl=en&ref_topic=10729441",
+      "platform": "web",
+      "notes": "Documents email verification before booking with email entry, PIN email, PIN entry on the booking page, and submit.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Bookings",
+      "url": "https://support.microsoft.com/en-us/topic/6f59454d-6ed1-4733-8825-c9616564565d",
+      "platform": "web",
+      "notes": "Documents bookings calendars, staff members, appointment types, in-person and virtual visits, text notifications, and attendee management.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Bookings shared booking page",
+      "url": "https://learn.microsoft.com/microsoft-365/bookings/enter-business-information?view=o365-worldwide",
+      "platform": "web",
+      "notes": "Documents business hours, time increments, split shifts, blocked periods, multiple staff, and customer-visible availability limits.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Calendly sharing and booking",
+      "url": "https://calendly.com/help/sharing-booking",
+      "platform": "web",
+      "notes": "Documents invitee booking, custom questions and consent, cancel and reschedule links, meeting management, redirect after booking, shared scheduling links, and prefilled invitee information.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Squarespace appointment-based services",
+      "url": "https://support.squarespace.com/hc/en-us/articles/45175469686541-Sell-appointment-based-services-on-Squarespace",
+      "platform": "web",
+      "notes": "Documents appointment service booking through Acuity Scheduling, client intake forms, terms and conditions, mailing-list opt-in, and client details.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-calendar-share-appointment-schedule",
+      "note": "Google Calendar supports public booking pages, shared links, single-service booking pages, and website embeds."
+    },
+    {
+      "id": "google-calendar-cancel-booked-appointment",
+      "note": "Google Calendar supports canceling booked appointments, notifying the booker, removing the event, and returning the slot to the booking page."
+    },
+    {
+      "id": "google-calendar-appointment-payments",
+      "note": "Google Calendar supports paid appointment bookings through Stripe, payment amount and currency, cancellation policy, and refund responsibility."
+    },
+    {
+      "id": "google-calendar-appointment-email-verification",
+      "note": "Google Calendar supports email verification before booking with booking-form email, PIN email, and PIN submit."
+    },
+    {
+      "id": "microsoft-bookings-create-manage",
+      "note": "Microsoft Bookings supports staff, appointment types, booking calendars, in-person and virtual visits, text notifications, and attendee management."
+    },
+    {
+      "id": "microsoft-bookings-shared-booking-page",
+      "note": "Microsoft Bookings supports business hours, split shifts, blocked closed periods, multiple staff, time increments, and customer-visible availability."
+    },
+    {
+      "id": "calendly-sharing-booking",
+      "note": "Calendly supports invitee booking, cancel and reschedule links, custom questions, consent, redirect after booking, and prefilled invitee information."
+    },
+    {
+      "id": "squarespace-acuity-appointment-services",
+      "note": "Squarespace and Acuity support appointment-based service booking, intake forms, terms, opt-in, and client detail collection."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

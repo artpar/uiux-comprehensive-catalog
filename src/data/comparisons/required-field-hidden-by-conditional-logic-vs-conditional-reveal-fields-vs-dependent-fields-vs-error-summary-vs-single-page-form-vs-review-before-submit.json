@@ -1,0 +1,60 @@
+{
+  "id": "required-field-hidden-by-conditional-logic-vs-conditional-reveal-fields-vs-dependent-fields-vs-error-summary-vs-single-page-form-vs-review-before-submit",
+  "title": "Required field hidden by conditional logic vs conditional reveal fields vs dependent fields vs error summary vs single-page form vs review before submit",
+  "summary": "Flag hidden required fields when validation can require an unreachable conditional answer; use conditional reveal for visible trigger-owned follow-ups, dependent fields for upstream-controlled validity, error summary for submit recovery, single-page form for short visible field sets, and review before submit for final branch resolution.",
+  "patternIds": [
+    "required-field-hidden-by-conditional-logic",
+    "conditional-reveal-fields",
+    "dependent-fields",
+    "error-summary",
+    "single-page-form",
+    "review-before-submit"
+  ],
+  "decisionRules": [
+    "Choose the hidden-required anti-pattern when a field can block submit while hidden, collapsed, disabled, off-screen, absent from the current route, or disconnected from the selected trigger.",
+    "Choose the hidden-required anti-pattern when server validation, saved drafts, browser Back, or review edits can require a branch that the UI does not restore before recovery.",
+    "Choose conditional reveal fields when one selected radio, checkbox, or select option reveals a short related follow-up directly under the trigger and validates it only while selected.",
+    "Choose dependent fields when an always-owned downstream control remains visible or discoverable but its options, requirement, value, or stale state depend on an upstream answer.",
+    "Choose error summary when submit-time validation needs a top-of-page list of errors that links to visible fields and matching field-level messages.",
+    "Choose single-page form when a short coherent set of fields can stay visible together, with clear required indicators and one submit action.",
+    "Choose review before submit when a changed answer can make a later question newly required, stale, removed, or pending before final commitment.",
+    "Escalate to a separate question page, multi-step form, or wizard when the conditional branch contains multiple required fields, nested logic, long copy, or a separate decision.",
+    "Do not use disabled required controls as a hidden prerequisite; explain the prerequisite and provide an enabled path to satisfy or remove the requirement.",
+    "Do not let error summary links point to hidden elements; reveal the branch or route to the owning question before focusing recovery.",
+    "Do not preserve hidden branch values as active payload or validation state after the trigger changes unless draft restoration is explicit and visible.",
+    "Make newly required fields perceivable to assistive technology through DOM order, labels, descriptions, status text, and tested component behavior."
+  ],
+  "failureModes": [
+    "Submit fails because an accommodation details field is required but hidden behind an unselected or collapsed branch.",
+    "The error summary link points to a hidden input or a missing DOM node.",
+    "A server-only required field appears after submit even though the page never showed the trigger that made it required.",
+    "A saved draft keeps a hidden partner field required after the user changes relationship status to Single.",
+    "A dependent field is disabled until category is selected but still required by validation.",
+    "A review page lets users change eligibility and return to final submit without asking the newly required evidence question.",
+    "Nested conditional reveals hide several required answers and users cannot tell which branch is active.",
+    "Screen reader users are not informed that selecting an answer revealed a required follow-up."
+  ],
+  "sources": [
+    {
+      "id": "govuk-conditional-reveal-accessibility",
+      "note": "GOV.UK accessibility research supports notification risks for newly revealed conditional questions."
+    },
+    {
+      "id": "agriculture-design-system-conditional-reveal",
+      "note": "Agriculture Design System supports direct related reveals and escalation to pages for larger branches."
+    },
+    {
+      "id": "nng-required-fields-forms",
+      "note": "NN/g supports clearly marking required fields before users submit."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary supports linked recovery to visible field errors."
+    },
+    {
+      "id": "uswds-form-component",
+      "note": "USWDS form guidance supports validation alignment, required indicators, DOM order, grouping, and disabled-state explanations."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

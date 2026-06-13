@@ -1,0 +1,275 @@
+{
+  "id": "kanban-board",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed workflow-state Kanban board pattern with distinct boundaries from table, data grid, list view, calendar view, timeline, activity log, card list, and dashboard surfaces; includes column and status mapping, card identity, WIP counts and limits, over-limit warnings, blocked and stale card states, hidden filtered cards, movement controls, keyboard move path, undo, sorted and grouped board risks, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Defines workflow columns, status mapping, card counts, WIP limits, over-limit warnings, card identity, owner, priority, age, due date, blocked state, hidden filtered cards, movement controls, keyboard movement, undo recovery, grouping, sorting, filters, and status synchronization.",
+    "relatedPatternDistinction": "Separates Kanban board from table and data grid for field comparison, list view and card list for compact browsing, calendar view for date placement, timeline and activity log for chronology, and dashboard layout for aggregate metrics.",
+    "liveDemoBehavior": "Good UI and UX demos show Backlog, Ready, In progress, Review, and Done columns with WIP signals, blocked card KB-42, Move KB-42 to Review, high-priority filter hidden counts, blocked-card focus message, keyboard move to Done, undo recovery, and bad modes for decorative columns, drag-only movement, hidden WIP, stale cards, wrong status, and sorted priority.",
+    "comparisonDecisionRules": "kanban-board-vs-table-vs-calendar-view-vs-list-view explains when workflow-state movement should use Kanban board instead of table, calendar view, or list view.",
+    "duplicateAudit": "catalog-completion-audit reports zero normalized duplicate field groups after adding this pattern.",
+    "manualSpotCheck": "Browser spot-check on 2026-06-11 exercised the Kanban route, movement controls, filter hidden-count state, blocked-card focus, keyboard move, undo, all bad-mode buttons, comparison route, and 390px mobile viewport.",
+    "screenshots": [
+      "screenshots/patterns/kanban-board.png"
+    ]
+  },
+  "name": "Kanban board",
+  "aliases": [
+    "workflow board",
+    "task board",
+    "status board",
+    "card board",
+    "project board",
+    "agile board",
+    "pull board",
+    "work-in-progress board",
+    "WIP board"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Collaboration And Social Interaction",
+    "Feedback, Status, And System State",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Workflow-state board for cards moving through columns",
+  "uiGuidance": [
+    "Render workflow columns with visible names, status mapping, card counts, WIP limits, overloaded states, empty columns, and cards that show title, owner, priority, age, due date, blocked state, and enough metadata to understand the work.",
+    "Show drag handles or move controls, drop targets, keyboard move actions, swimlanes or grouping, filters, hidden-card counts, and card detail entry points without making the board depend on pointer-only drag."
+  ],
+  "uxGuidance": [
+    "Use Kanban board when teams pull work through a shared workflow and need to see WIP pressure, bottlenecks, blocked items, stale cards, and status changes at a glance.",
+    "Keep movement honest: changing columns updates workflow status, respects or explains WIP limits, preserves card identity under filters and sorts, and gives recovery when a move is blocked, invalid, or accidental."
+  ],
+  "uiExamples": {
+    "good": [
+      "A product board shows Backlog, Ready, In progress, Review, and Done columns with card counts, WIP limits, blocked badges, owners, due dates, and visible over-limit styling in Review.",
+      "A support operations board groups incident cards by service lane, shows stale age chips, and includes a Move to Review button on each focused card for keyboard users."
+    ],
+    "bad": [
+      "A board has columns named Important, Maybe, Later, and Random with no workflow meaning, no status mapping, and cards that never change state.",
+      "A Kanban board hides every card behind colored sticky notes and forces drag-only movement with no card title, count, limit, or blocked state."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A developer moves a card from In progress to Review, sees the status update, receives an over-limit warning, and can undo or help clear the bottleneck instead of pulling more work.",
+      "A team filters to High priority, sees that three hidden low-priority cards remain in Review, opens a stale blocked card, and moves it only after resolving its dependency."
+    ],
+    "bad": [
+      "A user drags a card to Done but the underlying status remains In progress, so reports and automations disagree with the board.",
+      "A filtered board shows one visible card in Review even though seven hidden cards exceed the WIP limit, so the team keeps starting new work."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Teams need to coordinate work as it flows through stages, but ordinary lists, tables, and calendars hide WIP pressure, blocked work, stale cards, and the status-change meaning of moving an item.",
+  "solution": "Provide a Kanban board with workflow columns, cards, WIP limits, counts, status mapping, movement controls, blocked and stale states, filters with hidden-card disclosure, card details, and recovery for invalid or accidental moves.",
+  "problemContext": [
+    "Work items move through explicit workflow states such as Backlog, Ready, In progress, Review, and Done.",
+    "Teams use the board to limit active work, find bottlenecks, choose what to pull next, and coordinate ownership.",
+    "Cards may represent issues, tasks, incidents, requests, content items, deals, or operational work.",
+    "The board may support drag and drop, keyboard moves, swimlanes, grouping, sorting, filters, automation, detail panels, and reporting.",
+    "WIP limits, hidden filters, stale work, blocked dependencies, and status mappings can make the board misleading if not shown directly."
+  ],
+  "selectionRules": [
+    "Choose Kanban board when work items progress through shared workflow states and column movement is the primary interaction.",
+    "Use table when the main task is comparing fields, sorting records, editing cells, or exporting structured rows.",
+    "Use list view when users need a compact queue and do not need several workflow states visible at once.",
+    "Use calendar view when date placement, duration, and availability matter more than workflow state.",
+    "Use timeline when users need a chronological history of what happened rather than current workflow control.",
+    "Use activity log when users need evidence of recorded actions rather than a mutable work-management board.",
+    "Use dashboard layout when users need aggregate metrics and charts rather than card-level workflow movement.",
+    "Show WIP limits and counts for active columns; first and final columns may use different rules because they represent not-started and completed work.",
+    "Make filters, slices, sorting, collapsed swimlanes, hidden columns, and permissions visible so counts and WIP signals are not mistaken for the whole board.",
+    "Avoid Kanban board when columns are arbitrary categories without pull rules, status semantics, or flow decisions.",
+    "Use board status changes only when the backend status, automation, and reports update consistently with the visible card movement.",
+    "Provide non-drag move controls before claiming the board supports keyboard and assistive technology workflows."
+  ],
+  "requiredStates": [
+    "Default board state with columns, card counts, WIP limits, visible filters, selected board, and at least one card per active workflow stage.",
+    "Empty column, empty board, loading, failed-load, offline, permission-limited, filtered, and hidden-card-count states.",
+    "Card detail, selected card, focused card, editing card, and card action menu states.",
+    "Drag preview, keyboard move, move pending, move success, move failed, invalid destination, and undo states.",
+    "WIP under limit, at limit, over limit, and WIP-limit-not-enforced states.",
+    "Blocked, stale, dependency, due soon, overdue, priority, assigned, unassigned, and automation-pending card states.",
+    "Swimlane, grouped, sorted, collapsed group, hidden column, and sliced-by-field states when supported.",
+    "Responsive stacked or lane-switching state where column names, counts, WIP limits, and card identity stay visible."
+  ],
+  "interactionContract": [
+    "Each column represents a workflow state or selected column field value, and moving a card updates the same value shown in details, reports, and automation.",
+    "Card identity, title, owner, priority, and blocked state remain stable across filters, sorting, grouping, movement, and detail views.",
+    "Moving a card previews the destination, status change, WIP effect, automation side effects, and invalid-destination reason before or immediately after the move.",
+    "When WIP is exceeded, the column count and limit are highlighted and the board explains whether the limit blocks the move or acts as guidance.",
+    "Filters, collapsed groups, and hidden columns disclose hidden-card counts so WIP and throughput signals are not misread.",
+    "Keyboard and assistive-technology users can move cards between valid columns without pointer drag.",
+    "Undo or recovery is available for accidental moves unless the product has a stronger confirmation or audit requirement.",
+    "Completed, blocked, canceled, and unmapped statuses are mapped to appropriate columns so board completion claims match backend truth."
+  ],
+  "implementationChecklist": [
+    "Define card schema: id, title, workflow status, assignee, priority, due date, age in column, blocked reason, dependencies, labels, source link, and edit permissions.",
+    "Define column schema: id, name, mapped statuses or field values, WIP limit, count, color/category, done semantics, hidden state, and allowed transitions.",
+    "Implement drag and keyboard move paths with the same validation, status update, focus return, undo, and error feedback.",
+    "Model WIP at limit, over limit, hidden filtered cards, stale cards, blocked cards, collapsed swimlanes, sorted boards, and automation-pending moves.",
+    "Keep column headers sticky or repeated enough that wide boards preserve context while horizontally scrolling.",
+    "Show filters, slices, grouping, sorting, hidden columns, and hidden-card counts near the board header.",
+    "Test long card titles, many columns, empty columns, overloaded columns, blocked cards, keyboard movement, mobile lane selection, and screen-reader names.",
+    "Ensure analytics and reports consume the same status mapping as the board, not a separate visual-only column model."
+  ],
+  "commonMisuses": [
+    "Using Kanban columns as decorative categories rather than workflow states.",
+    "Allowing visible card movement without updating the underlying status field.",
+    "Hiding WIP limits, hidden filtered cards, or collapsed swimlane counts.",
+    "Making drag and drop the only way to move work.",
+    "Treating a sorted board as manually ordered without explaining the sort rule.",
+    "Mapping Done, Blocked, or Canceled statuses to the wrong column and misreporting completion.",
+    "Showing blocked and stale work with no visual or textual distinction.",
+    "Using Kanban board as a dashboard for aggregate metrics without card-level flow decisions."
+  ],
+  "critiqueQuestions": [
+    "What workflow state does each column represent, and which backend status or field value owns it?",
+    "Can users tell card count, WIP limit, over-limit state, blocked cards, stale cards, and hidden filtered cards?",
+    "Does moving a card update status, reports, automations, and details consistently?",
+    "How do keyboard users move a card and recover from a bad move?",
+    "What happens when sorting, grouping, slicing, or hidden columns change the visible board?",
+    "Would table, list view, calendar view, timeline, activity log, or dashboard layout better fit the task?"
+  ],
+  "useWhen": [
+    "Work progresses through visible stages and the team uses the board to decide what to pull next.",
+    "WIP limits, bottlenecks, stale cards, blocked dependencies, or status movement are central to the task.",
+    "Cards need enough metadata to support triage without opening every detail view.",
+    "The product can keep visible movement synchronized with backend status and automation."
+  ],
+  "avoidWhen": [
+    "Columns are arbitrary categories with no workflow meaning.",
+    "Users primarily compare records by fields or edit cell-like data.",
+    "The primary organizing axis is date, duration, or availability.",
+    "Users only need a compact queue or inbox list.",
+    "The implementation cannot provide keyboard movement, status synchronization, or hidden-count disclosure."
+  ],
+  "variants": [
+    "Team Kanban board",
+    "Personal task board",
+    "Project board",
+    "Issue board",
+    "Service desk Kanban",
+    "Sales pipeline board",
+    "Content workflow board",
+    "Swimlane board",
+    "Board grouped by assignee",
+    "Board with WIP limits",
+    "Board with automation",
+    "Board with card details"
+  ],
+  "accessibility": [
+    "Expose board name, active filters, sorting, grouping, column count, column names, card counts, and WIP limits as text.",
+    "Give each column an accessible name that includes workflow state, visible card count, hidden-card count when filtered, and WIP limit or over-limit state.",
+    "Give each card an accessible name that includes title, status, assignee, priority, blocked state, and age or due date when those affect workflow decisions.",
+    "Provide buttons or menus for moving cards to valid columns; do not require pointer drag.",
+    "Maintain focus after a move, failed move, undo, detail close, filter change, and horizontal scroll.",
+    "Do not rely only on color for blocked, overdue, priority, WIP, selected, focused, done, or invalid-destination states.",
+    "Announce move success, move failure, WIP warnings, hidden-card counts, and filter changes in text or status regions."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches board filters, column controls, card controls, move menus, detail links, and horizontal scroll controls in predictable order.",
+    "Enter or Space opens card detail, move menu, column menu, add-card control, filter controls, and undo controls according to native button behavior.",
+    "Arrow-key card navigation may be implemented inside the board, but Tab must still exit the board and the focused card must remain visually clear.",
+    "Move commands let users choose a destination column, preview WIP impact, confirm or cancel, and return focus to the moved card.",
+    "Escape closes card details, move menus, column menus, and dialogs and returns focus to the invoking card or column control.",
+    "After filters, sorting, grouping, or swimlane changes, focus remains near the control or moves to an announced board summary."
+  ],
+  "failureModes": [
+    "Column movement does not update the underlying status or automation field.",
+    "WIP overload is hidden or only color-coded.",
+    "Pointer-only drag prevents keyboard users from moving cards.",
+    "Filters, hidden columns, or collapsed swimlanes hide cards while counts imply the whole board is visible.",
+    "Blocked, stale, dependency, and overdue cards are indistinguishable from healthy work.",
+    "Sorted board order conflicts with manual priority order without explanation.",
+    "Done or canceled work maps to the wrong column and distorts completion reporting.",
+    "Horizontal scrolling on small screens hides column identity, WIP limits, or card titles."
+  ],
+  "relatedPatterns": [
+    "table",
+    "data-grid",
+    "list-view",
+    "card-list",
+    "calendar-view",
+    "timeline",
+    "activity-log",
+    "filter-panel",
+    "sort-controls",
+    "details-panel"
+  ],
+  "comparisons": [
+    "kanban-board-vs-table-vs-calendar-view-vs-list-view"
+  ],
+  "examples": [
+    {
+      "product": "GitHub Projects board layout",
+      "url": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-board-layout",
+      "platform": "web",
+      "notes": "Documents project board items in columns, drag-to-update status, column field selection, card limits, fields, sorting, slicing, and grouping.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Azure DevOps Kanban overview",
+      "url": "https://learn.microsoft.com/en-us/devops/plan/what-is-kanban",
+      "platform": "web",
+      "notes": "Documents Kanban visualization, pull model, WIP limits, customizable workflow columns, and bottleneck visibility.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Azure Boards WIP limits",
+      "url": "https://learn.microsoft.com/en-us/azure/devops/boards/boards/wip-limits?view=azure-devops",
+      "platform": "web",
+      "notes": "Documents soft WIP constraints, over-limit highlighting, bottleneck identification, stale work, and throughput snapshots.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Jira Cloud board columns",
+      "url": "https://support.atlassian.com/jira-software-cloud/docs/configure-columns/",
+      "platform": "web",
+      "notes": "Documents workflow columns, default Kanban columns, status mapping, column editing, constraints, and done-column behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Trello board basics",
+      "url": "https://trello.com/guide/trello-101",
+      "platform": "web",
+      "notes": "Documents boards, lists, cards, card details, drag-and-drop across lists to show progress, and board collaboration.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-projects-board-layout",
+      "note": "GitHub documents boards as project items arranged over customizable columns, with status-field dragging, limits, fields, sorting, slicing, and grouping."
+    },
+    {
+      "id": "github-projects-changing-layout",
+      "note": "GitHub distinguishes table, board, and roadmap layouts and describes board layout as items spread across customizable columns."
+    },
+    {
+      "id": "azure-devops-kanban-overview",
+      "note": "Microsoft documents Kanban boards as cards organized by workflow states with pull model, WIP limits, and bottleneck visibility."
+    },
+    {
+      "id": "azure-boards-wip-limits",
+      "note": "Microsoft documents WIP limits as soft constraints with highlighted over-limit columns and bottleneck monitoring."
+    },
+    {
+      "id": "jira-cloud-configure-columns",
+      "note": "Atlassian documents board columns, default Kanban states, status mapping, column constraints, and right-most done semantics."
+    },
+    {
+      "id": "trello-board-basics",
+      "note": "Trello documents boards, lists, cards, card detail, and drag-and-drop progress across lists."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

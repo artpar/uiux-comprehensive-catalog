@@ -1,0 +1,262 @@
+{
+  "id": "two-factor-authentication",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed additional-factor authentication pattern with guidance for code entry, push approval, hardware-key prompts, resend limits, wrong and expired codes, alternate factors, recovery codes, trusted-device scope, factor management, bypass prevention, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers additional-factor challenge context, protected action naming, authenticator app code entry, push approval, hardware security key waiting, one-time-code autocomplete, paste support, resend limits, wrong-code feedback, expired-code recovery, enrolled alternate methods, recovery codes, trusted-device scope, factor management, server-side enforcement, and safe logging.",
+    "relatedPatternDistinction": "The entry separates two-factor authentication from sign in by focusing on the additional proof after primary authentication, from login by handling a second-factor challenge rather than the primary credential result, from password reset by avoiding replacement of a forgotten password, from password input by using short-lived codes and factor controls rather than reusable secret entry, and from session timeout warning by verifying a protected action rather than warning about expiry.",
+    "liveDemoBehavior": "The live demo uses a payroll-settings second-factor challenge with one-time-code input, push approval, security key prompt, wrong code, expired code, resend wait, alternate factor selection, recovery code, trusted-device toggle, success return, factor-management warning, and bad modes for bypass route, no recovery, reusable backup code, unsafe trust, SMS-only limitation, weak factor change, and code logging.",
+    "comparisonDecisionRules": "The linked two-factor-authentication-vs-sign-in-vs-login-vs-password-reset comparison gives concrete rules for additional-factor challenges, sign-in entry routing, login attempt outcomes, password reset recovery, password input boundaries, factor labeling, recovery codes, trusted-device choices, endpoint enforcement, and factor-management protection.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/two-factor-authentication/ on 2026-06-11 in Chromium: verified Code, Push, Security key, Wrong code, Expired, Resend wait, Alternate, Recovery code, Trusted device, Toggle trust, Success, Manage factor, Bypass route, No recovery, Reusable backup, Unsafe trust, SMS only, Weak change, and Logs code states; verified one-time-code autocomplete; verified /compare/two-factor-authentication-vs-sign-in-vs-login-vs-password-reset/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/two-factor-authentication.png"
+    ]
+  },
+  "name": "Two-factor authentication",
+  "aliases": [
+    "2FA",
+    "MFA",
+    "multi-factor authentication",
+    "second factor",
+    "step-up verification",
+    "one-time code challenge",
+    "authenticator app challenge",
+    "push verification",
+    "recovery codes",
+    "remember this device"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Additional-factor challenge and recovery flow",
+  "uiGuidance": [
+    "Render two-factor authentication as a focused additional-factor challenge with factor name, destination or protected action, delivery hint, code or approval input, resend timing, alternate factor, recovery-code route, trusted-device choice, and safe failure handling.",
+    "Keep the challenge separate from the broader sign-in journey, login attempt outcome, password reset, and ordinary password input so users can understand which proof is being requested."
+  ],
+  "uxGuidance": [
+    "Use two-factor authentication when the product needs stronger proof after a password, passkey, SSO return, risk signal, new device, or sensitive action.",
+    "Help legitimate users complete the challenge while preserving account security by supporting paste and autofill for codes, explaining wait times, offering enrolled alternatives, protecting recovery codes, and making factor loss recoverable without easy bypass."
+  ],
+  "uiExamples": {
+    "good": [
+      "A code screen says Enter the 6-digit code from your authenticator app to continue to payroll settings, uses autocomplete one-time-code, shows Try another method, and explains recovery codes.",
+      "A trusted-device option says Do not ask again on this browser for 30 days and links to device management before the user opts in."
+    ],
+    "bad": [
+      "A page says Security check with one empty field, no factor label, no resend timing, and no recovery route.",
+      "A push approval screen has only Approve on phone and no alternative for a lost or offline device."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user signs in from a new laptop, enters a code from an authenticator app, chooses not to trust the shared browser, and lands back on the requested workspace.",
+      "A user lost the phone, uses a single-use recovery code, receives a notification, and is prompted to add a replacement factor after reauthentication."
+    ],
+    "bad": [
+      "A user never receives an SMS code and can only keep pressing resend with no wait time, no alternate factor, and no support path.",
+      "An attacker who knows the password changes the enrolled phone number without passing any existing factor or recovery check."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Two-factor authentication adds security at a high-friction moment, so unclear factor prompts, inaccessible code entry, missing alternatives, weak recovery, bypassable enforcement, or unsafe trusted-device choices can lock out legitimate users or let attackers defeat the second factor.",
+  "solution": "Provide a bounded additional-factor challenge that names the protected action, supports the enrolled factor, gives safe resend and retry states, offers enrolled alternatives and recovery codes, prevents bypass, explains trusted-device scope, protects factor changes, and returns users to the original task after successful verification.",
+  "problemContext": [
+    "The user has completed or started a primary sign-in step, returned from SSO, triggered a risk rule, opened a new device, or started a sensitive action.",
+    "The product may support authenticator apps, SMS or email codes, push approvals, passkeys, hardware keys, backup codes, trusted devices, remembered browsers, or administrator recovery.",
+    "Second-factor prompts can arrive during ordinary sign in, transaction authorization, account settings, factor enrollment, factor change, or recovery after device loss.",
+    "MFA security depends on server-side enforcement; the UI cannot let users bypass the challenge through navigation, cached pages, API calls, or alternate tabs.",
+    "Users may have no signal, a changed phone, a lost device, a new browser, an inaccessible challenge, or a recovery code stored separately from the device."
+  ],
+  "selectionRules": [
+    "Choose two-factor authentication when the user must satisfy an additional factor after a primary credential, SSO return, passkey flow, risk signal, new device, or sensitive action.",
+    "Use sign in for the broader authentication entry route that chooses identifiers, passwords, passkeys, SSO, recovery, and return destinations.",
+    "Use login for the submitted credential result before a second factor is requested or after the factor result returns.",
+    "Use password reset when the user cannot authenticate with the existing password and needs to replace it through recovery.",
+    "Use password input only for reusable password entry; second-factor codes and recovery codes need their own autocomplete, expiry, resend, and attempt-limit behavior.",
+    "Name the requested factor, protected destination or action, delivery channel hint, expected code length or approval device, and safe alternative methods.",
+    "Allow paste, autofill, password-manager code fill, and native one-time-code behavior for short-lived codes.",
+    "Show resend wait time, attempt limits, expired-code state, wrong-code state, and rate-limit state from server policy.",
+    "Offer enrolled alternate factors, recovery codes, and support escalation without turning recovery into an easier path than the second factor.",
+    "Make remember-device choices explicit, scoped to a browser or device, time-limited when policy requires, and revocable from account settings.",
+    "Require reauthentication, existing factor proof, recovery-code use, or stronger support verification before disabling MFA, adding a new factor, or changing the recovery channel.",
+    "After success, clear challenge state, record security events, notify when policy requires, and return to the original destination or sensitive action."
+  ],
+  "requiredStates": [
+    "Initial additional-factor challenge with factor name, destination or protected action, and primary account context.",
+    "One-time-code entry state with autocomplete one-time-code, paste support, expiry hint, and submit control.",
+    "Push approval or hardware-key waiting state with clear device or key instruction and fallback.",
+    "Resend-limited state with wait time and delivery-channel hint.",
+    "Wrong-code state with remaining attempts and no code echo.",
+    "Expired-code state with resend or try-another-method action.",
+    "Alternate-factor selection state limited to enrolled methods.",
+    "Recovery-code state that treats each backup code as single-use and security-sensitive.",
+    "Trusted-device choice state with scope, duration, and revocation explanation.",
+    "Success state that returns to the protected task and clears challenge warnings.",
+    "Lost-factor or support-required state with stronger identity verification.",
+    "Factor-management state for add, remove, replace, or regenerate recovery codes."
+  ],
+  "interactionContract": [
+    "The challenge appears only when the server requires additional verification and the protected action remains blocked until success.",
+    "The UI names the factor and destination without exposing unnecessary account details on shared screens.",
+    "Code entry supports paste, autofill, correction, and screen-reader announcements without splitting focus into inaccessible traps.",
+    "Wrong, expired, reused, or rate-limited codes are handled as distinct recoverable states without displaying the submitted secret back to the user.",
+    "Alternate methods only list enrolled factors or approved recovery routes, not unverified contact details an attacker can add during the challenge.",
+    "Recovery codes are single-use, rate-limited, treated as secrets, and followed by notification or factor-replacement guidance.",
+    "Remember-device choices do not default on shared or risky contexts and can be reviewed or revoked later.",
+    "Successful verification clears transient challenge state and returns to the sign-in destination or sensitive action."
+  ],
+  "implementationChecklist": [
+    "Define factor types, assurance requirements, phishing-resistant options, code length, expiry, attempt limits, resend limits, recovery-code format, trusted-device scope, and factor-management policy with security owners.",
+    "Map authenticator app, SMS, email, push, passkey, hardware key, recovery code, lost device, and support-assisted states to clear UI copy and server outcomes.",
+    "Use autocomplete one-time-code for short-lived codes and test paste, autofill, password-manager fill, mobile keyboards, browser Back, refresh, and multiple tabs.",
+    "Enforce MFA on protected endpoints, not only in the UI route, and test direct URL navigation, API access, cached pages, remembered devices, and session fixation cases.",
+    "Protect codes, recovery codes, device identifiers, push details, and failure reasons from analytics, logs, screenshots, support tools, and URLs.",
+    "Test wrong code, expired code, reused recovery code, resend rate limit, alternate method, lost device, disabled factor, factor change, trusted-device revocation, high-risk account, screen reader flow, and mobile layout."
+  ],
+  "commonMisuses": [
+    "Showing a code field with no factor label, destination, expiry, resend timing, or alternate method.",
+    "Blocking paste or autocomplete for one-time codes.",
+    "Letting users bypass MFA through browser Back, deep links, cached pages, API calls, or another tab.",
+    "Treating SMS as the only possible second factor for all users and all risk levels.",
+    "Allowing recovery codes to be reused, stored like ordinary text, or regenerated without stronger verification.",
+    "Defaulting remember-device on public or shared computers.",
+    "Allowing factor removal, phone change, or authenticator replacement with only the password.",
+    "Logging codes, recovery codes, push details, or exact failure reasons."
+  ],
+  "critiqueQuestions": [
+    "Which second factor is required here, and why is it being requested for this destination or action?",
+    "Can users complete the challenge with paste, autofill, hardware keys, passkeys, mobile keyboards, and assistive technology?",
+    "What are the server-backed expiry, resend, wrong-code, and rate-limit states?",
+    "Can the challenge be bypassed through navigation, cached pages, API calls, remembered devices, or alternate tabs?",
+    "Which recovery paths are available, and are they at least as protective as the factor they replace?",
+    "How are trusted devices scoped, timed, displayed, and revoked?",
+    "What proof is required before adding, removing, or replacing factors?"
+  ],
+  "useWhen": [
+    "A sign-in, new device, risk signal, or sensitive action requires proof beyond the primary credential.",
+    "The account has enrolled second factors, recovery codes, or approved support recovery routes.",
+    "The product can enforce the challenge server-side and return users to the original destination after success."
+  ],
+  "avoidWhen": [
+    "The user is only choosing an authentication method on the initial sign-in page.",
+    "The user is submitting only a primary password, passkey, or SSO credential.",
+    "The task is replacing a forgotten password through reset recovery.",
+    "The product cannot prevent MFA bypass on protected routes and APIs.",
+    "The requested factor has no accessible or recoverable route for legitimate users who lose the device."
+  ],
+  "variants": [
+    "Authenticator app code",
+    "SMS code",
+    "Email code",
+    "Push approval",
+    "Hardware security key",
+    "Passkey step-up",
+    "Recovery code",
+    "Trusted device",
+    "Remember this browser",
+    "Lost-device recovery",
+    "Factor change confirmation",
+    "High-risk step-up"
+  ],
+  "accessibility": [
+    "Use a clear heading and label that names the factor and does not rely on placeholder-only code fields.",
+    "Expose code length, expiry, resend wait, remaining attempts, and alternate methods as text, not color or icon-only signals.",
+    "Support paste into one field for codes and avoid multi-field inputs that trap focus or break screen-reader reading order.",
+    "Keep Try another method, Use recovery code, Resend, Need help, and trusted-device controls keyboard reachable.",
+    "Announce wrong-code, expired-code, rate-limit, and success states without reading the submitted code.",
+    "Provide accessible alternatives for push, CAPTCHA-like challenges, hardware-key prompts, or device-only approvals."
+  ],
+  "keyboardBehavior": [
+    "Initial focus lands on the challenge heading or code field after factor context is available.",
+    "Typing, paste, deletion, selection, and correction use native input behavior for one-time-code fields.",
+    "Enter submits only the visible challenge and does not activate resend or alternate-method controls.",
+    "After wrong or expired code, focus moves to the error summary, code field, resend wait, or alternate method according to the available next action.",
+    "Hardware-key or push waiting states keep cancel, try another method, and support controls reachable.",
+    "After success, focus lands on the protected destination, transaction confirmation, or restored action."
+  ],
+  "failureModes": [
+    "Users cannot tell whether to check SMS, email, authenticator app, passkey, or a hardware key.",
+    "Legitimate users are locked out because the only factor is unavailable and recovery codes were never introduced.",
+    "Attackers bypass the prompt through a direct endpoint, cached page, or remembered browser weakness.",
+    "Codes expire or resend silently with no wait time, attempt feedback, or alternate method.",
+    "Recovery code use is not notified, logged safely, or followed by factor replacement guidance.",
+    "Remember-device is enabled by default and suppresses prompts on shared machines.",
+    "Factor changes become an account-takeover route after password compromise.",
+    "MFA failures leak codes, account status, device details, or security policy through logs or analytics."
+  ],
+  "relatedPatterns": [
+    "sign-in",
+    "login",
+    "password-reset",
+    "password-input",
+    "session-timeout-warning",
+    "permission-denied-state"
+  ],
+  "comparisons": [
+    "two-factor-authentication-vs-sign-in-vs-login-vs-password-reset"
+  ],
+  "examples": [
+    {
+      "product": "OWASP Multifactor Authentication Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html",
+      "platform": "web",
+      "notes": "Documents MFA factors, recovery codes, lost-factor recovery, remember-device controls, risk-based prompts, factor change protection, and notifications.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OWASP WSTG MFA testing",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/11-Testing_Multi-Factor_Authentication",
+      "platform": "web",
+      "notes": "Documents MFA bypass testing, recovery-code checks, brute-force protections, notifications, and MFA settings management.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NIST SP 800-63B authentication lifecycle",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "platform": "web",
+      "notes": "Documents MFA and phishing-resistant authenticators, assurance levels, protected channels, and authenticator lifecycle management.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "MDN autocomplete credential tokens",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete",
+      "platform": "web",
+      "notes": "Documents one-time-code autocomplete for additional-factor code entry.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "owasp-multifactor-authentication-cheat-sheet",
+      "note": "OWASP supports MFA factor choices, recovery codes, lost-factor recovery, remember-device controls, risk-based prompts, factor change protection, and notifications."
+    },
+    {
+      "id": "owasp-wstg-mfa-testing",
+      "note": "OWASP WSTG supports MFA bypass testing, brute-force protection, recovery-code strength, single-use behavior, notifications, and MFA settings management."
+    },
+    {
+      "id": "nist-sp-800-63b-authentication-lifecycle",
+      "note": "NIST supports authentication assurance, MFA options, phishing-resistant authenticators, protected channels, authenticator lifecycle, and customer-experience considerations."
+    },
+    {
+      "id": "mdn-autocomplete-credentials",
+      "note": "MDN documents one-time-code autocomplete for additional-factor code entry."
+    },
+    {
+      "id": "html-autocomplete-webauthn",
+      "note": "The HTML Standard supports one-time-code and webauthn autocomplete behavior for authentication flows."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

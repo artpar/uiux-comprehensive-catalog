@@ -1,0 +1,270 @@
+{
+  "id": "escalate-to-human",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed AI escalation pattern with route-choice guidance, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers escalate to human, user requested human, system suggested escalation, route choice, live agent, create ticket, request callback, specialist queue, supervisor review, business hours, expected wait, queue position, shared context, consent to share, verification required, transfer pending, human joined, ticket created, callback scheduled, no agent available, failed transfer, cancel escalation, handback to AI, mobile escalation, route eligibility, privacy controls, fallback, and support accountability.",
+    "relatedPatternDistinction": "The entry separates escalate to human from handoff summary by treating escalation as the user-facing route and transfer status rather than the receiver context packet, from chat interface by focusing on the human-help recovery path rather than the whole transcript surface, from review queue by covering the user's transition into a queue rather than staff triage of many items, from human approval gate by handling human help or takeover rather than approval of a specific armed automation step, and from recommended next action by making escalation the primary recovery route rather than optional guidance.",
+    "liveDemoBehavior": "The live demo shows user requested human, system suggested escalation, route choice, live agent, create ticket, request callback, specialist queue, supervisor review, business hours, expected wait, queue position, shared context, consent to share, verification required, transfer pending, human joined, ticket created, callback scheduled, no agent available, failed transfer, cancel escalation, handback to AI, and mobile escalation states. Bad states cover bot-loop, fake-transfer, hidden-wait, context-drop, privacy-surprise, unavailable-live, and no-cancel failures.",
+    "comparisonDecisionRules": "The linked escalate-to-human-vs-handoff-summary-vs-chat-interface-vs-review-queue-vs-human-approval-gate-vs-recommended-next-action comparison gives concrete rules for escalate to human, handoff summary, chat interface, review queue, human approval gate, recommended next action, live agent, support ticket, callback, specialist queue, supervisor review, emergency route, human review, bot-to-human handoff, handback to AI, business-hours fallback, outside-hours ticket fallback, transfer context, queue scope, paused automation, optional guidance, trigger reason, route type, destination, expected wait, business hours, route eligibility, shared context, consent, transfer pending, queue position, human joined, ticket created, callback scheduled, failed transfer, cancellation, fallback, explicit human-help requests, low confidence, policy block, user distress, unavailable automation, unsafe recommendation, and fake transfer.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and 390px mobile checks rendered /patterns/escalate-to-human/ with the live demo, exercised User requested human, System suggested escalation, Route choice, Live agent, Create ticket, Request callback, Specialist queue, Supervisor review, Business hours, Expected wait, Queue position, Shared context, Consent to share, Verification required, Transfer pending, Human joined, Ticket created, Callback scheduled, No agent available, Failed transfer, Cancel escalation, Handback to AI, Mobile escalation, Bot-loop, Fake-transfer, Hidden-wait, Context-drop, Privacy-surprise, Unavailable-live, and No-cancel states, and found no duplicate IDs or escalate-to-human demo overflow. The comparison route /compare/escalate-to-human-vs-handoff-summary-vs-chat-interface-vs-review-queue-vs-human-approval-gate-vs-recommended-next-action/ included escalate to human, handoff summary, chat interface, review queue, human approval gate, recommended next action, live agent, support ticket, callback, specialist queue, supervisor review, emergency route, human review, bot-to-human handoff, handback to AI, business-hours fallback, outside-hours ticket fallback, transfer context, queue scope, paused, optional guidance, trigger reason, route type, destination, expected wait, business hours, route eligibility, shared context, consent, transfer pending, queue position, human joined, ticket created, callback scheduled, failed transfer, cancellation, fallback, explicit human-help requests, low confidence, policy block, user distress, unavailable automation, unsafe recommendation, and fake transfer terms with no duplicate IDs on desktop and mobile. The only mobile overflow observed was the existing global navigation, outside this pattern demo.",
+    "screenshots": [
+      "screenshots/patterns/escalate-to-human.png"
+    ]
+  },
+  "name": "Escalate to human",
+  "aliases": [
+    "talk to a human",
+    "contact a human agent",
+    "live agent escalation",
+    "human support escalation",
+    "agent handoff trigger",
+    "request human help",
+    "transfer to human",
+    "human takeover",
+    "escalate from AI",
+    "bot to human escalation"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Control and recovery path that transfers an AI, automation, or self-service case to a human channel or queue",
+  "uiGuidance": [
+    "Render escalate to human as an explicit route out of AI or automation, with trigger reason, eligibility, destination, expected wait, context shared, privacy boundary, and what happens to the current conversation, task, or run.",
+    "Show the human route choices the product can actually honor, such as live agent, callback, ticket, specialist queue, supervisor review, emergency route, or business-hours fallback, and keep unavailable routes disabled with explanations."
+  ],
+  "uxGuidance": [
+    "Use escalate to human when the user needs human judgment, empathy, authority, accountability, exception handling, or support beyond what the AI or automation can safely complete.",
+    "Make escalation reversible and understandable: preserve user context, disclose what is transferred, show wait and queue status, support cancel or change route, and avoid trapping users in loops that keep deflecting to AI."
+  ],
+  "uiExamples": {
+    "good": [
+      "An AI support chat shows Talk to a human after failed self-service, explains that transcript and account context will be shared, offers Live agent or Create ticket, and shows estimated wait.",
+      "A claims assistant blocks automated resolution, routes the user to a specialist queue, shows business hours, transfer status, and lets the user cancel before the handoff starts."
+    ],
+    "bad": [
+      "A Help button restarts the bot with no human route even after repeated failure.",
+      "The UI says Transfer started but hides destination, queue status, wait time, shared context, and whether a human has actually accepted."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user reports that the AI cannot resolve a locked billing account; the product offers a billing specialist queue, shows two-minute wait, shares the transcript with consent, and updates when a human joins.",
+      "A user requests human review outside business hours; the product creates a ticket, confirms SLA, preserves attachments, and explains how to return to the conversation."
+    ],
+    "bad": [
+      "A user types human repeatedly, but the assistant keeps asking clarifying questions and never reveals that live support is closed.",
+      "A user is transferred to a person who receives no transcript, so the user has to repeat sensitive details."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI and automation can fail, reach policy limits, or encounter situations that need human judgment, but products often hide the path to a person, over-deflect users back to AI, or transfer without explaining destination, wait, context sharing, status, and fallback.",
+  "solution": "Provide an explicit escalation path that detects or accepts human-help requests, explains why human support is appropriate, lets users choose an eligible route, transfers the necessary context with consent and privacy controls, shows queue and acceptance status, and preserves cancellation, fallback, and return paths.",
+  "problemContext": [
+    "Users may need human help because the AI failed repeatedly, confidence is low, sources are missing, policy blocks automation, the user is distressed, a safety issue is present, account access is restricted, or an exception needs authority.",
+    "Escalation destinations may include live chat, phone callback, support ticket, specialist queue, supervisor review, incident route, care team, or human review of an AI decision.",
+    "Human channels may have business hours, capacity limits, SLAs, language support, eligibility rules, authentication requirements, and permission boundaries.",
+    "Escalation can share sensitive context, transcript history, uploaded files, account data, tool results, AI decisions, and user-provided corrections with a human receiver.",
+    "The product may need to preserve the current conversation while creating a ticket, switching first responder, handing back to AI, or resuming automation after human intervention."
+  ],
+  "selectionRules": [
+    "Choose escalate to human when users need a route from AI, automation, chatbot, self-service, or failed recovery to a human channel or queue.",
+    "Use handoff summary when the human receiver needs a structured transfer packet; escalate to human owns the user-facing route, eligibility, wait, transfer, and fallback path.",
+    "Use chat interface when designing the whole AI conversation; escalate to human is one high-impact path inside or beside that conversation.",
+    "Use review queue when human staff triage many escalated items; escalate to human is the user's request or system transition into that queue.",
+    "Use human approval gate when automation is paused for an eligible reviewer to authorize a specific armed action; escalate to human when the user or system needs human help or takeover.",
+    "Use recommended next action when human escalation is an optional suggestion among other actions; use escalate to human when human help is the primary recovery route.",
+    "Offer escalation after repeated failed AI answers, user request for a person, low-confidence or blocked state, sensitive or regulated topic, unavailable automation, unsafe recommendation, or policy-required human review.",
+    "Show destination, expected wait, business hours, route eligibility, shared context, privacy controls, cancellation, and fallback before transfer when those values affect user trust.",
+    "Do not hide human routes behind infinite bot loops, irrelevant suggestions, disabled buttons with no explanation, or fake transfer states.",
+    "Do not start a human transfer that cannot be staffed, routed, or tracked honestly."
+  ],
+  "requiredStates": [
+    "Available human route state with reason, destination, estimated wait, and shared context summary.",
+    "User-requested human state after phrases such as talk to a person, agent, representative, supervisor, or human help.",
+    "System-suggested escalation state after repeated failure, low confidence, policy block, high risk, user distress, or unavailable automation.",
+    "Route choice state for live agent, ticket, callback, specialist queue, supervisor review, emergency route, or business-hours fallback.",
+    "Authentication, account verification, permission, language, region, and eligibility states before routing.",
+    "Consent and privacy state showing transcript, files, account data, AI outputs, tool results, and sensitive notes that will be shared.",
+    "Transfer pending, queue position, estimated wait, human joined, ticket created, callback scheduled, and escalation accepted states.",
+    "No agent available, outside business hours, capacity full, failed transfer, timeout, cancelled, handback to AI, and return-to-self-service states.",
+    "Escalation history, reference ID, SLA, notification, and follow-up states.",
+    "Mobile compact escalation state with route choice, wait, shared context, and cancel visible."
+  ],
+  "interactionContract": [
+    "The escalation action names the human destination and whether it is live, asynchronous, specialist, supervisor, emergency, or review-only.",
+    "The UI states why human help is available or required, and distinguishes user-requested escalation from system-required escalation.",
+    "Users can inspect and, when policy allows, limit what context is shared with the human route before transfer.",
+    "Starting escalation preserves the current conversation, task, attachments, account context, and failed AI attempts unless the UI explicitly says otherwise.",
+    "Transfer status moves through clear states: requested, verifying, queued, assigned, human joined or ticket created, failed, cancelled, or handed back.",
+    "Unavailable routes explain whether the reason is business hours, capacity, eligibility, authentication, language, region, plan, or permission.",
+    "Cancel, change route, continue with AI, create ticket, request callback, or leave safely remain available according to the route state.",
+    "The human receiver gets enough context through a handoff summary, transcript, variables, and source links without exposing redacted details."
+  ],
+  "implementationChecklist": [
+    "Model escalation reason, trigger source, user request, route type, destination queue, eligibility, verification, business hours, capacity, SLA, expected wait, transfer status, consent, shared context, reference ID, and fallback separately.",
+    "Detect explicit human-help requests and repeated unresolved AI failures without relying only on exact phrase matching.",
+    "Define route policies for live agent, ticket, callback, specialist queue, supervisor review, emergency route, and handback to AI.",
+    "Show the context package that will transfer: transcript, account fields, attachments, AI outputs, tool results, summary, variables, and redacted or withheld fields.",
+    "Prevent fake transfer by requiring a routable destination, staff availability or asynchronous fallback, and a status that can be updated.",
+    "Synchronize escalation with chat transcript, handoff summary, review queue, notification center, assignment, activity log, and support ticket state.",
+    "Log escalation request, consent, route, queue events, human acceptance, cancellation, failed transfer, handback, and final outcome where support accountability matters.",
+    "Test user phrases for human help, repeated bot failure, low-confidence escalation, no-agent availability, outside business hours, authentication required, privacy review, queue updates, mobile layout, keyboard operation, and screen-reader status announcements."
+  ],
+  "commonMisuses": [
+    "Hiding the human route after the AI fails repeatedly.",
+    "Using Talk to human as a button that only restarts the bot.",
+    "Showing a transfer spinner without destination, queue, wait, or acceptance status.",
+    "Sharing transcript, account data, or sensitive notes with a human route without disclosure or consent where required.",
+    "Transferring users to a person without giving the receiver context.",
+    "Offering unavailable live chat as if it were available.",
+    "Making cancellation, ticket fallback, or return-to-self-service impossible during a long wait.",
+    "Treating human approval gates or review queues as user-facing escalation without showing route status."
+  ],
+  "critiqueQuestions": [
+    "What exact condition makes human help available, suggested, or required?",
+    "Can users see destination, route type, eligibility, wait, business hours, and fallback before transfer?",
+    "What transcript, data, files, AI outputs, and tool results are shared with the human receiver?",
+    "What happens if no human is available, the user cancels, the transfer fails, or the case is handed back to AI?",
+    "How does the receiver get context without requiring the user to repeat themselves?",
+    "Would handoff summary, review queue, human approval gate, chat interface, notification center, or recommended next action better own this surface?"
+  ],
+  "useWhen": [
+    "Users need a person because AI, automation, self-service, or scripted support cannot resolve the situation safely or acceptably.",
+    "The product can route to a staffed or asynchronous human channel and honestly show availability, wait, and fallback.",
+    "Human judgment, empathy, exception handling, authority, regulated review, safety response, or account-specific support is required.",
+    "The current context can be transferred or summarized so users do not repeat themselves."
+  ],
+  "avoidWhen": [
+    "The task is fully resolved by self-service and a human route would be decorative or misleading.",
+    "The product cannot route, staff, track, or create an asynchronous fallback for the escalation.",
+    "A specific automation action only needs approval from an eligible reviewer.",
+    "The human receiver only needs a summary after transfer has already been decided.",
+    "The user needs a list of many escalated items to triage rather than a route into escalation."
+  ],
+  "variants": [
+    "Live agent escalation",
+    "Create support ticket",
+    "Request callback",
+    "Supervisor escalation",
+    "Specialist queue escalation",
+    "Emergency human route",
+    "Human review request",
+    "Bot-to-human handoff",
+    "Escalation after failed AI answer",
+    "Outside-hours ticket fallback",
+    "Handback to AI",
+    "Mobile escalation sheet"
+  ],
+  "accessibility": [
+    "Expose route type, destination, wait, queue state, context sharing, consent, cancellation, fallback, and human joined status as text.",
+    "Do not rely on animation, color, avatar change, or typing indicator alone to communicate that a human transfer started or completed.",
+    "Make Talk to human, route choices, context review, consent, cancel, create ticket, request callback, continue with AI, and open transcript keyboard reachable.",
+    "Announce escalation requested, verifying, queued, agent joined, ticket created, callback scheduled, failed, cancelled, or handed back as status messages.",
+    "Keep focus near the escalation panel after errors and near the new human conversation or ticket status after success.",
+    "Ensure long queue names, SLA text, context summaries, redaction notices, and business-hours copy wrap at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the escalation entry point, route choices, shared-context review, consent controls, continue, cancel, ticket, callback, and fallback actions in order.",
+    "Enter or Space activates route choices and starts escalation only after required verification or consent is complete.",
+    "Escape closes route-choice or context-review panels and returns focus to the escalation entry point without losing the conversation.",
+    "After transfer starts, focus moves to the queue or transfer status region.",
+    "After a human joins or ticket is created, focus moves to the active message composer, ticket receipt, or next-step status according to route type.",
+    "Keyboard users can cancel or change route while waiting when the workflow allows it."
+  ],
+  "failureModes": [
+    "Users cannot find a human route after AI failure or distress.",
+    "Escalation appears successful but no queue, ticket, callback, or human owner exists.",
+    "The product hides live-agent unavailability until after the user waits.",
+    "Sensitive transcript or account context is shared without disclosure.",
+    "The human receiver lacks transcript or AI context and asks the user to repeat everything.",
+    "Queue status never updates, leaving users unsure whether to wait or leave.",
+    "Cancelled or failed escalation loses the conversation state.",
+    "Screen reader users hear only a typing indicator and not transfer status."
+  ],
+  "relatedPatterns": [
+    "handoff-summary",
+    "chat-interface",
+    "review-queue",
+    "human-approval-gate",
+    "recommended-next-action",
+    "notification-center",
+    "assignment",
+    "activity-log"
+  ],
+  "comparisons": [
+    "escalate-to-human-vs-handoff-summary-vs-chat-interface-vs-review-queue-vs-human-approval-gate-vs-recommended-next-action"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Copilot Studio live-agent handoff",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-hand-off",
+      "platform": "ai",
+      "notes": "Documents live-agent handoff with conversation history, variables, routing, alerts, and continuation context.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Zendesk conversation handoff and handback",
+      "url": "https://support.zendesk.com/hc/en-us/articles/4408824482586-Managing-conversation-handoff-and-handback",
+      "platform": "web",
+      "notes": "Documents changing first responder between AI and live agents, handoff, and handback behavior.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Ada Zendesk Chat handoff summaries",
+      "url": "https://docs.ada.cx/docs/handoffs/zendesk/zendesk-chat/zendesk-chat-handoff-usage",
+      "platform": "ai",
+      "notes": "Documents AI-to-live-agent handoffs with transcript summaries, customer context, conversation reason, and escalation context.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Supports user control, correction, appropriate dismissal, and human-centered handling when AI is uncertain or inappropriate.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "WCAG status messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Supports accessible queue, transfer, ticket-created, failed, and cancelled status announcements.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-copilot-studio-live-agent-handoff",
+      "note": "Supports live-agent escalation with conversation history, variables, routing, alerts, and continuation context."
+    },
+    {
+      "id": "zendesk-conversation-handoff-handback",
+      "note": "Supports AI-to-live-agent handoff, handback, and first-responder changes."
+    },
+    {
+      "id": "ada-zendesk-chat-handoff-transcript-summaries",
+      "note": "Supports transcript summaries, escalation context, and live-agent continuation."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control and appropriate human-centered recovery when AI is uncertain or inappropriate."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible escalation, queue, transfer, ticket, and failure status announcements."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-12"
+}

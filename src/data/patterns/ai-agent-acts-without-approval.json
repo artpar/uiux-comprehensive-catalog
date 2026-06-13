@@ -1,0 +1,263 @@
+{
+  "id": "ai-agent-acts-without-approval",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern entry for AI agents and automations that execute high-impact tool calls, external messages, record changes, deployments, purchases, refunds, access changes, or deletions without a visible authorization checkpoint.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets agentic side effects across customer support, billing, access control, deployment, publication, deletion, external messaging, purchases, refunds, and production workflow surfaces where read-only work, armed side effects, exact payload approval, stale decision refusal, self-review blocking, emergency bypass, and rollback need separate states.",
+    "relatedPatternDistinction": "The entry separates ai-agent-acts-without-approval from human-approval-gate by focusing on the failure where an agent has already acted or can act without authorization, from agent-plan-preview by treating plan inspection as non-authorization, from agent-progress-trace by treating live visibility as non-authorization, from tool-use-visibility by requiring a decision gate beyond tool detail, from dangerous-action-review by focusing on agent-run side effects rather than one manual action, and from automation-rule-builder by covering one armed runtime step rather than reusable rule authoring.",
+    "liveDemoBehavior": "The live demo shows Good UI and Bad UI panels plus 20 interactive side-effect authorization controls: 12 corrected states for read-only step allowed, approval required before side effect, payload preview, eligible approver, self-review blocked, approve and resume, edit before approve, reject, cancel, stale approval refused, emergency bypass, and rollback available, plus 8 failure states for silent execution, broad consent, hidden tool call, post-action approval, stale approval, self-approval, no rollback, and audit-only.",
+    "comparisonDecisionRules": "The ai-agent-acts-without-approval-vs-human-approval-gate-vs-agent-plan-preview-vs-agent-progress-trace-vs-tool-use-visibility-vs-dangerous-action-review comparison gives concrete rules for choosing the anti-pattern, corrected runtime approval gate, pre-run plan preview, live execution trace, detailed tool-use visibility, or single dangerous-action review.",
+    "duplicateAudit": "Before promotion, node --import tsx scripts/catalog-completion-audit.ts reported 294 complete patterns, 1 stub pattern, 3 missing goal patterns, and 0 normalized duplicate field groups.",
+    "manualSpotCheck": "Rendered /patterns/ai-agent-acts-without-approval/ and /compare/ai-agent-acts-without-approval-vs-human-approval-gate-vs-agent-plan-preview-vs-agent-progress-trace-vs-tool-use-visibility-vs-dangerous-action-review/ on 2026-06-13. Pattern checks found all required approval, stale, bypass, rollback, and failure terms, 20 .agent-no-approval-controls buttons, no duplicate IDs, no desktop or compact overflow, and exercised Stale approval refused and No rollback controls. Comparison checks found required decision terms including broad Run, post-action audit, and stale email, no duplicate IDs, no desktop or compact overflow, and no console warnings or errors. Screenshot captured at screenshots/patterns/ai-agent-acts-without-approval.png.",
+    "screenshots": [
+      "screenshots/patterns/ai-agent-acts-without-approval.png"
+    ]
+  },
+  "name": "AI agent acts without approval",
+  "aliases": [
+    "agent executes without approval",
+    "unauthorized AI agent action",
+    "AI agent bypasses approval",
+    "agent side effect without consent",
+    "automation acts without human approval",
+    "AI tool call without authorization",
+    "agent commits before review"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Anti-pattern for agentic side effects executed before human authorization",
+  "uiGuidance": [
+    "Do not show an agent as merely thinking, drafting, or preparing when it has already sent, changed, purchased, deployed, revoked, deleted, or externally committed something.",
+    "Before a high-impact agent step can run, show the proposed action, target, payload, tool, approver rule, side effect, risk, expiry, and explicit approve, edit, reject, cancel, or stop controls."
+  ],
+  "uxGuidance": [
+    "Protect users from surprise agent side effects by separating proposed work from executed work, pausing risky steps, and requiring authorization that is valid only for the displayed payload.",
+    "If an agent already acted without approval, surface the executed action, rollback or recovery path, audit trail, affected target, and reason the approval gate was bypassed instead of presenting the result as routine progress."
+  ],
+  "uiExamples": {
+    "good": [
+      "A support agent pauses before issuing a refund, shows customer, order, amount, policy source, approver role, and Approve refund, Edit amount, Reject, and Stop run controls.",
+      "A sales agent drafts a customer email but labels the send step Requires approval and keeps Send disabled until the reviewer opens the exact message and recipient list.",
+      "A deployment agent reaches production release, shows environment, commit, checks, required reviewer, self-review block, timeout, and the job that will resume after approval."
+    ],
+    "bad": [
+      "A chat message says I handled it and reveals the agent already issued a refund without any review screen.",
+      "The plan preview says Draft email, but the agent also sends it to customers when the user taps Run.",
+      "An approval notification appears after the database change already executed, making approval only a recordkeeping step."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A manager sees the agent is armed to change account access, edits the target group, approves the revised payload, and the run resumes only that step.",
+      "A user rejects a customer-email gate, the run stops the send step, keeps the draft visible, and records the rejection reason.",
+      "A mobile approver opens the canonical gate from a notification and the UI refuses approval because the payload changed after the notification was sent."
+    ],
+    "bad": [
+      "A user asks an agent to research an account and later discovers it changed the opportunity stage.",
+      "A reviewer approves a stale email notification and the agent applies the decision to a different customer state.",
+      "The activity log shows an unauthorized access change but offers no rollback, cancel, report, or escalation path."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI agents can execute real-world side effects before users understand or authorize them, especially when plan previews, progress traces, chat messages, or notifications blur proposed actions with completed actions.",
+  "solution": "Treat unapproved agent execution as an anti-pattern: classify high-impact steps, pause them at authorization gates, show exact payload and consequences before execution, validate approver eligibility and freshness, and provide stop, rollback, audit, and escalation paths when approval was bypassed.",
+  "problemContext": [
+    "The agent can call tools, send external messages, spend money, issue refunds, change access, update customer records, deploy code, delete data, submit forms, publish content, or trigger downstream workflows.",
+    "The UI may describe the agent as preparing, researching, drafting, or working while side effects are already committed.",
+    "Users may have approved a broad prompt, plan, or recommendation but not the exact payload, target, timing, or downstream consequence that executed.",
+    "Approval can be required by policy, confidence, source gaps, cost, permissions, customer impact, legal risk, security risk, or separation of duties.",
+    "The agent may need different treatment for safe read-only steps, reversible draft steps, gated side-effect steps, emergency bypass, and post-action recovery."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when an AI agent or automation executes a high-impact side effect without showing and requiring approval for the exact action and payload first.",
+    "Flag it when a broad Run, Continue, or Looks good control authorizes hidden tool calls, sends, edits, purchases, deletes, deployments, or access changes.",
+    "Use human approval gate for the corrected runtime checkpoint when the agent is paused before an armed step and needs an eligible human decision.",
+    "Use agent plan preview when users need to inspect proposed steps before execution starts; plan review does not authorize unlisted future side effects.",
+    "Use agent progress trace when users need live monitoring after execution starts; progress visibility does not replace approval for risky steps.",
+    "Use tool-use visibility when users must inspect exact tool names, inputs, outputs, permissions, and payloads; tool detail supports approval but is not the gate itself.",
+    "Use dangerous-action review when a single high-impact manual action needs payload review outside an agent run.",
+    "Use automation rule builder when users are authoring reusable future behavior rather than approving one armed runtime step.",
+    "Allow low-risk read-only agent steps to run without approval only when the UI clearly scopes them as read-only and they cannot create external side effects.",
+    "If emergency bypass is allowed, show who can bypass, why, what will execute, how rollback works, and how the bypass is audited."
+  ],
+  "requiredStates": [
+    "Read-only step allowed state with no external side effect.",
+    "Approval required before side effect state.",
+    "Payload preview state with target, action, tool, data, cost, recipients, environment, or access scope.",
+    "Eligible approver and self-review blocked state.",
+    "Approve and resume state that revalidates the displayed payload.",
+    "Edit before approve state that creates a new payload version.",
+    "Reject, cancel, stop run, and rollback available states.",
+    "Stale approval refused state for changed input, target, source, model, policy, or payload.",
+    "Emergency bypass state with elevated permission and required reason.",
+    "Bad silent execution, broad consent, hidden tool call, post-action approval, stale approval, self-approval, no rollback, and audit-only states."
+  ],
+  "interactionContract": [
+    "The agent distinguishes read-only steps, draft steps, reversible local changes, and external side-effect steps before execution.",
+    "Side-effect steps cannot run until the interface shows the action, target, payload version, tool, approver rule, risk, and resume consequence.",
+    "A broad instruction, plan acceptance, confidence score, progress trace, or notification does not authorize hidden future side effects.",
+    "Approval is valid only for the displayed payload and expires when target, input, source, model, policy, tool permission, or threshold changes.",
+    "Approve resumes only the named gated step unless the UI explicitly lists additional authorized steps.",
+    "Reject, cancel, edit, stop, rollback, and escalation outcomes leave the run in a named state with reason and recovery path.",
+    "Post-action audit records must say the action already happened and provide rollback, report, or escalation controls when possible.",
+    "The audit trail records what the user saw before approval, who approved or bypassed, what executed, and whether recovery was attempted."
+  ],
+  "implementationChecklist": [
+    "Inventory all agent tools and mark read-only, draft-only, reversible, externally visible, money-moving, access-changing, destructive, deployment, publication, and customer-impact steps.",
+    "Define which steps require approval by policy, risk, confidence, source status, cost, data sensitivity, target environment, recipient scope, or separation-of-duties rule.",
+    "Render proposed side-effect steps with payload preview, diff, target, tool, evidence, risk, approver eligibility, timeout, and downstream consequence before execution.",
+    "Require explicit approve, edit, reject, cancel, stop, or bypass controls for gated steps, and block self-approval where policy requires independent review.",
+    "Revalidate payload hash, target, source freshness, model version, policy version, approver role, and tool permission immediately before resuming the gated step.",
+    "Separate plan preview, progress trace, tool-use visibility, approval gate, dangerous-action review, and audit trail data so users can tell proposed, armed, executing, and completed actions apart.",
+    "Provide post-action recovery for bypassed or unauthorized execution: stop future steps, rollback, revoke, notify affected users, report incident, and inspect audit trail.",
+    "Test hidden side-effect tools, broad prompt consent, stale notification approval, self-approval, edited payload, emergency bypass, failed resume, rollback, mobile approval, keyboard flow, and high-zoom payload wrapping."
+  ],
+  "commonMisuses": [
+    "Treating Run agent as permission to execute every hidden side-effect step.",
+    "Sending a customer message or issuing a refund while the UI still says the agent is drafting.",
+    "Showing an approval card after the tool already executed.",
+    "Letting the requester approve their own high-impact automation step.",
+    "Using high confidence, source grounding, or a green progress state as a substitute for authorization.",
+    "Hiding the exact tool input, recipient list, amount, access target, deployment environment, or deletion scope.",
+    "Providing no stop, rollback, cancel, report, or escalation path after unauthorized execution."
+  ],
+  "critiqueQuestions": [
+    "Which agent steps are read-only, draft-only, reversible, externally visible, destructive, money-moving, access-changing, or customer-impacting?",
+    "What exact action, target, payload, tool, and version will execute after approval?",
+    "Can the user distinguish proposed work, armed gated work, running work, completed work, and audit history?",
+    "Who is eligible to approve, who is blocked from self-review, and what happens if the approval becomes stale?",
+    "What recovery exists if the agent already acted without approval?",
+    "Would human approval gate, agent plan preview, agent progress trace, tool-use visibility, dangerous-action review, or automation rule builder solve the actual problem?"
+  ],
+  "useWhen": [
+    "An AI agent or automation can create side effects that affect customers, money, access, production systems, legal status, public content, sensitive data, or external recipients.",
+    "Users may assume the agent is only planning, drafting, or researching while it can actually execute tools.",
+    "The product needs to classify which agent actions can run automatically and which require explicit authorization.",
+    "A prior incident, audit finding, or UX review shows the agent acted before users approved the exact payload."
+  ],
+  "avoidWhen": [
+    "The agent can only perform read-only retrieval and cannot affect external systems or user-visible state.",
+    "The design already pauses every high-impact side-effect step in a valid human approval gate.",
+    "The user is manually reviewing and executing one ordinary high-impact action outside an agent run; use dangerous-action review.",
+    "The task is only to show live execution status after an authorized run starts; use agent progress trace.",
+    "The work is authoring a reusable rule before any runtime action is armed; use automation rule builder."
+  ],
+  "variants": [
+    "Silent agent side effect",
+    "Post-action approval",
+    "Broad prompt consent",
+    "Hidden tool call",
+    "Agent sends without review",
+    "Agent changes access without approval",
+    "Agent deploys without approval",
+    "Agent refunds without approval",
+    "Stale approval accepted",
+    "Self-approved agent action",
+    "Audit-only approval"
+  ],
+  "accessibility": [
+    "Expose whether a step is proposed, armed for approval, running, completed, rejected, cancelled, bypassed, or rolled back as text.",
+    "Do not rely on color, animation, progress labels, or icon-only badges to distinguish draft, approved, executed, and recovered actions.",
+    "Make approve, edit, reject, cancel, stop, rollback, report, escalate, and bypass controls keyboard reachable and labelled by action and target.",
+    "Announce meaningful state changes such as approval required, payload changed, stale approval refused, action executed, rollback available, and rollback completed.",
+    "Ensure payload previews, recipient lists, tool names, access scopes, amounts, environments, and audit notes wrap at mobile widths and high zoom.",
+    "Associate rejection, bypass, rollback, and incident-report reasons with their fields and validation errors."
+  ],
+  "keyboardBehavior": [
+    "Tab order reaches run summary, proposed side-effect step, payload preview, evidence, approver eligibility, timeout, decision reason, and decision controls before any resume control.",
+    "Enter or Space activates approve, edit, reject, cancel, stop, rollback, report, escalate, and bypass controls according to native behavior.",
+    "When an approval becomes stale, focus moves to the stale-state message and recovery controls rather than staying on a disabled approve button.",
+    "After approval, focus moves to the resumed run status or next required gate.",
+    "After unauthorized execution is detected, focus moves to the recovery panel with stop and rollback controls.",
+    "Escape closes payload details or confirmation layers and returns focus to the invoking control."
+  ],
+  "failureModes": [
+    "The agent executes a tool call that changes data while the UI describes it as planning.",
+    "The user approves a summary but not the actual payload that later executes.",
+    "A stale approval notification resumes the wrong target or payload.",
+    "The requester approves their own risky agent action.",
+    "An approval UI appears only after the action has already committed.",
+    "The progress trace hides an approval gate and later marks the run complete.",
+    "The audit trail cannot prove what the user saw before the action ran.",
+    "There is no rollback, stop, or escalation after unauthorized execution."
+  ],
+  "relatedPatterns": [
+    "human-approval-gate",
+    "agent-plan-preview",
+    "agent-progress-trace",
+    "tool-use-visibility",
+    "dangerous-action-review",
+    "automation-rule-builder",
+    "confidence-uncertainty-display",
+    "ai-output-audit-trail"
+  ],
+  "comparisons": [
+    "ai-agent-acts-without-approval-vs-human-approval-gate-vs-agent-plan-preview-vs-agent-progress-trace-vs-tool-use-visibility-vs-dangerous-action-review"
+  ],
+  "examples": [
+    {
+      "product": "Responsible AI for Agent Design",
+      "url": "https://learn.microsoft.com/en-us/agents/design-guidelines/responsible-ai",
+      "platform": "ai",
+      "notes": "Supports transparency, accountability, security, privacy, safety filters, and informed user decisions for agentic systems.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "GitHub Actions deployment protection rules",
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments",
+      "platform": "web",
+      "notes": "Documents required reviewers, self-review prevention, wait timers, branch restrictions, and bypass controls before deployment jobs proceed.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Power Automate approvals",
+      "url": "https://learn.microsoft.com/en-us/power-automate/get-started-approvals",
+      "platform": "web",
+      "notes": "Documents flows that start and wait for an approval before continuing based on approval outcomes.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-agent-responsible-ai",
+      "note": "Supports transparency, safety, accountability, informed decisions, security, and privacy requirements for agent design."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, capability disclosure, correction, and human oversight in AI experiences."
+    },
+    {
+      "id": "github-actions-deployment-protection-rules",
+      "note": "Supports required approval before protected jobs proceed, self-review prevention, wait timers, and bypass controls."
+    },
+    {
+      "id": "microsoft-power-automate-approvals",
+      "note": "Supports automation flows that wait for human approval before continuation."
+    },
+    {
+      "id": "servicenow-ask-for-approval-action",
+      "note": "Supports workflow approval rules, waiting states, due dates, approval outputs, and manual approver behavior."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports durable conversation, tool calls, tool outputs, and response chaining that affect agent state and side effects."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing approval-required, stale, executed, rollback, and recovery states without moving focus."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

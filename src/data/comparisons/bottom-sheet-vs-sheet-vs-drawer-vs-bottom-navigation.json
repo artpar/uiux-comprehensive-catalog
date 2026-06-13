@@ -1,0 +1,51 @@
+{
+  "id": "bottom-sheet-vs-sheet-vs-drawer-vs-bottom-navigation",
+  "title": "Bottom sheet vs sheet vs drawer vs bottom navigation",
+  "summary": "Use a bottom sheet for mobile lower-edge contextual details or controls with detents, a sheet for broader temporary child tasks, a drawer for side-adjacent inspection, and bottom navigation for persistent top-level mobile destinations.",
+  "patternIds": [
+    "bottom-sheet",
+    "sheet",
+    "drawer",
+    "bottom-navigation"
+  ],
+  "decisionRules": [
+    "Choose bottom sheet when mobile users need contextual details, quick controls, or a short picker anchored to the bottom while retaining enough of the map, feed, media, or object behind it for orientation.",
+    "Choose sheet when the task is a broader temporary child task that may attach to a side, window, or full-screen adaptive presentation rather than specifically using the mobile lower edge.",
+    "Choose drawer when the surface is an edge panel for object inspection or light action and side-by-side comparison with the parent page is more important than thumb reach or bottom detents.",
+    "Choose bottom navigation when the bottom area contains persistent top-level destinations that remain visible across screens instead of temporary contextual content.",
+    "Use modal bottom sheets for blocking choices or tasks where interaction behind the sheet would conflict with the current decision; use standard bottom sheets when the sheet and background can remain coordinated.",
+    "Use peek, half, and full detents only when each height exposes a useful amount of content; do not add detents that merely crop controls or hide the primary action.",
+    "Keep drag, swipe, back, close, and scrim dismissal aligned with the sheet's risk level, and preserve focus or selection when the sheet returns to a smaller detent.",
+    "Do not use a bottom sheet for always-needed controls, global navigation, or long-form workflows that need history, progress, or shareable state.",
+    "Do not replace a simple menu or action row with a bottom sheet unless the choices need mobile reach, previews, grouping, or additional context.",
+    "When content inside the sheet scrolls, define whether a drag scrolls the sheet, scrolls the list, or changes detent so the surface does not fight the user's gesture."
+  ],
+  "failureModes": [
+    "A bottom sheet opens at full height and hides the map or feed that users need to interpret the options.",
+    "Peek height exposes a drag handle but no useful content, so users must expand before understanding why the sheet appeared.",
+    "Dragging alternates unpredictably between scrolling the list and moving the sheet detent.",
+    "The bottom sheet contains global destinations, making it behave like hidden bottom navigation.",
+    "A modal bottom sheet lacks a scrim, close route, Escape or back behavior, or focus return.",
+    "A long multi-step form is squeezed into a bottom sheet with hidden progress and buried primary actions.",
+    "The bottom sheet covers persistent bottom navigation or device safe areas so key controls become unreachable."
+  ],
+  "sources": [
+    {
+      "id": "material-bottom-sheets",
+      "note": "Material bottom sheet guidance supports bottom anchoring and standard versus modal variants."
+    },
+    {
+      "id": "android-compose-bottom-sheets",
+      "note": "Android Compose bottom sheet documentation supports modal bottom sheet state and dismiss behavior."
+    },
+    {
+      "id": "nng-bottom-sheets",
+      "note": "NN/g supports the mobile contextual-details framing and the warning that bottom sheets obscure part of the screen."
+    },
+    {
+      "id": "material-bottom-navigation",
+      "note": "Material bottom navigation guidance supports the distinction between persistent destinations and temporary contextual bottom surfaces."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

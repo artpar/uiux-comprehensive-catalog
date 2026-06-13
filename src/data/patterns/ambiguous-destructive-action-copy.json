@@ -1,0 +1,248 @@
+{
+  "id": "ambiguous-destructive-action-copy",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for destructive, risky, or high-consequence flows where labels such as OK, Yes, Continue, Confirm, Remove, Cancel, or Done hide whether the user is deleting, preserving, cancelling a plan, cancelling the dialog, revoking access, or committing an external effect.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets destructive dialogs, action sheets, menu items, command palette actions, delete receipts, account cancellation flows, permission revocation, bulk actions, and high-impact execution reviews where copy must name destructive verb, target, count, safe outcome, access scope, external effect, and compact/mobile wording.",
+    "relatedPatternDistinction": "The entry separates ambiguous-destructive-action-copy from destructive-action-confirmation by focusing on wording defects inside destructive surfaces, from typed-confirmation by final-button clarity rather than exact target entry, from dangerous-action-review by copy that hides execution rather than payload review, from confirmation-fatigue by one unclear prompt rather than repeated overuse, and from warning-text by final decision labels rather than before-action consequence copy.",
+    "liveDemoBehavior": "The live demo shows Good UI and Bad UI panels plus 17 interactive state controls: 9 clear-copy states for clear title, final action, safe action, cancel ambiguity, reversible cleanup, bulk scope, access removal, external effect, and mobile compact labels, plus 8 failure states for OK delete, Yes / No, Continue executes, Remove ambiguity, Cancel ambiguity, same copy, color-only danger, and post-commit clarification.",
+    "comparisonDecisionRules": "The ambiguous-destructive-action-copy-vs-destructive-action-confirmation-vs-typed-confirmation-vs-dangerous-action-review-vs-confirmation-fatigue-vs-warning-text comparison gives concrete rules for choosing copy-specific remediation, final destructive review, exact target phrase entry, high-impact payload review, prompt overuse cleanup, or before-action warning text.",
+    "duplicateAudit": "Before promotion, node --import tsx scripts/catalog-completion-audit.ts reported 291 complete patterns, 1 stub pattern, 6 missing goal patterns, and 0 normalized duplicate field groups.",
+    "manualSpotCheck": "Rendered /patterns/ambiguous-destructive-action-copy/ and /compare/ambiguous-destructive-action-copy-vs-destructive-action-confirmation-vs-typed-confirmation-vs-dangerous-action-review-vs-confirmation-fatigue-vs-warning-text/ on 2026-06-13. Pattern checks found all required copy-boundary terms, 17 .ambiguous-destructive-controls buttons, no duplicate IDs, no desktop or compact overflow, and exercised Cancel ambiguity, Bulk scope, Access removal, External effect, Mobile compact, Continue executes, Remove ambiguity, Color-only danger, and Post-commit controls. Comparison checks found required decision terms, no duplicate IDs, no desktop or compact overflow, and only Vite connection debug console messages. Screenshot captured at screenshots/patterns/ambiguous-destructive-action-copy.png.",
+    "screenshots": [
+      "screenshots/patterns/ambiguous-destructive-action-copy.png"
+    ]
+  },
+  "name": "Ambiguous destructive action copy",
+  "aliases": [
+    "vague destructive copy",
+    "ambiguous delete labels",
+    "unclear destructive button",
+    "OK delete",
+    "yes no delete prompt",
+    "ambiguous cancel copy",
+    "unclear dangerous action label"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users can commit destructive or high-consequence actions because the final labels do not say the real outcome, target, scope, or safe alternative.",
+  "solution": "Treat ambiguous destructive copy as an anti-pattern: rewrite titles, primary actions, secondary actions, and status copy so each control names the outcome it causes, the target it affects, and whether the action destroys, preserves, cancels the operation, or cancels an existing service.",
+  "problemContext": [
+    "A dialog, sheet, action menu, toast, command palette, mobile action sheet, or review page includes a destructive command.",
+    "The interface uses vague labels such as OK, Yes, No, Continue, Confirm, Submit, Remove, Done, or Cancel near a destructive or externally visible action.",
+    "The same word can mean different outcomes, such as cancel the dialog versus cancel the subscription, remove from view versus delete permanently, or continue review versus execute the dangerous action.",
+    "Users need to distinguish the destructive commit, the safe preserve path, reversible cleanup, typed target verification, and high-impact action review."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when the destructive or safe action label does not name what will happen.",
+    "Use destructive action confirmation when the whole final review needs target, scope, consequence, dependency, acknowledgement, and commit states; this entry focuses on the wording defect inside those surfaces.",
+    "Use typed confirmation when severe wrong-target risk requires reproducing a visible target phrase; typed confirmation still needs unambiguous final button copy.",
+    "Use dangerous-action review when the action is high impact because of money, access, production, legal, customer, external recipient, or agent-tool effects; this entry flags vague Run, Continue, or Approve labels that hide execution.",
+    "Use confirmation fatigue when the problem is repeated low-value prompts and habituation; this entry applies even to one prompt if the destructive labels are unclear.",
+    "Use warning text when consequence copy belongs before the command; warning text cannot repair a final button labelled OK or Yes.",
+    "Name the destructive verb and target in the final action, such as Delete workspace, Revoke Maya's access, Cancel Pro subscription, or Permanently delete 12 files.",
+    "Name the safe path as the preserved outcome, such as Keep workspace, Keep subscription, Keep access, or Cancel deletion.",
+    "Avoid Cancel when both the dialog and the underlying service can be cancelled; use Back, Keep plan, Close review, or Cancel subscription according to the real outcome."
+  ],
+  "requiredStates": [
+    "Clear destructive title state with verb, target, and consequence.",
+    "Clear final action state with destructive verb plus target or count.",
+    "Clear safe action state that names the preserved outcome.",
+    "Ambiguous Cancel state where cancel could mean cancel dialog or cancel service.",
+    "Reversible cleanup state where Archive, Move to trash, or Hide is not mislabeled as Delete permanently.",
+    "Bulk scope state where the label includes selected count and object type.",
+    "Permission or access removal state where Remove distinguishes from delete object.",
+    "External-effect state where Send, publish, charge, revoke, or run labels reveal the side effect.",
+    "Mobile compact state where shortened labels still preserve outcome meaning.",
+    "Bad OK or Yes state that hides destruction.",
+    "Bad Continue state that hides execution.",
+    "Bad Remove state that hides whether data is deleted or detached.",
+    "Bad Cancel state that reverses user intent.",
+    "Bad same-copy state where every prompt uses the same labels.",
+    "Bad color-only danger state where red styling carries the only destructive signal.",
+    "Bad post-commit copy state where the UI clarifies the outcome only after the destructive action runs."
+  ],
+  "interactionContract": [
+    "Every destructive control label must answer what action will happen and what object or scope it affects.",
+    "Every safe action label must answer what will be preserved or where the user returns.",
+    "Dialog titles, body copy, final buttons, secondary buttons, menu items, and status text must use the same verb and target model.",
+    "If a word has domain ambiguity, such as Cancel, Remove, Close, Disable, Reset, Revoke, Clear, or Dismiss, the UI adds the object and outcome.",
+    "Copy changes must update accessible names, not only visible helper text or color.",
+    "Short mobile labels may abbreviate object names only when nearby text keeps the full target and consequence in reading order."
+  ],
+  "implementationChecklist": [
+    "Inventory every destructive prompt and record the trigger label, title, final action, safe action, status message, object, count, and consequence.",
+    "Replace OK, Yes, No, Continue, Confirm, Submit, and Done with outcome-specific labels.",
+    "Replace ambiguous Cancel with Keep plan, Close dialog, Cancel subscription, Stop deletion, or Do not delete according to intent.",
+    "Disambiguate Remove by naming whether the object is deleted, detached, hidden, unshared, revoked, or moved to trash.",
+    "Include counts for bulk destructive actions and rerender labels when selection changes.",
+    "Keep copy synchronized with disabled states, dependency blockers, typed confirmation, and post-action receipts.",
+    "Test localization, truncation, keyboard focus, screen reader names, compact width, and action-sheet layouts so labels remain specific."
+  ],
+  "commonMisuses": [
+    "A delete prompt uses OK and Cancel without naming what OK will delete.",
+    "A subscription flow has a Cancel button that could mean close the dialog or cancel the subscription.",
+    "A permission dialog uses Remove without saying whether access is revoked or the person is deleted from the workspace.",
+    "A dangerous agent tool review uses Continue for both the next review step and actual execution.",
+    "A mobile action sheet shortens Delete account to Delete when the account name and scope are offscreen.",
+    "A red button relies on color to signal destruction while its text says Confirm."
+  ],
+  "critiqueQuestions": [
+    "Would the final action label still be clear if read without color or icon?",
+    "Does the label name the destructive verb and affected target?",
+    "Could Cancel, Remove, Continue, or Done mean more than one outcome in this context?",
+    "Does the safe action say what remains unchanged?",
+    "Does bulk copy update when selected count or object type changes?",
+    "Does assistive technology receive the same outcome-specific label as sighted users?"
+  ],
+  "useWhen": [
+    "Auditing destructive dialogs, action sheets, menu items, command palette actions, delete receipts, account cancellation flows, permission revocation, bulk actions, and high-impact execution reviews.",
+    "A generated or existing UI uses vague final-action copy around permanent loss, access removal, subscription cancellation, external effects, or irreversible side effects."
+  ],
+  "avoidWhen": [
+    "The issue is not copy ambiguity but missing loss inventory, dependency blocking, or acknowledgement; use destructive action confirmation.",
+    "The action is frequent and recoverable, and the better fix is undo or no confirmation.",
+    "The issue is repeated prompt overuse; use confirmation fatigue.",
+    "The product must inspect payload, evidence, freshness, and external side effects before execution; use dangerous-action review."
+  ],
+  "variants": [
+    "OK delete prompt",
+    "Yes or No destructive prompt",
+    "Ambiguous Cancel subscription copy",
+    "Ambiguous Remove access copy",
+    "Continue executes dangerous action",
+    "Confirm permanently deletes",
+    "Bulk delete without count",
+    "Color-only destructive label",
+    "Mobile truncated destructive label",
+    "Post-commit clarification"
+  ],
+  "accessibility": [
+    "Accessible names for destructive and safe controls must include the outcome, not only visible adjacent text.",
+    "Do not rely on red color, warning icons, placement, or button order to communicate destruction.",
+    "Keep the target and consequence in reading order before compact action labels.",
+    "Avoid two buttons with identical or near-identical accessible names when one preserves and one destroys.",
+    "Announce post-action status with the same verb and target used in the committing action.",
+    "Ensure localized labels retain verb, target, and safe-path distinctions."
+  ],
+  "keyboardBehavior": [
+    "Keyboard focus lands on labels that are meaningful when read in isolation.",
+    "Enter must not commit a destructive action whose focused control says OK, Yes, Continue, or Confirm without outcome detail.",
+    "Escape and safe actions should close the review without changing the target and then return focus to the trigger or preserved object.",
+    "When selection count changes, keyboard users encounter updated bulk action labels before commit.",
+    "Typed confirmation or acknowledgement controls do not enable a final button with vague copy."
+  ],
+  "failureModes": [
+    "Users delete or cancel the wrong thing because the prompt uses OK, Yes, No, or Continue.",
+    "Users keep a subscription when they meant to cancel, or cancel a subscription when they meant to close the dialog.",
+    "Users revoke access believing they removed a person only from the current list view.",
+    "Users approve execution because Continue looked like the next review step.",
+    "Screen reader users hear Confirm without the target or consequence.",
+    "Translation or mobile truncation removes the object name from the destructive label."
+  ],
+  "relatedPatterns": [
+    "destructive-action-confirmation",
+    "typed-confirmation",
+    "dangerous-action-review",
+    "confirmation-fatigue",
+    "warning-text",
+    "confirmation-dialog",
+    "undo",
+    "restore-from-trash",
+    "delete-account"
+  ],
+  "comparisons": [
+    "ambiguous-destructive-action-copy-vs-destructive-action-confirmation-vs-typed-confirmation-vs-dangerous-action-review-vs-confirmation-fatigue-vs-warning-text"
+  ],
+  "examples": [
+    {
+      "product": "Apple Human Interface Guidelines Alerts",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/alerts",
+      "platform": "mobile",
+      "notes": "Supports clear alert actions, careful destructive action wording, and avoiding vague button labels when users must choose.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Microsoft Windows confirmation guidance",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/uxguide/mess-confirm",
+      "platform": "desktop",
+      "notes": "Documents specific confirmation copy, consequences, and alternatives such as undo or prevention instead of vague routine prompts.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Atlassian Forge danger modal",
+      "url": "https://developer.atlassian.com/platform/forge/ui-kit/components/modal/",
+      "platform": "web",
+      "notes": "Shows danger modal copy with destructive action wording and cancellation for permanent delete decisions.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-alerts",
+      "note": "Apple alert guidance supports clear action wording and careful treatment of destructive choices."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports specific consequence information and avoiding vague routine confirmation labels."
+    },
+    {
+      "id": "atlassian-forge-danger-modal",
+      "note": "Atlassian danger modal examples support destructive verb, affected content, and safe cancellation copy."
+    },
+    {
+      "id": "maersk-dialog-component",
+      "note": "Dialog guidance supports deliberate destructive confirmations rather than vague modal decisions."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG alertdialog guidance supports accessible naming and description for important modal decisions."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13",
+  "patternType": "ui-ux",
+  "surfaceType": "Destructive copy anti-pattern",
+  "uiGuidance": [
+    "Replace vague destructive controls with labels that name the verb, target, count, and outcome, such as Delete workspace, Keep workspace, Revoke Maya's access, or Cancel subscription.",
+    "Disambiguate overloaded words like Cancel, Remove, Continue, Confirm, Clear, Reset, and Close whenever they sit near irreversible, external, or costly outcomes."
+  ],
+  "uxGuidance": [
+    "Make the copy carry the decision boundary: users should know which choice destroys, which preserves, which closes the surface, and which continues review.",
+    "Keep destructive copy synchronized across trigger, title, body, final action, safe action, receipt, accessible name, and compact/mobile variants."
+  ],
+  "uiExamples": {
+    "good": [
+      "A dialog title says Delete Payments project?, the safe action says Keep project, and the final action says Delete Payments project.",
+      "A subscription dialog uses Keep Pro plan and Cancel Pro subscription instead of OK and Cancel.",
+      "A bulk action says Permanently delete 12 files and updates when the selected count changes."
+    ],
+    "bad": [
+      "A destructive prompt says Are you sure? with OK and Cancel.",
+      "A permission dialog uses Remove for both removing a row from a list and revoking account access.",
+      "A dangerous action review uses Continue as the button that actually sends the customer email."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user reads Keep subscription and Cancel subscription and correctly chooses the path that preserves billing.",
+      "A user reviewing access removal sees Revoke Maya's editor access and understands the user is not deleted.",
+      "A user on mobile sees Delete 12 files because the compact label still includes count and object type."
+    ],
+    "bad": [
+      "A user presses OK because it looks like a neutral acknowledgement and accidentally deletes the workspace.",
+      "A user presses Cancel intending to close the dialog but cancels the paid plan.",
+      "A screen reader user hears Confirm and cannot tell whether it confirms review, deletion, or sending."
+    ]
+  }
+}

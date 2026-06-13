@@ -1,0 +1,50 @@
+{
+  "id": "table-vs-sort-controls-vs-filter-panel-vs-pagination",
+  "title": "Table vs sort controls vs filter panel vs pagination",
+  "summary": "Use a table to present comparable records across columns; use sort controls to reorder those records, filter panel to narrow which records appear, and pagination to split a long ordered table into stable pages.",
+  "patternIds": [
+    "table",
+    "sort-controls",
+    "filter-panel",
+    "pagination"
+  ],
+  "decisionRules": [
+    "Choose table when users need to compare multiple records by the same visible attributes, scan row and column intersections, or read numeric and textual values in aligned columns.",
+    "Choose sort controls when the records already exist and the task is changing order by a named attribute such as due date, amount, status, or owner.",
+    "Choose filter panel when the task is excluding records by criteria such as status, date range, owner, type, or amount band rather than changing their row order.",
+    "Choose pagination when the same table has too many rows for one page and users need stable page position, result range, previous and next controls, or shareable page state.",
+    "A table may include sortable headers, filters, and pagination, but those controls must preserve the table caption, column meanings, current sort, active filters, row selection, and result count together.",
+    "Do not make the table itself responsible for open-ended search, broad filtering, or page traversal without labelled controls and state feedback around the table.",
+    "Use a data grid rather than a basic table when cells are directly editable, rows contain keyboard-managed widgets, or arrow-key navigation across interactive cells is central to the task.",
+    "Use list view or card layout instead of table when rows do not share comparable columns or when each item needs a rich object summary more than column-by-column comparison.",
+    "When a table is sorted or filtered, keep row headers, selected rows, expanded rows, and focus stable unless the affected row is intentionally removed.",
+    "On narrow screens, preserve header-to-cell meaning through horizontal scroll, responsive stacking, or column reduction rather than dropping headers or turning cells into unlabeled text."
+  ],
+  "failureModes": [
+    "A table is used for page layout or visual alignment instead of related data.",
+    "Column headers disappear on mobile, leaving values such as Open, 42, and May 14 with no meaning.",
+    "Sort and filter controls update rows but the caption, result count, active sort, and active filters disagree.",
+    "Pagination changes pages and loses selected rows, expanded detail, or the current sort order.",
+    "A table becomes a spreadsheet-like data grid with editable widgets but still uses simple table keyboard behavior.",
+    "Long text, actions, and status tags are packed into columns until the table is unreadable and no detail route or expandable-row pattern exists."
+  ],
+  "sources": [
+    {
+      "id": "wai-tables-tutorial",
+      "note": "WAI table guidance supports semantic header and data-cell relationships, captions, scope, and complex-table associations."
+    },
+    {
+      "id": "mdn-html-table-element",
+      "note": "MDN table documentation supports table sections, captions, header scope, and accessibility considerations."
+    },
+    {
+      "id": "uswds-table-component",
+      "note": "USWDS table guidance supports sortable and responsive tables with stateful sort and stacked behavior."
+    },
+    {
+      "id": "carbon-data-table-component",
+      "note": "Carbon data table guidance supports table controls, sorting, selection, expansion, toolbar separation, and pagination placement."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "regenerate-retry-vs-retry-vs-chat-interface-vs-streaming-response-vs-prompt-box-vs-editable-ai-output",
+  "title": "Regenerate / retry vs retry vs chat interface vs streaming response vs prompt box vs editable AI output",
+  "summary": "Use regenerate / retry for response-level AI reruns, new answer versions, same-prompt retry, partial-output continuation, source retry, and tool retry with prompt, context, source, model, and version preservation; retry for non-AI failed operations; chat interface for the whole transcript; streaming response for live partial output; prompt box for request editing before generation; and editable AI output for manually revising generated drafts after creation.",
+  "patternIds": [
+    "regenerate-retry",
+    "retry",
+    "chat-interface",
+    "streaming-response",
+    "prompt-box",
+    "editable-ai-output"
+  ],
+  "decisionRules": [
+    "Choose regenerate / retry when users need response-level AI reruns: retry same prompt, regenerate answer, new answer versions, continue partial output, partial-output continuation, retry failed sources, source retry, retry failed tools, tool retry, compare versions, restore previous answer, or keep both generated versions.",
+    "Choose retry when the object is a non-AI failed operation or non-ai failed operations such as export, upload, payment, save, sync, submit, or connection check and the same request scope can be repeated safely.",
+    "Choose chat interface when the problem is the whole transcript, full multi-turn transcript, conversation history, conversation identity, composer, turn order, retention, and conversation-level controls.",
+    "Choose streaming response when users need live partial output or partial generated output while events arrive before a response has failed, stopped, or completed.",
+    "Choose prompt box when users need request editing before generation, attaching context, changing instructions, or resending a revised prompt instead of rerunning the submitted prompt.",
+    "Choose editable AI output when users are manually revising generated drafts or generated content after creation and must preserve user edits, source mapping, citation preservation, tracked changes, and apply controls.",
+    "Regenerate / retry must show prompt snapshot, response version, previous answer, new answer, attempt count, cooldown, source scope, tool scope, model settings, changed context, same context, and version comparison when those values affect the result.",
+    "Use no-tool rerun, retry failed tool, retry failed source, refreshed source, same sources, changed model, and changed prompt labels instead of hiding these differences in final answer text.",
+    "Block or replace regenerate / retry when rate limit, quota exhausted, permission denied, safety blocked, non-retryable failure, manual edits present, or side-effecting tool risk makes repetition dishonest or unsafe.",
+    "Do not replace regenerate / retry with a vague Try again button, silent overwrite, hidden prompt edit, automatic retry loop, latest-only chat answer, or ordinary operation retry."
+  ],
+  "failureModes": [
+    "A single Try again button hides whether the product repeats the same prompt, edits the prompt, continues partial output, retries tools, refreshes sources, or creates an alternate answer.",
+    "Regeneration overwrites the previous answer, citations, partial output, copied state, review comments, or manual edits without compare or restore.",
+    "Changed model, changed source scope, changed context, or changed tools are invisible between answer versions.",
+    "The UI retries a rate-limited, safety-blocked, permission-denied, quota-exhausted, or non-retryable AI response in a loop.",
+    "A side-effecting tool runs twice because answer regeneration and tool retry are not separated.",
+    "Prompt box, streaming response, chat interface, or editable AI output is used as a substitute for explicit answer version and retry controls."
+  ],
+  "sources": [
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports preserving conversation, prompt, response, and tool state across attempts."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports partial, failed, and completed response lifecycle handling."
+    },
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports separating edited prompt iteration from same-prompt regeneration."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, correction, feedback, and appropriate trust in AI behavior."
+    },
+    {
+      "id": "aws-builders-library-retries-backoff-jitter",
+      "note": "Supports retry limits, backoff, jitter, and retry-amplification warnings."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Supports safe retry concerns for side-effecting tool calls."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible status updates for retry and regeneration state changes."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

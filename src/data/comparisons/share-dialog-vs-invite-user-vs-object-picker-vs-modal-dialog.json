@@ -1,0 +1,64 @@
+{
+  "id": "share-dialog-vs-invite-user-vs-object-picker-vs-modal-dialog",
+  "title": "Share dialog vs invite user vs object picker vs modal dialog",
+  "summary": "Use share dialog for granting or distributing access to one object through people, groups, links, roles, and delivery choices; invite user for bringing someone into a workspace or organization; object picker for selecting existing entities; and modal dialog for the container behavior only.",
+  "patternIds": [
+    "share-dialog",
+    "invite-user",
+    "object-picker",
+    "modal-dialog",
+    "popover",
+    "permission-denied-state",
+    "review-before-submit",
+    "confirmation-dialog",
+    "notification-center",
+    "related-links"
+  ],
+  "decisionRules": [
+    "Choose share dialog when the user is sharing a concrete file, folder, report, board, document, dashboard, link, or media object and must choose recipients, link scope, role, notification, message, copy-link, expiration, download, or revoke behavior.",
+    "Choose invite user when the primary action is adding a person to a workspace, organization, channel, team, repository, or tenant with an invitation lifecycle and pending acceptance.",
+    "Choose object picker when the task is only selecting an existing person, group, file, account, or record; selecting an object does not by itself send access or create a link.",
+    "Choose modal dialog, popover, drawer, or sheet based on containment and interruption level only after the sharing semantics are known; the container is not the access model.",
+    "Use permission denied state when the current user cannot access an object and needs an explanation, account switch, or request-access path rather than a control for sharing it onward.",
+    "Use review before submit or confirmation behavior when the share action makes a private object public, grants editor access, crosses an external-domain boundary, disables download protection, or removes access for many people.",
+    "Use notification center for retained inbox events after a share, access request, or mention is sent; it should not replace the share dialog's immediate permission and delivery controls.",
+    "Use related links when the UI only points to nearby resources without changing access, link visibility, recipients, or delivery state.",
+    "A share dialog should show current access and pending changes together so the user can tell whether they are copying an existing link, widening access, inviting people, or revoking someone.",
+    "A native Web Share action can complement copy-link or send controls for device share targets, but it cannot substitute for product-specific permission review when access scope changes."
+  ],
+  "failureModes": [
+    "A Share button copies a public editor link without showing that the object was private before the click.",
+    "A recipient picker looks complete but never shows the role, object, access scope, or whether recipients receive a notification.",
+    "The UI treats native operating-system share as if it grants file access, so recipients receive a link they cannot open.",
+    "A share flow is implemented as an ordinary modal with no current-access list, revoke path, link settings, or external-domain warning.",
+    "A broad link change uses the same success toast as a harmless copy-link action.",
+    "Removing a collaborator is hidden behind the same Send button used for adding new recipients, so users cannot review the destructive side effect."
+  ],
+  "sources": [
+    {
+      "id": "google-drive-share-files",
+      "note": "Google Drive documents recipient sharing, roles, email notification, general access, anyone-with-link access, copy link, and advanced owner controls."
+    },
+    {
+      "id": "microsoft-onedrive-share-files-folders",
+      "note": "Microsoft documents OneDrive file and folder sharing through links and direct access with permission, expiration, password, and link controls."
+    },
+    {
+      "id": "microsoft-onedrive-manage-sharing-permissions",
+      "note": "Microsoft documents managing access, changing permissions, deleting sharing links, and stopping sharing."
+    },
+    {
+      "id": "dropbox-sharing-permissions",
+      "note": "Dropbox documents shared-link access and edit or view permission choices."
+    },
+    {
+      "id": "dropbox-create-share-links",
+      "note": "Dropbox documents Share, Copy link, edit links, view-only links, and link management."
+    },
+    {
+      "id": "mdn-navigator-share",
+      "note": "MDN documents the native navigator.share method and its activation, data, permission, and failure constraints."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

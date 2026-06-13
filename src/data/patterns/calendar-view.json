@@ -1,0 +1,275 @@
+{
+  "id": "calendar-view",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed scheduled-event calendar pattern with distinct boundaries from date picker, timeline, list view, table, data grid, activity log, and filter/sort surfaces; includes visible range, mode switching, selected date, today marker, timezone, event start/end, all-day, tentative, cancelled, conflict, overflow, hidden-calendar, responsive agenda, accessibility, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers visible date range, day/week/month/agenda modes, weekday and time-axis labels, timezone, today marker, selected date, event count, event id and title, start and end time, all-day, timed, multi-day, recurring, tentative, cancelled, unavailable, conflict, hidden-calendar, overflow, selected-day detail, create and edit behavior, drag or resize constraints, mobile agenda fallback, and calendar-specific accessibility.",
+    "relatedPatternDistinction": "The entry separates calendar view from date picker by managing multiple scheduled events instead of choosing one date, from timeline by spatial date/time placement instead of readable sequence history, from list view by grid placement and overlap context instead of compact vertical scanning, from table/data grid by schedule semantics instead of column comparison, and from activity log by future or current schedule management instead of recorded evidence.",
+    "liveDemoBehavior": "The live demo shows a clinic schedule with month grid, selected day, today marker, event time blocks, all-day cover, tentative and cancelled states, conflict event, plus-more overflow, selected-day agenda, week view, conflict preview, timezone toggle, hidden-calendar warning, and bad-mode contrasts for dots-only, clipped overflow, timezone shift, conflict drag, mobile crush, and date-picker misuse.",
+    "comparisonDecisionRules": "The calendar-view-vs-date-picker-vs-timeline-vs-list-view comparison gives concrete rules for scheduled-event placement, single-date choice, chronological case history, agenda/list scanning, overflow disclosure, resource/time-grid needs, narrow-screen agenda fallback, and drag or resize conflict handling.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/calendar-view/ and /compare/calendar-view-vs-date-picker-vs-timeline-vs-list-view/ on 2026-06-11. Live check exercised Week view, Agenda view, Open +more, Preview conflict, Toggle timezone, Hidden calendars, Clipped overflow, Timezone shift, Conflict drag, Mobile crush, and Date picker misuse controls while the page was in review state, plus a 390px narrow viewport check. screenshots/patterns/calendar-view.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/calendar-view.png"
+    ]
+  },
+  "name": "Calendar view",
+  "aliases": [
+    "event calendar",
+    "schedule calendar",
+    "month view",
+    "week view",
+    "day view",
+    "agenda calendar",
+    "booking calendar",
+    "resource calendar",
+    "availability calendar"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Date and time grid for scheduled events, availability, and conflicts",
+  "uiGuidance": [
+    "Render a calendar view around a visible date range, mode switcher, today marker, weekday or time-axis labels, timezone, selected date, and event blocks with start, end, title, status, and all-day or timed placement.",
+    "Show overflow, unavailable time, multi-day events, recurring events, tentative or cancelled status, current-time marker, and empty-day states as explicit visual states rather than relying on color alone."
+  ],
+  "uxGuidance": [
+    "Use calendar view when users need to understand or manage scheduled items by their position in time: date, weekday, duration, overlap, availability, recurrence, or resource assignment.",
+    "Preserve orientation while users move between month, week, day, and agenda modes; keep visible range, timezone, selection, event detail, conflict handling, and mobile fallback clear before users create or move events."
+  ],
+  "uiExamples": {
+    "good": [
+      "A clinic schedule shows June 2026 week view, today marker, timezone, business hours, all-day staff training, timed appointments, room labels, overlap warning, and a More link for crowded days.",
+      "A month calendar uses weekday headings, selected date, event color plus text labels, cancelled and tentative status, current month boundaries, and an agenda panel for the selected day."
+    ],
+    "bad": [
+      "A decorative month grid contains colored dots with no event titles, no timezone, no overflow count, and no selected-day detail.",
+      "A weekly booking calendar lets overlapping appointments stack on top of each other with no duration, conflict, or room label."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A dispatcher switches from month to week, opens Wednesday, sees three overlapping room bookings, chooses an available slot, and receives conflict-aware feedback before saving.",
+      "A mobile user lands on agenda mode for the selected day, changes the date from a scrollable day bar, opens an event, and can return to the same date without losing context."
+    ],
+    "bad": [
+      "A user taps +3 more in a crowded date cell but the calendar navigates away instead of showing the hidden events for that day.",
+      "A scheduler drags an event across a daylight-saving boundary and the saved time silently shifts relative to attendees."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to inspect scheduled events, availability, conflicts, and time ranges in context, but lists, timelines, and date fields hide where items sit on the calendar and how they overlap.",
+  "solution": "Provide a calendar view with date navigation, month/week/day or agenda modes, event blocks, time-axis and all-day placement, overflow disclosure, selected-day detail, availability and conflict states, timezone clarity, and responsive fallback.",
+  "problemContext": [
+    "Events belong to specific dates, times, ranges, resources, people, rooms, services, calendars, or availability windows.",
+    "Users compare days, weekdays, work hours, all-day items, multi-day spans, overlapping appointments, recurrence, and open slots.",
+    "Calendar data may include tentative, cancelled, busy, free, out-of-office, unavailable, hidden, recurring, shared, or permission-limited events.",
+    "The same surface may support passive inspection, event creation, slot selection, drag or resize, event details, reminders, export, or subscription.",
+    "Timezone, locale, first day of week, daylight saving changes, and mobile density can change what users believe they are booking."
+  ],
+  "selectionRules": [
+    "Choose calendar view when the main question is what is scheduled when, how long it lasts, whether it overlaps, and what slots remain open.",
+    "Use date picker when the user is choosing one date for a field and does not need to inspect multiple event blocks.",
+    "Use timeline when users need a readable history or sequence for one object rather than a spatial time grid.",
+    "Use list view or agenda when the interval is narrow and users need fast scanning more than spatial comparison.",
+    "Use table or data grid when users need dense sorting, filtering, export, or column comparison across events.",
+    "Use Kanban board when event items are primarily managed by workflow status rather than date and time position.",
+    "Show active view mode, visible range, timezone, today, selected date, hidden events, and event counts near the calendar.",
+    "Represent all-day, timed, multi-day, recurring, tentative, cancelled, unavailable, busy/free, and conflicting events distinctly.",
+    "Expose overflow through a count and a detail surface instead of clipping events in a date cell.",
+    "Avoid drag and resize behavior unless constraints, conflicts, keyboard alternatives, undo, and save feedback are designed.",
+    "Switch to agenda, day, or selected-date detail on narrow screens when month or week cells cannot preserve event identity.",
+    "Do not imply availability from an empty cell unless hidden calendars, permissions, resource constraints, and working hours are accounted for."
+  ],
+  "requiredStates": [
+    "Default calendar state with visible range, view mode, timezone, today marker, selected date, and event count.",
+    "Month, week, day, and agenda or selected-day detail states when the product offers multiple modes.",
+    "Previous, next, today, and jump-to-date navigation states.",
+    "Event detail, create event, edit event, drag or resize preview, conflict, save pending, save failed, and undo states when editing is supported.",
+    "Overflow state for crowded days with a visible count and accessible popover or drill-in behavior.",
+    "Empty day, empty range, loading, failed-load, offline, permission-limited, hidden-calendar, and out-of-range states.",
+    "All-day, timed, multi-day, recurring, cancelled, tentative, unavailable, busy, free, and current-time states.",
+    "Responsive agenda or day-bar state where event title, time, status, and selected date stay readable."
+  ],
+  "interactionContract": [
+    "Calendar navigation changes the visible date range without clearing the selected calendar, selected date, active filters, or opened event unless the user leaves the context.",
+    "Mode switches between month, week, day, and agenda preserve the closest equivalent date and explain when the same event appears differently.",
+    "Each event keeps stable identity, title, start, end, all-day status, calendar/source, and status across navigation, filtering, overflow, and detail views.",
+    "Overflow controls reveal hidden events for the same date without losing the current range or selected day.",
+    "Creating, dragging, or resizing an event previews the target date, time, duration, resource, and conflict before save.",
+    "Conflicts, unavailable slots, permissions, cancelled status, and timezone changes block or warn at the moment the user can still recover.",
+    "Keyboard users can reach date navigation, mode controls, days, event blocks, overflow, and details without tabbing through every empty cell in large grids.",
+    "Mobile or narrow layouts switch to a usable agenda/day pattern rather than hiding event identity in tiny cells."
+  ],
+  "implementationChecklist": [
+    "Define event schema: id, title, start, end, all-day flag, timezone, calendar/source, owner, resource, recurrence, status, location, conflict state, visibility, and edit permissions.",
+    "Choose supported modes intentionally: month for long-range scanning, week/day for timed placement, agenda/list for narrow screens or dense event lists, resource view for people, rooms, or equipment.",
+    "Implement previous, next, today, jump-to-date, mode switch, selected day, event detail, overflow, and current-time behavior before styling.",
+    "Model crowded days, overlapping timed events, unavailable hours, hidden calendars, permission-limited events, cancelled events, tentative events, recurrence exceptions, and DST boundaries.",
+    "Provide accessible names for dates, event blocks, overflow counts, navigation controls, and mode controls.",
+    "Preserve focus after navigation, mode switch, overflow close, event save, drag failure, and detail close.",
+    "Provide non-drag alternatives for moving or resizing events, including explicit date and time fields.",
+    "Test first-day-of-week locale, timezone display, daylight saving transitions, long event titles, all-day and multi-day events, mobile agenda, and print or export if supported."
+  ],
+  "commonMisuses": [
+    "Using calendar view as a decorative month card for unscheduled content.",
+    "Showing colored dots without event names, counts, or selected-day details.",
+    "Hiding overflowed events in a crowded date cell.",
+    "Letting drag and resize silently create schedule conflicts.",
+    "Mixing local display time and saved timezone without disclosure.",
+    "Treating empty cells as available when other calendars, permissions, or resources are hidden.",
+    "Forcing users to use a full calendar view for one remembered date.",
+    "Crushing month or week grids on mobile instead of providing an agenda fallback."
+  ],
+  "critiqueQuestions": [
+    "What does spatial placement answer here: weekday, duration, overlap, availability, resource, or recurrence?",
+    "Can users tell which date range, timezone, view mode, calendars, and filters are visible?",
+    "What happens when a day has too many events to fit?",
+    "Can users inspect all-day, multi-day, recurring, cancelled, tentative, hidden, and unavailable events?",
+    "If events can move, where are conflicts, constraints, keyboard alternatives, undo, and save feedback handled?",
+    "Would date picker, timeline, list view, table, data grid, or Kanban board better fit the task?"
+  ],
+  "useWhen": [
+    "Users need to scan or manage scheduled events across dates, days, weeks, months, or resources.",
+    "Duration, overlap, open slots, all-day placement, recurrence, or day-of-week context changes the user's decision.",
+    "The product can expose event identity, time range, timezone, availability, overflow, and conflict behavior.",
+    "Users benefit from switching between broad calendar context and selected-day or event detail."
+  ],
+  "avoidWhen": [
+    "Users only need to select one date for a form field.",
+    "The data is a historical sequence for one object and does not require date-grid placement.",
+    "The primary task is status management rather than schedule placement.",
+    "Events lack reliable start and end data, timezone, or visible identity.",
+    "A narrow mobile experience cannot preserve event titles, selected date, or focus order."
+  ],
+  "variants": [
+    "Month calendar",
+    "Week calendar",
+    "Day calendar",
+    "Agenda calendar",
+    "Resource calendar",
+    "Booking calendar",
+    "Availability calendar",
+    "Event calendar",
+    "Multi-calendar view",
+    "Calendar with event details",
+    "Calendar with drag and resize",
+    "Calendar with overflow popover"
+  ],
+  "accessibility": [
+    "Expose date navigation, mode switch, visible range, selected date, today, timezone, and event count as text.",
+    "Give each date cell or day section an accessible name that includes the date, current-month status, selected state, today state, and event count.",
+    "Give event blocks accessible names that include title, start time, end time, all-day or multi-day status, calendar/source, and status.",
+    "Make overflow controls, event details, create, edit, move, resize, and close actions keyboard reachable with clear focus styling.",
+    "Do not rely only on color for busy/free, tentative, cancelled, selected, today, conflict, unavailable, or hidden-calendar states.",
+    "Avoid forcing keyboard users through every empty grid cell; provide efficient date navigation and agenda alternatives.",
+    "Announce range changes, mode changes, save status, conflict errors, and hidden-event counts in text or status regions."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches date navigation, today, mode switch, selected-day control, event blocks, overflow controls, and details in predictable order.",
+    "Arrow keys may move day or time focus inside the calendar grid when implemented consistently; Tab should still exit the calendar.",
+    "Enter or Space opens selected date, event detail, overflow, create, edit, move, resize, and save controls according to native button behavior.",
+    "Escape closes overflow popovers, event details, or create/edit panels and returns focus to the invoking date or event.",
+    "After changing month, week, day, or mode, focus remains on the triggering control or moves to an announced range heading.",
+    "After a failed move or save, focus stays near the conflict or error message and the previous event time remains recoverable."
+  ],
+  "failureModes": [
+    "Events are clipped, hidden, or represented only as dots without accessible titles or overflow count.",
+    "Calendar navigation resets filters, selected calendars, selected date, or opened event unexpectedly.",
+    "A view switch changes the selected date or timezone without disclosure.",
+    "Recurring or multi-day events appear as separate unrelated events without identity.",
+    "Drag or resize creates overlaps, unavailable-slot bookings, or resource conflicts without warning.",
+    "Current-time, today, selected date, and disabled dates are only color-coded.",
+    "Mobile layout compresses a week grid until event labels and focus targets are unusable.",
+    "An empty calendar range does not explain whether there are no events, hidden calendars, permissions, or load failures."
+  ],
+  "relatedPatterns": [
+    "date-picker",
+    "date-input",
+    "time-picker",
+    "timeline",
+    "list-view",
+    "table",
+    "data-grid",
+    "details-panel",
+    "filter-panel",
+    "sort-controls"
+  ],
+  "comparisons": [
+    "calendar-view-vs-date-picker-vs-timeline-vs-list-view"
+  ],
+  "examples": [
+    {
+      "product": "FullCalendar month view",
+      "url": "https://fullcalendar.io/docs/month-view",
+      "platform": "web",
+      "notes": "Documents dayGridMonth, fixed week count, and non-current date rendering for month calendar views.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "FullCalendar time-grid view",
+      "url": "https://fullcalendar.io/docs/timegrid-view",
+      "platform": "web",
+      "notes": "Documents week and day time-grid views with horizontal days, vertical time axis, all-day slots, overlap, and time-axis controls.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "FullCalendar event popover",
+      "url": "https://fullcalendar.io/docs/event-popover",
+      "platform": "web",
+      "notes": "Documents plus-more overflow handling when all events cannot fit in a day.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Power Apps calendar control",
+      "url": "https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/add-calendar-control",
+      "platform": "web",
+      "notes": "Documents scheduled activity calendar layouts with day, week, month views and start, end, description, and duration field bindings.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "MOJ Design System calendar",
+      "url": "https://design-patterns.service.justice.gov.uk/components/calendar/",
+      "platform": "web",
+      "notes": "Documents a whole-page appointment calendar component with available dates, selected date, time slots, and accessibility findings.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "fullcalendar-month-view",
+      "note": "FullCalendar documents month view, fixed week count, and non-current date rendering."
+    },
+    {
+      "id": "fullcalendar-timegrid-view",
+      "note": "FullCalendar documents day and week time-grid behavior with time axis, all-day slots, overlap, and current-time options."
+    },
+    {
+      "id": "fullcalendar-event-popover",
+      "note": "FullCalendar documents overflow disclosure when too many events fit in one day."
+    },
+    {
+      "id": "fullcalendar-accessibility",
+      "note": "FullCalendar documents ARIA, keyboard focus, and accessible hints for interactive calendar elements."
+    },
+    {
+      "id": "microsoft-power-apps-calendar-control",
+      "note": "Microsoft documents scheduled activity calendar views with start, end, description, duration, and mobile adaptation."
+    },
+    {
+      "id": "moj-design-system-calendar",
+      "note": "MOJ documents a whole-page accessible appointment calendar with selectable dates and time slots."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "saved-view-vs-saved-search-vs-saved-filter-vs-table",
+  "title": "Saved view vs saved search vs saved filter vs table",
+  "summary": "Use saved view when users persist a named presentation of a dataset, saved search for reusable query criteria, saved filter for reusable filter values, and table for the current row-and-column display itself.",
+  "patternIds": [
+    "saved-view",
+    "saved-search",
+    "saved-filter",
+    "table"
+  ],
+  "decisionRules": [
+    "Choose saved view when the saved object includes display state such as visible columns, column order, layout mode, grouping, density, sort, filters, selected fields, tabs, or default/shared workspace presentation.",
+    "Choose saved search when the saved object is primarily a rerunnable query definition with query text, search scope, ranking, alerts, subscriptions, or search-result lifecycle.",
+    "Choose saved filter when the saved object is only reusable filter criteria and should preserve the current query, sort, columns, layout, and other view preferences unless explicitly included.",
+    "Choose table when users need to read the current rows and columns; the table may expose column controls, but it is not itself the persisted view object.",
+    "A saved view may contain filter and sort settings, but the UI must show which display properties are saved and which current-session changes are only temporary.",
+    "Use saved view for operational queues, project views, record tabs, CRM lists, support ticket views, and boards where users return to a known presentation over time.",
+    "Do not call a full saved view a saved filter if it also stores columns, layout, grouping, route, board/list mode, pinned fields, sharing, or default-view behavior.",
+    "Do not save a static row snapshot unless the interface says it is an export, report, or snapshot; saved views should usually rerender current matching data.",
+    "When saved views are shared, expose owner, visibility, who can edit, default status, dependency warnings, and a copy path before overwriting team state.",
+    "When the underlying schema changes, mark missing columns, removed fields, invalid filters, or unavailable grouping rules instead of silently dropping them."
+  ],
+  "failureModes": [
+    "A saved view says My queue but only stores the current result IDs, so new matching work never appears.",
+    "Applying a saved view silently changes columns, filters, sort, and grouping with no preview of what will change.",
+    "A user tweaks a shared operational view and overwrites the team default instead of saving a private copy.",
+    "A saved filter is used for a full board layout, hiding the fact that columns, grouping, and lane rules are also stored.",
+    "Removed fields disappear from the saved view without explaining why counts or visible columns changed.",
+    "Private view names, filters, or counts leak into shared sidebars or dashboard widgets."
+  ],
+  "sources": [
+    {
+      "id": "hubspot-saved-views",
+      "note": "HubSpot documents saved record views with filters, visibility, tabs, editable filters, columns, sort, and sharing controls."
+    },
+    {
+      "id": "github-issues-saved-views",
+      "note": "GitHub documents saved views with query criteria, title, description, custom icon, edit, duplicate, delete, and saved-view limits."
+    },
+    {
+      "id": "zendesk-ticket-views",
+      "note": "Zendesk documents ticket views as personal or shared lists with condition statements, access settings, preview, columns, and cloning."
+    },
+    {
+      "id": "github-projects-changing-layout",
+      "note": "GitHub Projects documents changing a view layout among table, board, and roadmap presentations."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

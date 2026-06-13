@@ -1,0 +1,248 @@
+{
+  "id": "table",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed semantic row-and-column data comparison pattern with distinct boundaries from data grid, list view, card layouts, sort controls, filter panels, pagination, details panel, and accordion, unique caption-header-sort-filter-responsive-row-action demo behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers semantic table structure, captions, column and row headers, th and td relationships, scope, complex header associations, aligned values, row actions, sortable headers, active filter and row count synchronization, pagination preservation, responsive stacked or scroll behavior, empty and loading states, and avoiding layout-table and data-grid misuse.",
+    "relatedPatternDistinction": "The entry separates table from data grid by read-only comparison versus editable cell and arrow-key grid behavior, from list view and card layouts by shared column comparison versus object summaries, from sort controls by displaying records rather than only changing order, from filter panel by showing included records rather than selecting criteria, from pagination by presenting row data rather than moving between result slices, and from details panel or accordion by not hiding per-record detail behind a disclosure surface.",
+    "liveDemoBehavior": "The live demo shows a payment review table with caption, column headers, row headers, amount sorting, pending filter, selected row, page movement, responsive labels, labelled row actions, status feedback, and bad-mode contrasts for div-table, headerless-mobile, wrong-row-action, sort-mismatch, data-grid-misuse, and cramped-column failures.",
+    "comparisonDecisionRules": "The table-vs-sort-controls-vs-filter-panel-vs-pagination comparison gives concrete rules for comparable row-and-column data, reordering existing rows, narrowing row membership, moving through long tables by page, preserving table caption and state across controls, data-grid escalation, list or card alternatives, stable focus, and responsive header preservation.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/table/ and /compare/table-vs-sort-controls-vs-filter-panel-vs-pagination/ on 2026-06-10. Live check exercised Sort amount, Pending filter, Select row, Move page, Responsive labels, Wrong row action, Sort mismatch, Grid misuse, and Cramped columns controls while the page was in pre-completion state, then refreshed after completion. screenshots/patterns/table.png captures Good UI, Bad UI, Good UX, Bad UX, semantic table behavior, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/table.png"
+    ]
+  },
+  "name": "Table",
+  "aliases": [
+    "data table",
+    "record table",
+    "comparison table",
+    "tabular data",
+    "results table",
+    "responsive table"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Task And Workflow Patterns",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Semantic row-and-column data comparison surface",
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to compare records across shared attributes, but tables often lose meaning through missing captions, unlabeled headers, broken responsive layouts, mixed controls, or spreadsheet-like interactions without data-grid behavior.",
+  "solution": "Present records in a semantic table with a caption, clear column and optional row headers, aligned values, declared sort and filter state, responsive header preservation, and a boundary between read-only comparison, row actions, and richer data-grid tasks.",
+  "problemContext": [
+    "The items share a stable set of attributes such as name, status, owner, due date, amount, count, or last updated time.",
+    "Users need to scan down columns, compare values across rows, or find differences between records.",
+    "The table may sit near search, sort, filters, pagination, row actions, expandable detail, or bulk selection controls.",
+    "The product can define which columns matter, how headers map to values, and what happens at narrow widths."
+  ],
+  "selectionRules": [
+    "Choose table when each row represents one record and each column represents the same attribute for every row.",
+    "Use table for comparison, audit, reconciliation, inventory, queue, billing, status, and report tasks where aligned columns reduce effort.",
+    "Use a data grid when users edit cells, navigate between interactive cells with arrow keys, or perform spreadsheet-like operations.",
+    "Use list view when items are primarily scanned as summaries and shared columns are secondary.",
+    "Use card list or card grid when item imagery, uneven metadata, or rich object previews matter more than column alignment.",
+    "Use sort controls or sortable headers to change row order, but keep sorting separate from filtering and pagination state.",
+    "Use filter panel to change which rows are included, not to rename or hide table columns without clear table-state feedback.",
+    "Use pagination, virtual loading, or a saved view when the row count is too large for one table view.",
+    "Avoid table when there are fewer than two comparable attributes or when every row needs a different layout.",
+    "Avoid layout tables for positioning page content."
+  ],
+  "requiredStates": [
+    "Default table state with caption, visible headers, row values, and result count or context.",
+    "Sorted table state with current sorted column and direction exposed visually and programmatically.",
+    "Filtered table state with active criteria near the table and updated row count.",
+    "Selected-row state when the table supports row selection or bulk action.",
+    "Row-action state with actions associated to the correct row.",
+    "Empty table state after filters or search remove all rows.",
+    "Loading or updating state while table rows refresh.",
+    "Responsive state that preserves header-to-cell meaning.",
+    "Overflow state for wide tables with visible horizontal scroll or column-priority rules.",
+    "Error state when rows cannot load while table structure and retry path remain visible."
+  ],
+  "interactionContract": [
+    "The table caption or nearby heading names the dataset and purpose, not just Table.",
+    "Column headers identify the values below them and remain associated with cells in desktop, stacked, and horizontally scrolled layouts.",
+    "Row headers identify each record when the first column is the record name or primary identifier.",
+    "Sortable headers update row order, active indicator, accessible sort state, and result summary together.",
+    "Filtering updates row membership while preserving current sort unless the design explicitly resets it.",
+    "Pagination moves through the same sorted and filtered table without losing row meaning.",
+    "Row actions, links, checkboxes, and expansion controls are labelled with the row they affect.",
+    "Keyboard focus remains stable after sort, filter, pagination, row selection, expansion, or refresh."
+  ],
+  "implementationChecklist": [
+    "Define the row object, column attributes, primary row header, caption, and optional table description.",
+    "Use table semantics with caption, thead, tbody, th, td, scope, and row or column headers appropriate to the complexity.",
+    "Use id and headers associations for complex grouped headers when scope alone is insufficient.",
+    "Align numeric values, dates, status tags, and row actions consistently.",
+    "Show active sort and filter state near the table and synchronize it with row count and pagination.",
+    "Label row actions and selectable rows with the record identity.",
+    "Choose a responsive strategy: horizontal scroll, stacked rows with labels, reduced columns, or a dedicated detail view.",
+    "Handle empty, loading, error, selected, expanded, sorted, filtered, and paginated states deliberately.",
+    "Test with keyboard, screen reader table navigation, zoom, high contrast, long labels, localized values, and narrow viewports."
+  ],
+  "commonMisuses": [
+    "Using table markup to create page columns or layout spacing.",
+    "Rendering div rows that visually resemble a table but expose no table, row, column, or header semantics.",
+    "Omitting the caption or visible dataset context.",
+    "Dropping column headers on mobile so values lose meaning.",
+    "Mixing sorting, filtering, search, pagination, and column visibility into one unlabeled control.",
+    "Turning a read-only table into an editable spreadsheet without data-grid keyboard behavior.",
+    "Putting too many columns, long paragraphs, and row actions into a cramped table.",
+    "Sorting formatted values by displayed text instead of raw date, amount, number, or status order."
+  ],
+  "critiqueQuestions": [
+    "What does one row represent, and what does each column mean?",
+    "Can users compare values down a column and across rows without opening every record?",
+    "Is there a caption or heading that names the dataset and table purpose?",
+    "How are headers preserved in responsive, sorted, filtered, and paginated states?",
+    "Are row actions, selections, and expanded content tied to the correct record?",
+    "Has the table become an editable data grid, card list, or list view instead?"
+  ],
+  "useWhen": [
+    "Records share comparable attributes that users need to scan in aligned columns.",
+    "Users need to reconcile, audit, triage, sort, filter, or compare records.",
+    "Column headers and row identity can remain stable across responsive layouts."
+  ],
+  "avoidWhen": [
+    "The content is layout, not data.",
+    "Items do not share comparable attributes.",
+    "The task depends on rich previews, imagery, or uneven metadata.",
+    "Users need spreadsheet-like editing or cell-by-cell keyboard navigation.",
+    "The table would require so many columns that no responsive strategy keeps it readable."
+  ],
+  "variants": [
+    "Basic table",
+    "Sortable table",
+    "Responsive stacked table",
+    "Scrollable wide table",
+    "Selectable-row table",
+    "Expandable-row table",
+    "Numeric table",
+    "Compact table",
+    "Comparison table",
+    "Results table"
+  ],
+  "accessibility": [
+    "Use native table semantics for tabular data rather than div-only rows.",
+    "Add a caption or programmatically associated label that identifies the dataset.",
+    "Use th for headers and td for data cells.",
+    "Use scope for straightforward row or column headers and id or headers for complex grouped headers.",
+    "Expose sortable header state with aria-sort or equivalent state text.",
+    "Do not remove header labels in responsive layouts; repeat labels in stacked rows or preserve horizontal table navigation.",
+    "Give row actions and selection controls accessible names that include the row identity.",
+    "Avoid using role grid unless the table has data-grid interaction behavior."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches interactive controls before, inside, and after the table in a predictable order.",
+    "Static table cells are read through table navigation rather than every cell becoming a tab stop.",
+    "Sortable headers are reachable as buttons and activate with Enter or Space.",
+    "Row checkboxes, row links, row menus, and expand controls are reachable in row order and identify the affected row.",
+    "After sorting, filtering, pagination, or refresh, focus remains on the triggering control or moves to a clearly announced table summary.",
+    "Horizontal scroll regions remain keyboard operable when the table overflows."
+  ],
+  "failureModes": [
+    "Screen reader users hear a list of disconnected text because visual rows are not exposed as a table.",
+    "Cells such as Open, 9, or $1,240 appear with no associated header.",
+    "Mobile stacking removes headers and turns rows into unlabeled paragraphs.",
+    "Sorting a column changes row order but does not expose the active sort state.",
+    "Filtering empties the table with no empty-state explanation or clear-filter path.",
+    "Row actions run against the wrong record because labels only say Edit or Delete.",
+    "Pagination, sorting, or refresh loses selected rows, expanded rows, focus, or scroll position.",
+    "The interface calls itself a table even though users need editable grid behavior."
+  ],
+  "relatedPatterns": [
+    "sort-controls",
+    "filter-panel",
+    "pagination",
+    "details-panel",
+    "accordion",
+    "basic-search",
+    "empty-state"
+  ],
+  "comparisons": [
+    "table-vs-sort-controls-vs-filter-panel-vs-pagination"
+  ],
+  "examples": [
+    {
+      "product": "WAI Tables Tutorial",
+      "url": "https://www.w3.org/WAI/tutorials/tables/",
+      "platform": "web",
+      "notes": "Documents semantic table structure, header and data-cell relationships, captions, scope, and complex header associations.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "USWDS Table",
+      "url": "https://designsystem.digital.gov/components/table/",
+      "platform": "web",
+      "notes": "Documents bordered, striped, sortable, responsive, and stacked table variants with sort state and responsive behavior.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Carbon Data Table",
+      "url": "https://carbondesignsystem.com/components/data-table/usage/",
+      "platform": "web",
+      "notes": "Documents table interactions including sorting, toolbar separation, selection, expansion, pagination, and row actions.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-tables-tutorial",
+      "note": "WAI table guidance supports semantic headers, data cells, captions, scope, and complex header associations."
+    },
+    {
+      "id": "mdn-html-table-element",
+      "note": "MDN table documentation supports table structure, captions, sectioning, header scope, and accessibility considerations."
+    },
+    {
+      "id": "uswds-table-component",
+      "note": "USWDS table guidance supports responsive, stacked, sortable, and stateful table behavior."
+    },
+    {
+      "id": "carbon-data-table-component",
+      "note": "Carbon data table guidance supports sorting, toolbar separation, row selection, expansion, and pagination placement."
+    },
+    {
+      "id": "maersk-table-component",
+      "note": "Maersk table guidance supports clickable column headers, sort modes, and relationships between table sorting, searching, and filtering."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "uiGuidance": [
+    "Render a table with a specific caption or heading, visible column headers, optional row headers, aligned values, consistent row actions, and enough spacing for scanability.",
+    "Show sort, filter, pagination, selection, and responsive states without breaking the visible relationship between each header and cell."
+  ],
+  "uxGuidance": [
+    "Use tables when aligned columns help users compare records, find exceptions, audit values, or triage work faster than opening each item.",
+    "Preserve row meaning, focus, selection, sort, filter, pagination, and header labels as users update or inspect the table."
+  ],
+  "uiExamples": {
+    "good": [
+      "A payment review table has the caption June vendor payments, headers Vendor, Status, Due date, Amount, and Action, right-aligned amounts, and row actions labelled by vendor.",
+      "A narrow layout stacks each payment row while repeating labels such as Status and Amount before values."
+    ],
+    "bad": [
+      "A div layout looks like columns but has no caption, table semantics, or header associations.",
+      "A mobile table shows only values like Approved, 12 Jun, and $840 without the labels that explain them."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user sorts by Amount descending, filters to Pending, moves to page 2, and the table keeps its caption, active sort, active filter, row count, and selected payment context.",
+      "A keyboard user activates the Due date header, hears the changed order, and focus remains on the header rather than jumping into the first row."
+    ],
+    "bad": [
+      "Filtering the table removes selected rows without explaining why or offering a clear-filter path.",
+      "A row Edit button says only Edit, so users cannot tell which record will open when tabbing through actions."
+    ]
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "id": "correction-feedback",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed correction feedback pattern with AI answer correction guidance, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers correction feedback, wrong answer, missing source, wrong source, harmful suggestion, outdated answer, user correction, feedback reason, selected claim, source correction, expected answer, private note, send feedback, feedback received, apply to this answer, apply to future answers, reviewer routed, training opt-out, appeal decision, feedback history, mobile feedback, claim-level correction, source-level correction, scope, consent, receipt, and privacy handling.",
+    "relatedPatternDistinction": "The entry separates correction feedback from query correction by focusing on AI output after generation rather than search-query rewrite, from inline validation by correcting AI answer quality rather than one field, from comments by routing AI correction handling rather than human discussion, from regenerate / retry by recording correction reason and outcome rather than only another answer attempt, and from editable AI output by submitting feedback about AI behavior rather than directly editing generated content.",
+    "liveDemoBehavior": "The live demo shows wrong answer, missing source, wrong source, harmful suggestion, outdated answer, user correction, feedback reason, selected claim, source correction, expected answer, private note, send feedback, feedback received, apply to this answer, apply to future answers, reviewer routed, training opt-out, appeal decision, feedback history, and mobile feedback states. Bad states cover thumbs-only, no-scope, silent-learning, prompt-confusion, lost-correction, public-leak, and no-follow-up failures.",
+    "comparisonDecisionRules": "The linked correction-feedback-vs-query-correction-vs-inline-validation-vs-comments-vs-regenerate-retry-vs-editable-ai-output comparison gives concrete rules for correction feedback, query correction, inline validation, comments, regenerate / retry, editable AI output, wrong answer, missing source, wrong source, harmful suggestion, outdated answer, selected claim, selected source, expected answer, source correction, private note, feedback reason, feedback receipt, reviewer routed, accepted correction, rejected correction, appeal decision, feedback history, training opt-out, apply to this answer, apply to future answers, search query, single field, human discussion, another answer version, generated content, thumbs-only feedback, and silent learning.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and 390px mobile checks rendered /patterns/correction-feedback/ with the live demo, exercised Wrong answer, Missing source, Wrong source, Harmful suggestion, Outdated answer, User correction, Feedback reason, Selected claim, Source correction, Expected answer, Private note, Send feedback, Feedback received, Apply to this answer, Apply to future answers, Reviewer routed, Training opt-out, Appeal decision, Feedback history, Mobile feedback, Thumbs-only, No scope, Silent learning, Prompt confusion, Lost correction, Public leak, and No follow-up states, and found no duplicate IDs or correction-feedback demo overflow. The comparison route /compare/correction-feedback-vs-query-correction-vs-inline-validation-vs-comments-vs-regenerate-retry-vs-editable-ai-output/ included correction feedback, query correction, inline validation, comments, regenerate / retry, editable AI output, wrong answer, missing source, wrong source, harmful suggestion, outdated answer, selected claim, selected source, expected answer, source correction, private note, feedback reason, feedback receipt, reviewer routed, accepted correction, rejected correction, appeal decision, feedback history, training opt-out, apply to this answer, apply to future answers, search query, single field, human discussion, another answer version, generated content, thumbs-only feedback, and silent learning terms with no duplicate IDs on desktop and mobile. The only mobile overflow observed was the existing global navigation, outside this pattern demo.",
+    "screenshots": [
+      "screenshots/patterns/correction-feedback.png"
+    ]
+  },
+  "name": "Correction feedback",
+  "aliases": [
+    "AI correction feedback",
+    "correct AI answer",
+    "report wrong answer",
+    "answer correction",
+    "model feedback",
+    "assistant feedback",
+    "claim correction",
+    "source correction",
+    "output feedback",
+    "human correction loop"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "AI output correction feedback flow with selected claim, reason, scope, consent, receipt, and review state",
+  "uiGuidance": [
+    "Render correction feedback as an AI-output control that anchors feedback to a specific answer, claim, source, recommendation, tool result, or message instead of a detached thumbs signal.",
+    "Show selected claim, feedback reason, expected correction, source correction, privacy note, scope choice, training or review consent, submission state, and follow-up status in the same flow."
+  ],
+  "uxGuidance": [
+    "Use correction feedback when users need to tell the product that an AI answer is wrong, missing evidence, harmful, outdated, wrongly sourced, irrelevant, or should not be repeated.",
+    "Separate correction capture from regeneration and manual editing: users should know whether their feedback updates this answer, future answers, reviewer queues, model improvement data, or none of those."
+  ],
+  "uiExamples": {
+    "good": [
+      "An assistant answer lets a user select a suspect claim, choose Wrong answer, add the expected answer and corrected source, opt out of training use, and see Feedback received with review routing.",
+      "A policy answer card shows Missing source and Harmful suggestion feedback choices, keeps the private note out of the shared transcript, and records reviewer outcome in feedback history."
+    ],
+    "bad": [
+      "A thumbs-down icon accepts feedback with no selected answer, reason, expected correction, privacy choice, receipt, or indication of whether anything will change.",
+      "A correction box secretly rewrites the hidden prompt, trains on private feedback without consent, and never tells the user whether the correction was reviewed."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user flags a wrong eligibility answer, attaches the correct policy source, applies the correction to the current answer only, and receives a reviewer-routed status.",
+      "A support analyst marks an AI suggestion as outdated, keeps the feedback private, opts out of training use, and later sees the correction accepted in the answer history."
+    ],
+    "bad": [
+      "A user reports that a cited source is wrong, but the feedback is stored as an undifferentiated dislike and future answers keep using the same bad source.",
+      "A user writes sensitive context in a correction note and the product exposes it in the public conversation transcript."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI products need user correction when generated output is wrong, unsafe, unsupported, stale, or mis-scoped, but vague feedback controls often lose the corrected claim, user intent, consent, privacy boundary, and follow-up status.",
+  "solution": "Provide a correction feedback flow that binds feedback to the exact AI output or claim, captures the error reason and expected correction, lets users choose scope and consent, confirms receipt, routes review when needed, and keeps feedback history visible without exposing private notes.",
+  "problemContext": [
+    "A user may need to correct a factual answer, cited source, generated recommendation, tool-derived value, safety-sensitive suggestion, outdated policy answer, tone, scope, or missing caveat.",
+    "The same feedback can mean apply a fix to this answer, avoid repeating the behavior, route to a reviewer, improve retrieval sources, update prompt instructions, improve model data, or simply record user dissatisfaction.",
+    "Feedback may contain private, sensitive, regulated, customer, patient, legal, financial, or internal business information that must not appear in shared transcripts or training data without consent.",
+    "AI corrections are valuable only when they preserve answer ID, claim span, source ID, conversation context, model response version, user reason, expected answer, and outcome.",
+    "Some corrections require human review, audit trails, appeals, retention limits, or disclosure that the current answer will not change immediately."
+  ],
+  "selectionRules": [
+    "Choose correction feedback when users need to correct AI output, source use, assumptions, recommendations, safety behavior, or answer quality after an AI response is shown.",
+    "Use query correction when the product rewrites or suggests a search query before results are returned.",
+    "Use inline validation when the product flags a single form field, input value, format, or constraint violation.",
+    "Use comments when the main task is human discussion, annotation, approval, or durable collaboration around an object rather than feeding back to an AI system.",
+    "Use regenerate / retry when users want another AI attempt or response version without necessarily supplying a correction reason.",
+    "Use editable AI output when users directly edit the generated draft itself and need change tracking or apply controls.",
+    "Use source grounding display, citation display, or confidence uncertainty display when the task is inspecting evidence or uncertainty rather than sending a correction.",
+    "Capture selected answer, selected claim, selected source, feedback reason, expected answer, corrected source, privacy note, scope, consent, and receipt before treating correction feedback as actionable.",
+    "Do not use thumbs-only, sentiment-only, star rating, or undifferentiated reaction controls as the only path for correcting materially wrong or unsafe AI output.",
+    "Do not silently train on correction text, rewrite hidden prompts, publicize private notes, or imply the current answer changed unless the user can see the corrected output."
+  ],
+  "requiredStates": [
+    "Initial AI answer state with feedback entry points attached to the answer, individual claims, citations, recommendations, or tool-derived values.",
+    "Wrong answer, missing source, wrong source, harmful suggestion, outdated answer, irrelevant answer, biased or unsafe answer, hallucinated value, and incomplete answer reasons.",
+    "Selected claim, selected source, expected answer, corrected source, private note, attachment, and reviewer-needed states.",
+    "Scope choices such as apply to this answer, apply to future answers, review only, update source, do not train on this feedback, and keep feedback private.",
+    "Submitting, feedback received, failed to submit, duplicate feedback, queued for review, accepted, rejected, partially applied, appealed, and feedback history states.",
+    "Permission, authentication, rate limit, abuse-prevention, moderation, sensitive-data warning, and retention-disclosure states.",
+    "Mobile correction sheet state that keeps the selected claim, reason, scope, consent, and receipt visible without losing the answer context."
+  ],
+  "interactionContract": [
+    "A correction feedback action preserves answer ID, response version, claim span, source ID, user reason, expected correction, submitter, timestamp, and chosen scope.",
+    "Reason choices remain specific enough to route feedback: wrong answer, missing source, wrong source, outdated answer, harmful suggestion, unsafe or biased output, irrelevant answer, and other correction.",
+    "Users can add expected answer text, corrected source, or a private note, and the UI states which of those fields may be used for review, source improvement, prompt improvement, model improvement, or current-answer repair.",
+    "Scope controls distinguish this answer, future answers, reviewer triage, source update, and training use; defaults must not hide consequential data use.",
+    "Submission creates an accessible receipt and a visible follow-up path when review or appeal is possible.",
+    "Private feedback does not appear in shared transcripts, public comments, copied output, generated summaries, or source snippets unless the user explicitly publishes it.",
+    "If a correction changes the displayed answer, the UI shows the corrected version, prior version, author or reviewer status, and what changed.",
+    "If the correction cannot change the answer, the UI says so and avoids implying immediate model learning."
+  ],
+  "implementationChecklist": [
+    "Model correction feedback with answer ID, response version, claim span, source ID, tool output ID, reason, expected answer, corrected source, private note, scope, consent, status, reviewer owner, and history fields.",
+    "Provide claim-level selection and source-level selection so users do not have to describe what the correction refers to in free text alone.",
+    "Route wrong answer, source correction, harmful suggestion, outdated answer, missing source, and sensitive feedback to different handling paths when product risk requires it.",
+    "Persist feedback receipts and outcomes so users and reviewers can see whether a correction is queued, accepted, rejected, partially applied, appealed, or closed.",
+    "Keep training consent, privacy controls, retention language, and shared-transcript behavior explicit before submission.",
+    "Prevent duplicate submissions, lost feedback, cross-answer attribution, public leakage, hidden prompt edits, and unreviewed automatic current-answer changes.",
+    "Test desktop and mobile correction capture, selected claim wrapping, long corrected source titles, private note handling, disabled submit states, failed submission recovery, review status, appeal, keyboard operation, and screen-reader status announcements."
+  ],
+  "commonMisuses": [
+    "Using a thumbs-down or smiley reaction as the only mechanism for correcting wrong AI output.",
+    "Collecting feedback without tying it to a specific answer, claim, citation, source, tool result, or response version.",
+    "Hiding whether feedback applies to the current answer, future answers, review queues, training data, retrieval sources, or prompt behavior.",
+    "Treating correction text as a new prompt or hidden instruction without showing the user that the answer scope changed.",
+    "Publishing private correction notes in a shared transcript or training on them without consent.",
+    "Confirming receipt with no durable status, reviewer outcome, appeal path, or feedback history for high-risk corrections."
+  ],
+  "critiqueQuestions": [
+    "What exact answer, claim, source, recommendation, or tool result is being corrected?",
+    "Can the user state whether the problem is wrong answer, missing source, wrong source, harmful suggestion, outdated answer, biased output, or another correction?",
+    "Does the user know whether the correction affects this answer, future answers, review only, source quality, prompt behavior, or training use?",
+    "Where does private correction text appear, and what prevents it from leaking into shared transcripts or generated output?",
+    "What receipt, status, reviewer decision, appeal path, or history can the user inspect after submission?",
+    "Would query correction, inline validation, comments, regenerate / retry, or editable AI output better match the real task?"
+  ],
+  "useWhen": [
+    "Users can identify wrong, unsupported, stale, unsafe, biased, irrelevant, or wrongly sourced AI output after it is generated.",
+    "The product can preserve correction context and route feedback to answer repair, source review, reviewer triage, product quality, or model improvement workflows.",
+    "Corrections may be sensitive enough to require consent, private notes, retention boundaries, review status, or appeals.",
+    "Users need trust that their correction was received and will not silently disappear."
+  ],
+  "avoidWhen": [
+    "The only need is a lightweight satisfaction signal that will not be used to correct AI behavior or output.",
+    "Users are editing a generated draft directly rather than reporting what the AI got wrong.",
+    "Users want another answer version and do not need to describe a correction.",
+    "The product cannot preserve answer identity, scope, consent, or privacy around the feedback.",
+    "Feedback would create unsafe expectations of immediate model learning or source correction that the system cannot honor."
+  ],
+  "variants": [
+    "Claim-level correction",
+    "Source correction",
+    "Wrong answer report",
+    "Harmful suggestion report",
+    "Outdated answer correction",
+    "Reviewer-routed correction",
+    "Private correction note",
+    "Training opt-out feedback",
+    "Current-answer correction",
+    "Future-answer feedback",
+    "Correction appeal",
+    "Mobile correction sheet"
+  ],
+  "accessibility": [
+    "Expose selected claim, selected source, reason, scope, privacy choice, submission state, receipt, review state, and outcome as text.",
+    "Do not rely on thumbs color, reaction icons, or animated confirmation alone to communicate that feedback was captured.",
+    "Make claim selection, reason choices, source correction, expected answer entry, privacy controls, Submit feedback, Cancel, View history, and Appeal keyboard reachable.",
+    "Announce status changes such as feedback submitted, failed to submit, reviewer routed, accepted, rejected, appealed, or private note kept out of transcript without moving focus unexpectedly.",
+    "Keep focus near the correction panel after errors and near the receipt after successful submission.",
+    "Ensure long AI answers, claim excerpts, source titles, expected answers, reviewer notes, and privacy disclosures wrap at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches answer-level feedback, claim-level feedback, reason options, expected answer, corrected source, private note, scope controls, training opt-out, submit, cancel, history, and appeal in order.",
+    "Enter or Space activates reason and scope controls; submitting feedback enters a pending state that prevents duplicate keyboard activation.",
+    "Escape closes a correction sheet or details popover and returns focus to the feedback control for the selected answer or claim.",
+    "After submission succeeds, focus moves to the feedback receipt or remains in the panel with the receipt programmatically announced.",
+    "After submission fails, focus remains on the correction panel and exposes the failure reason and retry path.",
+    "Keyboard users can review selected claim, corrected source, consent, receipt, and history without losing the answer context."
+  ],
+  "failureModes": [
+    "Users cannot tell what AI answer, claim, source, or version their correction refers to.",
+    "The feedback form captures only sentiment and loses the correction reason or expected answer.",
+    "Feedback silently changes hidden prompts or future behavior without scope disclosure.",
+    "Private correction text appears in shared transcripts, copied answers, or generated summaries.",
+    "Feedback is submitted with no receipt, review status, appeal path, or durable history.",
+    "A correction is treated as regeneration and overwrites the answer before the user can compare versions.",
+    "Training use is assumed from correction text without meaningful opt-out or consent.",
+    "Screen reader users hear a visual confirmation but no status message that feedback was received or routed."
+  ],
+  "relatedPatterns": [
+    "query-correction",
+    "inline-validation",
+    "comments",
+    "regenerate-retry",
+    "editable-ai-output",
+    "source-grounding-display",
+    "citation-display",
+    "confidence-uncertainty-display"
+  ],
+  "comparisons": [
+    "correction-feedback-vs-query-correction-vs-inline-validation-vs-comments-vs-regenerate-retry-vs-editable-ai-output"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Supports correction, feedback, dismissal, control, and appropriate trust in AI systems.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Google People + AI Guidebook",
+      "url": "https://pair.withgoogle.com/guidebook/",
+      "platform": "ai",
+      "notes": "Supports human-centered AI feedback, user trust, expectations, explanation, and uncertainty-aware product behavior.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "OpenAI conversation state guide",
+      "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "platform": "ai",
+      "notes": "Supports preserving conversation, message, response, and tool state needed to attach corrections to exact AI outputs.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "WCAG status messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Supports accessible receipt, failure, routed, accepted, rejected, and appealed status announcements.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user correction, feedback, control, and calibrated trust for AI behavior."
+    },
+    {
+      "id": "google-people-ai-guidebook",
+      "note": "Supports human-centered AI feedback, expectations, explanation, and trust decisions."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports preserving conversation, message, response, and tool identity for attaching correction feedback."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible feedback submission, receipt, and review status changes."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-12"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "editable-ai-output-vs-inline-edit-vs-prompt-box-vs-streaming-response-vs-citation-display-vs-source-grounding-display",
+  "title": "Editable AI output vs inline edit vs prompt box vs streaming response vs citation display vs source grounding display",
+  "summary": "Use editable AI output for generated output after creation that users revise with provenance, source mapping, citation preservation, tracked changes, review, save, copy, regenerate, and apply controls; inline edit for ordinary in-place record fields; prompt box for the request before generation; streaming response for partial generated output as it arrives; citation display for claim-level source previews; and source grounding display for whole-answer evidence coverage.",
+  "patternIds": [
+    "editable-ai-output",
+    "inline-edit",
+    "prompt-box",
+    "streaming-response",
+    "citation-display",
+    "source-grounding-display"
+  ],
+  "decisionRules": [
+    "Choose editable AI output when the object is generated output after creation and users must revise a generated draft while preserving generated-versus-user-edited status, source mapping, citation preservation, tracked changes, and review required states.",
+    "Choose inline edit when users change an in-place record field, table cell, or row value that has no AI provenance, source mapping, citation preservation, regeneration boundary, or generated baseline.",
+    "Choose prompt box when the user is composing the request before generation, attaching context, setting instructions, or resending a prompt rather than editing a generated result.",
+    "Choose streaming response when users need to monitor partial generated output, active deltas, pending citations, or stop and retry controls before the response becomes a stable editable draft.",
+    "Choose citation display when users need claim-level source preview, claim-to-source mapping, verified source detail, stale citation handling, or permission-limited source explanation.",
+    "Choose source grounding display when users need whole-answer evidence coverage, source scope, searched sources, retrieved sources, used sources, supported claims, unsupported claims, conflicting sources, and source quality warnings.",
+    "Editable AI output should expose generated draft, user-edited output, source mapping, citation preservation, unsupported edit, unsafe edit, stale source, tracked changes, partial edit, conflict edit, accept, reject, apply, save draft, copy edited, undo to generated, and regenerate actions.",
+    "Do not use editable AI output as prompt editing, ordinary inline edit, raw streaming text, citation-only preview, or a whole-answer grounding badge.",
+    "Block apply output when unsupported edits, unsafe edits, source drift, stale sources, conflict edits, or review required conditions remain unresolved.",
+    "Preserve or invalidate citations at the changed claim or selected range instead of dropping every source or carrying citations onto unsupported text."
+  ],
+  "failureModes": [
+    "The generated answer looks editable and final but does not distinguish generated draft from user-edited output.",
+    "Manual edits remove citation preservation, source mapping, or the generated baseline.",
+    "The product silently rewrites the prompt or silently regenerates the answer when users edit output.",
+    "Apply output remains available despite unsupported edit, unsafe edit, stale source, conflict edit, or review required state.",
+    "Regenerate from edit overwrites manual edits without compare, undo, version recovery, or conflict warning.",
+    "Citation display or source grounding display is used as a substitute for an editor even though users need tracked changes and final apply controls."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-word-accept-reject-tracked-changes",
+      "note": "Supports accept and reject controls for tracked changes."
+    },
+    {
+      "id": "google-docs-suggest-edits",
+      "note": "Supports proposed edit review behavior in text editing contexts."
+    },
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports the distinction between request composition and generated output editing."
+    },
+    {
+      "id": "microsoft-365-copilot-linked-citations",
+      "note": "Supports citation-aware generated writing and source link preservation."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports claim annotations and citation handling for generated output."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user correction, control, and feedback around AI behavior."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible status updates for review, save, regenerate, and apply states."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

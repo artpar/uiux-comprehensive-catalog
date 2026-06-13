@@ -1,0 +1,267 @@
+{
+  "id": "camera-capture",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed camera capture pattern with live camera media acquisition guidance, permission, unsupported, live preview, switch camera, framing guide, quality warnings, frozen capture, review, retake, crop, upload fallback, denied permission, upload progress, upload failure, saved state, cancel cleanup, sensitive capture, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers camera capture as permission-gated live media acquisition with unsupported state, permission, live preview, switch camera, framing guide, low light, blur warning, capture, review, retake, crop, upload fallback, denied permission, upload pending, upload failed, saved, cancel cleanup, and sensitive capture states.",
+    "relatedPatternDistinction": "Separated from file upload as existing-file selection, permission request as the access rationale, sensitive-data reveal as post-capture masking or retention, full-screen takeover as temporary focused navigation, drag-and-drop upload as existing-file transfer, and voice command as spoken control.",
+    "liveDemoBehavior": "Good demo exercises unsupported, permission, live preview, switch camera, framing guide, low light, blur warning, capture, review, retake, crop, upload fallback, denied permission, upload pending, upload failed, saved, cancel cleanup, and sensitive capture states. Bad demo exercises auto start, no indicator, instant upload, no fallback, stream leak, wrong camera, no review, and stored after cancel failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes camera capture from file upload, permission request, sensitive-data reveal, full-screen takeover, and drag-and-drop upload by live preview, camera permission, selected camera, media tracks, constraints, privacy indicator, framing guide, shutter feedback, frozen preview, review, retake, crop, upload fallback, cancellation, stream cleanup, existing files, access rationale, masking, focused mode, and pointer-based transfer.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 271 complete patterns, 1 excluded in-progress pattern, 26 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/camera-capture/ with required terms present, no duplicate IDs, and no page overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/camera-capture-vs-file-upload-vs-permission-request-vs-sensitive-data-reveal-vs-full-screen-takeover-vs-drag-and-drop-upload/ was checked at desktop and compact widths with concrete decision terms present, no duplicate IDs, and no page overflow.",
+    "screenshots": [
+      "screenshots/patterns/camera-capture.png"
+    ]
+  },
+  "name": "Camera capture",
+  "aliases": [
+    "photo capture",
+    "video capture",
+    "camera input",
+    "scan with camera",
+    "capture photo",
+    "live camera capture"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Permission-gated live camera preview for creating and reviewing new photo or video media",
+  "uiGuidance": [
+    "Render camera capture as a deliberate media-acquisition surface with purpose text, camera permission state, selected camera, live preview, privacy indicator, framing guide, capture button, shutter feedback, review preview, retake, crop or rotate, submit, cancel, and upload fallback.",
+    "Show what will happen to the captured image or video before access is requested: target object, required quality, storage or retention, whether the stream is active, and whether users can complete the task without camera access."
+  ],
+  "uxGuidance": [
+    "Use camera capture when users need to create new visual evidence, scan a document, attach a receipt, capture damage, verify an object, or record a short video from a device camera.",
+    "Design the lifecycle from unsupported state through permission, device choice, preview, framing guidance, capture, frozen result, quality repair, retake, review, upload or attach, cancellation, and stream cleanup."
+  ],
+  "uiExamples": {
+    "good": [
+      "A receipt scanner asks users to Scan receipt, explains camera use, shows a live preview with document edges, captures a frozen preview, then offers Retake, Crop, Upload file, and Attach to claim.",
+      "A damage report flow labels the rear camera, shows a privacy indicator and steady frame guide, warns when the image is blurry, and keeps Submit disabled until a reviewable photo is captured.",
+      "A profile-photo flow offers Take photo or Upload image, mirrors the user-facing camera preview, lets users crop the captured photo, and clears the stream after cancel."
+    ],
+    "bad": [
+      "The page opens the camera on load, hides the active-stream indicator, and starts recording before users choose a task.",
+      "The capture button uploads immediately with no frozen preview, retake, crop, or file fallback.",
+      "A denied camera prompt leaves the workflow blank even though manual entry or upload would satisfy the requirement."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user starts Scan receipt, grants camera access, sees Align the whole receipt, captures a photo, reviews blur feedback, retakes, then attaches the corrected image.",
+      "A user denies camera access in a clinic and completes the same identity-document step by uploading a saved image.",
+      "A user switches from front to rear camera for serial-number capture, cancels before submit, and the app stops the stream and clears the unsaved image."
+    ],
+    "bad": [
+      "A user closes a capture sheet but the camera light stays on and the preview remains active in the background.",
+      "A user captures a child ID photo and the app leaves it visible in recent previews after cancel.",
+      "A user takes a blurry insurance photo and learns it failed only after the whole claim has been submitted."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Camera capture can reduce manual entry and prove visual context, but camera access is permission-gated, privacy-sensitive, hardware-dependent, and failure-prone; without explicit preview, quality review, fallback, and stream cleanup, users can capture the wrong media, expose private surroundings, or get blocked by permission denial.",
+  "solution": "Provide a camera capture flow with explicit user invocation, contextual permission rationale, live preview, active-camera indicator, framing and quality guidance, capture feedback, review before upload, retake and edit controls, file or manual fallback, cancel recovery, and guaranteed media-track cleanup.",
+  "problemContext": [
+    "The task asks users to create new images or video for receipts, documents, identity evidence, damage reports, profile photos, QR-like visual data, support diagnostics, deposits, or field work.",
+    "Users may be on mobile, desktop webcam, tablet, kiosk, assistive technology, low light, poor network, denied permissions, unsupported browsers, shared devices, or privacy-sensitive locations.",
+    "The product may need still images, video snippets, facing-mode choice, resolution constraints, crop, rotation, blur or glare detection, metadata handling, upload progress, redaction, or retention notice.",
+    "Camera capture is often adjacent to file upload, permission request, sensitive-data reveal, full-screen takeover, drag-and-drop upload, and future QR or barcode scanning flows."
+  ],
+  "selectionRules": [
+    "Choose camera capture when the product must create new camera media and users need live preview, framing, capture, review, and retake behavior.",
+    "Use file upload when existing local files are acceptable and live camera access, active media stream, and shutter feedback are not the main interaction.",
+    "Use permission request for the standalone access rationale and timing; camera capture includes the permission ask only as one state inside the capture lifecycle.",
+    "Use sensitive-data reveal when captured content needs masking, timed reveal, redaction, or audit after acquisition.",
+    "Use full-screen takeover when the capture task needs an immersive temporary mode with its own navigation and exit contract.",
+    "Use drag-and-drop upload when users move existing files into a drop zone rather than create a new photo or video.",
+    "Prefer explicit user action before starting the stream; never activate the camera only because a page, route, carousel, or modal loaded.",
+    "Offer upload, manual entry, skip, or assisted alternatives before or immediately after permission denial.",
+    "Capture is not submission: freeze the frame, show what was captured, and require review for consequential workflows.",
+    "Stop tracks and clear unsaved previews on cancel, close, submit, route change, timeout, or permission revocation."
+  ],
+  "requiredStates": [
+    "Unsupported browser or insecure-context state with upload or manual alternative.",
+    "Camera permission not requested, granted, denied, and revoked states.",
+    "Start capture state with purpose, target object, and privacy explanation.",
+    "Device selection or front/rear camera switch state when multiple cameras are available.",
+    "Live preview state with active camera indicator, framing guide, and stop control.",
+    "Low light, glare, blur, occlusion, wrong orientation, or missing-subject quality warning state.",
+    "Captured still or recorded clip state with frozen preview.",
+    "Review state with retake, crop, rotate, replace, submit, and cancel controls.",
+    "Upload fallback, file fallback, manual entry, or skip state when camera fails or is denied.",
+    "Upload pending, upload failed, retry, saved, attached, or submitted state.",
+    "Cancel or dirty-exit state that explains whether captured media will be discarded.",
+    "Stream cleanup state after cancel, submit, permission loss, or navigation.",
+    "Sensitive capture state for IDs, faces, addresses, payment cards, private spaces, minors, or location-revealing images."
+  ],
+  "interactionContract": [
+    "The camera stream starts only after a deliberate user action and contextual permission rationale.",
+    "Users can see whether camera access is inactive, requesting, active, paused, denied, unsupported, or stopped.",
+    "The live preview names the selected camera and shows framing guidance that matches the task's quality requirement.",
+    "Capture freezes the result and moves to review; upload or submit does not happen from the shutter press alone unless the task is explicitly low-risk and reversible.",
+    "Retake, replace with file, cancel, and submit controls are reachable by keyboard and touch.",
+    "Camera denial, unavailable device, unsatisfied constraints, upload failure, and network loss preserve the task and expose alternatives.",
+    "Closing, canceling, leaving the route, submitting, or losing permission stops the media tracks and removes unsaved sensitive previews.",
+    "Captured media metadata, storage, retention, and review boundaries are disclosed when the content is sensitive or externally submitted."
+  ],
+  "implementationChecklist": [
+    "Define capture purpose, target object, allowed media type, required resolution, facing mode, quality checks, fallback path, retention rule, and downstream validation before requesting camera access.",
+    "Use a secure context and request media only from an explicit capture action; handle permission denied, not found, not readable, overconstrained, and aborted states.",
+    "Show active-stream status, selected camera, switch-camera control, framing overlay, quality feedback, and stop or cancel control while preview is live.",
+    "Freeze the captured frame or clip for review and keep capture state separate from upload, submitted record, file fallback, and sensitive reveal state.",
+    "Provide retake, crop, rotate, replace, upload file, manual entry, submit, cancel, retry upload, and discard-review paths where relevant.",
+    "Stop all media tracks on cancel, close, successful submit, route change, component unmount, permission revocation, and timeout.",
+    "Avoid persisting raw images, EXIF, location metadata, faces, IDs, or private-space previews unless users understand the purpose and retention.",
+    "Test mobile front and rear cameras, desktop webcams, denied permission, no camera, camera in use, low light, high zoom, keyboard, screen reader, file fallback, slow upload, and privacy-sensitive cancellation."
+  ],
+  "commonMisuses": [
+    "Opening the camera automatically on page load or hover.",
+    "Treating the shutter button as final upload for consequential tasks.",
+    "Hiding the live preview, active camera state, stop control, or selected camera.",
+    "Blocking the workflow when camera permission is denied even though upload or manual entry would work.",
+    "Leaving the camera stream active after close, cancel, navigation, or submit.",
+    "Using camera capture when a normal file upload or text field would be simpler and less invasive.",
+    "Saving sensitive captured media or metadata after users cancel.",
+    "Showing quality errors only after final submission instead of during preview or review."
+  ],
+  "critiqueQuestions": [
+    "What explicit user action starts the camera, and what purpose text appears before permission?",
+    "What can users do when camera permission is denied, the camera is already in use, or the browser does not support capture?",
+    "Does the preview show active camera state, selected camera, framing guide, and quality guidance?",
+    "Is the shutter action separate from final upload or submission, and can users retake or replace the capture?",
+    "When are media tracks stopped, and how is unsaved sensitive media cleared?",
+    "Which metadata, images, frames, or thumbnails are stored, for how long, and who can access them?",
+    "Is this really camera capture, or would file upload, permission request, full-screen takeover, or sensitive-data reveal own the main problem?"
+  ],
+  "useWhen": [
+    "Users need to create new photo or video media inside the task.",
+    "The product can show live preview, quality guidance, capture review, and fallback paths.",
+    "The capture output affects evidence, verification, documentation, support, profile identity, or visual record quality."
+  ],
+  "avoidWhen": [
+    "Existing file upload, text entry, barcode input, or manual confirmation is sufficient.",
+    "The task is privacy-sensitive and cannot provide clear purpose, retention, fallback, and cancellation behavior.",
+    "The product cannot safely handle permission denial, unavailable camera, stream cleanup, or review before submit.",
+    "The camera would be used only for novelty or to force mobile-only behavior."
+  ],
+  "variants": [
+    "Receipt photo capture",
+    "Document camera capture",
+    "Profile photo capture",
+    "Damage evidence capture",
+    "Short video capture",
+    "Front camera capture",
+    "Rear camera capture",
+    "Camera capture with upload fallback",
+    "Camera capture with crop review",
+    "Full-screen camera capture"
+  ],
+  "accessibility": [
+    "Provide file upload, manual entry, or assisted alternatives for users who cannot use a camera.",
+    "Label capture, retake, switch camera, stop, upload fallback, crop, rotate, cancel, and submit controls programmatically and visibly.",
+    "Do not rely on visual framing alone; provide text guidance and error feedback for blur, glare, missing subject, or wrong orientation.",
+    "Keep keyboard focus inside modal or full-screen capture only when that surface owns a clear exit and return path.",
+    "Announce permission, live preview, capture success, quality warnings, upload progress, failure, and saved state through text and status messaging.",
+    "Avoid motion-only shutter feedback and color-only quality indicators.",
+    "Respect zoom, screen readers, switch control, reduced motion, mobile orientation, and one-handed operation.",
+    "Make camera denial and unsupported states completeable without requiring users to change browser settings."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches start camera, permission explanation, upload fallback, switch camera, capture, retake, crop, rotate, cancel, submit, and retry controls.",
+    "Enter or Space activates visible controls and never starts capture from a hidden listener.",
+    "Escape stops preview or opens discard review when unsaved media exists.",
+    "Arrow keys may adjust crop or framing handles only when the crop tool is active and labeled.",
+    "After capture, focus moves to the review heading or first repair control rather than the live preview.",
+    "After retake, focus returns to the capture button or live preview instructions.",
+    "After submit or cancel, focus returns to the invoking control or next logical task step.",
+    "File fallback remains keyboard-operable when camera permission is denied."
+  ],
+  "failureModes": [
+    "Camera activates without an explicit user action.",
+    "Permission denial leaves a blank panel with no fallback.",
+    "The active stream continues after users close the capture UI.",
+    "Users cannot tell whether the front or rear camera is selected.",
+    "The shutter uploads a blurry, cropped, or wrong-subject photo without review.",
+    "Retake discards the previous capture without warning when it has unsaved edits.",
+    "Captured private media is stored after cancel or leaked through thumbnails.",
+    "Full-screen camera mode traps focus or browser back without a discard review."
+  ],
+  "relatedPatterns": [
+    "file-upload",
+    "permission-request",
+    "sensitive-data-reveal",
+    "full-screen-takeover",
+    "drag-and-drop-upload",
+    "voice-command"
+  ],
+  "comparisons": [
+    "camera-capture-vs-file-upload-vs-permission-request-vs-sensitive-data-reveal-vs-full-screen-takeover-vs-drag-and-drop-upload"
+  ],
+  "examples": [
+    {
+      "product": "MDN MediaDevices getUserMedia",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia",
+      "platform": "web",
+      "notes": "Documents permission-gated access to media input streams and related error states.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN HTML capture attribute",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/capture",
+      "platform": "web",
+      "notes": "Documents camera capture hints for file inputs and limited browser availability.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C Media Capture and Streams",
+      "url": "https://www.w3.org/TR/mediacapture-streams/",
+      "platform": "web",
+      "notes": "Documents media streams, tracks, constraints, and camera privacy indicators.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN Media Capture constraints",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Constraints",
+      "platform": "web",
+      "notes": "Documents media constraints, capabilities, settings, facing mode, and resolution behavior.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-mediadevices-getusermedia",
+      "note": "Supports permission-gated media stream capture and camera access errors."
+    },
+    {
+      "id": "mdn-html-capture-attribute",
+      "note": "Supports file input capture hints for newly captured camera media."
+    },
+    {
+      "id": "w3c-mediacapture-streams",
+      "note": "Supports media streams, privacy indicators, media tracks, and constraints."
+    },
+    {
+      "id": "mdn-media-capture-constraints",
+      "note": "Supports facing mode, resolution constraints, camera capabilities, and settings."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports permission-aware camera access and revocation states."
+    },
+    {
+      "id": "mdn-html-file-input",
+      "note": "Supports upload fallback, accept filtering, selected files, and capture hints."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

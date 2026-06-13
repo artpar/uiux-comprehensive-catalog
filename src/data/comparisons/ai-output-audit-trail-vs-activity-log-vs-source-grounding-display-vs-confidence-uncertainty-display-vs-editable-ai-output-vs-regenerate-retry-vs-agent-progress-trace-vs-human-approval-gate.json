@@ -1,0 +1,58 @@
+{
+  "id": "ai-output-audit-trail-vs-activity-log-vs-source-grounding-display-vs-confidence-uncertainty-display-vs-editable-ai-output-vs-regenerate-retry-vs-agent-progress-trace-vs-human-approval-gate",
+  "title": "AI output audit trail vs activity log vs source grounding display vs confidence uncertainty display vs editable AI output vs regenerate retry vs agent progress trace vs human approval gate",
+  "summary": "Use AI output audit trail for durable generated-output lineage across prompt snapshot, response snapshot, model version, source snapshot, tool calls, safety events, user actions, versions, approvals, downstream use, retention, and redaction; activity log for broad event search; source grounding display for current answer evidence; confidence uncertainty display for reliability before action; editable AI output for revising generated text; regenerate retry for producing another answer version; agent progress trace for live run monitoring; and human approval gate for pausing execution.",
+  "patternIds": [
+    "ai-output-audit-trail",
+    "activity-log",
+    "source-grounding-display",
+    "confidence-uncertainty-display",
+    "editable-ai-output",
+    "regenerate-retry",
+    "agent-progress-trace",
+    "human-approval-gate"
+  ],
+  "decisionRules": [
+    "Choose AI output audit trail when users need durable generated-output lineage and durable proof of prompt snapshot, response snapshot, response ID, model version, source snapshot, tool call record, safety event, confidence at time, user viewed, copied output, edited output, applied output, approved output, rejected output, regenerated output, version chain, export evidence, retention window, redacted content, permission-limited view, and downstream object.",
+    "Choose activity log when users need broad event search across user, admin, service, system, or security events across many objects and do not need full generated-output lineage.",
+    "Choose source grounding display when users need current answer evidence coverage, source scope, retrieved sources, used evidence, unsupported claims, stale sources, or permission-limited source states before relying on one answer.",
+    "Choose confidence uncertainty display when the user needs reliability before action, threshold, low confidence, insufficient evidence, conflicting signals, calibration, or review-required context before acting on one output.",
+    "Choose editable AI output when users need revising generated text through edit, accept, reject, save, undo, or apply interactions while preserving citations and source mapping.",
+    "Choose regenerate retry when users need another answer version, same-prompt retry, partial continuation, failed source retry, failed tool retry, comparison, or restore previous answer.",
+    "Choose agent progress trace when users need live run monitoring with live multi-step execution status, run ID, plan version, active tool, queued step, retry attempt, blocker, approval wait, cancellation, final outcome, or audit handoff.",
+    "Choose human approval gate when the AI has prepared a high-impact action and execution must pause for pausing execution, proposed action review, payload snapshot, eligible approver, approve, reject, edit, cancel, timeout, bypass, or failed resume.",
+    "An AI output audit trail should preserve prompt-response pair content or metadata, as-of source context, tool inputs and outputs, model transparency details, actor, thread, message IDs, agent session ID, applied object, retention, legal hold, redaction, and export state where policy permits.",
+    "Do not substitute a chat transcript, raw prompts, current citation list, confidence score, live progress trace, approval dialog, or broad audit log for AI output audit trail when reviewers must prove which generated output was used later."
+  ],
+  "failureModes": [
+    "The trail records only that an action occurred and not the AI output that influenced it.",
+    "Prompt and response content are available to unauthorized viewers instead of redacted or permission-limited.",
+    "Source links resolve to current documents rather than source snapshots from generation time.",
+    "Regenerated or edited answers overwrite the version that was copied, approved, or applied.",
+    "The audit export differs from the visible filter, timezone, retention, or redaction level.",
+    "Agent actions are logged without an agent session ID, prompt-response context, or downstream object linkage."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-purview-copilot-ai-audit-logs",
+      "note": "Supports AI interaction audit records, accessed resources, user, time, location, and retention."
+    },
+    {
+      "id": "microsoft-copilot-interaction-schema",
+      "note": "Supports record ID, prompt and response message IDs, thread ID, app host, contexts, and accessed resources."
+    },
+    {
+      "id": "microsoft-security-copilot-audit-log",
+      "note": "Supports prompt-response pairs, activity metadata, SIEM investigation, permissions, and retention."
+    },
+    {
+      "id": "github-copilot-agentic-audit-log-events",
+      "note": "Supports agent session linkage, action, actor_is_agent, and user fields."
+    },
+    {
+      "id": "openai-admin-audit-logs-api",
+      "note": "Supports administrative audit-log retrieval in governance workflows."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

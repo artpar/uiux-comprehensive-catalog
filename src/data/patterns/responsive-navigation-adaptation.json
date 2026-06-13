@@ -1,0 +1,269 @@
+{
+  "id": "responsive-navigation-adaptation",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed responsive navigation adaptation pattern for preserving one navigation model across compact, medium, expanded, split-screen, landscape, keyboard, safe-area, dense-destination, drawer, rail, and side-navigation states, with current-state continuity, overflow ownership, focus recovery, related-pattern distinctions, comparison rules, duplicate audit coverage, browser spot-checks, unique live behavior, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance is specific to responsive navigation adaptation: compact bottom bar, medium navigation rail, expanded side navigation, modal or standard drawer, header overflow, destination priority, breakpoint and container-query rules, safe-area and keyboard insets, selected-route continuity, overflow ownership, label consistency, focus recovery, and state preservation through resize.",
+    "relatedPatternDistinction": "Distinguishes responsive navigation adaptation from global navigation as destination scope ownership, bottom navigation as compact mobile destination surface, navigation drawer as temporary or permanent overflow surface, side navigation as persistent local hierarchy, header as current-view title and actions, and utility navigation as account/help/search tooling outside the destination model.",
+    "liveDemoBehavior": "Unique demo covers 17 good states (compact, medium rail, expanded side, dense overflow, More drawer, route preserved, filter preserved, draft preserved, badge preserved, keyboard inset, safe area, split screen, landscape, drawer resize, focus recovery, long labels, utility separate) and 7 bad states (missing destination, renamed labels, duplicate surfaces, reset on resize, hidden focus, icon-only mystery, action in nav).",
+    "comparisonDecisionRules": "Comparison rules choose responsive navigation adaptation when one destination model must move among bottom bar, navigation rail, drawer, side navigation, header overflow, and labelled More surfaces while preserving labels, selected state, route, focus, safe-area behavior, destination count overflow, and local state.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 276 complete patterns, 1 stub pattern, 21 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Rendered /patterns/responsive-navigation-adaptation/ and /compare/responsive-navigation-adaptation-vs-global-navigation-vs-bottom-navigation-vs-navigation-drawer-vs-side-navigation-vs-header/ on 2026-06-13. Desktop and compact checks found required pattern/comparison terms, no duplicate ids, and no page-level horizontal overflow; all 24 responsive navigation demo controls were clicked successfully. screenshots/patterns/responsive-navigation-adaptation.png captures the completed pattern.",
+    "screenshots": [
+      "screenshots/patterns/responsive-navigation-adaptation.png"
+    ]
+  },
+  "name": "Responsive navigation adaptation",
+  "aliases": [
+    "adaptive navigation",
+    "responsive nav",
+    "navigation breakpoint",
+    "mobile to desktop navigation",
+    "bottom bar to rail",
+    "navigation rail adaptation",
+    "drawer breakpoint",
+    "responsive app shell"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Navigation model that changes presentation across viewport, posture, and destination-count constraints",
+  "uiGuidance": [
+    "Render the same destination model in breakpoint-appropriate surfaces such as compact bottom navigation, medium navigation rail, modal or standard drawer, expanded side navigation, or header overflow without changing destination labels, selected state, or hierarchy.",
+    "Make adaptation rules visible in the interface: preserve current destination, expose overflow with a labelled control, keep safe-area and keyboard insets clear, and avoid duplicating the same primary destinations in competing navigation surfaces."
+  ],
+  "uxGuidance": [
+    "Use responsive navigation adaptation when users continue the same task across phone, tablet, desktop, split screen, rotation, or resized windows and need orientation to survive layout changes.",
+    "Treat resize, orientation change, fold, keyboard appearance, and destination-count overflow as state transitions that must preserve route, focus, filters, drafts, badges, and open navigation recovery."
+  ],
+  "uiExamples": {
+    "good": [
+      "A five-destination app shows a labelled bottom bar on phone, a rail with labels on tablet, and persistent side navigation on desktop while Reports remains selected in every layout.",
+      "A seventh destination moves into a labelled More drawer on compact width and returns to the side list on expanded width with the same name and badge.",
+      "When the software keyboard opens, the bottom navigation respects the safe area and does not cover the focused search field."
+    ],
+    "bad": [
+      "The phone layout calls a destination Work, the tablet rail calls it Projects, and the desktop sidebar calls it Spaces.",
+      "A breakpoint hides Settings entirely instead of placing it in overflow or a drawer.",
+      "The desktop layout shows both a side nav and a drawer opener containing the same primary destinations."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user filters Reports on mobile, rotates to landscape, and the selected Reports route and filters remain intact in the rail layout.",
+      "A keyboard user opens the compact drawer, resizes to desktop, and focus moves to the equivalent side-navigation item instead of staying in a hidden panel.",
+      "A split-screen tablet user sees navigation collapse to a rail without losing badges, selected state, or access to secondary destinations."
+    ],
+    "bad": [
+      "Resizing from phone to desktop resets the current destination to Home and clears a draft.",
+      "Opening the mobile menu, then rotating the device, leaves focus trapped in an offscreen drawer.",
+      "The compact layout replaces labels with icons only, so users cannot predict which destination moved where."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Navigation often changes shape across phone, tablet, desktop, split screen, rotation, keyboard, or foldable states, and users lose orientation when destinations disappear, labels change, current state resets, or competing navigation surfaces appear at breakpoints.",
+  "solution": "Define responsive navigation adaptation rules that keep the same destination model and current state while moving destinations among bottom navigation, rail, drawer, side navigation, header overflow, or labelled More surfaces according to width, destination count, hierarchy, and interaction constraints.",
+  "problemContext": [
+    "A product supports compact phones, tablets, desktop browsers, resizable windows, split-screen modes, foldable postures, or embedded webviews.",
+    "The same destination set may need bottom navigation, rail, drawer, side navigation, or top overflow depending on space and destination count.",
+    "Users may be mid-task with filters, drafts, scroll position, selected objects, badges, an open drawer, or keyboard focus when the layout changes.",
+    "Responsive navigation adaptation sits near global navigation, bottom navigation, navigation drawer, side navigation, header, tabs, breadcrumbs, utility navigation, and safe-area handling."
+  ],
+  "selectionRules": [
+    "Choose responsive navigation adaptation when the navigation surface itself must change across viewport, posture, orientation, or destination-count constraints.",
+    "Keep destination identities, labels, icon meanings, badges, order, and selected state consistent across adapted surfaces.",
+    "Use bottom navigation for three to five compact primary destinations, rail or side navigation for medium and expanded persistent access, and drawer or labelled overflow for secondary or too-many destinations.",
+    "Define what happens when a drawer is open, focus is inside navigation, the keyboard appears, or a user resizes while an unsaved task is in progress.",
+    "Use global navigation, side navigation, bottom navigation, navigation drawer, or header patterns directly when the layout does not need to adapt across surfaces.",
+    "Do not hide destinations, rename labels, reset state, create duplicate primary nav surfaces, or move current-view actions into destination navigation at breakpoints."
+  ],
+  "requiredStates": [
+    "Compact width with bottom navigation or labelled compact menu.",
+    "Medium width with navigation rail, condensed side surface, or drawer-triggered navigation.",
+    "Expanded width with persistent side navigation or global navigation plus local navigation.",
+    "Destination count overflow state where secondary destinations move into a labelled More or drawer surface.",
+    "Current destination preserved across resize, rotation, split-screen, and back/forward navigation.",
+    "Open drawer or menu state that adapts safely when the viewport changes.",
+    "Keyboard, safe-area, system gesture, and bottom inset state on compact mobile.",
+    "Badge, unread, filter, scroll, draft, and nested route preservation state.",
+    "Focus recovery state when an active control moves, hides, or changes container.",
+    "Failure state for unsupported layout, missing destination, or layout measurement delay."
+  ],
+  "interactionContract": [
+    "The adapted surface changes presentation, not the user's destination model.",
+    "A selected destination remains selected and reachable after every breakpoint transition.",
+    "Labels, accessible names, badges, and order stay stable unless a documented overflow rule moves lower-priority destinations.",
+    "Opening, closing, resizing, rotating, and keyboard appearance do not trap focus in hidden navigation.",
+    "If a destination moves into overflow, the overflow control is labelled, reachable, and announces where the destination went.",
+    "Navigation adaptation preserves local route state, filters, drafts, scroll position, and unsaved work unless a real route change requires warning or save."
+  ],
+  "implementationChecklist": [
+    "Inventory destinations, hierarchy, priority, badge needs, frequency, and action-versus-destination ownership before choosing responsive surfaces.",
+    "Map compact, medium, expanded, landscape, split-screen, keyboard-open, and dense-destination states to concrete surfaces.",
+    "Use container or viewport breakpoints tied to available navigation space, not arbitrary device names.",
+    "Keep labels and accessible names consistent across bottom bar, rail, drawer, side nav, and overflow variants.",
+    "Preserve selected destination, nested route, filters, drafts, scroll, and badge state through layout transitions.",
+    "Move focus to the equivalent adapted control or main heading when a focused navigation control disappears.",
+    "Test safe areas, system gestures, software keyboard, high zoom, long localized labels, and screen-reader navigation at every breakpoint.",
+    "Avoid rendering duplicate primary destination sets unless one is clearly an overflow or temporary disclosure surface."
+  ],
+  "commonMisuses": [
+    "Treating responsive navigation as separate mobile and desktop information architectures.",
+    "Changing destination labels or order across breakpoints.",
+    "Removing low-priority destinations instead of putting them in overflow or a drawer.",
+    "Resetting the selected destination or local state on resize.",
+    "Duplicating primary destinations in bottom navigation, a drawer, and a side nav at the same width.",
+    "Using icon-only compact navigation for unfamiliar destinations.",
+    "Letting safe areas, bottom sheets, or keyboards cover navigation.",
+    "Leaving focus in a hidden drawer after adaptation."
+  ],
+  "critiqueQuestions": [
+    "What is the single destination model that all responsive surfaces represent?",
+    "Which destinations stay visible at compact width, and where do secondary destinations go?",
+    "How do current state, labels, badges, route, filters, draft state, and focus survive a breakpoint transition?",
+    "Does any breakpoint duplicate or remove destinations rather than adapting them?",
+    "What happens when the drawer is open or focus is inside navigation during rotation or resize?",
+    "Is this really responsive navigation adaptation, or is the problem owned by global navigation, bottom navigation, navigation drawer, side navigation, or header?"
+  ],
+  "useWhen": [
+    "A product supports multiple viewport widths, device classes, orientations, split-screen sizes, or foldable postures.",
+    "Users may continue the same task while navigation changes from bottom bar to rail, drawer, side navigation, or header overflow.",
+    "Destination count or hierarchy exceeds what one navigation surface can expose at every width."
+  ],
+  "avoidWhen": [
+    "The product has one stable navigation surface and does not change across supported sizes.",
+    "The problem is simply choosing global navigation, bottom navigation, side navigation, drawer, tabs, or header actions for one layout.",
+    "Different device classes intentionally have different products, permissions, or information architectures.",
+    "The layout change is only content reflow and does not affect navigation ownership, state, or reachability."
+  ],
+  "variants": [
+    "Bottom navigation to navigation rail",
+    "Navigation rail to side navigation",
+    "Modal drawer to permanent drawer",
+    "Header overflow to drawer",
+    "Compact More destination",
+    "Tablet split-view navigation",
+    "Foldable posture navigation",
+    "Keyboard-aware compact navigation",
+    "Container-query app shell"
+  ],
+  "accessibility": [
+    "Keep accessible names and current-page semantics consistent across adapted surfaces.",
+    "Do not rely on icons alone when labels disappear; provide visible labels where meanings are not universal.",
+    "Ensure focus does not remain inside hidden navigation after breakpoint changes.",
+    "Expose expanded state on drawers, More menus, and overflow controls.",
+    "Respect logical focus order after visual reordering and do not use CSS-only reorder that contradicts DOM order.",
+    "Maintain touch target size, safe-area spacing, contrast, and text scaling at compact widths.",
+    "Announce destination moves or preserve focus on an equivalent control when possible.",
+    "Test screen reader landmarks so primary, local, utility, and overflow navigation are not duplicated or ambiguously labelled."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the active navigation surface, visible destinations, overflow trigger, and then main content in the same logical order at every breakpoint.",
+    "Enter activates destination links; Enter or Space opens drawer, rail overflow, or More controls.",
+    "Escape closes compact drawers or overflow menus and returns focus to the triggering control or equivalent adapted control.",
+    "When a focused control moves during resize, focus lands on the corresponding destination in the new surface or on the main heading.",
+    "Keyboard users can reach destinations that move into overflow without traversing duplicate hidden navigation.",
+    "Back/forward navigation updates selected state in every adapted surface."
+  ],
+  "failureModes": [
+    "The adapted navigation exposes different information architecture on phone and desktop.",
+    "Current destination is lost or hidden at a breakpoint.",
+    "Destination labels, icons, or order change without a user-understandable rule.",
+    "Overflow destinations are unreachable by keyboard or screen reader.",
+    "Resize closes a drawer but leaves focus offscreen.",
+    "Bottom navigation is covered by safe areas, keyboards, snackbars, or system gestures.",
+    "The same primary links appear in multiple surfaces and create conflicting selected states.",
+    "Navigation adaptation clears route, filter, draft, scroll, or badge state."
+  ],
+  "relatedPatterns": [
+    "global-navigation",
+    "bottom-navigation",
+    "navigation-drawer",
+    "side-navigation",
+    "header",
+    "utility-navigation"
+  ],
+  "comparisons": [
+    "responsive-navigation-adaptation-vs-global-navigation-vs-bottom-navigation-vs-navigation-drawer-vs-side-navigation-vs-header"
+  ],
+  "examples": [
+    {
+      "product": "Android Developers Responsive navigation",
+      "url": "https://developer.android.com/develop/ui/views/layout/build-responsive-navigation",
+      "platform": "mobile",
+      "notes": "Documents adapting app navigation among bottom navigation, navigation rail, and drawers based on window size and destination count.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Android Developers Layouts and navigation patterns",
+      "url": "https://developer.android.com/design/ui/mobile/guides/layout-and-content/layout-and-nav-patterns",
+      "platform": "mobile",
+      "notes": "Documents navigation surfaces for mobile layouts and responsive navigation decisions.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Material Design Responsive layout grid",
+      "url": "https://m2.material.io/design/layout/responsive-layout-grid.html",
+      "platform": "web",
+      "notes": "Documents breakpoints, margins, gutters, and layout-grid behavior used to drive responsive structure.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Material Design Bottom navigation",
+      "url": "https://m2.material.io/design/components/bottom-navigation.html/",
+      "platform": "mobile",
+      "notes": "Supports compact primary destination count, labels, active state, and adaptation pressure.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Material Design Navigation drawer",
+      "url": "https://m2.material.io/components/navigation-drawer",
+      "platform": "mobile",
+      "notes": "Supports modal, dismissible, and permanent drawer variants used by responsive navigation adaptation.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "USWDS Side navigation",
+      "url": "https://designsystem.digital.gov/components/side-navigation/",
+      "platform": "web",
+      "notes": "Supports persistent side navigation and current-page state as an expanded-width contrast surface.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "android-responsive-navigation",
+      "note": "Supports responsive choice among bottom navigation, navigation rail, and drawer according to width and destination count."
+    },
+    {
+      "id": "android-navigation-ui",
+      "note": "Supports the range of mobile navigation surfaces and responsive navigation choices."
+    },
+    {
+      "id": "material-responsive-layout-grid",
+      "note": "Supports breakpoint and grid reasoning for responsive layout adaptation."
+    },
+    {
+      "id": "material-bottom-navigation",
+      "note": "Supports compact bottom navigation constraints for destination count and selected state."
+    },
+    {
+      "id": "material-navigation-drawer",
+      "note": "Supports modal, dismissible, and permanent drawer behavior used across adaptive layouts."
+    },
+    {
+      "id": "uswds-side-navigation",
+      "note": "Supports persistent side navigation and current page indication for expanded layouts."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

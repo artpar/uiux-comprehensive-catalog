@@ -1,0 +1,72 @@
+{
+  "id": "booking-vs-scheduling-vs-checkout-vs-date-picker",
+  "title": "Booking vs scheduling vs checkout vs date picker",
+  "summary": "Use booking when a customer reserves an offered slot, service, staff member, room, seat, or appointment; scheduling when an organizer coordinates calendars and attendees; checkout when the primary commitment is a purchase; and date/time pickers only for field-level selection.",
+  "patternIds": [
+    "booking",
+    "scheduling",
+    "checkout",
+    "date-picker",
+    "time-picker",
+    "date-range-picker",
+    "payment-collection",
+    "confirmation-page",
+    "conflict-state"
+  ],
+  "decisionRules": [
+    "Choose booking when the primary job is selecting an available service, staff member, resource, class, appointment type, room, seat, or inventory slot from provider-defined availability.",
+    "Choose scheduling when the user is arranging time across attendees, calendars, rooms, recurrence, and invitation state rather than reserving a provider-offered slot.",
+    "Choose checkout when the primary job is committing a cart, order, donation, subscription, or priced product; booking may collect payment, but the booking contract still owns slot availability, policy, and appointment confirmation.",
+    "Choose date picker when users only need one date value and do not need service selection, staff/resource capacity, customer details, cancellation policy, payment, or booking confirmation.",
+    "Choose time picker when users only need a clock time field; booking should show bookable slots with capacity, duration, timezone, provider rules, and unavailable reasons.",
+    "Choose date range picker when selecting a stay, rental, campaign, eligibility, or report span is the main input; booking should also manage availability, party size, resource capacity, policies, and confirmation.",
+    "Use payment collection inside booking when the appointment, class, reservation, or service requires deposit, prepayment, no-show fee, or paid confirmation before the slot is held.",
+    "Use confirmation page after a booking is committed, with reference, time, location, staff/resource, policy, calendar file or link, cancellation/reschedule path, and what happens next.",
+    "Use conflict state when the selected slot becomes unavailable, capacity is full, staff is no longer available, payment authorization fails, email verification fails, or policy terms are missing.",
+    "Booking must expose service or appointment type, available slot, duration, timezone, customer identity, intake questions, party size or capacity, price/deposit when applicable, cancellation and reschedule policy, confirmation delivery, and stale-slot recovery."
+  ],
+  "failureModes": [
+    "A customer chooses a slot that was already taken because the booking page did not recheck availability at commit.",
+    "The interface hides staff, service duration, location, or timezone until after confirmation.",
+    "The customer pays for a booking but does not get a held appointment or clear refund/cancellation policy.",
+    "A booking form collects intake or consent after the slot is committed and then rejects the booking.",
+    "A date picker is used for a limited-capacity class, so customers cannot see sold-out sessions or party-size limits.",
+    "A cancellation or reschedule path frees the wrong slot, fails to notify the customer, or leaves the provider calendar blocked.",
+    "The page confirms a booking before email verification, payment, or capacity hold has actually succeeded."
+  ],
+  "sources": [
+    {
+      "id": "google-calendar-share-appointment-schedule",
+      "note": "Google Calendar documents public booking pages, links, buttons, embeds, and single-service booking pages."
+    },
+    {
+      "id": "google-calendar-cancel-booked-appointment",
+      "note": "Google Calendar documents cancellation email, removing appointments from calendars, and returning canceled slots to the booking page."
+    },
+    {
+      "id": "google-calendar-appointment-payments",
+      "note": "Google Calendar documents paid appointment booking through Stripe, cancellation policies, payment checkout, and refund responsibility."
+    },
+    {
+      "id": "google-calendar-appointment-email-verification",
+      "note": "Google Calendar documents email verification before booking with email entry, PIN receipt, and PIN submit."
+    },
+    {
+      "id": "microsoft-bookings-create-manage",
+      "note": "Microsoft Bookings documents staff, appointment types, team bookings calendars, virtual visits, text notifications, and attendee management."
+    },
+    {
+      "id": "microsoft-bookings-shared-booking-page",
+      "note": "Microsoft Bookings documents business hours, split shifts, blocked closed periods, multiple staff, and customer-visible availability."
+    },
+    {
+      "id": "calendly-sharing-booking",
+      "note": "Calendly documents invitee booking, cancel and reschedule links, custom questions, consent, redirect after booking, and prefilled invitee information."
+    },
+    {
+      "id": "squarespace-acuity-appointment-services",
+      "note": "Squarespace and Acuity document appointment service booking with custom intake forms, terms, and client details."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

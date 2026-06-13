@@ -1,0 +1,57 @@
+{
+  "id": "legal-acceptance-vs-consent-prompt-vs-review-before-submit-vs-checkbox-group-vs-confirmation-dialog-vs-typed-confirmation-vs-age-gate",
+  "title": "Legal acceptance vs consent prompt vs review before submit vs checkbox group vs confirmation dialog vs typed confirmation vs age gate",
+  "summary": "Use legal acceptance when a user must expressly accept terms, conditions, contracts, policies, or disclosures before access or a transaction; use consent prompt for optional data-use opt-in, review before submit for checking captured answers, checkbox group for ordinary multi-choice input, confirmation dialog or typed confirmation for action-risk prevention, and age gate for eligibility by age.",
+  "patternIds": [
+    "legal-acceptance",
+    "consent-prompt",
+    "review-before-submit",
+    "checkbox-group",
+    "confirmation-dialog",
+    "typed-confirmation",
+    "age-gate"
+  ],
+  "decisionRules": [
+    "Choose legal acceptance when the user must manifest agreement to terms of service, conditions of sale, service agreement, acceptable-use policy, workplace terms of use, contract amendment, or required legal disclosure before proceeding.",
+    "Choose consent prompt when the decision is optional data use, marketing, research participation, AI training, partner sharing, personalization, or sensitive-data processing; do not hide optional consent inside legal acceptance.",
+    "Choose review before submit when the user checks their own captured answers before committing a transaction, not when the key task is accepting a legal document or policy version.",
+    "Choose checkbox group when the field is an ordinary short set of independent choices; a legal acceptance checkbox is a contract or policy gate with document version, required state, audit record, and blocking behavior.",
+    "Choose confirmation dialog when the user already invoked a consequential command and must confirm intent; legal acceptance is agreement to a standing rule or transaction term, not just a one-time consequence check.",
+    "Choose typed confirmation when severe scope requires reproducing a target phrase such as a repository name; legal acceptance should not make users type I agree unless the agreement risk specifically needs a stronger acknowledgement.",
+    "Choose age gate when eligibility depends on age, age band, or parent authorization; age gate may appear before legal acceptance but it does not replace acceptance of terms.",
+    "A legal acceptance flow must name the document, version or effective date, owning party, scope, required action, linked or embedded full terms, and consequence of declining.",
+    "Do not rely on continued browsing, footer links, hidden scroll boxes, prechecked boxes, disabled Continue buttons without errors, or bundled marketing consent as evidence of legal acceptance.",
+    "For updated terms, show what changed, whether acceptance is required now or after a grace period, what access is blocked, and where the acceptance record can be audited, downloaded, or printed."
+  ],
+  "failureModes": [
+    "A checkout says By paying you agree to terms, but the terms link appears only in a footer after payment is submitted.",
+    "A required checkbox is prechecked, so the user never performs a clear acceptance action.",
+    "Terms acceptance also signs users up for marketing, analytics, and partner sharing.",
+    "An updated workplace policy blocks access with no document version, effective date, change summary, or decline route.",
+    "The UI requires scrolling through a tiny embedded legal document but provides no download, print, search, or language alternative.",
+    "The acceptance record stores only true with no user, document, version, timestamp, locale, or source surface."
+  ],
+  "sources": [
+    {
+      "id": "stripe-checkout-custom-components-terms",
+      "note": "Supports checkout terms-of-service agreement as a required acceptance before payment."
+    },
+    {
+      "id": "adobe-commerce-checkout-terms-conditions",
+      "note": "Supports checkbox text, full terms content, checkout placement, and required agreement enforcement before order placement."
+    },
+    {
+      "id": "microsoft-entra-terms-of-use",
+      "note": "Supports resource-access terms of use, device or recurring acceptance, PDF document presentation, and acceptance reporting."
+    },
+    {
+      "id": "ftc-dot-com-disclosures",
+      "note": "Supports clear and conspicuous disclosure, proximity, prominence, and material transaction terms."
+    },
+    {
+      "id": "docusign-clickwrap-agreements",
+      "note": "Supports clickwrap as a button or checkbox acceptance pattern distinct from full signature workflows."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

@@ -1,0 +1,267 @@
+{
+  "id": "invite-user",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed invitation lifecycle pattern with guidance for recipient resolution, role and scope selection, guest and billing implications, review before send, delivery, pending status, admin approval, duplicate handling, expiry, resend, edit, cancel, acceptance, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers inviting another person into a workspace, organization, project, channel, repository, team, tenant, or shared resource; recipient identity resolution; role and permission selection; channel, team, repository, guest, external, billing, and elevated-access scope; review before send; pending invitation records; admin approval; duplicate pending invites; resend, extend, edit, cancel, expired, failed, accepted, and canceled states; and restricted-detail leakage prevention.",
+    "relatedPatternDistinction": "The entry separates invite user from account creation by focusing on another person's access invitation rather than the current user's credentials, from object picker by requiring invitation delivery and pending state rather than only selecting an existing entity, from permission recovery by having an authorized inviter grant access rather than a denied user request it, from bulk import by handling trackable invitations instead of structured provisioning jobs, and from profile setup by occurring before visible identity enrichment.",
+    "liveDemoBehavior": "The live demo uses a workspace invitation for maya.contractor@example.com with recipient resolution, member role, guest channel scope, review before send, pending INV-2048 status, resend, edit pending role and scope, cancel, admin approval, expired recovery, accepted membership, duplicate pending invite, and bad modes for instant member, broad access, hidden pending, duplicate send, no cancel, and restricted detail leak.",
+    "comparisonDecisionRules": "The linked invite-user-vs-account-creation-vs-object-picker-vs-permission-recovery comparison gives concrete rules for invitation lifecycle, account creation, entity picking, permission recovery, bulk user import, profile setup, high-risk invite review, pending status, duplicate handling, resend, edit, cancel, expiry, and acceptance boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/invite-user/ on 2026-06-11 in Chromium: verified Recipient, Role, Guest scope, Review, Send, Resend, Edit pending, Cancel, Approval, Expired, Accepted, Duplicate, Instant member, Broad access, Hidden pending, Duplicate send, No cancel, and Leak details states; verified maya.contractor@example.com remains visible, Member, Guest, Admin, Workspace, Organization, #launch only, Pending, Expired, Accepted, and Canceled states render; verified no duplicate IDs and no page-level horizontal overflow; verified /compare/invite-user-vs-account-creation-vs-object-picker-vs-permission-recovery/ concrete decision rules; and checked mobile viewport with collapsed layout and no horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/invite-user.png"
+    ]
+  },
+  "name": "Invite user",
+  "aliases": [
+    "invite member",
+    "invite teammate",
+    "send invitation",
+    "user invitation",
+    "member invitation",
+    "workspace invitation",
+    "organization invitation",
+    "invite collaborator",
+    "pending invitation",
+    "resend invitation"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Input And Data Entry",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Invitation lifecycle for granting another person access",
+  "uiGuidance": [
+    "Render invite user as an access-granting workflow with recipient identity, role or permission, team or channel scope, optional message, delivery method, expiry, pending status, resend, edit, cancel, and acceptance outcome.",
+    "Keep invitation lifecycle separate from account creation, object picking, permission recovery, bulk import, and profile setup: the inviter is authorizing another person to join or access a space, not creating their account, choosing an existing object alone, recovering their own denied access, importing records, or enriching a profile."
+  ],
+  "uxGuidance": [
+    "Use invite user when an authorized person needs to bring another person into a workspace, organization, project, channel, repository, team, tenant, or shared object.",
+    "Prevent accidental over-access by confirming recipient identity, access scope, role, billing or guest implications, invite expiry, and what the invited person can do before sending."
+  ],
+  "uiExamples": {
+    "good": [
+      "A workspace invite form accepts maya@example.com, labels the invite as Workspace member, shows default channels, explains billing impact, lets the inviter add a message, and shows the pending invite with resend and cancel actions.",
+      "An organization invitation asks for GitHub username or verified email, role, optional team, and repository access preview before sending."
+    ],
+    "bad": [
+      "An Invite button immediately emails every typed address with Admin access and no review of workspace, channel, or billing scope.",
+      "A pending invite disappears after send, so admins cannot tell whether the user accepted, the link expired, or the email bounced."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "An admin invites an external contractor as a single-channel guest, sees the one-channel limit, adds a note, sends the invite, then extends it when it is still pending after 30 days.",
+      "A repository owner enters an email that already has a pending organization invitation, updates the role, and resends without creating duplicate invites."
+    ],
+    "bad": [
+      "A member tries to invite a contractor but learns after send that guests require admin approval and no request status is shown.",
+      "An invitation is accepted by the wrong account because the invite page never explained email verification or account matching."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Inviting users changes access, billing, data exposure, and collaboration context, but products often hide who will receive the invite, what role they get, where they can go, whether approval is required, and how pending invitations can be tracked or revoked.",
+  "solution": "Provide an invitation workflow that verifies recipient identity, previews access scope and role, explains constraints and side effects, sends through a clear delivery channel, tracks pending and accepted outcomes, and supports resend, edit, cancel, expiry, and approval states.",
+  "problemContext": [
+    "A user with sufficient permission is adding another person to a workspace, organization, project, channel, repository, team, tenant, or shared resource.",
+    "The invite may grant member, guest, admin, viewer, editor, channel, team, repository, enterprise, or external collaborator access.",
+    "Invitations may be sent by email, username, directory lookup, invite link, group sync, or admin request.",
+    "The invited person may need to accept, verify email, create or use an account, choose the correct identity, or wait for admin approval.",
+    "Pending invites may expire, be resent, edited, canceled, extended, duplicated, bounced, accepted, or declined."
+  ],
+  "selectionRules": [
+    "Choose invite user when the primary action is sending an invitation that grants another person future access after delivery or acceptance.",
+    "Use account creation when the current user is establishing their own credentials or persistent access.",
+    "Use object picker when the user is choosing an existing person or group record without sending a new invitation lifecycle.",
+    "Use permission recovery when the current user is blocked and needs to request access for themselves.",
+    "Use bulk import when admins are creating or updating many user records from structured data rather than sending a small number of trackable invitations.",
+    "Use profile setup when the invited or existing user is completing their visible identity after access exists.",
+    "Require explicit review for elevated roles, external collaborators, billable seats, guests, invite links, broad channels, or organization-wide access.",
+    "Show pending, accepted, expired, failed, approval-needed, duplicate, and canceled states as invitation states rather than generic success or error messages.",
+    "Let authorized inviters edit role or scope, resend or extend, and cancel pending invitations before acceptance where the platform supports it."
+  ],
+  "requiredStates": [
+    "Recipient entry or directory lookup state",
+    "Role and access scope selection state",
+    "Guest, billing, external, or elevated-access warning state",
+    "Optional invite message state",
+    "Review before send state",
+    "Sent and pending state",
+    "Admin approval requested state",
+    "Duplicate or already invited state",
+    "Expired or bounced invitation state",
+    "Resend, extend, edit, or cancel pending invitation state",
+    "Accepted invitation state"
+  ],
+  "interactionContract": [
+    "Recipient entry identifies who will receive the invitation and clears or flags unresolved recipients before send.",
+    "The invitation cannot be sent until required role, scope, and policy constraints are resolved.",
+    "The review state summarizes recipient, destination, role, scope, message, expiry, billing or guest implications, and approval requirement.",
+    "Sending creates a trackable invitation record with pending status rather than implying membership is active immediately.",
+    "Duplicate invite attempts reuse, update, or surface the pending invitation instead of silently sending multiple conflicting invitations.",
+    "Resend, extend, edit, cancel, approve, and deny actions update the pending invitation record and preserve audit-relevant context.",
+    "Accepted or expired invitations stop showing unsafe send controls and route to membership, retry, or cleanup actions."
+  ],
+  "implementationChecklist": [
+    "Define invite target type, recipient identifiers, accepted account matching, role model, scope model, guest limits, billing impact, expiry, approval rules, and audit requirements.",
+    "Validate email, username, domain, duplicate pending invite, existing membership, role eligibility, guest plan support, channel or team constraints, and external sharing policy before send.",
+    "Show role and scope preview before sending, especially for admin, owner, guest, external collaborator, organization-wide, or billable access.",
+    "Implement pending invitation list, accepted state, expired state, resend, extend, edit role or team, cancel, approval request, denial, and notification return paths.",
+    "Do not leak restricted workspace, project, or repository details in invite emails or pending records beyond what the recipient is allowed to know.",
+    "Log inviter, recipient, target, role, scope, source, delivery method, timestamp, expiry, updates, cancelation, and acceptance.",
+    "Test wrong email, unverified email, already member, duplicate pending invite, expired invite, admin approval required, external guest, high-risk role, failed delivery, mobile, keyboard, screen readers, and localization."
+  ],
+  "commonMisuses": [
+    "Treating invitation sent as if the user is already a member.",
+    "Hiding role, scope, guest, billing, external, or admin implications until after send.",
+    "Sending duplicate invites instead of showing pending status.",
+    "Letting users invite people to roles they cannot grant.",
+    "Using invite links for broad access without expiry, deactivation, or scope explanation.",
+    "Mixing invite user with account creation, profile setup, onboarding, billing, and role administration in one undifferentiated flow.",
+    "Making cancellation, resend, and expiry impossible to find.",
+    "Leaking restricted object names in invitation emails or approval messages."
+  ],
+  "critiqueQuestions": [
+    "Who will receive the invitation, and how is that identity verified or disambiguated?",
+    "What role, team, channel, repository, workspace, or organization scope will they get?",
+    "Does the invite create billing, guest, external sharing, admin, or data exposure consequences?",
+    "Is approval required, and can the requester track the approval outcome?",
+    "Where can admins find pending, expired, accepted, duplicate, and canceled invitations?",
+    "Can pending invitations be resent, extended, edited, or canceled before acceptance?"
+  ],
+  "useWhen": [
+    "An authorized user needs to bring another person into a workspace, organization, project, channel, repository, team, tenant, or shared object.",
+    "Access starts only after an invitation is delivered, accepted, approved, or verified.",
+    "The product can track invitation state and enforce role, scope, expiry, duplicate, and cancellation behavior."
+  ],
+  "avoidWhen": [
+    "The current user is creating their own account or profile.",
+    "The user is only adding an existing member to a channel or object without a new invitation lifecycle.",
+    "The task is bulk provisioning from a file, SCIM, directory sync, or import job.",
+    "The product cannot enforce access scope or revoke pending invitations.",
+    "The access grant is so sensitive that it requires a separate approval workflow or typed confirmation before the invite can be sent."
+  ],
+  "variants": [
+    "Workspace member invite",
+    "Organization member invite",
+    "Guest invite",
+    "External collaborator invite",
+    "Channel invite",
+    "Repository invite",
+    "Invite by email",
+    "Invite by username",
+    "Invite from directory",
+    "Invite link",
+    "Admin approval invite request",
+    "Pending invitation management"
+  ],
+  "accessibility": [
+    "Use labelled fields for recipient, role, scope, team, channel, message, and expiry.",
+    "Expose recipient validation, duplicate invite, policy warnings, billing warnings, and pending status as text associated with the relevant controls.",
+    "Do not rely on avatars, role colors, lock icons, or guest badges alone to communicate identity or access scope.",
+    "Make role, team, channel, resend, edit, cancel, extend, approve, deny, and copy-link controls keyboard reachable.",
+    "Announce send, approval requested, pending, accepted, expired, canceled, resent, and failed-delivery updates through status regions.",
+    "Keep repeated actions such as Cancel or Resend accessible with recipient-specific names.",
+    "Warn before navigation if an unsent invite draft contains recipients or elevated access choices."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows recipient entry, resolved recipient chips, role, scope, guest or billing warnings, optional message, review, send, and pending actions.",
+    "Recipient lookup supports keyboard selection and clears unresolved text before send.",
+    "Enter commits a selected recipient only when a valid lookup result or email is active.",
+    "After send, focus moves to the pending invitation status or list row.",
+    "Editing a pending invitation returns focus to the edited role or scope and then back to the pending row after update.",
+    "Cancel or revoke confirmation returns focus to the invitation list or invite entry point.",
+    "Expired or failed-delivery recovery actions are reachable without requiring pointer hover."
+  ],
+  "failureModes": [
+    "A user gets admin or organization-wide access because the invite defaulted to the broadest role.",
+    "The inviter cannot tell whether an invitation is pending, accepted, expired, or canceled.",
+    "A duplicate invite with a different role creates conflicting expectations.",
+    "An external guest is invited to the wrong channel or all channels.",
+    "Admin approval is required but the requester sees only a generic failure.",
+    "An invite link remains active after the project ends.",
+    "The invite email reveals a private repository, channel, or document title to an unverified recipient.",
+    "The invitation is accepted by a different account than the inviter expected."
+  ],
+  "relatedPatterns": [
+    "account-creation",
+    "object-picker",
+    "permission-recovery",
+    "bulk-import",
+    "profile-setup",
+    "review-before-submit",
+    "confirmation-dialog"
+  ],
+  "comparisons": [
+    "invite-user-vs-account-creation-vs-object-picker-vs-permission-recovery"
+  ],
+  "examples": [
+    {
+      "product": "Slack invite new members",
+      "url": "https://slack.com/help/articles/201330256-Invite-new-members-to-your-workspace",
+      "platform": "web",
+      "notes": "Documents invite permission, admin approval, email entry, guest invitation by owners or admins, pending duration, and resend behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack pending invitations",
+      "url": "https://slack.com/help/articles/360060363633-Manage-pending-invitations-and-invite-links-for-your-workspace",
+      "platform": "web",
+      "notes": "Documents pending invitation management, extend, resend, delete, invite links, deactivate, and admin ownership.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack guest roles",
+      "url": "https://slack.com/help/articles/202518103-Understand-guest-roles-in-Slack",
+      "platform": "web",
+      "notes": "Documents single-channel and multi-channel guests, access limits, billing, and plan constraints.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub organization invitations",
+      "url": "https://docs.github.com/en/organizations/managing-membership-in-your-organization/inviting-users-to-join-your-organization",
+      "platform": "web",
+      "notes": "Documents inviting by username or email, role selection, team assignment, acceptance requirement, and edit or cancel before acceptance.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub edit or cancel invitation",
+      "url": "https://docs.github.com/en/organizations/managing-membership-in-your-organization/canceling-or-editing-an-invitation-to-join-your-organization",
+      "platform": "web",
+      "notes": "Documents filtering pending invitations, editing role or team, updating invitations, and canceling invitations before acceptance.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "slack-invite-new-members",
+      "note": "Slack supports invite permission, admin approval, email invite delivery, guest constraints, pending duration, and resend behavior."
+    },
+    {
+      "id": "slack-manage-pending-invitations",
+      "note": "Slack supports pending invitation management, extend, resend, delete, invite-link viewing, and deactivation."
+    },
+    {
+      "id": "slack-guest-roles",
+      "note": "Slack supports guest invitation distinctions, single-channel and multi-channel access, plan limits, and billing implications."
+    },
+    {
+      "id": "github-invite-users-organization",
+      "note": "GitHub supports invite role selection, team assignment, email delivery, pending acceptance, verified email constraints, and edit or cancel before acceptance."
+    },
+    {
+      "id": "github-edit-cancel-organization-invitation",
+      "note": "GitHub supports viewing pending invitations, filtering by role or source, editing invitation role or team, and canceling before acceptance."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

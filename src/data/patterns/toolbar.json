@@ -1,0 +1,268 @@
+{
+  "id": "toolbar",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed view-scoped command strip pattern with distinct boundaries from button group, menu button, command palette, header, utility navigation, icon-only action, tooltip, segmented control, undo, and redo, unique roving focus, toggle, overflow, and selection-scope behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers labelled toolbar scope, grouped controls, separators, toggle state, disabled state and reason, current selection summary, overflow priority, icon-only accessible names, one-tab-stop or ordinary tab implementation choice, arrow-key movement, Home and End support, nested menu and input behavior, and focus preservation after activation.",
+    "relatedPatternDistinction": "The entry separates toolbar from button group by persistent command strip versus a few visible peer actions, from menu button by visible grouped command surface versus one hidden local menu, from command palette by view-scoped controls versus broad searchable commands, from header and utility navigation by commands versus destination or account utilities, from tooltip by supplemental description, and from undo and redo by individual command semantics.",
+    "liveDemoBehavior": "The live demo shows a document toolbar with roving active control, Arrow right and Arrow left movement, Home and End movement, Bold toggle state, disabled Redo reason, overflow secondary commands, selected-row scope, blocked and allowed Archive selected behavior, and bad-mode contrasts for mixed scope, tab trap, icon only, stale state, hidden primary command, and overflow dump.",
+    "comparisonDecisionRules": "The toolbar-vs-button-group-vs-menu-button-vs-command-palette comparison gives concrete rules for persistent view-scoped command strips, local task button groups, hidden secondary action menus, broad searchable command palettes, toolbar overflow, icon-only control naming, primary action visibility, and composite keyboard behavior.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/toolbar/ and /compare/toolbar-vs-button-group-vs-menu-button-vs-command-palette/ on 2026-06-10. Live check exercised Arrow right, Open overflow, Select 3 rows, Archive selected, Icon only, and Overflow dump controls while the page was in pre-completion state, then refreshed after completion. screenshots/patterns/toolbar.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/toolbar.png"
+    ]
+  },
+  "name": "Toolbar",
+  "aliases": [
+    "command bar",
+    "action toolbar",
+    "editor toolbar",
+    "formatting toolbar",
+    "tool strip",
+    "command strip",
+    "contextual toolbar"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Selection And Choice",
+    "Input And Data Entry",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "View-scoped command strip for related controls",
+  "uiGuidance": [
+    "Render a toolbar as a labelled command region attached to the view, editor, canvas, table, or selected object it controls, with grouped buttons, toggle buttons, menu buttons, separators, compact inputs, overflow, and current state visible where relevant.",
+    "Keep toolbar controls compact but not mysterious: use predictable order, stable grouping, visible focus, enabled and disabled states, pressed toggle state, current selection summary, and precise accessible names for icon-only controls."
+  ],
+  "uxGuidance": [
+    "Use a toolbar when users repeatedly apply related commands to the same view or selection and need fast visible access without opening a modal command surface.",
+    "Make scope and keyboard efficiency explicit: users should know what object the toolbar affects, move among controls predictably, activate commands without losing selection, and find overflow without hunting for primary work."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document editor toolbar labels the current document, groups Undo and Redo, formatting toggles, alignment controls, Insert link, and More, with Bold shown pressed for the selected text.",
+      "A data-table toolbar appears only when rows are selected, shows 3 selected, enables Export and Archive, disables Merge with a reason, and keeps More actions secondary."
+    ],
+    "bad": [
+      "A toolbar contains Back, Save, Delete, Pricing, Account, Filter, and Help with no shared scope or grouping.",
+      "A row of icon-only buttons has no labels, no pressed state for active formatting, no overflow explanation, and no disabled reason."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A keyboard user tabs once into the editor toolbar, uses Right Arrow to move from Bold to Italic, presses Space to toggle Italic, and focus remains in the toolbar while selected text stays selected.",
+      "A user selects three files, sees the toolbar switch to selection scope, exports them, then clears selection and the toolbar disables selection-only commands."
+    ],
+    "bad": [
+      "A keyboard user must tab through twenty toolbar buttons before reaching the editor body.",
+      "A user clicks Archive in a toolbar but cannot tell whether it affects the selected row, the whole folder, or the current page."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Products often need repeated commands near a view or selection, but loose action rows become crowded, unlabeled, hard to navigate by keyboard, and ambiguous about what object or state they affect.",
+  "solution": "Use a labelled toolbar for a cohesive set of view-scoped controls, define command groups and overflow, expose current selection and pressed or disabled states, implement efficient keyboard movement, and route unrelated navigation or primary workflow actions to clearer patterns.",
+  "problemContext": [
+    "A document, canvas, map, table, list, media viewer, or selected object has several frequent commands that users apply repeatedly.",
+    "The commands share one scope and can remain visible without interrupting the work surface.",
+    "Some commands are compact, stateful, grouped, or lower priority enough to need separators, toggles, menus, or overflow.",
+    "Keyboard users need to move through the command set efficiently without leaving the work context."
+  ],
+  "selectionRules": [
+    "Choose toolbar when a persistent view-scoped command surface groups several related controls for repeated use.",
+    "Use a button group when there are only a few visible peer actions for one workflow moment and ordinary tab order is sufficient.",
+    "Use a menu button when secondary commands can stay hidden behind one named trigger.",
+    "Use a command palette when commands are broad, searchable, shortcut-driven, or cross-product rather than scoped to the current view.",
+    "Use header, global navigation, side navigation, tabs, or bottom navigation when controls move between destinations instead of applying commands.",
+    "Do not put unrelated actions into one toolbar just because they share horizontal space.",
+    "Do not rely on tooltips as the only names for icon-only toolbar controls.",
+    "Keep primary submit, destructive review, and multi-step decisions outside overflow unless the toolbar is explicitly the correct command surface.",
+    "Define overflow priority before responsive collapse so essential controls remain available and secondary controls move predictably.",
+    "Use toolbar role and composite keyboard behavior only when the implementation provides arrow-key focus movement and predictable nested-control behavior."
+  ],
+  "requiredStates": [
+    "Default toolbar with label, visible scope, grouped controls, and focusable entry point.",
+    "Keyboard focus inside the toolbar with current roving item or active control indicated.",
+    "Arrow-key movement among toolbar controls.",
+    "Pressed or selected toggle state for stateful commands such as Bold, Filters on, or Preview mode.",
+    "Disabled command state with visible reason or unavailable target.",
+    "Selection-scoped state showing selected object count and enabled contextual commands.",
+    "Overflow state when commands do not fit or are lower priority.",
+    "Nested menu button or compact input state inside the toolbar.",
+    "Command activated state with status feedback and focus preserved.",
+    "Responsive narrow viewport state with stable priority and reachable overflow."
+  ],
+  "interactionContract": [
+    "The toolbar has a clear accessible name and visual scope tied to the current view, selected objects, or editor surface.",
+    "Controls inside the toolbar share one command context; unrelated navigation and page-level settings stay outside.",
+    "Tab reaches the toolbar in a predictable place, and implementations using composite toolbar behavior let arrow keys move between controls.",
+    "Home and End move to first and last toolbar controls when supported by the implementation.",
+    "Enter or Space activates the focused command, toggles stateful buttons, or opens a nested menu button according to the control role.",
+    "Activation preserves the user's object selection and focus unless the command intentionally opens a dialog, route, or confirmation flow.",
+    "Disabled controls communicate why they are unavailable when the reason is not obvious from selection or context.",
+    "Overflow retains command labels, grouping, and object scope rather than becoming an unnamed dumping ground.",
+    "Nested controls define whether arrow keys move within the control or across toolbar items, avoiding conflicting behavior."
+  ],
+  "implementationChecklist": [
+    "Inventory the commands and remove actions that do not share the toolbar's current view or selection scope.",
+    "Name the toolbar by the surface it controls, such as Text formatting, Map tools, Selected rows, or File preview actions.",
+    "Group controls by task, add separators where groups change, and order commands by frequency and risk.",
+    "Define which commands are visible, which move to overflow, and which belong in a menu, dialog, footer, or command palette.",
+    "Implement native buttons, toggle buttons, menu buttons, inputs, and labels with synchronized accessible names and states.",
+    "Choose ordinary tab order or composite toolbar keyboard behavior deliberately; if using toolbar role, implement arrow movement and orientation.",
+    "Keep disabled reasons, selected object count, pressed state, command result, and overflow status available to assistive technology.",
+    "Test keyboard, screen reader, high zoom, touch target size, mobile overflow, localization, forced colors, and nested widget key conflicts."
+  ],
+  "commonMisuses": [
+    "Labelling any horizontal button row as a toolbar without shared scope or keyboard behavior.",
+    "Using a toolbar for primary app navigation or unrelated destinations.",
+    "Packing rare, destructive, and primary submit actions into one dense strip.",
+    "Using icon-only buttons whose names exist only in hover tooltips.",
+    "Forgetting pressed state for toggles such as Bold, Filter on, or Preview.",
+    "Leaving selection-only commands enabled when nothing is selected.",
+    "Putting form fields, tables, or long explanations in toolbar overflow.",
+    "Letting responsive collapse hide important commands behind an unnamed More icon."
+  ],
+  "critiqueQuestions": [
+    "What surface or selected object does this toolbar control?",
+    "Do all controls share that scope, or are navigation and unrelated commands mixed in?",
+    "Can keyboard users enter once, move between controls efficiently, activate a command, and keep their selection?",
+    "Which controls are stateful, disabled, destructive, or overflowed, and how are those states exposed?",
+    "Would a button group, menu button, command palette, header, or navigation pattern better match the user's job?"
+  ],
+  "useWhen": [
+    "A view, editor, canvas, media surface, table, or selection needs repeated related commands close to the work area.",
+    "Users benefit from visible command availability, toggle state, and quick keyboard movement.",
+    "The command set has enough structure to justify grouping, separators, overflow, or compact controls."
+  ],
+  "avoidWhen": [
+    "There are only one or two actions that should be ordinary buttons.",
+    "The controls navigate between app sections or pages.",
+    "The command set is broad enough to require search and ranking.",
+    "The commands affect different scopes and would make object ownership unclear.",
+    "The implementation cannot provide names, focus behavior, state, and overflow affordances."
+  ],
+  "variants": [
+    "Editor formatting toolbar",
+    "Selection toolbar",
+    "Table action toolbar",
+    "Canvas tool strip",
+    "Media control toolbar",
+    "Contextual toolbar",
+    "Floating toolbar",
+    "Bottom toolbar",
+    "Overflow toolbar",
+    "Customizable toolbar"
+  ],
+  "accessibility": [
+    "Use role toolbar only for a cohesive group of controls whose grouping helps users, and give each toolbar a clear accessible name.",
+    "Set aria-orientation when the toolbar is vertical; horizontal is the default orientation.",
+    "Implement roving tabindex or equivalent focus management when the toolbar is one tab stop.",
+    "Use Arrow Left and Arrow Right for horizontal toolbar movement, with optional vertical arrow duplication only when it does not conflict with child controls.",
+    "Keep disabled controls focusable only when users need to discover their presence or blocked reason; otherwise ensure the reason is available nearby.",
+    "Give icon-only controls precise accessible names and keep tooltips supplemental.",
+    "Expose toggle state with aria-pressed or native selected semantics where appropriate.",
+    "Ensure nested menu buttons, spin buttons, sliders, text inputs, and selects have keyboard behavior that does not fight toolbar navigation."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the toolbar or first toolbar control according to the chosen implementation.",
+    "Right Arrow and Left Arrow move between controls in a horizontal toolbar.",
+    "Down Arrow and Up Arrow may move in a vertical toolbar or may operate nested controls when those controls own vertical arrows.",
+    "Home and End move to the first and last toolbar control when implemented.",
+    "Enter or Space activates command buttons and toggles toggle buttons.",
+    "Menu buttons inside the toolbar open their menus and then follow menu-button keyboard behavior.",
+    "Escape closes nested menus or dialogs and returns focus to the invoking toolbar control when appropriate.",
+    "After a command runs, focus remains on the control or returns to it after any required confirmation."
+  ],
+  "failureModes": [
+    "The toolbar has no accessible name, so screen reader users hear a generic group of buttons with no purpose.",
+    "Keyboard users cannot move among toolbar controls with arrows, or arrow keys conflict with nested controls.",
+    "Icon-only buttons have no accessible names or duplicate names such as Button.",
+    "Pressed states are not exposed, so users cannot tell whether Bold, Filter, or Preview is active.",
+    "A selection toolbar does not show what object count it affects.",
+    "Overflow hides essential commands or changes command order unpredictably.",
+    "A toolbar button opens a destructive action with no confirmation, undo, or object scope.",
+    "Responsive layout clips labels, focus rings, or overflow menus."
+  ],
+  "relatedPatterns": [
+    "button-group",
+    "menu-button",
+    "command-palette",
+    "header",
+    "utility-navigation",
+    "icon-only-ambiguous-action",
+    "tooltip",
+    "segmented-control",
+    "undo",
+    "redo"
+  ],
+  "comparisons": [
+    "toolbar-vs-button-group-vs-menu-button-vs-command-palette"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Toolbar Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/",
+      "platform": "web",
+      "notes": "Supports toolbar grouping, one-tab-stop focus management, arrow-key navigation, orientation, labelling, and disabled control discovery.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Apple Human Interface Guidelines Toolbars",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/toolbars",
+      "platform": "desktop",
+      "notes": "Supports view-level toolbar actions, titles, search, overflow, and distinction from tab bars.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Fluent UI Toolbar",
+      "url": "https://learn.microsoft.com/en-us/fluent-ui/web-components/components/toolbar",
+      "platform": "web",
+      "notes": "Supports W3C-aligned toolbar grouping for buttons, menu buttons, and checkboxes.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Carbon Text Toolbar Pattern",
+      "url": "https://carbondesignsystem.com/patterns/text-toolbar-pattern/",
+      "platform": "web",
+      "notes": "Supports rich text toolbar controls, command customization, and compact editor action sets.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "MDN ARIA Toolbar Role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/toolbar_role",
+      "platform": "web",
+      "notes": "Supports toolbar role semantics, focus management, arrow-key behavior, and nested-control conflict handling.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-toolbar",
+      "note": "APG defines toolbar grouping, one-tab-stop focus management, arrow-key navigation, orientation, labelling, and disabled control discoverability."
+    },
+    {
+      "id": "mdn-aria-toolbar-role",
+      "note": "MDN documents toolbar role semantics, focus management, horizontal and vertical arrow behavior, multiple-toolbar labelling, and nested-control key conflicts."
+    },
+    {
+      "id": "apple-hig-toolbars",
+      "note": "Apple HIG supports view-level toolbar content, actions, overflow behavior, and distinction from tab bars."
+    },
+    {
+      "id": "fluent-toolbar-component",
+      "note": "Fluent documents toolbar as a W3C-aligned grouped command component for buttons, menu buttons, and checkboxes."
+    },
+    {
+      "id": "carbon-text-toolbar-pattern",
+      "note": "Carbon text toolbar guidance supports editor command strips with rich text actions and configurable compact icon buttons."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

@@ -1,0 +1,258 @@
+{
+  "id": "privacy-settings",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed privacy settings pattern with distinct guidance, live demo states, comparison decision rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "name": "Privacy settings",
+  "aliases": [
+    "privacy controls",
+    "account privacy settings",
+    "privacy dashboard settings",
+    "data privacy settings",
+    "profile visibility settings",
+    "activity controls",
+    "app privacy permissions",
+    "data sharing settings",
+    "ad personalization settings",
+    "location privacy settings"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Personalization And Preference",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State",
+    "Selection And Choice"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Durable privacy-control surface for account, product, device, app-access, activity, visibility, and sharing settings",
+  "uiGuidance": [
+    "Render privacy settings as a returnable control surface with current effective values, privacy categories, data types, app or service access, account/device/product scope, source of truth, managed or unavailable reasons, last updated status, and save or immediate-apply feedback.",
+    "Separate privacy settings from privacy policy text, cookie banners, consent prompts, notification preferences, data export, delete account, and broad settings pages by showing concrete controls over data collection, saved activity, visibility, personalization, sharing, and app access."
+  ],
+  "uxGuidance": [
+    "Use privacy settings when users need to inspect and change ongoing privacy posture for saved activity, profile visibility, app access, device permissions, data sharing, ad personalization, location, connected apps, or product privacy dashboards.",
+    "Help users understand exposure and consequences before changing a privacy control: what data changes, where it applies, what remains required, what is managed elsewhere, and what status proves the setting actually changed."
+  ],
+  "uiExamples": {
+    "good": [
+      "An account privacy dashboard groups Saved activity, Profile visibility, Ad personalization, Connected apps, Location history, Device permissions, and Data deletion, with current values, scope labels, last updated times, and unavailable reasons.",
+      "A mobile privacy settings page lists Camera, Microphone, Contacts, Photos, Bluetooth, and Location access by app, shows which app requested access, and lets users revoke future access with an immediate status."
+    ],
+    "bad": [
+      "A Privacy page links only to a legal policy and has no controls for activity history, public profile fields, personalization, app access, or data sharing.",
+      "A single Privacy mode switch claims to turn everything off but leaves ad personalization, public profile visibility, connected apps, and activity retention unchanged."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pauses saved activity, clears search history for a date range, disables ad personalization, hides birthday visibility, revokes a connected app, and sees which values apply immediately versus after sync.",
+      "A parent opens child-account privacy settings, sees high-privacy defaults, reviews app access, and changes profile visibility only after seeing who can view the information."
+    ],
+    "bad": [
+      "A user turns off location sharing in account privacy settings, but the device-level location permission remains active and the page never explains the split.",
+      "A user withdraws a consent prompt, but privacy settings still show personalization enabled because the source of truth and sync state are hidden."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Privacy controls become untrustworthy when users cannot find them, cannot see current effective values, cannot distinguish account, device, app, product, consent, cookie, or export boundaries, or receive success states that hide managed policies, unavailable data, legal restrictions, or sync delays.",
+  "solution": "Provide a dedicated privacy settings surface that groups privacy controls by user mental model, shows current data and exposure state, identifies scope and source of truth, handles unavailable and managed values honestly, supports clear changes and revocation, and reports applied, failed, pending, or restricted status.",
+  "problemContext": [
+    "Users may be controlling saved activity, search history, browsing history, location history, voice recordings, app and service activity, ad personalization, profile visibility, people and sharing, connected apps, device data permissions, diagnostic data, and data dashboard visibility.",
+    "Privacy controls may live at account, device, app, browser, workspace, child account, product, region, or organization-policy scope.",
+    "Some privacy data may be unavailable because the user is signed out, recently cleared data, turned off collection, is too young, is in an unsupported region, uses a managed account, or the product is legally restricted from displaying it.",
+    "Privacy settings may need to hand off to consent prompts, cookie preferences, permission requests, data export, delete account, or privacy request workflows without pretending those are ordinary toggles."
+  ],
+  "selectionRules": [
+    "Choose privacy settings when the user needs durable controls over ongoing data collection, saved activity, profile visibility, data sharing, personalization, app access, or device privacy permissions.",
+    "Use settings management when privacy is one part of a broader configuration center and the main pattern is general persistent settings organization.",
+    "Use preference center when the work is mainly communication, topics, language, marketing, consent purposes, or required messages across systems.",
+    "Use consent prompt when a specific optional data use needs an affirmative opt-in moment before processing begins.",
+    "Use permission request when an app asks for one runtime or platform capability in context.",
+    "Use data export when the user is downloading or transferring a copy of data rather than changing future collection or exposure.",
+    "Use delete account for account closure and associated data deletion requests, not ordinary privacy setting changes.",
+    "Show account, device, app, product, workspace, region, and managed-organization scope before users change a privacy value.",
+    "Show data categories, current effective value, last saved or synced time, source system, unavailable reason, and consequence of changing the setting.",
+    "Provide high-privacy defaults and age-appropriate explanations for child or sensitive-data contexts where policy requires extra protection."
+  ],
+  "requiredStates": [
+    "Privacy settings overview with categories and current effective values.",
+    "Saved activity, search history, browsing history, voice, media, or app/service activity controls state.",
+    "Profile visibility and people-sharing state.",
+    "Ad personalization, recommendations, diagnostics, or product improvement data-use state.",
+    "Location, camera, microphone, contacts, photos, Bluetooth, local network, and device permission state.",
+    "Connected app, third-party access, data sharing, or partner access state.",
+    "Consent, cookie, notification, data export, and delete account handoff state with clear boundaries.",
+    "Immediate apply, staged save, pending sync, saved, failed, reset, and restore previous state.",
+    "Unavailable data, recently cleared, collection off, unsupported product, signed-out, region-restricted, too-young, or managed-policy state.",
+    "Child account, high-privacy default, guardian-managed, enterprise-managed, and mobile compact states."
+  ],
+  "interactionContract": [
+    "Opening privacy settings shows authoritative current values, not blank defaults, marketing copy, or a privacy-policy-only page.",
+    "Every control states what data, visibility, app access, product, device, or account scope it affects before activation.",
+    "Immediate controls show applied, failed, pending sync, unavailable, and reverted states near the changed row.",
+    "Controls owned by consent, cookies, platform permission, organization policy, child guardian, export, or delete workflows link to the owning flow and do not show false local success.",
+    "Clearing or pausing data explains whether existing data is deleted, future collection stops, dashboard display changes, or only personalization use changes.",
+    "Managed, unavailable, too-young, legal, region, or unsupported states explain why the user cannot see or change a value and what route remains.",
+    "Reset or restore affects only the named privacy group and lists the controls that will change before confirmation.",
+    "The page records successful privacy changes with category, scope, source, timestamp, and effective state where compliance or user trust requires it."
+  ],
+  "implementationChecklist": [
+    "Inventory privacy controls by data category, source system, account/device/product scope, default value, legal basis, age policy, and owner.",
+    "Map overlaps between privacy settings, consent records, cookie controls, platform permissions, notification preferences, data export, delete account, and privacy request workflows.",
+    "Model current value, effective value, source of truth, last saved time, last synced time, unavailable reason, managed policy, and pending status for each row.",
+    "Separate immediate apply controls from controls that require Save, reauthentication, guardian approval, device settings, or external sync.",
+    "Show clear consequences for pause, clear, hide, share, revoke, reset, and personalization changes.",
+    "Test signed out, multiple accounts, child account, managed account, region restriction, recent deletion, collection off, unavailable dashboard data, device permission mismatch, and mobile layout.",
+    "Avoid collecting privacy-setting changes through analytics or session replay in a way that exposes sensitive choices."
+  ],
+  "commonMisuses": [
+    "Replacing privacy settings with a privacy policy link or legal notice.",
+    "Using one master privacy switch for unrelated collection, sharing, visibility, permissions, personalization, and retention controls.",
+    "Showing a setting as enabled while the platform permission, organization policy, or source-of-truth system disagrees.",
+    "Failing to explain why data cannot be displayed, cleared, changed, or exported.",
+    "Mixing cookie consent, data export, delete account, and privacy settings into one ambiguous action.",
+    "Resetting privacy controls broadly without naming affected data categories.",
+    "Hiding child, region, legal, managed, or enterprise restrictions behind disabled controls.",
+    "Claiming saved success before sync or policy enforcement completes."
+  ],
+  "critiqueQuestions": [
+    "What exact data category, app access, visibility, or personalization behavior does each privacy setting control?",
+    "What scope owns the value: account, device, app, product, browser, organization, child account, or region?",
+    "Is the displayed value the current effective value or only a local preference draft?",
+    "What data remains collected, retained, visible, or shared after the user turns a control off?",
+    "Where do consent, cookies, permissions, export, and account deletion handoffs begin and end?",
+    "How does the UI explain unavailable dashboard data, recently cleared data, legal restrictions, or managed policy?",
+    "What evidence proves a privacy change was applied, failed, pending, or reverted?"
+  ],
+  "useWhen": [
+    "Users need ongoing control over personal data collection, saved activity, visibility, app access, device permissions, connected services, data sharing, or personalization.",
+    "The product can show authoritative current values, scope, source, restrictions, and status for privacy controls.",
+    "Privacy controls are important enough to require a dedicated account, product, dashboard, or device privacy surface."
+  ],
+  "avoidWhen": [
+    "The task is a first-time opt-in to one optional purpose; use consent prompt.",
+    "The task is a just-in-time camera, microphone, location, contacts, or photo access grant; use permission request.",
+    "The user is changing only communication subscriptions, topics, language, or required messages; use preference center or notification preferences.",
+    "The user wants a data copy or account deletion; use data export or delete account workflows.",
+    "The product cannot show current effective state or explain why privacy controls are unavailable."
+  ],
+  "variants": [
+    "Account privacy settings",
+    "Privacy dashboard",
+    "Activity controls",
+    "Profile visibility controls",
+    "Ad personalization controls",
+    "Location privacy settings",
+    "App privacy permissions",
+    "Connected app access",
+    "Device privacy settings",
+    "Child privacy settings",
+    "Enterprise-managed privacy settings",
+    "Privacy reset",
+    "Privacy setting sync conflict"
+  ],
+  "accessibility": [
+    "Use clear headings, labels, descriptions, and status text for each privacy category and control.",
+    "Do not rely on icon, color, lock symbol, or switch position alone to show on, off, managed, unavailable, pending, failed, or restricted state.",
+    "Expose scope, source, current value, unavailable reason, and consequence text to assistive technology.",
+    "Keep revoke, clear, pause, save, reset, restore, request access, and handoff controls keyboard reachable.",
+    "Announce applied, pending, failed, unavailable, and reset states in durable status text rather than transient toasts only.",
+    "Ensure long product names, app names, account identifiers, legal reasons, and managed-policy explanations wrap without horizontal scrolling."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches category navigation, current values, each privacy control, details, save or immediate action, reset, and handoff links in order.",
+    "Enter or Space toggles or opens controls only after focus is on the named privacy setting.",
+    "Controls that require confirmation, reset, export, deletion, consent withdrawal, or platform permission handoff open the owning flow instead of changing silently.",
+    "Escape closes secondary details without discarding unsaved privacy changes unless the user confirms discard.",
+    "After save, failure, reset, or handoff return, focus moves to the changed setting or stable status summary.",
+    "Keyboard users can reach unavailable-state explanations and policy owner links without activating disabled-looking controls."
+  ],
+  "failureModes": [
+    "Users cannot tell whether activity collection, personalization, visibility, and app access are on or off.",
+    "The page shows an account privacy value but the device permission still allows access.",
+    "A managed policy prevents privacy changes but the UI reports saved success.",
+    "Users clear dashboard data and think future collection stopped when only historical display changed.",
+    "Users disable personalization but public profile visibility remains unchanged with no explanation.",
+    "Children or sensitive-data users receive low-privacy defaults without clear guardian or policy control.",
+    "The page offers reset privacy without naming which controls, apps, or data categories will change."
+  ],
+  "relatedPatterns": [
+    "settings-management",
+    "preference-center",
+    "consent-prompt",
+    "permission-request",
+    "cookie-banner",
+    "notification-preferences",
+    "data-export",
+    "delete-account",
+    "sensitive-data-reveal",
+    "permission-denied-state"
+  ],
+  "comparisons": [
+    "privacy-settings-vs-settings-management-vs-preference-center-vs-consent-prompt-vs-permission-request-vs-data-export"
+  ],
+  "examples": [
+    {
+      "product": "Google Account settings",
+      "url": "https://support.google.com/accounts/answer/3118621?hl=en",
+      "platform": "web",
+      "notes": "Documents Data & privacy, People & sharing, activity controls, ad personalization, privacy and security settings, and information shown across services.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Microsoft privacy dashboard",
+      "url": "https://support.microsoft.com/en-us/accounts-billing/security/view-your-data-on-the-privacy-dashboard",
+      "platform": "web",
+      "notes": "Documents viewing and clearing product data, managing privacy settings, ad settings, device settings, unavailable dashboard data, and legal restrictions.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Apple privacy and Location Services",
+      "url": "https://support.apple.com/en-us/102515",
+      "platform": "mobile",
+      "notes": "Documents Settings > Privacy & Security controls for app access to data types and grant or revoke future access.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "ICO data protection by design and default",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/guide-to-accountability-and-governance/data-protection-by-design-and-by-default/",
+      "platform": "web",
+      "notes": "Documents embedding privacy and data protection through product lifecycle, purpose limitation, data minimisation, and protecting people's rights by default.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-account-manage-settings",
+      "note": "Supports account Data & privacy, People & sharing, activity controls, ad personalization, and privacy/security settings."
+    },
+    {
+      "id": "microsoft-privacy-dashboard",
+      "note": "Supports privacy dashboard controls for viewing, clearing, managing privacy settings, ad settings, unavailable data, and legal restrictions."
+    },
+    {
+      "id": "apple-privacy-location-services-settings",
+      "note": "Supports device privacy settings for app access to data categories and granting or revoking future access."
+    },
+    {
+      "id": "ico-data-protection-by-design-default",
+      "note": "Supports privacy by design/default, purpose limitation, data minimisation, and rights-protective technical controls."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers privacy settings as a durable privacy control surface with privacy overview, activity controls, profile visibility, ad personalization, location history, app access, device permission mismatch, connected apps, data sharing, consent handoff, cookie handoff, data export handoff, delete account handoff, unavailable data, managed policy, child privacy default, region restriction, pending sync, saved state, failed save, reset privacy group, and mobile compact privacy states.",
+    "relatedPatternDistinction": "Separated from settings management as general configuration, preference center as communication or purpose preferences, consent prompt as an opt-in moment, permission request as runtime capability access, data export as data-copy retrieval, and delete account or cookie banner as owning flows for account closure and cookie consent.",
+    "liveDemoBehavior": "Good demo exercises privacy overview, activity controls, profile visibility, ad personalization, location history, app access, device permission mismatch, connected apps, data sharing, consent handoff, cookie handoff, data export handoff, delete account handoff, unavailable data, managed policy, child privacy default, region restriction, pending sync, saved state, failed save, reset privacy group, and mobile compact privacy. Bad demo exercises policy-only, master switch, hidden app access, consent mismatch, stale current values, overbroad reset, and low-privacy default failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes privacy settings from settings management, preference center, consent prompt, permission request, and data export by current effective values, data categories, product or device scope, app or service access, source of truth, managed policy, unavailable reasons, cookie banner and privacy policy boundaries, single master switch misuse, and the rule that export does not itself change privacy settings.",
+    "duplicateAudit": "2026-06-12: node --import tsx scripts/catalog-completion-audit.ts reported 254 complete patterns, 1 excluded pattern, 43 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-12: desktop 1440x940 and compact 500x844 browser checks exercised all good and bad privacy-settings states; required terms were present; duplicate IDs, page overflow, and demo overflow were absent. Comparison route was checked at desktop and compact widths with required decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/privacy-settings.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

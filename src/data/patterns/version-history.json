@@ -1,0 +1,272 @@
+{
+  "id": "version-history",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed durable snapshot browser pattern with guidance for current and previous versions, named versions, autosaves, compare preview, restore confirmation, restored state, draft conflict, permissions, retention, deleted authors, mobile condensed browsing, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers current version identity, previous version lists, version number, author, timestamp, named labels, autosaved labels, compare preview, restore confirmation, restored state, retention limits, deleted or archived versions, permission-limited viewing, draft conflict handling, mobile condensed rows, comment and publish metadata, and the recovery model after rollback.",
+    "relatedPatternDistinction": "The entry separates version history from activity log by durable restorable snapshots instead of event evidence, from timeline by exact content states instead of readable milestones, from undo by persistent previous versions instead of short current-session recovery, from draft state by historical snapshots instead of current unfinished work, from publish workflow by rollback selection rather than live-state routing, from comments by saved content states rather than discussion, and from permission-denied state by showing when access owns compare or restore availability.",
+    "liveDemoBehavior": "The live demo shows a design spec file with v42 current, v41 previous, v38 named Pre-launch copy, v35 autosaved with former author, archived retention row, selected-version detail, compare summary, restore confirmation, restored state, permission block, draft conflict, mobile condensed behavior, and bad-mode contrasts for activity-log confusion, missing compare, restore without preview, hidden current version, permission leak, and undo confusion.",
+    "comparisonDecisionRules": "The version-history-vs-activity-log-vs-timeline-vs-undo comparison gives concrete rules for version history, activity log, timeline, undo, draft state, publish workflow, comments, permission-denied state, compare, restore, named version, current version, previous version, retention, and when an audit trail or autosave indicator is insufficient.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reported zero normalized duplicate field groups while this pattern was reviewed.",
+    "manualSpotCheck": "Checked /patterns/version-history/ on 2026-06-11 in Chromium desktop: verified completion-status review state before promotion, Good UI and Bad UI frames, Good UX controls for Current, Named, Compare, Restore, Confirmed, Retention, Permission, Draft conflict, Deleted author, and Mobile, Bad UX controls for Audit log confusion, No compare, No preview, Hidden current, Permission leak, and Undo confusion, no duplicate IDs, and no Version history demo overflow. Checked /compare/version-history-vs-activity-log-vs-timeline-vs-undo/ for version history, activity log, timeline, undo, draft state, publish workflow, comments, permission, compare, restore, named version, current version, and previous version decision terms with no duplicate IDs or overflow. Checked 390px mobile emulation for Named, Compare, Restore, Retention, Permission, Draft conflict, Deleted author, Mobile, No compare, No preview, and Permission leak states with no Version history demo or page overflow.",
+    "screenshots": [
+      "screenshots/patterns/version-history.png"
+    ]
+  },
+  "name": "Version history",
+  "aliases": [
+    "revision history",
+    "file history",
+    "page history",
+    "document history",
+    "previous versions",
+    "saved versions",
+    "named versions",
+    "version browser",
+    "restore previous version",
+    "change history"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Collaboration And Social Interaction",
+    "Feedback, Status, And System State",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Durable snapshot browser for previous document, file, page, object, or configuration versions",
+  "uiGuidance": [
+    "Render version history as a durable snapshot browser with the current version, previous version list, author, timestamp, named version labels, autosaved version labels, changed summary, retention status, compare affordance, preview, and restore action.",
+    "Separate version history from activity log, timeline, undo, draft state, publish workflow, comments, and permission-denied state by showing that users are inspecting saved content states, not only events, milestones, recent action recovery, discussion, or access failure."
+  ],
+  "uxGuidance": [
+    "Use version history when users need to find a known good state, understand what changed between saved states, recover from bad edits, cite a prior version, name a meaningful milestone, or restore content without guessing.",
+    "Make recovery consequences explicit: what becomes current after restore, what happens to current edits or drafts, whether a restored version creates a new version, which comments or metadata carry forward, and which older versions are hidden by retention or permissions."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document side panel marks v42 as Current, lists v41, v38 named Pre-launch copy, and v35 autosaved, and opens a compare preview before Restore this version.",
+      "A page history table shows version number, author, timestamp, change summary, named version label, compare action, restore action, and a retention message for older entries."
+    ],
+    "bad": [
+      "A History panel lists Edited, Edited, Edited with no version number, author, content preview, compare result, or restore consequence.",
+      "A Restore button immediately overwrites current edits from a previous version without saying whether the current version remains recoverable."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A designer names the last approved file version, compares it against the current version, confirms restore, and sees that the restore created v43 while keeping v42 available.",
+      "A read-only reviewer opens page history, sees the current version and previous version metadata, but restore controls explain that edit permission is required."
+    ],
+    "bad": [
+      "A user tries to recover yesterday's copy but only sees a chronological activity log with no previewable previous version.",
+      "A team restores a version from before an active draft and accidentally discards current unsaved edits because the conflict was not surfaced."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Collaborative editing, autosave, and configuration changes create many saved states, but users cannot safely recover or reason about prior content when previous versions, current version context, compare behavior, restore consequences, permissions, comments, and retention limits are hidden.",
+  "solution": "Provide a version history surface that exposes current and previous versions, durable snapshot metadata, named and autosaved versions, preview or diff comparison, restore confirmation, permission and retention states, and clear boundaries from logs, timelines, undo, drafts, publishing, and comments.",
+  "problemContext": [
+    "Versions may be created by manual saves, autosave, publishing, imports, edits from multiple collaborators, merge operations, or restore actions.",
+    "Users often seek a known good state after accidental edits, content regression, collaborator conflict, approval rollback, deleted section recovery, or configuration drift.",
+    "Prior versions may include comments, author metadata, timestamps, branch or publish state, named milestones, deleted users, redacted content, permission limits, and retention cutoffs.",
+    "Restoring an older version can affect current drafts, published content, collaborators, audit evidence, search indexing, external links, and downstream automations."
+  ],
+  "selectionRules": [
+    "Choose version history when the user needs durable previous version snapshots with preview, compare, restore, name, or citation behavior.",
+    "Use activity log when the primary task is investigation of actor, action, object, timestamp, source, result, IP, retention, and export evidence rather than restoring content.",
+    "Use timeline when the primary task is reading a human-friendly sequence of events or milestones without exact snapshot comparison.",
+    "Use undo when the action is recent, reversible in place, and does not require a persistent browser of previous versions.",
+    "Use draft state when the current unfinished or unpublished work needs preservation, not when the user is browsing historical snapshots.",
+    "Use publish workflow when the user is moving a selected version to live, scheduled, unpublished, or retired state.",
+    "Use comments when users discuss, annotate, request changes, or resolve review threads attached to content.",
+    "Use permission-denied state when a user cannot open, compare, name, restore, or download a version because access is missing.",
+    "Expose a current version marker before every restore path so users know what will change.",
+    "Provide compare or preview before restore when content loss, published behavior, or collaborator state could change.",
+    "Label named versions, autosaved versions, restored versions, deleted authors, retention-limited rows, and permission-limited rows distinctly.",
+    "Treat restore as creating a new current version unless the backend truly rewrites history, and explain the model."
+  ],
+  "requiredStates": [
+    "Default state with current version, previous version list, author, timestamp, and change summary.",
+    "Named version state with editable or visible label and reason.",
+    "Autosaved version state with system-created timestamp and author context.",
+    "Version compare or diff state between current version and selected previous version.",
+    "Preview selected previous version state before restore.",
+    "Restore confirmation state that names the selected version and explains what becomes current.",
+    "Restored state that shows the new current version and preserves access to the version restored from.",
+    "View-only or permission-denied state for users who can inspect but cannot restore or compare restricted details.",
+    "Deleted, archived, redacted, or retention-limited previous version state.",
+    "Conflict state when current edits, unsaved draft, or concurrent collaborator changes exist.",
+    "Loading, failed-load, offline, no versions, and mobile condensed-list states."
+  ],
+  "interactionContract": [
+    "Opening version history identifies the current version and keeps it visible while browsing previous versions.",
+    "Selecting a previous version updates the preview or compare panel without changing the current content.",
+    "Compare uses the same two versions named in the UI and states whether it shows text, layout, metadata, comments, or only a summary.",
+    "Restore requires a confirmation when current edits, publishing state, permissions, or irreversible downstream effects could change.",
+    "A successful restore states whether a new version was created and links back to the version restored from.",
+    "Naming or renaming a version updates only the version label unless the UI explicitly supports editing content.",
+    "Permission-limited rows reveal only metadata and actions the user is allowed to see.",
+    "Retention-limited and deleted-author states explain missing history without implying user error.",
+    "Mobile layouts preserve current version, selected previous version, compare, restore, and permission status without hiding the consequence copy."
+  ],
+  "implementationChecklist": [
+    "Define the version record model: version ID or number, current flag, created timestamp, author, save source, named label, change summary, restore eligibility, retention class, permission scope, and comment or publish metadata.",
+    "Separate version snapshots from activity events, timeline milestones, draft records, publish states, comment threads, and undo stacks in the backend and UI copy.",
+    "Build a selected-version preview with clear current-versus-selected labels and a compare route for text, structure, metadata, file state, or configuration changes the product can honestly show.",
+    "Implement restore confirmation, restored success state, permission-limited state, draft conflict handling, deleted-author handling, retention cutoff, failed-load retry, and mobile collapsed browsing.",
+    "Preserve current version recoverability after restore when the backend supports append-only versioning, and state when it does not.",
+    "Test long version names, many autosaves, same-minute edits, deleted authors, restricted viewers, comments attached to old versions, concurrent edits, offline retry, keyboard navigation, high zoom, and small screens.",
+    "Log restore and rename actions as activity events without replacing the version history surface with the activity log."
+  ],
+  "commonMisuses": [
+    "Calling an activity log or audit trail version history when it has no previous content snapshots.",
+    "Using a timeline of milestones as a substitute for previewable or restorable versions.",
+    "Relying on undo for recovery after navigation, collaboration, autosave, or elapsed time.",
+    "Hiding the current version while users inspect previous versions.",
+    "Restoring without preview, compare, confirmation, or conflict handling.",
+    "Mixing named versions, autosaves, restored versions, and deleted-author versions without labels.",
+    "Leaking private diff or author details to users who only have read or limited access.",
+    "Hiding retention limits until after users cannot find a previous version."
+  ],
+  "critiqueQuestions": [
+    "Can users identify the current version and selected previous version at every point before restore?",
+    "Does the UI show what changed, who changed it, when it changed, and whether the version is named or autosaved?",
+    "What exactly happens to current edits, drafts, comments, publish state, and downstream links after restore?",
+    "Can permission-limited users understand why compare, restore, or metadata is unavailable?",
+    "Are retention cutoffs, deleted authors, archived versions, and failed loads explicit?",
+    "Would an activity log, timeline, undo, draft state, publish workflow, comments, or permission-denied state be the better pattern for this task?"
+  ],
+  "useWhen": [
+    "Users edit documents, files, pages, design files, records, configurations, or published content over time.",
+    "The system stores durable previous versions that can be previewed, compared, named, restored, downloaded, cited, or audited.",
+    "Recovery and accountability depend on current version context, author and timestamp metadata, retention, and permissions."
+  ],
+  "avoidWhen": [
+    "The product only has an event log with no saved content snapshots.",
+    "The task is only immediate recovery from one recent action.",
+    "The surface only summarizes milestones and does not support preview or restore.",
+    "The backend cannot preserve current state, version metadata, permissions, or restore consequences accurately.",
+    "Showing previous content would violate retention, privacy, legal, or access-control requirements."
+  ],
+  "variants": [
+    "Document version history",
+    "File version history",
+    "Page history",
+    "Design file history",
+    "Configuration version history",
+    "Named versions",
+    "Autosaved versions",
+    "Version compare",
+    "Restore previous version",
+    "Read-only version browser",
+    "Published version rollback",
+    "Retention-limited history"
+  ],
+  "accessibility": [
+    "Use structured list, table, or tab semantics so version number, current status, author, timestamp, and label are read together.",
+    "Do not rely on color alone to mark current, selected, named, autosaved, restored, permission-limited, or retention-limited versions.",
+    "Give compare, preview, restore, rename, and download actions accessible names that include the target version.",
+    "Expose selected version, current version, restore warning, permission status, and saved or failed state as text.",
+    "Keep confirmation dialogs and side panels keyboard reachable and return focus to the invoking version row after close.",
+    "For diff views, provide text alternatives or summaries for insertions, deletions, comments, and metadata changes that are not visually obvious."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the version list, selected version details, compare, restore, rename, filter, and close controls in predictable order.",
+    "Arrow keys may move through a listbox or tree of versions when that semantic model is used.",
+    "Enter or Space selects a version row or activates compare, restore, rename, retry, and confirmation controls according to native behavior.",
+    "Escape closes preview, compare, restore confirmation, or rename dialogs and returns focus to the triggering row or button.",
+    "After restore, focus moves to the restored status message or new current version heading.",
+    "Changing the selected previous version does not unexpectedly move focus into the document canvas."
+  ],
+  "failureModes": [
+    "A previous version is restored without the user seeing what will change.",
+    "The current version disappears from context while browsing older versions.",
+    "Compare labels do not match the actual versions being diffed.",
+    "Restore deletes unsaved draft work or concurrent edits without conflict handling.",
+    "A read-only user can trigger restore or see restricted diff details.",
+    "Autosave creates hundreds of indistinguishable versions with no grouping, naming, or search.",
+    "A retained version is missing but the UI gives no retention or archive explanation.",
+    "Restored content goes live immediately even though users expected only a draft rollback."
+  ],
+  "relatedPatterns": [
+    "activity-log",
+    "timeline",
+    "undo",
+    "draft-state",
+    "publish-workflow",
+    "comments",
+    "permission-denied-state",
+    "compare-view",
+    "review-before-submit",
+    "confirmation-dialog"
+  ],
+  "comparisons": [
+    "version-history-vs-activity-log-vs-timeline-vs-undo"
+  ],
+  "examples": [
+    {
+      "product": "Google Docs version history",
+      "url": "https://support.google.com/docs/answer/190843",
+      "platform": "web",
+      "notes": "Documents seeing changes, naming versions, restoring versions, and viewing who changed a file.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Office previous versions",
+      "url": "https://support.microsoft.com/en-us/office/view-previous-versions-of-office-files-5c1e076f-a9c9-41b8-8ace-f77b9642e2c2",
+      "platform": "web",
+      "notes": "Documents viewing and restoring previous versions for Office files stored with OneDrive or SharePoint.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "SharePoint version history",
+      "url": "https://support.microsoft.com/en-us/office/view-the-version-history-of-an-item-or-file-in-a-list-or-library-53262060-5092-424d-a50b-c798b0ec32b1",
+      "platform": "web",
+      "notes": "Documents version history for SharePoint list items and files, including metadata and restore actions.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Confluence page history",
+      "url": "https://support.atlassian.com/confluence-cloud/docs/view-the-history-of-a-page/",
+      "platform": "web",
+      "notes": "Documents current and previous page versions, compare, restore, and access limitations.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Figma file version history",
+      "url": "https://help.figma.com/hc/en-us/articles/360038006754-View-a-file-s-version-history",
+      "platform": "web",
+      "notes": "Documents autosaved versions, named versions, comments on versions, restore behavior, and edit permission requirements.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-docs-version-history",
+      "note": "Google Docs editors document file changes, named versions, and restore behavior."
+    },
+    {
+      "id": "microsoft-office-previous-versions",
+      "note": "Microsoft Office documents previous version viewing and restore behavior."
+    },
+    {
+      "id": "microsoft-sharepoint-version-history",
+      "note": "Microsoft SharePoint documents version history metadata and restore actions."
+    },
+    {
+      "id": "atlassian-confluence-page-history",
+      "note": "Confluence documents page history, compare, restore, and access limits."
+    },
+    {
+      "id": "figma-version-history",
+      "note": "Figma documents autosaved versions, named versions, comments, restore behavior, and edit permission requirements."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

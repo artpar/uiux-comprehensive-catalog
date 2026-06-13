@@ -1,0 +1,50 @@
+{
+  "id": "checkout-vs-payment-card-entry-vs-review-before-submit-vs-step-navigation",
+  "title": "Checkout vs payment card entry vs review before submit vs step navigation",
+  "summary": "Use checkout for the end-to-end purchase commitment flow that coordinates cart summary, customer details, delivery, payment handoff, review, place-order action, error recovery, and confirmation; use payment card entry for secure card capture, review before submit for a final editable gate, and step navigation for progress display across a longer flow.",
+  "patternIds": [
+    "checkout",
+    "payment-card-entry",
+    "review-before-submit",
+    "step-navigation",
+    "address-entry",
+    "confirmation-page"
+  ],
+  "decisionRules": [
+    "Choose checkout when the user is converting a cart or order into a committed purchase and the interface must coordinate item summary, price changes, shipping or pickup, contact details, payment route, discount codes, taxes, fees, terms, final order action, and post-order handoff.",
+    "Choose payment card entry when the immediate problem is securely collecting or tokenizing card credentials; checkout may contain that surface, but checkout also owns cart totals, delivery, order review, place-order timing, and confirmation boundaries.",
+    "Choose review before submit when the product only needs a final check of already captured answers before one committed action; checkout needs purchase-specific totals, inventory, delivery, payment, and order-state recovery around that review.",
+    "Choose step navigation when the product only needs to show where the user is in a multi-step journey; checkout step labels must not imply steps are complete until shipping, payment, and review dependencies are valid.",
+    "Choose address entry for shipping or billing address capture and correction; checkout decides how that address affects delivery options, tax, shipping cost, inventory availability, and order review.",
+    "Choose confirmation page after a successful order is placed, when the interface should show receipt, order number, delivery expectations, and next steps rather than editable checkout controls.",
+    "A checkout flow should keep the order summary, total price, shipping method, delivery date, payment state, applied discounts, and primary place-order action visibly synchronized as the user changes information.",
+    "Checkout recovery should distinguish validation errors, inventory or price changes, payment authorization failure, duplicate submit risk, unavailable shipping, abandoned-session recovery, and successful order placement."
+  ],
+  "failureModes": [
+    "The total changes after payment details are entered without a clear review or acknowledgement.",
+    "The user is forced to create an account before purchase even though guest checkout would satisfy order needs.",
+    "Shipping address, delivery option, tax, discount, and payment errors appear as one vague checkout failed message.",
+    "The Place order button remains enabled during payment authorization and creates duplicate orders.",
+    "A payment decline drops the cart, address, shipping choice, or discount code.",
+    "The confirmation page appears before payment or inventory has actually been committed."
+  ],
+  "sources": [
+    {
+      "id": "baymard-checkout-usability",
+      "note": "Baymard supports checkout-specific guidance around order review, guest checkout, form effort, totals, shipping and payment clarity, and abandonment risks."
+    },
+    {
+      "id": "nng-mobile-checkout-ux",
+      "note": "NN/g supports reducing mobile checkout friction, preserving context, and avoiding account-creation pressure during purchase completion."
+    },
+    {
+      "id": "stripe-checkout-overview",
+      "note": "Stripe supports hosted checkout concepts for payment detail collection, shipping and tax options, status, and success or cancel return paths."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Stripe supports idempotency for avoiding duplicate effects when retrying payment-like requests."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

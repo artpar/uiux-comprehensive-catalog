@@ -1,0 +1,261 @@
+{
+  "id": "long-press",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed long-press pattern with sustained-contact gesture guidance, hold duration, press-down feedback, hold progress, threshold reached, release cancel, movement cancel, context-menu invocation, selection mode, preview, drag pickup, disabled action, destructive handoff, keyboard and screen-reader equivalents, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers long press as a sustained-contact gesture with idle target, gesture hint, press down, hold progress, threshold reached, release cancel, movement cancel, context menu, selection mode, preview, drag pickup, disabled action, destructive handoff, keyboard path, screen reader action, and mobile compact states.",
+    "relatedPatternDistinction": "Separated from touch gesture as the broader gesture system, context menu as the target-scoped command surface, tooltip as noninteractive supplemental text, popover as richer nonmodal contextual content, action menu as a visible command trigger, swipe action as a horizontal row gesture, and drag-and-drop as movement to a destination.",
+    "liveDemoBehavior": "Good demo exercises idle target, gesture hint, press down, hold progress, threshold reached, release cancel, movement cancel, context menu, selection mode, preview, drag pickup, disabled action, destructive handoff, keyboard path, screen reader action, and mobile compact states. Bad demo exercises hidden-only, slow tap misfire, no cancel, scroll conflict, required tooltip, destructive commit, and no equivalent failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes long press from touch gesture, context menu, tooltip, popover, and action menu by sustained-contact gesture, hold duration, press-down feedback, threshold cue, movement tolerance, release-before-threshold cancellation, equivalent non-gesture control, tap, vertical scroll, swipe action, pull-to-refresh, drag pickup, menu surface, tooltip content, popover content, and visible command trigger.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 266 complete patterns, 1 excluded in-progress pattern, 31 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/long-press/ with required terms present, no duplicate IDs, no page overflow, and no long-press demo overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/long-press-vs-touch-gesture-vs-context-menu-vs-tooltip-vs-popover-vs-action-menu/ was checked at desktop and compact widths with concrete decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/long-press.png"
+    ]
+  },
+  "name": "Long press",
+  "aliases": [
+    "press and hold",
+    "touch and hold",
+    "hold gesture",
+    "long tap",
+    "long-press gesture",
+    "secondary touch action"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Selection And Choice",
+    "Navigation And Wayfinding",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Sustained pointer contact that reveals secondary actions, selection, preview, or drag pickup",
+  "uiGuidance": [
+    "Show long press as a sustained-contact gesture with a discoverable hint, press progress, hold threshold, cancellation, release behavior, and a visible non-gesture equivalent.",
+    "Use long press for secondary or accelerated item actions such as selection mode, context menu, preview, reorder pickup, or inspect details; never make it the only route to primary or critical work."
+  ],
+  "uxGuidance": [
+    "Use long press when a touch-first surface needs a secondary action that benefits from deliberate dwell time and can coexist with tap, scroll, swipe, and drag.",
+    "Define the hold duration, movement tolerance, haptic or visual feedback, cancel path, equivalent menu or button, and post-hold destination before implementation."
+  ],
+  "uiExamples": {
+    "good": [
+      "A file tile shows a short Touch and hold for actions hint, displays a hold ring after press down, opens a context menu at the tile after threshold, and keeps a visible More actions button.",
+      "A task card enters selection mode after a long press, announces 1 task selected, shows a selection toolbar, and lets keyboard users select the same task with a checkbox."
+    ],
+    "bad": [
+      "A long press silently deletes an item with no hint, progress, confirmation, undo, or visible alternative.",
+      "A press-and-hold tooltip contains required instructions but cannot be reached by keyboard or screen reader users.",
+      "A long press starts drag pickup while users are trying to scroll the list."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user touches and holds a photo, sees the hold progress cross threshold, receives haptic feedback, then a context menu opens with Copy, Share, Favorite, and Delete.",
+      "A user starts holding a row but moves beyond tolerance while scrolling; the hold cancels and the row scrolls normally.",
+      "A screen reader user opens the same item actions through custom actions or More actions instead of needing sustained contact."
+    ],
+    "bad": [
+      "A user taps a card slowly and accidentally opens a hidden destructive menu.",
+      "A user with tremor cannot keep contact still for the full threshold and has no alternate control.",
+      "A mouse user sees a hover tooltip but the touch user must guess that touch and hold exists."
+    ]
+  },
+  "platforms": [
+    "mobile",
+    "web",
+    "desktop",
+    "spatial"
+  ],
+  "problem": "Long press is useful for secondary touch actions, but sustained hidden contact is hard to discover, easy to confuse with tap, scroll, swipe, drag, context menus, and tooltips, and inaccessible when it replaces visible or keyboard-reachable controls.",
+  "solution": "Design long press as an optional sustained-contact shortcut with visible teaching, threshold feedback, movement tolerance, cancellation, equivalent controls, clear destination, and recovery or confirmation for risky outcomes.",
+  "problemContext": [
+    "A touch-first surface has objects, cards, rows, messages, files, canvas items, map markers, or media that support secondary actions.",
+    "The same target may also support tap-to-open, double tap, swipe action, drag pickup, text selection, scroll, context menu, hover tooltip, or popover.",
+    "Users may need selection mode, item actions, preview, inspect details, reorder pickup, copied text actions, or temporary reveal.",
+    "The product must support users who cannot sustain contact, cannot keep a pointer still, use keyboard or switch control, use a screen reader, or interact with a mouse and trackpad."
+  ],
+  "selectionRules": [
+    "Choose long press when the design problem is a sustained-contact gesture and its threshold, feedback, cancellation, and equivalent action path.",
+    "Use touch gesture when the question is the broader vocabulary and fallback contract across tap, swipe, pinch, drag, and other gestures.",
+    "Use context menu when the main question is the menu surface, command grouping, focus movement, and target-specific command scope after invocation.",
+    "Use tooltip when the surface only supplies short supplemental text and no interactive controls.",
+    "Use popover when the target opens nonmodal contextual content with richer text or controls.",
+    "Use action menu when commands should be opened from a visible trigger instead of relying on sustained contact.",
+    "Use swipe action when a horizontal row gesture reveals or commits an item action.",
+    "Use drag and drop when sustained contact is only the pickup phase for moving an object to a destination.",
+    "Provide a visible More actions button, menu, checkbox, shortcut, or custom action for every long-press-only outcome.",
+    "Do not use long press for primary, urgent, destructive, payment, consent, account, security, or required instructions."
+  ],
+  "requiredStates": [
+    "Idle target state with visible identity and alternate action path.",
+    "Gesture hint state that teaches touch and hold without relying on hover.",
+    "Press down state that identifies the target before threshold.",
+    "Hold progress state showing duration or affordance before action fires.",
+    "Threshold reached state with haptic, visual, or status feedback.",
+    "Release-before-threshold cancellation state that leaves data unchanged.",
+    "Movement-tolerance cancellation state when the user scrolls, swipes, drags too far, or leaves the target.",
+    "Context menu, preview, selection mode, or drag-pickup destination state after threshold.",
+    "Disabled or unavailable long-press state with explanation.",
+    "Equivalent action-menu, visible control, keyboard, screen reader, switch, and pointer path.",
+    "Destructive or high-impact action handoff to undo, confirmation, or review.",
+    "Mobile compact, large-text, one-handed, landscape, and assistive-touch states."
+  ],
+  "interactionContract": [
+    "Long press starts only from a target that intentionally supports sustained contact.",
+    "The interface gives press-down feedback immediately and progress or dwell feedback before threshold when the delay is noticeable.",
+    "The gesture cancels cleanly if the user releases before threshold, moves beyond tolerance, begins vertical scroll, starts an incompatible swipe, or presses Escape on an equivalent path.",
+    "Crossing threshold opens a named destination such as context menu, selection mode, preview, inspect panel, or drag pickup rather than performing an unexplained action.",
+    "Tap, double tap, swipe action, pull-to-refresh, drag, and system gestures have explicit priority rules against long press.",
+    "Every outcome is available through a non-gesture equivalent with matching disabled, pending, success, and recovery states.",
+    "Destructive outcomes after long press require explicit tap, confirmation, or undo according to reversibility.",
+    "Status messaging names the target and action when long press changes selection, opens actions, or completes work."
+  ],
+  "implementationChecklist": [
+    "Inventory each long-press target, purpose, duration threshold, movement tolerance, destination, action scope, and equivalent control.",
+    "Decide whether long press opens a context menu, enters selection mode, shows preview, starts drag pickup, reveals hidden controls, or performs another specific outcome.",
+    "Add visible teaching such as More actions, selection checkbox, handle, hint text, or onboarding only where users need to discover the shortcut.",
+    "Implement press-down feedback, progress feedback, haptic feedback where platform appropriate, threshold reached state, cancellation, and release behavior.",
+    "Resolve conflicts with tap, double tap, scroll, swipe action, pull-to-refresh, drag pickup, text selection, hover tooltip, popover, and system gestures.",
+    "Expose the same actions through buttons, menus, keyboard, screen reader custom actions, context menu key, switch control, or other assistive paths.",
+    "Route destructive or high-impact outcomes through confirmation, undo, delayed commit, or review rather than committing on threshold.",
+    "Test slow tap, tremor, accidental movement, long text selection, nested scrollers, one-handed use, large text, screen reader touch exploration, keyboard, switch, mouse, trackpad, stylus, and mobile landscape."
+  ],
+  "commonMisuses": [
+    "Hiding required or primary actions behind undiscoverable long press.",
+    "Using long press as a tooltip that contains required or interactive content.",
+    "Committing destructive work as soon as the hold threshold is reached.",
+    "Failing to cancel when users release early or start scrolling.",
+    "Conflicting with swipe action, drag pickup, text selection, or pull-to-refresh on the same target.",
+    "Providing no keyboard, screen reader, switch, mouse, or visible menu equivalent.",
+    "Using hover hints to teach a touch gesture.",
+    "Making the required hold duration too long, too short, or inconsistent across similar targets."
+  ],
+  "critiqueQuestions": [
+    "What exact outcome happens after the hold threshold: menu, selection, preview, drag pickup, or action?",
+    "How do users discover that touch and hold is available before needing it?",
+    "What hold duration, movement tolerance, and cancellation rules prevent accidental activation?",
+    "What visible or accessible control performs the same outcome without sustained contact?",
+    "How do tap, scroll, swipe action, pull-to-refresh, drag, text selection, context menu, and system gestures avoid conflict?",
+    "What happens if the target becomes disabled, moves, or changes state during the hold?",
+    "Does any destructive outcome require confirmation, undo, or explicit activation after reveal?"
+  ],
+  "useWhen": [
+    "A touch-first interface needs an optional shortcut to secondary item actions, selection mode, preview, or drag pickup.",
+    "The target can show clear feedback before threshold and a predictable destination after threshold.",
+    "The same outcome is available through visible, keyboard, and assistive paths."
+  ],
+  "avoidWhen": [
+    "The action is primary, required, urgent, destructive, security-sensitive, consent-related, payment-related, or account-changing.",
+    "Users need persistent instructions or interactive content that should be a popover, inline message, or visible control.",
+    "The target already has unresolved scroll, swipe, drag, text-selection, or system-gesture conflicts.",
+    "The product cannot provide an equivalent non-gesture path.",
+    "The task requires fast repeated actions where a visible button or action menu is more efficient."
+  ],
+  "variants": [
+    "Long press for context menu",
+    "Long press for selection mode",
+    "Long press for preview",
+    "Long press for drag pickup",
+    "Long press for text selection",
+    "Long press with haptic feedback",
+    "Touch and hold with visible action menu",
+    "Press-and-hold disabled state",
+    "Long press with movement cancellation",
+    "Long press with confirmation handoff"
+  ],
+  "accessibility": [
+    "Do not require sustained contact as the only way to access functionality.",
+    "Provide visible controls, action menus, custom screen reader actions, keyboard shortcuts, context-menu invocation, or selection checkboxes for the same outcomes.",
+    "Expose target name, hold result, selected count, opened menu, preview, or drag pickup through status text when state changes.",
+    "Avoid relying on haptic feedback, motion, color, or hover-only hints as the sole cue.",
+    "Respect target size and spacing for the target and equivalent controls.",
+    "Let users cancel without data change when release, movement, scroll, or focus change occurs before threshold.",
+    "Avoid long hold requirements for users with motor impairments unless a simpler path exists beside it."
+  ],
+  "keyboardBehavior": [
+    "Keyboard users can open the same action set through a visible button, context-menu key, Shift+F10, checkbox, shortcut, or focused command.",
+    "Enter or Space on the target follows the primary tap behavior, not a hidden long-press result.",
+    "Escape cancels equivalent revealed menus, previews, selection modes, or drag-pickup states where applicable.",
+    "After opening a context menu or popover, focus follows that pattern's focus rules.",
+    "After entering selection mode, focus remains on or near the selected target and selected count is announced.",
+    "After completion, focus moves to a status, undo control, confirmation, affected object, or next logical target."
+  ],
+  "failureModes": [
+    "A hidden long press is the only way to delete, archive, select, or inspect an item.",
+    "Slow tapping opens a context menu when the user intended to open the item.",
+    "Long press fights vertical scroll and selects a row while the user is reading.",
+    "A hold opens a tooltip with required instructions that touch and keyboard users cannot keep visible.",
+    "Screen reader touch exploration triggers long press or never exposes the same actions.",
+    "The hold threshold commits destructive work instead of revealing actions or review.",
+    "A drag pickup begins without a clear handle, target, or cancel path.",
+    "The same target has different long-press and visible-menu command sets."
+  ],
+  "relatedPatterns": [
+    "touch-gesture",
+    "context-menu",
+    "tooltip",
+    "popover",
+    "action-menu",
+    "swipe-action",
+    "drag-and-drop-upload"
+  ],
+  "comparisons": [
+    "long-press-vs-touch-gesture-vs-context-menu-vs-tooltip-vs-popover-vs-action-menu"
+  ],
+  "examples": [
+    {
+      "product": "Material Design 3 Gestures",
+      "url": "https://m3.material.io/foundations/interaction/gestures",
+      "platform": "mobile",
+      "notes": "Documents long press as a way to access additional functionality and examples such as list-item selection and copy actions.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Android Developers GestureDetector",
+      "url": "https://developer.android.com/develop/ui/views/touch-and-input/gestures/detector",
+      "platform": "mobile",
+      "notes": "Documents Android common gesture detection including onLongPress.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Apple HIG Gestures",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/gestures",
+      "platform": "mobile",
+      "notes": "Documents platform gesture consistency, direct interaction, and system gesture considerations.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Target Size Minimum",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html",
+      "platform": "web",
+      "notes": "Supports target size and spacing for long-press targets and equivalent controls.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-design-gestures",
+      "note": "Supports long press as a common gesture for additional functionality and list-item selection."
+    },
+    {
+      "id": "android-gesture-detector-common-gestures",
+      "note": "Supports platform recognition of onLongPress and related common gesture detection."
+    },
+    {
+      "id": "apple-hig-gestures",
+      "note": "Supports consistent platform gesture behavior and avoiding conflicts with system gestures."
+    },
+    {
+      "id": "w3c-wcag-target-size-minimum",
+      "note": "Supports target size and spacing expectations."
+    },
+    {
+      "id": "w3c-wcag-pointer-gestures",
+      "note": "Supports non-gesture alternatives where gesture behavior is demanding or path-based."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

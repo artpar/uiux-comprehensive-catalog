@@ -1,0 +1,52 @@
+{
+  "id": "permission-request-vs-consent-prompt-vs-permission-sharing-vs-permission-recovery-vs-permission-denied-state-vs-notification-preferences",
+  "title": "Permission request vs consent prompt vs permission sharing vs permission recovery vs permission denied state vs notification preferences",
+  "summary": "Use permission request when the user is granting an operating-system or browser device resource such as camera, microphone, location, photos, contacts, notifications, Bluetooth, clipboard, or motion sensors; use consent prompt for optional data-use opt-in, permission sharing for durable access grants, permission recovery for owner or admin access requests, permission denied state for an authorization boundary, and notification preferences for channels, topics, frequency, and message subscriptions.",
+  "patternIds": [
+    "permission-request",
+    "consent-prompt",
+    "permission-sharing",
+    "permission-recovery",
+    "permission-denied-state",
+    "notification-preferences"
+  ],
+  "decisionRules": [
+    "Choose permission request when a contextual timing decision leads into a system permission prompt for a device resource or powerful browser feature such as camera, microphone, location, photos, contacts, notifications, Bluetooth, clipboard, storage access, or motion sensors.",
+    "Choose consent prompt when the user is making an active opt-in for optional data use such as marketing, research participation, AI training, partner sharing, personalization, survey follow-up, or sensitive-data processing.",
+    "Choose permission sharing when the task is durable access grants for another user, group, guest, link, service account, key, role, scope, expiry, or revoke path.",
+    "Choose permission recovery when the current user lacks account access and asks an owner or admin for access after denial.",
+    "Choose permission denied state when the surface must explain an authorization boundary, required role, policy, license, share grant, wrong account, no-disclosure rule, request status, or read-only fallback.",
+    "Choose notification preferences when the user is selecting message channels, topics, frequency, quiet hours, digest behavior, subscriptions, preview privacy, or notification center routing rather than granting OS notification access.",
+    "A permission request must name the resource, user-triggered feature, system prompt timing, grant outcome, deny outcome, previously denied handling, settings route, manual fallback, limited access, while-in-use or one-time lifetime, and permission revoked state.",
+    "Do not substitute a privacy settings page, account-level privacy controls, consent record, legal acceptance, approval dialog, or durable sharing screen for a just-in-time platform permission prompt.",
+    "Do not treat grant as consent to unrelated data use, do not treat denial as a product-wide authorization failure, and do not use notification preferences to replace the initial OS notification permission request.",
+    "When a user denies permission, the product should preserve eligible work through manual fallback or lower-access behavior instead of repeat nag loops, blocked-on-deny flows, fake required copy, or permission mismatch prompts."
+  ],
+  "failureModes": [
+    "A camera feature triggers contacts or precise location permission, creating a permission mismatch.",
+    "The first-run flow asks for every device resource before any feature-triggered ask.",
+    "A consent prompt is used to request location access but never invokes or handles the system permission prompt.",
+    "A notification preferences page offers channels and topics even though OS notifications are denied and no settings route is shown.",
+    "A denied permission is treated like missing account authorization, sending the user to an owner or admin instead of a device settings route or manual fallback.",
+    "A permanent denial repeats the same prompt rather than explaining settings required recovery."
+  ],
+  "sources": [
+    {
+      "id": "android-runtime-permissions",
+      "note": "Supports contextual runtime permission requests, action-specific permission needs, cancellation, denial handling, revocation handling, and graceful degradation."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports browser prompt state, permission query behavior, API-specific prompt triggers, revocation through browser settings, and device-resource examples."
+    },
+    {
+      "id": "w3c-permissions-api",
+      "note": "Supports powerful-feature permissions, allow or deny choices, state queries, lifetime, and state-change notification."
+    },
+    {
+      "id": "nng-permission-requests",
+      "note": "Supports contextual timing, benefit framing, informed choice, reversal, and dark-pattern avoidance."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

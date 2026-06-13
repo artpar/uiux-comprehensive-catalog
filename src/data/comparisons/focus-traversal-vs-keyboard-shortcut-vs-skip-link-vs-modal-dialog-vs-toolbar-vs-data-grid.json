@@ -1,0 +1,53 @@
+{
+  "id": "focus-traversal-vs-keyboard-shortcut-vs-skip-link-vs-modal-dialog-vs-toolbar-vs-data-grid",
+  "title": "Focus traversal vs keyboard shortcut vs skip link vs modal dialog vs toolbar vs data grid",
+  "summary": "Use focus traversal for predictable movement through interactive elements with Tab, Shift+Tab, initial focus, visible focus, and focus return. Use keyboard shortcut for direct command acceleration, skip link for bypassing repeated blocks, modal dialog for contained modal focus, toolbar for grouped view-scoped controls, and data grid for managed two-dimensional cell focus.",
+  "patternIds": [
+    "focus-traversal",
+    "keyboard-shortcut",
+    "skip-link",
+    "modal-dialog",
+    "toolbar",
+    "data-grid"
+  ],
+  "decisionRules": [
+    "Choose focus traversal when users need a logical sequential focus order through links, buttons, fields, panels, validation messages, overlays, and return points using Tab and Shift+Tab.",
+    "Choose keyboard shortcut when one key combination directly invokes a known command instead of moving through the page focus sequence.",
+    "Choose skip link when the issue is bypassing repeated header, navigation, filter, or advertising blocks before reaching main content.",
+    "Choose modal dialog when focus must be intentionally contained inside a modal surface while background content is inert and focus returns to the invoker.",
+    "Choose toolbar when a labelled group of view-scoped controls benefits from one entry point, optional roving focus, arrow-key movement, and stable command grouping.",
+    "Choose data grid when two-dimensional cell focus for row-and-column interaction needs managed cell focus, arrow navigation, edit-mode boundaries, and one page tab stop.",
+    "Focus traversal must define source order, visible focus indicator, first focus target, next and previous Tab destinations, Shift+Tab behavior, focus return after close or submit, hidden-content removal, disabled-control policy, and recovery when target content changes.",
+    "Do not repair broken focus order with positive tabindex values, invisible focus targets, shortcut-only jumps, or CSS visual reordering that disagrees with DOM and reading order.",
+    "Focus traversal is incomplete if opening drawers, popovers, accordions, validation summaries, route changes, filters, virtualized lists, keyboard trap regions, or responsive layouts leaves focus on hidden, removed, offscreen, or unrelated controls.",
+    "Resolve traversal conflicts against skip links, landmarks, headings, modal focus containment, composite widget roving focus, keyboard shortcuts, browser focus behavior, and screen-reader browse modes."
+  ],
+  "failureModes": [
+    "Tab order follows CSS columns visually in one mode and DOM order in another, causing focus to jump between unrelated sections.",
+    "A hidden drawer, collapsed panel, or disabled decorative element remains in the tab sequence.",
+    "A modal closes and focus returns to the top of the page instead of the opener or the next logical task.",
+    "Validation scrolls to an error but keyboard focus stays on the submit button.",
+    "Positive tabindex values make maintenance brittle and put focus before browser chrome, skip links, or main controls.",
+    "A virtualized list removes the focused row and leaves keyboard focus nowhere.",
+    "Focus rings are suppressed, so users cannot tell which item owns keyboard focus."
+  ],
+  "sources": [
+    {
+      "id": "wcag-focus-order",
+      "note": "Supports logical sequential focus order that preserves meaning and operability."
+    },
+    {
+      "id": "wcag-focus-visible",
+      "note": "Supports visible keyboard focus indicators."
+    },
+    {
+      "id": "wcag-no-keyboard-trap",
+      "note": "Supports avoiding keyboard traps and giving keyboard exits from restricted focus regions."
+    },
+    {
+      "id": "mdn-htmlelement-tabindex",
+      "note": "Supports tabindex behavior for sequential focus navigation."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

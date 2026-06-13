@@ -1,0 +1,275 @@
+{
+  "id": "approval-workflow",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed routed approval pattern with guidance for submitted request records, approver eligibility, one-person, everyone, first-response, threshold, sequential, parallel, code-owner, manager-chain, manual, custom, timeout, delegation, rejection, requested-change, self-review-block, bypass, revision, notification, audit, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers approval records after submission, requester and target context, requested action and version, approver route rules, eligible approver controls, due dates, sequential and parallel semantics, first-response and everyone-must-approve behavior, rejection and change-request comments, delegation, reassignment, timeout, cancellation, admin bypass, self-review prevention, stale decision checks, downstream blocking, notification deep links, and audit timeline events.",
+    "relatedPatternDistinction": "The entry separates approval workflow from review before submit by owning routed decision making after submission rather than the requester's final edit gate, from permission recovery by handling an approval route for submitted work rather than access recovery for a denied user, from invite user by routing approval of a request rather than sending another person's access invitation, from confirmation dialog by managing a durable multi-state route rather than an immediate local decision, and from activity log or notification center by using those as supporting surfaces rather than the decision workflow itself.",
+    "liveDemoBehavior": "The live demo uses production deployment approval APR-2048 with draft handoff, submitted record, route calculation, self-review block, sequential next gate, parallel Security and SRE approval, requested changes, rejection with reason, delegation, timeout, final approval, admin bypass with reason, and bad modes for blind approval, first approval incorrectly finishing, no rejection reason, self approval, lost revision, and stale email decision.",
+    "comparisonDecisionRules": "The linked approval-workflow-vs-review-before-submit-vs-permission-recovery-vs-invite-user comparison gives concrete rules for routed approver decisions, pre-submit review, permission recovery, invitations, confirmation dialogs, activity logs, notification deep links, sequential and parallel approval semantics, self-review blocks, stale decisions, and audit boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/approval-workflow/ on 2026-06-11 in Chromium: verified Draft, Submit, Route, Self-review, Next gate, Parallel, Changes, Reject, Delegate, Timeout, Approved, Bypass, Blind approve, First done, No reason, Self approve, Lost revision, and Stale email states; verified APR-2048, payments-api to production, Priya Rao, Omar Singh, Mina Patel, Security and SRE, self-review policy, rollback proof, rejected reason, timed out state, approved release, and bypass reason render; verified no duplicate IDs and no page-level horizontal overflow; verified /compare/approval-workflow-vs-review-before-submit-vs-permission-recovery-vs-invite-user/ concrete decision rules; and checked mobile viewport with collapsed record, fields, bad-mode grid, all controls, timeout state, stale email state, and no horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/approval-workflow.png"
+    ]
+  },
+  "name": "Approval workflow",
+  "aliases": [
+    "approval flow",
+    "request approval",
+    "approval process",
+    "approval gate",
+    "manual approval",
+    "approver workflow",
+    "multi-stage approval",
+    "sequential approval",
+    "parallel approval",
+    "approval request"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Collaboration And Social Interaction",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Routed decision workflow for requests that require authorized approval",
+  "uiGuidance": [
+    "Render approval workflow as a routed request record with requester, object, requested action, approver eligibility, required rule, current gate, due date, decision controls, comment history, and outcome consequences.",
+    "Separate requester view, approver decision view, pending route, delegated or reassigned route, change-requested route, final approved or rejected outcome, timeout, cancellation, and bypass audit states."
+  ],
+  "uxGuidance": [
+    "Use approval workflow when a submitted request cannot proceed until an authorized person, group, threshold, sequence, or external policy gate explicitly approves or rejects it.",
+    "Make the approval route understandable over time: who has the request, what decision is needed, what happens on approval or rejection, what blocks self-review, and where the requester can revise or withdraw."
+  ],
+  "uiExamples": {
+    "good": [
+      "A production deployment request shows requester, service, environment, change summary, required reviewer group, self-review restriction, wait timer, Approve and Reject with reason controls, and a timeline of route changes.",
+      "A purchase request shows manager approval complete, finance approval pending, legal approval next, due dates, comments, attachments, and the final action that will run after all required approvals."
+    ],
+    "bad": [
+      "A request page says Waiting without naming the approver, required count, due date, or escalation path.",
+      "An approver receives Approve and Reject buttons in email with no request summary, impact, attachment, policy reason, or link to the canonical record."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A requester submits a deployment, sees it is waiting for Release managers, cannot self-approve, receives a change request with a required comment, edits the change summary, and resubmits to the same route.",
+      "A finance approval requires both manager and controller approval; the first approval advances the sequence, a rejection stops downstream processing, and the requester sees the exact rejection reason and revise action."
+    ],
+    "bad": [
+      "The first approver clicks Approve and the system marks the whole request approved even though policy required everyone to approve.",
+      "A rejection returns the requester to a blank form, loses attachments, and leaves no audit trail showing who rejected or why."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "High-impact work stalls or proceeds unsafely when products hide who must approve, which rule applies, whether approval is sequential or parallel, what approvers are deciding, how rejection or changes return to the requester, and how the final decision is audited.",
+  "solution": "Provide a durable approval record that routes a submitted request to eligible decision makers, shows the active rule and gate, collects decisions and comments, handles changes, delegation, expiry, cancellation, and bypass, and records the final outcome before downstream work proceeds.",
+  "problemContext": [
+    "A request has already been drafted or submitted and a policy, workflow, governance, financial, release, access, procurement, content, or compliance rule requires human or external approval.",
+    "The approval route may be one approver, any one of several approvers, every assigned approver, a threshold, a percentage, a named sequence, a group, a code owner, a manager chain, or a custom external gate.",
+    "Approvers need enough context to make a decision without leaking unnecessary data or acting on stale versions.",
+    "Requesters need status, ownership, due date, comments, revise or withdraw paths, and final consequences.",
+    "The product must preserve audit evidence for approve, reject, request changes, delegate, reassign, cancel, timeout, revoke, bypass, and resubmit events."
+  ],
+  "selectionRules": [
+    "Choose approval workflow when the core job is routing a submitted request through one or more authorized decisions before work can continue.",
+    "Use review before submit when the requester is still checking their own inputs before the request enters an approval route.",
+    "Use permission recovery when the user is blocked by missing access and is requesting authorization for themselves.",
+    "Use invite user when another person is being invited into a workspace, organization, team, repository, channel, or shared resource.",
+    "Use confirmation dialog for an immediate local confirmation, not for long-running approval routes with status, approvers, comments, and audit trail.",
+    "Use activity log for the historical trail of approval events, not as the primary decision interface.",
+    "Show whether the rule is everyone must approve, first to respond, threshold, percentage, sequential, code-owner, group, or custom policy gate.",
+    "Block or clearly flag self-review when policy requires a separate approver.",
+    "Expose rejection, requested changes, timeout, cancellation, delegation, bypass, and resubmission as specific states with different next actions.",
+    "Keep approver notifications deep-linked to the canonical approval record so decisions are made against current request context."
+  ],
+  "requiredStates": [
+    "Draft or submit-ready request handoff state",
+    "Submitted and awaiting route calculation state",
+    "Pending approver state with current owner or group",
+    "Approver decision state with Approve, Reject, and comment controls",
+    "Sequential next-approver state",
+    "Parallel approval progress state",
+    "Requested changes state",
+    "Rejected state with reason and revise or close path",
+    "Approved state with downstream action or release",
+    "Delegated or reassigned approver state",
+    "Due soon, expired, or timed-out state",
+    "Canceled or withdrawn state",
+    "Bypassed or admin override state with audit reason"
+  ],
+  "interactionContract": [
+    "Submitting creates a durable approval record with requester, target, requested action, version, approver rule, due date, and route state.",
+    "Approver controls are available only to eligible approvers and must show the current request version and required context before decision.",
+    "Approve, reject, request changes, delegate, reassign, withdraw, cancel, revoke approval, bypass, and resubmit actions update the same record and timeline.",
+    "Sequential routes move to the next required approver only after the current approver responds.",
+    "Parallel routes compute completion according to the configured rule, such as everyone approves, first response, threshold, percentage, or any rejection stops.",
+    "Rejected and change-requested outcomes preserve requester inputs and comments so revisions do not start from an empty request.",
+    "Notifications and email actions must verify the record is still current before accepting a decision.",
+    "Final approval triggers the downstream operation only after all required gates pass; final rejection, expiry, or cancellation blocks it.",
+    "The audit trail records actor, role, decision, comment, timestamp, route rule, delegation, bypass, and version context."
+  ],
+  "implementationChecklist": [
+    "Model approval record, request version, requester, target object, requested action, approval rule, approver eligibility, due date, decision states, comments, attachments, and audit events separately from the drafted request form.",
+    "Define route semantics for one approver, first response, everyone must approve, threshold, percentage, sequential chain, code owner, manager chain, group, manual approver, custom policy, timeout, and bypass.",
+    "Design requester, approver, admin, and observer views with the same canonical state but role-appropriate actions.",
+    "Show enough request detail, risk, attachment, diff, cost, access, release, or publication impact for a decision, and hide restricted details from ineligible viewers.",
+    "Require rejection and change-request comments when the requester needs an actionable next step.",
+    "Preserve request data, comments, attachments, route history, and return context through revision, resubmission, browser Back, reload, and notification deep links.",
+    "Prevent stale decisions by checking version, eligibility, current status, and route membership before accepting approval from email, mobile, or background notifications.",
+    "Implement escalation, due date, reminder, delegate, reassign, withdraw, cancel, and admin bypass paths with audit reasons.",
+    "Test everyone-approves, first-to-respond, sequential, threshold, self-review block, duplicate decision, late decision after timeout, rejection with reason, requested changes, delegation, cancellation, bypass, mobile decision controls, keyboard navigation, and screen reader status updates."
+  ],
+  "commonMisuses": [
+    "Showing a generic pending message without the approver, gate, rule, or due date.",
+    "Treating the first approval as final when the rule requires more approvers.",
+    "Letting requesters approve their own protected work without an explicit bypass rule.",
+    "Collecting Approve or Reject without showing the current request version or impact.",
+    "Dropping requester inputs after rejection or requested changes.",
+    "Using a notification as the only approval surface and losing the canonical record.",
+    "Conflating approval workflow with review before submit, review queue, assignment, or activity log.",
+    "Failing to audit delegation, reassignment, cancellation, timeout, revocation, and bypass."
+  ],
+  "critiqueQuestions": [
+    "Who requested the approval, what object or action is being approved, and what version is the approver deciding on?",
+    "Which rule applies: one approver, everyone, first response, threshold, percentage, sequence, group, manager, code owner, or custom policy?",
+    "Who can approve, who is blocked from self-review, and how are unavailable approvers handled?",
+    "What happens after approval, rejection, requested changes, timeout, cancellation, or bypass?",
+    "Can the requester revise without losing context, and can approvers see what changed since the last route?",
+    "Does the audit trail explain every decision, comment, route change, delegation, and override?"
+  ],
+  "useWhen": [
+    "A submitted request needs authorized approval before a deployment, purchase, access grant, publication, content change, policy exception, financial action, or workflow step can proceed.",
+    "The product can identify eligible approvers, enforce route rules, notify decision makers, and block downstream work until approval conditions are met.",
+    "Approvals may take time and require status tracking, reminders, comments, delegation, revisions, and audit history."
+  ],
+  "avoidWhen": [
+    "The user only needs to check their own answers before submission.",
+    "The decision is a quick local confirmation with no routed approver, status, or audit lifecycle.",
+    "The primary task is triaging many unrelated items in a queue rather than managing one request's route.",
+    "The user is requesting access for themselves after a permission denial.",
+    "The product cannot enforce approver eligibility, route state, or downstream blocking."
+  ],
+  "variants": [
+    "Single approver",
+    "Everyone must approve",
+    "First responder decides",
+    "Sequential approval",
+    "Threshold approval",
+    "Percentage approval",
+    "Manager chain approval",
+    "Code owner approval",
+    "Deployment approval gate",
+    "Purchase approval",
+    "Content publication approval",
+    "Manual approver override",
+    "Admin bypass with reason"
+  ],
+  "accessibility": [
+    "Use labelled request summary, approver, status, due date, decision, comment, and history regions.",
+    "Announce state changes such as submitted, pending approver, approved, rejected, changes requested, delegated, timed out, canceled, and bypassed through status text.",
+    "Do not rely on color, initials, icons, or timeline position alone to communicate which approvals are missing or complete.",
+    "Make Approve, Reject, Request changes, Delegate, Reassign, Withdraw, Resubmit, and Bypass controls keyboard reachable with role-specific accessible names.",
+    "Associate rejection or change-request reason requirements with the comment field and error message.",
+    "Keep timeline events readable in source order and expose actor, decision, timestamp, and comment text.",
+    "Warn before navigation when an approver has typed a decision comment but not submitted it."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows request summary, route status, current approver controls, comment field, decision buttons, attachments or diffs, and timeline.",
+    "Keyboard users can expand policy, diff, attachment, and prior-comment details without losing focus.",
+    "Decision submission moves focus to the updated status or next required action.",
+    "A rejected or change-requested response returns focus to the requester revise action or status update.",
+    "Delegation and reassignment dialogs return focus to the approval record row or action that opened them.",
+    "Notification deep links focus the approval title and current decision state after load."
+  ],
+  "failureModes": [
+    "An approval route waits forever because no rejection or timeout rule exists.",
+    "A stale email approval applies to a request version that has changed.",
+    "An approver rejects without a reason and the requester cannot tell what to fix.",
+    "A request is approved by someone ineligible or by the requester despite a self-review block.",
+    "A sequential process skips the second approver after the first approval.",
+    "A timeout, bypass, or delegation happens without audit reason or notification.",
+    "Requesters resubmit from scratch after changes, losing attachments and previous comments.",
+    "Downstream work starts before all required approvals are satisfied."
+  ],
+  "relatedPatterns": [
+    "review-before-submit",
+    "permission-recovery",
+    "invite-user",
+    "confirmation-dialog",
+    "activity-log",
+    "notification-center",
+    "success-confirmation",
+    "conflict-state"
+  ],
+  "comparisons": [
+    "approval-workflow-vs-review-before-submit-vs-permission-recovery-vs-invite-user"
+  ],
+  "examples": [
+    {
+      "product": "GitHub Actions deployment protection rules",
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments",
+      "platform": "web",
+      "notes": "Documents required reviewers, manual approval before jobs proceed, self-review prevention, wait timers, branch restrictions, bypass controls, and custom deployment protection rules.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitLab merge request approvals",
+      "url": "https://docs.gitlab.com/user/project/merge_requests/approvals/",
+      "platform": "web",
+      "notes": "Documents optional and required approval rules, minimum approval counts, reviewer categories, code owners, approval status, approve additionally, and revoke approval states.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Power Automate approvals",
+      "url": "https://learn.microsoft.com/en-us/power-automate/get-started-approvals",
+      "platform": "web",
+      "notes": "Documents approval actions, approver notifications, approval request details, everyone-must-approve, first-to-respond, custom response, wait-for-all, wait-for-one, and sequential approval behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Power Automate everyone must approve flow",
+      "url": "https://learn.microsoft.com/en-us/power-automate/all-assigned-must-approve",
+      "platform": "web",
+      "notes": "Documents a vacation approval workflow where all assigned approvers must approve and any approver can reject the entire request.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "ServiceNow Ask for Approval action",
+      "url": "https://www.servicenow.com/docs/r/washingtondc/build-workflows/ask-approval-flow-designer.html",
+      "platform": "web",
+      "notes": "Documents record-based approval, approval and rejection rules, manual approvers, due dates, output states, journal fields, cancellation, and waiting-state safeguards.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-actions-deployment-protection-rules",
+      "note": "GitHub supports required reviewers for deployment jobs, self-review prevention, wait timers, environment restrictions, bypass controls, and custom deployment protection rules."
+    },
+    {
+      "id": "gitlab-merge-request-approvals",
+      "note": "GitLab supports required approval rules, approval counts, reviewer categories, code owner approval, merge request approval status, additional approval, and approval revocation."
+    },
+    {
+      "id": "microsoft-power-automate-approvals",
+      "note": "Power Automate supports approval request details, approver notification, everyone-must-approve, first-to-respond, custom response, wait-for-all, wait-for-one, and sequential approval types."
+    },
+    {
+      "id": "microsoft-power-automate-everyone-must-approve",
+      "note": "Power Automate supports all-assigned approval workflows where every assigned approver must approve and any approver can reject the entire request."
+    },
+    {
+      "id": "servicenow-ask-for-approval-action",
+      "note": "ServiceNow supports approval and rejection rules, manual approvers, due dates, approval output states, journal fields, cancellation, and safeguards for waiting states."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

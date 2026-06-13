@@ -1,0 +1,61 @@
+{
+  "id": "modal-for-nonblocking-content-vs-modal-dialog-vs-popover-vs-drawer-vs-inline-message",
+  "title": "Modal for nonblocking content vs modal dialog vs popover vs drawer vs inline message",
+  "summary": "Flag modal for nonblocking content when routine status, optional help, read-only previews, supplemental detail, or low-risk announcements block the page. Use a modal dialog only for compact tasks that must suspend background interaction, a popover for small anchored context, a drawer for side-by-side inspection while the parent remains useful, and an inline message for persistent local guidance or feedback.",
+  "patternIds": [
+    "modal-for-nonblocking-content",
+    "modal-dialog",
+    "popover",
+    "drawer",
+    "inline-message"
+  ],
+  "decisionRules": [
+    "Flag modal for nonblocking content when the layer contains read-only help, status, preview, onboarding, marketing, reference metadata, or optional explanation that users can safely ignore while continuing the page task.",
+    "Choose modal dialog when users must complete, cancel, or explicitly dismiss a compact task before they can safely interact with the page behind it.",
+    "Choose popover when a small explanation, example, field helper, or light local control belongs beside a specific trigger and the rest of the page should remain usable.",
+    "Choose drawer when users need supplemental object detail, preview, or light action while keeping the parent list, table, map, or board visible as a side-by-side comparison anchor.",
+    "Choose inline message when feedback, guidance, warning, validation, or status should remain in the page flow near the affected object.",
+    "Use banner or toast feedback for workspace-level status that is not needed to complete the current step; do not force an OK-only modal for successful saves, background sync, or routine updates.",
+    "If users must read background content to decide what to do with the layer, the surface is probably not a modal; prefer inline, popover, drawer, sheet, or full page based on task size.",
+    "If the information is important but nonblocking, make it persistent, dismissible, or recoverable from history instead of trapping focus until users press OK.",
+    "If the page must become inert for safety, name the blocked task, give clear primary and secondary outcomes, handle Escape when appropriate, and restore focus on close.",
+    "During generated UI review, inspect newsletter prompts, release notes, help tips, status updates, file previews, and informational OK dialogs for unnecessary modality."
+  ],
+  "failureModes": [
+    "A saved successfully message opens a modal and forces users to press OK before continuing the form.",
+    "A help tip about a filter opens as a modal, hiding the filter values users need to compare.",
+    "A read-only file preview blocks the list even though users need to inspect neighboring rows.",
+    "A background sync update traps focus in a dialog while the page has no required decision.",
+    "A newsletter or promotion modal interrupts a workflow before users can complete the primary task.",
+    "A mobile informational modal fills the screen and hides the field or object it is supposed to explain.",
+    "A repeated release-note modal returns on every visit because the content is not tied to a recoverable notification center.",
+    "An OK-only popup gives status without an action, close semantics, focus return, or persistent record."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Supports the rule that modal dialogs make background content inert, contain Tab movement, support Escape where appropriate, and return focus after close."
+    },
+    {
+      "id": "atlassian-modal-dialog",
+      "note": "Supports modal dialog as layered content requiring user interaction above the page, which distinguishes it from nonblocking information."
+    },
+    {
+      "id": "fluent-popover-component",
+      "note": "Supports popovers as brief contextual surfaces for small nonessential contextual content."
+    },
+    {
+      "id": "nord-drawer-component",
+      "note": "Supports drawers for context-sensitive information and distinguishes them from modals that block task completion."
+    },
+    {
+      "id": "fluent-drawer-component",
+      "note": "Supports drawers for secondary content and simple actions while reserving dialogs for confirmations."
+    },
+    {
+      "id": "mdn-popover-api-using",
+      "note": "Supports popover invocation, Escape close behavior, focus adjacency, and focus return for nonmodal anchored content."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,256 @@
+{
+  "id": "touch-gesture",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed touch gesture pattern with distinct gesture-vocabulary, fallback, threshold, target-size, cancellation, and scroll-conflict guidance, live demo states, comparison decision rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers touch gesture as a touchscreen interaction contract with tap target, gesture hint, touch down, movement preview, threshold not met, committed gesture, pinch zoom alternative, scroll conflict, target spacing, system gesture boundary, assistive touch path, mobile landscape, gesture-only zoom, hidden swipe, tiny targets, scroll hijack, no cancellation, system conflict, and hover hint states.",
+    "relatedPatternDistinction": "Separated from carousel as panel navigation and pagination, map view as geographic pan and zoom, bottom sheet as detent and lower-edge overlay behavior, drag-and-drop upload as file drop-zone upload enhancement, data visualization as chart-value inspection, and toolbar as visible command access.",
+    "liveDemoBehavior": "Good demo exercises touch gesture, tap target, gesture hint, touch down, movement preview, threshold not met, committed gesture, pinch zoom alternative, scroll conflict, target spacing, system gesture boundary, assistive touch path, and mobile landscape states. Bad demo exercises gesture-only zoom, hidden swipe, tiny targets, scroll hijack, no cancellation, system conflict, and hover hint failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes touch gesture from carousel, map view, bottom sheet, drag-and-drop upload, and data visualization by gesture vocabulary, thresholds, feedback, cancellation, target sizing, equivalent controls, previous or next controls, pagination, geographic browsing, pinch, pan, zoom, marker selection, detent behavior, drop-zone, file queue, chart inspection, exact value access, single-pointer alternatives, multipoint gestures, path-based gestures, target spacing, system gesture boundary, critical actions, and destructive actions.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 263 complete patterns, 1 excluded stub pattern, 34 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/touch-gesture/ with required terms present, no duplicate IDs, no page overflow, and no touch-gesture demo overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/touch-gesture-vs-carousel-vs-map-view-vs-bottom-sheet-vs-drag-and-drop-upload-vs-data-visualization/ was checked at desktop and compact widths with concrete decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/touch-gesture.png"
+    ]
+  },
+  "name": "Touch gesture",
+  "aliases": [
+    "touch interaction",
+    "gesture interaction",
+    "mobile gesture",
+    "tap gesture",
+    "swipe gesture",
+    "pinch gesture",
+    "multi-touch gesture",
+    "direct manipulation gesture"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Navigation And Wayfinding",
+    "Selection And Choice",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Touch-first gesture vocabulary and fallback contract for taps, swipes, drags, pinches, and multi-touch interactions",
+  "uiGuidance": [
+    "Render touch gesture affordances with visible targets, enough spacing, state feedback, and non-gesture controls for the same outcome when a gesture is path-based, multipoint, hidden, or easy to misfire.",
+    "Use platform-standard gesture meanings for tap, double tap, swipe, drag, pinch, spread, rotate, and edge gestures, and show inline hints or handles only where users need to discover a custom gesture."
+  ],
+  "uxGuidance": [
+    "Use touch gesture when the product needs direct manipulation on a touchscreen, but treat gestures as part of a larger interaction contract rather than the only way to act.",
+    "Make gesture recognition predictable by defining start target, movement threshold, direction, velocity, cancellation, conflict with scroll, feedback while moving, commit boundary, and equivalent tap or button path."
+  ],
+  "uiExamples": {
+    "good": [
+      "A photo viewer supports pinch to zoom, double tap to zoom, plus and minus buttons, a reset button, zoom percent feedback, and a clear pan boundary after zoom.",
+      "A card carousel supports horizontal swipe but also shows previous and next buttons, page position, touch target spacing, and a drag preview that cancels when released before threshold."
+    ],
+    "bad": [
+      "A map can only be zoomed with a two-finger pinch and has no plus, minus, or reset controls.",
+      "A hidden edge swipe deletes a message while the user is trying to scroll the list."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user pinches a diagram to zoom, sees the scale change, releases outside the threshold without committing a rotate gesture, then uses visible Zoom in and Reset controls with one finger.",
+      "A user starts swiping a gallery card, sees the next-card preview, changes their mind by moving back under the threshold, and the card snaps back with position unchanged."
+    ],
+    "bad": [
+      "A user with a head pointer cannot trigger a two-finger gesture and has no single-pointer alternative.",
+      "A user tries to scroll a feed but the product interprets a short diagonal movement as a destructive swipe action."
+    ]
+  },
+  "platforms": [
+    "mobile",
+    "web",
+    "desktop",
+    "spatial"
+  ],
+  "problem": "Touch gestures can make interfaces feel direct and efficient, but hidden, path-based, multipoint, undersized, or scroll-conflicting gestures exclude users and cause accidental activation when the product does not provide equivalent controls, clear thresholds, cancellation, or feedback.",
+  "solution": "Design a gesture contract that uses familiar platform gestures, exposes large enough targets, shows start/move/commit/cancel feedback, separates scroll from action gestures, and provides single-pointer and control-based alternatives for path-based or multipoint functions.",
+  "problemContext": [
+    "The interface supports touch input on phones, tablets, kiosks, touch laptops, drawing surfaces, maps, media viewers, carousels, boards, canvases, or spatial controllers.",
+    "The same feature may also be used with mouse, stylus, keyboard, switch control, screen reader touch exploration, head pointer, or assistive pointer devices.",
+    "Gestures can be basic single-pointer actions such as tap and drag, or more demanding path-based and multipoint actions such as swipe, pinch, spread, rotate, two-finger tap, and edge gestures.",
+    "Gesture conflicts often occur between scrolling, panning, selection, reordering, dismissal, navigation, refresh, zoom, drawing, and destructive actions."
+  ],
+  "selectionRules": [
+    "Choose touch gesture when the design question is the recognition, feedback, fallback, and cancellation behavior of touch input itself.",
+    "Use swipe action when the pattern is specifically a horizontal or directional item action such as archive, delete, complete, or reveal action buttons.",
+    "Use pull to refresh when the vertical drag from scroll top refreshes content.",
+    "Use long press when sustained contact reveals context menus, selection, preview, or drag pickup.",
+    "Use drag and drop when the core task is moving an object from a source to a destination.",
+    "Use bottom sheet when the gesture changes a detented bottom overlay; document the sheet-specific scroll-versus-drag priority there.",
+    "Use carousel, map view, data visualization, or calendar view when the primary pattern is the content surface and gestures are only one input method inside it.",
+    "Provide simple single-pointer controls for any function that otherwise requires a multipoint or path-based gesture unless the gesture is essential to the task.",
+    "Do not hide critical, destructive, security, payment, consent, or account actions behind an undiscoverable gesture-only shortcut."
+  ],
+  "requiredStates": [
+    "Idle state with visible touch targets, gesture hints when needed, and no reliance on hover.",
+    "Touch down or gesture start state that identifies the active target.",
+    "Move or preview state showing direction, distance, scale, rotation, selected object, or next outcome.",
+    "Threshold-not-met cancellation state that snaps back or leaves content unchanged.",
+    "Commit state after the gesture passes a clear threshold or release boundary.",
+    "Conflict state where scroll, pan, drag, swipe, refresh, or edge navigation wins predictably.",
+    "Single-pointer alternative state for multipoint or path-based functions.",
+    "Equivalent button or menu state for users who cannot or do not discover the gesture.",
+    "Target-size and spacing state for compact controls.",
+    "Disabled, unavailable, or system-reserved gesture state with explanation.",
+    "Undo, reset, or recovery state for reversible gesture outcomes.",
+    "Mobile compact, large-text, landscape, stylus, and assistive-touch states."
+  ],
+  "interactionContract": [
+    "The gesture starts only from the intended target or gesture region, not from unrelated content.",
+    "Movement thresholds, velocity thresholds, direction locks, and edge zones are defined before implementation.",
+    "Feedback begins early enough for users to know whether they are scrolling, panning, dragging, swiping, zooming, rotating, selecting, or dismissing.",
+    "Users can cancel before the commit boundary by reversing, releasing outside, pressing cancel, or using a visible reset where the platform supports it.",
+    "Multipoint or path-based gestures have simple single-pointer alternatives such as buttons, handles, steppers, menus, or tap targets.",
+    "Gesture shortcuts do not replace keyboard, screen reader, switch, pointer, mouse, stylus, or assistive-device operation.",
+    "Targets meet minimum size or spacing expectations, or equivalent controls are available on the same page.",
+    "System gestures, browser gestures, assistive-technology gestures, and platform navigation gestures are not overridden unless the platform explicitly supports the custom behavior."
+  ],
+  "implementationChecklist": [
+    "Inventory every touch gesture, target region, affected object, outcome, threshold, pointer count, direction, speed, and commit boundary.",
+    "Define whether each gesture is basic, path-based, multipoint, dragging, system-reserved, or content-specific.",
+    "Add visible controls for zoom, reset, previous, next, move, dismiss, select, refresh, rotate, or recover when the gesture is not enough.",
+    "Set target size and spacing for touch controls and avoid placing dangerous actions near routine scroll or navigation targets.",
+    "Provide live feedback for start, movement, invalid direction, threshold reached, cancellation, commit, undo, and failure.",
+    "Resolve conflicts between vertical scroll, horizontal swipe, nested panning, drag handles, pull-to-refresh, browser back, and screen-reader touch exploration.",
+    "Test one-handed use, thumb reach, tremor, slow movement, accidental diagonal movement, multi-touch failure, stylus, mouse, keyboard, screen reader, zoom, large text, and landscape.",
+    "Record analytics for failed gesture attempts only in aggregate and without logging sensitive path or content data."
+  ],
+  "commonMisuses": [
+    "Requiring pinch, rotate, two-finger swipe, or shape gestures with no single-pointer alternative.",
+    "Making a hidden gesture the only way to find navigation, delete, refresh, zoom, or edit controls.",
+    "Letting short diagonal scroll movements trigger swipe actions.",
+    "Using tiny targets or placing opposing actions too close together.",
+    "Overriding operating-system, browser, or assistive-technology gestures.",
+    "Committing actions on touch down instead of release or a clear threshold.",
+    "Providing no cancel, undo, reset, or recovery for high-friction gesture mistakes.",
+    "Assuming desktop hover hints will teach mobile users a gesture."
+  ],
+  "critiqueQuestions": [
+    "Which exact function depends on touch, path, velocity, pointer count, or contact duration?",
+    "What visible control performs the same function for users who cannot do the gesture?",
+    "How do users know when the gesture has started, crossed threshold, canceled, or committed?",
+    "What prevents scroll, pan, swipe, pull-to-refresh, drag, and system back gestures from fighting each other?",
+    "Are targets large enough and spaced far enough to prevent accidental activation?",
+    "What happens for screen reader touch exploration, switch control, head pointer, stylus, mouse, keyboard, large text, and landscape?",
+    "Is this better handled as a named pattern such as swipe action, pull to refresh, long press, drag and drop, bottom sheet, or carousel?"
+  ],
+  "useWhen": [
+    "A touchscreen interaction needs deliberate design for gesture vocabulary, thresholds, feedback, target sizing, cancellation, and equivalent controls.",
+    "The product supports direct manipulation such as zooming, panning, moving, rotating, selecting, dismissing, or navigating by touch.",
+    "The same feature must work across touch, pointer, keyboard, assistive technology, and platform conventions."
+  ],
+  "avoidWhen": [
+    "The gesture is only an implementation detail inside a more specific pattern such as swipe action, pull to refresh, long press, drag and drop, bottom sheet, carousel, or map view.",
+    "The action can be better expressed as a visible button, menu, segmented control, slider, stepper, or form control.",
+    "The gesture conflicts with system navigation, browser behavior, or assistive technology and cannot be safely resolved.",
+    "The product cannot provide equivalent controls for non-essential multipoint or path-based functions."
+  ],
+  "variants": [
+    "Tap gesture",
+    "Double-tap gesture",
+    "Swipe gesture",
+    "Fling gesture",
+    "Pan gesture",
+    "Pinch to zoom",
+    "Spread to zoom",
+    "Rotate gesture",
+    "Two-finger gesture",
+    "Edge gesture",
+    "Gesture with visible controls",
+    "Gesture cancellation",
+    "Gesture conflict resolution"
+  ],
+  "accessibility": [
+    "Provide a simple single-pointer alternative for multipoint or path-based gestures unless the gesture is essential.",
+    "Provide keyboard and assistive-technology alternatives for gesture outcomes.",
+    "Use visible target size and spacing that reduce accidental activation for touch and other pointer users.",
+    "Do not rely on hover-only hints to explain touch gestures.",
+    "Announce gesture results such as zoom level, page position, selected object, dismissed item, moved item, canceled action, and restored state.",
+    "Avoid requiring precise paths, speed, simultaneous fingers, or sustained pressure for critical actions.",
+    "Keep system, browser, and screen-reader gestures available whenever possible."
+  ],
+  "keyboardBehavior": [
+    "Keyboard users can activate the same outcomes through buttons, menu items, steppers, sliders, or commands.",
+    "Focus order reaches the equivalent controls near the gesture surface.",
+    "Arrow keys, plus and minus, Escape, Enter, Space, and dedicated controls follow platform expectations for the component being manipulated.",
+    "Escape or Cancel reverses an in-progress gesture preview where an equivalent keyboard path exists.",
+    "After a gesture-equivalent action, focus stays near the manipulated object or updated status.",
+    "Keyboard alternatives expose the same disabled, invalid, committed, canceled, reset, and undo states as touch gestures."
+  ],
+  "failureModes": [
+    "A map can only zoom with a two-finger pinch.",
+    "A carousel can only move with a fast horizontal flick.",
+    "A short diagonal scroll accidentally deletes an item.",
+    "Gesture hints appear only on hover, so touch users never see them.",
+    "Tiny adjacent controls cause the wrong target to activate.",
+    "The product overrides browser back, system home, or screen-reader gestures.",
+    "A gesture commits before release and cannot be canceled.",
+    "The visual state says canceled but the underlying model already changed."
+  ],
+  "relatedPatterns": [
+    "carousel",
+    "map-view",
+    "bottom-sheet",
+    "drag-and-drop-upload",
+    "data-visualization",
+    "toolbar"
+  ],
+  "comparisons": [
+    "touch-gesture-vs-carousel-vs-map-view-vs-bottom-sheet-vs-drag-and-drop-upload-vs-data-visualization"
+  ],
+  "examples": [
+    {
+      "product": "Android Developers touch gestures",
+      "url": "https://developer.android.com/develop/ui/views/touch-and-input/gestures",
+      "platform": "mobile",
+      "notes": "Documents Android touch gesture support, accepted platform conventions, common gestures, multi-touch, drag and scale, and the warning not to depend on touch gestures for basic behaviors.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Pointer Gestures",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html",
+      "platform": "web",
+      "notes": "Documents single-pointer alternatives for multipoint and path-based gestures, including pinch zoom and carousel swipe examples.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Target Size Minimum",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html",
+      "platform": "web",
+      "notes": "Documents pointer target minimum size, spacing exceptions, equivalent controls, and touch interface benefits.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Drag-and-drop cancellation technique",
+      "url": "https://w3c.github.io/wcag/techniques/general/G210",
+      "platform": "web",
+      "notes": "Documents cancellation and recovery expectations for path-based drag-and-drop actions that also affect touch interaction design.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "android-touch-gestures",
+      "note": "Supports platform gesture conventions, common gesture detection, multi-touch, drag, scale, touch dispatch, and the warning not to depend on gestures for basic behavior."
+    },
+    {
+      "id": "w3c-wcag-pointer-gestures",
+      "note": "Supports single-pointer alternatives for multipoint and path-based gestures such as pinch, two-finger gestures, and carousel swipes."
+    },
+    {
+      "id": "w3c-wcag-target-size-minimum",
+      "note": "Supports target size and spacing requirements for pointer and touchscreen activation."
+    },
+    {
+      "id": "w3c-wcag-pointer-cancellation-drag-drop",
+      "note": "Supports cancellation, release-outside, confirmation, and undo expectations for path-based drag interactions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

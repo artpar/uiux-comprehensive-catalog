@@ -1,0 +1,64 @@
+{
+  "id": "handoff-summary-vs-assignment-vs-summary-box-vs-activity-log",
+  "title": "Handoff summary vs assignment vs summary box vs activity log",
+  "summary": "Use handoff summary when responsibility or conversation context transfers to another person, team, shift, agent, or system and the receiver needs concise current state, what happened, open questions, next actions, risks, and source links; use assignment for ownership selection, summary box for page key facts, and activity log for historical evidence.",
+  "patternIds": [
+    "handoff-summary",
+    "assignment",
+    "summary-box",
+    "activity-log",
+    "comments",
+    "notification-center",
+    "approval-workflow",
+    "review-queue",
+    "share-dialog",
+    "permission-denied-state"
+  ],
+  "decisionRules": [
+    "Choose handoff summary when a receiver is taking over work and needs a concise transfer packet: who is handing off, who receives it, why the handoff happened, current status, what has already been tried, customer or object context, open questions, blockers, risks, next actions, ownership, urgency, and source links.",
+    "Choose assignment when the primary action is choosing or changing the accountable owner; assignment may trigger a handoff summary, but the summary must explain context rather than only store the assignee field.",
+    "Choose summary box when a longer page needs a compact extract of key facts for the same reader; it is not a responsibility transfer between sender and receiver.",
+    "Choose activity log when users need searchable evidence of events that already happened; a handoff summary may cite log events, but it is not an exhaustive audit trail.",
+    "Use comments when collaborators discuss, ask questions, or add rationale; a handoff summary should extract current state and next action from comments instead of forcing the receiver to read every thread.",
+    "Use notification center to alert the receiver that a handoff happened; the notification must deep-link to the handoff summary or work item and not replace the context packet.",
+    "Use approval workflow when the receiver must approve or reject a routed request; handoff summary supports context transfer but does not define approval gates or required approver rules.",
+    "Use review queue when the receiver chooses among many queued items; handoff summary is item-level context for taking over one item or conversation.",
+    "Use share dialog when the task is sending access or a link to an object; handoff summary requires transfer context, not just a shared URL.",
+    "Use permission-denied state when the receiver cannot view summary details, transcript, attachments, or source records because the handoff crosses an access boundary; use redacted handoff details when the receiver can proceed with safe limited context."
+  ],
+  "failureModes": [
+    "A handoff says assigned to Priya but does not explain current status, customer need, previous attempts, risks, or next step.",
+    "The receiver has to read a long transcript because the summary omits the actual question, outcome, and blockers.",
+    "A handoff summary includes sensitive transcript or account details that the receiver is not allowed to see.",
+    "The summary is stale after the source conversation, ticket, or case changed and does not disclose its generated time.",
+    "The notification announces handoff but opens a generic dashboard instead of the summary or work item.",
+    "The summary looks authoritative but lacks source links, confidence, omissions, or a way for the receiver to ask follow-up questions."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-copilot-studio-live-agent-handoff",
+      "note": "Microsoft documents live-agent handoff with conversation history, variables, alerts, and contextual continuation."
+    },
+    {
+      "id": "microsoft-dynamics-copilot-conversation-summaries",
+      "note": "Microsoft documents conversation summaries that provide context and relay steps taken during support interactions."
+    },
+    {
+      "id": "zendesk-conversation-handoff-handback",
+      "note": "Zendesk documents changing first responder between AI and live agents during handoff and handback."
+    },
+    {
+      "id": "ada-zendesk-chat-handoff-transcript-summaries",
+      "note": "Ada documents attaching transcript summaries to handoff transcripts so live agents can understand escalation context."
+    },
+    {
+      "id": "ahrq-teamstepps-handoff",
+      "note": "AHRQ defines handoff as standardized transfer of information, authority, and responsibility."
+    },
+    {
+      "id": "ahrq-teamstepps-sbar",
+      "note": "AHRQ documents SBAR for structured situation, background, assessment, and recommendation or request communication."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

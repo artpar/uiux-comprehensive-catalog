@@ -1,0 +1,57 @@
+{
+  "id": "pagination-without-current-page-vs-pagination-vs-breadcrumbs-vs-step-navigation-vs-feed",
+  "title": "Pagination without current page vs pagination vs breadcrumbs vs step navigation vs feed",
+  "summary": "Flag pagination without current page when page controls, previous/next links, result ranges, or URLs do not agree on the current result slice. Use pagination for ordered collection pages with one current page, breadcrumbs for hierarchy, step navigation for task progress, and feed behavior when exact page position is not part of the task.",
+  "patternIds": [
+    "pagination-without-current-page",
+    "pagination",
+    "breadcrumbs",
+    "step-navigation",
+    "feed"
+  ],
+  "decisionRules": [
+    "Flag pagination without current page when a paginated result list has no visible current page, no aria-current or equivalent current text, multiple current-looking pages, or a mismatch between current page, result range, URL, and visible records.",
+    "Choose pagination when users move through ordered slices of one collection and need current page, previous, next, edge states, result range, total count, and preserved query, filters, sort, or page size.",
+    "Choose breadcrumbs when users need canonical parent-child hierarchy orientation; breadcrumbs identify the current page in site structure, not the current slice of a result set.",
+    "Choose step navigation when the numbers or labels are task milestones with completed, current, and upcoming progress; step navigation should not be used to traverse records.",
+    "Choose feed behavior when users consume a continuously updating or personalized stream where exact page numbers are not meaningful; if users need resume position, footer access, or page-specific URLs, use pagination with current state instead.",
+    "For previous/next-only or cursor pagination, expose the current range, loaded boundary, or position text so users know what slice previous and next are relative to.",
+    "When filters, search, sort, page size, browser back, or async loading changes the collection, update the current-page marker, result range, and URL together or announce why the page moved.",
+    "Do not treat disabled styling, focus ring, hover color, URL parameters, or a hidden internal page variable as sufficient current-page communication.",
+    "If a data table, resource list, or search page includes pagination, the table/list pattern owns row content while pagination owns current page, range, edge state, and movement between slices.",
+    "In generated UI review, inspect numbered pagination, ellipses, mobile arrow-only controls, server cursor controls, stale loading states, empty out-of-range pages, and multiple pagination regions for missing or conflicting current-page state."
+  ],
+  "failureModes": [
+    "Page numbers 1, 2, 3, and 4 render as identical links and none is announced as current.",
+    "A page range says Showing 31-40 while page 2 is highlighted and the URL contains page=5.",
+    "Previous and Next appear enabled on the first page because the current page is not tracked.",
+    "A loading transition leaves aria-current on the old page after the visible rows changed.",
+    "Mobile pagination collapses to left and right arrows with no Page x of y text or result range.",
+    "Filtering reduces results to four pages but leaves the user on empty page 9 with no current-page recovery.",
+    "The design uses breadcrumbs or step indicators as page numbers for a result list, making hierarchy or task progress look like collection traversal.",
+    "A feed is given page numbers but new items reorder the list, so the current page no longer represents a stable result slice."
+  ],
+  "sources": [
+    {
+      "id": "govuk-pagination-component",
+      "note": "Supports current page, previous/next, ellipses, labelled pagination landmarks, and whole-list filter or sort behavior."
+    },
+    {
+      "id": "uswds-pagination-component",
+      "note": "Supports bounded pagination, current-page highlighting, previous/next edge visibility, and robust current-page links."
+    },
+    {
+      "id": "carbon-pagination-component",
+      "note": "Supports pagination placement, current-page information, item ranges, responsive pagination, and items-per-page controls."
+    },
+    {
+      "id": "mdn-aria-current",
+      "note": "Supports aria-current=\"page\" and marking one current item in a related set."
+    },
+    {
+      "id": "nng-infinite-scrolling-tips",
+      "note": "Supports distinguishing continuous feeds from pagination when position, orientation, or completion matters."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

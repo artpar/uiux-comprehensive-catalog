@@ -1,0 +1,47 @@
+{
+  "id": "window-splitter-vs-details-panel-vs-drawer-vs-side-navigation",
+  "title": "Window splitter vs details panel vs drawer vs side navigation",
+  "summary": "Use a window splitter when users need to resize adjacent panes in a durable workspace, a details panel for selected-object inspection, a drawer for temporary edge detail or actions, and side navigation for persistent local destination hierarchy.",
+  "patternIds": ["window-splitter", "details-panel", "drawer", "side-navigation"],
+  "decisionRules": [
+    "Prefer a window splitter when two or more adjacent panes must remain visible and users need to adjust their relative sizes while preserving both panes in the same workspace.",
+    "Prefer a details panel when the main job is selected-object inspection and the panel width can remain fixed, collapsed, or full-page without user-controlled pane ratios.",
+    "Prefer a drawer when supplemental content opens temporarily from an edge, needs close and focus return behavior, and does not need to behave as a durable resizable pane boundary.",
+    "Prefer side navigation when the left or right region contains destinations or local hierarchy rather than resizable content that shares one work surface.",
+    "A window splitter needs a focusable separator with current value, min and max limits, orientation, keyboard resizing, pointer drag behavior, and optional collapse or restore; a static visual divider is not enough.",
+    "Use a splitter only when both panes remain useful after resizing; if one pane is merely a transient command surface, use a drawer, popover, sheet, or dialog.",
+    "Do not use a splitter as a substitute for responsive design on small screens; provide breakpoints, stacked alternatives, collapse controls, or full-page routes when panes cannot remain readable.",
+    "Do not hide the selected-object identity, current pane size, min/max limits, or resize affordance; users need to know what will shrink or grow before dragging or pressing arrows.",
+    "If resizing changes table columns, editor wrap, preview zoom, or scroll position, preserve task state and avoid data loss or unexpected focus movement.",
+    "Use side-by-side details panel or preview panel rules for the pane content itself; the splitter only governs the adjustable boundary between panes."
+  ],
+  "failureModes": [
+    "A visible divider looks draggable but cannot be focused or moved by keyboard.",
+    "The splitter has role separator but no value, label, orientation, min, max, or update when the pane size changes.",
+    "Dragging the splitter collapses a pane below readable width without a restore path.",
+    "A details panel is made resizable even though selection, stale detail, and full-record escalation are the real design problems.",
+    "A temporary drawer is implemented as a permanent splitter, leaving users with an empty pane after the task ends.",
+    "A side navigation rail is resizable, making destination labels disappear instead of using an intentional collapsed navigation state.",
+    "Responsive collapse changes pane order, selection, or scroll position without warning.",
+    "The splitter steals focus from an editor or table after every resize step."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-window-splitter",
+      "note": "APG defines window splitter semantics, value attributes, orientation, keyboard resizing, collapse or restore, and pane naming."
+    },
+    {
+      "id": "mdn-aria-separator-role",
+      "note": "MDN documents separator role requirements for focusable moveable separators, values, orientation, and keyboard operation."
+    },
+    {
+      "id": "servicenow-resizable-panes",
+      "note": "ServiceNow documents resizable panes for organizing two pieces of page content while allowing users to resize or hide one side."
+    },
+    {
+      "id": "fluent-blazor-multisplitter",
+      "note": "Fluent MultiSplitter documents pane size, min and max values, resizable behavior, collapsible panes, and multiple panes."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

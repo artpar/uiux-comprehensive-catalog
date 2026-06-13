@@ -1,0 +1,270 @@
+{
+  "id": "editable-ai-output",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed editable AI output pattern with generated draft editing guidance, source and citation review behavior, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers editable AI output, generated draft, user edited text, source mapping, citation preservation, unsupported edit, tracked change, accept edit, reject edit, apply output, save draft, undo to generated, regenerate from edit, stale source, unsafe edit, review required, partial edit, conflict edit, mobile editor, copy edited, generated baseline recovery, and review gating behavior.",
+    "relatedPatternDistinction": "The entry separates editable AI output from inline edit by requiring generated provenance and citation state rather than ordinary field editing, from prompt box by editing generated output after creation rather than the request before generation, from streaming response by editing a stable draft rather than watching partial output, from citation display by providing edit and apply controls rather than claim-level source preview alone, and from source grounding display by changing draft text rather than auditing whole-answer evidence coverage.",
+    "liveDemoBehavior": "The live demo shows generated draft, user edited, source mapping, citation preservation, unsupported edit, tracked change, accept edit, reject edit, apply output, save draft, undo to generated, regenerate from edit, stale source, unsafe edit, review required, partial edit, conflict edit, mobile editor, and copy edited states. Bad states cover editable-looking final, lost citations, silent rewrite, apply without review, raw prompt edit, no undo, and source drift failures.",
+    "comparisonDecisionRules": "The linked editable-ai-output-vs-inline-edit-vs-prompt-box-vs-streaming-response-vs-citation-display-vs-source-grounding-display comparison gives concrete rules for generated output after creation, in-place record field edits, request before generation, partial generated output, claim-level source preview, whole-answer evidence coverage, generated draft, user-edited output, source mapping, citation preservation, unsupported edit, tracked changes, accept, reject, apply, save draft, regenerate, prompt editing avoidance, ordinary inline edit avoidance, review gating, source drift, stale source, unsafe edit, and conflict handling.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and 390px mobile checks rendered /patterns/editable-ai-output/ with the live demo, exercised Generated draft, User edited, Source mapping, Citation preservation, Unsupported edit, Tracked change, Accept edit, Reject edit, Apply output, Save draft, Undo to generated, Regenerate from edit, Stale source, Unsafe edit, Review required, Partial edit, Conflict edit, Mobile editor, Copy edited, Editable-looking final, Lost citations, Silent rewrite, Apply without review, Raw prompt edit, No undo, and Source drift states, and found no duplicate IDs, page overflow, or editable-ai-output demo overflow. The comparison route /compare/editable-ai-output-vs-inline-edit-vs-prompt-box-vs-streaming-response-vs-citation-display-vs-source-grounding-display/ included editable AI output, inline edit, prompt box, streaming response, citation display, source grounding display, generated output after creation, in-place record field, request before generation, partial generated output, claim-level source, whole-answer evidence coverage, generated draft, user-edited output, source mapping, citation preservation, unsupported edit, tracked changes, accept, reject, apply, save draft, regenerate, prompt editing, and ordinary inline edit terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/editable-ai-output.png"
+    ]
+  },
+  "name": "Editable AI output",
+  "aliases": [
+    "AI editable draft",
+    "editable generated answer",
+    "editable assistant output",
+    "AI draft editor",
+    "generated draft editing",
+    "AI output revision",
+    "editable response with citations",
+    "source-aware AI editing",
+    "assistant draft review",
+    "AI answer edit mode"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Editable generated draft with provenance, review, and apply controls",
+  "uiGuidance": [
+    "Render editable AI output as a generated draft with a clear boundary between original generated text, user-edited text, tracked changes, source mapping, citation preservation, and final applied output.",
+    "Keep source and review affordances visible while editing so users can tell when an edit is supported, unsupported, unsafe, stale, conflicted, or ready to accept, reject, save, copy, regenerate, or apply."
+  ],
+  "uxGuidance": [
+    "Use editable AI output when users need to revise generated content after creation while retaining provenance, citations, source coverage, and a deliberate apply or save contract.",
+    "Treat manual edits as a change in evidence state: show which source mappings remain valid, which citations need review, which edits are unsupported, and which final actions are blocked until review is complete."
+  ],
+  "uiExamples": {
+    "good": [
+      "A policy assistant shows a generated draft answer with citation chips, user-edited spans, tracked change controls, source mapping indicators, and Apply output disabled until unsupported edits are reviewed.",
+      "A support reply drafter lets the agent regenerate from a selected edit, restore the original generated version, copy the edited draft, and preserve citations that still map to unchanged claims."
+    ],
+    "bad": [
+      "A final-looking answer becomes editable with no generated-versus-user-edited distinction, no citation preservation state, and no undo to the generated draft.",
+      "A product rewrites the prompt when users edit the answer, silently regenerates the visible text, and lets the user apply uncited claims without review."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer changes one sentence, sees it marked as user edited, accepts the tracked change, reviews a stale source warning, and applies the output only after unsupported text is resolved.",
+      "A mobile user opens the source panel from the edited paragraph, sees which citations remain valid, rejects an unsafe edit, and saves the draft for another reviewer."
+    ],
+    "bad": [
+      "A user edits a generated compliance summary and all citations disappear, leaving no way to know which claims remain source-backed.",
+      "A user taps Regenerate and the system replaces their manual edits without conflict warning or recovery."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "Generated output often needs human revision before use, but ordinary editing can erase provenance, hide which claims were generated or user edited, break citations, obscure unsafe or unsupported edits, and make it unclear whether the final output was reviewed before being applied.",
+  "solution": "Provide an editor for generated drafts that tracks generated and user-edited content separately, preserves or invalidates source mappings explicitly, supports accept and reject controls, saves drafts, gates apply when review is required, and offers undo or regeneration paths that do not overwrite manual work without warning.",
+  "problemContext": [
+    "An AI system has produced text, table content, code, message copy, policy analysis, customer response, document summary, or another draft artifact.",
+    "Users can improve the generated output directly instead of only changing the original prompt.",
+    "Some generated claims are grounded in citations, retrieved sources, tool outputs, or conversation context that may no longer support the edited text.",
+    "The final output may be copied, saved, applied to a record, sent to another person, or used in a higher-risk workflow.",
+    "Reviewers may need to distinguish model-generated content from human-edited content after the edit is complete."
+  ],
+  "selectionRules": [
+    "Choose editable AI output when the primary object is generated output after creation and users need to revise, review, save, copy, or apply that output.",
+    "Use prompt box when users are still composing the request before generation rather than editing the generated result.",
+    "Use inline edit when the object is an ordinary record field or table value with no generated provenance, source mapping, citation preservation, or regeneration boundary.",
+    "Use streaming response when users mainly need to monitor partial generated output as it arrives, before the answer has settled into an editable draft.",
+    "Use citation display when users need claim-level source previews; editable AI output should link edited claims to citation display when claims are source-backed.",
+    "Use source grounding display when the task is whole-answer evidence coverage rather than editing one draft.",
+    "Show generated draft, user edited, source mapping, citation preservation, unsupported edit, tracked change, stale source, unsafe edit, review required, and conflict edit states before apply.",
+    "Require deliberate accept edit, reject edit, save draft, copy edited, undo to generated, regenerate from edit, and apply output actions with clear consequences.",
+    "Do not make the generated answer look final while silently accepting edits, dropping citations, rewriting the prompt, or applying output without review.",
+    "Do not let regeneration overwrite manual edits unless the user can compare, keep, discard, or recover the edited version."
+  ],
+  "requiredStates": [
+    "Generated draft state with original generated content, creation time, model or run reference, and source coverage visible.",
+    "User-edited state that marks changed text separately from original generated text.",
+    "Source mapping state that shows which edited claims still map to citations, retrieved sources, or tool outputs.",
+    "Citation preservation state for unchanged or still-supported claims.",
+    "Unsupported edit, unsafe edit, stale source, and source drift warning states.",
+    "Tracked change state with accept edit and reject edit controls.",
+    "Review required state that blocks apply output until unsupported, unsafe, or stale content is resolved.",
+    "Partial edit and selected-range edit states for revising only part of a generated answer.",
+    "Conflict edit state when regeneration, collaboration, policy update, or source refresh conflicts with manual edits.",
+    "Save draft, copy edited, undo to generated, regenerate from edit, and apply output states.",
+    "Mobile editor state that preserves source access, review status, edit actions, and final apply controls in constrained space."
+  ],
+  "interactionContract": [
+    "The generated draft, user edits, tracked changes, source mappings, citations, review status, and final output state are modeled as distinct data rather than one mutable text blob.",
+    "Editing text does not silently update the original prompt, erase the generated baseline, or imply that citations still support changed claims.",
+    "Accept edit commits a tracked user change into the draft while retaining its author and evidence state.",
+    "Reject edit restores the affected range to the generated draft or previous accepted text.",
+    "Undo to generated restores the original generated version or a selected range without deleting saved versions.",
+    "Regenerate from edit uses the current accepted draft as context and warns when regeneration may conflict with manual edits.",
+    "Apply output is unavailable or blocked when unresolved unsupported edits, unsafe edits, stale sources, or conflicts remain.",
+    "Copy edited and save draft preserve visible review warnings or metadata when the destination requires provenance.",
+    "Source mapping opens the relevant citation, source grounding, tool output, or evidence panel for the edited claim."
+  ],
+  "implementationChecklist": [
+    "Store generated baseline text, edited draft text, selected ranges, tracked changes, author, timestamp, source mappings, citation IDs, review status, and apply state separately.",
+    "Represent unsupported, unsafe, stale, conflicted, accepted, rejected, copied, saved, regenerated, and applied states as explicit values.",
+    "Keep citation preservation logic claim-aware so unchanged claims keep citations and changed claims require revalidation.",
+    "Connect edited claims to citation display, source grounding display, tool-use visibility, and audit records where those are the actual evidence surfaces.",
+    "Require review before apply when an edit changes factual claims, removes qualifying language, changes numerical values, or alters policy-sensitive text.",
+    "Add compare controls for generated draft versus edited draft and for edited draft versus regenerated output.",
+    "Protect manual edits from accidental overwrite by regeneration, source refresh, collaboration updates, browser back, or mobile navigation.",
+    "Test long generated text, selected-range edits, pasted content, citation deletion, unsupported claims, stale source warnings, review gating, keyboard editing, screen reader status, copy behavior, and mobile wrapping."
+  ],
+  "commonMisuses": [
+    "Letting users edit a final-looking AI answer without generated-versus-user-edited status.",
+    "Dropping all citations when one paragraph is edited.",
+    "Preserving citation markers on claims that no longer match the cited source.",
+    "Treating answer editing as prompt editing and hiding the generated baseline.",
+    "Allowing apply output before unsupported edits, unsafe changes, stale sources, or conflicts are reviewed.",
+    "Regenerating over manual edits without compare, warning, version recovery, or undo.",
+    "Using ordinary inline edit for generated content that needs provenance and source review."
+  ],
+  "critiqueQuestions": [
+    "Can users tell which text is generated draft, user edited, accepted, rejected, unsupported, unsafe, stale, or ready to apply?",
+    "What happens to citations and source mappings when users change a factual claim?",
+    "Can users undo to generated, compare tracked changes, save a draft, copy edited text, and regenerate from an edit without losing work?",
+    "Which edits block apply output and who can clear review required states?",
+    "Does the surface explain when a source is stale, permission-limited, or no longer supports an edited claim?",
+    "Would prompt box, inline edit, streaming response, citation display, or source grounding display better match the task?"
+  ],
+  "useWhen": [
+    "Generated content is expected to be revised before it is copied, saved, sent, published, or applied.",
+    "Evidence, citations, source grounding, tool outputs, review status, safety, or compliance can change when users edit the output.",
+    "Users need to keep the generated baseline and manual edits recoverable.",
+    "The product can track source mapping and review state at claim, paragraph, or selected-range level."
+  ],
+  "avoidWhen": [
+    "Users only need to write or revise the request before generation.",
+    "The content is an ordinary record field with no AI provenance or citation state.",
+    "Generated output is read-only, ephemeral, or never used as a durable artifact.",
+    "The system cannot determine whether edited claims are still supported and cannot show a review requirement.",
+    "Regeneration is the only supported correction path and manual edits are intentionally disallowed."
+  ],
+  "variants": [
+    "Editable answer draft",
+    "Editable AI summary",
+    "Editable generated message",
+    "Source-aware draft editor",
+    "Tracked-change AI draft",
+    "Citation-preserving AI editor",
+    "Regenerate-from-edit editor",
+    "Review-gated generated output",
+    "Mobile AI draft editor",
+    "Editable generated table cell"
+  ],
+  "accessibility": [
+    "Expose generated draft, user edited, tracked change, unsupported edit, unsafe edit, stale source, review required, accepted, rejected, saved, copied, regenerated, and applied states as text.",
+    "Do not rely on color, strike-through, highlights, or citation marker shape alone to convey evidence state.",
+    "Make accept edit, reject edit, apply output, save draft, copy edited, undo to generated, regenerate from edit, and open source controls keyboard reachable.",
+    "Associate source mapping and citation preservation warnings with the edited text range they describe.",
+    "Announce review required, stale source, unsupported edit, unsafe edit, conflict edit, save, copy, regenerate, and apply status changes without moving focus unexpectedly.",
+    "Ensure long generated paragraphs, citation labels, tracked change comments, conflict messages, and source titles wrap at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the editor, source mapping controls, tracked change controls, review warnings, save draft, copy edited, undo to generated, regenerate from edit, and apply output in a predictable order.",
+    "Standard text editing shortcuts work inside the draft without triggering prompt send, regeneration, or apply output.",
+    "Enter and Space activate accept edit, reject edit, open source, save draft, copy edited, regenerate from edit, and apply output buttons according to native behavior.",
+    "Escape closes source panels or review popovers and returns focus to the edited range or invoking control.",
+    "After accepting, rejecting, saving, copying, regenerating, or applying, focus remains near the affected draft range or action status.",
+    "Keyboard users can move from an edited claim to its citation display or source grounding display and back."
+  ],
+  "failureModes": [
+    "Users cannot tell whether text is generated, user edited, accepted, rejected, or applied.",
+    "Citations vanish or remain attached to unsupported edited claims.",
+    "A stale source warning appears only after the output has already been applied.",
+    "Apply output stays enabled while unsafe edits or unresolved review required states remain.",
+    "Regenerate from edit overwrites manual changes without conflict handling.",
+    "Copy edited removes required provenance warnings for a regulated destination.",
+    "Mobile users cannot reach source mapping, tracked change, or apply controls.",
+    "Screen reader users hear visual diff marks without the meaning of accept, reject, source, or review state."
+  ],
+  "relatedPatterns": [
+    "inline-edit",
+    "prompt-box",
+    "streaming-response",
+    "citation-display",
+    "source-grounding-display",
+    "confidence-uncertainty-display",
+    "human-approval-gate",
+    "change-review"
+  ],
+  "comparisons": [
+    "editable-ai-output-vs-inline-edit-vs-prompt-box-vs-streaming-response-vs-citation-display-vs-source-grounding-display"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Word tracked changes",
+      "url": "https://support.microsoft.com/en-us/office/accept-or-reject-tracked-changes-in-word-22b66701-cf3f-4b3e-8a66-6c3fc2e2c6fd",
+      "platform": "desktop",
+      "notes": "Supports accept and reject controls for visible text changes, which informs the tracked change portion of generated draft review.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Docs suggested edits",
+      "url": "https://support.google.com/docs/answer/6033474",
+      "platform": "web",
+      "notes": "Shows a collaboration model for proposed text changes that can be accepted or rejected without losing document context.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI prompt engineering guide",
+      "url": "https://platform.openai.com/docs/guides/prompt-engineering",
+      "platform": "ai",
+      "notes": "Supports the boundary between editing instructions before generation and editing generated output after generation.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft 365 Copilot linked citations",
+      "url": "https://support.microsoft.com/en-us/office/add-linked-citations-to-your-document-with-copilot-in-word-cb2aa2c2-0e46-497e-9675-becfb3f0b78f",
+      "platform": "ai",
+      "notes": "Supports citation-aware generated writing and the need to preserve or review source links after edits.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-word-accept-reject-tracked-changes",
+      "note": "Supports accept and reject actions for visible tracked edits."
+    },
+    {
+      "id": "google-docs-suggest-edits",
+      "note": "Supports proposed edit review behavior for edited text."
+    },
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports distinguishing prompt revision before generation from output editing after generation."
+    },
+    {
+      "id": "microsoft-365-copilot-linked-citations",
+      "note": "Supports citation-aware generated writing and source link preservation."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports claim annotations and citations that need validation after output edits."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user correction, feedback, control, and capability-boundary disclosure in AI experiences."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible announcements for review, save, regeneration, and apply states."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

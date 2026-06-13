@@ -1,0 +1,54 @@
+{
+  "id": "reactions-vs-comments-vs-mentions-vs-activity-feed",
+  "title": "Reactions vs comments vs mentions vs activity feed",
+  "summary": "Use reactions for lightweight emoji feedback anchored to an existing item, comments for written discussion, mentions for routing attention to a person or group, and activity feed for catch-up across work events.",
+  "patternIds": [
+    "reactions",
+    "comments",
+    "mentions",
+    "threaded-discussion",
+    "activity-feed",
+    "notification-center",
+    "presence"
+  ],
+  "decisionRules": [
+    "Choose reactions when the user needs to acknowledge, agree, vote lightly, express sentiment, or trigger a known emoji-based workflow without adding a full written reply.",
+    "Choose comments when the user needs text, evidence, a question, a decision rationale, an anchor, moderation, edits, deletion, or a reply thread.",
+    "Choose mentions when the user needs to notify or route attention to a specific person, team, channel, or audience; a reaction should not be treated as a reliable mention.",
+    "Choose threaded discussion when multiple replies and branches need durable conversation structure; reactions can summarize sentiment but cannot carry the discussion.",
+    "Choose activity feed when users need to catch up on many reaction, mention, reply, and app events across work objects; the feed should group or summarize reactions instead of becoming the reaction control.",
+    "Choose notification center when reaction events create durable unseen or unread items with badge, cleanup, and preference semantics.",
+    "Use presence for current availability and co-viewing state; do not use reaction counts as proof that a person is available or actively reading.",
+    "Reaction UI must show the emoji, count, user's own selected state, who reacted, add/remove behavior, picker access, custom or restricted emoji policy, grouped overflow counts, and unavailable, not-reactable, or already-reacted states.",
+    "If an emoji reaction triggers workflow automation, the UI must disclose the trigger, frequency, scope, and who can trigger it before users rely on it.",
+    "Avoid using reactions for binding approval, assignment, audit evidence, accessibility-only status, or sensitive feedback unless the product supplies the stronger lifecycle and disclosure those tasks require."
+  ],
+  "failureModes": [
+    "A thumbs-up reaction is treated as approval even though approver eligibility, version, audit, and rejection paths are missing.",
+    "A reaction count hides who reacted, so users cannot distinguish one person's repeated reaction from broad agreement.",
+    "A reaction picker is only available on hover and keyboard or touch users cannot add or remove reactions.",
+    "An emoji reaction triggers a workflow without warning, creating tickets or escalations from casual feedback.",
+    "Custom emoji or skin tone choices leak sensitive identity or are not represented in accessible names.",
+    "The activity feed floods with every reaction instead of grouping low-value reaction activity behind overflow or summary rows.",
+    "A not-reactable item simply hides reaction controls, leaving users unable to distinguish policy restrictions from a broken or loading state."
+  ],
+  "sources": [
+    {
+      "id": "slack-use-emoji-reactions",
+      "note": "Slack documents add, remove, own-reaction highlighting, mobile behavior, and who-reacted disclosure for emoji reactions."
+    },
+    {
+      "id": "github-rest-reactions",
+      "note": "GitHub documents reaction creation and management on comments, issues, pull requests, and discussions with constrained reaction content."
+    },
+    {
+      "id": "google-workspace-docs-emoji-reactions",
+      "note": "Google documents Docs emoji reactions as a less formal alternative to comments anchored to document content."
+    },
+    {
+      "id": "microsoft-teams-emoji-reaction-workflows",
+      "note": "Microsoft documents emoji reactions as Teams workflow triggers with emoji, frequency, eligibility, and channel scope."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,247 @@
+{
+  "id": "exit-this-page-quickly",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed quick-exit safety pattern with distinct emergency-exit guidance, live demo states, comparison decision rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "name": "Exit this page quickly",
+  "aliases": [
+    "quick exit",
+    "safe exit",
+    "leave site quickly",
+    "escape button",
+    "hide this page",
+    "quick escape",
+    "exit button",
+    "leave this website"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Navigation And Wayfinding",
+    "Feedback, Status, And System State",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent safety escape control for sensitive pages where being seen on the current content could put the user at risk",
+  "uiGuidance": [
+    "Place a persistent, visibly distinct Exit this page control where it is reachable before and during sensitive content, and pair it with a secondary activation link for assistive technology users.",
+    "When activated, immediately cover or replace sensitive content with a neutral loading state and navigate to a neutral destination without waiting for analytics, confirmation, animation, or form submission."
+  ],
+  "uxGuidance": [
+    "Use the pattern when sensitive content could put someone at risk if another person sees the page, such as abuse support, stalking, harassment, sexual assault, child safety, whistleblowing, or plans to escape harm.",
+    "Explain the control before first exposure in a transactional journey, including what it does, where it goes, what it does not protect, and how users can manage browser history or monitored-device risk."
+  ],
+  "uiExamples": {
+    "good": [
+      "A support-service page keeps a red Exit this page button pinned near the top right, includes a hidden-but-focusable secondary link, and replaces the page with a neutral loading overlay as soon as it is activated.",
+      "An interruption page before a sensitive service previews the exact exit button, names the neutral destination, and explains that the button does not clear browser history or stop device monitoring."
+    ],
+    "bad": [
+      "A tiny Close link appears only in the footer and sends users back through sensitive previous pages.",
+      "A quick exit button shows a confirmation modal and waits for analytics before changing the page."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user hears someone enter the room, presses the visible exit button, sees sensitive content covered instantly, and lands on a neutral search page while the service avoids sending analytics first.",
+      "A screen-reader user tabs to a secondary Exit this page link, activates it, and receives the same immediate content-covering behavior as pointer users."
+    ],
+    "bad": [
+      "A user believes the exit button cleared browser history because the service overpromised safety, then the visit is later discovered through history or device monitoring.",
+      "A keyboard user cannot reach the exit control because it is visually fixed but placed after a long page of sensitive content in focus order."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile"
+  ],
+  "problem": "Sensitive services can endanger users when another person can see the page, when the exit path is hidden, slow, misleading, inaccessible, or routed through sensitive history, or when the product overstates what quick exit can protect.",
+  "solution": "Provide a persistent quick-exit control, alternate accessible activation, immediate content-covering transition, neutral destination, pre-use explanation, safety-content follow-up, tested keyboard/focus behavior, and honest limitations about history, monitoring, malware, and traces outside the page.",
+  "problemContext": [
+    "Quick exit is most relevant for pages about domestic abuse, stalking, harassment, sexual assault, child abuse, reporting crime or fraud, whistleblowing, immigration risk, debt coercion, health disclosure, or escape planning.",
+    "The pattern protects mainly against immediate over-the-shoulder or room-entry exposure; it cannot by itself erase browser history, network records, device monitoring, spyware, screenshots, downloaded files, or account logs.",
+    "The exit destination must be neutral enough for the local context and should not reveal the sensitive service through title text, referrer behavior, page copy, or obvious related branding.",
+    "The control may appear inside a larger service journey, but the user should learn what it does before the first sensitive page where they may need it."
+  ],
+  "selectionRules": [
+    "Choose exit this page quickly when being seen on the current page could cause abuse, retaliation, coercion, stalking, harassment, or discovery of plans to avoid harm.",
+    "Use the standalone component on sensitive content pages where the page itself is the risk and the user needs immediate escape.",
+    "Use a full exit-a-page-quickly pattern with an interruption page and safety content when the user enters a sensitive transactional journey.",
+    "Use security warning when the product is warning about unsafe sites, downloads, phishing, malware, mixed content, or certificate risk.",
+    "Use sensitive-data reveal when the user intentionally exposes a secret value for short-term inspection.",
+    "Use session timeout when inactivity or unattended authenticated access is the core risk.",
+    "Use privacy settings for planned control of sharing, tracking, visibility, retention, and data-use preferences.",
+    "Use back link only for ordinary navigation, not as a safety exit from sensitive material."
+  ],
+  "requiredStates": [
+    "Persistent visible exit control on sensitive pages.",
+    "Secondary assistive-technology activation link or equivalent reachable control.",
+    "Immediate content-covering loading or transition state.",
+    "Neutral destination redirect state.",
+    "Interruption page explaining what the control does before first sensitive exposure.",
+    "Safety content page explaining limitations and safer browsing steps.",
+    "Keyboard focus and screen-reader label state.",
+    "No-JavaScript or slow-network fallback state.",
+    "Mobile compact persistent control state.",
+    "Exit activated, destination failed, blocked popup, and analytics bypass states."
+  ],
+  "interactionContract": [
+    "The quick exit control is reachable before the user reaches sensitive content in both visual order and keyboard order.",
+    "Activating the control immediately hides sensitive page content and starts navigation to a neutral destination.",
+    "The exit path does not require confirmation, login, form submission, animation completion, or analytics completion.",
+    "A secondary link or equivalent control provides the same behavior for assistive technology users.",
+    "The interruption page explains the control, its destination, and its limitations before users encounter it in a sensitive transactional journey.",
+    "The safety content explains that quick exit does not clear browser history, stop device monitoring, remove downloaded files, or protect against malicious software.",
+    "The fallback state still gives users a neutral route if scripts fail, navigation is blocked, or the destination cannot load.",
+    "The control avoids using ordinary back navigation as the escape route because history may contain more sensitive pages."
+  ],
+  "implementationChecklist": [
+    "Identify the sensitive pages, threat model, likely observer scenario, neutral destination, referrer policy, and surfaces where quick exit must be persistent.",
+    "Place the visible control consistently on every sensitive page and ensure it is reachable early in DOM and keyboard order.",
+    "Provide an assistive-technology activation route with the same immediate behavior.",
+    "Implement activation to cover sensitive content immediately before redirecting and bypass nonessential analytics or delayed transitions.",
+    "Create an interruption page before first sensitive exposure and safety content that explains limitations, browser history, monitoring, and safer-device guidance.",
+    "Test mobile compact layout, zoom, keyboard order, screen-reader labels, slow network, failed destination, no-JavaScript fallback, history behavior, and referrer leakage.",
+    "Choose a neutral destination that does not reveal the sensitive service and verify tab title, loading state, and browser history labels.",
+    "Document why the pattern is used, what it does not solve, and what adjacent safety controls handle outside the page."
+  ],
+  "commonMisuses": [
+    "Using an ordinary Back link or footer Close link as the safety exit.",
+    "Hiding the exit control below sensitive content or making it reachable only after scrolling.",
+    "Showing a confirmation dialog, survey, animation, or analytics wait before hiding content.",
+    "Overpromising that quick exit clears browser history or protects a monitored device.",
+    "Opening a related site, branded page, blank page, or suspicious destination that reveals the sensitive context.",
+    "Forgetting keyboard, screen-reader, no-JavaScript, slow-network, or mobile compact behavior.",
+    "Putting the safety explanation after the user has already entered the sensitive service."
+  ],
+  "critiqueQuestions": [
+    "What immediate observer risk does this page create, and where does quick exit reduce that risk?",
+    "Can pointer, keyboard, touch, and screen-reader users activate the exit before reaching sensitive content?",
+    "What exactly appears between activation and destination load, and does it hide sensitive content instantly?",
+    "Which neutral destination is used, and could it reveal the sensitive service through title, URL, referrer, or history?",
+    "What does the service tell users about browser history, monitoring, spyware, downloads, and limits of the control?",
+    "What happens if JavaScript fails, navigation stalls, a popup is blocked, or the user is on a compact mobile viewport?",
+    "Is the quick exit pattern paired with other safety content rather than treated as a complete safety solution?"
+  ],
+  "useWhen": [
+    "The user may be harmed if someone nearby sees them viewing or using the current sensitive service.",
+    "The product can redirect to a neutral destination and immediately hide sensitive content on activation.",
+    "The service can honestly explain quick-exit limitations and offer safer-browsing guidance."
+  ],
+  "avoidWhen": [
+    "The page is ordinary low-risk content where a prominent emergency exit would create alarm or confusion.",
+    "The risk is a dangerous website, download, or file; use security warning.",
+    "The task is revealing a secret value inside the product; use sensitive-data reveal.",
+    "The risk is unattended authenticated access after inactivity; use session timeout.",
+    "The product cannot provide a neutral destination, immediate content covering, or honest safety explanation."
+  ],
+  "variants": [
+    "Persistent quick exit button",
+    "Assistive technology exit link",
+    "Interruption page",
+    "Safety content page",
+    "Immediate loading overlay",
+    "Neutral destination redirect",
+    "Mobile fixed safe exit",
+    "No-JavaScript exit link",
+    "Referrer-protected exit",
+    "Slow-network fallback"
+  ],
+  "accessibility": [
+    "Give the control a clear accessible name such as Exit this page, not a vague icon-only label.",
+    "Place the control early in focus order and keep it reachable with keyboard, touch, pointer, and screen-reader navigation.",
+    "Provide a secondary activation link or equivalent path for assistive technology users when the visual control may not be announced as expected.",
+    "Use sufficient contrast, visible focus, stable positioning, and responsive sizing without covering essential content or browser controls.",
+    "Do not rely on hover, drag, gesture-only, timeout-only, or shortcut-only activation.",
+    "Announce or expose the immediate transition state without delaying content hiding."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the quick exit control before sensitive form fields and before long sensitive content.",
+    "Enter and Space activate the button according to native button behavior.",
+    "A secondary link can be activated with Enter and performs the same exit behavior.",
+    "Focus is not trapped behind the loading overlay or a confirmation dialog.",
+    "If navigation fails, focus lands on a neutral fallback action instead of returning to hidden sensitive content.",
+    "Do not make Escape the only activation method because it can conflict with browser loading, dialogs, or assistive technology expectations."
+  ],
+  "failureModes": [
+    "The exit button is hidden, late in focus order, or absent from some sensitive pages.",
+    "Activation waits for confirmation, analytics, animation, survey, or server response before hiding content.",
+    "The destination is related, branded, blank, suspicious, or exposes the sensitive journey in title or history.",
+    "The product claims history, device monitoring, or spyware protection that the pattern cannot provide.",
+    "Keyboard or screen-reader users cannot find or activate the exit path quickly.",
+    "A failed redirect reveals the original sensitive content again with no neutral fallback.",
+    "The interruption or safety guidance appears too late, after sensitive content is already visible."
+  ],
+  "relatedPatterns": [
+    "security-warning",
+    "sensitive-data-reveal",
+    "session-timeout",
+    "privacy-settings",
+    "back-link",
+    "warning-text",
+    "site-alert",
+    "permission-request",
+    "consent-prompt",
+    "delete-account"
+  ],
+  "comparisons": [
+    "exit-this-page-quickly-vs-security-warning-vs-sensitive-data-reveal-vs-session-timeout-vs-privacy-settings-vs-back-link"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Exit this page component",
+      "url": "https://design-system.service.gov.uk/components/exit-this-page/",
+      "platform": "web",
+      "notes": "Documents a reusable component for quickly leaving a sensitive page or service.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "GOV.UK Exit a page quickly pattern",
+      "url": "https://design-system.service.gov.uk/patterns/exit-a-page-quickly/",
+      "platform": "web",
+      "notes": "Documents when and how to introduce quick exit in sensitive service journeys.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Safety Net Project quick exit guidance",
+      "url": "https://www.techsafety.org/exit-from-this-website-quickly",
+      "platform": "web",
+      "notes": "Explains the over-the-shoulder usefulness and monitoring/history limitations of quick exit buttons.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-exit-this-page-component",
+      "note": "Supports visible quick exit, secondary activation, and immediate content-covering loading behavior."
+    },
+    {
+      "id": "govuk-exit-a-page-quickly-pattern",
+      "note": "Supports sensitive-service use cases, interruption page, safety content, and limitation guidance."
+    },
+    {
+      "id": "govuk-design-notes-exit-this-page-fast",
+      "note": "Supports safety rationale, vulnerable-user context, consistency, and accessibility tradeoffs."
+    },
+    {
+      "id": "techsafety-exit-from-this-website-quickly",
+      "note": "Supports the distinction between over-the-shoulder escape and browser-history or device-monitoring limitations."
+    },
+    {
+      "id": "cambridge-click-here-to-exit",
+      "note": "Supports quick exit buttons as a studied safety mechanism with implementation tradeoffs."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers exit this page quickly as a safety escape pattern with persistent exit button, assistive exit link, immediate content cover, neutral destination, interruption page, safety content, browser history limitation, monitored device warning, slow network fallback, no-JavaScript exit, mobile fixed exit, referrer protection, and failed destination states.",
+    "relatedPatternDistinction": "Separated from security warning as unsafe-site or file-risk messaging, sensitive-data reveal as intentional temporary exposure of a secret, session timeout as inactivity protection, privacy settings as durable data-use controls, back link as ordinary navigation, warning text and site alert as information surfaces, permission request and consent prompt as explicit permission or data-use choices, and delete account as an account lifecycle action.",
+    "liveDemoBehavior": "Good demo exercises persistent exit button, assistive exit link, immediate content cover, neutral destination, interruption page, safety content, browser history limitation, monitored device warning, slow network fallback, no-JavaScript exit, mobile fixed exit, referrer protection, and failed destination. Bad demo exercises hidden exit, delayed exit, back-link exit, overpromised safety, related destination, keyboard unreachable, and late warning failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes exit this page quickly from security warning, sensitive-data reveal, session timeout, privacy settings, and back link by abuse, retaliation, stalking, harassment, whistleblowing, neutral destination, malware, phishing, unsafe downloads, secret reveal, authenticated session, data use, ordinary navigation, persistent visible control, assistive technology, content cover, redirect, browser history, network logs, device monitoring, malicious software, screenshots, downloaded files, account records, interruption page, and safety content rules.",
+    "duplicateAudit": "2026-06-12: node --import tsx scripts/catalog-completion-audit.ts reported 259 complete patterns, 1 excluded pattern, 38 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-12: desktop 1440x940 and compact 500x844 browser checks exercised all good and bad exit-this-page-quickly states; required pattern terms were present; duplicate IDs, page overflow, and demo overflow were absent. Comparison route was checked at desktop and compact widths with required decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/exit-this-page-quickly.png"
+    ]
+  },
+  "maturity": "domain-specific",
+  "lastVerified": "2026-06-12"
+}

@@ -1,0 +1,250 @@
+{
+  "id": "settings-management",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed persistent settings and preferences management pattern with guidance for settings entry points, grouped categories, current values, scope labels, immediate versus explicit save models, managed and inherited values, permission handoff, search, reset defaults, failed-save recovery, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers durable settings surfaces, category grouping, current persisted values, user and workspace scope, immediate apply, explicit save, unsaved-change protection, search and deep links, managed organization settings, permission-blocked states, inherited values, reset defaults by group, failed-save preservation, and recovery without mixing unrelated navigation or tasks.",
+    "relatedPatternDistinction": "The entry separates settings management from complete complex form by focusing on revisitable persistent configuration rather than one dependency-checked edit surface, from toggle switch by owning the full settings surface around individual controls, from progressive disclosure by managing durable preferences rather than optional controls inside another task, from inline edit by adding categories, scope, status, search, and reset behavior, and from profile setup by managing app behavior rather than profile readiness.",
+    "liveDemoBehavior": "The live demo uses workspace preferences with settings sections, authoritative current values, Focus alerts immediate apply, Digest email explicit save, display density unsaved draft, retention search, organization-managed retention, scoped reset defaults, failed save with preserved Daily digest draft, saved state, and bad modes for dumping-ground settings, mixed save models, wrong scope, hidden current values, broad reset, and lost unsaved changes.",
+    "comparisonDecisionRules": "The linked settings-management-vs-complete-complex-form-vs-toggle-switch-vs-progressive-disclosure comparison gives concrete rules for persistent settings centers, dependency-checked configuration forms, immediate binary switches, optional task complexity, inline value edits, profile setup, scope labels, save models, managed values, and settings dumping-ground failures.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/settings-management/ on 2026-06-11 in Chromium: verified Overview, Immediate apply, Stage changes, Search, Managed, Reset group, Failed save, Save, Dumping ground, Mixed save, Wrong scope, Hidden current, Broad reset, and Lost unsaved states; verified scope labels for Workspace, Account, Device, and Organization; verified Immediate, Save, Unsaved, and Managed row states; verified settings search, managed retention, scoped reset, failed-save preserved Daily digest draft, no duplicate IDs, and no page-level horizontal overflow; verified /compare/settings-management-vs-complete-complex-form-vs-toggle-switch-vs-progressive-disclosure/ concrete decision rules; and checked mobile viewport with collapsed layout and no horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/settings-management.png"
+    ]
+  },
+  "name": "Settings management",
+  "aliases": [
+    "settings page",
+    "preferences",
+    "app settings",
+    "account settings",
+    "configuration settings",
+    "manage settings",
+    "preferences management",
+    "settings center",
+    "settings panel"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Personalization And Preference",
+    "Input And Data Entry",
+    "Navigation And Wayfinding",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Dedicated user or app configuration management surface",
+  "uiGuidance": [
+    "Render settings management as a durable configuration surface with a clear Settings or Preferences entry point, grouped categories, current values, setting descriptions, ownership or scope labels, dependencies, save or immediate-apply behavior, status feedback, search or section navigation for larger sets, and reset or restore defaults where appropriate.",
+    "Separate settings management from one-off forms, single toggle controls, onboarding, profile setup, and advanced disclosure: it owns the long-term inspect-and-change contract for preferences or configuration that users may revisit."
+  ],
+  "uxGuidance": [
+    "Use settings management when users need to review and change persistent app, account, workspace, notification, privacy, display, integration, or system behavior outside the immediate task flow.",
+    "Make each setting's scope, current value, effect timing, dependency, save model, reversibility, and downstream consequence clear before users change it."
+  ],
+  "uiExamples": {
+    "good": [
+      "A notification settings page groups channels, quiet hours, digest frequency, and workspace scope; each row shows current value, effect, dependency, and whether changes save immediately.",
+      "A privacy settings center shows profile visibility, app access, analytics sharing, export, and reset controls with current status and links to system-level permissions when needed."
+    ],
+    "bad": [
+      "A page called Settings mixes billing invoices, destructive account deletion, onboarding tips, profile setup, search results, and global navigation with no grouping or save model.",
+      "A setting changes immediately, requires Save later, and syncs overnight depending on the row, but the page never explains which model applies."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user turns off weekly digest emails, sees the setting save immediately, keeps urgent security emails enabled, and understands the workspace-level override.",
+      "A user changes measurement units, sees affected pages update, resets display defaults, and can find the same setting later through Settings search."
+    ],
+    "bad": [
+      "A user changes a privacy setting thinking it affects only one project, but the value applies to the whole account.",
+      "A user closes a settings panel after changing three values and cannot tell whether they were saved, discarded, or pending admin approval."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Persistent preferences and configuration become risky when users cannot find the right setting, understand its scope, distinguish immediate from saved changes, see current values, recover defaults, or tell which dependencies and permissions control it.",
+  "solution": "Provide a dedicated settings management surface that groups related settings, displays current values and effects, clarifies scope and ownership, handles immediate and explicit save models consistently, exposes dependencies, preserves changes, and supports search, reset, and recovery for revisited configuration.",
+  "problemContext": [
+    "Users need to change persistent app behavior, account behavior, workspace policy, notification preferences, privacy choices, display preferences, integrations, devices, permissions, or system-like configuration.",
+    "Settings may affect one device, one workspace, one account, all users, a role, an integration, or downstream surfaces.",
+    "Some settings apply immediately while others require Save, approval, restart, sync, or system permission changes.",
+    "Users may revisit settings rarely and need clear labels, categories, current status, search, and reset paths.",
+    "Settings may have dependencies, unavailable states, admin ownership, inherited values, conflicts, audit implications, or high-risk consequences."
+  ],
+  "selectionRules": [
+    "Choose settings management when users need a durable place to inspect and change persistent preferences or configuration.",
+    "Use toggle switch when the task is one immediate, reversible binary setting rather than a whole settings surface.",
+    "Use complete complex form when many related configuration fields require one edit-and-review form with dependency validation before save.",
+    "Use progressive disclosure when a primary task needs optional advanced controls, not a revisitable settings center.",
+    "Use profile setup when the work is completing an existing profile's readiness, visibility, or enrichment.",
+    "Use onboarding when the work is first-use orientation or activation, not persistent configuration management.",
+    "Separate account, workspace, device, and system-level scope with explicit labels before users change values.",
+    "Make immediate-apply settings visually and verbally distinct from settings that require Save, Apply, Restart, Sync, or admin approval.",
+    "Show current values, unavailable reasons, inherited defaults, and reset routes close to the setting they affect."
+  ],
+  "requiredStates": [
+    "Settings overview with categories and current values",
+    "Focused section or detail state",
+    "Immediate setting applied state",
+    "Unsaved changes state",
+    "Saved or applied confirmation state",
+    "Unavailable or permission-blocked setting state",
+    "Inherited or admin-managed setting state",
+    "Reset to defaults state",
+    "Search or filter no-result state for larger settings sets",
+    "Failed save or conflict state with preserved changes"
+  ],
+  "interactionContract": [
+    "Opening settings management shows current persisted values, not empty defaults or stale cached assumptions.",
+    "Each setting communicates its scope, effect, and save model before the user changes it.",
+    "Immediate settings reconcile applied, pending, failed, and reverted states without requiring a hidden Save action.",
+    "Explicit-save settings preserve edited values, show unsaved changes, and let users save, discard, or review before leaving.",
+    "Disabled, inherited, managed, or permission-blocked settings explain who owns the value and where to change it.",
+    "Reset restores only the named settings group or clearly listed defaults, never unrelated account or product data.",
+    "Search and section navigation move users to the owning setting while preserving unsaved-change warnings."
+  ],
+  "implementationChecklist": [
+    "Inventory settings by scope, owner, data source, dependency, effect timing, risk, default value, and reset behavior.",
+    "Decide whether each setting is immediate, staged with Save, inherited, admin-managed, system-owned, or approval-gated.",
+    "Group settings by user mental model such as Account, Notifications, Privacy, Display, Integrations, Workspace, Billing, or Devices.",
+    "Show current values and short effect descriptions for settings whose labels alone are ambiguous.",
+    "Provide search, section navigation, or deep links when the settings set is large enough that scanning is unreliable.",
+    "Design unsaved-change warnings, failed-save recovery, conflict handling, inherited values, unavailable permissions, and reset defaults.",
+    "Test keyboard navigation, screen readers, mobile layout, high zoom, long labels, localized strings, search no results, permission denial, admin-managed values, and stale server data."
+  ],
+  "commonMisuses": [
+    "Using settings as a dumping ground for unrelated navigation, billing, help, profile setup, onboarding, or destructive account actions.",
+    "Mixing immediate and explicit-save settings without clear status or grouping.",
+    "Hiding current values behind edit buttons so users cannot inspect configuration quickly.",
+    "Making settings available in multiple places with contradictory values or labels.",
+    "Changing account-wide or workspace-wide behavior from a local page without scope warning.",
+    "Letting disabled or inherited settings appear broken instead of explaining dependency, permission, or admin ownership.",
+    "Resetting too broad a scope from a small reset action.",
+    "Failing to warn about unsaved setting changes before navigation."
+  ],
+  "critiqueQuestions": [
+    "What scope does each setting affect: device, account, workspace, organization, integration, or system?",
+    "Does the user know whether the change applies immediately or waits for Save, restart, sync, approval, or another device?",
+    "Can users inspect current values without entering edit mode?",
+    "Which settings are inherited, managed, permission-blocked, or dependent on other settings?",
+    "How do users find a rarely changed setting months later?",
+    "What happens to unsaved, failed, conflicting, or reset settings?"
+  ],
+  "useWhen": [
+    "Users need to inspect and change persistent app, account, workspace, privacy, notification, display, integration, device, or system behavior.",
+    "The product has enough related settings that a durable Settings or Preferences surface is clearer than inline controls scattered through tasks.",
+    "The system can show authoritative current values, scopes, dependencies, status, and recovery paths."
+  ],
+  "avoidWhen": [
+    "The task is a one-time transaction, submission, setup wizard, or onboarding flow.",
+    "The user only needs one immediate binary control in context.",
+    "The product cannot explain scope, ownership, save state, or current values.",
+    "The surface would become an unmaintained dumping ground for unrelated features.",
+    "A setting has legal, destructive, billing, or security consequences that require a dedicated confirmation or review flow."
+  ],
+  "variants": [
+    "Account settings",
+    "App preferences",
+    "Workspace settings",
+    "Notification preferences",
+    "Privacy settings",
+    "Display settings",
+    "Integration settings",
+    "System settings link",
+    "Settings search",
+    "Settings reset defaults"
+  ],
+  "accessibility": [
+    "Use headings, section labels, fieldsets, and persistent labels so settings groups and controls have clear programmatic names.",
+    "Do not rely on color alone for applied, pending, unsaved, inherited, disabled, managed, or failed states.",
+    "Expose current values, descriptions, dependencies, and scope labels to assistive technology.",
+    "Keep setting rows keyboard reachable without turning entire rows into ambiguous nested controls.",
+    "Associate help text and unavailable reasons with the affected control.",
+    "Announce save, apply, failure, reset, and conflict states through predictable status regions.",
+    "Warn about unsaved changes with accessible focus management before navigation or section changes that would discard edits."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows settings navigation, search, section headings, setting controls, descriptions or help links, reset actions, and save or discard actions.",
+    "Section navigation moves focus to the target section heading or first relevant setting.",
+    "Immediate controls follow their native keyboard behavior and announce resulting status.",
+    "Explicit-save forms preserve edits while users tab through other sections.",
+    "Escape or Back follows the same discard or save warning policy as pointer navigation.",
+    "Search results are reachable by keyboard and move focus to the matched setting without hiding unsaved changes.",
+    "Failed save moves focus to an error summary or the first failed setting while preserving entered values."
+  ],
+  "failureModes": [
+    "Users change the wrong scope because local, account, workspace, and organization settings look identical.",
+    "A setting appears saved but is still pending server sync or admin approval.",
+    "The page has two Save buttons with different scopes and no visible unsaved-change summary.",
+    "Reset defaults clears unrelated preferences or account data.",
+    "A disabled setting gives no dependency or permission explanation.",
+    "Settings search finds a label but not the actual owning section.",
+    "Mobile users cannot scan categories or recover from failed saves.",
+    "Screen reader users hear repeated switches without group, current value, or scope context."
+  ],
+  "relatedPatterns": [
+    "toggle-switch",
+    "complete-complex-form",
+    "progressive-disclosure",
+    "inline-edit",
+    "profile-setup"
+  ],
+  "comparisons": [
+    "settings-management-vs-complete-complex-form-vs-toggle-switch-vs-progressive-disclosure"
+  ],
+  "examples": [
+    {
+      "product": "Apple HIG Settings",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/settings",
+      "platform": "mobile",
+      "notes": "Documents settings as configuration users can adjust and distinguishes frequently changed in-app options from infrequently changed system Settings.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Material Design Settings",
+      "url": "https://m1.material.io/patterns/settings.html",
+      "platform": "mobile",
+      "notes": "Documents settings as preferences for app behavior, Settings navigation placement, labels, secondary text, switches, checkboxes, and status.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Android Developers Settings",
+      "url": "https://developer.android.com/develop/ui/views/components/settings",
+      "platform": "mobile",
+      "notes": "Documents settings screens, preference hierarchy, current preference values, dependencies, and preference persistence.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft app settings guidelines",
+      "url": "https://learn.microsoft.com/en-us/windows/apps/design/app-settings/guidelines-for-app-settings",
+      "platform": "desktop",
+      "notes": "Documents app settings as user-customizable app portions with dedicated settings pages, entry points, grouping, and display recommendations.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-settings",
+      "note": "Apple supports settings as user-adjustable configuration and distinguishes in-app frequently changed settings from less frequent system Settings."
+    },
+    {
+      "id": "material-design-settings",
+      "note": "Material supports app settings as preferences for app behavior with labels, secondary text, switches, checkboxes, and status."
+    },
+    {
+      "id": "android-developers-settings",
+      "note": "Android supports settings screens with preference hierarchy, current preference values, dependencies, and persistence."
+    },
+    {
+      "id": "microsoft-windows-app-settings-guidelines",
+      "note": "Microsoft supports dedicated app settings pages and user-customizable app settings grouped behind clear entry points."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

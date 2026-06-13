@@ -1,0 +1,53 @@
+{
+  "id": "keyboard-shortcut-vs-command-palette-vs-menu-menubar-vs-toolbar-vs-undo-vs-redo",
+  "title": "Keyboard shortcut vs command palette vs menu menubar vs toolbar vs undo vs redo",
+  "summary": "Use a keyboard shortcut for a direct key combination that invokes one known command. Use command palette for searchable command discovery, menu menubar for persistent command grouping, toolbar for visible view-scoped controls, and undo or redo for edit-history semantics.",
+  "patternIds": [
+    "keyboard-shortcut",
+    "command-palette",
+    "menu-menubar",
+    "toolbar",
+    "undo",
+    "redo"
+  ],
+  "decisionRules": [
+    "Choose keyboard shortcut when one memorized key combination directly invokes one command, focuses one surface, or toggles one mode without opening a command browser.",
+    "Choose command palette when users need searchable command discovery through search, ranking, filtering, or browsing many commands before executing one result with clear scope.",
+    "Choose menu menubar when commands need stable visible grouping, submenu ownership, disabled or checked menu item state, and desktop-style arrow navigation.",
+    "Choose toolbar when repeated view-scoped controls should stay visible beside the editor, canvas, table, media view, or selected object they affect.",
+    "Choose undo when the design problem is reversing the most recent operation and preserving edit-history semantics across visible controls and shortcuts.",
+    "Choose redo when the design problem is reapplying an undone operation while edit-history semantics and the history branch are still valid.",
+    "Keyboard shortcut must define command name, key chord, platform variant, scope, conflict rule, visible hint, aria-keyshortcuts exposure where appropriate, enabled state, disabled reason, confirmation or undo for risky commands, and a remapping or disable path for character-key shortcuts.",
+    "Keyboard shortcuts must not replace visible commands, navigation, menus, buttons, or focus traversal for primary workflows; they accelerate paths that remain available by other means.",
+    "Do not bind single-character shortcuts globally unless users can turn them off, remap them, or use them only while a relevant component has focus.",
+    "Resolve shortcut conflicts against browser, operating-system, screen reader, text editing, form field, command palette, menubar, toolbar, undo, redo, and product-level command maps before shipping."
+  ],
+  "failureModes": [
+    "A hidden shortcut is the only way to save, submit, search, delete, or navigate to an important area.",
+    "Control+S is shown on macOS instead of Command+S, or platform variants are missing from shortcut help.",
+    "A single-letter global shortcut fires while a speech input user dictates or while a text field is active.",
+    "The shortcut hint says Delete but the key command archives, moves, or triggers an irreversible side effect.",
+    "Disabled shortcuts still fire because the keyboard handler ignores current command availability.",
+    "The command palette, toolbar, and menu show different shortcuts for the same command.",
+    "A risky shortcut runs without confirmation, undo, review, or a status message naming the affected object."
+  ],
+  "sources": [
+    {
+      "id": "wcag-character-key-shortcuts",
+      "note": "Supports turn off, remap, or focus-scope requirements for character-key shortcuts."
+    },
+    {
+      "id": "mdn-aria-keyshortcuts",
+      "note": "Supports exposing implemented shortcuts to assistive technology."
+    },
+    {
+      "id": "microsoft-windows-keyboard-shortcuts",
+      "note": "Supports platform-specific shortcut conventions and common text-editing shortcuts."
+    },
+    {
+      "id": "vscode-default-keybindings",
+      "note": "Supports product command identifiers, platform keybindings, and command availability in an expert tool."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

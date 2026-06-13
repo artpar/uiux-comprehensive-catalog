@@ -1,0 +1,48 @@
+{
+  "id": "feed-vs-card-list-vs-recommendations-vs-notification-center",
+  "title": "Feed vs card list vs recommendations vs notification center",
+  "summary": "Use feed for a dynamic stream of article-like updates; use card list for bounded object summaries, recommendations for ranked suggestions, and notification center for durable actionable alerts.",
+  "patternIds": [
+    "feed",
+    "card-list",
+    "recommendations",
+    "notification-center"
+  ],
+  "decisionRules": [
+    "Choose feed when users consume a continuing stream of updates, posts, events, or stories where order, freshness, inserted content, and preserving reading position are central to the experience.",
+    "Choose card list when the surface is a bounded list of objects such as grants, courses, products, or files and each card is primarily an object summary rather than a stream item.",
+    "Choose recommendations when the system ranks a small set of suggested items from behavior, similarity, rules, or context and needs reasons, feedback, and personalization controls.",
+    "Choose notification center when updates are durable alerts that users intentionally open, triage, mark read, and return to after other notification surfaces have disappeared.",
+    "A feed may contain cards, media, comments, or actions, but each item still needs stream semantics: author or source, timestamp, item boundary, article identity, and predictable insertion or loading behavior.",
+    "Do not treat a feed as a notification center unless items have notification lifecycle behavior such as unread state, badge semantics, retention policy, preferences, and related-object cleanup.",
+    "Do not treat a recommendation rail as a feed; ranked suggestions need explanation and feedback, while feeds need orientation, chronological or ranked-order disclosure, and position preservation.",
+    "Use load-more controls, pause-new-items controls, unread separators, or jump-to-latest affordances when automatic insertion would move the reader's place or trap them in endless scrolling."
+  ],
+  "failureModes": [
+    "A product labels a bounded catalog of objects as a feed, then loses sorting, filtering, and object-management expectations that belonged to card list or list view.",
+    "New items insert above the user's reading position and yank the viewport, causing users to lose the post they were reading.",
+    "Sponsored, recommended, and chronological items are mixed without labels, so users cannot tell why something appears.",
+    "A feed hides notification obligations such as unread count, mark read, and retention even though users rely on the surface for work triage.",
+    "Infinite loading removes the footer, end state, or navigation context and users cannot recover their position.",
+    "Stream items do not expose article boundaries, positions, timestamps, or source labels to assistive technology."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-feed",
+      "note": "WAI-ARIA APG defines feed as dynamically loaded article content and gives keyboard and state expectations for feed reading."
+    },
+    {
+      "id": "mdn-aria-feed-role",
+      "note": "MDN documents feed as a dynamic scrollable list of articles where content may be added or removed from either end."
+    },
+    {
+      "id": "nng-infinite-scrolling-tips",
+      "note": "NN/g supports load and orientation rules for continuous scrolling, including cases where load-more or pagination is better than endless loading."
+    },
+    {
+      "id": "microsoft-teams-activity-feed-notifications",
+      "note": "Microsoft Teams shows an activity feed implementation with card variants, source identity, and cross-device feed presentation."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

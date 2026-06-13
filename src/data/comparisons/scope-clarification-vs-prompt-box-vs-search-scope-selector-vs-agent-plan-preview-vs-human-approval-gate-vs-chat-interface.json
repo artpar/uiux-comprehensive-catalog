@@ -1,0 +1,56 @@
+{
+  "id": "scope-clarification-vs-prompt-box-vs-search-scope-selector-vs-agent-plan-preview-vs-human-approval-gate-vs-chat-interface",
+  "title": "Scope clarification vs prompt box vs search scope selector vs agent plan preview vs human approval gate vs chat interface",
+  "summary": "Use scope clarification when an AI task needs a missing boundary before answering, planning, retrieving, or acting; prompt box for composing the original request; search scope selector for choosing where a query searches; agent plan preview for reviewing a generated multi-step plan; human approval gate for authorizing an armed runtime step; and chat interface for the whole conversational surface.",
+  "patternIds": [
+    "scope-clarification",
+    "prompt-box",
+    "search-scope-selector",
+    "agent-plan-preview",
+    "human-approval-gate",
+    "chat-interface"
+  ],
+  "decisionRules": [
+    "Choose scope clarification when the AI request is ambiguous or risky because it lacks object set, audience, timeframe, source set, workspace, permission, output depth, authority, selected records, visible filtered records, entire workspace, current item, or allowed action scope.",
+    "Choose prompt box when users are still composing, editing, attaching context to, or sending the original natural-language AI request.",
+    "Choose search scope selector when the user must choose a search corpus such as current workspace, all knowledge, people, files, messages, this repository, or organization before interpreting search results.",
+    "Choose agent plan preview when the AI has already generated a proposed multi-step plan with objective, ordered steps, planned tools, data access, expected output, risk warnings, approval gates, editable steps, or blocked steps.",
+    "Choose human approval gate when automation is paused at a named runtime step and an eligible human must approve, reject, edit, cancel, bypass, or resume a specific proposed action and payload.",
+    "Choose chat interface when the design problem is the full transcript, conversation history, composer, assistant turns, model state, retention, follow-up messages, and conversation-level controls.",
+    "Scope clarification must preserve original request, missing boundary, clarification question, bounded choices, selected scope, visible default, blocked state, permission-limited scope, stale clarification, and resume target when those values affect the result.",
+    "Ask a concise clarification question before answering, before planning, before retrieving, before acting, before editing, before sending, before publishing, before deleting, or before running tools when broad assumptions could create wrong output, privacy risk, or broad side effects.",
+    "Allow skip or visible default only for low-risk ambiguity; block high-impact tasks until target scope, authority, and permissions are explicit.",
+    "Do not replace scope clarification with hidden defaults, broad assumptions, long questionnaires, prompt rewrite, search filters, post-action approval, or a conversational answer that hides unresolved scope."
+  ],
+  "failureModes": [
+    "The assistant guesses current item, all workspaces, all customers, or visible filtered records without revealing the assumption.",
+    "A clarification question is asked after retrieval, tool use, publishing, deletion, email sending, or record edits already occurred.",
+    "The UI treats a scope answer as ordinary prompt text and loses it before answer, plan, retrieval, or tool execution.",
+    "The product offers too many open-ended questions when one boundary choice would safely continue the task.",
+    "A search scope selector, filter panel, chat message, or approval gate is used even though the missing boundary must be resolved before the AI can proceed.",
+    "Permission-limited choices, stale clarification, selected scope, visible default, and resume behavior are hidden from users."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports clarification, control, and avoiding inappropriate AI assumptions."
+    },
+    {
+      "id": "google-people-ai-guidebook",
+      "note": "Supports expectation setting, trust, explanation, and uncertainty-aware AI decisions."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports preserving request and clarification state across AI turns."
+    },
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports explicit goals, context, constraints, and iterative refinement."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible clarification-needed, selected-scope, blocked, and resumed status updates."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

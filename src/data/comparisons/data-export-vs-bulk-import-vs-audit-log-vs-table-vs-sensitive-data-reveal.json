@@ -1,0 +1,56 @@
+{
+  "id": "data-export-vs-bulk-import-vs-audit-log-vs-table-vs-sensitive-data-reveal",
+  "title": "Data export vs bulk import vs audit log vs table vs sensitive-data reveal",
+  "summary": "Use data export for scoped copy, archive, transfer, or portability workflows. Bulk import brings structured records in, audit log preserves governed event evidence, table or data grid export handles visible rows, and sensitive-data reveal briefly exposes one protected value.",
+  "patternIds": [
+    "data-export",
+    "bulk-import",
+    "audit-log",
+    "table",
+    "data-grid",
+    "sensitive-data-reveal"
+  ],
+  "decisionRules": [
+    "Choose data export when users need a portable copy, archive, direct transfer, or downloadable package of account, workspace, personal, product, activity, or organization data.",
+    "Choose bulk import when users are bringing records into the product and need file parsing, column mapping, row validation, repair, confirmation, and import reporting.",
+    "Choose audit log when the task is governed event evidence with audit IDs, retention, legal hold, custody, export/API/SIEM, and tamper or coverage states; data export may package audit records but does not replace audit review.",
+    "Choose table or data grid export when users need to download the currently visible row set, selected columns, or filtered operational dataset rather than a broader account or workspace archive.",
+    "Choose sensitive-data reveal when the task is controlled exposure of one protected value, not preparing a long-lived package containing many data categories.",
+    "A data export flow should show category selection, account or workspace, date range, format, destination, estimated size, identity or permission check, package ID, expiry, manifest, checksum, and download or transfer status.",
+    "Do not label a visible CSV row download as full personal data export unless it includes all eligible categories, omissions, formats, retention limits, and portability constraints.",
+    "Do not make data export look like delete account, consent withdrawal, privacy setting changes, migration import, or report sharing; those may sit nearby but require separate states and consequences.",
+    "When export is partial, redacted, delayed, unsupported, expired, or failed, the flow should name affected categories and offer retry, regenerate, support, or archive-request paths.",
+    "Sensitive archives need time-limited, permission-checked links and should not expose raw secrets in manifests, notifications, logs, or broad admin views."
+  ],
+  "failureModes": [
+    "The export button downloads only visible table rows but the page calls it complete account data.",
+    "The export archive is ready but no manifest explains which services, date ranges, files, or redacted fields are included.",
+    "Users think export deletes source data because the export and delete account controls share one confirmation.",
+    "A failed messages category is hidden while the final state says export complete.",
+    "A direct transfer to another service fails after archive preparation and the UI does not say whether source export succeeded.",
+    "The manifest or notification leaks raw tokens, private files, or sensitive prompt content."
+  ],
+  "sources": [
+    {
+      "id": "ico-right-to-data-portability",
+      "note": "Supports portable, reusable personal data in structured, machine-readable form."
+    },
+    {
+      "id": "dataprotection-ie-right-to-data-portability",
+      "note": "Supports machine-readable export and technically feasible direct transfer."
+    },
+    {
+      "id": "google-workspace-data-export-tool",
+      "note": "Supports organization archive export and download workflow distinctions."
+    },
+    {
+      "id": "microsoft-privacy-dsr-export-msa",
+      "note": "Supports category selection, archive creation, and download workflow."
+    },
+    {
+      "id": "google-takeout-download-data",
+      "note": "Supports user account data export archive creation."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

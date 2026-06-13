@@ -1,0 +1,225 @@
+{
+  "id": "disclosure-details",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed one-section in-place disclosure pattern with summary semantics, open and closed states, nearby revealed content, validation-opened help, state preservation, keyboard behavior, related-pattern boundaries, comparison rules, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets one short optional in-place explanation, including native details or button disclosure semantics, specific summary labels, open and closed states, revealed content immediately after the trigger, validation or deep-link opening, focus behavior, Enter and Space toggling, no-script fallback, and preserving nearby form values.",
+    "relatedPatternDistinction": "The entry separates disclosure details from accordion by handling one supporting explanation rather than several related sections, from inline message by revealing optional help rather than persistent local feedback, from related links by staying on the current page rather than navigating onward, from error summary by not listing submitted-form errors, and from in-page anchors by toggling nearby content rather than jumping to headings.",
+    "liveDemoBehavior": "The live demo opens and closes calculation help, edits and preserves the income answer while toggling, opens hidden help from a validation warning, simulates Enter or Space toggling, and contrasts vague-summary, hidden-requirement, navigation-link, fake-control, state-loss, and overstuffed-content failures.",
+    "comparisonDecisionRules": "The disclosure-details-vs-accordion-vs-inline-message-vs-related-links comparison gives concrete rules for one optional explanation, multi-section accordions, persistent contextual feedback, onward links, visible required content, specific summary labels, always-visible text, long help surfaces, state preservation, and navigation misuse.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/disclosure-details/ and /compare/disclosure-details-vs-accordion-vs-inline-message-vs-related-links/ on 2026-06-10. Live check exercised Open help, Close help, Open from validation, income field preservation, Enter / Space toggle, Vague summary, Hidden requirement, Navigation link, Fake control, State loss, and Overstuffed controls. screenshots/patterns/disclosure-details.png captures Good UI, Bad UI, Good UX, Bad UX, opened validation help, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/disclosure-details.png"
+    ]
+  },
+  "name": "Disclosure / details",
+  "aliases": [
+    "details disclosure",
+    "show hide",
+    "show more",
+    "twisty",
+    "details summary",
+    "progressive reveal"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Single in-place reveal for optional supporting content",
+  "uiGuidance": [
+    "Render one clearly labelled disclosure control with a visible summary that predicts the revealed content, followed immediately by the hidden explanation, example, or supporting note.",
+    "Keep the trigger, open state, focus style, and revealed content visually connected to the field, paragraph, or decision it clarifies; do not make the control look like navigation."
+  ],
+  "uxGuidance": [
+    "Use disclosure details when a short explanation, example, eligibility note, or calculation help is useful to some users but would slow most users if always visible.",
+    "Keep required instructions, validation errors, primary actions, and severe warnings visible by default unless the summary itself exposes the issue and the product opens the disclosure when needed."
+  ],
+  "uiExamples": {
+    "good": [
+      "A tax form shows a summary labelled How we calculate household income, revealing a short worked example below the income field.",
+      "A support application shows Why we ask for this document, revealing one paragraph and a small list of acceptable evidence."
+    ],
+    "bad": [
+      "A form hides the only eligibility rule under More details with no hint that it affects the answer.",
+      "A page uses ten Details controls as section navigation, with some triggers revealing text and others opening pages."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens the calculation help, reads one example, closes it, and the nearby income field value remains unchanged.",
+      "After validation finds a missing receipt explanation, the page opens Why we need a receipt and leaves focus on the summary before the explanatory text."
+    ],
+    "bad": [
+      "Users miss a deadline because the deadline is hidden inside a collapsed disclosure with a vague label.",
+      "Opening a help disclosure moves focus to the bottom of the page and clears a partially typed answer."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Some tasks need optional supporting explanation, but showing every note inline can bury the main path while hiding important help behind vague or unstable controls can make users miss the context they need.",
+  "solution": "Use a single in-place disclosure with a specific summary, predictable open and closed states, nearby revealed content, preserved task state, and clear escalation when the content is required, long, repeated, or navigational.",
+  "problemContext": [
+    "A form field, policy sentence, calculation, document request, or content paragraph has one supporting explanation that only some users need.",
+    "The explanation is short enough to read in place and does not require a separate task flow, search, comparison, or multi-section structure.",
+    "The main content remains understandable while the disclosure is closed because the summary names what is hidden.",
+    "The product can preserve focus, nearby input values, and validation behavior while the disclosure opens and closes."
+  ],
+  "selectionRules": [
+    "Choose disclosure details for one short optional explanation that belongs directly beside the content it clarifies.",
+    "Use accordion when there are several related revealable sections with distinct headings, repeated open state, summaries, or expand-all needs.",
+    "Use inline message when the content is status, warning, success, or recovery feedback that must remain visible near the affected object.",
+    "Use related links when the content is an onward destination rather than hidden text on the current page.",
+    "Keep critical deadlines, legal consequences, primary calls to action, and validation errors visible unless the disclosure summary itself states the issue and error recovery opens it.",
+    "Prefer always-visible helper text when nearly every user needs it or when the hidden text is shorter than the disclosure trigger.",
+    "Prefer a details panel, page, modal, or help article when the explanation is long, interactive, contains several branches, or requires separate navigation.",
+    "Do not use disclosure details to collapse whole page structure, replace headings, create menus, or imitate tabs."
+  ],
+  "requiredStates": [
+    "Closed state with a specific summary label and hidden supporting content.",
+    "Open state with revealed content immediately after the summary in reading order.",
+    "Focused summary state with visible focus indication.",
+    "Validation-opened state where an error or help link opens the disclosure without losing nearby form values.",
+    "Disabled or unavailable state only when the reason is visible and the content cannot be revealed.",
+    "No-JavaScript or native fallback state where the summary and content remain understandable."
+  ],
+  "interactionContract": [
+    "Activating the summary toggles only the one content region controlled by that disclosure.",
+    "The summary remains visible in both open and closed states and continues to describe the revealed content.",
+    "The revealed content appears directly after the summary and before unrelated controls.",
+    "Opening and closing the disclosure does not clear nearby fields, selected options, or draft text.",
+    "Enter or Space toggles the disclosure when focus is on the summary or button-like trigger.",
+    "Validation links, help links, or deep links that target hidden content open the disclosure and keep focus predictable.",
+    "The disclosure does not navigate unless the trigger is plainly a link and not presented as an in-place reveal."
+  ],
+  "implementationChecklist": [
+    "Use native details and summary when the platform supports it, or use a real button with expanded state and a controlled content region.",
+    "Write the summary as a question or noun phrase that names the exact hidden explanation.",
+    "Keep the hidden content short, in the same context, and free of primary actions or unrelated controls.",
+    "Place the disclosure beside the field, paragraph, table row, or decision it explains.",
+    "Keep focus on the summary after mouse or keyboard toggling unless the user followed an error link that intentionally targets the revealed content.",
+    "Open disclosures that contain validation targets, search matches, or deep-linked content and expose that state visibly.",
+    "Test closed, open, validation-opened, narrow-screen, keyboard, screen-reader, print, and no-style states."
+  ],
+  "commonMisuses": [
+    "Using vague summaries such as More, Details, or Click here.",
+    "Hiding content most users must read before continuing.",
+    "Putting validation errors only inside a closed disclosure.",
+    "Using many details controls as an accordion without multi-section structure or summaries.",
+    "Mixing reveal controls with navigation links that leave the page.",
+    "Moving focus unexpectedly or clearing form values when the disclosure toggles.",
+    "Putting long workflows, forms, tables, or several branches inside a small disclosure."
+  ],
+  "critiqueQuestions": [
+    "Can users decide whether to open this from the summary alone?",
+    "Is the hidden content truly optional for most users?",
+    "Would this be clearer as always-visible helper text, an accordion, inline message, related link, help page, or details panel?",
+    "What happens if validation, search, or a deep link targets content inside the closed disclosure?",
+    "Does opening and closing preserve nearby field values, focus, and scroll context?",
+    "Are there enough disclosures on the page that users now need a different structure?"
+  ],
+  "useWhen": [
+    "One short supporting explanation belongs in place beside the content it clarifies.",
+    "The explanation is useful for some users but not required reading for most users.",
+    "The summary can clearly name what is hidden.",
+    "Opening the content will not interrupt the main task or require a separate workflow."
+  ],
+  "avoidWhen": [
+    "The content is required to make the right decision.",
+    "The page has several related revealable sections that need headings or expand-all behavior.",
+    "The information is feedback that must stay visible until resolved.",
+    "The content is a separate destination, help article, file, or service.",
+    "The hidden content contains a long form, multi-step task, comparison table, or primary action."
+  ],
+  "variants": [
+    "Native details element",
+    "Button disclosure",
+    "Help text disclosure",
+    "Eligibility-note disclosure",
+    "Calculation-example disclosure",
+    "Validation-opened disclosure",
+    "Inline policy disclosure"
+  ],
+  "accessibility": [
+    "Use native summary behavior or a button that exposes expanded and collapsed state.",
+    "Keep the summary text visible and descriptive in both states.",
+    "Place revealed content immediately after the trigger in DOM and reading order.",
+    "Do not rely on the triangle, chevron, color, or animation alone to communicate state.",
+    "Ensure keyboard users can toggle with Enter or Space and continue into revealed content in normal order.",
+    "If hidden content contains an error target, open it before moving focus or linking to the target.",
+    "Avoid excessive nested disclosures that make headings and landmarks harder to scan."
+  ],
+  "keyboardBehavior": [
+    "Tab moves to the summary or disclosure button in normal page order.",
+    "Enter toggles the disclosure when focus is on the summary or button.",
+    "Space toggles the disclosure when focus is on the summary or button.",
+    "After toggling, focus remains on the trigger unless the user followed a validation or deep link to revealed content.",
+    "Tab moves from the open trigger into any links or fields inside the revealed content.",
+    "Escape is not required to close or leave the disclosure."
+  ],
+  "failureModes": [
+    "Users miss required content because the summary does not reveal its importance.",
+    "Assistive technology users hear a vague control name with no expanded state.",
+    "Keyboard users cannot open the content because a styled div replaced the native summary or button.",
+    "Validation links jump to hidden content that remains closed.",
+    "Opening the disclosure causes layout shift that separates a field from its label or help text.",
+    "The hidden content becomes a drawer, menu, or page section without the right interaction model.",
+    "The disclosure appears closed in print or no-script output when users need the content."
+  ],
+  "relatedPatterns": [
+    "accordion",
+    "inline-message",
+    "related-links",
+    "error-summary",
+    "in-page-anchor-navigation"
+  ],
+  "comparisons": [
+    "disclosure-details-vs-accordion-vs-inline-message-vs-related-links"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Disclosure Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/",
+      "platform": "web",
+      "notes": "Documents disclosure as a show-hide widget controlled by a button, with expanded state and Enter or Space keyboard interaction.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "MDN details HTML element",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details",
+      "platform": "web",
+      "notes": "Documents native details and summary semantics, open state, toggle event, and keyboard behavior.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "GOV.UK Design System Details",
+      "url": "https://design-system.service.gov.uk/components/details/",
+      "platform": "web",
+      "notes": "Documents details for one less-prominent revealable section and distinguishes it from accordions and tabs.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-disclosure",
+      "note": "APG defines the disclosure show-hide widget, button state, and Enter or Space activation."
+    },
+    {
+      "id": "mdn-html-details-element",
+      "note": "MDN documents native details and summary behavior, open state, and toggle event."
+    },
+    {
+      "id": "govuk-details-component",
+      "note": "GOV.UK details guidance supports one-section less-prominent revealable content and distinguishes details from accordions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

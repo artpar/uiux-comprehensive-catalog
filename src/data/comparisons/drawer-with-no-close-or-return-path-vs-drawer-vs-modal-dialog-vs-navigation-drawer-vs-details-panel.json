@@ -1,0 +1,61 @@
+{
+  "id": "drawer-with-no-close-or-return-path-vs-drawer-vs-modal-dialog-vs-navigation-drawer-vs-details-panel",
+  "title": "Drawer with no close or return path vs drawer vs modal dialog vs navigation drawer vs details panel",
+  "summary": "Flag drawer with no close or return path when an edge panel opens but users cannot reliably dismiss it, use Escape or back, recover focus, preserve selection, handle dirty state, or return from a responsive full-screen state. Use a drawer when close and focus return are explicit, a modal dialog when background interaction must be blocked, a navigation drawer for destinations, and a details panel for durable side-by-side inspection.",
+  "patternIds": [
+    "drawer-with-no-close-or-return-path",
+    "drawer",
+    "modal-dialog",
+    "navigation-drawer",
+    "details-panel"
+  ],
+  "decisionRules": [
+    "Flag drawer with no close or return path when the drawer opens from a row, object, filter, or navigation control but lacks a visible close affordance, Escape handling, back-route dismissal, scrim dismissal where appropriate, or predictable focus return.",
+    "Choose drawer when users need supplemental edge content and the surface names its object, offers an explicit close control, supports keyboard dismissal, preserves page state, and returns focus to the opener or selected object.",
+    "Choose modal dialog when the content is a compact task that must block the page; in that case the surface must trap focus intentionally and still restore focus on close.",
+    "Choose navigation drawer when the panel contains app destinations; it still needs selected destination state, route-change behavior, dismissal rules, and focus recovery.",
+    "Choose details panel when the side content is a persistent part of the workspace and does not need temporary open or close behavior.",
+    "If responsive layout turns a drawer into a full-screen panel, provide a clear back or close path, keep the object title visible, and restore the user's list, filter, scroll, and focus when returning.",
+    "If Escape, outside click, browser back, route change, or object switch can close the drawer, route every path through the same cleanup: preserve page state, close the surface once, and return focus locally.",
+    "If closing the drawer would discard dirty edits or unsaved selections, ask for a scoped discard decision rather than removing the close route.",
+    "Do not hide the only close route in an offscreen toolbar, overflow menu, hover-only control, or swipe-only gesture.",
+    "During generated UI review, inspect temporary drawers, mobile full-screen drawers, side sheets, inspectors, and navigation drawers for close, Escape, back, focus return, and state preservation as one contract."
+  ],
+  "failureModes": [
+    "A case drawer opens with no close button and Escape does nothing.",
+    "The drawer can close visually, but focus drops to the page header instead of returning to the selected row.",
+    "Browser back leaves the drawer open while the URL changes, or closes it and loses the user's list filter.",
+    "A mobile full-screen drawer hides the originating list and provides no Back or Close control.",
+    "A scrim appears behind a temporary drawer but clicking it does not dismiss or explain why dismissal is blocked.",
+    "A drawer asks users to swipe to close with no keyboard, pointer, or screen reader equivalent.",
+    "Closing the drawer resets selected object, scroll position, draft filters, or review state.",
+    "Object switching while the drawer is open leaves focus and return target attached to the previous row."
+  ],
+  "sources": [
+    {
+      "id": "fluent-drawer-component",
+      "note": "Supports drawers as secondary edge surfaces for related information and simple actions, establishing the need for a controlled temporary surface rather than an inescapable panel."
+    },
+    {
+      "id": "nord-drawer-component",
+      "note": "Supports context-sensitive drawers that should not block task completion, making missing close and return paths a task-blocking failure."
+    },
+    {
+      "id": "material-navigation-drawer",
+      "note": "Supports destination drawer variants, active items, scrim behavior, and focus management when drawers close."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Supports Escape dismissal, contained focus, and focus return requirements for modal surfaces, which apply when a drawer is intentionally modal."
+    },
+    {
+      "id": "wcag-no-keyboard-trap",
+      "note": "Supports the requirement that keyboard users must not be trapped in a component without a documented exit path."
+    },
+    {
+      "id": "wcag-focus-order",
+      "note": "Supports predictable focus movement and return after temporary surface dismissal."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "dangerous-action-review-vs-destructive-action-confirmation-vs-typed-confirmation-vs-human-approval-gate-vs-review-before-submit-vs-security-warning",
+  "title": "Dangerous-action review vs destructive action confirmation vs typed confirmation vs human approval gate vs review before submit vs security warning",
+  "summary": "Use dangerous-action review for pre-execution inspection of high-impact actions that may affect money, access, production systems, legal status, customers, external recipients, sensitive data, or safety. Use destructive action confirmation for permanent loss, typed confirmation for exact target verification, human approval gate for paused automation requiring an eligible reviewer, review before submit for ordinary user-entered answers, and security warning for detected unsafe destinations or objects.",
+  "patternIds": [
+    "dangerous-action-review",
+    "destructive-action-confirmation",
+    "typed-confirmation",
+    "human-approval-gate",
+    "review-before-submit",
+    "security-warning"
+  ],
+  "decisionRules": [
+    "Choose dangerous-action review when the action is armed but not yet executed and users need to inspect action verb, target, payload, actor, risk reason, evidence, freshness, permissions, side effects, safer alternatives, and audit before running it.",
+    "Choose destructive action confirmation when the dominant risk is permanent deletion, removal, reset, cancellation, revocation, or unrecoverable loss of a named object.",
+    "Choose typed confirmation when a severe wrong-target mistake is plausible and reproducing a visible repository, workspace, account, dataset, or target phrase materially reduces that risk.",
+    "Choose human approval gate when an automation or agent run is paused and cannot resume a specific step until an eligible human approves, rejects, edits, times out, or bypasses it.",
+    "Choose review before submit when the initiating user is checking ordinary form answers, entered data, or a transaction summary before submission rather than inspecting a privileged or high-impact operation.",
+    "Choose security warning when the system has detected an unsafe destination, phishing risk, malware, dangerous download, invalid certificate, insecure connection, suspicious redirect, mixed-content form, or file-preview risk.",
+    "Dangerous-action review should name high-impact consequences such as money movement, access grant, production command, customer notification, public publication, legal or compliance submission, external webhook, sensitive data mutation, privileged agent tool call, safety-sensitive action, or physical-world operation.",
+    "Dangerous-action review must expose safe alternatives such as edit payload, reduce scope, dry run, schedule, sandbox, cancel, defer, request approval, or escalate; generic Continue and warning-only copy are not enough.",
+    "Dangerous-action review must revalidate stale payload, target, permission, evidence, policy, model output, run context, and external state before allowing Run from reopened tabs, notifications, mobile links, or email.",
+    "Do not use dangerous-action review for routine low-risk tasks, recoverable cleanup, or actions where the product cannot show the payload or enforce a pre-execution boundary."
+  ],
+  "failureModes": [
+    "A user runs a production command after seeing only Continue, without environment, blast radius, stale check, rollback owner, or dry-run result.",
+    "A dangerous-action review is used for simple file deletion even though destructive action confirmation or undo would be more precise.",
+    "A typed phrase is added to a high-impact workflow but the UI hides the actual side effects, evidence gaps, and external recipients.",
+    "A paused automation approval is shown as a generic risk review and fails to enforce eligible approver, self-review, timeout, stale gate, or resume semantics.",
+    "An ordinary review-before-submit page is escalated into a severe risk review, creating habituation without adding risk evidence.",
+    "A security-warning case is handled as user discretion even though policy should block malware, phishing, certificate, or unsafe download risk before exposure.",
+    "A stale email or mobile decision executes after amount, recipient, command, model output, policy, or permission changed.",
+    "The audit record says Approved but cannot reconstruct what payload, evidence, risk inventory, and alternatives were visible before execution."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports human control, correction, uncertainty handling, and capability-boundary communication for AI-assisted high-impact actions."
+    },
+    {
+      "id": "nist-ai-risk-management-framework",
+      "note": "Supports identifying, measuring, managing, monitoring, documenting, and treating AI and automation risk."
+    },
+    {
+      "id": "github-actions-deployment-protection-rules",
+      "note": "Supports review before high-impact deployment jobs proceed, required reviewers, self-review prevention, wait timers, bypass, and protection rules."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Supports consequence-specific confirmation, avoiding unnecessary interruption, and choosing undo or prevention when safer."
+    },
+    {
+      "id": "github-reviewing-proposed-changes",
+      "note": "Supports inspecting concrete proposed changes, comments, approvals, request-changes outcomes, and stale review state."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

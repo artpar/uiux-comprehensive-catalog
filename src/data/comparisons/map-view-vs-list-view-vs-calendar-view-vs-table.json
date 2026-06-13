@@ -1,0 +1,58 @@
+{
+  "id": "map-view-vs-list-view-vs-calendar-view-vs-table",
+  "title": "Map view vs list view vs calendar view vs table",
+  "summary": "Use Map view when location, distance, route, coverage, and spatial clustering drive the task; use list, calendar, or table when spatial placement is secondary.",
+  "patternIds": [
+    "map-view",
+    "list-view",
+    "calendar-view",
+    "table"
+  ],
+  "decisionRules": [
+    "Choose Map view when users need to understand where places, assets, events, incidents, or service areas are relative to each other, to the user, or to a viewport boundary.",
+    "Choose list view when users mainly scan object summaries and location can be a secondary field or sort key.",
+    "Choose calendar view when date, duration, overlap, availability, or recurrence is the primary organizing axis.",
+    "Choose table when users need aligned field comparison, bulk review, export, or precise record values more than spatial position.",
+    "A Map view should expose map region, zoom, selected marker, clustered count, layer/filter state, location permission state, and a list or table fallback before users rely on it for decisions.",
+    "Cluster markers when density hides individual points, but provide a way to expand, zoom, or inspect the cluster contents without losing context.",
+    "Use a marker popup or side detail only when it preserves the selected place, distance or route context, and keyboard path back to the map or fallback list.",
+    "Use explicit legends and layer controls when color, shape, heat, route, or coverage overlays change the meaning of map objects.",
+    "Do not use Map view for arbitrary decorative pin boards, unsorted address lists, or analytics charts where geographic position does not change the decision.",
+    "When geolocation is optional or denied, keep the map usable with manual search, selected area, saved address, or list fallback rather than blocking the task."
+  ],
+  "failureModes": [
+    "Markers overlap without clustering or density disclosure, hiding available locations.",
+    "A popup opens offscreen or steals focus without a clear return path to the selected marker.",
+    "Layer color, route line, radius, or heat shading has no legend, so users cannot interpret the map.",
+    "Location permission denial blocks the entire workflow even though a typed location or fallback list would work.",
+    "Map filtering changes the visible markers but the result count and fallback list do not update.",
+    "Distances, routes, or service areas are shown as decoration without units, origin, travel mode, or stale-data indication."
+  ],
+  "sources": [
+    {
+      "id": "google-maps-info-windows",
+      "note": "Google documents info windows attached to markers or map coordinates and exposed as dialogs."
+    },
+    {
+      "id": "google-maps-marker-clustering",
+      "note": "Google documents grouping nearby markers into clusters and revealing individual markers at closer zoom levels."
+    },
+    {
+      "id": "mapbox-gl-js-markers",
+      "note": "Mapbox documents markers as interactive elements positioned at geographic coordinates."
+    },
+    {
+      "id": "mapbox-gl-js-clusters",
+      "note": "Mapbox documents point clustering, cluster counts, zoom expansion, and point popups."
+    },
+    {
+      "id": "arcgis-javascript-popup",
+      "note": "ArcGIS documents popups for feature attributes in map layers."
+    },
+    {
+      "id": "arcgis-javascript-feature-reduction-cluster",
+      "note": "ArcGIS documents cluster renderers, labels, and popups that summarize grouped features."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

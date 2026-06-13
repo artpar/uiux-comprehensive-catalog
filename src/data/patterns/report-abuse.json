@@ -1,0 +1,261 @@
+{
+  "id": "report-abuse",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed report-abuse pattern with distinct reporter-facing guidance, live demo states, comparison decision rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "name": "Report abuse",
+  "aliases": [
+    "report content",
+    "report user",
+    "report harassment",
+    "report spam",
+    "report violation",
+    "flag content",
+    "report inappropriate content",
+    "safety report",
+    "abuse report",
+    "report harmful behavior"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Collaboration And Social Interaction",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Reporter-facing safety submission flow for harmful, abusive, illegal, spam, impersonation, or policy-violating content and behavior",
+  "uiGuidance": [
+    "Render report abuse as a scoped safety flow that identifies the reported object, selected reason, affected person, evidence or context, privacy handling, submit action, confirmation ID, review expectation, and immediate safety actions.",
+    "Place the report entry point close to the post, comment, profile, message, repository, ad, listing, live chat item, or conversation being reported without making the reporter keep harmful content in view after submission."
+  ],
+  "uxGuidance": [
+    "Use report abuse when a user needs to flag harmful content or behavior for review, not when they only want to hide someone, request access, resolve a comment, or read a security warning.",
+    "Help the reporter choose the right route, preserve evidence, understand that review may not equal removal, and take immediate personal-safety actions such as block, mute, hide, leave, save a copy, or contact emergency help where relevant."
+  ],
+  "uiExamples": {
+    "good": [
+      "A comment menu opens Report abuse with the comment snapshot, author, timestamp, reason choices, affected-person choice, optional context, submit, and confirmation with Block user and View report history actions.",
+      "A direct-message report lets the user choose specific messages, state whether the issue affects them or someone else, opt out of receiving reported text in follow-up notifications, and remove the conversation from the inbox after submission."
+    ],
+    "bad": [
+      "A red Report button immediately submits with no reason, no content snapshot, no confirmation, and no path to protect the reporter.",
+      "A harassment report requires users to copy the abusive content into a public comment thread before moderators can see it."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user reports a threatening message, selects violent threat, includes two related messages for context, receives a report receipt, gets guidance to contact local emergency services if in immediate danger, and can save a copy for authorities.",
+      "A contributor reports a disruptive pull request comment to repository admins, chooses a code-of-conduct reason, sees that maintainers will review it, and can still report to platform support if needed."
+    ],
+    "bad": [
+      "A user reports spam and sees the reported account instantly marked banned even though the item has only entered review.",
+      "A user who only wants to stop seeing someone is forced through an abuse report instead of a clear block or mute action."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Reporting harmful behavior fails when the entry point is hidden, the reported object is ambiguous, reason choices are vague, evidence is lost, status overpromises enforcement, reporter privacy is unclear, or immediate protection actions are missing.",
+  "solution": "Provide a scoped reporting flow that captures the reported object, reason, affected person, supporting context, privacy expectations, route, confirmation, status, and post-report safety actions while separating reporter submission from moderator queue work and everyday block or mute controls.",
+  "problemContext": [
+    "Reportable targets can include posts, comments, profiles, accounts, direct messages, group conversations, live chat, ads, listings, repositories, issues, pull requests, discussions, apps, contact links, or search predictions.",
+    "Report reasons may include harassment, bullying, violent threat, hate, self-harm, sexual content, child safety, spam, scam, impersonation, privacy violation, copyright, trademark, illegal content, deceptive behavior, or platform-specific policy violations.",
+    "The reporter may be the target, reporting on behalf of someone else, reporting a public safety issue, reporting while signed out, reporting from a blocked relationship, or reporting content they should not need to view again.",
+    "Submitted reports often feed a review queue or specialist route, while reporters need confirmation, expectation-setting, personal-safety actions, follow-up preferences, and privacy protection."
+  ],
+  "selectionRules": [
+    "Choose report abuse when a user flags content, behavior, an account, or an object as potentially harmful, abusive, spam, illegal, impersonating, privacy-violating, or against community rules.",
+    "Use a local Report action when object identity matters; preserve target type, permalink or snapshot, author when safe, timestamp, and selected content range or messages.",
+    "Ask for a reason using policy language that users can understand, then collect only the context needed to route the report and protect the reporter.",
+    "Use review queue for the internal moderator worklist after reports are submitted, not for the reporter-facing flow.",
+    "Use comments when users are discussing, resolving, editing, or deleting conversation content; report abuse is a separate safety route from ordinary discussion.",
+    "Use security warning when a system threat verdict blocks unsafe navigation, download, submission, or preview before exposure.",
+    "Use permission denied state when the issue is authorization or access, not harmful behavior.",
+    "Use notification center for report updates and follow-up requests, but deep-link to the report receipt, reported object state, or safety center.",
+    "Offer block, mute, hide, restrict, leave, save evidence, emergency, and legal or privacy-reporting routes as adjacent actions without pretending they are the same as an abuse report.",
+    "Make clear when reporting is anonymous to other users, when reported text may appear in follow-up messages, and when report details may be shared with moderators or legal teams."
+  ],
+  "requiredStates": [
+    "Report entry point near a post, comment, profile, message, conversation, repository, ad, live chat item, or listing.",
+    "Reported object snapshot with target type, author or account when safe, timestamp, selected messages, permalink, and content summary.",
+    "Reason selection for harassment, spam, impersonation, privacy, legal, child safety, violent threat, self-harm, or other policy categories.",
+    "Affected-person state such as myself, someone else, a group, everyone, community, or organization.",
+    "Additional context or evidence state with limits, sensitive-data guidance, and no public disclosure.",
+    "Multiple-content selection state for adding related posts, comments, or messages to one report.",
+    "Route selection state for platform support, repository maintainers, privacy complaint, legal issue, law enforcement guidance, or emergency help.",
+    "Submit pending, submitted, failed, duplicate, rate-limited, and offline draft states.",
+    "Confirmation state with receipt, expectation-setting, report history or status, and post-report safety actions.",
+    "Post-report content hidden or notice state that lets users avoid re-exposure while preserving access when they choose to view it.",
+    "Follow-up state for more information needed, action taken, no violation found, unresolved, resolved, or report reopened.",
+    "Reporter privacy, signed-out or region-specific reporting, blocked-account reporting, and mobile compact states."
+  ],
+  "interactionContract": [
+    "The Report action is reachable from the object being reported and carries object identity into the flow without asking users to manually re-enter obvious context.",
+    "The flow states who or what is being reported before submission and lets users change the target if the wrong item was selected.",
+    "Reason choices route to the correct specialist path and do not collapse urgent safety, privacy, legal, child safety, spam, and harassment into one vague issue.",
+    "Optional context fields explain what helps review and warn users not to include unnecessary secrets, medical data, payment data, or private third-party information.",
+    "Submission failure preserves the draft report, selected reason, and evidence so the reporter can retry without revisiting harmful content.",
+    "Confirmation says the report was received, not that enforcement has already happened, unless an actual moderation action has completed.",
+    "Post-submit safety actions are scoped: block or mute changes what the reporter sees; review queue actions decide platform enforcement; legal or emergency routes are separate.",
+    "Reporter identity and report contents are not exposed to the reported user, public thread, analytics events, screenshots, or unrelated moderators beyond policy need."
+  ],
+  "implementationChecklist": [
+    "Inventory reportable object types, source surfaces, policy reasons, specialist routes, required evidence, privacy obligations, and status values before adding the entry point.",
+    "Model report target, reporter, affected person, selected reason, selected evidence, context text, route, receipt ID, status, follow-up preference, and post-report safety actions separately from moderator queue state.",
+    "Preserve report drafts through network failure, mobile navigation, offline retry, blocked-account relationships, deleted content, and removed conversations.",
+    "Provide safe post-submit actions such as block, mute, hide, restrict, leave conversation, save a report copy, open safety center, view report history, or contact emergency help.",
+    "Throttle spammy submissions without blocking urgent safety reports behind inaccessible challenges or silent rate limits.",
+    "Audit who can view report details, redact sensitive evidence in logs, and avoid exposing reporter identity or context to the reported user.",
+    "Test post, comment, profile, direct message, group conversation, ad, repository, signed-out, region-specific, duplicate, failed, urgent threat, privacy/legal route, mobile wrapping, keyboard order, and screen reader announcement states."
+  ],
+  "commonMisuses": [
+    "Treating Report as an instant takedown or ban action.",
+    "Using one unlabelled report button with no reason, target, evidence, confirmation, or status.",
+    "Forcing reporters to keep viewing harmful content to complete, retry, or check a report.",
+    "Mixing block or mute, permission recovery, comments moderation, legal takedown, privacy request, and abuse reporting into one ambiguous flow.",
+    "Revealing reporter identity, report text, private evidence, or moderator notes to the reported user.",
+    "Hiding urgent threat or child safety routes behind ordinary spam categories.",
+    "Dropping failed reports without preserving the selected reason and evidence."
+  ],
+  "critiqueQuestions": [
+    "What exact object, account, conversation, or content range is being reported?",
+    "Which policy route owns this reason, and does the reporter understand the difference between reporting, blocking, muting, legal requests, and emergency help?",
+    "Can the reporter complete the flow without re-exposure to harmful content?",
+    "What evidence is captured automatically, and what optional context is truly needed?",
+    "How are reporter privacy, follow-up content, report history, and status expectations explained?",
+    "What immediate safety action remains available after submission?",
+    "What happens when the content is deleted, already reported, blocked, unavailable, or the report fails offline?"
+  ],
+  "useWhen": [
+    "Users need to flag content, behavior, an account, conversation, listing, repository, ad, or message for policy, abuse, spam, privacy, legal, or safety review.",
+    "The product can preserve object identity, route reasons, protect reporter privacy, and provide a confirmation or status path.",
+    "Immediate personal-safety actions can be offered separately from platform enforcement."
+  ],
+  "avoidWhen": [
+    "The user only wants to stop seeing a person or thread; use block, mute, hide, or notification controls instead.",
+    "The task is internal moderator triage after reports have been submitted; use review queue.",
+    "The issue is ordinary access denial or role-based authorization; use permission denied state or permission recovery.",
+    "The product has detected a security threat before a risky navigation or download; use security warning.",
+    "The report route cannot protect reporter privacy or safely handle the evidence being requested."
+  ],
+  "variants": [
+    "Report post",
+    "Report comment",
+    "Report profile",
+    "Report account",
+    "Report direct message",
+    "Report conversation",
+    "Report live chat message",
+    "Report repository",
+    "Report app or listing",
+    "Report ad",
+    "Report privacy violation",
+    "Report legal issue",
+    "Report violent threat",
+    "Report while signed out",
+    "Report history"
+  ],
+  "accessibility": [
+    "Give Report controls object-specific labels such as Report comment by Maya, Report profile, or Report message in conversation.",
+    "Use headings, grouped radio controls, error text, and status regions so reason selection, affected-person choice, evidence fields, and confirmation are understandable without visual layout alone.",
+    "Do not rely only on flag icons, danger color, or menu position to communicate reporting.",
+    "Keep post-submit actions such as Block, Mute, Hide, Leave conversation, View report history, and Save report copy keyboard reachable.",
+    "Announce submitted, failed, duplicate, rate-limited, more-information-needed, resolved, and no-violation-found states without exposing harmful content unnecessarily.",
+    "Make long usernames, URLs, repository names, message snippets, legal route labels, and receipt IDs wrap on compact layouts."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the Report action from the reported object, then target summary, reason options, affected-person options, context, privacy note, submit, cancel, and post-submit safety actions.",
+    "Arrow keys move within reason and affected-person radio groups using native radio behavior.",
+    "Enter or Space activates Report, Submit report, Back, Add related content, Remove selected evidence, Block, Mute, Hide, and View report history according to native controls.",
+    "Escape closes a report dialog only before submission and returns focus to the original object menu or Report button.",
+    "After submission, focus moves to the report confirmation or first post-submit safety action instead of returning to harmful content.",
+    "If the report fails, focus moves to the error and retry path while preserving selected reason and evidence."
+  ],
+  "failureModes": [
+    "The reporter cannot tell whether they reported a post, profile, comment, message, repository, ad, or entire conversation.",
+    "A report reason is too vague to route, so urgent safety issues are delayed or sent to the wrong team.",
+    "The confirmation hides the receipt and offers no status, history, or next safety action.",
+    "Reporting exposes the reporter to the reported user or leaks report details in the public thread.",
+    "A failed network request discards evidence and forces the user to reopen harmful content.",
+    "Block, mute, and hide actions are presented as enforcement outcomes rather than personal visibility controls.",
+    "Mobile layout truncates the reason, target, receipt, or emergency guidance."
+  ],
+  "relatedPatterns": [
+    "review-queue",
+    "comments",
+    "threaded-discussion",
+    "notification-center",
+    "security-warning",
+    "permission-denied-state",
+    "sensitive-data-reveal",
+    "activity-log",
+    "alert",
+    "warning-text"
+  ],
+  "comparisons": [
+    "report-abuse-vs-review-queue-vs-comments-vs-security-warning-vs-permission-denied-state-vs-notification-center"
+  ],
+  "examples": [
+    {
+      "product": "YouTube content reporting",
+      "url": "https://support.google.com/youtube/answer/2802027?co=GENIE.Platform%3DAndroid&hl=en",
+      "platform": "web",
+      "notes": "Documents anonymous reports, reason selection, review, report history, and multiple reportable surfaces including videos, comments, posts, live chat, ads, conversations, privacy, and legal issues.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "GitHub abuse and spam reporting",
+      "url": "https://docs.github.com/en/communities/maintaining-your-safety-on-github/reporting-abuse-or-spam",
+      "platform": "web",
+      "notes": "Documents reporting users, organizations, repositories, issues, pull requests, discussions, comments, Marketplace apps, contact-link abuse, GitHub Support routes, and repository-maintainer routes.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "GitHub reported-content management",
+      "url": "https://docs.github.com/en/communities/moderating-comments-and-conversations/managing-reported-content-in-your-organizations-repository",
+      "platform": "web",
+      "notes": "Documents the downstream reported-content list, viewing reported comments, resolving reports, and marking reports unresolved.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "X abusive behavior reporting",
+      "url": "https://help.x.com/en/safety-and-security/report-abusive-behavior",
+      "platform": "web",
+      "notes": "Documents reporting from posts, profiles, and Direct Messages, affected-person selection, added context, confirmation, recommendations after submission, violent threat guidance, review, follow-up, and reported-content replacement.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "youtube-report-inappropriate-content",
+      "note": "Supports anonymity, reason selection, review expectations, report history, content-type-specific reporting, privacy, legal, and signed-out reporting states."
+    },
+    {
+      "id": "github-reporting-abuse-spam",
+      "note": "Supports report entry points for users, organizations, repositories, issues, pull requests, discussions, comments, apps, contact links, maintainer routing, support routing, and form submission."
+    },
+    {
+      "id": "github-managing-reported-content",
+      "note": "Supports downstream reported-content triage, view content, resolved, and unresolved states that must be separated from reporter-facing submission."
+    },
+    {
+      "id": "x-report-abusive-behavior",
+      "note": "Supports affected-person selection, added context, related posts or messages, report confirmation, follow-up preferences, recommendations after submission, violent-threat guidance, and content replacement after reporting."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers report abuse as a reporter-facing safety submission flow with report entry point, reported object snapshot, reason selection, affected person, additional context, multiple content selection, route selection, pending submit, submitted receipt, failed submit, duplicate report, rate limited report, offline draft, post-report safety actions, content hidden after report, follow-up needed, action taken, no violation found, reporter privacy, signed-out reporting, blocked-account reporting, and mobile compact report states.",
+    "relatedPatternDistinction": "Separated from review queue as moderator worklist, comments as ordinary discussion and local moderation, security warning as detected unsafe destination interruption, permission denied state as authorization boundary, notification center as report update delivery, sensitive-data reveal as controlled exposure, and block or mute as personal visibility controls rather than platform enforcement.",
+    "liveDemoBehavior": "Good demo exercises report entry point, reported object snapshot, reason selection, affected person, additional context, multiple content selection, route selection, pending submit, submitted receipt, failed submit, duplicate report, rate limited report, offline draft, post-report safety actions, content hidden after report, follow-up needed, action taken, no violation found, reporter privacy, signed-out reporting, blocked-account reporting, and mobile compact report. Bad demo exercises instant takedown, no target, public report, forced re-exposure, vague reason, no safety actions, and lost failed report failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes report abuse from review queue, comments, security warning, permission denied state, and notification center by specific post or reported object, policy reason, affected person, evidence, reporter privacy, block and mute boundaries, report history, not-an-instant-takedown expectation, moderator worklist, authorization boundaries, detected unsafe destinations, and updates about submitted reports.",
+    "duplicateAudit": "2026-06-12: node --import tsx scripts/catalog-completion-audit.ts reported 255 complete patterns, 1 excluded pattern, 42 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-12: desktop 1440x940 and compact 500x844 browser checks exercised all good and bad report-abuse states; required terms were present; duplicate IDs, page overflow, and demo overflow were absent. Comparison route was checked at desktop and compact widths with required decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/report-abuse.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

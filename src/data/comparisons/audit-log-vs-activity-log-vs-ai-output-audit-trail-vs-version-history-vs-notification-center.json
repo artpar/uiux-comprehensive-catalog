@@ -1,0 +1,55 @@
+{
+  "id": "audit-log-vs-activity-log-vs-ai-output-audit-trail-vs-version-history-vs-notification-center",
+  "title": "Audit log vs activity log vs AI output audit trail vs version history vs notification center",
+  "summary": "Audit log is the governed evidence system for security, compliance, forensic, and administrator-accountability review. Activity log is broader event inspection, AI output audit trail preserves one generated output's lineage, version history preserves restorable content snapshots, and notification center supports personal triage.",
+  "patternIds": [
+    "audit-log",
+    "activity-log",
+    "ai-output-audit-trail",
+    "version-history",
+    "notification-center"
+  ],
+  "decisionRules": [
+    "Use audit log when records must support governed security, compliance, forensic, legal, or privileged-administrator review with retention policy, access scope, custody, export/API/SIEM behavior, and tamper or coverage states.",
+    "Use activity log when users need searchable product-event evidence across objects or systems but the surface does not own compliance retention, legal hold, chain-of-custody, or SIEM evidence packaging.",
+    "Use AI output audit trail when the audited object is a specific generated AI output and reviewers need prompt snapshot, response snapshot, model version, source snapshot, tool record, user action, approval, version chain, and downstream-use lineage.",
+    "Use version history when users need durable snapshots of a document, file, page, configuration, or object and can compare or restore earlier versions.",
+    "Use notification center when users need unread triage, delivery status, preferences, and related-object routing; notification read, dismiss, or archive state must not remove audit evidence.",
+    "An audit log record should include audit ID, effective time, actor, actor type, action, protected object, result, source system, request or session context, retention class, permission scope, and export eligibility.",
+    "Audit log filters should state query, date range, timezone, result count, hidden count, redacted count, retention window, ingestion freshness, and administrative scope before reviewers rely on the result.",
+    "Do not call a recent-activity feed an audit log unless missing records, retention, redaction, export mismatch, delayed ingestion, duplicate ingestion, API rate limits, and tamper checks are modeled.",
+    "Do not use an audit log as the editing surface for permissions, policy, or generated output; it can link to those workflows but should preserve the evidence of what happened.",
+    "If export, API, or SIEM output differs from the visible query, the audit log must show the difference before creating the evidence package."
+  ],
+  "failureModes": [
+    "A product calls a loose activity stream an audit log, but the records lack audit IDs, actor session context, retention class, or export status.",
+    "A restricted admin sees no records and assumes no event happened because hidden and redacted counts are not disclosed.",
+    "A notification cleanup action deletes the only record of a privileged role change.",
+    "A generated AI answer is logged only as 'message sent', losing prompt, model, source, tool, approval, and version lineage.",
+    "A version-history page is used for audit review even though it cannot show who changed policy, from where, and under which admin session.",
+    "Exported evidence uses a different date range, timezone, field set, or redaction level than the visible audit search."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-purview-audit-solutions",
+      "note": "Supports audit records for security, forensic, compliance, retention, export, API, and SIEM workflows."
+    },
+    {
+      "id": "microsoft-purview-audit-search",
+      "note": "Supports audit search jobs, details flyouts, export caps, and scoped administrative access."
+    },
+    {
+      "id": "github-enterprise-audit-log-api",
+      "note": "Supports enterprise audit API retrieval, retention windows, UTC timestamps, pagination, and rate limits."
+    },
+    {
+      "id": "atlassian-view-audit-log-activities",
+      "note": "Supports audit-log activity tables with activity type, date, time, actor, app, location, and IP address."
+    },
+    {
+      "id": "openai-admin-audit-logs-api",
+      "note": "Supports organization audit-log records with IDs, effective time, actor, session or API key context, and pagination."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

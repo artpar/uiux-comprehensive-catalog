@@ -1,0 +1,269 @@
+{
+  "id": "agent-progress-trace",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed agent progress trace pattern with live run-state guidance, trace-specific demo coverage, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers run ID, plan version, run started, current step, active tool, queued step, completed step, blocked permission, missing input, approval wait, retry attempt, skipped step, failed step, cancelled run, final outcome, audit handoff, mobile compact trace, elapsed time, last event time, divergence, duplicate events, and trace persistence.",
+    "relatedPatternDistinction": "The entry separates agent progress trace from agent plan preview by live execution after Run begins rather than pre-run plan review, from streaming response by multi-step run milestones rather than generated output chunks, from activity log by live monitoring and intervention rather than retained evidence, from progress bar by trace states rather than measurable bounded work, from human approval gate by showing where one gate sits in the larger run, and from tool-use visibility by keeping tool payload inspection in a separate detail surface.",
+    "liveDemoBehavior": "The live demo shows run started, current step, active tool, queued step, completed step, blocked permission, missing input, approval wait, retry attempt, skipped step, failed step, cancelled run, final outcome, audit handoff, and mobile compact trace states. Bad states cover spinner-only, raw tool log, fake percent, hidden gate, duplicate events, vanished cancel, and complete too early failures.",
+    "comparisonDecisionRules": "The linked agent-progress-trace-vs-agent-plan-preview-vs-streaming-response-vs-activity-log-vs-progress-bar-vs-human-approval-gate comparison gives concrete rules for live multi-step agent execution, before execution, generated output chunks, retained evidence, measurable bounded work, paused authorization checkpoint, run ID, plan version, current step, elapsed time, last event time, active tool, queued next step, retry attempt, blocker, approval wait, cancellation, final outcome, tool-use visibility, tool input, tool output, permission, payload details, audit trail, reviewed plan version, raw tool logs, spinner, thinking label, fake percent, and duplicate events.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/agent-progress-trace/ with the live demo, exercised Run started, Current step, Active tool, Queued step, Completed step, Blocked permission, Missing input, Approval wait, Retry attempt, Skipped step, Failed step, Cancelled run, Final outcome, Audit handoff, Mobile compact trace, Spinner-only, Raw tool log, Fake percent, Hidden gate, Duplicate events, Vanished cancel, and Complete too early states, and found no duplicate IDs, page overflow, or agent-progress-trace demo overflow. The comparison route /compare/agent-progress-trace-vs-agent-plan-preview-vs-streaming-response-vs-activity-log-vs-progress-bar-vs-human-approval-gate/ included agent progress trace, agent plan preview, streaming response, activity log, progress bar, human approval gate, live multi-step agent execution, before execution, generated output chunks, retained evidence, measurable bounded work, paused authorization checkpoint, run ID, plan version, current step, elapsed time, last event time, active tool, queued next step, retry attempt, blocker, approval wait, cancellation, final outcome, tool-use visibility, tool input, tool output, permission, payload details, audit trail, reviewed plan version, raw tool logs, spinner, thinking label, fake percent, and duplicate events terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/agent-progress-trace.png"
+    ]
+  },
+  "name": "Agent progress trace",
+  "aliases": [
+    "AI agent run trace",
+    "agent run progress",
+    "agent execution trace",
+    "automation run trace",
+    "agent step trace",
+    "AI workflow trace",
+    "agent activity trace",
+    "live agent run timeline",
+    "agent progress log",
+    "run execution timeline"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Live execution trace for an AI agent or automation run after work has started",
+  "uiGuidance": [
+    "Render an agent progress trace as a live, ordered run timeline with run ID, plan version, current step, queued steps, active tool or task, elapsed time, last event time, step status, blocked gates, retry state, and final outcome.",
+    "Separate proposed plan, active execution, tool details, generated output, human approval checkpoints, and durable audit records so users can tell what is planned, what is currently running, what already happened, and what still needs attention."
+  ],
+  "uxGuidance": [
+    "Use agent progress trace when an AI agent or automation has started multi-step work and users need to monitor progress, intervene on stalls or gates, understand partial completion, and know whether the reviewed plan is still being followed.",
+    "Keep the trace useful during uncertainty: show pending, running, waiting, blocked, retried, skipped, failed, cancelled, completed, and handed-off states without pretending every step is measurable or exposing unsafe private tool payloads."
+  ],
+  "uiExamples": {
+    "good": [
+      "An account research agent trace shows Run A-204, reviewed plan P-18, completed CRM lookup, active policy search, queued draft email, approval gate pending before send, elapsed time, and a View tool details control.",
+      "A code assistant run shows inspected files, running tests, retrying one command after a timeout, blocked permission for a write command, and a final handoff to results and audit.",
+      "A support automation trace shows customer lookup complete, refund eligibility failed, fallback message drafting skipped, and the run ending with a recoverable error."
+    ],
+    "bad": [
+      "A spinner says Working on it while an agent calls several tools with no step identity, elapsed time, blocked state, or recovery path.",
+      "A trace displays raw tool JSON and private tokens as the only progress feedback.",
+      "The UI marks a run complete when generated text appears even though one queued side-effect step is still pending."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user watches the active step move from searching policies to drafting the email, opens the blocked permission item, grants access, and sees the run continue from the same step.",
+      "A manager sees that a run is waiting at a human approval gate, opens the gate, rejects the email-send step, and the trace records the stopped outcome.",
+      "On mobile, a user sees a compact trace with current step, last completed step, next blocked step, elapsed time, and a details path without losing the run."
+    ],
+    "bad": [
+      "Users cannot tell whether the agent is stuck, waiting for approval, or finished because all states use the same animated progress label.",
+      "A trace restarts from the top after a retry and makes users think earlier completed steps ran twice.",
+      "A cancelled run disappears from the workspace before users can see which steps completed and which side effects happened."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI agents and automations can run several steps, tools, approvals, retries, and side effects after a user starts work, but ordinary spinners, progress bars, generated responses, and audit logs often fail to show the live run state users need to monitor, interrupt, or trust the process.",
+  "solution": "Show a live ordered trace tied to one run and reviewed plan version, with current step, completed steps, queued work, tool and gate milestones, elapsed state, retry and blocked recovery, final outcome, and a handoff to detailed tool visibility or audit history when needed.",
+  "problemContext": [
+    "The product starts an AI agent, workflow, tool sequence, background automation, code task, research task, content operation, support action, deployment, or customer-facing side effect.",
+    "The run can include generated text, tool calls, data retrieval, approval gates, retries, skipped steps, blocked permissions, failures, cancellations, and final artifacts.",
+    "Users need to know whether the agent is still working, waiting, blocked, retrying, safe to leave, safe to cancel, or finished.",
+    "Some details may be sensitive or too verbose for the trace and should move to tool-use visibility, logs, or audit history instead of overwhelming the progress view.",
+    "The trace may start from a reviewed agent plan preview and later produce durable audit records after completion."
+  ],
+  "selectionRules": [
+    "Choose agent progress trace when an agent or automation run has started and users need live status across multiple steps or tools.",
+    "Use agent plan preview before execution starts; use agent progress trace after Run begins.",
+    "Use streaming response when the primary observable work is generated output arriving in chunks, not a multi-step run lifecycle.",
+    "Use activity log when users need retained investigative records after the run, not live execution monitoring.",
+    "Use progress bar when one bounded system operation has measurable percent, byte, row, or item progress.",
+    "Use human approval gate when the run is paused at one authorization checkpoint; keep the trace responsible for showing where that gate sits in the larger run.",
+    "Use tool-use visibility when users must inspect exact tool names, inputs, outputs, permissions, or payloads; keep the progress trace as the run-level timeline.",
+    "Show current step, last completed step, queued next step, blocked step, retry, skip, cancel, and final outcome states before adding decorative motion.",
+    "Preserve trace identity across refresh, route change, mobile handoff, retry, cancellation, and final result.",
+    "Do not title raw logs, hidden tool events, or post-hoc audit rows as a progress trace unless they support live run monitoring."
+  ],
+  "requiredStates": [
+    "Run started state tied to run ID, plan version, objective, and user who started the run.",
+    "Queued, active, completed, skipped, waiting, blocked, retrying, failed, cancelled, and completed run states.",
+    "Current step state with label, purpose, owner, elapsed time, and last event time.",
+    "Tool call pending, tool call running, tool call succeeded, tool call failed, and tool detail available states.",
+    "Human approval gate waiting state linked to the canonical gate.",
+    "Permission blocked, missing input, rate limited, offline, timeout, stale plan, and fallback route states.",
+    "Partial result and generated output available states without confusing output streaming with step progress.",
+    "Run resumed, retried, cancelled, rolled back, and final handoff to result or audit states.",
+    "Mobile compact trace state with current, previous, next, blocked, and final outcome visibility."
+  ],
+  "interactionContract": [
+    "The trace belongs to one run ID, reviewed plan version, objective, actor, start time, current state, and final state.",
+    "Each trace item identifies a step or event, its status, time, owner, and whether details are available, hidden, redacted, blocked, or unsafe to expose.",
+    "The trace differentiates queued, active, completed, failed, skipped, blocked, waiting, cancelled, and final states in text, not color alone.",
+    "Opening step details reveals scoped information for that step and does not replace the trace with an unfiltered raw log.",
+    "Cancel, stop, retry, resume, grant permission, open gate, view details, and view audit actions only appear when the run state supports them.",
+    "Retries append or mark retry attempts without making completed earlier steps look newly completed unless they actually reran.",
+    "If the run diverges from the reviewed plan, the trace shows the divergence, reason, and whether user review or approval is required.",
+    "When the run completes, fails, or is cancelled, the trace remains available long enough to inspect outcome and links to durable audit or activity history."
+  ],
+  "implementationChecklist": [
+    "Model run ID, plan version, objective, started by, start time, step IDs, event IDs, statuses, timestamps, active tool, queued work, blockers, retry attempts, cancellation state, final outcome, and audit link as structured data.",
+    "Separate trace events from plan-preview records, streamed response chunks, raw tool payloads, human approval gate decisions, activity-log records, and telemetry events.",
+    "Render a stable ordered list or timeline with active item, completed items, queued items, gates, blockers, retry attempts, final state, and details disclosure.",
+    "Add actions for stop, cancel, retry failed step, resume, grant permission, open approval gate, view tool details, copy run ID, view result, and open audit according to state.",
+    "Throttle live updates and assistive announcements to meaningful milestones rather than every low-level event.",
+    "Redact or summarize sensitive tool inputs, private data, secrets, and payloads while linking to permissioned detail surfaces where appropriate.",
+    "Persist the trace through refresh and background execution, and reconcile client state with canonical server run state.",
+    "Test slow steps, duplicate events, out-of-order events, retry after failure, blocked permission, missing input, approval gate wait, cancelled run, stale plan divergence, final audit handoff, mobile wrapping, keyboard details, and screen-reader updates."
+  ],
+  "commonMisuses": [
+    "Using one spinner or vague Thinking label for a multi-step agent run.",
+    "Showing a progress bar percentage when the run has no honest measurable total.",
+    "Dumping raw tool logs instead of a user-readable run trace.",
+    "Calling a pre-run plan preview a progress trace before any work has started.",
+    "Calling a post-run activity log a progress trace when users cannot monitor or intervene.",
+    "Hiding approval gates, permission blockers, retries, skipped steps, and partial failures.",
+    "Letting duplicate or out-of-order events make steps appear to run twice.",
+    "Removing the trace immediately after failure, cancellation, or completion."
+  ],
+  "critiqueQuestions": [
+    "What run ID, plan version, and objective does this trace represent?",
+    "Can users tell what is queued, active, completed, blocked, failed, skipped, cancelled, and final?",
+    "Which tool details are safe to show inline, and which belong in tool-use visibility or audit history?",
+    "What actions are available when the run stalls, waits for approval, needs permission, fails, or diverges from the reviewed plan?",
+    "How does the trace handle duplicate, delayed, out-of-order, redacted, or retried events?",
+    "Would agent plan preview, streaming response, progress bar, human approval gate, activity log, or tool-use visibility better fit the actual need?"
+  ],
+  "useWhen": [
+    "An agent or automation run has started and spans multiple steps, tools, gates, or side effects.",
+    "Users need live monitoring, intervention, recovery, or confidence that the run is following the reviewed plan.",
+    "The product can expose run-level milestones without leaking unsafe tool payloads.",
+    "Completed, failed, cancelled, skipped, blocked, and retried states matter to the task outcome."
+  ],
+  "avoidWhen": [
+    "Execution has not started and users need to inspect or edit a proposed plan.",
+    "The task is a single generated answer stream.",
+    "The operation has a simple measurable percentage better shown by a progress bar.",
+    "Users only need a durable audit record after the run.",
+    "The product cannot provide reliable run events or current state."
+  ],
+  "variants": [
+    "Live agent run trace",
+    "Automation execution trace",
+    "Tool-step progress trace",
+    "Run timeline with gates",
+    "Retry-aware trace",
+    "Permission-blocked trace",
+    "Background agent trace",
+    "Mobile compact run trace",
+    "Trace with generated output",
+    "Trace with audit handoff"
+  ],
+  "accessibility": [
+    "Expose trace status, run ID, current step, elapsed time, blocked state, final outcome, and details availability as text.",
+    "Use role=log or status messages only for meaningful appended milestones, not every low-level token or tool delta.",
+    "Do not rely on color, animation, indentation, or icons alone for active, completed, blocked, failed, skipped, retrying, waiting, cancelled, or final states.",
+    "Make step details, stop, cancel, retry, resume, open gate, grant permission, copy run ID, view result, and view audit controls keyboard reachable.",
+    "Preserve focus while new trace events append, and provide a keyboard path to jump to current step or latest event.",
+    "Ensure long tool names, file paths, run IDs, error messages, and redaction labels wrap at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches trace summary, active step, step detail toggles, recovery controls, current-step jump, and final result or audit links in predictable order.",
+    "Enter or Space expands a step, opens a gate, retries, resumes, cancels, copies run ID, or opens result and audit links according to native control behavior.",
+    "New live events do not steal focus from a focused control or expanded step.",
+    "When a blocker appears, focus remains stable while a status message announces the blocker and recovery path.",
+    "After retry, cancellation, or completion, focus remains near the trace status or moves to a named result region.",
+    "Escape closes step details or tool-detail panels and returns focus to the invoking step."
+  ],
+  "failureModes": [
+    "Users cannot tell whether the agent is running, waiting, blocked, failed, cancelled, or done.",
+    "The trace hides tool failures, skipped steps, or approval gates until after the run ends.",
+    "A retried step appears as a duplicate completion with no attempt marker.",
+    "The UI says complete while queued side-effect steps remain unresolved.",
+    "Raw tool logs expose secrets, private records, or confusing internal events.",
+    "Screen readers receive noisy updates for every low-level event.",
+    "A cancelled or failed trace disappears before users can inspect what happened.",
+    "The final audit record cannot connect back to the run trace and reviewed plan version."
+  ],
+  "relatedPatterns": [
+    "agent-plan-preview",
+    "streaming-response",
+    "activity-log",
+    "progress-bar",
+    "human-approval-gate",
+    "timeline",
+    "loading-spinner",
+    "source-grounding-display",
+    "confidence-uncertainty-display"
+  ],
+  "comparisons": [
+    "agent-progress-trace-vs-agent-plan-preview-vs-streaming-response-vs-activity-log-vs-progress-bar-vs-human-approval-gate"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI Responses streaming events",
+      "url": "https://developers.openai.com/api/reference/resources/responses/streaming-events/",
+      "platform": "ai",
+      "notes": "Documents event-based response updates that can support live run milestones when a response is streamed.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI Streaming API responses",
+      "url": "https://developers.openai.com/api/docs/guides/streaming-responses",
+      "platform": "ai",
+      "notes": "Documents server-sent streaming so clients can display output or state while generation continues.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "W3C ARIA role log technique",
+      "url": "https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA23",
+      "platform": "web",
+      "notes": "Documents role=log for appended sequential updates, useful for live trace milestones when implemented carefully.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "WCAG status messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Documents programmatically determinable status messages for updates such as blocked, failed, completed, or waiting states.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports event-based updates that can map to live response, tool, and run milestones."
+    },
+    {
+      "id": "openai-streaming-responses",
+      "note": "Supports streaming server-sent updates while agent or model work continues."
+    },
+    {
+      "id": "w3c-aria-log-role-chat",
+      "note": "Supports exposing appended sequential updates to assistive technologies."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing meaningful status changes without moving focus."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, feedback, correction, and expectation-setting during AI-assisted experiences."
+    },
+    {
+      "id": "carbon-progress-bar-component",
+      "note": "Supports the distinction between measurable progress indicators and richer trace states."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "alert-dialog-vs-alert-vs-modal-dialog-vs-confirmation-dialog",
+  "title": "Alert dialog vs alert vs modal dialog vs confirmation dialog",
+  "summary": "Use an alert dialog for an urgent message that blocks the current workflow until users respond; use alert for urgent non-modal status, modal dialog for a short contained task, and confirmation dialog for a user-initiated consequence decision.",
+  "patternIds": [
+    "alert-dialog",
+    "alert",
+    "modal-dialog",
+    "confirmation-dialog"
+  ],
+  "decisionRules": [
+    "Choose alert dialog when an important current-workflow message requires users to acknowledge, cancel, retry, sign out, review, or choose a response before continuation is safe.",
+    "Choose alert when users need immediate notice of a time-sensitive task condition but should keep working without a modal response.",
+    "Choose modal dialog when the layer contains a short task, form, picker, or settings interaction rather than an urgent message.",
+    "Choose confirmation dialog when the response-required interruption follows a user-initiated destructive, costly, security-sensitive, or difficult-to-reverse command before it commits.",
+    "Use warning text when the severe consequence can stay inline before the risky action instead of blocking the whole page.",
+    "Use site alert or banner when the message applies broadly across the service, account, product, or many pages.",
+    "Do not use alert dialog for page-load announcements, routine success feedback, marketing messages, low-risk confirmations, or information that can be safely read later.",
+    "If the surface is modal, keep background content inactive, move focus into the dialog, contain Tab and Shift+Tab, support Escape only when safe, and return focus after the response.",
+    "Label response buttons by outcome, such as Stay signed in, Sign out, Retry payment, Choose another method, Keep editing, or Review warning; avoid vague OK-only responses when the consequence matters.",
+    "Escalate from alert to alert dialog only when unsafe continuation is possible without a response; escalate from alert dialog to a page or error state when recovery needs longer reading, navigation, or durable state."
+  ],
+  "failureModes": [
+    "A session-lock message appears as a non-modal alert and users keep editing content that can no longer be saved.",
+    "A routine saved message opens an alert dialog and trains users to dismiss future interruptions without reading.",
+    "A normal settings form is labelled as alertdialog even though there is no urgent response-required message.",
+    "A destructive delete command uses a generic alert dialog with OK instead of a confirmation dialog that names object, scope, and safe cancellation.",
+    "Background controls remain clickable while the alert dialog is open, so page state changes behind the blocking message.",
+    "The dialog has no accessible title or description, so assistive technology users hear an interruption without the consequence.",
+    "Focus does not return after close, leaving keyboard users outside the workflow that triggered the interruption."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG defines alert dialogs as modal interruptions for important messages that require a response."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "APG modal dialog guidance defines inert background behavior, contained tab sequence, Escape behavior, focus placement, and focus return."
+    },
+    {
+      "id": "apple-hig-alerts",
+      "note": "Apple alert guidance frames alerts as interruptive and appropriate only for important information."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance distinguishes necessary consequence decisions from unnecessary confirmations, prevention, and undo."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

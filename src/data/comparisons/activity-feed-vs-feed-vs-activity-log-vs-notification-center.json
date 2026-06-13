@@ -1,0 +1,59 @@
+{
+  "id": "activity-feed-vs-feed-vs-activity-log-vs-notification-center",
+  "title": "Activity feed vs feed vs activity log vs notification center",
+  "summary": "Use activity feed for recent work and collaboration events users can catch up on, feed for broad stream reading, activity log for evidence and audit investigation, and notification center for durable notification triage.",
+  "patternIds": [
+    "activity-feed",
+    "feed",
+    "activity-log",
+    "notification-center",
+    "timeline",
+    "comments",
+    "mentions",
+    "threaded-discussion",
+    "presence"
+  ],
+  "decisionRules": [
+    "Choose activity feed when users need to catch up on recent collaboration or product events such as mentions, replies, reactions, assignments, comments, shares, repository changes, meeting updates, or app events across a workspace, project, team, organization, or object.",
+    "Choose feed when the main experience is reading a broad stream of article-like posts, stories, media, updates, or recommendations where reading position, stream ordering, and content consumption matter more than work-event triage.",
+    "Choose activity log when users need inspectable evidence with actor, action, object, timestamp, IP address, source, retention, filters, export, and compliance semantics; an activity feed may summarize events, but it is not the audit record.",
+    "Choose notification center when items have durable notification lifecycle behavior such as unseen badge, unread state, mark-read controls, preferences, cleanup after related-object viewing, and retained inbox triage.",
+    "Choose timeline when one case, order, file, project, or process needs a bounded chronological story of milestones, not a mixed workspace catch-up stream.",
+    "Use comments or threaded discussion when the event is actually a conversation that needs replies, resolution, moderation, answer marking, or topic branch state; an activity feed can link to those conversations but should not replace them.",
+    "Use mentions when the core task is targeting a person or group inside authored content; an activity feed may surface the resulting mention as one event type.",
+    "Use presence when users need current availability, viewing, or live co-presence; activity feed should show meaningful past events rather than continuous status pings.",
+    "Activity feed items need actor, verb, object, time, source, destination, type, read or cleared state where supported, and enough preview context to decide whether to open the underlying work.",
+    "Do not collapse every event into an activity feed: low-value system churn, audit-only events, every cursor movement, repeated sync changes, and private no-disclosure events should be suppressed, grouped, or routed elsewhere."
+  ],
+  "failureModes": [
+    "A product calls a full audit table an activity feed and hides filters, retention, export, actor IDs, and evidence fields users need for investigation.",
+    "A workspace feed mixes mentions, comments, reactions, assignments, deployment events, and recommendations with no type filters or clear/read controls.",
+    "A notification center clears unread items but the activity feed still claims they are unseen, making badge and feed state contradict each other.",
+    "A live collaboration feed records every cursor movement and presence heartbeat, drowning out meaningful work events.",
+    "A timeline for one object is replaced with a workspace activity feed, so users cannot reconstruct the milestone history of the object.",
+    "An activity feed item opens the wrong destination because the actor, verb, object, source app, and deep link are not stored as stable event fields."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-teams-explore-activity-feed",
+      "note": "Microsoft documents Teams Activity as a cross-Teams summary with unread, mentions, replies, likes, filters, mark all read, settings, icons, and retention."
+    },
+    {
+      "id": "slack-activity-view",
+      "note": "Slack documents Activity as a recent messages and notifications feed with filters, dense and detailed layouts, reply, clear, mark-read, and custom views."
+    },
+    {
+      "id": "github-organization-news-feed",
+      "note": "GitHub documents organization news feed events such as issue, pull request, branch, release, comment, and push activity."
+    },
+    {
+      "id": "microsoft-graph-teams-activity-feed-notifications",
+      "note": "Microsoft Graph documents actor, reason, timestamp, preview, topic, icon, deep links, and activity-feed notification use cases."
+    },
+    {
+      "id": "microsoft-teams-activity-feed-notifications",
+      "note": "Microsoft Teams app guidance documents activity feed notification cards, retention, custom icons, and desktop/mobile card variants."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,260 @@
+{
+  "id": "focus-traversal",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed focus traversal pattern with sequential focus order guidance, visible focus, initial focus, skip entry, forward Tab, reverse Shift+Tab, hidden-content removal, programmatic focus, overlay focus placement and return, validation focus, dynamic removal recovery, responsive order, composite boundary, trap escape, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers focus traversal as sequential focus movement with initial focus, skip entry, forward Tab, reverse Shift+Tab, visible focus, hidden content removed, programmatic focus, overlay open, overlay return, validation error, dynamic removal, responsive order, composite boundary, and trap escape states.",
+    "relatedPatternDistinction": "Separated from keyboard shortcut as direct command acceleration, skip link as repeated-block bypass, modal dialog as contained modal focus, toolbar as grouped view-scoped controls with optional roving focus, data grid as managed two-dimensional cell focus, and menu menubar as application command hierarchy focus.",
+    "liveDemoBehavior": "Good demo exercises initial focus, skip entry, forward Tab, reverse Shift+Tab, visible focus, hidden content removed, programmatic focus, overlay open, overlay return, validation error, dynamic removal, responsive order, composite boundary, and trap escape states. Bad demo exercises positive tabindex, hidden focus, no focus ring, scroll only, lost return, trap loop, and virtualized loss failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes focus traversal from keyboard shortcut, skip link, modal dialog, toolbar, and data grid by logical sequential focus order, Tab and Shift+Tab, visible focus indicator, focus return, hidden-content removal, keyboard trap, positive tabindex, source order, roving focus, two-dimensional cell focus, managed cell focus, main content bypass, and inert background content.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 269 complete patterns, 1 excluded in-progress pattern, 28 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/focus-traversal/ with required terms present, no duplicate IDs, and no page overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/focus-traversal-vs-keyboard-shortcut-vs-skip-link-vs-modal-dialog-vs-toolbar-vs-data-grid/ was checked at desktop and compact widths with concrete decision terms present, no duplicate IDs, and no page overflow.",
+    "screenshots": [
+      "screenshots/patterns/focus-traversal.png"
+    ]
+  },
+  "name": "Focus traversal",
+  "aliases": [
+    "focus order",
+    "tab order",
+    "sequential focus navigation",
+    "keyboard traversal",
+    "focus movement",
+    "focus path"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Input And Data Entry",
+    "Disclosure And Attention Management",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Sequential keyboard focus path through interactive controls and state changes",
+  "uiGuidance": [
+    "Render a visible focus path that follows source order and task meaning: skip link, global controls, page heading or first task control, local controls, form fields, inline help, error links, overlays, and next task actions.",
+    "Show focus indicators, focus-origin context, active step, disabled reasons, hidden-section state, and return targets instead of relying on invisible DOM order or positive tabindex patches."
+  ],
+  "uxGuidance": [
+    "Use focus traversal design when users must move through a page or workflow with Tab and Shift+Tab and understand where focus will go next, where it came from, and how to recover after state changes.",
+    "Define initial focus, next and previous focus targets, focus return after close or submit, error focus, hidden-content removal, virtualized-content recovery, and modal or composite widget boundaries before implementation."
+  ],
+  "uiExamples": {
+    "good": [
+      "A checkout form focuses the page heading after route change, tabs through Contact, Delivery, Payment, Review, and Submit in the same order users read the page, then returns focus to the changed section after editing.",
+      "A filter drawer moves focus to its heading when opened, traps focus only while modal, removes hidden drawer controls when closed, and returns focus to the Filter button.",
+      "A validation summary receives focus after failed submit, each error link moves focus to the matching field, and Shift+Tab returns predictably through the prior controls."
+    ],
+    "bad": [
+      "A two-column form tabs from first name to ZIP code to back link because CSS grid order and DOM order disagree.",
+      "A hidden menu and collapsed accordion panel still receive focus.",
+      "A modal closes and focus jumps to the browser top, leaving keyboard users to restart the page."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A keyboard user presses Tab from the skip link to the H1, through visible form controls in reading order, into an opened help popover, then back to the invoker after Escape.",
+      "A user opens a modal, cycles within it using Tab and Shift+Tab, closes with Escape, and focus returns to the button that opened it.",
+      "A user filters a list; the selected row is removed, and focus moves to a status message and then to the next available result action."
+    ],
+    "bad": [
+      "A keyboard user tabs into an offscreen drawer and cannot see or escape the focused control.",
+      "A screen reader user follows an error link, but focus stays on the summary while the visual page scrolls to the field.",
+      "After responsive reflow, focus order jumps between sidebar, content, footer, and hidden mobile navigation."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users who navigate by keyboard, switch, screen reader, or other sequential focus methods can lose their place when focus order disagrees with reading order, focus indicators are hidden, overlays leave hidden controls in the tab sequence, constrained regions create a keyboard trap, or state changes remove the focused element without a recovery target.",
+  "solution": "Design focus traversal as a tested interaction path with logical source order, visible focus, clear entry and exit points, predictable Tab and Shift+Tab movement, focus placement after navigation and validation, correct overlay containment, keyboard trap escape, hidden-content removal, and stable recovery after dynamic changes.",
+  "problemContext": [
+    "The page or workflow has links, buttons, form fields, overlays, disclosures, inline validation, repeated navigation, virtualized content, or responsive reflow.",
+    "Users move sequentially with Tab, Shift+Tab, screen reader next control commands, switch scanning, hardware keyboards, remote controls, or assistive devices.",
+    "Opening, closing, submitting, filtering, sorting, expanding, collapsing, routing, or virtualizing content can change which elements exist and where focus should land.",
+    "The product may also include composite widgets that use roving focus, modal surfaces that contain focus, skip links that bypass blocks, and shortcuts that execute commands."
+  ],
+  "selectionRules": [
+    "Choose focus traversal when the design problem is the user's sequential path through focusable elements and dynamic state changes.",
+    "Use keyboard shortcut when the goal is accelerating one command with a key chord rather than moving focus through the interface.",
+    "Use skip link when the primary issue is bypassing repeated content before main content or another large repeated block.",
+    "Use modal dialog when focus should be contained temporarily inside a modal surface and background content should be inert.",
+    "Use toolbar, menu menubar, listbox, tabs, data grid, or tree grid when a composite widget owns arrow-key or roving-focus behavior inside one logical control.",
+    "Use in-page anchor navigation when users need visible section jumps, active section state, and URL fragments, not the complete page focus sequence.",
+    "Preserve DOM order, reading order, visual order, and Tab order alignment wherever possible.",
+    "Avoid positive tabindex values except for exceptional controlled cases; prefer native order, tabindex 0 for deliberate custom controls, and tabindex -1 for programmatic focus targets.",
+    "Move focus only when users initiate a navigation, open or close a surface, submit a form, follow an error link, or need confirmation of a meaningful state change.",
+    "Never leave focus on hidden, removed, disabled, offscreen, inert, or unrelated content."
+  ],
+  "requiredStates": [
+    "Initial page focus state after route change or page load.",
+    "Skip link or bypass entry state where repeated blocks are present.",
+    "Normal forward Tab order state.",
+    "Reverse Shift+Tab order state.",
+    "Visible focus indicator state on every interactive control.",
+    "Hidden, collapsed, disabled, or inert content removed from sequential focus state.",
+    "Programmatic focus target state such as heading, status message, or validation summary.",
+    "Overlay opened state with first focus target and background policy.",
+    "Overlay closed state with focus return to invoker or next logical task.",
+    "Validation error state with summary focus and field-link focus movement.",
+    "Dynamic list update state when focused content is removed, filtered, sorted, or virtualized.",
+    "Responsive layout state where visual and DOM order remain coherent.",
+    "Composite widget boundary state where Tab enters and exits while arrows move inside.",
+    "Keyboard trap escape state for embedded or constrained focus regions."
+  ],
+  "interactionContract": [
+    "The sequential focus path follows DOM and reading order unless a well-tested component-specific model declares a different internal focus contract.",
+    "Every focusable element is visible, operable, named, and relevant at the moment it receives focus.",
+    "Tab moves forward to the next logical focus target, and Shift+Tab moves backward without losing focus or entering hidden content.",
+    "Focus indicators remain visible and meet the visual design's contrast and spacing expectations.",
+    "Opening a modal, drawer, popover, disclosure, or menu places focus deliberately and defines whether focus is contained, adjacent, or returned to the invoker.",
+    "Closing a surface returns focus to the invoker when it remains available or to the next logical task target when the invoker no longer exists.",
+    "Submitting with errors moves focus to the error summary or first invalid field and error links move focus to the matching control.",
+    "When dynamic content removes the focused item, focus moves to a status message, replacement item, next available result, or stable container with a clear path forward."
+  ],
+  "implementationChecklist": [
+    "Map the focus path for load, Tab, Shift+Tab, open, close, submit, validation, route change, filter, sort, pagination, virtualization, and responsive layouts.",
+    "Keep DOM order aligned with reading and visual order; fix source order before adding tabindex.",
+    "Use native interactive controls first and add tabindex 0 only to custom controls that are genuinely operable by keyboard.",
+    "Use tabindex -1 for programmatic focus targets such as headings, status containers, and validation summaries that should not be in normal Tab order.",
+    "Remove hidden, collapsed, inert, disabled decorative, or offscreen controls from the sequential focus path.",
+    "Define focus placement and return for dialogs, drawers, sheets, popovers, menus, accordions, route transitions, and async updates.",
+    "Expose visible focus styles for all interactive controls and verify they are not clipped, covered, or color-only.",
+    "Test with keyboard only, Shift+Tab, screen readers, switch control, browser zoom, mobile hardware keyboards, responsive breakpoints, virtualization, and JavaScript failure paths."
+  ],
+  "commonMisuses": [
+    "Using positive tabindex values to force a visual order instead of fixing DOM order.",
+    "Suppressing outline or focus ring without an equivalent visible indicator.",
+    "Leaving hidden drawers, collapsed panels, or inactive tabs in the tab sequence.",
+    "Moving focus unexpectedly on hover, scroll, animation, autosave, polling, or non-user-initiated updates.",
+    "Closing overlays without returning focus to the invoker or a meaningful replacement.",
+    "Scrolling visually to content while keyboard focus remains elsewhere.",
+    "Placing noninteractive text, cards, status tags, or decorative wrappers in Tab order.",
+    "Letting virtualized or filtered content remove the focused item without a recovery target."
+  ],
+  "critiqueQuestions": [
+    "What is the first focus target after page load, route change, failed submit, and successful submit?",
+    "Does forward and reverse Tab order match the user's reading and task order?",
+    "Which elements are hidden, collapsed, disabled, inert, virtualized, or offscreen, and can any still receive focus?",
+    "Where does focus go after opening and closing each overlay or disclosure?",
+    "How do error summaries, inline errors, async status messages, and removed results move or preserve focus?",
+    "Are composite widgets using a declared roving-focus model instead of flooding the page tab sequence?",
+    "Can users always see focus and escape constrained focus regions with the keyboard?"
+  ],
+  "useWhen": [
+    "A workflow has multiple focusable elements, dynamic content, or overlays that users traverse with keyboard or assistive technology.",
+    "The product needs predictable entry, exit, and return points after state changes.",
+    "Sequential navigation affects meaning, task completion, validation, or recovery."
+  ],
+  "avoidWhen": [
+    "The concern is a single command accelerator rather than focus movement.",
+    "The concern is only bypassing repeated navigation with one jump link.",
+    "A specific composite widget pattern already defines the internal arrow-key focus model.",
+    "The surface has no interactive or programmatically focused elements."
+  ],
+  "variants": [
+    "Page focus order",
+    "Form focus traversal",
+    "Overlay focus return",
+    "Validation focus traversal",
+    "Responsive focus order",
+    "Virtualized list focus recovery",
+    "Programmatic heading focus",
+    "Composite widget focus boundary",
+    "Reverse focus traversal",
+    "Keyboard trap escape"
+  ],
+  "accessibility": [
+    "Ensure focus order preserves meaning and operability when users navigate sequentially.",
+    "Keep a visible focus indicator for every keyboard-operable control.",
+    "Avoid keyboard traps; when focus is intentionally constrained, document and support a keyboard exit.",
+    "Keep hidden and inert content out of the tab sequence and accessibility tree.",
+    "Do not use positive tabindex to patch order; align DOM, visual, and reading order instead.",
+    "Use headings, landmarks, skip links, and programmatic focus targets to support long-page traversal without replacing normal focus order.",
+    "Preserve focus or move it deliberately after dynamic updates, never to an arbitrary page start.",
+    "Test forward and reverse traversal with keyboard, screen readers, switch scanning, high zoom, and responsive layouts."
+  ],
+  "keyboardBehavior": [
+    "Tab moves to the next visible, operable, logical focus target.",
+    "Shift+Tab moves to the previous visible, operable, logical focus target.",
+    "Enter and Space activate focused controls according to their native semantics.",
+    "Escape closes overlays or constrained regions where that control owns Escape, then returns focus predictably.",
+    "Arrow keys move inside composite widgets only when that widget declares and implements a composite focus model.",
+    "Programmatic focus lands on headings, summaries, dialogs, or replacement content only after user-initiated navigation or meaningful state change.",
+    "Focus is restored to the invoker after close when possible, or to the next logical target when the invoker is gone.",
+    "No hidden, removed, disabled, or inert element can be reached with Tab or Shift+Tab."
+  ],
+  "failureModes": [
+    "Focus order jumps across columns, sidebars, footers, and hidden panels in a way that breaks task meaning.",
+    "The focus ring is invisible, clipped, or covered by a sticky header.",
+    "An offscreen menu item receives focus while its menu is closed.",
+    "After validation, visual scroll changes but keyboard focus remains on Submit.",
+    "A modal traps focus with no Escape or close-button path.",
+    "Closing a drawer returns focus to the top of the page instead of the Filter button.",
+    "Filtering a list removes the focused result and focus disappears.",
+    "A custom card is focusable but has no action, name, or keyboard behavior."
+  ],
+  "relatedPatterns": [
+    "keyboard-shortcut",
+    "skip-link",
+    "modal-dialog",
+    "toolbar",
+    "data-grid",
+    "menu-menubar"
+  ],
+  "comparisons": [
+    "focus-traversal-vs-keyboard-shortcut-vs-skip-link-vs-modal-dialog-vs-toolbar-vs-data-grid"
+  ],
+  "examples": [
+    {
+      "product": "WAI WCAG Focus Order",
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html",
+      "platform": "web",
+      "notes": "Documents preserving meaning and operability in sequential focus navigation.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "WAI WCAG Focus Visible",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html",
+      "platform": "web",
+      "notes": "Documents visible keyboard focus indicators for keyboard-operable interfaces.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "WAI WCAG No Keyboard Trap",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html",
+      "platform": "web",
+      "notes": "Documents keyboard escape requirements for constrained focus regions.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN HTMLElement tabIndex",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/tabIndex",
+      "platform": "web",
+      "notes": "Documents tabIndex values and their effect on sequential focus navigation.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wcag-focus-order",
+      "note": "Supports logical sequential focus order preserving meaning and operability."
+    },
+    {
+      "id": "wcag-focus-visible",
+      "note": "Supports visible focus indicators for keyboard-operable controls."
+    },
+    {
+      "id": "wcag-no-keyboard-trap",
+      "note": "Supports avoiding keyboard traps and providing keyboard exits from constrained focus regions."
+    },
+    {
+      "id": "mdn-htmlelement-tabindex",
+      "note": "Supports tabindex behavior in sequential focus navigation."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

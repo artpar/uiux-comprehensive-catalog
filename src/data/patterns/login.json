@@ -1,0 +1,242 @@
+{
+  "id": "login",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed credential-verification attempt lifecycle pattern with guidance for verifying, neutral failure, attempt counters, throttling, lockout, unlock, support, bot challenge alternatives, successful session creation, security notices, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers ready-to-submit login, verifying state, duplicate-submit prevention, non-revealing failed-login copy, remaining attempts, server-backed retry wait, temporary lockout, permanent or support-required lockout, self-service unlock, bot check and accessible challenge route, password clearing after failure, identifier preservation, successful session creation, retry counter reset, recent-login notice, logging discipline, and deep-link continuation.",
+    "relatedPatternDistinction": "The entry separates login from sign in by focusing on submitted credential attempt outcomes rather than method choice and return-destination setup, from password input by owning verification and policy states rather than the secret field, from session timeout warning by handling a login result rather than an expiring authenticated session, from account creation by verifying an existing account rather than establishing one, and from permission denied state by treating authentication outcome rather than authorization boundary.",
+    "liveDemoBehavior": "The live demo uses a login attempt lifecycle with submitted credentials, verifying, neutral failure, attempts remaining, throttled retry delay, lockout, unlock email, success, security notice, password clearing, server counter state, recovery actions, and bad modes for revealing reason, silent disable, client-only counter, CAPTCHA-only challenge, no unlock, stale warning, and secret logging.",
+    "comparisonDecisionRules": "The linked login-vs-sign-in-vs-password-input-vs-session-timeout-warning comparison gives concrete rules for credential-verification attempts, broader sign-in journeys, password-control scope, session-expiry warnings, account creation, neutral failure handling, safe counters and wait times, lockout and unlock, successful session cleanup, and accessible challenge alternatives.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/login/ on 2026-06-11 in Chromium: verified submit, neutral failure, attempts left, throttle, lockout, unlock email, success, security notice, reveals reason, silent disable, client counter, CAPTCHA only, no unlock, stale warning, and logs secret states; verified credential autocomplete attributes; verified /compare/login-vs-sign-in-vs-password-input-vs-session-timeout-warning/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/login.png"
+    ]
+  },
+  "name": "Login",
+  "aliases": [
+    "log in",
+    "login attempt",
+    "credential verification",
+    "failed login",
+    "login throttling",
+    "account lockout",
+    "authentication attempt",
+    "login result",
+    "login retry",
+    "authenticated session creation"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Credential-verification attempt lifecycle and login outcome handling",
+  "uiGuidance": [
+    "Render login as the outcome-sensitive credential verification state: pending verification, neutral failure, remaining attempts or wait time when policy allows, throttling or lockout state, unlock or recovery route, and successful session-created confirmation.",
+    "Keep login outcome handling separate from the broader sign-in journey, account creation, password-field mechanics, profile setup, and session-timeout warnings."
+  ],
+  "uxGuidance": [
+    "Use login when users have already chosen an authentication route and submitted credentials or an authenticator output, and the product must explain the verification result safely.",
+    "Help legitimate users recover from failed attempts without leaking account status, creating denial-of-service risk, blocking password managers, or hiding the time and route for retry or unlock."
+  ],
+  "uiExamples": {
+    "good": [
+      "After a failed login, the page keeps the email address, clears the password, shows Check your details and try again, gives 2 attempts remaining, and keeps forgot password and use passkey routes available.",
+      "After too many attempts, a login page says Try again in 10 minutes or unlock your account by email, while avoiding separate wrong-password and locked-account signals for enumeration."
+    ],
+    "bad": [
+      "The page says Password wrong for one email and No account found for another.",
+      "After failures, the login button silently disables with no wait time, no recovery route, and no accessible challenge alternative."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user mistypes the password twice, sees remaining attempts and a neutral account-details error, uses a passkey instead, and reaches the intended workspace with retry warnings cleared.",
+      "A user is temporarily throttled, sees the wait time, can unlock through verified email, and does not need support for a routine lockout."
+    ],
+    "bad": [
+      "A user gets locked out after repeated typos with no warning and no explanation of when to retry.",
+      "A bot challenge appears after one failed login but has no accessible alternative, blocking legitimate users."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Login attempts must communicate security-sensitive outcomes without confirming account existence, encouraging brute-force attempts, confusing legitimate users, or turning lockout controls into denial-of-service problems.",
+  "solution": "Model login as a verification lifecycle with safe pending, success, failure, retry, throttling, lockout, unlock, support, and audit states; use neutral messages, policy-accurate attempt and wait-time feedback, password-manager support, and recovery routes that let legitimate users continue safely.",
+  "problemContext": [
+    "A user has submitted an account identifier, password, passkey assertion, one-time code, SSO return, or other authenticator output.",
+    "The product must decide whether to establish a session, request another factor, delay the next attempt, lock an authenticator, or route to recovery.",
+    "Incorrect outcome copy can expose whether an account exists, whether a password was wrong, whether an account is disabled, or whether a lockout threshold was hit.",
+    "Security policy may require failed-attempt counters, observation windows, exponential backoff, CAPTCHA or bot checks, risk-based step-up, self-service unlock, or administrator unlock.",
+    "Legitimate users may be typing under stress, using password managers, returning after a failed attempt, or trying to unlock without losing their original destination."
+  ],
+  "selectionRules": [
+    "Choose login when the user has submitted credentials or an authenticator and the UI must show the result, next retry, lockout, or session-created state.",
+    "Use sign in for the broader entry journey, destination context, method choice, SSO routing, and recovery navigation before or around login attempts.",
+    "Use password input for the individual current-password field and visibility behavior; login owns the attempt lifecycle after submission.",
+    "Use session timeout warning when the user is already authenticated and must extend, save, sign out, or reauthenticate before expiry.",
+    "Use generic failed-login copy that avoids distinguishing unknown account, wrong password, locked account, disabled account, or unverified account unless a safer authenticated support path is available.",
+    "Show remaining attempts, wait time, or unlock route only when doing so does not create a stronger enumeration or denial-of-service vector for the product.",
+    "Clear or hide secrets after failed login, preserve the identifier when appropriate, and keep password-manager and paste behavior available.",
+    "Treat throttling, bot checks, CAPTCHA, risk-based step-up, temporary lockout, permanent lockout, support escalation, and successful login as distinct states.",
+    "After successful login, establish or rotate the session, reset retry counters where policy permits, remove stale warnings, and continue to the authenticated destination.",
+    "Log and monitor failed and successful login events without exposing secrets in analytics, logs, session replay, screenshots, or user-visible URLs."
+  ],
+  "requiredStates": [
+    "Ready-to-submit login state with chosen identifier and authenticator route.",
+    "Submitting or verifying state that prevents duplicate login attempts without hiding progress.",
+    "Generic failed-login state with retry and recovery.",
+    "Remaining-attempts warning state when policy allows visible counters.",
+    "Throttled state with wait time or retry-after information.",
+    "Temporary lockout state with unlock route or recovery path.",
+    "Permanent or support-required lockout state.",
+    "Bot check, CAPTCHA, or risk challenge state with accessible alternative.",
+    "Successful login state with session-created and destination-continuation behavior.",
+    "Security notice state for unusual or recent login when product policy requires surfacing it."
+  ],
+  "interactionContract": [
+    "Submitting credentials enters one clear verifying state and prevents duplicate submissions until the login result returns.",
+    "Failed-login copy stays neutral across unknown account, wrong password, disabled account, unverified account, and lockout conditions unless the user has already passed a safer verification route.",
+    "Password or secret values are cleared, hidden, or protected after failure according to policy, while non-secret identifiers can remain editable.",
+    "Retry counters, wait time, and lockout copy match the server-side policy and cannot be faked by a client-only timer.",
+    "Recovery, unlock, passkey, forgot-password, and support routes preserve the originating destination when policy permits.",
+    "Successful login clears failed-attempt state, creates the authenticated session, and continues to the destination supplied by the surrounding sign-in journey.",
+    "Bot checks or CAPTCHA do not become the only route for users who cannot complete the presented challenge."
+  ],
+  "implementationChecklist": [
+    "Define failed-attempt thresholds, observation windows, throttle delays, lockout duration, retry reset, unlock routes, support routes, and logging with security owners.",
+    "Map every login outcome to safe copy: success, generic failure, throttled, temporary lockout, permanent lockout, password expired, MFA needed, passkey unavailable, SSO failed, bot challenge, and recovery sent.",
+    "Ensure response text, HTTP status, redirect path, error code, timing, analytics, and URL do not reveal account existence or exact failure reason.",
+    "Use server-backed retry-after and lockout state rather than a client-only countdown.",
+    "Keep password managers, paste, autofill, passkeys, and accessible alternatives working through failures, throttling, and recovery.",
+    "Test wrong identifier, wrong password, repeated failures, success after failure, wait-period retry, lockout, unlock email, administrator unlock, CAPTCHA alternative, passkey fallback, browser Back, mobile keyboards, screen readers, high contrast, and deep-link continuation."
+  ],
+  "commonMisuses": [
+    "Returning different messages for unknown account, wrong password, disabled account, or locked account.",
+    "Silently disabling the login button after failure with no wait time or recovery path.",
+    "Showing a client-only attempt counter that disagrees with server policy.",
+    "Using CAPTCHA as the only route after failed attempts.",
+    "Locking an account permanently without self-service or support escalation where policy permits recovery.",
+    "Leaving stale failure or lockout messages after successful login.",
+    "Logging passwords, one-time codes, passkeys, or detailed failure reasons into analytics or session replay."
+  ],
+  "critiqueQuestions": [
+    "Which exact login outcomes can the server return, and which are safe to distinguish in the UI?",
+    "Can the visible attempt count, wait time, and unlock route be trusted as server-backed state?",
+    "Does any copy, redirect, status code, error code, timing, URL, analytics event, or support route reveal account existence?",
+    "What happens to the password or authenticator output after failed login, Back, refresh, and session timeout?",
+    "How do legitimate users recover from throttling, lockout, inaccessible CAPTCHA, expired password, SSO failure, or passkey failure?",
+    "Does successful login clear stale warnings and continue to the intended authenticated destination?"
+  ],
+  "useWhen": [
+    "Users have submitted credentials or authenticator output and need a safe verification result.",
+    "The product has failed-attempt counters, throttling, lockout, unlock, or risk-based login states.",
+    "The product must balance brute-force protection, account enumeration prevention, and legitimate recovery."
+  ],
+  "avoidWhen": [
+    "The problem is choosing an authentication method or explaining why authentication is required before credentials are submitted.",
+    "The problem is only rendering the password field, passkey button, or one-time-code input.",
+    "The user is creating a new account, setting a new password, or verifying a contact method.",
+    "The user is already authenticated and the issue is session expiry or authorization denial."
+  ],
+  "variants": [
+    "Password login attempt",
+    "Passkey login attempt",
+    "One-time-code login result",
+    "SSO login return",
+    "Throttled login",
+    "Temporary account lockout",
+    "Self-service unlock",
+    "Risk-based login challenge",
+    "Successful login notice",
+    "Failed-login recovery"
+  ],
+  "accessibility": [
+    "Announce verifying, failed-login, throttled, lockout, and success states without forcing focus away from the next useful action.",
+    "Expose remaining attempts, wait time, and retry-after information as text, not color or icon-only signals.",
+    "Keep retry, recovery, unlock, support, and accessible challenge alternatives reachable by keyboard.",
+    "Connect errors to the login form or summary without revealing which credential field caused the failure.",
+    "Avoid time-only or disappearing warnings for users who need more time to read lockout or retry instructions.",
+    "Ensure bot checks and CAPTCHA have accessible alternatives and do not trap focus."
+  ],
+  "keyboardBehavior": [
+    "Enter submits the login attempt once and moves to verifying state without duplicate requests.",
+    "After a failed login, focus moves to the neutral error summary or first safe retry control.",
+    "If throttled, focus lands on retry-after guidance or the available recovery action.",
+    "If locked, focus lands on unlock, recovery, or support action rather than a disabled credential field.",
+    "After successful login, focus lands on the authenticated destination heading, security notice, or first restored task control."
+  ],
+  "failureModes": [
+    "Account enumeration through differentiated login outcomes.",
+    "Legitimate users locked out with no warning, wait time, or unlock route.",
+    "Client-only countdowns that let users retry before the server accepts attempts.",
+    "A failed login keeps the password visible or replays it on browser Back.",
+    "Throttling blocks password managers, passkeys, paste, or accessible challenge alternatives.",
+    "A successful login leaves failure notices visible or does not reset counters.",
+    "Security-relevant login events are hidden from users who need to verify account activity."
+  ],
+  "relatedPatterns": [
+    "sign-in",
+    "password-input",
+    "session-timeout-warning",
+    "account-creation",
+    "permission-denied-state"
+  ],
+  "comparisons": [
+    "login-vs-sign-in-vs-password-input-vs-session-timeout-warning"
+  ],
+  "examples": [
+    {
+      "product": "OWASP Authentication Cheat Sheet login throttling",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html#login-throttling",
+      "platform": "web",
+      "notes": "Documents login throttling, account lockout factors, exponential lockout, CAPTCHA cautions, logging and monitoring, and generic authentication responses.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OWASP WSTG weak lockout mechanism",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/04-Authentication_Testing/03-Testing_for_Weak_Lock_Out_Mechanism",
+      "platform": "web",
+      "notes": "Documents testing lockout thresholds, failed attempts, automatic unlock, self-service unlock, and administrator unlock.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NIST SP 800-63B rate limiting",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html#rate-limiting-throttling",
+      "platform": "web",
+      "notes": "Documents rate limiting, retry delays, disabling authenticators after excessive failures, successful-login retry reset, and user feedback for wait times.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "owasp-authentication-login-throttling",
+      "note": "OWASP supports login throttling, account lockout policy factors, exponential lockout, CAPTCHA cautions, and monitoring."
+    },
+    {
+      "id": "owasp-wstg-weak-lockout-mechanism",
+      "note": "OWASP WSTG supports testing lockout thresholds, unlock duration, self-service unlock, and administrator unlock paths."
+    },
+    {
+      "id": "nist-sp-800-63b-rate-limiting",
+      "note": "NIST supports rate limiting, retry delay, bot detection, authenticator disabling, successful-login reset, and user feedback on wait time."
+    },
+    {
+      "id": "owasp-authentication-account-enumeration",
+      "note": "OWASP supports generic authentication responses to avoid account enumeration."
+    },
+    {
+      "id": "mdn-input-password",
+      "note": "MDN supports existing-password input behavior that affects failed-login recovery and secret protection."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

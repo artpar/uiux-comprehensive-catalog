@@ -1,0 +1,258 @@
+{
+  "id": "preview-panel",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed rendered-content preview panel pattern with distinct boundaries from details panel, hover card, drawer, sheet, popover, tooltip, context menu, and object picker, unique file-preview behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets durable rendered-content preview beside a source list, grid, search result, inbox, or asset browser, including selected-file identity, rendered body or media, page, zoom, fit, play, transcript, blocked, unsupported, permission, loading, stale-content, narrow-screen, and full-preview route states.",
+    "relatedPatternDistinction": "The entry separates preview panel from details panel by rendered content versus structured metadata, from hover card by durable side-by-side review versus transient pre-navigation context, from drawer by persistent selection preview versus temporary edge surface with close lifecycle, and from object picker by content review versus entity selection commitment.",
+    "liveDemoBehavior": "The live demo selects Forecast.pdf and Receipt.png, pages through a PDF, zooms and fits rendered content, blocks Vendor-link.html with a safety state, opens the full-preview route, keeps focus in the file list during source movement, and contrasts stale-preview, metadata-only, no-fallback, unsafe-render, tiny-pane, and focus-trap failures.",
+    "comparisonDecisionRules": "The preview-panel-vs-details-panel-vs-hover-card-vs-drawer comparison gives concrete rules for rendered file, message, media, PDF, and attachment preview, metadata inspection, transient object preview, temporary drawer lifecycle, safety warnings, stale previews, full-view escalation, focus behavior, and readable-size constraints.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/preview-panel/ and /compare/preview-panel-vs-details-panel-vs-hover-card-vs-drawer/ on 2026-06-10. Live check exercised Select PDF, Select image, Next page, Zoom in, Fit width, Blocked file, Open full preview, Stale preview, Metadata only, No fallback, Unsafe render, Tiny pane, and Focus trap controls. screenshots/patterns/preview-panel.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/preview-panel.png"
+    ]
+  },
+  "name": "Preview panel",
+  "aliases": [
+    "preview pane",
+    "file preview pane",
+    "document preview panel",
+    "media preview panel",
+    "reading pane",
+    "quick preview"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Navigation And Wayfinding",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persistent rendered-content preview pane",
+  "uiGuidance": [
+    "Render a preview panel as a durable side-by-side region that shows the selected file, message, media, attachment, or document body while keeping the source list, grid, search result, inbox, or asset browser visible.",
+    "Give the preview panel content-fidelity controls that match the media type, such as page navigation, zoom, fit width, play or pause, transcript, alt text, unsupported-file state, safety warning, download, and open full preview."
+  ],
+  "uxGuidance": [
+    "Use a preview panel when users need to inspect content across several nearby items without repeatedly opening and closing full viewers.",
+    "Keep preview state, selected source item, loading, blocked content, unsupported type, permission loss, zoom, page, and full-preview escalation synchronized so users never act on the wrong file."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document repository selects Forecast.pdf in the file list and shows page 2 in a right preview panel with page, zoom, fit width, blocked-file, download, and Open full preview controls.",
+      "An inbox keeps the selected email highlighted and shows the message body in a reading pane with attachment previews and a popout route."
+    ],
+    "bad": [
+      "A side panel titled Preview shows only owner, modified date, and file size when reviewers need to inspect the contract body.",
+      "A preview pane continues rendering Budget.pdf after the selected row changed to Receipt.png."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer arrows through invoice files, the preview updates in place, page and zoom reset only when appropriate, and focus remains in the file list until a preview control is chosen.",
+      "A downloaded file marked risky shows a blocked preview state with the reason, safer choices, and an open-full route instead of rendering active remote content."
+    ],
+    "bad": [
+      "The first page of a previous PDF stays visible while a new file is still loading, causing the user to approve the wrong attachment.",
+      "Keyboard focus jumps into the preview every time selection changes, making rapid file triage slow and disorienting."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Content-heavy workspaces often list many documents, messages, images, videos, or attachments, and users need to inspect the selected content without losing the surrounding collection or opening a full viewer for every item.",
+  "solution": "Provide a persistent preview panel tied to the current selection, render the content body or media with type-appropriate controls, expose blocked and unsupported states, keep source selection visible, and escalate to a full preview route when reading, annotation, or space needs exceed the panel.",
+  "problemContext": [
+    "A source region contains selectable content objects such as files, emails, invoices, contracts, images, videos, audio, or attachments.",
+    "Users must compare or triage multiple nearby items quickly while seeing each selected item's rendered body or media.",
+    "A partial preview is useful enough for review, but deep reading, editing, annotation, or sharing can move to a full viewer.",
+    "The product can detect unsupported formats, risky files, permission loss, loading, stale selection, and preview-render failures."
+  ],
+  "selectionRules": [
+    "Choose preview panel when users need durable rendered content beside a collection, not only metadata about the selected object.",
+    "Use details panel when the main content is structured fields, status, ownership, and activity rather than the document or media body.",
+    "Use hover card when the preview is small, transient, and appears before a navigation decision.",
+    "Use drawer when the surface is temporarily opened by a command and needs a close path and focus movement into it.",
+    "Use full-page or full-screen preview when users need long reading, annotation, page thumbnails, shareable URL state, or large media controls.",
+    "Use object picker with preview when the preview is part of selecting an entity for a form or workflow.",
+    "Do not use a preview panel when the selected content cannot be rendered safely, quickly, or accurately enough to support user decisions.",
+    "Do not use a preview panel as a dumping ground for filters, global navigation, settings, or unrelated actions."
+  ],
+  "requiredStates": [
+    "No selection state that asks users to choose a file, message, or media item.",
+    "Selected content state with source row highlighted and preview heading naming the same item.",
+    "Loading preview state that hides or clearly labels old content as no longer current.",
+    "Rendered document state with page, zoom, fit, and open-full-preview controls when the type supports them.",
+    "Rendered image, video, audio, or message state with controls appropriate to that content type.",
+    "Unsupported type state with format, reason, and alternate actions such as download or open with an app.",
+    "Blocked or suspicious file state that explains why inline preview is disabled and offers safer choices.",
+    "Permission lost, deleted item, or filtered-away state that clears the rendered content and returns users to selection.",
+    "Narrow viewport state with collapse, resize, or full preview route."
+  ],
+  "interactionContract": [
+    "Selecting an item updates both the source selection indicator and the preview panel title.",
+    "The preview panel renders the selected item's content body or media, while metadata remains supporting context.",
+    "Keyboard focus stays in the source list, grid, or inbox while users move selection for rapid review.",
+    "Preview controls update only the current selected item and announce changes such as page, zoom, fit, blocked, or open-full state.",
+    "Loading, unsupported, blocked, stale, permission, and deleted states replace the rendered content rather than letting old content appear current.",
+    "The panel offers a route to full preview or full object view when the content needs more space or deeper interaction.",
+    "Download, open with app, and external viewer actions preserve selected-item identity and communicate risk when relevant."
+  ],
+  "implementationChecklist": [
+    "Define the selected content ID and preview-render lifecycle before painting preview content.",
+    "Show the selected item in the source region and repeat its name, type, and current preview state in the panel.",
+    "Support media-specific controls such as page, zoom, fit, play, transcript, alt text, rotate, or full preview only when they match the selected type.",
+    "Handle loading, unsupported format, blocked file, suspicious source, permission loss, deleted content, filtered-away selection, and render failure.",
+    "Prevent stale previews by clearing or labelling old rendered content during selection changes and load failures.",
+    "Keep focus in the source region during rapid selection movement; move focus into preview controls only after explicit user action.",
+    "Provide collapse, resize, or full preview when the panel cannot keep both source context and content readable.",
+    "Test row selection, keyboard movement, paging, zoom, fit width, blocked preview, unsupported format, resize, and full preview route."
+  ],
+  "commonMisuses": [
+    "Showing metadata in a preview panel when users need the document, message, or media body.",
+    "Leaving stale rendered content visible after selection changes or preview loading fails.",
+    "Rendering risky downloaded or remote content without a blocked state or warning.",
+    "Using a preview panel for long editing, annotation, or reading workflows that need a full route.",
+    "Stealing focus into the preview on every source-list movement.",
+    "Making the preview too small to read while hiding the full-preview route.",
+    "Mixing preview, filters, navigation, destructive actions, and settings in one side region."
+  ],
+  "critiqueQuestions": [
+    "Which selected content item owns the rendered preview right now?",
+    "Can users see the selected source item and the preview title at the same time?",
+    "Does the panel render content body or media, or only metadata better suited to a details panel?",
+    "What happens while a new preview is loading, blocked, unsupported, deleted, or denied by permissions?",
+    "Are page, zoom, fit, play, transcript, and full-preview controls present only when the content type needs them?",
+    "How do users reach a full viewer when the panel is too small or the task becomes deep reading or annotation?"
+  ],
+  "useWhen": [
+    "Users repeatedly inspect files, messages, PDFs, images, videos, audio, invoices, contracts, designs, or attachments from a list or grid.",
+    "Seeing rendered content beside the source collection prevents costly open-close navigation.",
+    "The preview can be safely rendered with useful fidelity and clear fallback states.",
+    "Users need to compare neighboring content items while retaining selection context."
+  ],
+  "avoidWhen": [
+    "Only structured metadata or activity is needed.",
+    "The content needs long editing, annotation, comments, shareable routes, or deep reading as the main task.",
+    "The viewport cannot support both source collection and readable preview without a full-view route.",
+    "Security, privacy, permissions, or file type support prevent trustworthy inline preview.",
+    "The preview appears only briefly on hover or focus and should not hold durable controls."
+  ],
+  "variants": [
+    "Right preview pane",
+    "Reading pane",
+    "File preview pane",
+    "Document preview panel",
+    "Media preview panel",
+    "Split-view preview",
+    "Collapsible preview pane",
+    "Resizable preview pane",
+    "Inline full-preview route"
+  ],
+  "accessibility": [
+    "Name the preview region from the selected item's file name, message subject, or media title.",
+    "Expose selected state in the source list, grid, or inbox and keep it synchronized with the preview heading.",
+    "Do not move focus into the preview merely because selection changed.",
+    "Announce meaningful preview changes such as page, zoom, fit, unsupported, blocked, or render failure through nearby status text.",
+    "Provide keyboard access to page, zoom, fit, play, download, open-full-preview, collapse, and resize controls.",
+    "Provide text alternatives, captions, transcript, or accessible fallback for image, audio, and video preview when available.",
+    "Do not announce old preview content as current while a new selected item is loading."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the source region, preview controls, full-preview route, and collapse or resize controls in a predictable order.",
+    "Arrow keys or source-component commands move selection and update preview content without moving focus into the panel.",
+    "Page controls change the previewed page and keep focus on the activated control.",
+    "Zoom and fit controls update preview scale and communicate the resulting state.",
+    "Enter or Space on Open full preview moves to the full viewer for the selected item.",
+    "Escape does not close a persistent preview panel unless the product has intentionally placed it in a temporary overlay mode.",
+    "Blocked or unsupported preview states still provide keyboard-reachable alternate actions."
+  ],
+  "failureModes": [
+    "The preview shows the previous file after selection changes.",
+    "The panel title says Preview without naming the selected file or message.",
+    "The panel contains metadata and settings but no rendered content.",
+    "A suspicious or downloaded file renders inline content that should be blocked.",
+    "Unsupported file types produce a blank pane with no alternate action.",
+    "Page and zoom controls affect a different selected document than the one highlighted.",
+    "Keyboard focus is stolen into the preview during rapid source-list review.",
+    "The preview pane is too narrow to read and no full-preview route exists."
+  ],
+  "relatedPatterns": [
+    "details-panel",
+    "hover-card",
+    "drawer",
+    "sheet",
+    "popover",
+    "tooltip",
+    "context-menu",
+    "object-picker"
+  ],
+  "comparisons": [
+    "preview-panel-vs-details-panel-vs-hover-card-vs-drawer"
+  ],
+  "examples": [
+    {
+      "product": "Apple Quick Look",
+      "url": "https://developer.apple.com/documentation/quicklook",
+      "platform": "desktop",
+      "notes": "Supports previewing common file types with basic interactions from an app context rather than forcing a full editor transition.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Google Drive file preview",
+      "url": "https://support.google.com/drive/answer/2423485",
+      "platform": "web",
+      "notes": "Supports viewing videos, PDFs, Office files, audio, and photos in Drive, including same-tab PDF preview mode and suspicious-file caution.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Google Drive supported previews",
+      "url": "https://support.google.com/drive/answer/37603",
+      "platform": "web",
+      "notes": "Supports explicit preview type coverage and the need to treat preview as a scaled view with possible display differences.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Microsoft Outlook Reading pane",
+      "url": "https://support.microsoft.com/en-us/office/change-how-the-message-list-is-displayed-in-outlook-57fe0cd8-e90b-4b1b-91e4-a0ba658c0042",
+      "platform": "web",
+      "notes": "Supports message-list preview placement choices such as right, bottom, fill screen, and popout-only.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Microsoft File Explorer preview safety",
+      "url": "https://support.microsoft.com/en-us/topic/file-explorer-automatically-disables-the-preview-feature-for-files-downloaded-from-the-internet-56d55920-6187-4aae-a4f6-102454ef61fb",
+      "platform": "desktop",
+      "notes": "Supports blocked preview states for files from the internet when inline rendering could create a security risk.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "apple-quick-look",
+      "note": "Supports quick preview for common file types with basic interactions."
+    },
+    {
+      "id": "google-drive-view-open-files",
+      "note": "Supports Drive preview behavior, same-tab PDF preview, multiple media types, and suspicious-file caution."
+    },
+    {
+      "id": "google-drive-file-types-preview",
+      "note": "Supports explicit previewable file types, scaled preview expectations, and unsupported preview limitations."
+    },
+    {
+      "id": "microsoft-outlook-reading-pane",
+      "note": "Supports reading-pane layout choices for previewing messages beside or within the message list experience."
+    },
+    {
+      "id": "microsoft-file-preview-security",
+      "note": "Supports blocked preview states for files with internet-origin risk."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

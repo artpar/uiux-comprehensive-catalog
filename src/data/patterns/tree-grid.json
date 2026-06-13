@@ -1,0 +1,263 @@
+{
+  "id": "tree-grid",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed hierarchical interactive row-and-column workspace with distinct boundaries from data grid, tree selection, table, details panel, accordion, and form layouts; includes expandable parent rows, leaf rows, descendant state summaries, managed focus, selection, filtering, dirty and invalid child state, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers labelled treegrid purpose, hierarchy column, parent and leaf rows, expansion and collapse, level and position metadata, managed row or cell focus, selected versus focused rows, descendant summaries, dirty and invalid children, sort and filter hierarchy rules, lazy loading, virtualization, row and column metadata, narrow-screen alternatives, and avoiding flat-grid or simple-tree misuse.",
+    "relatedPatternDistinction": "The entry separates tree grid from data grid by requiring parent-child rows plus tabular columns, from tree selection by adding comparable columns and grid behavior rather than only node choice, from table by requiring expansion and managed composite focus, from details panel by keeping descendant rows inline, and from accordion or disclosure by preserving row and column semantics.",
+    "liveDemoBehavior": "The live demo shows a project breakdown tree grid with expanded Design and Build parent rows, child tasks, column headers, aria-expanded parent rows, leaf rows without fake disclosure controls, focused row, selected child, dirty child summary, invalid child marker, overdue descendant filtering, parent collapse and restore behavior, and bad-mode contrasts for flat grid, fake leaf, hidden dirty child, broken hierarchy sort, stale index, and mobile crush failures.",
+    "comparisonDecisionRules": "The tree-grid-vs-data-grid-vs-tree-selection-vs-table comparison gives concrete rules for hierarchy plus shared columns, flat interactive grids, hierarchy-only selection, read-only table comparison, parent summaries, sorting and filtering descendants, dynamic row metadata, and narrow-screen alternatives.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/tree-grid/ and /compare/tree-grid-vs-data-grid-vs-tree-selection-vs-table/ on 2026-06-10. Live check exercised Arrow down, Toggle Design, Mark child dirty, Overdue filter, Shift+Space, Restore focus, Fake leaf, Hidden dirty, Sort breaks tree, Stale index, and Mobile crush controls while the page was in review state, then refreshed after completion. screenshots/patterns/tree-grid.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/tree-grid.png"
+    ]
+  },
+  "name": "Tree grid",
+  "aliases": [
+    "treegrid",
+    "tree table",
+    "hierarchical data grid",
+    "tree list",
+    "treelist",
+    "hierarchical table",
+    "expandable row grid"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Hierarchical interactive row-and-column data workspace",
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to inspect or act on hierarchical records that also have comparable columns, but separate tree and table controls force context switching, while a flat data grid loses parent-child ownership and descendant state.",
+  "solution": "Present the hierarchy as a tree grid with labelled columns, expandable parent rows, indented row headers, truthful level and position metadata, managed row or cell focus, distinct focus and selection, and clear rules for sorting, filtering, editing, lazy loading, and collapsed descendants.",
+  "problemContext": [
+    "Rows represent nested objects such as folders and files, work breakdown structures, threaded records, accounts and subaccounts, requirements and tasks, or organization units and members.",
+    "Users need to compare values across shared columns such as owner, status, due date, amount, count, permissions, or last activity.",
+    "Parent rows can summarize, contain, select, lock, or expand child rows, and child rows may have independent values or actions.",
+    "The interface may support editable cells, row actions, selection, bulk operations, sorting, filtering, lazy loading, pagination, or virtual scrolling."
+  ],
+  "selectionRules": [
+    "Choose tree grid when hierarchical rows and tabular columns are both essential to the task.",
+    "Use data grid when rows are flat and expansion is only a detail panel, grouping, or visual section.",
+    "Use tree selection when users choose hierarchical nodes but do not need shared data columns or cell-level interaction.",
+    "Use table when users only compare rows and any hierarchy can be represented by a separate column or grouping label.",
+    "Use details panel or master-detail when a selected object's nested detail is easier to inspect beside the source grid than inline.",
+    "Use accordion or disclosure details for short content groups that are not comparable rows.",
+    "Avoid tree grid when parent-child relationships are decorative indentation rather than real containment.",
+    "Avoid tree grid when sorting, filtering, lazy loading, or bulk selection cannot preserve descendant state truthfully.",
+    "Avoid tree grid on narrow screens unless the product has a tested reduced-column, horizontal-scroll, or drill-in strategy.",
+    "Avoid tree grid if the team cannot implement managed focus, aria-expanded, row levels, row positions, and screen reader verification."
+  ],
+  "requiredStates": [
+    "Default tree grid state with label, column headers, visible root rows, row hierarchy, row count context, and focused row or cell.",
+    "Expanded parent row state with visible child rows, level indentation, and truthful aria-expanded state.",
+    "Collapsed parent row state with child rows hidden, descendant count or state summary when relevant, and no focus left inside hidden rows.",
+    "Leaf row state without expansion affordance or aria-expanded.",
+    "Focused row or cell state that remains visually distinct from selected rows and checked rows.",
+    "Single-select, multi-select, parent-selected, child-selected, and mixed-descendant states when selection is supported.",
+    "Editable cell, readonly cell, dirty child row, invalid child value, saving, saved, and failed-save states when editing is supported.",
+    "Sorted and filtered states that preserve hierarchy rules and explain hidden or empty parents.",
+    "Lazy-loaded, loading-children, load-failed, virtualized, and paginated states with truthful row counts, levels, positions, and row indices.",
+    "Narrow-screen state that preserves hierarchy, column meaning, expansion, and row actions or routes users to a focused detail view."
+  ],
+  "interactionContract": [
+    "The first column or row header communicates the hierarchical object name, level, expansion state, and parent-child relationship.",
+    "Expansion and collapse affect only descendant rows and never leave keyboard focus on a hidden row.",
+    "Rows without children do not expose expansion state or an inert disclosure control.",
+    "Arrow keys move by row or cell according to the documented focus model; Right Arrow expands collapsed parents or moves into cells, and Left Arrow collapses expanded parents or moves toward row focus.",
+    "Tab enters and exits the composite predictably and does not force users through every visible cell unless the row has an intentional inner-widget sequence.",
+    "Selection is independent from focus in multi-select tree grids and makes descendant inclusion, exclusion, or mixed state explicit.",
+    "Sorting, filtering, pagination, refresh, and lazy loading preserve expanded state, selected descendants, dirty edits, and focused row whenever possible.",
+    "Parent rows state whether values are aggregates, inherited values, editable values, or actions that apply to descendants."
+  ],
+  "implementationChecklist": [
+    "Define the hierarchy model, root rows, child rows, leaf rows, row identifiers, parent identifiers, columns, and expansion ownership.",
+    "Choose whether focus is row-first, cell-first, or cell-only and document the keyboard model in the UI.",
+    "Use treegrid, row, columnheader, rowheader, and gridcell semantics, or native table semantics with role treegrid when appropriate.",
+    "Set aria-expanded only on parent rows or the controlling rowheader cell, and remove it from leaves.",
+    "Expose aria-level, aria-posinset, aria-setsize, aria-rowcount, aria-colcount, aria-rowindex, and aria-colindex when rows or columns are dynamic, virtualized, lazy-loaded, or not all present in the DOM.",
+    "Keep expansion icons decorative when their state is already exposed by the parent row or cell.",
+    "Distinguish focus, selection, checked state, mixed descendant state, dirty edits, invalid cells, and loading children with text or programmatic state, not color alone.",
+    "Define how sorting and filtering treat descendants, parent aggregates, collapsed selected children, lazy-loaded children, and empty parent branches.",
+    "Test keyboard navigation, expansion, collapse, selection, editing, screen reader announcements, lazy loading, virtual scroll, high contrast, zoom, and mobile layouts."
+  ],
+  "commonMisuses": [
+    "Using treegrid for a flat data grid with no expandable parent rows.",
+    "Using treegrid for a simple folder tree that has only one label column and no tabular comparison.",
+    "Putting aria-expanded on leaf rows or every first-column cell.",
+    "Collapsing a parent while focus, validation, or dirty edits remain hidden inside descendants.",
+    "Sorting child rows away from parents without explaining the hierarchy rule.",
+    "Losing selected children when a parent is collapsed, filtered, virtualized, or paged away.",
+    "Rendering nested tables inside expandable rows instead of one coherent row and column model.",
+    "Treating parent rows, aggregate values, inherited values, and editable child values as the same interaction."
+  ],
+  "critiqueQuestions": [
+    "What parent-child relationship does the first column encode?",
+    "Which rows are parents, which are leaves, and what happens to hidden descendants when a parent collapses?",
+    "Does the task require comparing columns across hierarchical rows, or is a tree selection enough?",
+    "Is focus row-first, cell-first, or cell-only, and can users recover after expansion, collapse, sort, filter, and lazy load?",
+    "Are selected, focused, mixed, dirty, invalid, readonly, and loading states visibly and programmatically distinct?",
+    "Would a flat data grid, table, tree selection, details panel, accordion, or drill-in route be less costly?"
+  ],
+  "useWhen": [
+    "Rows have real parent-child hierarchy and shared comparable columns.",
+    "Users need to inspect, select, edit, sort, filter, or act on hierarchical records without losing column context.",
+    "Collapsed parents may summarize descendant state, counts, validation, selection, or progress.",
+    "The team can implement and test tree, grid, focus, expansion, and dynamic-row semantics together."
+  ],
+  "avoidWhen": [
+    "Rows are flat or only visually grouped.",
+    "Users only choose items in a hierarchy and do not compare columns.",
+    "The data is read-only and a table with a hierarchy column is sufficient.",
+    "The hierarchy is too deep or irregular for a dense row-and-column workspace.",
+    "Sorting, filtering, virtualization, or lazy loading cannot preserve descendant state truthfully."
+  ],
+  "variants": [
+    "Readonly tree grid",
+    "Editable tree grid",
+    "Selectable tree grid",
+    "Threaded-message tree grid",
+    "Folder tree table",
+    "Work breakdown tree grid",
+    "Organization tree grid",
+    "Lazy-loaded tree grid",
+    "Virtualized tree grid",
+    "Tree grid with aggregate parent rows",
+    "Tree grid with row actions",
+    "Tree grid with frozen hierarchy column"
+  ],
+  "accessibility": [
+    "Use treegrid semantics only when rows can expand or collapse and the content also behaves as a grid.",
+    "Give the treegrid a visible or programmatic label and optional description for keyboard help, counts, filters, and selection state.",
+    "Use row, columnheader, rowheader, and gridcell roles or native equivalents with role treegrid.",
+    "Expose aria-expanded only on parent rows or the controlling cell; omit it from leaves.",
+    "Expose aria-selected for selectable rows or cells, and keep selection independent from focus in multi-select tree grids.",
+    "Expose aria-level, aria-posinset, aria-setsize, aria-rowcount, aria-colcount, aria-rowindex, and aria-colindex when rows or columns are dynamic, hidden, virtualized, or lazy-loaded.",
+    "Use aria-sort on sortable header cells, not on the treegrid container.",
+    "Use aria-readonly at the grid or cell level when navigable values cannot be edited.",
+    "Ensure decorative expand and collapse icons are hidden when the row or cell already exposes expanded state."
+  ],
+  "keyboardBehavior": [
+    "Tab moves into the treegrid at the current row or cell and exits after the managed row or inner row widgets according to the documented model.",
+    "Right Arrow expands a collapsed parent row; on an expanded row or leaf it moves into the first cell or rightward cell depending on row or cell focus.",
+    "Left Arrow collapses an expanded parent row; on a collapsed row, leaf row, or first cell it moves toward row focus or stays put according to the focus model.",
+    "Down Arrow and Up Arrow move by visible row or by cell in the same column without entering hidden descendants.",
+    "Home and End move to the first or last visible row or the first or last cell in the current row depending on focus mode.",
+    "Control+Home and Control+End move to the first or last visible row or corresponding cell in the treegrid.",
+    "Enter activates the default row or cell action or toggles expansion when focus is on the expanding first cell in a cell-only model.",
+    "Shift+Space selects the focused row when row selection is supported; Control+Space, Shift+Arrow, and Control+A only apply when column, cell, or range selection is supported.",
+    "Typing, Enter, or F2 enters cell edit mode only for editable cells and must define how Escape restores treegrid navigation."
+  ],
+  "failureModes": [
+    "Screen reader users hear a grid but cannot tell which rows are parents, leaves, expanded, collapsed, or selected.",
+    "Keyboard focus moves into a child row, then the parent collapses and focus disappears.",
+    "Collapsed parents hide selected descendants, invalid child cells, or unsaved edits with no summary or warning.",
+    "Sorting by a child value separates descendants from their parent branch.",
+    "A virtualized tree grid reports row 6 visually but row 400 programmatically after filtering.",
+    "Leaf rows announce as expandable because aria-expanded was copied to every row.",
+    "Users cannot distinguish row focus from row selection or parent mixed state.",
+    "Mobile users receive an indented six-column spreadsheet with tiny expand controls and no drill-in alternative."
+  ],
+  "relatedPatterns": [
+    "data-grid",
+    "tree-selection",
+    "table",
+    "details-panel",
+    "filter-panel",
+    "sort-controls",
+    "empty-state"
+  ],
+  "comparisons": [
+    "tree-grid-vs-data-grid-vs-tree-selection-vs-table"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Treegrid Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/treegrid/",
+      "platform": "web",
+      "notes": "Defines treegrid semantics, keyboard navigation, parent expansion, focus and selection, and dynamic row and column metadata.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "MDN ARIA treegrid role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/treegrid_role",
+      "platform": "web",
+      "notes": "Documents treegrid as a tree and grid role combination, including aria-expanded placement, managed focus, dynamic indices, labels, sorting, menus, and readonly behavior.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "KendoReact TreeList",
+      "url": "https://www.telerik.com/kendo-react-ui/components/treelist/keyboard-navigation",
+      "platform": "web",
+      "notes": "Documents TreeList focus management with toolbar and treegrid regions, single treegrid tab stop, roving tabindex, active descendant, and cell or inner-element focus decisions.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "DevExtreme React TreeList keyboard demo",
+      "url": "https://js.devexpress.com/React/Demos/WidgetsGallery/Demo/TreeList/KeyboardNavigation/",
+      "platform": "web",
+      "notes": "Shows keyboard navigation for a TreeList, including Enter, Tab, region movement, and expand or collapse of the focused row.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-treegrid",
+      "note": "APG treegrid guidance supports the hierarchy-plus-grid boundary, keyboard navigation, focus and selection distinction, roles, expansion state, sort, readonly, and dynamic index requirements."
+    },
+    {
+      "id": "mdn-aria-treegrid-role",
+      "note": "MDN treegrid role guidance supports the tree and grid combination, parent row semantics, managed focus, aria-expanded placement, accessible naming, and dynamic row metadata."
+    },
+    {
+      "id": "kendo-react-treelist-keyboard",
+      "note": "KendoReact TreeList keyboard guidance supports single tab stop focus management, roving tabindex or active descendant, and cell versus inner-widget focus choices."
+    },
+    {
+      "id": "kendo-react-treelist-aria",
+      "note": "KendoReact TreeList ARIA guidance supports separate toolbar and treegrid structure, aria-controls, role treegrid, aria-expanded rows, and hidden decorative icons."
+    },
+    {
+      "id": "devextreme-treelist-keyboard",
+      "note": "DevExtreme TreeList keyboard demo supports region navigation and keyboard expansion or collapse of the focused row."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "uiGuidance": [
+    "Render a labelled tree grid with a persistent hierarchy column, visible column headers, indentation by level, expandable parent rows, leaf rows without fake expand controls, and status text for visible rows, selected descendants, sort, filter, and loading children.",
+    "Show parent, child, focused, selected, mixed, collapsed-with-descendant-state, dirty, invalid, readonly, and loading states with distinct text or programmatic state as well as visual treatment."
+  ],
+  "uxGuidance": [
+    "Use tree grid when users need to keep hierarchy and column comparison in one workspace, especially for nested operational records that can be expanded, selected, edited, or acted on in context.",
+    "Preserve users' mental model of containment: expansion, collapse, sort, filter, save, lazy load, and virtual scroll must not make descendant state disappear without an explicit explanation."
+  ],
+  "uiExamples": {
+    "good": [
+      "A project work-breakdown tree grid shows parent rows for phases, child rows for tasks, columns for Owner, Due, Status, and Cost, and a collapsed parent badge that says 2 selected children.",
+      "A folder permission tree grid indents folders and files in the Name column, omits expand buttons from files, and keeps column headers aligned for Owner, Role, Inherited, and Last changed."
+    ],
+    "bad": [
+      "A flat data grid uses chevron icons in every first cell but no row actually owns children.",
+      "A simple folder picker with one label column is implemented as a tree grid even though users only choose folders."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user expands Design, edits a child task status, collapses Design, sees a dirty-child badge on the parent, re-expands, and focus returns to the edited child row.",
+      "A user filters to overdue tasks; parent rows remain visible only when they contain matching descendants, and collapsed parents show the number of hidden matches."
+    ],
+    "bad": [
+      "A user collapses a parent and unknowingly hides a selected invalid child row before bulk approval.",
+      "A user sorts by Due date and child tasks scatter away from their parent phases, destroying the hierarchy."
+    ]
+  }
+}

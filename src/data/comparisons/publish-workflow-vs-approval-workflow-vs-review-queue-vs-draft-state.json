@@ -1,0 +1,67 @@
+{
+  "id": "publish-workflow-vs-approval-workflow-vs-review-queue-vs-draft-state",
+  "title": "Publish workflow vs approval workflow vs review queue vs draft state",
+  "summary": "Use publish workflow for moving content or configuration from editable state to a selected live target, approval workflow for routed human decisions, review queue for processing many items, and draft state for unfinished saved work.",
+  "patternIds": [
+    "publish-workflow",
+    "approval-workflow",
+    "review-queue",
+    "draft-state",
+    "review-before-submit",
+    "confirmation-page",
+    "activity-log",
+    "conflict-state"
+  ],
+  "decisionRules": [
+    "Choose publish workflow when the user must move content, product data, site changes, configuration, release notes, or campaign material from draft, staged, scheduled, or approved state into a selected public or live target.",
+    "Choose approval workflow when the main job is routing one request through authorized approvers before publication can happen.",
+    "Choose review queue when reviewers process many independent items that may later be published, rejected, escalated, or assigned.",
+    "Choose draft state when the item is saved but unfinished; draft state becomes publish workflow only when the interface manages readiness, target, preview, schedule, publish, unpublish, or live verification.",
+    "Choose review before submit when the publisher needs a final editable check of captured fields before creating a publish or schedule action.",
+    "Choose confirmation page after a publish or schedule action succeeds, especially when the live URL, scheduled time, affected channel, or next step must be retained.",
+    "Use activity log to show past publish, unpublish, schedule, rollback, and failed validation events; it is not the primary control surface for the next publish.",
+    "Use conflict state when the publish action is blocked by newer edits, unsaved changes, invalid content, missing channel data, or a live-version mismatch.",
+    "Publish workflow must show readiness checks, preview target, live or staging destination, affected entries or pages, schedule, permission, side effects, irreversible visibility, and post-publish verification.",
+    "Scheduled publishing must distinguish scheduled, rescheduled, canceled, missed, failed validation, published, and retired or unpublished states."
+  ],
+  "failureModes": [
+    "A publish button sends changes live without showing whether the target is staging, production, one page, whole site, one channel, or all channels.",
+    "A scheduled publish accepts invalid content and only fails silently at launch time.",
+    "Users cannot tell whether a successful action made the item live, scheduled it, submitted it for approval, or only saved a draft.",
+    "A product publishes to all sales channels because channel selection was hidden.",
+    "A live page is overwritten by stale edits because the workflow did not detect a newer version.",
+    "Unpublish or rollback controls are absent after a bad release.",
+    "A publish confirmation lacks the live URL, target, time, affected entries, or audit reference."
+  ],
+  "sources": [
+    {
+      "id": "wordpress-post-status",
+      "note": "WordPress documents publish, draft, future, pending, private, and workflow behavior controlled by post status and roles."
+    },
+    {
+      "id": "contentful-scheduled-publishing",
+      "note": "Contentful documents scheduled publish and unpublish actions for entries and releases with date and time selection."
+    },
+    {
+      "id": "contentful-content-operations",
+      "note": "Contentful documents validation checks before scheduled publishing jobs enter the schedule queue."
+    },
+    {
+      "id": "webflow-publish-unpublish-site",
+      "note": "Webflow documents publishing to staging or production domains, choosing target domains, unpublishing, permissions, and single-item publishing."
+    },
+    {
+      "id": "webflow-enterprise-publishing-workflow",
+      "note": "Webflow documents branches, approvals, staging, production, and permissioned publishing workflows."
+    },
+    {
+      "id": "shopify-future-publishing",
+      "note": "Shopify documents future publishing to the Online Store channel with date and time selection."
+    },
+    {
+      "id": "shopify-scheduled-product-publishing",
+      "note": "Shopify documents scheduled product publishing to sales channels for drops and timed sales."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

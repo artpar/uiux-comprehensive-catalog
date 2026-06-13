@@ -1,0 +1,291 @@
+{
+  "id": "publish-workflow",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed publish workflow pattern with guidance for draft versus live state, preview, validation, staging and production targets, domains, channels, locales, scheduled publish, scheduled unpublish, reschedule, cancel schedule, publish now, live verification, unpublish, rollback, permissions, version conflicts, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers moving edited content, products, pages, releases, site changes, campaigns, and configuration into selected live, staged, scheduled, retired, or rolled-back states; draft versus public visibility; target destination; preview; validation; production and staging; sales channels; locales; dependencies; schedule date, time, and timezone; publish, unpublish, retire, rollback, permission, conflict, failed schedule, and live verification states.",
+    "relatedPatternDistinction": "The entry separates publish workflow from approval workflow by focusing on live-target release controls rather than routed decision approval, from review queue by handling one item or release target rather than many-item triage, from draft state by owning visibility-changing transitions rather than saved unfinished work, from review before submit by managing target, schedule, and live state after field review, from confirmation page by appearing before and during the release action, and from activity log and conflict state by using those as supporting evidence and blockers.",
+    "liveDemoBehavior": "The live demo uses Spring sale landing page draft v18 with Draft, Preview, Validate, Blocked, Target, Publish, Schedule, Reschedule, Cancel, Live, Unpublish, Rollback, Permission, and Conflict states, plus bad modes for save-is-live confusion, wrong target, missing validation, silent schedule failure, no rollback, and stale publish over live v19.",
+    "comparisonDecisionRules": "The linked publish-workflow-vs-approval-workflow-vs-review-queue-vs-draft-state comparison gives concrete rules for selected live targets, routed approval, many-item review, unfinished saved work, final field review, post-action confirmation, historical publish events, conflict blockers, scheduled states, target selection, validation, and live verification.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/publish-workflow/ on 2026-06-11 in Chromium: verified Draft, Preview, Validate, Blocked, Target, Publish, Schedule, Reschedule, Cancel, Live, Unpublish, Rollback, Permission, Conflict, Save is live, Wrong target, No validation, Silent fail, No rollback, and Stale publish states; verified Spring sale landing page, Draft v18, live v19, Staging, Production, Online Store, Missing alt text, 09:00 IST, Live verification, public URL, previous live version v17, Production role missing, every domain and channel, failed schedule, and newer live conflict render; verified no duplicate IDs and no page-level horizontal overflow; verified /compare/publish-workflow-vs-approval-workflow-vs-review-queue-vs-draft-state/ concrete decision rules; and checked mobile viewport with collapsed frame, fields, bad grid, blocked, schedule, live, conflict, stale publish, all controls, and no horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/publish-workflow.png"
+    ]
+  },
+  "name": "Publish workflow",
+  "aliases": [
+    "publishing workflow",
+    "publish flow",
+    "go live workflow",
+    "release content",
+    "content publishing",
+    "scheduled publishing",
+    "publish to production",
+    "site publish",
+    "channel publishing",
+    "unpublish workflow"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Workflow for moving edited material to live, staged, scheduled, or retired state",
+  "uiGuidance": [
+    "Render publish workflow as a readiness and release surface with content identity, current status, target destination, affected pages or entries, preview, validation, permission, schedule, publish, unpublish, rollback, and live verification.",
+    "Separate saving, submitting for review, approving, scheduling, publishing, unpublishing, and confirming live state so users can tell whether work is only stored, waiting, approved, queued, visible, retired, or failed."
+  ],
+  "uxGuidance": [
+    "Use publish workflow when a user is moving content, product data, site changes, configuration, release notes, or campaign material from draft, staged, scheduled, or approved state to a selected live or public target.",
+    "Make visibility and blast radius explicit before publication: who can see it, which domain, environment, page, entry, locale, channel, time, dependency, and version will change."
+  ],
+  "uiExamples": {
+    "good": [
+      "A CMS publish panel shows Draft article, production site, English and French locales, validation complete, preview URL, scheduled time, affected entries, and actions to Publish now, Schedule, or Keep draft.",
+      "A site builder publish dialog lets a user choose staging or production domains, shows unpublished page changes, warns that production is public, then confirms the live URL and offers rollback."
+    ],
+    "bad": [
+      "A Publish button sends changes live to every domain with no staging/production target, preview, validation, or affected-page list.",
+      "A scheduled product launch silently fails because the workflow accepted missing channel data and did not surface validation before scheduling."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A content editor previews a campaign page, fixes a missing hero image, schedules publication and retirement times, sees the job queued, and later verifies the live URL and scheduled unpublish state.",
+      "A merchandiser schedules a product to publish only to Online Store at 09:00, sees other sales channels excluded, edits the schedule, then cancels before launch without changing draft content."
+    ],
+    "bad": [
+      "A user clicks Save and assumes the page is live because the interface uses Save, Submit, Schedule, and Publish interchangeably.",
+      "An editor updates a live page from an old draft and overwrites newer production copy because the workflow did not compare versions."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Publishing is risky when products hide whether work is saved, staged, scheduled, public, or retired; which target will change; whether validation passed; who has permission; what dependencies will publish; and how to verify or undo a bad release.",
+  "solution": "Provide a publish workflow that checks readiness, previews the exact target, shows visibility and affected scope, supports publish now, schedule, reschedule, cancel, unpublish, rollback, and live verification, and records outcome state separately from draft saving or approval routing.",
+  "problemContext": [
+    "The item may be an article, page, product, collection, site branch, release, campaign, locale, configuration, media asset, documentation page, or channel-specific listing.",
+    "Publishing may affect staging, production, public web, selected domains, sales channels, locales, entries, dependencies, cached pages, search indexes, subscribers, social channels, or release bundles.",
+    "The workflow may include draft, pending review, approved, scheduled, queued, validating, publishing, live, failed, missed, canceled, unpublished, retired, or rolled-back states.",
+    "The product must distinguish low-risk save operations from visibility-changing publish operations.",
+    "Users may need scheduled publication, scheduled unpublication, channel selection, permissions, branch approval, preview URLs, validation errors, and post-publish verification."
+  ],
+  "selectionRules": [
+    "Choose publish workflow when the primary task is making edited material visible, live, scheduled, retired, or no longer visible in a selected destination.",
+    "Use approval workflow when human approval is required before publication but the interface is primarily the decision route, not the live-target release surface.",
+    "Use review queue when many items await editorial, moderation, or code review before individual publish decisions.",
+    "Use draft state when the user is saving unfinished work without selecting target, schedule, preview, publish, or unpublish behavior.",
+    "Use review before submit for final field checking before a publish or schedule action is created.",
+    "Use confirmation page after publish succeeds to show live URL, affected target, time, reference, and next steps.",
+    "Show staging versus production, selected domains, channels, locales, dependencies, and audience before any live-changing action.",
+    "Validate required content, links, media, inventory, permissions, slug, translations, channel eligibility, schedule time, and dependency state before publish or schedule.",
+    "Represent scheduled, rescheduled, canceled, missed, failed, live, unpublished, and rolled-back states distinctly.",
+    "Provide a safe way to unpublish, retire, rollback, or open the live target when the platform supports it."
+  ],
+  "requiredStates": [
+    "Draft or edited but unpublished state",
+    "Preview state with target URL or destination",
+    "Validation pending state",
+    "Validation blocked state",
+    "Ready to publish state",
+    "Target selection state for staging, production, domain, channel, locale, page, or release",
+    "Publish now confirmation state",
+    "Scheduled publish state",
+    "Reschedule or cancel scheduled publish state",
+    "Publishing in progress state",
+    "Published live verification state",
+    "Failed publish or missed schedule state",
+    "Unpublish or retire state",
+    "Rollback or restore previous live version state",
+    "Permission denied to publish state",
+    "Version conflict or newer live version state"
+  ],
+  "interactionContract": [
+    "Saving a draft does not imply publication, and publishing cannot proceed until target, readiness, permissions, and validation requirements are resolved.",
+    "The workflow shows the item version, target destination, affected scope, current live state, and side effects before a publish or schedule action.",
+    "Preview opens the same version and target that will be published, or clearly labels where preview differs from production.",
+    "Schedule actions store date, time, timezone, target, actor, item version, and validation result.",
+    "Validation failures block publish or scheduling and point to the exact field, dependency, channel, locale, or permission that must be fixed.",
+    "Publish, schedule, reschedule, cancel schedule, unpublish, retire, and rollback actions update the same release history and visible status.",
+    "Conflicts with newer live content, unsaved edits, changed dependencies, or revoked permissions require refresh, compare, or retry paths before publication.",
+    "After a successful action, the user can open the live target, copy the URL, see affected destinations, and inspect the audit trail."
+  ],
+  "implementationChecklist": [
+    "Define item type, statuses, target destinations, affected dependencies, permission roles, preview behavior, validation rules, schedule semantics, rollback support, and audit requirements.",
+    "Model save, submit for review, approve, schedule, publish, unpublish, retire, rollback, and confirm-live states separately.",
+    "Show current status and target-selection controls for staging, production, domains, sales channels, locales, releases, pages, or item-only publishing.",
+    "Run validation before publish and again before scheduled jobs execute when content can change between scheduling and launch.",
+    "Expose schedule date, time, timezone, reschedule, cancel schedule, and missed or failed schedule recovery.",
+    "Protect production publish, all-channel publish, dependency publish, unpublish, and rollback with appropriate review or confirmation steps.",
+    "Write publish history with actor, item version, target, action, time, schedule, validation outcome, failure reason, and rollback reference.",
+    "Test draft versus live distinction, staging-only publish, production publish, scheduled publish, scheduled unpublish, invalid content, permission denied, stale version, dependency change, failed publish, rollback, mobile, keyboard, screen reader status updates, and localization."
+  ],
+  "commonMisuses": [
+    "Using Save, Submit, Schedule, and Publish interchangeably.",
+    "Hiding whether the target is staging, production, one page, whole site, one channel, all channels, or a release bundle.",
+    "Allowing scheduled publishing without validation or later failure reporting.",
+    "Publishing stale draft content over a newer live version.",
+    "Failing to show affected dependencies or locales.",
+    "Treating approval as publication or publication as approval.",
+    "Providing no way to unpublish, retire, rollback, or verify live output.",
+    "Showing success before the live target, cache, search index, or channel actually updates."
+  ],
+  "critiqueQuestions": [
+    "What is live now, what is changing, and which version will publish?",
+    "Which domain, environment, page, release, locale, sales channel, or audience will be affected?",
+    "What validation checks must pass before publish or schedule?",
+    "Is this saving a draft, submitting for review, scheduling, publishing now, unpublishing, or rolling back?",
+    "Can users preview the exact target and verify the live result?",
+    "What happens if the scheduled job fails, content changes before launch, or permissions are revoked?"
+  ],
+  "useWhen": [
+    "Users need to make content, products, pages, releases, site changes, campaigns, or configuration visible to an audience.",
+    "Publishing target, timing, dependencies, validation, permission, or rollback matter.",
+    "The product can represent status changes between draft, staged, scheduled, live, failed, retired, and rolled back states."
+  ],
+  "avoidWhen": [
+    "The user is only saving unfinished work.",
+    "The user is only asking someone else to approve the work.",
+    "The task is reviewing many items in a queue rather than publishing one item or release.",
+    "The action has no visibility or live-state change.",
+    "The system cannot show or verify the target that changed."
+  ],
+  "variants": [
+    "Publish now",
+    "Schedule publish",
+    "Scheduled unpublish",
+    "Staging publish",
+    "Production publish",
+    "Single page publish",
+    "Whole site publish",
+    "Sales channel publish",
+    "Locale publish",
+    "Release bundle publish",
+    "Branch publish",
+    "Rollback publish",
+    "Retire content"
+  ],
+  "accessibility": [
+    "Use labelled controls for status, target, preview, schedule date and time, timezone, validation, publish, unpublish, rollback, and live URL.",
+    "Announce validation progress, validation errors, scheduled, publishing, published, failed, unpublished, and rollback updates through status text.",
+    "Do not rely on color alone to communicate draft, scheduled, live, failed, or retired states.",
+    "Associate validation errors with the exact field, channel, locale, dependency, or permission that blocks publication.",
+    "Make preview, target selection, schedule, publish, cancel schedule, unpublish, rollback, and open-live controls keyboard reachable.",
+    "Warn before navigation when unsaved edits differ from the version selected for publish.",
+    "Keep live URL and scheduled time copyable and readable without requiring pointer hover."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows status summary, target selection, preview, validation summary, schedule controls, primary action, secondary actions, and history.",
+    "Date and time controls accept keyboard entry and expose timezone text.",
+    "After validation fails, focus moves to the validation summary or first blocking field.",
+    "After scheduling or publishing, focus moves to the resulting status and live or scheduled action summary.",
+    "Cancel schedule, unpublish, and rollback confirmations return focus to the publish workflow surface.",
+    "Opening a preview preserves return context to the publish workflow."
+  ],
+  "failureModes": [
+    "A production publish happens when the user intended staging only.",
+    "A product goes live on every channel instead of one selected channel.",
+    "A schedule fires with invalid content or missing media.",
+    "A live page is overwritten by stale draft content.",
+    "A publish succeeds in the UI but the live URL still shows old content.",
+    "An unpublished item remains indexed or linked without warning.",
+    "A failed publish gives no retry, validation, or support-safe detail.",
+    "Rollback restores content but not dependencies, redirects, or channel state."
+  ],
+  "relatedPatterns": [
+    "approval-workflow",
+    "review-queue",
+    "draft-state",
+    "review-before-submit",
+    "confirmation-page",
+    "activity-log",
+    "conflict-state",
+    "notification-center"
+  ],
+  "comparisons": [
+    "publish-workflow-vs-approval-workflow-vs-review-queue-vs-draft-state"
+  ],
+  "examples": [
+    {
+      "product": "WordPress post status",
+      "url": "https://wordpress.org/documentation/article/post-status/",
+      "platform": "web",
+      "notes": "Documents publish, draft, future, pending, private, trash, role-based workflow, and how post status controls public visibility.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Contentful scheduled publishing",
+      "url": "https://www.contentful.com/help/scheduled-publishing/",
+      "platform": "web",
+      "notes": "Documents scheduled publish and unpublish actions for entries and releases, date and time selection, and campaign release timing.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Webflow publish and unpublish",
+      "url": "https://help.webflow.com/hc/en-us/articles/33961351954579-How-do-I-publish-or-unpublish-a-Webflow-site",
+      "platform": "web",
+      "notes": "Documents staging and production target selection, unpublishing, permission limits, and single collection-item publishing and scheduling.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Webflow enterprise publishing workflow",
+      "url": "https://university.webflow.com/videos/publishing-workflow",
+      "platform": "web",
+      "notes": "Documents branch-based publishing workflow, approvals, staging, production, and role-based publishing permissions.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Shopify future publishing",
+      "url": "https://help.shopify.com/en/manual/shopify-admin/productivity-tools/future-publishing",
+      "platform": "web",
+      "notes": "Documents scheduling collections and products to publish to Online Store at selected date and time.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Shopify scheduled product publishing",
+      "url": "https://shopify.dev/docs/apps/build/sales-channels/scheduled-product-publishing",
+      "platform": "web",
+      "notes": "Documents scheduling products to publish to a sales channel at a specific datetime for product drops and timed sales.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wordpress-post-status",
+      "note": "WordPress supports publish, draft, future, pending, private, trash, role-based workflow, and post status as public visibility state."
+    },
+    {
+      "id": "contentful-scheduled-publishing",
+      "note": "Contentful supports scheduled publish and unpublish actions for entries and releases with date and time selection."
+    },
+    {
+      "id": "contentful-content-operations",
+      "note": "Contentful supports validation checks before scheduled publishing jobs enter the queue and failure handling when scheduled publishing cannot run."
+    },
+    {
+      "id": "webflow-publish-unpublish-site",
+      "note": "Webflow supports staging and production target selection, unpublishing, permissions, and single collection-item publishing and scheduling."
+    },
+    {
+      "id": "webflow-enterprise-publishing-workflow",
+      "note": "Webflow supports branch-based publishing workflow, approvals, staging, production, and permissioned publish roles."
+    },
+    {
+      "id": "shopify-future-publishing",
+      "note": "Shopify supports future publishing for products and collections to Online Store with date and time selection."
+    },
+    {
+      "id": "shopify-scheduled-product-publishing",
+      "note": "Shopify supports scheduled product publishing to sales channels for product drops and timed sales."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

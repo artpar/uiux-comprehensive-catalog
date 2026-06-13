@@ -1,0 +1,50 @@
+{
+  "id": "expandable-row-vs-table-vs-details-panel-vs-accordion",
+  "title": "Expandable row vs table vs details panel vs accordion",
+  "summary": "Use expandable row for row-local detail inside a table or list; use table for always-visible shared columns, details panel for durable selected-object inspection, and accordion for page-section disclosure.",
+  "patternIds": [
+    "expandable-row",
+    "table",
+    "details-panel",
+    "accordion"
+  ],
+  "decisionRules": [
+    "Choose expandable row when each visible row already identifies a record and users need occasional row-owned details, history, exceptions, nested attributes, or secondary actions without leaving the data surface.",
+    "Choose table when the values are important enough to compare across many records and should remain visible as columns rather than hidden under each row.",
+    "Choose details panel when users repeatedly move through records and need a persistent inspector that stays visible beside the source rows instead of expanding one row at a time.",
+    "Choose accordion when the content is page-level sections or form groups, not detail owned by a specific table, list, or activity row.",
+    "Use expandable row for compact supplemental content; route to details panel, drawer, or full page when the expanded area needs long reading, deep editing, comments, history, or several unrelated panels.",
+    "Keep row expansion state keyed by stable record ID so sorting, filtering, pagination, refresh, or virtual loading does not open detail under the wrong row.",
+    "Expose a labelled row expand control with expanded state, affected row identity, and a content region that follows the owning row in reading order.",
+    "Do not put the only critical decision value, required error, destructive confirmation, or primary action inside a collapsed row unless the collapsed row summarizes it visibly.",
+    "When rows have no extra detail, omit or disable the expand control with a visible reason rather than showing a dead chevron.",
+    "On mobile, use stacked expanded detail, row-level disclosure, or a full-detail route instead of forcing a wide nested table that loses row-header meaning."
+  ],
+  "failureModes": [
+    "A collapsed row hides the only status reason, so users think every row is equivalent until they manually expand each one.",
+    "Sorting the table leaves the second visual row expanded even though the detail belongs to a different record after the sort.",
+    "Every row has an expand chevron, including rows with no extra detail, causing dead controls and false affordances.",
+    "Expanded content contains a long form, nested table, comments, attachments, and destructive actions that no longer fit a row-local disclosure.",
+    "A page-level FAQ or settings section is implemented as expandable table rows even though no row owns the content.",
+    "The expand button only says More, has no expanded state, and does not identify which record will be opened."
+  ],
+  "sources": [
+    {
+      "id": "carbon-data-table-component",
+      "note": "Carbon data table guidance supports expandable rows for supplementary detail and escalation when expanded content becomes cramped."
+    },
+    {
+      "id": "mui-table-collapsible-table",
+      "note": "MUI documents collapsible table rows that reveal additional row-specific information."
+    },
+    {
+      "id": "wai-aria-apg-disclosure",
+      "note": "APG disclosure guidance supports labelled expanded state and Enter or Space activation for show-hide controls."
+    },
+    {
+      "id": "wai-tables-tutorial",
+      "note": "WAI table guidance supports preserving row, column, and header relationships inside data tables."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "ai-confidence-shown-as-fake-precision-vs-confidence-uncertainty-display-vs-meter-vs-source-grounding-display-vs-warning-text-vs-human-approval-gate",
+  "title": "AI confidence shown as fake precision vs confidence / uncertainty display vs meter vs source grounding display vs warning text vs human approval gate",
+  "summary": "Flag AI confidence shown as fake precision when raw or uncalibrated model scores are presented as exact user-facing confidence. Use the related patterns for honest uncertainty display, bounded scalar gauges, source evidence coverage, severe consequence warnings, or approval checkpoints.",
+  "patternIds": [
+    "ai-confidence-shown-as-fake-precision",
+    "confidence-uncertainty-display",
+    "meter",
+    "source-grounding-display",
+    "warning-text",
+    "human-approval-gate"
+  ],
+  "decisionRules": [
+    "Choose AI confidence shown as fake precision when an AI surface displays exact percentages, decimals, probability-looking scores, gauges, stars, or color bands without calibration scope, freshness, threshold, reason, or safe action.",
+    "Choose confidence / uncertainty display when the product can honestly show calibrated reliability, qualitative uncertainty, confidence range, review threshold, stale state, and action gating for the current task.",
+    "Choose meter when the value is a read-only bounded scalar measurement such as storage, quota, battery, utilization, or risk level, and not an AI correctness or reliability claim.",
+    "Choose source grounding display when users need answer-wide source scope, searched sources, retrieved sources, used evidence, unsupported claims, and permission or retrieval states; confidence does not prove evidence exists.",
+    "Choose warning text when the interface must warn about a known severe consequence before an action, rather than estimating model reliability or probability.",
+    "Choose human approval gate when the model may recommend an action but policy requires a person to approve, reject, edit, or document an override before the system acts.",
+    "If the score is a raw model logit, ranking score, embedding similarity, heuristic, stale stored value, or uncalibrated classifier output, hide or relabel it instead of presenting it as a precise confidence percentage.",
+    "If a numeric confidence range is valid, show the calibration population, model or threshold version, freshness, and decision consequence before copy, apply, approve, deny, send, or publish.",
+    "Do not use high precision as a substitute for citations, source grounding, review threshold, permission checks, or severe consequence warning text.",
+    "When prompt, input, source scope, model version, policy, or threshold changes, invalidate prior confidence before the user can act on it."
+  ],
+  "failureModes": [
+    "A generated answer says 97.42 percent confident but has no calibration scope, source status, threshold, or review path.",
+    "A retrieval similarity score is shown as probability that the answer is correct.",
+    "A confidence meter looks like a bounded gauge even though no meaningful range or calibration exists.",
+    "A high confidence number replaces source grounding and users treat it as evidence.",
+    "A stale score remains after model, prompt, policy, or threshold changes.",
+    "The copied output keeps the exact score but drops the caveat explaining why it is not a probability."
+  ],
+  "sources": [
+    {
+      "id": "google-pair-explainability-trust",
+      "note": "Supports trust calibration, probability and uncertainty, confidence displays, and user judgment."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports communicating AI uncertainty, capability limits, correction, and user control."
+    },
+    {
+      "id": "microsoft-azure-openai-transparency-note",
+      "note": "Supports explaining AI capabilities, limitations, performance behavior, and deployment context."
+    },
+    {
+      "id": "mdn-aria-meter-role",
+      "note": "Supports separating read-only bounded meters from AI confidence displays."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing changed confidence validity and review states without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

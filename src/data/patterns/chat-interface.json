@@ -1,0 +1,251 @@
+{
+  "id": "chat-interface",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed AI chat interface pattern with guidance for ordered multi-turn transcripts, user and assistant roles, conversation identity, history state, carried context, streaming, stop, retry, regenerate, citations, copy, export, deletion, scroll preservation, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers chat as a stateful multi-turn conversation surface with ordered transcript, user and assistant turns, conversation title, history list, retention state, carried context, work or web mode, composer boundary, submitted prompts, assistant responses, streaming, stopped, failed, retry, regenerate, copy, citation, older-history loading, new chat, delete, export, and scroll or draft preservation.",
+    "relatedPatternDistinction": "The entry separates chat interface from prompt box by making chat own transcript and history state, from prompt suggestions by excluding starter-request discovery, from threaded discussion by avoiding human forum-style reply behavior, from comments by avoiding object-level note behavior, and from feed or activity feed by requiring turn-taking conversation rather than chronological browsing.",
+    "liveDemoBehavior": "The live demo shows a research assistant chat with visible conversation list, active title, transcript log, user and assistant turns, work-mode context chips, composer, turn actions, streaming, stop, failed response, retry, regenerate versioning, copy, citation inspection, older-history load, new chat, delete, preserved scroll, export, and broken latest-only, role-blur, hidden-memory, overwrite-regenerate, scroll-jump, lost-draft, and human-chat-mix modes.",
+    "comparisonDecisionRules": "The linked chat-interface-vs-prompt-box-vs-threaded-discussion-vs-comments-vs-feed comparison gives concrete rules for conversation transcript, user turns, assistant turns, follow-up prompts, saved or resumable conversation identity, single request composer, human forum-style replies, object-level notes, chronological stream, draft, submitted message, streaming answer, failed answer, conversation-level controls, new chat, history list, regenerate, stop generation, retry turn, clear conversation, grounding, tool use, memory state, conversation retention, scroll position, focus, and disabled history.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/chat-interface/ with the live demo, exercised Turns, History, Streaming, Stop, Failed, Retry, Regenerate, Copy, Citation, Older history, New chat, Delete, Preserve scroll, Export, Latest only, Role blur, Hidden memory, Overwrite regen, Scroll jump, Lost draft, and Human chat mix states, and found no duplicate IDs, page overflow, or chat-interface demo overflow. The comparison route /compare/chat-interface-vs-prompt-box-vs-threaded-discussion-vs-comments-vs-feed/ included chat interface, prompt box, threaded discussion, comments, feed, conversation transcript, user turns, assistant turns, follow-up prompts, saved or resumable conversation identity, single request composer, human forum-style replies, object-level notes, chronological stream, draft, submitted message, streaming answer, failed answer, conversation-level controls, new chat, history list, regenerate, stop generation, retry turn, clear conversation, grounding, tool use, memory state, conversation retention, scroll position, focus, and history-is-disabled decision terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/chat-interface.png"
+    ]
+  },
+  "name": "Chat interface",
+  "aliases": [
+    "AI chat",
+    "assistant chat",
+    "conversation UI",
+    "chat transcript",
+    "copilot chat",
+    "chat workspace",
+    "message interface",
+    "conversational assistant",
+    "multi-turn assistant",
+    "chat session"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Multi-turn conversation surface with transcript, composer, assistant responses, and conversation history",
+  "uiGuidance": [
+    "Render chat as an ordered transcript with visible user and assistant roles, turn boundaries, timestamps or relative position, current draft composer, submitted prompt, response status, source or tool indicators, and conversation-level controls.",
+    "Keep conversation history, new-chat, active conversation title, model or mode, grounding scope, memory or retention state, and transcript controls visually separate from the prompt composer so users can tell what affects the whole chat versus the next message."
+  ],
+  "uxGuidance": [
+    "Use a chat interface when users need a multi-turn assistant conversation where later prompts can depend on earlier turns, responses can be inspected or continued, and conversation history can be saved, resumed, deleted, or limited by policy.",
+    "Protect the transcript as task evidence: preserve the exact prompt and response per turn, avoid losing scroll or focus during streaming, show what context carries into follow-ups, and support retry, stop, regenerate, copy, cite, export, and history recovery in ways that do not rewrite prior turns silently."
+  ],
+  "uiExamples": {
+    "good": [
+      "A research assistant chat shows user and assistant bubbles, turn numbers, source chips, streaming status, Stop, Copy answer, Regenerate, New chat, and a conversations list with the active chat title.",
+      "A Copilot-style work chat separates Work mode, Web mode, file references, tool availability, dictation, and chat history settings from the message composer."
+    ],
+    "bad": [
+      "A chat panel shows one undifferentiated wall of text with no user or assistant roles, no submitted prompt, and no visible conversation identity.",
+      "A conversation auto-scrolls to a new answer while the user is reading an older cited turn, then hides the old prompt after regenerate."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user asks for a policy summary, follows up with Compare that to the renewal clause, sees that the second answer used the first answer and selected file, then exports the two-turn transcript.",
+      "A failed assistant answer remains attached to its user prompt with Retry and Edit follow-up controls; the draft follow-up, scroll position, and active citation are preserved."
+    ],
+    "bad": [
+      "A follow-up uses prior conversation context after chat history has been switched off, without explaining that current-session context still exists.",
+      "Regenerate overwrites the old answer and citations, so the user cannot tell which version a copied recommendation came from."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI chat can look simple while hiding the durable state that makes a conversation work: turn order, role ownership, carried context, tool use, sources, memory, retention, response status, failed turns, and history controls. Without those boundaries, users lose trust, misread follow-ups, cannot recover from failed or changed answers, and confuse chat with comments, feeds, or a single prompt box.",
+  "solution": "Design chat as a stateful conversation surface that makes each turn, transcript order, response lifecycle, carried context, history status, and recovery action visible and inspectable.",
+  "problemContext": [
+    "A chat can include user messages, assistant messages, system or product notices, tool calls, file references, source citations, streaming deltas, blocked content, and saved history.",
+    "Follow-up prompts may rely on current session context, persisted conversation state, selected files, page context, workspace data, tools, memory, or no carried context.",
+    "Users may start a new chat, resume an old chat, rename or pin a conversation, delete history, export a transcript, copy an answer, stop generation, regenerate, retry, edit a previous turn, or branch a conversation.",
+    "Long conversations introduce scroll anchoring, virtualized message lists, mobile keyboard overlap, transcript search, older-history loading, citation focus, and source availability issues.",
+    "Enterprise and regulated products may have retention, audit, privacy, external-model, sensitive-data, and human-approval requirements that change how chat history is shown."
+  ],
+  "selectionRules": [
+    "Choose chat interface when the user task depends on turn-taking, follow-up prompts, assistant responses, and conversation history rather than a single request field.",
+    "Use prompt box when only the editable AI request composer is being designed and transcript state belongs elsewhere.",
+    "Use threaded discussion when the conversation is among people and needs nested replies, human authorship, moderation, and unread human activity.",
+    "Use comments when messages are object-level annotations, decisions, or review notes tied to a document section, task, row, or artifact.",
+    "Use feed when users browse chronological updates or content items and do not need a composer anchored to a turn-taking transcript.",
+    "Show a conversation identity when chats can be saved, revisited, renamed, pinned, deleted, exported, or used across sessions.",
+    "Make follow-up context explicit when the next prompt will use previous turns, selected files, work data, web data, tools, memory, or a prior response ID.",
+    "Use a sequential live region or equivalent status strategy for new transcript items so assistive technologies can announce appended messages without moving focus unnecessarily.",
+    "Keep current draft, submitted prompt, assistant response, tool progress, citation state, and copied answer state separate.",
+    "Do not claim chat history is off while still carrying prior turns into model context without a clear current-session explanation."
+  ],
+  "requiredStates": [
+    "Empty new chat with conversation title, mode, history or retention status, and a labelled composer.",
+    "Typing draft, submitted user message, assistant thinking, streaming response, complete response, stopped generation, failed response, and retry states.",
+    "Follow-up turn that shows whether prior messages, files, tools, memory, selected sources, or web/work mode are included.",
+    "Regenerate, edit follow-up, copy answer, cite source, export transcript, delete chat, and new chat states.",
+    "Long transcript with older-history loading, scroll-to-latest, reading older turn, active citation, and preserved draft behavior.",
+    "History disabled, history unavailable, expired conversation, deleted conversation, signed-out session, offline, rate-limited, sensitive-content, and policy-blocked states.",
+    "Mobile keyboard state with composer anchoring, accessible send and stop controls, transcript reading space, and preserved scroll."
+  ],
+  "interactionContract": [
+    "Every user-visible answer is tied to the exact user message and visible context that produced it.",
+    "New turns append in reading order and do not interrupt a user who is reading, selecting, copying, or inspecting an older turn.",
+    "The current composer controls the next message only; conversation-level controls such as New chat, Delete history, mode, memory, and export are labelled separately.",
+    "Stop generation leaves a partial-response state rather than pretending the answer completed.",
+    "Retry resends the same turn or clearly shows when the prompt, model, tools, or sources changed.",
+    "Regenerate preserves prior answer identity or makes version replacement explicit.",
+    "History settings explain whether they affect saved history, personalization, current-session context, or future conversations.",
+    "Focus remains predictable after submit, stream complete, stop, retry, copy, delete, history open, or older-history load."
+  ],
+  "implementationChecklist": [
+    "Model conversation data as ordered turns with stable IDs, role, prompt text, response text, status, sources, tool events, timestamps, copy state, version state, and retention metadata.",
+    "Separate draft composer state from submitted messages, response streaming state, conversation list state, and saved-history state.",
+    "Implement controls for send, stop, retry, regenerate, edit follow-up, copy, cite, export, new chat, rename, pin, delete, and history settings according to risk.",
+    "Validate scroll anchoring, focus return, mobile keyboard behavior, virtualized older messages, long answers, code blocks, citations, tool progress, failed streams, and offline recovery.",
+    "Expose transcript updates, streaming status, errors, copied state, source availability, and history changes to assistive technologies without forced focus jumps.",
+    "Log or audit high-risk assistant actions without treating private draft text or deleted history as retained evidence unless the product explicitly says so."
+  ],
+  "commonMisuses": [
+    "Treating chat as a large textarea plus latest answer with no durable turn identity.",
+    "Auto-scrolling during streaming while the user is reading an older message.",
+    "Letting regenerate overwrite a response and citations with no version history.",
+    "Showing a history-off toggle while the next turn still uses prior messages without explanation.",
+    "Mixing human comments, task activity, and assistant chat in one transcript without role and purpose boundaries.",
+    "Hiding tool calls, file references, and source scope until after a response fails or produces a risky answer.",
+    "Using chat for a deterministic workflow that needs structured fields, review, or approval."
+  ],
+  "critiqueQuestions": [
+    "Can users identify the active conversation, each turn's role, the exact prompt for each answer, and what context carries into the next turn?",
+    "What happens to focus, scroll, draft text, copied text, and source inspection when a response streams, fails, stops, or regenerates?",
+    "Are history, retention, memory, grounding, and tool-use settings visible at the level they affect?",
+    "Does this need chat, or would a prompt box, form, command, comments thread, or activity feed better fit the task?",
+    "Can users recover or audit the transcript after weak output, source loss, policy block, deletion, or session expiry?"
+  ],
+  "useWhen": [
+    "The user needs a back-and-forth assistant conversation with follow-up questions and answer refinement.",
+    "Prior turns or saved conversation identity are meaningful to later work.",
+    "The product can expose enough turn, context, source, tool, and history state for users to understand the conversation."
+  ],
+  "avoidWhen": [
+    "The task can be completed with a single structured prompt box, form, or command.",
+    "The product cannot disclose how prior turns, files, tools, or memory influence answers.",
+    "High-risk actions need structured review or explicit approval before execution.",
+    "Human collaboration, object annotation, or activity browsing is the primary behavior.",
+    "The system cannot preserve transcript integrity through common failures."
+  ],
+  "variants": [
+    "Single-session assistant chat",
+    "Saved conversation chat",
+    "Work-grounded chat",
+    "Web-grounded chat",
+    "Chat with files",
+    "Chat with tools",
+    "Streaming assistant chat",
+    "Side-panel chat",
+    "Full-page chat workspace",
+    "Mobile chat assistant"
+  ],
+  "accessibility": [
+    "Expose the transcript as an ordered region and use a sequential update strategy such as role=log for appended messages where appropriate.",
+    "Label user, assistant, system, tool, and error messages in text, not only through alignment or color.",
+    "Announce submitted message, assistant thinking, streaming, stopped, failed, retry, and copied states without stealing focus.",
+    "Keep Send, Stop, Retry, Regenerate, Copy, Cite, New chat, Delete, and history controls keyboard reachable with clear names.",
+    "Do not auto-scroll users away from an older focused message, selected text, source panel, or active citation.",
+    "Support screen reader review of long transcripts, code blocks, citations, tables, attachments, and status messages."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches conversation list, transcript landmarks, composer, attachment controls, send, stop, turn actions, and history controls in a predictable order.",
+    "Enter behavior in the composer follows the prompt-box contract and does not interfere with IME composition or multiline input expectations.",
+    "Escape closes source panels, tool details, history menus, and rename dialogs without deleting draft text.",
+    "Shortcut actions such as new chat, focus composer, stop generation, copy answer, or search transcript are exposed and never required.",
+    "After a message sends, focus either remains in the composer or moves to a predictable response status, with a route back to the latest turn.",
+    "Loading older history preserves the focused turn or restores focus to a named scroll anchor."
+  ],
+  "failureModes": [
+    "Latest answer is disconnected from the prompt and context that produced it.",
+    "New turns appear out of order or are announced as unrelated status text.",
+    "Streaming output steals focus or scroll from an older turn.",
+    "Stop generation looks like a complete answer.",
+    "Retry or regenerate changes model, tools, or sources without showing the change.",
+    "Current-session context remains active after users believe history or memory is off.",
+    "Long transcripts lose draft prompts, active citations, copied answer state, or selected text.",
+    "Conversation deletion, expiry, or sign-out does not explain what was lost or preserved."
+  ],
+  "relatedPatterns": [
+    "prompt-box",
+    "prompt-suggestions",
+    "threaded-discussion",
+    "comments",
+    "feed",
+    "activity-feed"
+  ],
+  "comparisons": [
+    "chat-interface-vs-prompt-box-vs-threaded-discussion-vs-comments-vs-feed"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI conversation state guide",
+      "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "platform": "ai",
+      "notes": "Documents multi-turn state, conversation identifiers, messages, tool calls, tool outputs, and response chaining across turns.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft 365 Copilot Chat",
+      "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-with-microsoft-365-copilot-chat",
+      "platform": "ai",
+      "notes": "Documents a user-facing chat surface with compose, content, tools, references, dictation, and prompt submission.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft 365 Copilot Chat history",
+      "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/how-microsoft-365-copilot-chat-history-works",
+      "platform": "ai",
+      "notes": "Documents conversation lists, saved chat history, revisiting prior conversations, and history controls.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "W3C ARIA23",
+      "url": "https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA23",
+      "platform": "web",
+      "notes": "Documents role=log for appended sequential updates such as chat conversation history.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports multi-turn conversation state, durable conversation identifiers, messages, tool calls, tool outputs, and response chaining."
+    },
+    {
+      "id": "microsoft-365-copilot-chat-start",
+      "note": "Supports chat composer, add-content controls, tools, references, dictation, and prompt submission."
+    },
+    {
+      "id": "microsoft-365-copilot-chat-history",
+      "note": "Supports saved conversation lists, revisiting chats, retention, and history controls."
+    },
+    {
+      "id": "w3c-aria-log-role-chat",
+      "note": "Supports accessible announcement of appended sequential chat messages."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing response status, errors, copied state, and history changes without moving focus."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

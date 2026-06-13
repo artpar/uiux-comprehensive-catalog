@@ -1,0 +1,268 @@
+{
+  "id": "tool-use-visibility",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed tool-use visibility pattern with tool-call detail guidance, permission and redaction behavior, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers pending tool call, running tool call, succeeded tool call, failed tool call, denied permission, redacted input, redacted output, raw payload gated, side-effect preview, side-effect executed, retry attempt, stale result, duplicate tool event, mobile tool card, tool input, tool output, permission scope, target object, redaction reason, side-effect risk, copy tool ID, open source, open target, and view audit behavior.",
+    "relatedPatternDistinction": "The entry separates tool-use visibility from agent progress trace by showing exact tool-call detail rather than run-level step order, from source grounding display by tool input/output inspection rather than whole-answer evidence coverage, from citation display by tool execution records rather than claim-level source preview, from activity log by contextual live or review details rather than retained event evidence, from human approval gate by showing payload and permission detail rather than making the authorization decision, and from agent plan preview by runtime or post-call inspection rather than pre-run plan review.",
+    "liveDemoBehavior": "The live demo shows pending tool call, running tool call, succeeded tool call, failed tool call, denied permission, redacted input, redacted output, raw payload gated, side-effect preview, side-effect executed, retry attempt, stale result, duplicate tool event, and mobile tool card states. Bad states cover vague tools, raw secret dump, false success, hidden side effect, unsafe retry, missing redaction, and audit disconnect failures.",
+    "comparisonDecisionRules": "The linked tool-use-visibility-vs-agent-progress-trace-vs-source-grounding-display-vs-citation-display-vs-activity-log-vs-human-approval-gate comparison gives concrete rules for inspectable AI tool calls, tool name, tool input, tool output, permission scope, target object, side-effect risk, redaction reason, raw payload eligibility, tool status, run-level ordered sequence, whole-answer evidence coverage, claim-level source preview, retained event evidence, paused authorization decision, pending, running, succeeded, failed, denied, redacted, permission-limited, retrying, approval-required, side-effect preview, side-effect executed, stale result, raw request, raw response, stack trace, command output, file path, source excerpt, private record, credential, hidden prompt, copy tool ID, open source, open target, view audit, vague Using tools label, raw JSON dump, progress spinner, citation list, grounding badge, and post-hoc audit row.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and 390px mobile checks rendered /patterns/tool-use-visibility/ with the live demo, exercised Pending tool call, Running tool call, Succeeded tool call, Failed tool call, Denied permission, Redacted input, Redacted output, Raw payload gated, Side-effect preview, Side-effect executed, Retry attempt, Stale result, Duplicate tool event, Mobile tool card, Vague tools, Raw secret dump, False success, Hidden side effect, Unsafe retry, Missing redaction, and Audit disconnect states, and found no duplicate IDs, page overflow, or tool-use-visibility demo overflow. The comparison route /compare/tool-use-visibility-vs-agent-progress-trace-vs-source-grounding-display-vs-citation-display-vs-activity-log-vs-human-approval-gate/ included tool-use visibility, agent progress trace, source grounding display, citation display, activity log, human approval gate, inspectable AI tool calls, tool name, tool input, tool output, permission scope, target object, side-effect risk, redaction reason, raw payload eligibility, tool status, run-level ordered sequence, whole-answer evidence coverage, claim-level source preview, retained event evidence, paused authorization decision, pending, running, succeeded, failed, denied, redacted, permission-limited, retrying, approval-required, side-effect preview, side-effect executed, stale result, raw request, raw response, stack trace, command output, file path, source excerpt, private record, credential, hidden prompt, copy tool ID, open source, open target, view audit, vague Using tools label, raw JSON dump, progress spinner, citation list, grounding badge, and post-hoc audit row terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/tool-use-visibility.png"
+    ]
+  },
+  "name": "Tool-use visibility",
+  "aliases": [
+    "AI tool visibility",
+    "tool call inspector",
+    "agent tool details",
+    "tool execution visibility",
+    "function call visibility",
+    "tool input output panel",
+    "AI tool audit panel",
+    "tool permission display",
+    "tool payload preview",
+    "tool-use disclosure"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Data Display And Exploration",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Inspectable disclosure of AI agent tool calls, inputs, outputs, permissions, and side effects",
+  "uiGuidance": [
+    "Render tool-use visibility as an inspectable tool-call surface with tool name, purpose, input summary, output summary, permission scope, data source, side-effect risk, status, timestamps, and redaction state.",
+    "Separate safe summaries from sensitive raw payloads so users can understand what the agent is doing without exposing secrets, private records, hidden prompts, or implementation-only events."
+  ],
+  "uxGuidance": [
+    "Use tool-use visibility when users need to understand, verify, approve, debug, or audit how an AI agent used tools, data, or integrations during a run.",
+    "Keep the display actionable: show pending, running, succeeded, failed, denied, redacted, permission-limited, rate-limited, retried, and side-effect states with clear controls to open details, grant permission, retry, cancel, report, or view audit where appropriate."
+  ],
+  "uiExamples": {
+    "good": [
+      "A research agent shows Knowledge search, Web search, and CRM lookup tool cards with purpose, input summary, source scope, output summary, status, and redacted raw request details.",
+      "A support agent pauses before a refund tool call, shows the amount, customer, permission scope, side-effect warning, and approval requirement before execution.",
+      "A code assistant exposes shell command, working directory, files read, files changed, exit status, truncated output, and a View full log action gated by permission."
+    ],
+    "bad": [
+      "A trace says Using tools but never names the tool, input, source, output, permission, or side effect.",
+      "The UI dumps raw JSON containing secrets and internal system prompts as the only explanation of tool use.",
+      "A tool call that sends an email appears after execution with no preview, permission state, or side-effect warning."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens the active CRM lookup, sees it is read-only, verifies the account ID, and continues watching the run.",
+      "A reviewer sees a send-email tool call is permission-limited and opens the human approval gate before it can run.",
+      "A developer expands a failed shell command, sees sanitized stderr, retries with the same working directory, and later opens the audit record."
+    ],
+    "bad": [
+      "Users cannot tell whether the agent searched the web, read private files, or changed customer data.",
+      "A tool card says Success even though the returned data was partially redacted or stale.",
+      "The product hides tool failures until the final answer quietly omits a required source."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI agents can call tools, retrieve data, run code, update records, send messages, or trigger integrations, but users often see only a friendly progress message or final answer and cannot tell what was accessed, what changed, what failed, or which permissions and payloads were involved.",
+  "solution": "Expose tool use as structured, permission-aware, redacted, and inspectable cards or detail panels that show tool purpose, inputs, outputs, status, permissions, side effects, failures, and links to progress trace, approval gates, source evidence, and audit records.",
+  "problemContext": [
+    "The system can call functions, tools, APIs, retrieval systems, file search, web search, shell commands, data connectors, messaging services, payment systems, workflow actions, or enterprise integrations.",
+    "Tool calls may include sensitive inputs, hidden prompts, private records, credentials, user files, source excerpts, customer data, side effects, rate limits, failed outputs, or partial results.",
+    "Users may need tool visibility before allowing a risky call, during execution to debug a run, after completion to verify evidence, or during review to understand what the agent actually did.",
+    "The same tool call may need different levels of disclosure for end users, admins, reviewers, support, developers, and auditors.",
+    "Tool-use visibility often appears inside an agent progress trace, approval gate, source grounding panel, chat transcript, code task, or activity log."
+  ],
+  "selectionRules": [
+    "Choose tool-use visibility when users need to inspect exact tool names, purposes, inputs, outputs, permissions, side effects, failures, or redactions.",
+    "Use agent progress trace when users need the run-level sequence of steps; link from the trace to tool-use visibility for detailed tool inspection.",
+    "Use source grounding display when the task is answer-wide evidence coverage, not individual tool-call payloads.",
+    "Use citation display when the task is claim-level source verification rather than inspecting a tool execution.",
+    "Use human approval gate when a tool call is paused for authorization; keep tool-use visibility responsible for showing what the tool will receive and return.",
+    "Use activity log when users need retained evidence after the run rather than live or contextual tool details.",
+    "Expose safe input summary, output summary, permission scope, target object, side-effect risk, status, and redaction reason before exposing raw payloads.",
+    "Show raw request, raw response, stack trace, full command output, or hidden diagnostic detail only to eligible users and only when useful for the task.",
+    "Do not hide tool failures, denied permissions, stale results, partial output, or redacted data behind a plain success label.",
+    "Do not present tool-use visibility as proof of correctness; pair it with citations, grounding, confidence, approval, or audit surfaces when those are the real decision inputs."
+  ],
+  "requiredStates": [
+    "Pending tool call state with tool name, purpose, requested permission, and side-effect risk.",
+    "Running tool call state with elapsed time, cancellability, and current operation summary.",
+    "Succeeded tool call state with output summary, returned object count, source or target, and safe details.",
+    "Failed, timed out, rate-limited, offline, denied, and retried tool call states.",
+    "Permission-limited, blocked, approval-required, and human-gated tool call states.",
+    "Redacted input, redacted output, hidden raw payload, and eligible raw payload states.",
+    "Side-effect preview, side-effect executed, side-effect skipped, and rollback or compensation states.",
+    "Multiple tool calls, parallel tool calls, duplicate tool events, and stale tool result states.",
+    "Mobile compact tool card state that preserves tool name, status, permission, risk, and details access."
+  ],
+  "interactionContract": [
+    "Each tool-use item identifies one tool call or tool-call attempt with stable call ID, run ID, step ID, tool name, status, timestamp, and permission scope.",
+    "Input summary, output summary, raw request, raw response, source excerpts, target objects, and side effects are distinct fields with separate visibility rules.",
+    "Users can tell whether a tool is pending, running, succeeded, failed, denied, redacted, retrying, skipped, approval-waiting, or complete.",
+    "Opening details reveals task-relevant payload information without leaking secrets, hidden prompts, credentials, private data, or irrelevant low-level logs.",
+    "Retry, cancel, grant permission, open gate, report issue, copy tool ID, open source, open target, and view audit actions appear only when allowed by tool state and role.",
+    "Tool outputs used in generated answers remain linked to citations or grounding where claims depend on them.",
+    "Redaction explains whether content is hidden by permission, privacy, safety, policy, retention, or technical truncation.",
+    "After completion, failed or side-effecting tool calls remain inspectable and link to durable audit or activity records where needed."
+  ],
+  "implementationChecklist": [
+    "Model tool call ID, attempt number, run ID, step ID, tool name, purpose, input summary, output summary, raw payload availability, permission scope, target object, side-effect type, status, timestamps, redaction reason, and audit link as structured data.",
+    "Separate tool-use records from progress trace milestones, source grounding results, citation markers, approval decisions, raw telemetry, and activity log records.",
+    "Render compact tool cards with expand-to-details, safe summaries, status labels, permission labels, risk labels, and role-gated raw payload access.",
+    "Add states and actions for pending, running, success, failure, retry, cancel, grant permission, open approval gate, report mismatch, copy tool ID, open source, open target, and view audit.",
+    "Apply redaction and truncation before rendering or copying tool inputs and outputs.",
+    "Connect tool outputs to generated content, source grounding, citations, final artifacts, and audit records when those outputs affect user-facing results.",
+    "Throttle live updates and avoid announcing every low-level tool delta.",
+    "Test hidden tool calls, permission-denied tools, redacted payloads, stale results, failed tool output, side effects, parallel tools, duplicate attempts, long file paths, mobile wrapping, keyboard details, and screen-reader status changes."
+  ],
+  "commonMisuses": [
+    "Showing a vague Using tools label without names, inputs, outputs, or permissions.",
+    "Dumping raw JSON, stack traces, tokens, secrets, or hidden prompts as the user-facing tool view.",
+    "Showing tool success when returned data was partial, stale, redacted, or unused.",
+    "Hiding a side-effecting tool call until after it already changed data or sent a message.",
+    "Merging all tool calls into one progress step so users cannot inspect which tool failed.",
+    "Letting users retry a side-effecting tool without showing idempotency, target, or duplicate risk.",
+    "Treating tool-use visibility as citation, grounding, approval, or audit evidence when those need their own surfaces.",
+    "Removing failed or denied tool details before users can debug or appeal."
+  ],
+  "critiqueQuestions": [
+    "Which exact tool call, attempt, run, step, permission scope, and target object is visible?",
+    "Can users see safe input summary, output summary, status, redaction reason, and side-effect risk without raw payload leakage?",
+    "Which tool details are hidden, truncated, permission-limited, or role-gated, and why?",
+    "What happens when a tool call fails, times out, is denied, is retried, or creates a side effect?",
+    "How do tool outputs connect to generated claims, citations, grounding, final artifacts, and audit records?",
+    "Would agent progress trace, source grounding display, citation display, human approval gate, or activity log better fit the actual task?"
+  ],
+  "useWhen": [
+    "An AI agent or automation calls tools, functions, APIs, retrieval systems, commands, or integrations.",
+    "Users need to understand what data was accessed, what payload was sent, what output returned, or what side effect occurred.",
+    "Permission, privacy, safety, failure recovery, debugging, compliance, or trust depends on tool-call inspection.",
+    "The product can expose safe summaries and role-gated details without leaking sensitive internals."
+  ],
+  "avoidWhen": [
+    "The system cannot reliably identify tool calls, inputs, outputs, status, permissions, or side effects.",
+    "Users only need the high-level run sequence, which belongs to agent progress trace.",
+    "The task is claim-level evidence inspection or answer-wide grounding rather than tool details.",
+    "Raw payload disclosure would be unsafe and no safe summary can be generated.",
+    "Users only need retained after-the-fact evidence in an activity log."
+  ],
+  "variants": [
+    "Tool call card",
+    "Function call inspector",
+    "Command execution details",
+    "Retrieval tool details",
+    "Web search tool visibility",
+    "File search tool visibility",
+    "API connector tool visibility",
+    "Permission-gated tool detail",
+    "Side-effecting tool preview",
+    "Mobile tool-use sheet"
+  ],
+  "accessibility": [
+    "Expose tool name, status, permission, risk, input summary, output summary, and redaction reason as text.",
+    "Do not rely on color, icons, animation, indentation, or raw code formatting alone for pending, running, succeeded, failed, denied, redacted, or side-effect states.",
+    "Make expand details, retry, cancel, grant permission, open gate, copy tool ID, open source, open target, and view audit controls keyboard reachable.",
+    "Announce meaningful tool status changes such as tool started, permission denied, output redacted, retry started, tool failed, or side effect executed.",
+    "Keep focus stable when live tool events append or details load.",
+    "Ensure long tool names, file paths, JSON keys, error text, and redaction explanations wrap at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches tool summary cards, expand controls, detail sections, recovery actions, and audit links in predictable order.",
+    "Enter or Space expands details, starts retry, cancels, opens gate, grants permission, copies tool ID, or opens target according to native control behavior.",
+    "Escape closes layered raw-detail or payload panels and returns focus to the invoking tool card.",
+    "New tool status events do not steal focus from the selected card or action.",
+    "After retry, failure, permission grant, or approval handoff, focus remains near the affected tool status.",
+    "Keyboard users can move from a generated claim to the tool output that produced it and back when that relationship exists."
+  ],
+  "failureModes": [
+    "Users cannot tell which tool ran or what data it accessed.",
+    "A raw payload leaks secrets, private records, credentials, or hidden prompts.",
+    "A failed or denied tool call is hidden behind final answer text.",
+    "A side-effecting tool executes without preview, permission, or approval visibility.",
+    "A tool output is cited or grounded as if it were verified when the returned data was partial or stale.",
+    "Retrying creates duplicate side effects because target and idempotency are hidden.",
+    "Screen readers receive noisy low-level tool deltas instead of meaningful status changes.",
+    "Mobile users cannot inspect permission, redaction, or side-effect details before acting."
+  ],
+  "relatedPatterns": [
+    "agent-progress-trace",
+    "agent-plan-preview",
+    "source-grounding-display",
+    "citation-display",
+    "human-approval-gate",
+    "activity-log",
+    "confidence-uncertainty-display",
+    "streaming-response"
+  ],
+  "comparisons": [
+    "tool-use-visibility-vs-agent-progress-trace-vs-source-grounding-display-vs-citation-display-vs-activity-log-vs-human-approval-gate"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI conversation state guide",
+      "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "platform": "ai",
+      "notes": "Documents messages, tool calls, tool outputs, and response chaining across turns.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI Responses streaming events",
+      "url": "https://developers.openai.com/api/reference/resources/responses/streaming-events/",
+      "platform": "ai",
+      "notes": "Documents response event types that can include streamed output and tool-related lifecycle events.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Supports user control, correction, expectation setting, feedback, and capability disclosure around AI behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "WCAG status messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Documents programmatically determinable status messages for meaningful tool-state updates.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports exposing tool calls, tool outputs, and response chaining as structured conversational state."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports event-based lifecycle handling while tool-related work proceeds."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, correction, feedback, and capability-boundary disclosure in AI experiences."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing meaningful tool status changes without moving focus."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports file-search tool outputs and annotations that may need source-aware inspection."
+    },
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports web-search tool outputs and citation annotations that may need source-aware inspection."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "voice-command-vs-keyboard-shortcut-vs-command-palette-vs-prompt-box-vs-text-input-vs-touch-gesture",
+  "title": "Voice command vs keyboard shortcut vs command palette vs prompt box vs text input vs touch gesture",
+  "summary": "Use voice command when the user speaks a bounded command phrase or dictation instruction that the product recognizes, confirms, disambiguates, and executes. Use keyboard shortcut for key chords, command palette for searchable command browsing, prompt box for AI request composition, text input for ordinary typed values, and touch gesture for pointer or touch movement.",
+  "patternIds": [
+    "voice-command",
+    "keyboard-shortcut",
+    "command-palette",
+    "prompt-box",
+    "text-input",
+    "touch-gesture"
+  ],
+  "decisionRules": [
+    "Choose voice command when users need hands-free spoken activation, dictation control, or screen-element targeting and the interface can show listening state, recognized phrase, command match, confidence, target, confirmation, and recovery.",
+    "Choose keyboard shortcut when one memorized key chord invokes a known command in a declared scope without microphone permission, recognition latency, transcript review, or spoken disambiguation.",
+    "Choose command palette when users need to search, browse, filter, and select from many app commands before execution rather than remember or speak an exact phrase.",
+    "Choose prompt box when natural language is submitted as an AI request for generation or analysis; voice input may fill the prompt, but the pattern is prompt composition rather than command execution.",
+    "Choose text input when speech is only one method for entering a field value and the product does not own recognition confidence, command matching, side effects, or spoken command confirmation.",
+    "Choose touch gesture when the primary input is tap, swipe, pinch, drag, or sustained contact; voice command must still provide visible alternatives for users who cannot or do not want to speak.",
+    "Voice command must define invocation, microphone permission, listening timeout, wake or push-to-talk state, transcript visibility, phrase alternatives, confidence threshold, disambiguation, confirmation for risky commands, cancellation, undo or recovery, and non-voice equivalent paths.",
+    "Do not use voice command as the only path to critical tasks, because noisy environments, privacy constraints, speech impairments, language coverage, microphone denial, and recognition failure can block completion.",
+    "Voice commands that activate visible controls should align visible labels and accessible names so users can speak what they see instead of guessing hidden command names.",
+    "Route destructive, payment, permission, public-posting, data-export, account, or physical-world commands through an explicit review state that reads back the recognized command and target before execution."
+  ],
+  "failureModes": [
+    "A microphone icon listens without visible active state, timeout, or transcript, so users cannot tell whether speech is captured.",
+    "The product runs Delete account after hearing a partial phrase, without reading back the recognized command or offering cancel.",
+    "Visible buttons say Send report and Export data but the speech recognizer expects hidden command names such as submit incident or download CSV.",
+    "The app treats dictated prose in a text field as global commands and navigates away while the user is speaking.",
+    "Voice command is the only available path, so microphone denial, noisy rooms, unsupported language, or speech impairment prevents task completion.",
+    "Recognition alternatives and confidence are hidden, causing the wrong target or wrong command to execute with no recovery.",
+    "A mobile surface advertises voice control but provides no touch, keyboard, switch, or command-palette fallback."
+  ],
+  "sources": [
+    {
+      "id": "wcag-label-in-name",
+      "note": "Supports speaking visible control labels by aligning labels and accessible names."
+    },
+    {
+      "id": "web-speech-api",
+      "note": "Supports speech recognition results, alternatives, activation timing, dictation, and control use cases."
+    },
+    {
+      "id": "microsoft-windows-voice-access",
+      "note": "Supports hands-free PC control and text authoring through voice access."
+    },
+    {
+      "id": "google-android-voice-access",
+      "note": "Supports Android spoken commands for navigation, app opening, and text editing."
+    },
+    {
+      "id": "apple-voice-control",
+      "note": "Supports voice control for gestures, screen elements, dictation, and editing."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

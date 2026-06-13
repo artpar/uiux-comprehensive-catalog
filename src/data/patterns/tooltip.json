@@ -1,0 +1,235 @@
+{
+  "id": "tooltip",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed short noninteractive description pattern with distinct boundaries from popover, inline message, icon-only ambiguous action, disabled-button explanation, and disclosure details, unique focus and hover tooltip behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets short noninteractive descriptions tied to an owning trigger, including trigger naming, aria-describedby use, focus and hover reveal, focus staying on the trigger, Escape dismissal, blur and pointer-out dismissal, collision handling, disabled-control reachability, and no focusable tooltip content.",
+    "relatedPatternDistinction": "The entry separates tooltip from popover by supplemental text versus interactive anchored content, from inline message by temporary description versus persistent task guidance, from icon-only ambiguous action by not replacing labels, from disabled-button explanation by requiring keyboard reachability, and from disclosure details by automatic focus or hover display versus user-opened inline explanation.",
+    "liveDemoBehavior": "The live demo focuses Archive, Share, and Copy link toolbar buttons, shows short descriptive bubbles while focus stays on the trigger, hides the bubble on Escape and pointer out, demonstrates pointer hover without state change, and contrasts hover-only, label-replacement, interactive-content, required-info, disabled-target, and clipping failures.",
+    "comparisonDecisionRules": "The tooltip-vs-popover-vs-inline-message-vs-icon-only-ambiguous-action comparison gives concrete rules for supplemental text descriptions, interactive anchored layers, persistent required messages, visible labels, aria-describedby ownership, no focusable tooltip content, long-content escalation, disabled-control reachability, and Escape behavior.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/tooltip/ and /compare/tooltip-vs-popover-vs-inline-message-vs-icon-only-ambiguous-action/ on 2026-06-10. Live check exercised Focus Archive, Tab to Share, Pointer hover, Escape, Pointer out, Hover only, Label replacement, Interactive content, Required info, Disabled target, and Clipping controls. screenshots/patterns/tooltip.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/tooltip.png"
+    ]
+  },
+  "name": "Tooltip",
+  "aliases": [
+    "hover tooltip",
+    "focus tooltip",
+    "text bubble",
+    "descriptive tooltip",
+    "icon hint",
+    "supplemental description"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Input And Data Entry",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Short noninteractive description tied to a trigger",
+  "uiGuidance": [
+    "Render a tooltip as a small text-only bubble visually tied to a focusable trigger, with concise copy, readable contrast, stable placement, and an optional arrow that points to the target.",
+    "Keep the trigger itself understandable and make tooltip text supplemental, not the only visible or accessible name for an unfamiliar action."
+  ],
+  "uxGuidance": [
+    "Use tooltips to add a brief description on focus or hover without asking users to open a separate layer or change task mode.",
+    "Make the tooltip appear predictably, stay available long enough to read, dismiss on Escape or leaving the trigger, and never require users to move focus into the tooltip."
+  ],
+  "uiExamples": {
+    "good": [
+      "A labelled Archive icon button receives focus and shows a short tooltip that says Moves this report to archived reports.",
+      "A dense toolbar shows concise focus and hover tooltips near each icon while keeping every button accessible by name."
+    ],
+    "bad": [
+      "A mystery icon has no label and the only explanation is a hover-only tooltip that never appears for touch users.",
+      "A tooltip contains a paragraph, a Learn more link, and a checkbox even though the tooltip itself cannot receive focus."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Tabbing to Archive keeps focus on the button, shows a short description, Escape hides it, and focus remains on Archive.",
+      "Moving pointer away or tabbing to the next toolbar button hides the previous tooltip and shows the next one without changing the document."
+    ],
+    "bad": [
+      "A user presses Escape to hide the tooltip and focus jumps to the top of the page.",
+      "Required error-fixing instructions disappear when the field loses focus, forcing the user to remember them."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Dense controls sometimes need a short supplemental explanation, but visible labels may already exist and richer overlays would add unnecessary interaction or hide important information.",
+  "solution": "Attach a short noninteractive description to the owning trigger, reveal it on keyboard focus and pointer hover, keep focus on the trigger, dismiss it predictably, and keep essential instructions visible elsewhere.",
+  "problemContext": [
+    "A toolbar, icon button, compact status marker, data chip, or abbreviated field label needs a little extra explanation.",
+    "The user should not have to click, open a menu, enter a panel, or leave the current task to read the description.",
+    "The content is supplemental and short enough to read while focus remains on the trigger.",
+    "The implementation can support focus and hover triggering, Escape dismissal, pointer movement, zoom, clipping, and assistive technology description relationships."
+  ],
+  "selectionRules": [
+    "Choose tooltip when the target already has a usable name and needs only a short supplemental description on focus or hover.",
+    "Use popover when the layer needs interactive controls, links, choices, a heading, or user-managed open and close behavior.",
+    "Use inline message when the information is important, required, validation-related, or must stay visible while the user acts.",
+    "Use visible text labels when the action would otherwise be ambiguous before activation.",
+    "Use disclosure details when users need to intentionally open longer optional explanation inside the page flow.",
+    "Use disabled-button explanation patterns when a blocked action needs a reachable reason and next step.",
+    "Do not use a tooltip for instructions users must remember after focus leaves the trigger.",
+    "Do not use tooltip role for a more-info icon that opens a separate explanation; that job belongs to disclosure, popover, or inline help."
+  ],
+  "requiredStates": [
+    "Resting trigger state with a visible or accessible name that works without the tooltip.",
+    "Keyboard focus state where the tooltip appears and focus remains on the trigger.",
+    "Pointer hover state where the tooltip appears after a brief delay and remains while pointer is over the trigger or tooltip area.",
+    "Escape dismissed state where the tooltip hides without moving focus from the trigger.",
+    "Blur or pointer-out dismissed state where the tooltip hides cleanly.",
+    "Placement collision state where the tooltip shifts or flips without covering the trigger or important content.",
+    "Long-label or zoom state where tooltip text wraps without clipping or overlapping nearby controls.",
+    "Disabled or unavailable target state where the explanation remains reachable by keyboard and touch."
+  ],
+  "interactionContract": [
+    "The owning element keeps focus while the tooltip is visible.",
+    "The tooltip is associated with the owning element as a description, not as a replacement label.",
+    "The tooltip appears for keyboard focus and pointer hover, not hover alone.",
+    "Escape hides the tooltip and leaves focus on the owning element.",
+    "Blur, pointer out, or moving to another described control hides the old tooltip.",
+    "The tooltip itself contains no focusable elements and does not require Tab navigation.",
+    "The tooltip does not block pointer access to the trigger or nearby task controls.",
+    "Opening and closing the tooltip does not apply a value, submit a command, change route, or alter task state."
+  ],
+  "implementationChecklist": [
+    "Give the trigger its own accessible name before adding tooltip text.",
+    "Connect descriptive tooltip text to the trigger with aria-describedby when using ARIA tooltip semantics.",
+    "Show the tooltip on focus and hover, and hide it on blur, pointer out, Escape, and trigger removal.",
+    "Keep tooltip copy short, text-only, and supplemental.",
+    "Do not place links, inputs, buttons, menus, or other focusable controls inside the tooltip.",
+    "Position the tooltip close to the trigger while avoiding clipping, viewport edges, and important content.",
+    "Provide a keyboard and touch-reachable alternative when the target is disabled or cannot receive focus.",
+    "Test keyboard, pointer, touch, screen readers, high zoom, forced colors, reduced motion, and dense toolbars."
+  ],
+  "commonMisuses": [
+    "Using hover-only tooltip text as the only label for an icon button.",
+    "Putting required instructions, validation fixes, or legal terms in a tooltip that disappears during the task.",
+    "Adding buttons, links, or form fields inside a tooltip.",
+    "Triggering a tooltip only with a mouse pointer and not with keyboard focus.",
+    "Letting Escape close the tooltip and also move focus away from the trigger.",
+    "Attaching a tooltip to a disabled native control that keyboard users cannot focus.",
+    "Using long paragraphs that clip, cover nearby controls, or require scrolling inside the tooltip."
+  ],
+  "critiqueQuestions": [
+    "Does the target already have a usable name without the tooltip?",
+    "Is the tooltip content supplemental and short enough to read while focus stays on the trigger?",
+    "Would a popover, inline message, details disclosure, or visible label better match the information?",
+    "Can keyboard, pointer, and touch users reveal the same information?",
+    "What happens on Escape, blur, pointer out, zoom, collision, and disabled state?",
+    "Is any required instruction hidden in this temporary description?"
+  ],
+  "useWhen": [
+    "A compact control needs a brief supplemental explanation.",
+    "The information is useful but not required to complete the task.",
+    "The trigger can receive keyboard focus and already has a usable name.",
+    "The description can appear and disappear without changing state."
+  ],
+  "avoidWhen": [
+    "The text is the only label or action name.",
+    "The content is required, lengthy, structured, or interactive.",
+    "Users need to click, type, select, or navigate inside the layer.",
+    "The trigger cannot be focused and no keyboard-accessible equivalent exists.",
+    "The explanation must remain visible while users complete a field or decision."
+  ],
+  "variants": [
+    "Icon tooltip",
+    "Toolbar tooltip",
+    "Field hint tooltip",
+    "Disabled-control explanation tooltip",
+    "Status marker tooltip",
+    "Abbreviation tooltip",
+    "Keyboard-focus tooltip",
+    "Pointer-hover tooltip"
+  ],
+  "accessibility": [
+    "Use tooltip text as a description with aria-describedby when it supplements the trigger.",
+    "Do not use the tooltip as the only accessible name for a control.",
+    "Show tooltips on keyboard focus as well as pointer hover.",
+    "Keep focus on the trigger while the tooltip is visible.",
+    "Provide Escape dismissal without moving focus.",
+    "Keep tooltip content noninteractive because the tooltip itself is not in the tab order.",
+    "Avoid native title-only behavior for important information because it is not reliably keyboard or touch accessible.",
+    "Make disabled-control explanations reachable through an enabled wrapper, adjacent text, or another accessible mechanism."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the trigger and shows the tooltip.",
+    "Tab away hides the tooltip and moves to the next focusable element.",
+    "Shift+Tab away hides the tooltip and moves to the previous focusable element.",
+    "Escape hides the tooltip and leaves focus on the trigger.",
+    "Enter or Space activates the trigger itself if it has an action; it does not activate the tooltip.",
+    "Arrow keys belong to the trigger or surrounding widget, not to the tooltip."
+  ],
+  "failureModes": [
+    "The tooltip appears only on mouse hover.",
+    "The tooltip replaces the control label instead of supplementing it.",
+    "The tooltip contains focusable controls that keyboard users cannot reach.",
+    "Important task instructions disappear when focus leaves the field.",
+    "The tooltip covers the trigger or adjacent controls.",
+    "The tooltip clips at viewport edges or in scroll containers.",
+    "Escape moves focus away from the trigger.",
+    "A disabled button cannot receive focus, so its tooltip is inaccessible to keyboard users."
+  ],
+  "relatedPatterns": [
+    "popover",
+    "inline-message",
+    "icon-only-ambiguous-action",
+    "disabled-button-no-explanation",
+    "disclosure-details"
+  ],
+  "comparisons": [
+    "tooltip-vs-popover-vs-inline-message-vs-icon-only-ambiguous-action"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Tooltip Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/",
+      "platform": "web",
+      "notes": "Documents focus and hover triggering, focus staying on the trigger, Escape dismissal, and blur or pointer-out dismissal.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "MDN ARIA tooltip role",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tooltip_role",
+      "platform": "web",
+      "notes": "Documents aria-describedby ownership, automatic display, no focusable tooltip content, and title-attribute accessibility limits.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Fluent 2 Tooltip",
+      "url": "https://fluent2.microsoft.design/components/web/react/core/tooltip/usage",
+      "platform": "web",
+      "notes": "Shows concise tooltip content, placement near targets, optional arrows, and accessibility association with target elements.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-tooltip",
+      "note": "Supports focus and hover triggering, focus staying on the trigger, and Escape dismissal behavior."
+    },
+    {
+      "id": "mdn-aria-tooltip-role",
+      "note": "Supports aria-describedby ownership, automatic display, and the no-interactive-content boundary."
+    },
+    {
+      "id": "fluent-tooltip-component",
+      "note": "Supports concise supplemental content, placement, arrows, and target association."
+    },
+    {
+      "id": "redhat-tooltip-accessibility",
+      "note": "Supports Tab and Escape keyboard behavior for showing and hiding tooltips."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

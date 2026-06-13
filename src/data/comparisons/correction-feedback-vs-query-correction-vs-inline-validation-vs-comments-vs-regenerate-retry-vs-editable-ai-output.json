@@ -1,0 +1,52 @@
+{
+  "id": "correction-feedback-vs-query-correction-vs-inline-validation-vs-comments-vs-regenerate-retry-vs-editable-ai-output",
+  "title": "Correction feedback vs query correction vs inline validation vs comments vs regenerate / retry vs editable AI output",
+  "summary": "Use correction feedback when users need to correct an AI answer, claim, source, recommendation, or behavior after output and choose feedback scope, consent, receipt, and review handling; query correction for search query rewriting before results; inline validation for one input field; comments for human discussion; regenerate / retry for another AI attempt; and editable AI output for directly revising generated content.",
+  "patternIds": [
+    "correction-feedback",
+    "query-correction",
+    "inline-validation",
+    "comments",
+    "regenerate-retry",
+    "editable-ai-output"
+  ],
+  "decisionRules": [
+    "Choose correction feedback when users correct AI output after it appears: wrong answer, missing source, wrong source, harmful suggestion, outdated answer, unsafe output, biased output, irrelevant answer, selected claim, selected source, expected answer, source correction, private note, feedback reason, feedback receipt, reviewer routed, accepted correction, rejected correction, appeal decision, feedback history, training opt-out, apply to this answer, or apply to future answers.",
+    "Choose query correction when the product rewrites, suggests, or clarifies a search query before or during retrieval, such as spelling correction, synonym rewrite, did-you-mean, or query expansion.",
+    "Choose inline validation when a single field or input value violates a rule such as required field, invalid format, range limit, duplicate value, missing attachment, or constraint error.",
+    "Choose comments when the core task is human discussion, annotation, collaboration, approval, mention, thread resolution, or durable review around an object rather than sending correction feedback into an AI handling path.",
+    "Choose regenerate / retry when users want another answer version, same-prompt retry, source retry, tool retry, partial-output continuation, or response rerun without necessarily recording a correction reason and feedback outcome.",
+    "Choose editable AI output when users manually revise generated text, generated content, draft copy, table cells, or extracted values and need edit preservation, source mapping, tracked changes, apply controls, or conflict handling.",
+    "Correction feedback must preserve answer ID, response version, selected claim, selected source, correction reason, expected answer, corrected source, scope, consent, private note behavior, receipt, review status, and history when those values affect trust or handling.",
+    "Do not substitute thumbs-only feedback, sentiment rating, public comments, hidden prompt edits, silent learning, vague Try again, or direct draft editing for a correction feedback flow when users are reporting what the AI got wrong.",
+    "Use source grounding display, citation display, and confidence uncertainty display alongside correction feedback when users need evidence inspection before reporting the correction, but do not count evidence inspection as feedback submission.",
+    "Block or clarify correction feedback when privacy, training use, shared transcript exposure, permissions, moderation, duplicate submission, or reviewer workflow constraints make the feedback consequential."
+  ],
+  "failureModes": [
+    "A thumbs-down reaction captures dissatisfaction but loses wrong answer, missing source, wrong source, harmful suggestion, outdated answer, expected answer, source correction, scope, consent, and receipt.",
+    "A correction feedback form is treated as a search query rewrite, field validation error, public comment, regenerate request, or manual edit even though the user intended to report an AI error.",
+    "The product silently trains on private correction text or changes hidden prompt behavior without showing scope, consent, or current-answer impact.",
+    "Feedback is not attached to an answer ID, response version, claim span, source ID, or tool output, so reviewers cannot reproduce what was wrong.",
+    "Private correction notes appear in shared transcripts, copied answers, reviewer comments, or generated summaries.",
+    "Users receive no submission receipt, failed-submit recovery, reviewer status, accepted or rejected outcome, appeal path, or feedback history."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user correction, feedback, control, and calibrated trust for AI systems."
+    },
+    {
+      "id": "google-people-ai-guidebook",
+      "note": "Supports human-centered AI feedback, expectations, explanation, and trust decisions."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports preserving response and conversation identity so corrections attach to the right AI output."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible feedback receipt, failure, review, and outcome status announcements."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

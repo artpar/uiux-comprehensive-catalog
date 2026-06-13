@@ -1,0 +1,249 @@
+{
+  "id": "session-timeout",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed expired-session and recovery-state pattern with specific guidance for already-expired authentication, hidden private content, stale-control shutdown, safe references, return-target validation, reauthentication restoration, no-recovery restart paths, comparison boundaries, duplicate audit coverage, and manual browser evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets the already-expired authenticated-session state, including expired session, hidden private content, inactivity timeout, absolute timeout, identity-provider timeout, session revoked, multiple-tab timeout, saved draft, no recovery, start again, reauthenticate, validate return, restored task, fresh session, stale authenticated controls, safe reference, masked account, support-safe recovery, and private DOM/content removal.",
+    "relatedPatternDistinction": "The entry separates session timeout from session timeout warning by treating post-expiry recovery rather than pre-expiry prevention, from sign in and login by preserving interrupted-task context and recovery evidence around authentication, from permission denied state by treating expired authentication rather than missing authorization, and from autosave recovery by focusing on signed-out privacy and return-target restoration rather than failed local/server save repair.",
+    "liveDemoBehavior": "The live demo shows Expired, Hidden private content, Saved draft, Reauthenticate, Validate return, Restored task, No recovery, Start again, Multiple-tab timeout, Identity-provider timeout, and Mobile compact states. Bad states cover Private leak, Stale controls, Access-denied copy, Lost return, False saved, Token log, and Retry loop failures.",
+    "comparisonDecisionRules": "The linked session-timeout-vs-session-timeout-warning-vs-sign-in-vs-permission-denied-state-vs-autosave-recovery comparison gives concrete rules for already-expired authenticated-session state, before-expiry warning, sign-in journey, login attempt lifecycle, permission denied authorization boundary, autosave recovery, private content hidden, stale authenticated actions, return target validation, fresh session restoration, request access misuse, and local-only save ambiguity.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero normalized duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and compact-width checks rendered /patterns/session-timeout/ with the live demo, exercised Expired, Hidden private content, Saved draft, Reauthenticate, Validate return, Restored task, No recovery, Start again, Multiple-tab timeout, Identity-provider timeout, Mobile compact, Private leak, Stale controls, Access-denied copy, Lost return, False saved, Token log, and Retry loop states, and found no duplicate IDs, page overflow, or session-timeout demo overflow. The comparison route /compare/session-timeout-vs-session-timeout-warning-vs-sign-in-vs-permission-denied-state-vs-autosave-recovery/ included already-expired authenticated-session state, before expiry, sign in, login, permission denied, autosave recovery, private content must be hidden, stale authenticated actions, return target, fresh session, request access, and local-only distinctions with no duplicate IDs or content overflow on desktop or compact width.",
+    "screenshots": [
+      "screenshots/patterns/session-timeout.png"
+    ]
+  },
+  "name": "Session timeout",
+  "aliases": [
+    "session expired",
+    "timed-out session",
+    "signed-out due to inactivity",
+    "expired authentication",
+    "session ended",
+    "reauthenticate to continue",
+    "post-timeout recovery",
+    "idle logout"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Expired authenticated-session state and safe return-to-task recovery",
+  "uiGuidance": [
+    "Show session timeout after the authenticated session has ended, with private content hidden, a clear reason such as inactivity or policy expiry, the last safe activity reference, and a primary sign-in or reauthentication path.",
+    "Separate recoverable task context from protected values: show safe identifiers, saved-draft status, return destination, and support reference without displaying private fields, tokens, account data, or stale authenticated controls."
+  ],
+  "uxGuidance": [
+    "Use session timeout when the session is no longer valid and the product must protect privacy while helping the user recover safely through sign-in, reauthentication, return-to-task restoration, or a saved-draft route.",
+    "Treat the timeout state as a security and continuity boundary: terminate authenticated actions, hide sensitive content, preserve allowed work references, and return users only after a fresh session is established."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefits form replaces private answers with Session ended after inactivity, shows reference SES-2048, says the draft was saved at 10:42, and offers Sign in to continue plus Start again.",
+      "A banking dashboard hides account balances after timeout, names the signed-out reason, clears action buttons, and returns to the transfer review only after reauthentication."
+    ],
+    "bad": [
+      "A modal says Timeout while the private page remains readable behind it.",
+      "The app shows Access denied with Retry, causing users to retry expired requests instead of signing in again."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user returns from a break, sees that their session ended, signs in again, and lands back on the same saved claim step with private fields restored only after authentication.",
+      "A shared-device user times out; the product hides the case details, clears unsafe actions, and leaves only a safe reference and sign-in route."
+    ],
+    "bad": [
+      "A user comes back to a timed-out payment form, clicks Submit, and gets repeated server errors because expired controls stayed enabled.",
+      "A user signs in again after timeout and is dumped on a dashboard with no saved-task reference or way back to the interrupted work."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "After a session expires, products often leak private content, preserve stale authenticated controls, mislabel the state as permission or network failure, lose return context, or force users to restart work that could have been preserved safely.",
+  "solution": "Terminate authenticated interaction, hide sensitive content, explain that the session ended, show only safe recovery evidence, preserve allowed draft or return references, route through sign-in or reauthentication, and restore the intended task only after the new session is confirmed.",
+  "problemContext": [
+    "The user had an authenticated session that has already ended because of inactivity, absolute lifetime, logout, reauthentication policy, identity-provider termination, risk event, or session revocation.",
+    "The current surface may contain private records, form answers, payments, admin actions, files, health data, financial data, or sensitive account state.",
+    "The product may be able to preserve a server-side draft, return URL, record reference, transaction reference, or local non-sensitive recovery note without keeping the expired session active.",
+    "The product must prevent stale submissions, stale downloads, stale previews, and privacy leaks while still making recovery understandable."
+  ],
+  "selectionRules": [
+    "Choose session timeout when the authenticated session has already expired or been terminated and the next valid path is sign-in, reauthentication, restart, or safe task restoration.",
+    "Use session timeout warning before expiry when users can still extend, save, sign out, or reauthenticate before the boundary is crossed.",
+    "Use sign in when the user begins unauthenticated access normally; use session timeout when an existing authenticated task was interrupted and needs a return target or saved-state explanation.",
+    "Use login for the credential-verification attempt and its outcomes; session timeout owns the expired-session screen before and after that attempt.",
+    "Use permission denied state only when the user is authenticated but lacks authorization; do not send expired sessions into request-access flows.",
+    "Use autosave recovery when the main issue is preserving failed or local-only work; session timeout may link to that recovery after reauthentication.",
+    "Hide private content, field values, thumbnails, account balances, comments, files, and action controls until the user reauthenticates.",
+    "Show safe context such as record type, masked account, draft timestamp, reference ID, or return destination when policy allows it.",
+    "Disable or remove stale authenticated controls; do not let Submit, Export, Delete, Approve, Download, or Pay fire against an expired session.",
+    "After successful reauthentication, restore the intended route, step, scroll position, focus target, and recoverable draft where policy permits."
+  ],
+  "requiredStates": [
+    "Expired session state with private content hidden.",
+    "Inactivity timeout state with safe timestamp or duration explanation.",
+    "Absolute timeout or policy timeout state that requires reauthentication.",
+    "Signed-out recovery state with preserved return destination.",
+    "Saved draft available after timeout state.",
+    "No recoverable work state with honest restart path.",
+    "Reauthentication in progress state that does not reveal private data.",
+    "Reauthentication failed or canceled state that keeps the user signed out.",
+    "Restored task state after successful sign-in.",
+    "Multiple-tab or identity-provider timeout state where another session ended independently."
+  ],
+  "interactionContract": [
+    "The timeout state is driven by server or identity-provider session validity, not by a cosmetic client-only overlay.",
+    "When session validity fails, authenticated actions are stopped before they submit, download, export, preview, delete, approve, or mutate data.",
+    "Private content is hidden or cleared while preserving only safe recovery metadata such as reference, route, saved timestamp, or masked object name.",
+    "Sign in or reauthenticate creates a fresh session and validates whether the return target is still allowed before restoring content.",
+    "Canceled or failed reauthentication leaves the user in a signed-out state with safe navigation, restart, or support routes.",
+    "Return restoration distinguishes server-saved work, local-only work, unrecoverable work, and policy-cleared work.",
+    "The page does not call the expired state permission denied, network error, not found, or service unavailable."
+  ],
+  "implementationChecklist": [
+    "Model expired authentication separately from unauthenticated first visit, authorization denial, network failure, and validation failure.",
+    "Store a safe return target, task reference, draft reference, and last confirmed save timestamp outside the expired session where policy allows.",
+    "Clear or hide sensitive DOM content, cached previews, media, inline files, and filled secret fields when session expiration is detected.",
+    "Intercept stale authenticated controls and redirect them to the timeout state instead of letting them retry with expired credentials.",
+    "Validate return targets after reauthentication to avoid open redirects, stale permissions, deleted objects, or cross-account restoration.",
+    "Support multiple tabs and federated identity sessions where one surface expires independently from another.",
+    "Log timeout shown, reauth started, reauth success, return restored, restart chosen, and abandoned recovery without logging private field values.",
+    "Test idle expiry, absolute expiry, identity-provider timeout, revoked session, back-button return, reload, mobile backgrounding, multiple tabs, failed reauth, canceled reauth, and shared-device privacy."
+  ],
+  "commonMisuses": [
+    "Leaving the private page readable behind a timeout modal.",
+    "Calling an expired session Access denied and offering request access.",
+    "Letting stale Submit, Export, Approve, Delete, Download, or Pay buttons remain active after timeout.",
+    "Dropping users on an unrelated dashboard after reauthentication even when a safe return target exists.",
+    "Promising that work is saved when only an expired client page still holds it.",
+    "Putting session tokens, raw URLs with secrets, form answers, or private object titles into timeout logs or support references."
+  ],
+  "critiqueQuestions": [
+    "Has the authenticated session already ended, or is this still a pre-expiry warning?",
+    "What private content must disappear immediately from the timed-out page?",
+    "Which safe reference, save timestamp, route, or draft identifier can be shown while signed out?",
+    "Which controls must be disabled or removed because they require an active session?",
+    "After reauthentication, where should the user return and what data can be restored?",
+    "How does the state behave across refresh, back button, mobile backgrounding, and another tab ending the session?"
+  ],
+  "useWhen": [
+    "An authenticated session has expired or been terminated while the user was on a protected task.",
+    "The product needs to protect private content on shared or unattended devices.",
+    "A return target, saved draft, transaction reference, or support-safe recovery path can reduce user effort after reauthentication.",
+    "Expired credentials would otherwise produce confusing permission, retry, or server-error states."
+  ],
+  "avoidWhen": [
+    "The session is still active and users can act before expiry; use session timeout warning.",
+    "The user never had an authenticated session in this flow; use sign in or login.",
+    "The user is authenticated but lacks a role or grant; use permission denied state.",
+    "The primary problem is a failed autosave with an active or restorable session; use autosave recovery.",
+    "The failure is an outage, offline state, or server error unrelated to authentication validity."
+  ],
+  "variants": [
+    "Idle timeout signed-out state",
+    "Absolute timeout reauthentication state",
+    "Session revoked state",
+    "Identity-provider timeout state",
+    "Shared-device privacy timeout",
+    "Timed-out saved draft return",
+    "Timed-out no-recovery restart",
+    "Multiple-tab session ended",
+    "Mobile background timeout",
+    "Timed-out protected action interception"
+  ],
+  "accessibility": [
+    "Move focus to the timeout heading when protected content is replaced, and use text that says the session ended rather than relying on a lock icon.",
+    "Do not expose hidden private values in accessible names, offscreen text, DOM-only labels, aria descriptions, or live-region messages.",
+    "Make Sign in again, Reauthenticate, Start again, Save-reference help, and safe exit controls reachable by keyboard in a predictable order.",
+    "After successful reauthentication, move focus to the restored task heading or the recovered-field status, not to the top of an unrelated landing page.",
+    "Describe whether work was saved, local-only, unavailable, or cleared in visible text and screen-reader-readable status.",
+    "Avoid countdown-style repeated announcements after the session is already ended; announce stable signed-out and restoration outcomes."
+  ],
+  "keyboardBehavior": [
+    "Focus lands on the session-ended heading or primary sign-in action when the timeout state replaces a protected page.",
+    "Tab order moves through sign-in, reauthentication, saved-draft recovery, start-again, support, and safe exit actions without reaching hidden authenticated controls.",
+    "Enter or Space activates sign-in, reauthenticate, start again, and support controls using native button or link semantics.",
+    "Back and refresh keep private content hidden until session validity is restored.",
+    "Canceled reauthentication returns focus to the timeout heading and keeps recovery actions visible.",
+    "After restoration, focus returns to the interrupted task step or a status region that confirms what was restored."
+  ],
+  "failureModes": [
+    "The timeout overlay hides visually but private content remains in the DOM and accessible tree.",
+    "An expired submit button sends duplicate payments or stale approvals after the session is gone.",
+    "The sign-in route loses the return URL or restores the wrong account's task.",
+    "A no-recovery state falsely says the draft was saved.",
+    "A local-only draft is discarded when the user signs in again.",
+    "The system logs full protected URLs, tokens, answers, or file names as timeout diagnostics.",
+    "Multiple tabs disagree, so one tab shows restored content while another remains signed out without explanation."
+  ],
+  "relatedPatterns": [
+    "session-timeout-warning",
+    "sign-in",
+    "login",
+    "permission-denied-state",
+    "autosave-recovery",
+    "sensitive-data-reveal",
+    "security-warning",
+    "error-state"
+  ],
+  "comparisons": [
+    "session-timeout-vs-session-timeout-warning-vs-sign-in-vs-permission-denied-state-vs-autosave-recovery"
+  ],
+  "examples": [
+    {
+      "product": "NIST SP 800-63B Session Management",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b/session/",
+      "platform": "web",
+      "notes": "Documents inactivity and overall timeouts, session termination, and reauthentication reset behavior.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "OWASP Session Management Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "platform": "web",
+      "notes": "Documents session expiration, automatic logout after idle timeout, and avoiding silent server-side expiry that loses work.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "W3C WCAG Re-authenticating",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/re-authenticating.html",
+      "platform": "web",
+      "notes": "Documents continuing authenticated activity without data loss after a session expires and the user reauthenticates.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "W3C WCAG Timeouts",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/timeouts.html",
+      "platform": "web",
+      "notes": "Documents warning users about inactivity durations that can cause data loss, a boundary that the timeout state must explain after expiry.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "nist-sp-800-63b-session-management",
+      "note": "Supports inactivity timeout, overall timeout, termination, and reauthentication reset behavior."
+    },
+    {
+      "id": "owasp-session-management-cheat-sheet",
+      "note": "Supports session expiration, automatic logout after idle timeout, and avoiding silent expiry that loses work."
+    },
+    {
+      "id": "w3c-wcag-reauthenticating",
+      "note": "Supports reauthentication recovery without loss of user activity or data."
+    },
+    {
+      "id": "w3c-wcag-timeouts",
+      "note": "Supports communicating timeout duration and data-loss risk around inactivity timeouts."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

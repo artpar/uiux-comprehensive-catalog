@@ -1,0 +1,50 @@
+{
+  "id": "recommended-next-action-vs-recommendations-vs-task-list-vs-review-queue",
+  "title": "Recommended next action vs recommendations vs task list vs review queue",
+  "summary": "Use recommended next action for one context-sensitive workflow action, recommendations for ranked discovery suggestions, task list for known required tasks, and review queue for triaging many actionable items.",
+  "patternIds": [
+    "recommended-next-action",
+    "recommendations",
+    "task-list",
+    "review-queue"
+  ],
+  "decisionRules": [
+    "Choose recommended next action when the system proposes the next concrete workflow step for the current case, conversation, record, or task and the user can accept, dismiss, defer, or inspect why it is suggested.",
+    "Choose recommendations when the surface ranks multiple discoverable items, products, content, services, or actions and needs reason labels, feedback, and personalization controls.",
+    "Choose task list when the service already knows a fixed set of required or optional tasks and users need status, dependencies, and completion tracking.",
+    "Choose review queue when users triage many items, claim rows, batch work, sort by SLA, and preserve place across many actionable records.",
+    "Recommended next action must expose trigger context, eligibility, confidence or rule basis, consequence, owner, due time, and why now before the user commits.",
+    "Accepting a recommended next action should open or perform that action in reviewable context; dismissing it should not close the case, delete the record, or hide required tasks.",
+    "Use a required task or approval workflow rather than a recommendation when policy or compliance says the action must happen.",
+    "Use handoff summary when the main need is transferring context and ownership; a recommended next action may be included but is not the whole handoff.",
+    "Do not show next actions that are blocked by permission, stale data, missing prerequisites, duplicate work, or already-completed state without explaining the block.",
+    "Keep recommended next action separate from static primary buttons because the recommendation changes with case context, rule output, AI signals, or business strategy."
+  ],
+  "failureModes": [
+    "A context-free Continue button is called a recommended next action even though no context, rule, signal, or consequence is shown.",
+    "The surface mixes recommended actions, required tasks, and review-queue rows, so users cannot tell what is optional, mandatory, or assigned.",
+    "Users accept an action without seeing why it was suggested, what data triggered it, or what will happen next.",
+    "A stale recommendation sends an email, closes a case, or applies an offer after the underlying status changed.",
+    "Dismissal hides a compliance-required task or deletes the underlying record.",
+    "A low-confidence AI suggestion appears as the only safe path with no review, alternative, or feedback control."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-dynamics-smart-assist",
+      "note": "Microsoft documents real-time recommendations and next-best steps for service representatives."
+    },
+    {
+      "id": "microsoft-dynamics-view-smart-assist-suggestions",
+      "note": "Microsoft documents smart assist suggestion cards in the productivity pane during customer interactions."
+    },
+    {
+      "id": "salesforce-einstein-next-best-action-component",
+      "note": "Salesforce documents context-sensitive suggested offers and actions through Einstein Next Best Action."
+    },
+    {
+      "id": "govuk-task-list-component",
+      "note": "GOV.UK task list guidance helps separate known task status from recommended next action behavior."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

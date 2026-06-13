@@ -1,0 +1,58 @@
+{
+  "id": "version-history-vs-activity-log-vs-timeline-vs-undo",
+  "title": "Version history vs activity log vs timeline vs undo",
+  "summary": "Use version history when users need durable snapshots of a document, file, page, or object with current version context, previous version preview, compare, named version, and restore behavior; use activity log for investigative event evidence, timeline for readable chronological milestones, and undo for short recovery from a recent action.",
+  "patternIds": [
+    "version-history",
+    "activity-log",
+    "timeline",
+    "undo",
+    "draft-state",
+    "publish-workflow",
+    "comments",
+    "permission-denied-state"
+  ],
+  "decisionRules": [
+    "Choose version history when the product stores previous version snapshots that users can browse, name, preview, compare, restore, or cite as a saved state of one document, file, page, configuration, or object.",
+    "A version history surface must identify the current version, previous version list, named version labels, autosaved version metadata, author, timestamp, retention limit, compare result, restore consequence, and permission state.",
+    "Choose activity log when users need evidence-oriented records of who did what, to which object, when, from where, and with what result; an activity log may mention changes but it is not necessarily a restorable snapshot browser.",
+    "Choose timeline when users need a readable sequence of milestones, case events, releases, or status changes; a timeline can summarize history without exposing exact version content or restore actions.",
+    "Choose undo when the recovery window is immediate and local to a recent action; undo should not replace durable version history for previous version review, named version recall, or rollback after a session ends.",
+    "Choose draft state when the user is editing current unpublished work; version history can contain older snapshots of that work, but draft state describes the current unsent or unfinished state.",
+    "Choose publish workflow when the task is making one selected version live, scheduled, unpublished, or retired; version history may help choose the version, but publishing owns live-state routing.",
+    "Use comments for discussion, annotation, and review conversation attached to content; comments can explain a version but are not themselves version snapshots.",
+    "Use permission-denied state when a user can see the object but cannot view, compare, name, restore, or download a version because access is restricted.",
+    "Do not call an audit trail, activity feed, autosave spinner, comment thread, release timeline, or browser back stack version history unless it exposes durable previous versions with current version context and restore rules."
+  ],
+  "failureModes": [
+    "Users cannot tell which row is the current version before restoring a previous version.",
+    "A restore action overwrites current edits without preview, compare, confirmation, or draft conflict handling.",
+    "The UI lists activity events but no restorable snapshot, causing activity log confusion.",
+    "Named versions and autosaved versions are mixed without labels, making the known good version hard to find.",
+    "A permission-limited viewer sees private author, comment, or diff details from versions they cannot access.",
+    "Retention limits or deleted author states hide why an expected previous version is unavailable."
+  ],
+  "sources": [
+    {
+      "id": "google-docs-version-history",
+      "note": "Google Docs editors document viewing changes, naming versions, and restoring versions."
+    },
+    {
+      "id": "microsoft-office-previous-versions",
+      "note": "Microsoft documents opening, saving, and restoring previous Office file versions."
+    },
+    {
+      "id": "microsoft-sharepoint-version-history",
+      "note": "Microsoft documents SharePoint version history metadata and restore actions for files and list items."
+    },
+    {
+      "id": "atlassian-confluence-page-history",
+      "note": "Confluence documents page history with current version context, compare, restore, and access limitations."
+    },
+    {
+      "id": "figma-version-history",
+      "note": "Figma documents autosaved versions, named versions, comments, restore behavior, and edit permission requirements."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

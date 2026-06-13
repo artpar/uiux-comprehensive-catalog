@@ -1,0 +1,61 @@
+{
+  "id": "review-queue-vs-approval-workflow-vs-saved-filter-vs-activity-log",
+  "title": "Review queue vs approval workflow vs saved filter vs activity log",
+  "summary": "Use review queue for actively triaging many items that need human review, approval workflow for routing one submitted request through decision gates, saved filter for reusable list criteria, and activity log for historical events after work changes.",
+  "patternIds": [
+    "review-queue",
+    "approval-workflow",
+    "saved-filter",
+    "activity-log",
+    "notification-center",
+    "table",
+    "filter-panel"
+  ],
+  "decisionRules": [
+    "Choose review queue when reviewers repeatedly process a changing set of items that require triage, assignment, inspection, decision, bulk action, escalation, or deferral.",
+    "Choose approval workflow when a single submitted request has a governed route with required approvers, due dates, rejection, requested changes, delegation, and downstream blocking.",
+    "Choose saved filter when the user only needs reusable criteria for a list; a saved filter becomes a review queue only when it supports review-specific status, ownership, actions, counts, and workload handling.",
+    "Choose activity log when the product is showing what already happened; a review queue is for deciding what still needs attention.",
+    "Use notification center to alert a reviewer that queue work changed, but deep-link into the queue or record for the actual decision.",
+    "Use table or list view for passive browsing when there are no review states, ownership, SLA, claim, decision, skip, or bulk-review actions.",
+    "Review queue rows must expose why the item is in the queue, who owns it, age or SLA, priority, status, source, preview context, and available actions without forcing every item open.",
+    "Queue actions must update the row's review state and count immediately, and preserve undo, audit, or next-item behavior when the action is reversible or consequential.",
+    "Bulk review must require scope preview and exception handling so hidden selected items, stale rows, or mixed eligibility do not get processed incorrectly.",
+    "Escalated, blocked, duplicate, already-reviewed, reassigned, stale, empty, and permission-limited queue states need distinct treatment instead of one generic list message."
+  ],
+  "failureModes": [
+    "A queue shows only titles, so reviewers cannot tell why an item needs review or which item is most urgent.",
+    "A reviewer approves a stale row after another teammate already handled it.",
+    "Bulk approve includes hidden filtered items without a count, preview, or exception list.",
+    "A triage queue hides ownership and lets two reviewers work the same item at once.",
+    "A notification opens a generic dashboard rather than the relevant queue or item.",
+    "A review queue behaves like a saved filter with no review states, decision actions, empty state, or escalation path."
+  ],
+  "sources": [
+    {
+      "id": "atlassian-jira-service-management-queues",
+      "note": "Jira Service Management documents queues for focused work item views, triage, assignment, filtered criteria, columns, priority groups, and SLA clocks."
+    },
+    {
+      "id": "zendesk-ticket-views-workflow",
+      "note": "Zendesk documents ticket views for triage, pending work, unsolved tickets, personal and shared queues, service levels, escalation tiers, and workflow order."
+    },
+    {
+      "id": "zendesk-views-api",
+      "note": "Zendesk documents view conditions, access restrictions, active state, execution columns, grouping, sorting, preview, counts, and tickets from a view."
+    },
+    {
+      "id": "github-requesting-pull-request-review",
+      "note": "GitHub documents requesting people or teams for review, notifications, suggested reviewers, team assignment, and re-request after changes."
+    },
+    {
+      "id": "github-about-pull-request-reviews",
+      "note": "GitHub documents pull requests awaiting review, review statuses, comments, approval, requested changes, and code owner review."
+    },
+    {
+      "id": "youtube-studio-held-comments-review",
+      "note": "YouTube Studio documents Published and Held comment tabs, likely-spam holds, filters, topic search, and moderation actions."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

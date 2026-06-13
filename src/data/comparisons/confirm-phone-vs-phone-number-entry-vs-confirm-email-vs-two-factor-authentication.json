@@ -1,0 +1,49 @@
+{
+  "id": "confirm-phone-vs-phone-number-entry-vs-confirm-email-vs-two-factor-authentication",
+  "title": "Confirm phone vs phone number entry vs confirm email vs two-factor authentication",
+  "summary": "Use confirm phone when a captured phone number must be proven reachable by a text-message or voice security code; use phone number entry for collecting and reviewing the number, confirm email for mailbox-access proof, and two-factor authentication when an enrolled factor protects sign-in or a sensitive action.",
+  "patternIds": [
+    "confirm-phone",
+    "phone-number-entry",
+    "confirm-email",
+    "two-factor-authentication",
+    "password-reset"
+  ],
+  "decisionRules": [
+    "Choose confirm phone when a phone number has already been captured and the product must prove the user can receive a short-lived SMS or voice code before account activation, phone-number change, recovery eligibility, sensitive notification, or contact-route reliance continues.",
+    "Choose phone number entry when the problem is collecting, formatting, validating, explaining, reviewing, or changing the number string before any proof of access to that phone exists.",
+    "Choose confirm email when the product must prove access to a mailbox through an email link or code rather than reachability of a phone number.",
+    "Choose two-factor authentication when an already enrolled factor is required to authenticate or authorize access; phone confirmation can be one enrollment or challenge path, but SMS and voice have restricted-authenticator risk that requires alternatives and notice at higher assurance.",
+    "Choose password reset when the code or message replaces a forgotten password through a recovery artifact rather than confirming an ordinary phone contact route.",
+    "A confirm-phone flow should show the target number when safe, the channel used, code length, expiry, resend wait, change-number path, voice or other alternative, no-phone recovery, and verified-phone state.",
+    "Phone confirmation codes should be time-limited, rate-limited, bound to the phone number and purpose, invalidated when the number changes, and protected from logs, analytics, support transcripts, and visible replay.",
+    "Successful phone confirmation should update verified-phone state separately from number syntax, dialability, SMS capability, account sign-in, and two-factor enrollment."
+  ],
+  "failureModes": [
+    "The service treats a syntactically plausible phone number as verified phone access.",
+    "A user cannot change a mistyped number after the text message is sent.",
+    "A landline, shared phone, inaccessible phone, or no-phone user is forced into an SMS-only path with no voice or support alternative.",
+    "The code expires or too many attempts fail, but the page gives no resend, wait, or help route.",
+    "The flow labels SMS confirmation as strong MFA without explaining PSTN risk or offering unrestricted alternatives.",
+    "A previous code remains valid after the user changes the phone number."
+  ],
+  "sources": [
+    {
+      "id": "govuk-confirm-phone-number-pattern",
+      "note": "GOV.UK supports text-message security codes, one-time-code autocomplete, numeric input, familiar code formatting, 15-minute expiry, expired-code handling, new-code request, and change-number or no-phone support paths."
+    },
+    {
+      "id": "govuk-phone-numbers-pattern",
+      "note": "GOV.UK phone-number entry guidance separates collecting phone details from proving access to the phone."
+    },
+    {
+      "id": "nist-sp-800-63b-pstn-restricted",
+      "note": "NIST treats PSTN out-of-band authentication as restricted and requires risk acceptance, notice, alternatives, and migration planning."
+    },
+    {
+      "id": "mdn-webotp-api",
+      "note": "MDN documents SMS OTP retrieval and one-time-code input behavior for phone-code confirmation fields."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

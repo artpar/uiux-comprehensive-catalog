@@ -1,0 +1,55 @@
+{
+  "id": "confidence-uncertainty-display-vs-source-grounding-display-vs-citation-display-vs-meter-vs-warning-text",
+  "title": "Confidence / uncertainty display vs source grounding display vs citation display vs meter vs warning text",
+  "summary": "Use confidence / uncertainty display for prediction reliability and calibrated confidence before users act; source grounding display for source coverage; citation display for claim-level evidence; meter for a bounded scalar gauge; and warning text for severe consequence wording before an action.",
+  "patternIds": [
+    "confidence-uncertainty-display",
+    "source-grounding-display",
+    "citation-display",
+    "meter",
+    "warning-text"
+  ],
+  "decisionRules": [
+    "Choose confidence / uncertainty display when users need prediction reliability, calibrated confidence, uncertainty label, review threshold, and action gating for an AI or automated assessment.",
+    "Choose source grounding display when the question is source coverage, retrieved material, used evidence, unsupported claims, or corpus scope rather than model reliability.",
+    "Choose citation display when users need claim-level evidence, a selected source preview, and an open-source path for one claim.",
+    "Choose meter when the surface shows a read-only bounded scalar gauge such as storage, quota, battery, utilization, or risk level, not an AI reliability judgment with calibration caveats.",
+    "Choose warning text when users need severe consequence warning copy before an action, not a probability, confidence band, or uncertainty reason.",
+    "Confidence / uncertainty display must state high confidence, low confidence, insufficient evidence, conflicting signals, out-of-distribution, stale model, calibration unavailable, and apply gated states separately when those states can occur.",
+    "Use numbers only when the score is calibrated and explain the review threshold, last calibration window, and consequence of acting below the threshold.",
+    "Do not present confidence as proof; not source proof means source coverage, claim evidence, model reliability, and severe consequence warnings remain separate concerns.",
+    "If confidence falls below the review threshold, route to review, source grounding, escalation, manual verification, or ordinary fallback instead of letting a risky action continue silently.",
+    "When uncertainty changes after model, source, input, threshold, or data freshness changes, invalidate the displayed state before users apply or export the result."
+  ],
+  "failureModes": [
+    "A fake percent is shown for an uncalibrated model score.",
+    "A color-only confidence badge hides the uncertainty label from assistive technology and color-blind users.",
+    "A high-confidence label is treated as source proof even though source coverage and citations are absent.",
+    "The review threshold changed but an old confidence state still allows apply.",
+    "Low confidence, insufficient evidence, conflicting signals, or out-of-distribution input is buried below the action controls.",
+    "Warning text is used for routine uncertainty even though users need model reliability, reason, and next action."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports communicating AI uncertainty, capability limits, efficient dismissal, correction, and control."
+    },
+    {
+      "id": "google-people-ai-guidebook",
+      "note": "Supports human-centered AI product guidance for expectations, explanations, feedback, and user trust."
+    },
+    {
+      "id": "nist-ai-risk-management-framework",
+      "note": "Supports measured AI trustworthiness, risk treatment, monitoring, validity, and reliability."
+    },
+    {
+      "id": "ibm-carbon-for-ai",
+      "note": "Supports AI transparency, explainability, labels, and distinct AI behavior patterns."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing changed uncertainty, review, and blocked states without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

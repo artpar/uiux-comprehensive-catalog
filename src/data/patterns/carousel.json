@@ -1,0 +1,261 @@
+{
+  "id": "carousel",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed controlled slide-set pattern with distinct boundaries from tabs, recommendations, recently viewed, browse by category, pagination, and step navigation, unique pause, rotation, slide-picker, and wrap behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers a labelled carousel region, visible current slide and total count, previous and next controls, named picker or thumbnail controls, pause and play behavior, focus and hover stop behavior, reduced motion, first and last boundary or wrap behavior, hidden-slide focus exclusion, and avoiding required content on non-visible slides.",
+    "relatedPatternDistinction": "The entry separates carousel from tabs by slide sequence versus named sibling panels, from recommendations by ranked suggestions with reasons and feedback controls, from recently viewed by recency history, from browse by category by taxonomy navigation, from pagination by large ordered result pages, and from step navigation by task progress indication.",
+    "liveDemoBehavior": "The live demo exposes a controlled product tour with start and pause rotation, next and previous slide movement, direct named slide pickers, focus stop, hover stop, explicit last-to-first wrap, visible slide actions, and bad-mode contrasts for auto advance, unlabeled dots, hidden required content, swipe-only navigation, focus loss, and content dump.",
+    "comparisonDecisionRules": "The carousel-vs-tabs-vs-recommendations-vs-pagination comparison gives concrete rules for constrained visual slide sets, named sibling panels, ranked suggestions with reasons and personalization controls, ordered result pages, static/list/grid alternatives, rotation controls, hidden required content, large item sets, and underlying rail pattern ownership.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/carousel/ and /compare/carousel-vs-tabs-vs-recommendations-vs-pagination/ on 2026-06-10. Live check exercised Start rotation, Next slide, named Security picker, Simulate hover stop, Test wrap, Hidden required, and Content dump controls while the page was in pre-completion state, then refreshed after completion. screenshots/patterns/carousel.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/carousel.png"
+    ]
+  },
+  "name": "Carousel",
+  "aliases": [
+    "slideshow",
+    "slide show",
+    "image rotator",
+    "content carousel",
+    "card carousel",
+    "media carousel",
+    "rotator"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Disclosure And Attention Management",
+    "Data Display And Exploration",
+    "Search, Browse, And Discovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Sequential slide viewer for a small peer content set",
+  "uiGuidance": [
+    "Render a carousel as a labelled region with one current slide or a small visible subset, clear previous and next controls, named slide picker controls or thumbnails, current slide position, and a pause or play control if rotation exists.",
+    "Keep slide content, controls, and status visually connected; do not rely on hidden dots, timed motion, or swipe-only gestures as the only way to discover or control the slide set."
+  ],
+  "uxGuidance": [
+    "Use carousel only when several peer slides must share one constrained space and users can browse them safely without missing required information.",
+    "Make user control stronger than motion: avoid auto-advance by default, stop rotation on focus or hover, preserve focus after slide changes, and keep the current slide stable while users read or interact."
+  ],
+  "uiExamples": {
+    "good": [
+      "A product tour carousel shows one feature slide at a time with Previous, Next, Stop rotation, labelled slide dots, and text announcing Slide 2 of 4.",
+      "A gallery carousel uses named thumbnails, visible captions, and keyboard-operable arrows while keeping the current image stable during focus."
+    ],
+    "bad": [
+      "A homepage hero rotates every three seconds, hides the pause control, and uses unlabeled dots that do not identify the current promotion.",
+      "A carousel hides required onboarding steps behind swipe-only cards with no next button, position, or way to pause motion."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A keyboard user tabs to Stop rotation first, pauses the carousel, moves to Next slide, activates slide 3, and focus remains on the chosen control while the status updates.",
+      "A user hovers a slide to read the offer and rotation stops until they leave or explicitly start rotation again."
+    ],
+    "bad": [
+      "A user starts reading shipping details and the carousel advances to a different slide before they finish.",
+      "A screen reader user hears Button, Button, Button for slide dots and cannot tell which slide is visible."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Teams often want several pieces of content to occupy one prominent area, but rotating or poorly controlled carousels can hide important content, interrupt reading, trap focus, and make item position unclear.",
+  "solution": "Use a carousel only for a small peer slide set, provide explicit slide navigation and rotation controls, expose current position and slide identity, stop unwanted motion, and use static or list-based layouts when content is important, comparable, or numerous.",
+  "problemContext": [
+    "Several peer items compete for one constrained display area such as a product tour, media gallery, promotion slot, onboarding preview, or small content rail.",
+    "Only one slide or a small subset should be visible at a time, and users do not need to compare all slides simultaneously.",
+    "The team can keep controls, labels, current position, motion state, and focus behavior synchronized.",
+    "No required decision, warning, or primary action depends on users seeing a hidden slide at the right time."
+  ],
+  "selectionRules": [
+    "Choose carousel when a small set of peer slides must share a constrained visual slot and users can move through them with explicit controls.",
+    "Use static content, page sections, list view, card grid, or collection when every item matters or comparison is important.",
+    "Use tabs when the labels are meaningful section names and users are switching content panels rather than moving through slides.",
+    "Use pagination when users move through a large ordered set with page numbers, ranges, totals, and result persistence.",
+    "Use recommendations or recently viewed when the underlying job is ranked suggestion or recency history; carousel may only be the rail presentation.",
+    "Avoid auto-advance by default, especially for text-heavy, task-critical, mobile, or assistive-technology contexts.",
+    "If auto-advance exists, put the stop or pause control before slide-changing controls in tab order and stop rotation on focus and hover.",
+    "Do not hide required fields, critical warnings, primary navigation, or irreversible actions on non-visible slides.",
+    "Use named slide picker controls, thumbnails, or tabs when users need direct access to known slides; dots without names are insufficient.",
+    "Keep swipe gestures as an enhancement, not the only control path."
+  ],
+  "requiredStates": [
+    "Initial slide state with carousel label, slide identity, current position, and previous or next controls.",
+    "Manual next and previous state with focus preserved on the activated control.",
+    "Direct slide picker state with current slide indicated and picker names exposed.",
+    "Paused rotation state when auto-advance is stopped by user command, focus, or hover.",
+    "Playing rotation state only when motion is explicit and controllable.",
+    "Last and first slide boundary state for finite carousels or clear wrap behavior for looping carousels.",
+    "Loading media or failed slide state with stable controls and no skipped focus.",
+    "Reduced motion state where rotation and animated transitions are disabled or minimized.",
+    "Small viewport state with reachable controls and readable slide content."
+  ],
+  "interactionContract": [
+    "Previous and next controls change the current slide by one step or follow a clearly indicated wrap rule.",
+    "Slide picker controls move directly to a named slide and expose which slide is current.",
+    "If rotation starts automatically, focus entering the carousel stops it and the stop or pause control remains available.",
+    "Hovering or interacting with slide content stops rotation until the user explicitly resumes or leaves according to the documented behavior.",
+    "Changing slides does not move keyboard focus into hidden content or remove focus from the activated control.",
+    "Only the current visible slide or visible subset is exposed as current content; hidden slides are not reachable as if they were visible.",
+    "Slide content links and buttons remain ordinary interactive controls and do not conflict with carousel navigation."
+  ],
+  "implementationChecklist": [
+    "Decide whether carousel is justified by space constraints or whether a static section, list, grid, tabs, or pagination would be clearer.",
+    "Define slide IDs, names, order, count, current position, and wrap behavior before rendering controls.",
+    "Provide Previous, Next, direct slide picker controls, and a pause or play control when rotation exists.",
+    "Label every control by action and slide target, such as Next slide, Previous slide, Stop slide rotation, or Show Backup checklist slide.",
+    "Stop rotation on focus and hover, respect reduced motion, and avoid starting rotation for text-heavy or task-critical content.",
+    "Preserve keyboard focus after slide changes and prevent hidden slide controls from staying in tab order.",
+    "Announce slide changes through a polite status only for user-initiated changes, not for constant automatic motion.",
+    "Test keyboard, screen reader, pointer hover, swipe enhancement, reduced motion, first and last slide boundaries, mobile layout, and content links."
+  ],
+  "commonMisuses": [
+    "Auto-advancing slides without a pause or stop control.",
+    "Using unlabeled dots with no current-slide name or state.",
+    "Hiding critical content or required tasks on later slides.",
+    "Using a carousel because multiple stakeholders want homepage priority instead of designing a clear information hierarchy.",
+    "Treating carousel as the whole pattern when the rail actually contains recommendations, recently viewed items, related links, or cards that need their own rules.",
+    "Making swipe the only way to move slides.",
+    "Leaving controls inside hidden slides in the keyboard tab order.",
+    "Letting slide changes steal focus or reset partially read media."
+  ],
+  "critiqueQuestions": [
+    "Why must these items share one slot instead of being static, listed, or grouped?",
+    "Can users pause motion before the carousel changes content?",
+    "Can users identify the current slide, total count, and target of each slide picker?",
+    "What happens when focus or pointer enters the carousel?",
+    "Is any required information, warning, form field, or primary task hidden on another slide?",
+    "Would tabs, pagination, recommendations, recently viewed, a grid, or a list better match the user's job?"
+  ],
+  "useWhen": [
+    "A small set of peer slides must share one constrained display area.",
+    "Users can safely browse one slide at a time without needing side-by-side comparison.",
+    "The product can provide accessible controls, position, pause behavior, and stable focus.",
+    "The slide set is supplemental or exploratory rather than required for task completion."
+  ],
+  "avoidWhen": [
+    "Every item is important or users need to compare items.",
+    "The content includes required forms, warnings, legal terms, or primary navigation.",
+    "The team wants automatic motion but cannot provide pause, stop, focus, hover, and reduced-motion behavior.",
+    "There are many items, unknown totals, or result pages that need pagination or a list.",
+    "The carousel is only masking weak prioritization or stakeholder competition."
+  ],
+  "variants": [
+    "Image carousel",
+    "Product tour carousel",
+    "Hero carousel",
+    "Card rail carousel",
+    "Gallery carousel",
+    "Slide picker carousel",
+    "Thumbnail carousel",
+    "Auto-rotating carousel with pause",
+    "Manual carousel",
+    "Looping carousel"
+  ],
+  "accessibility": [
+    "Label the carousel region by its purpose, such as Featured product tour or Case study slides.",
+    "Provide a keyboard-reachable stop or pause control before moving-slide controls whenever rotation can occur.",
+    "Use descriptive control labels that include the action and, for direct pickers, the slide name.",
+    "Expose current slide position and current picker state in text or accessible labels.",
+    "Stop rotation when keyboard focus enters the carousel or pointer hover indicates reading.",
+    "Respect reduced-motion preferences and avoid auto-advancing text-heavy content.",
+    "Keep hidden slide links and buttons out of the tab order while hidden.",
+    "Announce user-initiated slide changes without creating constant automatic announcements."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches pause or play, previous, next, slide picker controls, and current slide interactive content in predictable order.",
+    "Enter or Space activates pause or play, previous, next, and picker controls using native button behavior.",
+    "Activating Next or Previous keeps focus on that control and updates the current slide.",
+    "Activating a slide picker keeps focus on the picker or moves only according to a clearly documented tab pattern.",
+    "Arrow keys are used only when the carousel intentionally implements tablist or roving picker behavior.",
+    "Hidden slide controls are not reachable until their slide becomes current.",
+    "Escape is not required to leave a persistent carousel."
+  ],
+  "failureModes": [
+    "Auto-rotation moves content before users finish reading.",
+    "No pause or stop control exists before rotating content.",
+    "Slide dots are unlabeled or do not expose the current slide.",
+    "Focus moves into a hidden slide or disappears after a slide change.",
+    "Required content appears only on a later slide and is missed.",
+    "Carousel controls conflict with links or buttons inside slides.",
+    "Swipe-only navigation blocks keyboard and pointer users.",
+    "A large item set is forced into a carousel instead of pagination, list, grid, or browse flow."
+  ],
+  "relatedPatterns": [
+    "tabs",
+    "recommendations",
+    "recently-viewed",
+    "browse-by-category",
+    "pagination",
+    "step-navigation"
+  ],
+  "comparisons": [
+    "carousel-vs-tabs-vs-recommendations-vs-pagination"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Carousel Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/carousel/",
+      "platform": "web",
+      "notes": "Supports carousel role, rotation control labels, previous and next controls, picker variants, and stopping automatic rotation on focus or hover.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "W3C WAI Carousels Tutorial",
+      "url": "https://www.w3.org/WAI/tutorials/carousels/",
+      "platform": "web",
+      "notes": "Supports accessible carousel structure, functionality, animation controls, item announcement, and readable styling.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "NN/g Auto-Forwarding Carousels",
+      "url": "https://www.nngroup.com/articles/auto-forwarding/",
+      "platform": "web",
+      "notes": "Supports avoiding unwanted automatic panel changes because they interrupt reading and reduce content visibility.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "NN/g Carousel Usability",
+      "url": "https://www.nngroup.com/articles/designing-effective-carousels/",
+      "platform": "web",
+      "notes": "Supports visible understandable controls and considering static or integrated alternatives when carousel content is not effective.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Chrome Accessible Carousel",
+      "url": "https://developer.chrome.com/blog/accessible-carousel",
+      "platform": "web",
+      "notes": "Supports modern accessible carousel implementation using semantic structure, controls, and appropriate ARIA.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-carousel",
+      "note": "Supports carousel structure, rotation controls, previous and next controls, picker behavior, and keyboard expectations."
+    },
+    {
+      "id": "wai-carousels-tutorial",
+      "note": "Supports accessible structure, functionality, animation controls, item announcement, and styling."
+    },
+    {
+      "id": "nng-auto-forwarding-carousels",
+      "note": "Supports avoiding auto-forwarding that interrupts reading or hides content before users ask."
+    },
+    {
+      "id": "nng-effective-carousels",
+      "note": "Supports visible controls, content quality, and static alternatives."
+    },
+    {
+      "id": "chrome-accessible-carousel",
+      "note": "Supports semantic modern carousel implementation with accessible controls."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

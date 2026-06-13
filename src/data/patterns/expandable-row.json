@@ -1,0 +1,256 @@
+{
+  "id": "expandable-row",
+  "completionStatus": "complete",
+  "completionNotes": "Completed with source-backed row-owned disclosure guidance, distinct boundaries from table, details panel, accordion, disclosure details, and tree grid, a live invoice-review expansion demo, comparison rules, duplicate audit coverage, manual desktop and mobile browser checks, and captured evidence.",
+  "name": "Expandable row",
+  "aliases": [
+    "expanded row",
+    "collapsible row",
+    "row expansion",
+    "row detail",
+    "master row detail",
+    "expandable table row",
+    "collapsible table row",
+    "row disclosure",
+    "inline row detail"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Row-owned inline detail disclosure inside a table or list",
+  "uiGuidance": [
+    "Render an expandable row as a normal data row with a labelled expand control, visible expanded or collapsed state, stable row identity, and an adjacent detail region that visually and programmatically belongs to that row.",
+    "Keep the expanded area compact and row-specific: show detail summaries, exception reasons, recent activity, nested attributes, attachments, or safe secondary actions without breaking table headers, row labels, sort state, or row action alignment."
+  ],
+  "uxGuidance": [
+    "Use expandable row when users mostly need the compact row list but occasionally need row-local detail to explain, verify, triage, or act on one record in context.",
+    "Preserve expanded state by record ID across sorting, filtering, pagination, refresh, and narrow layouts, and summarize hidden critical states in the collapsed row so users do not have to open every row."
+  ],
+  "uiExamples": {
+    "good": [
+      "An invoice table shows an expand button labelled Show details for INV-2048; the expanded row reveals line items, exception reason, approval history, and a View invoice link below the owning row.",
+      "An activity log row expands to show the changed fields, actor note, request ID, and Copy audit ID action while the timestamp and event type remain visible in the row."
+    ],
+    "bad": [
+      "Every table row has a chevron, but some rows open nothing and others reveal unrelated page help.",
+      "Expanded detail appears at the bottom of the table with no row title, so users cannot tell which record it belongs to after scrolling."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer expands a flagged invoice, reads the mismatch reason, copies the audit ID, sorts by amount, and the same invoice remains expanded because state is keyed by invoice ID.",
+      "A keyboard user tabs to Show details for INV-2048, presses Space, hears that the row is expanded, reviews the detail links, collapses the row, and focus returns to the row control."
+    ],
+    "bad": [
+      "Filtering a queue keeps the third visual row open after the data changes, exposing details for a different customer.",
+      "A user misses a failed payment reason because the collapsed row only says Failed and hides the reason without a summary or visible warning."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Dense tables and lists often need row-specific explanation, history, or secondary attributes, but adding every detail as a column makes scanning harder while sending users to separate pages breaks row context for quick triage.",
+  "solution": "Add a row-owned disclosure control that reveals compact detail immediately after the owning row, preserves the table or list context, exposes state and row identity accessibly, and escalates to a panel or full page when the detail is too large or task-heavy.",
+  "problemContext": [
+    "Rows represent records such as invoices, orders, payments, events, files, alerts, support tickets, devices, permissions, or audit entries.",
+    "Most users scan the collapsed rows first and open detail only for exceptions, verification, recent history, line items, or secondary actions.",
+    "The detail belongs to one row and should stay near that row rather than becoming a page-level section or global panel.",
+    "The data surface may be sorted, filtered, paginated, virtualized, refreshed, selected, or used on narrow screens.",
+    "Some rows may have no additional detail, stale detail, permission-limited detail, or detail that loads after expansion."
+  ],
+  "selectionRules": [
+    "Choose expandable row when the main surface is a table or list and the extra content is owned by one row.",
+    "Use a standard table when the content should be visible for many rows at once and compared down a column.",
+    "Use details panel when users repeatedly inspect many records and benefit from a persistent inspector beside the table or list.",
+    "Use accordion when the content is page-level sections rather than row-owned detail.",
+    "Use disclosure details when there is one small optional explanation near text or a form field, not repeated row detail.",
+    "Use tree grid when expansion represents a real hierarchy of parent and child rows with row-and-column semantics.",
+    "Use drawer, sheet, or full page when the expanded content needs long reading, primary editing, comments, history, attachments, or destructive review.",
+    "Do not use expandable rows to hide values users must compare across all rows, such as amount, due date, owner, or status.",
+    "Do not show expand controls for rows with no detail unless the unavailable state and reason are clear.",
+    "Avoid expandable rows when sorting, filtering, or virtualization cannot keep expansion state attached to the correct record ID."
+  ],
+  "requiredStates": [
+    "Collapsed row with row identity, key values, and a labelled expand control.",
+    "Expanded row with detail region immediately after the owning row and a labelled collapse control.",
+    "Focused expand control, keyboard activated expansion, and focus return after collapse.",
+    "Row with no additional detail or permission-limited detail.",
+    "Loading, loaded, stale, failed-load, and retry states for detail fetched after expansion.",
+    "Expanded row after sort, filter, pagination, refresh, or selection change.",
+    "Collapsed row with hidden error, warning, count, or changed-detail summary.",
+    "Narrow-screen state that preserves row identity and header-to-cell meaning."
+  ],
+  "interactionContract": [
+    "The expand control names the affected row, exposes expanded state, and controls only that row's detail region.",
+    "Expanded content appears directly after the owning row in visual and reading order, with a heading or label that repeats the row identity.",
+    "The collapsed row summarizes any hidden critical status, validation issue, unread activity, count, or stale detail that users need before opening.",
+    "Sorting, filtering, pagination, refresh, and virtual loading preserve expansion by stable record ID or intentionally collapse with a visible status message.",
+    "Rows without detail do not expose misleading active expand controls.",
+    "Expanded content does not disrupt column alignment, sortable headers, row selection, row actions, or bulk-selection behavior.",
+    "Secondary actions inside the expanded detail clearly apply to the owning row and preserve focus or return to the row control after completion."
+  ],
+  "implementationChecklist": [
+    "Define which row fields remain visible, which detail fields can be hidden, and which hidden statuses require collapsed-row summaries.",
+    "Key expansion state by stable record ID rather than visual index.",
+    "Use a button or native disclosure control for each expandable row and include the row name or identifier in its accessible name.",
+    "Connect the control to the row detail region with expanded state and a stable region label.",
+    "Place expanded content immediately after the owning row or inside a semantic structure that preserves row ownership.",
+    "Handle no-detail, loading, failed detail, stale detail, permission-limited detail, and deleted-row states.",
+    "Decide whether multiple rows can be open, whether opening a new row closes others, and how that affects selection and focus.",
+    "Test sort, filter, pagination, refresh, virtualization, row selection, bulk actions, keyboard, screen reader table navigation, zoom, and mobile stacking."
+  ],
+  "commonMisuses": [
+    "Hiding primary columns or required decision data inside collapsed detail.",
+    "Tracking expansion by row index so a different record appears expanded after sorting or filtering.",
+    "Using a chevron-only button with no row identity or expanded state.",
+    "Showing expand controls on rows with no additional content.",
+    "Putting long forms, nested data grids, destructive confirmations, or unrelated navigation inside the expanded area.",
+    "Moving expanded detail away from the owning row.",
+    "Breaking table header associations or row action labels when the detail row is inserted.",
+    "Collapsing an expanded row after refresh without explanation while the user is reviewing it."
+  ],
+  "critiqueQuestions": [
+    "What exact record owns the expanded content?",
+    "Which hidden details are optional, and which need a collapsed-row warning, count, or summary?",
+    "Can users sort, filter, paginate, refresh, and select rows without expansion moving to the wrong record?",
+    "Would the hidden content work better as a visible column, details panel, drawer, full page, accordion, or tree grid?",
+    "How do rows with no detail, failed detail load, stale detail, or permission-limited detail behave?",
+    "Can keyboard and screen-reader users identify, open, review, act on, and collapse the row detail predictably?"
+  ],
+  "useWhen": [
+    "A row has supplemental detail that is useful for some records but would make the default table or list too dense.",
+    "Users need to keep the owning row and nearby rows visible while inspecting detail.",
+    "The expanded content is compact, row-specific, and can be reviewed inline.",
+    "The product can preserve expansion state by record ID across data updates."
+  ],
+  "avoidWhen": [
+    "The hidden data is a core column users must compare across rows.",
+    "The detail is long, interactive, destructive, or primary-task-heavy.",
+    "The content is page-level structure rather than row-owned detail.",
+    "The data surface cannot preserve row identity during sort, filter, pagination, refresh, or virtualization.",
+    "Most rows have no additional detail or the collapsed row cannot summarize critical hidden states."
+  ],
+  "variants": [
+    "Expandable table row",
+    "Expandable list row",
+    "Master-detail row",
+    "Invoice line-item row",
+    "Audit event detail row",
+    "Exception reason row",
+    "Single-open row expansion",
+    "Multi-open row expansion",
+    "Lazy-loaded row detail",
+    "Mobile stacked row detail"
+  ],
+  "accessibility": [
+    "Use a real button or native disclosure control for expansion and expose expanded or collapsed state.",
+    "Include the row name, identifier, or primary cell value in the expand control label.",
+    "Associate the expand control with the row detail region when possible and label the region from the owning row.",
+    "Keep row headers, column headers, and table captions meaningful when expanded detail rows are inserted.",
+    "Do not rely on chevron rotation, indentation, color, or animation alone to show expansion.",
+    "Announce detail loading, detail load failure, stale detail, item removed, and hidden critical summaries through text.",
+    "Keep keyboard focus on the invoking row control after expansion unless the user explicitly moves into the detail."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches each row expand control in row order.",
+    "Enter or Space toggles the focused row expansion control.",
+    "After expansion, focus remains on the control or moves predictably to the first interactive detail control only after an explicit user action.",
+    "Tab moves from the expanded row control into links, copy buttons, retry controls, or safe row-specific actions inside the detail region.",
+    "Collapsing the row returns focus to the row control and does not jump to the top of the table.",
+    "Sorting, filtering, pagination, or refresh keeps focus on the triggering control or announces that the expanded row is no longer visible."
+  ],
+  "failureModes": [
+    "The wrong detail stays open after rows are reordered because expansion state used visual index.",
+    "Users cannot tell whether a row is open because the only state is a rotated icon.",
+    "Screen-reader users encounter a More button with no row name and no expanded state.",
+    "The expanded detail is detached from the row, so users lose which record it describes.",
+    "A row with no detail still exposes an active expand button.",
+    "Critical failures, warnings, unread counts, or validation issues are hidden with no collapsed-row summary.",
+    "Large expanded content makes the table unreadable and should have moved to a details panel or full page.",
+    "Mobile expansion turns cells into unlabeled text and nested controls with no row context."
+  ],
+  "relatedPatterns": [
+    "table",
+    "data-grid",
+    "tree-grid",
+    "details-panel",
+    "accordion",
+    "disclosure-details",
+    "activity-log",
+    "preview-panel"
+  ],
+  "comparisons": [
+    "expandable-row-vs-table-vs-details-panel-vs-accordion"
+  ],
+  "examples": [
+    {
+      "product": "Carbon data table expandable rows",
+      "url": "https://carbondesignsystem.com/components/data-table/usage/",
+      "platform": "web",
+      "notes": "Documents expandable data tables for supplementary row detail and advises escalation when expanded content becomes cramped.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "MUI collapsible table",
+      "url": "https://mui.com/material-ui/react-table/",
+      "platform": "web",
+      "notes": "Shows a table with expandable rows that reveal additional row-specific information through a collapse component.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "WAI-ARIA APG Disclosure Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/",
+      "platform": "web",
+      "notes": "Documents button-controlled show-hide behavior, expanded state, and Enter or Space activation for disclosure controls.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "WAI Tables Tutorial",
+      "url": "https://www.w3.org/WAI/tutorials/tables/",
+      "platform": "web",
+      "notes": "Documents preserving table headers, data cells, captions, scope, and header relationships.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "carbon-data-table-component",
+      "note": "Carbon data table guidance supports expandable rows for supplementary row detail and escalation when expanded content becomes cramped."
+    },
+    {
+      "id": "mui-table-collapsible-table",
+      "note": "MUI documents collapsible table rows that reveal row-specific additional information."
+    },
+    {
+      "id": "wai-aria-apg-disclosure",
+      "note": "APG disclosure guidance supports expanded state, button semantics, and Enter or Space activation."
+    },
+    {
+      "id": "wai-tables-tutorial",
+      "note": "WAI table guidance supports preserving header and cell relationships in data tables."
+    },
+    {
+      "id": "mdn-html-table-element",
+      "note": "MDN table documentation supports table captions, sections, header scope, and accessibility considerations."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers row-owned detail regions, labelled expand and collapse controls, expanded state, disabled no-detail rows, collapsed critical summaries, stable record-ID expansion, sorting, filtering, pagination, refresh, loading, failed-load, stale and permission-limited detail, mobile stacking, row action scope, and escalation when detail becomes too large.",
+    "relatedPatternDistinction": "Distinguishes Expandable row from table for always-visible comparable columns, data-grid for managed cell editing and grid navigation, tree-grid for hierarchical rows, details-panel for persistent selected-object inspection, accordion for page-section disclosure, disclosure-details for one local explanation, and preview-panel for media or document preview.",
+    "liveDemoBehavior": "The demo renders a June invoice review table with INV-2048 expanded inline, row labels, collapsed summaries, disabled no-detail row, Copy audit action, sort by amount, exception filtering, async refresh, failed detail load, mobile stacked labels, and bad modes for index-keyed expansion, chevron-only controls, hidden summaries, dead chevrons, detached detail, overstuffed expansion, and unlabeled mobile rows.",
+    "comparisonDecisionRules": "Comparison expandable-row-vs-table-vs-details-panel-vs-accordion defines when to use row-local expansion, visible table columns, durable selected-object panels, or page-section accordions, including rules for record-ID state, row identity, no-detail rows, critical hidden values, compact detail, and mobile row handling.",
+    "duplicateAudit": "Completion audit reports zero normalized duplicate field groups after adding the pattern.",
+    "manualSpotCheck": "Checked /patterns/expandable-row/ in Chromium, exercised good controls for toggle INV-2048, sort amount, filter exceptions, refresh detail, fail detail load, mobile stack, and copy audit, sampled bad controls for chevron-only, no-summary, and dead-chevron modes, checked the comparison route, and inspected the 390px mobile layout on 2026-06-11.",
+    "screenshots": [
+      "screenshots/patterns/expandable-row.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

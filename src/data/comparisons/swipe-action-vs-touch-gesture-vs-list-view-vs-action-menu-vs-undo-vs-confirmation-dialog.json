@@ -1,0 +1,52 @@
+{
+  "id": "swipe-action-vs-touch-gesture-vs-list-view-vs-action-menu-vs-undo-vs-confirmation-dialog",
+  "title": "Swipe action vs touch gesture vs list view vs action menu vs undo vs confirmation dialog",
+  "summary": "Use swipe action for the specific horizontal row gesture that reveals or commits item-level actions. Use touch gesture for the broader gesture contract, list view for row structure, action menu for explicit command access, undo for post-action recovery, and confirmation dialog for informed pre-action decisions.",
+  "patternIds": [
+    "swipe-action",
+    "touch-gesture",
+    "list-view",
+    "action-menu",
+    "undo",
+    "confirmation-dialog"
+  ],
+  "decisionRules": [
+    "Choose swipe action when a horizontal gesture on one row reveals or commits a row-scoped action such as Archive, Mark read, Complete, Pin, Dismiss, or Delete.",
+    "Choose touch gesture when the design problem is general gesture recognition, target sizing, feedback, cancellation, multipoint alternatives, and conflict rules across touch interactions.",
+    "Choose list view when the main design problem is row anatomy, scanability, selection, sorting, filtering, pagination, row navigation, or list density.",
+    "Choose action menu when commands must be visible from an explicit trigger, when the action set is larger than a small swipe affordance can hold, or when discoverability matters more than gesture speed.",
+    "Choose undo when the key question is how users recover after a completed reversible row action.",
+    "Choose confirmation dialog when a destructive or high-impact row action cannot be safely undone and users need consequence review before execution.",
+    "Swipe action must define direction, row ownership, partial reveal, threshold, release boundary, snap-back, revealed label, equivalent non-gesture control, status message, and recovery or confirmation path.",
+    "Swipe action must not be the only path to a primary, destructive, account, security, payment, consent, or critical workflow command.",
+    "Swipe action conflicts must be resolved against vertical scroll, pull-to-refresh, row navigation, row selection, drag handles, nested horizontal content, and system back gestures.",
+    "Do not treat a list row with an action menu or a generic touch gesture as swipe action unless the horizontal row gesture behavior itself is designed."
+  ],
+  "failureModes": [
+    "A hidden swipe deletes a row before users see the action label or threshold.",
+    "A visible row menu and the swipe action expose different commands for the same object.",
+    "A diagonal scroll triggers archive while the user is trying to read older rows.",
+    "A screen reader user cannot discover the row action because it exists only as a path-based gesture.",
+    "A destructive swipe has no undo and no confirmation despite irreversible side effects.",
+    "The comparison treats row anatomy, gesture mechanics, command menus, post-action recovery, and pre-action review as one interchangeable pattern."
+  ],
+  "sources": [
+    {
+      "id": "android-compose-swipe-to-dismiss",
+      "note": "Supports item-level swipe gesture, background content, thresholds, and row update or dismiss behavior."
+    },
+    {
+      "id": "material-design-gestures",
+      "note": "Supports swipe for completing actions and revealing additional list-item actions."
+    },
+    {
+      "id": "w3c-wcag-pointer-gestures",
+      "note": "Supports non-path-based alternatives for path-based gesture functionality."
+    },
+    {
+      "id": "nng-contextual-swipe-actions",
+      "note": "Supports discoverability and accidental activation risks for contextual swipe actions."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

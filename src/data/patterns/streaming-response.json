@@ -1,0 +1,259 @@
+{
+  "id": "streaming-response",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed streaming-response pattern with guidance for receiving, first output, active deltas, pending citations, tool progress, moderation hold, stalled streams, stopped partial output, continue, failed stream, retry, complete answer, final copy, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers streaming as an incremental generated-output lifecycle, including queued or receiving state, first output, active deltas, partial-answer label, pending citations, pending tool calls, moderation hold, stalled stream, stop generation, continue, failed stream, retry, complete terminal event, final copy eligibility, stable output region, focus preservation, assistive announcement throttling, and gating risky actions until final checks finish.",
+    "relatedPatternDistinction": "The entry separates streaming response from chat interface by focusing on one active response lifecycle rather than the full conversation, from progress bar by rendering partial generated content rather than measurable operation completion, from loading spinner by exposing useful output instead of a short indeterminate wait, from feed by avoiding chronological browsing of finished items, and from retry by treating retry as one recovery action inside stream failure.",
+    "liveDemoBehavior": "The live demo shows a policy answer stream with Receiving, First output, Deltas, Citations pending, Tool pending, Moderation hold, Stalled, Stop, Continue, Failed, Retry, Complete, and Copy final states. Bad states cover Early copy, Complete lie, Noisy live, Auto scroll, Erased partial, Early citation, Malformed code, and Spinner only failures.",
+    "comparisonDecisionRules": "The linked streaming-response-vs-chat-interface-vs-progress-bar-vs-loading-spinner-vs-feed comparison gives concrete rules for partial generated output, events arrive, whole multi-turn conversation, measurable operation completion, short indeterminate waits, chronological browsing, receiving, first token, partial output, stalled stream, stop generation, completed stream, failed stream, moderation hold, retry, final answer, sources, safety checks, tool calls, JSON validity, code fences, tables, citations, copy partial, regenerate, and assistive technology.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/streaming-response/ with the live demo, exercised Receiving, First output, Deltas, Citations pending, Tool pending, Moderation hold, Stalled, Stop, Continue, Failed, Retry, Complete, Copy final, Early copy, Complete lie, Noisy live, Auto scroll, Erased partial, Early citation, Malformed code, and Spinner only states, and found no duplicate IDs, page overflow, or streaming-response demo overflow. The comparison route /compare/streaming-response-vs-chat-interface-vs-progress-bar-vs-loading-spinner-vs-feed/ included streaming response, chat interface, progress bar, loading spinner, feed, partial generated output, events arrive, whole multi-turn conversation, measurable operation completion, short indeterminate waits, chronological browsing, receiving, first token, partial output, stalled stream, stop generation, completed stream, failed stream, moderation hold, retry, final answer, sources, safety checks, tool calls, JSON validity, code fences, tables, citations, copy partial, regenerate, and assistive technology terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/streaming-response.png"
+    ]
+  },
+  "name": "Streaming response",
+  "aliases": [
+    "streamed answer",
+    "token streaming",
+    "incremental response",
+    "live generated output",
+    "partial assistant answer",
+    "streamed completion",
+    "delta response",
+    "server-sent response",
+    "live answer generation",
+    "progressive AI answer"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Incremental generated-output surface that renders response chunks before final completion",
+  "uiGuidance": [
+    "Render streamed output with a visible generation state, partial-answer label, stop control, final-complete state, and clear distinction between text that is still arriving and content that has passed final citation, safety, tool, or format checks.",
+    "Use stable containers for partial text, pending citations, tool-call progress, structured chunks, copy controls, and final metadata so new deltas do not shift controls or make early output look finished."
+  ],
+  "uxGuidance": [
+    "Use a streaming response when showing partial generated output helps users start reading or monitoring work before the model finishes, and when the product can explain that early chunks may still change, be filtered, or lack final sources.",
+    "Protect users from acting on unfinished output by preserving partial content on interruption, labelling stopped or failed streams, exposing continue or retry, and delaying copy, publish, apply, citation trust, or structured export until the stream reaches a valid terminal state when risk requires it."
+  ],
+  "uiExamples": {
+    "good": [
+      "A policy assistant shows Answer generating, streams paragraphs into a stable answer region, marks citations pending, exposes Stop generation, then changes to Complete when citations and safety checks finish.",
+      "A code assistant streams a function body inside a code block, keeps Copy disabled until the closing fence and final lint status arrive, and shows Continue after a network interruption."
+    ],
+    "bad": [
+      "A generated answer appears word by word with no partial label, no stop control, and a Copy button that looks ready before sources arrive.",
+      "A streaming JSON answer is displayed as valid data before the closing braces and schema check have completed."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user sees the first-token state quickly, reads early outline bullets while the answer continues, stops generation after enough detail, and sees the result labelled Partial with Continue and Regenerate options.",
+      "A source-grounded answer streams text immediately but keeps citation chips in Pending until retrieval events resolve, then marks which claims are sourced."
+    ],
+    "bad": [
+      "A user copies an early legal recommendation before the final paragraph reverses the conclusion after a tool result arrives.",
+      "A stalled event stream leaves a blinking cursor forever and gives no timeout, retry, copy partial, or discard path."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "Streaming generated output can reduce perceived wait time, but partial text is not necessarily final, cited, safe, valid, or complete. Without explicit stream states and recovery, users may trust unfinished output, lose partial work after interruption, or be overwhelmed by constant visual and assistive updates.",
+  "solution": "Show streaming as a distinct response lifecycle with receiving, first output, partial, stalled, stopped, failed, continued, and complete states; keep partial and final content visually distinct; preserve recoverable output; and gate risky actions until final checks are done.",
+  "problemContext": [
+    "The system may emit output deltas, message events, tool-call events, citation events, moderation events, usage metadata, and final completion events at different times.",
+    "Text, Markdown, tables, JSON, code, citations, and generated files may be invalid or incomplete until the stream closes cleanly.",
+    "Users may want to start reading, stop when enough information arrives, continue after stopping, retry after network failure, copy partial output, or wait for final source verification.",
+    "Streaming can happen inside a chat interface, side panel, document editor, code assistant, workflow run, voice transcript, or background job detail surface.",
+    "Accessibility, reduced motion, mobile scroll, text selection, virtualized transcripts, and screen reader announcement rate all affect whether streaming is usable."
+  ],
+  "selectionRules": [
+    "Choose streaming response when partial generated output is useful before the full answer is ready and the product can explain partial versus final state.",
+    "Use chat interface when the design problem is the broader conversation transcript, history, turns, and composer rather than one active response lifecycle.",
+    "Use progress bar when the system reports measurable operation completion instead of readable generated output.",
+    "Use loading spinner when the wait is short and neither partial output nor measurable progress can be shown.",
+    "Use feed when users browse finished chronological items rather than watch one answer being generated.",
+    "Delay apply, publish, commit, structured export, final citation trust, and high-risk copy actions until the stream reaches a verified terminal state.",
+    "Show Stop generation when stopping is technically possible and the partial answer can be preserved or explicitly discarded.",
+    "Show Continue or Retry when a stream stops, stalls, times out, or fails while useful partial output remains.",
+    "Use a pending source or pending tool state when text arrives before citations, retrieval, function output, or safety checks.",
+    "Do not stream raw chunks if they will expose unsafe intermediate content, broken syntax, misleading partial conclusions, or private tool data."
+  ],
+  "requiredStates": [
+    "Queued or receiving state before first output arrives.",
+    "First output state that confirms generation has started.",
+    "Active streaming state with partial-answer label, stop control, and stable output region.",
+    "Pending citation, pending tool call, pending moderation, and pending structured-validation states.",
+    "Stalled or slow-stream state with elapsed status and recovery threshold.",
+    "Stopped-by-user state that labels partial output and offers continue, retry, copy partial, or discard.",
+    "Interrupted, failed, rate-limited, offline, and timeout states that preserve prompt and partial output where safe.",
+    "Complete state with final answer, final citations or source status, copy/apply eligibility, and completion metadata."
+  ],
+  "interactionContract": [
+    "The UI never presents an active stream as a complete answer until the terminal event or final validation state arrives.",
+    "Partial output remains attached to the prompt, source scope, tool state, and stream status that produced it.",
+    "Stop generation changes the state to stopped or partial instead of silently converting the text into a finished answer.",
+    "Retry clearly states whether it continues from the partial output, restarts the same prompt, or regenerates a new answer.",
+    "Copy, apply, cite, export, and publish actions indicate whether they operate on partial output or final output.",
+    "Streaming updates do not steal focus, break text selection, collapse the composer, or force scroll when users are reading older content.",
+    "Screen reader announcements summarize meaningful stream milestones instead of announcing every token.",
+    "If safety, citation, tool, or structured-output checks revise or remove streamed content, the UI explains the revision."
+  ],
+  "implementationChecklist": [
+    "Model stream lifecycle separately from prompt draft, submitted prompt, final response, citation resolution, tool execution, and history state.",
+    "Track event types such as response started, output delta, tool call delta, citation pending, moderation hold, error, stopped, completed, and final metadata.",
+    "Render partial output in stable blocks that tolerate incomplete Markdown, code fences, tables, links, JSON, and citations.",
+    "Add Stop, Continue, Retry, Regenerate, Copy partial, Copy final, Discard, View events, and Report issue controls according to product risk.",
+    "Throttle visual updates and live announcements to meaningful chunks, sentence boundaries, or elapsed intervals.",
+    "Preserve prompt, partial output, selected text, scroll position, source panel state, and focus through stream failure and route changes where possible.",
+    "Gate apply, publish, final copy, download, or structured export until final validation passes when early chunks can be misleading.",
+    "Test slow first token, long stream, network interruption, server error event, content-filter hold, citation delay, tool delay, malformed Markdown, malformed JSON, mobile keyboard, reduced motion, and screen reader output."
+  ],
+  "commonMisuses": [
+    "Showing a blinking cursor with no state, stop control, or elapsed feedback.",
+    "Letting partial output look finished before the final event arrives.",
+    "Copying or applying a streamed answer before citations, tool results, or validation complete.",
+    "Erasing partial output after a network failure.",
+    "Announcing every token through a live region.",
+    "Forcing scroll to the newest token while users are reading or selecting earlier text.",
+    "Using streaming to hide long-running tool work that should have visible steps or approval."
+  ],
+  "critiqueQuestions": [
+    "Which events prove the response has started, is still partial, has stalled, has stopped, has failed, or is complete?",
+    "Can users tell whether text, citations, tool results, and structured output are pending or final?",
+    "What actions are safe on partial output, and which require final validation?",
+    "What remains available after stop, retry, timeout, offline, rate limit, or moderation hold?",
+    "How does streaming behave when users scroll, select text, copy, inspect citations, use mobile keyboards, or rely on screen readers?",
+    "Would a spinner, progress bar, chat interface, or workflow trace be clearer than streaming partial text?"
+  ],
+  "useWhen": [
+    "Generated text or structured content can be read or monitored before completion.",
+    "Users benefit from low first-token latency, stop control, and visible generation progress.",
+    "The product can distinguish partial, stopped, failed, and complete output honestly."
+  ],
+  "avoidWhen": [
+    "Intermediate chunks may expose unsafe, private, or misleading content.",
+    "Users must act only on fully verified output and partial text would increase risk.",
+    "The operation is measurable system work better shown as progress.",
+    "The wait is brief enough that a scoped spinner is clearer.",
+    "The UI cannot preserve partial output or explain stream failure."
+  ],
+  "variants": [
+    "Token-by-token answer",
+    "Sentence-batched stream",
+    "Markdown streaming response",
+    "Code streaming response",
+    "Structured-output stream",
+    "Citation-delayed stream",
+    "Tool-call streaming response",
+    "Moderated stream",
+    "Voice transcript stream",
+    "Mobile assistant stream"
+  ],
+  "accessibility": [
+    "Expose stream milestones such as started, still generating, stopped, failed, citation ready, and complete as status messages.",
+    "Avoid announcing every token or character through a live region.",
+    "Keep focus stable while output grows, and provide a keyboard path to the latest generated block, stop control, retry, citations, and final answer.",
+    "Respect reduced motion by avoiding distracting cursor animation or rapid visual effects.",
+    "Label partial output, stopped output, failed output, and final output in text.",
+    "Ensure streamed Markdown, code, tables, links, citations, and structured chunks remain readable while incomplete."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches Stop generation while the stream is active and reaches Continue, Retry, Copy partial, Discard, and Copy final when those actions appear.",
+    "Escape may stop generation only when that shortcut is exposed and does not conflict with closing panels or clearing drafts.",
+    "Focus does not jump on every output delta.",
+    "When the stream completes, focus remains where the user was or moves to a named completion status according to the task flow.",
+    "When a stream fails, focus remains near the partial answer and recovery actions.",
+    "Keyboard users can inspect pending and final citations without losing their place in the response."
+  ],
+  "failureModes": [
+    "Users act on a partial answer before the final event changes or qualifies the conclusion.",
+    "A stopped stream looks complete.",
+    "A failed stream erases partial work and the submitted prompt.",
+    "Citations appear final while source retrieval is still pending.",
+    "A malformed code block, table, or JSON object is copied before the stream closes.",
+    "Assistive technology receives hundreds of token announcements.",
+    "Auto-scroll prevents reading, selecting, or copying earlier generated text.",
+    "Moderation or content-filter results remove text without explaining why the stream changed."
+  ],
+  "relatedPatterns": [
+    "chat-interface",
+    "progress-bar",
+    "loading-spinner",
+    "loading-skeleton",
+    "feed",
+    "retry"
+  ],
+  "comparisons": [
+    "streaming-response-vs-chat-interface-vs-progress-bar-vs-loading-spinner-vs-feed"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI Streaming API responses",
+      "url": "https://developers.openai.com/api/docs/guides/streaming-responses",
+      "platform": "ai",
+      "notes": "Documents streaming output through server-sent events so response text can be processed before generation is complete.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI Responses streaming events",
+      "url": "https://developers.openai.com/api/reference/resources/responses/streaming-events/",
+      "platform": "ai",
+      "notes": "Documents event-based streaming lifecycle for Responses created with streaming enabled.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Azure OpenAI content streaming",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/content-streaming",
+      "platform": "ai",
+      "notes": "Documents streamed content and content-filter timing considerations.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "MDN Server-sent events",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events",
+      "platform": "web",
+      "notes": "Documents browser support for server-pushed event messages.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-streaming-responses",
+      "note": "Supports rendering generated output while model generation continues."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports event-specific lifecycle handling for streamed responses."
+    },
+    {
+      "id": "azure-openai-content-streaming",
+      "note": "Supports content-filter timing and visible stream-state considerations."
+    },
+    {
+      "id": "mdn-server-sent-events",
+      "note": "Supports server-pushed event streams in web clients."
+    },
+    {
+      "id": "mdn-eventsource",
+      "note": "Supports persistent event-stream connections and explicit close behavior."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible stream milestone announcements without forced focus movement."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

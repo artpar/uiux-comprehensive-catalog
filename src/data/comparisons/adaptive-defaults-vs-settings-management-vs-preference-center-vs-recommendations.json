@@ -1,0 +1,50 @@
+{
+  "id": "adaptive-defaults-vs-settings-management-vs-preference-center-vs-recommendations",
+  "title": "Adaptive defaults vs settings management vs preference center vs recommendations",
+  "summary": "Use adaptive defaults when the product proposes starting values from context or prior behavior; settings management when users inspect and change durable configuration; preference center when users manage communication, consent, privacy, and personalization choices; and recommendations when the system ranks optional items or actions.",
+  "patternIds": [
+    "adaptive-defaults",
+    "settings-management",
+    "preference-center",
+    "recommendations"
+  ],
+  "decisionRules": [
+    "Choose adaptive defaults when a field, filter, layout, scope, schedule, channel, or option can start with a likely useful value based on current context, prior user behavior, organization policy, locale, device, role, or recent task history.",
+    "Choose settings management when the user needs a durable surface to inspect and change persisted app, account, workspace, device, or integration behavior outside the immediate task.",
+    "Choose preference center when the values affect communication channels, topics, privacy, consent, personalization, language, or required-message choices that an organization must honor across systems.",
+    "Choose recommendations when the system presents optional ranked items, content, products, services, or actions rather than filling or selecting a starting value inside the current task.",
+    "Adaptive defaults must show the proposed value, the source or reason for that value, the scope it applies to, and a clear way to change, reset, or stop using that signal.",
+    "Do not silently commit an adaptive default for high-impact fields such as money, legal status, privacy sharing, external communication, permissions, deletion, scheduling, or irreversible workflow state.",
+    "Use a static default when the best starting value is the same for almost everyone and no per-user or contextual signal is involved.",
+    "Use a saved setting instead when the value should remain user-authored and durable until the user changes it.",
+    "Use a recommendation instead when accepting the suggestion is optional discovery, not part of completing the current form, filter, setup, or workflow.",
+    "When the adaptive signal is weak, stale, sensitive, policy-managed, or unavailable, fall back to a labelled neutral default and keep user correction easy."
+  ],
+  "failureModes": [
+    "The product preselects a costly or privacy-sensitive value because it predicts user intent, but the user cannot see the basis or change it before submit.",
+    "An adaptive default keeps returning after a user corrects it because the system records the correction as noise instead of feedback.",
+    "A durable setting is changed from a one-time adapted value, so the user later finds every workspace or device using the wrong behavior.",
+    "A preference center value such as marketing opt-in or language is treated as a disposable adaptive guess instead of a persisted user choice.",
+    "A recommendation rail is mistaken for adaptive defaults even though the user still has to choose among multiple optional items.",
+    "The interface uses sensitive activity, location, team behavior, or inferred role to set defaults without explanation, consent, or reset controls."
+  ],
+  "sources": [
+    {
+      "id": "nng-power-of-defaults",
+      "note": "NN/g documents user reliance on defaults and the need for helpful, representative default values."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Microsoft Human-AI guidelines support context timing, relevant information, dismissal, correction, and user control for adaptive behavior."
+    },
+    {
+      "id": "microsoft-windows-app-settings-guidelines",
+      "note": "Microsoft settings guidance helps distinguish durable user-configurable app options from contextual starting values."
+    },
+    {
+      "id": "android-developers-settings",
+      "note": "Android settings guidance documents current preference values and dependency behavior, useful for separating persisted settings from adapted defaults."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

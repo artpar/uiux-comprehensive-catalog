@@ -1,0 +1,262 @@
+{
+  "id": "dashboard-layout",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed dashboard composition pattern with guidance for page hierarchy, KPI tiles, global filters, freshness, affected and unaffected widgets, pinned snapshots, section containers, drill paths, partial refresh, permission-limited widgets, responsive priority, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers dashboard purpose, audience, named scope, global filters, KPI priority, sections, widget titles, units, targets, source, freshness, live versus pinned or cached tiles, cross-filter state, drill destinations, partial refresh, permission-limited widgets, customization, responsive reflow, and mobile priority.",
+    "relatedPatternDistinction": "The entry separates dashboard layout from data visualization by requiring a coordinated page of several widgets, from table and data grid by avoiding exact row work as the main task, from saved view by avoiding single-surface presentation persistence, from card grid by using mixed monitoring widgets rather than peer object cards, and from alert, empty state, and loading skeleton by treating those as widget or page states inside the dashboard.",
+    "liveDemoBehavior": "The live demo shows a support operations dashboard with global date and region scope, KPI tiles, current and stale freshness labels, affected and unaffected widgets, exceptions, trend and revenue sections, drill state, section collapse, partial refresh, permission-limited replacement, reset behavior, and bad modes for equal-weight tiles, hidden filters, stale tiles, snapshot/live confusion, invisible cross-filtering, permission gaps, and mobile-buried exceptions.",
+    "comparisonDecisionRules": "The linked dashboard-layout-vs-data-visualization-vs-table-vs-saved-view comparison gives concrete rules for page-level monitoring composition, single-chart analysis, exact row work, persisted presentation state, overview-to-detail drill paths, pinned snapshots, freshness, permissions, and avoiding dashboard treatment for one chart or table task.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/dashboard-layout/ on 2026-06-11 in Chromium: verified Good UI, Bad UI, Good UX, Bad UX, Filter West, Toggle drill, Collapse section, Partial refresh, Permission gap, Reset dashboard, Hidden filter, Stale tile, Snapshot live, Cross-filter, Permission gap, Mobile bury, comparison route, and a 500px mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/dashboard-layout.png"
+    ]
+  },
+  "name": "Dashboard layout",
+  "aliases": [
+    "analytics dashboard",
+    "monitoring dashboard",
+    "overview dashboard",
+    "metric dashboard",
+    "dashboard grid",
+    "dashboard canvas",
+    "report dashboard",
+    "KPI dashboard",
+    "operational dashboard",
+    "executive dashboard"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Navigation And Wayfinding",
+    "Task And Workflow Patterns",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Page-level arrangement of coordinated status, metric, and analysis widgets",
+  "uiGuidance": [
+    "Arrange dashboard widgets into a purposeful page hierarchy with a named dashboard, scope, freshness, global filters, primary KPIs, secondary analysis, exceptions, and supporting tables or links placed according to monitoring priority.",
+    "Use a responsive grid, containers, tile sizes, section headings, consistent gutters, widget titles, source/freshness labels, and clear empty, stale, filtered, and permission-limited states so the dashboard remains understandable when cards reflow or resize."
+  ],
+  "uxGuidance": [
+    "Use dashboard layout when users need one page to monitor several related signals, compare current state against targets, spot exceptions, and decide which detailed view or workflow to open next.",
+    "Keep global controls, cross-filtering, drill paths, and widget dependencies explicit so users can tell whether a tile is a snapshot, a live metric, a filtered visual, a link into detail, or an action-driving exception."
+  ],
+  "uiExamples": {
+    "good": [
+      "An operations dashboard opens with date range, region filter, last updated time, four KPI cards, an exception panel, a trend chart, and a priority table in a stable grid.",
+      "A sales dashboard groups revenue, pipeline, conversion, and risk widgets into labelled sections with consistent card widths, visible targets, and a detail link from each tile."
+    ],
+    "bad": [
+      "A dashboard is a wall of same-sized charts with no primary metric, no filter scope, no freshness, and no explanation of which tile matters first.",
+      "A responsive dashboard collapses filters and alerts below the fold while leaving decorative charts above the operational exceptions."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A manager changes Region to West, sees every tile show the same filtered scope and updated timestamp, then opens the exception table from the SLA breach card.",
+      "An analyst collapses supporting commentary, expands the risk section, and the dashboard preserves KPI context, global filters, and keyboard focus."
+    ],
+    "bad": [
+      "A user sees revenue down on one tile but cannot tell whether it is filtered, stale, a pinned snapshot, or live data.",
+      "Clicking a chart tile changes several other widgets without visible cross-filter state, so users make decisions from a silently narrowed dashboard."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to monitor several related metrics, exceptions, and analyses at once, but unstructured dashboard pages bury priority, hide scope and freshness, and make tiles look independent even when filters, snapshots, and drill paths affect interpretation.",
+  "solution": "Provide a dashboard layout with explicit purpose, hierarchy, responsive grid, named sections, global filter scope, tile-level titles and freshness, coordinated widgets, exception emphasis, drill paths, and failure states for stale, empty, permission-limited, and partially loaded data.",
+  "problemContext": [
+    "The page combines several widgets such as KPI cards, charts, tables, maps, alerts, summaries, filters, saved views, or action queues.",
+    "Users need overview and triage before they choose a deeper report, table, chart, record, or workflow.",
+    "Widgets may share global filters, cross-filter each other, refresh at different times, come from different sources, or represent pinned snapshots.",
+    "The layout must survive responsive breakpoints, role-based permissions, missing data, slow widgets, long labels, and user customization.",
+    "Dashboards often become operational artifacts, so their hierarchy, filters, and freshness need to be auditable and explainable."
+  ],
+  "selectionRules": [
+    "Choose dashboard layout when the user's task is monitoring or triaging multiple related signals on one page.",
+    "Use data visualization when one chart or analytic question is the main object rather than a page-level arrangement of widgets.",
+    "Use table or data grid when exact row comparison, editing, export, or bulk operations are primary.",
+    "Use saved view when the main object is a named presentation state for one data surface, not a multi-widget overview.",
+    "Use summary box when the page only needs a highlighted text summary or next-step block rather than a full monitoring canvas.",
+    "Use card grid when peer object cards are being browsed, not when widgets with different data roles are composed into a monitoring page.",
+    "Place the most decision-critical and frequently checked indicators before supporting charts, commentary, and long tables.",
+    "Avoid dashboard layout when widgets are unrelated, decorative, or cannot share clear scope, source, freshness, or interpretation rules.",
+    "Avoid making dashboards the default answer for every report; if users need one exact answer, route them to the narrower report or data surface.",
+    "Avoid hiding filters, stale data, permission gaps, or cross-filter state because those determine whether the dashboard can be trusted."
+  ],
+  "requiredStates": [
+    "Default dashboard with name, purpose, global scope, active filters, freshness, KPI tier, sections, and widget grid.",
+    "Global filtered, cross-filtered, tile-filtered, cleared-filter, stale-widget, partial-refresh, and mixed-refresh states.",
+    "Widget loading, empty, no-access, error, hidden-by-permission, data-delayed, and source-unavailable states.",
+    "Collapsed section, expanded section, pinned or resized widget, customized layout, reset layout, and saved dashboard state when customization exists.",
+    "Drill path from a KPI, chart, exception, or table into the relevant report, saved view, record list, or workflow.",
+    "Mobile and narrow-screen state where dashboard identity, filters, freshness, exceptions, and critical KPIs remain reachable before secondary widgets."
+  ],
+  "interactionContract": [
+    "Dashboard title, purpose, active filters, and last updated time apply visibly to the widgets they govern.",
+    "Each tile states what it measures, its unit or target, its source or freshness when relevant, and what happens when users select it.",
+    "Global filters update every governed widget or mark exceptions where a widget is not affected.",
+    "Cross-filtering and drill interactions leave visible state, a clear reset path, and do not silently change unrelated widgets.",
+    "Pinned snapshots, live tiles, cached widgets, and manually refreshed cards are labelled differently when users could interpret freshness incorrectly.",
+    "Responsive reflow preserves priority order, section grouping, widget titles, filters, and exceptions instead of merely packing cards into available space.",
+    "Permission-limited widgets explain what is missing without leaking private metrics, names, counts, or report titles.",
+    "Keyboard focus remains predictable after filters, collapse/expand, refresh, drill, or responsive reordering."
+  ],
+  "implementationChecklist": [
+    "Define dashboard purpose, audience, refresh cadence, data sources, global filters, key metrics, exception rules, target thresholds, and drill destinations before placing widgets.",
+    "Map the page hierarchy: first-read KPIs, operational exceptions, explanatory charts, supporting tables, source notes, and secondary links.",
+    "Use a responsive grid with stable gutters, minimum tile widths, section containers, and priority-based ordering across breakpoints.",
+    "Model widget metadata: title, description, source, scope, unit, target, freshness, permission, loading, error, stale, empty, and drill URL.",
+    "Show active global filters, cross-filter state, last refresh time, partial refresh failures, and reset controls near the dashboard or affected section.",
+    "Test long metric names, missing widgets, slow widgets, role-limited users, mobile width, zoom, keyboard order, screen readers, stale data, and mixed refresh cadence.",
+    "Keep customizable layout state separate from data filters and provide reset, save, and unsaved-change handling when users can rearrange tiles.",
+    "Log dashboard edits, shared changes, and data-source failures when the dashboard drives operational decisions."
+  ],
+  "commonMisuses": [
+    "Filling a page with charts before defining dashboard purpose, audience, hierarchy, and decisions.",
+    "Making every widget the same size even though only a few metrics drive action.",
+    "Hiding global filters, cross-filter state, source, freshness, or stale data.",
+    "Mixing live tiles, pinned snapshots, cached reports, and manual refresh cards with no freshness distinction.",
+    "Letting responsive reflow push filters, exceptions, or critical KPIs below decorative content.",
+    "Using dashboard layout when a single chart, table, saved view, summary box, or workflow page would answer the task faster.",
+    "Showing permission-limited blank spaces with no explanation or leaking restricted metric names.",
+    "Allowing dashboard customization to break shared layout, keyboard order, or widget relationships."
+  ],
+  "critiqueQuestions": [
+    "What decision or monitoring task does this dashboard support, and which widgets matter first?",
+    "Can users see active filters, scope, source, freshness, and cross-filter state before trusting the numbers?",
+    "Which widgets are live, cached, pinned snapshots, manually refreshed, partial, empty, or permission-limited?",
+    "Does responsive order preserve the dashboard's priority and section relationships?",
+    "What happens when a widget fails, refreshes later than others, or is unavailable to this user?",
+    "Would one chart, table, saved view, summary box, card grid, or report page serve the task better than a dashboard?"
+  ],
+  "useWhen": [
+    "Users need to monitor several related metrics, exceptions, and analyses together.",
+    "The page must help users triage and choose a next drill, report, record list, or workflow.",
+    "The product can expose dashboard scope, filters, freshness, source, and widget dependencies clearly.",
+    "A responsive page-level hierarchy can preserve critical indicators and exceptions across screen sizes."
+  ],
+  "avoidWhen": [
+    "Only one chart, table, status message, or record list is needed.",
+    "Widgets are unrelated or decorative and do not support a shared decision.",
+    "Data freshness, source, filters, or permissions cannot be disclosed accurately.",
+    "The primary task is editing rows, comparing exact values, reading a linear report, or completing a workflow.",
+    "The mobile experience would hide the controls or exceptions users need to trust the dashboard."
+  ],
+  "variants": [
+    "Executive dashboard",
+    "Operational dashboard",
+    "Analytics dashboard",
+    "Monitoring dashboard",
+    "KPI dashboard",
+    "Incident dashboard",
+    "Sales dashboard",
+    "Support dashboard",
+    "Customizable dashboard",
+    "Role-based dashboard",
+    "Mobile dashboard",
+    "Embedded dashboard"
+  ],
+  "accessibility": [
+    "Give the dashboard a heading, purpose, filter summary, refresh status, and section headings that screen-reader users can navigate.",
+    "Use semantic headings, landmarks, lists, tables, and chart alternatives instead of only visual tile placement.",
+    "Make filter controls, refresh, reset, collapse, expand, drill, and customize actions keyboard operable with visible focus.",
+    "Expose widget title, unit, target, status, freshness, and error state in text, not only color, icon, size, or position.",
+    "Announce filter changes, partial refresh, stale widgets, permission gaps, and cross-filter state in text or status regions.",
+    "Keep keyboard order aligned with responsive visual priority and section order.",
+    "Provide text summaries or data alternatives for chart widgets that carry critical decisions."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches dashboard-level filters, refresh/reset controls, section controls, critical widgets, drill links, and supporting widgets in priority order.",
+    "Enter or Space activates widget drill links, section collapse or expand controls, refresh, reset, and customization actions.",
+    "Escape closes widget menus, filter popovers, and customization panels while returning focus to the invoking control.",
+    "After applying a filter, focus remains on the filter control or moves to an announced dashboard summary.",
+    "After drilling into detail and returning, the dashboard restores the previous filter, cross-filter, scroll, and focus context.",
+    "If widgets can be rearranged, keyboard users can move, resize, save, cancel, and reset layout without drag-only controls."
+  ],
+  "failureModes": [
+    "A dashboard hides stale or partially refreshed widgets and users compare incompatible numbers.",
+    "Global filters apply to some widgets but the unaffected widgets are not labelled.",
+    "Cross-filtering silently narrows the page with no reset control.",
+    "Critical alerts or exceptions reflow below low-value charts on mobile.",
+    "Tile titles are vague, such as Performance or Overview, and do not name metric, unit, or scope.",
+    "Permission-limited widgets disappear and change layout priority without explanation.",
+    "A pinned snapshot looks live and drives wrong operational decisions.",
+    "Customization saves a personal layout over a shared operational dashboard."
+  ],
+  "relatedPatterns": [
+    "data-visualization",
+    "table",
+    "data-grid",
+    "card-grid",
+    "saved-view",
+    "filter-panel",
+    "chart-drilldown",
+    "compare-view",
+    "alert",
+    "loading-skeleton",
+    "empty-state"
+  ],
+  "comparisons": [
+    "dashboard-layout-vs-data-visualization-vs-table-vs-saved-view"
+  ],
+  "examples": [
+    {
+      "product": "Power BI dashboard design tips",
+      "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboards-design-tips",
+      "platform": "web",
+      "notes": "Documents dashboard hierarchy, prominent important information, uncluttered design, card visuals, context, and placement.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Power BI dashboard tiles",
+      "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboard-tiles",
+      "platform": "web",
+      "notes": "Documents dashboard tiles as pinned snapshots from reports and other sources used to compose dashboards.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Tableau dashboard size and layout",
+      "url": "https://help.tableau.com/current/pro/desktop/en-us/dashboards_organize_floatingandtiled.htm",
+      "platform": "web",
+      "notes": "Documents dashboard size, tiled and floating layout, layout containers, grouping related items, and responsive sizing.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Material responsive layout grid",
+      "url": "https://m2.material.io/design/layout/responsive-layout-grid.html",
+      "platform": "web",
+      "notes": "Documents responsive layout columns, gutters, margins, and breakpoints for arranging content across screen sizes.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-power-bi-dashboard-design-tips",
+      "note": "Microsoft documents dashboard design guidance for hierarchy, important information, context, clean layout, and avoiding unnecessary decoration."
+    },
+    {
+      "id": "microsoft-power-bi-dashboard-tiles",
+      "note": "Microsoft documents dashboard tiles as pinned snapshots and dashboard composition units."
+    },
+    {
+      "id": "tableau-dashboard-size-layout",
+      "note": "Tableau documents dashboard sizing, tiled and floating layout, layout containers, grouping, and responsive behavior."
+    },
+    {
+      "id": "material-responsive-layout-grid",
+      "note": "Material documents responsive columns, gutters, margins, and breakpoints used to keep dashboard layouts orderly."
+    },
+    {
+      "id": "microsoft-power-bi-visualizations-overview",
+      "note": "Microsoft documents visual categories including cards, tables, KPIs, gauges, maps, slicers, and filtering visuals that can appear as dashboard widgets."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

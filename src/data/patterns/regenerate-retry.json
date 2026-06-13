@@ -1,0 +1,268 @@
+{
+  "id": "regenerate-retry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed regenerate / retry pattern with AI response retry guidance, version and context preservation behavior, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers regenerate retry, retry same prompt, prompt snapshot, response version, previous answer, new answer, regenerate answer, retry failed response, continue partial output, retry from start, retry failed sources, retry failed tool, no-tool rerun, changed context, changed model, compare versions, restore previous, cooldown, rate limited, safety blocked, manual edits present, mobile regenerate, source scope, tool scope, attempt count, and side-effecting tool risk.",
+    "relatedPatternDistinction": "The entry separates regenerate / retry from retry by focusing on AI response versions rather than non-AI failed operations, from chat interface by handling a response-level action rather than the whole transcript, from streaming response by recovering or rerunning after partial output states rather than rendering live partial output, from prompt box by rerunning a submitted prompt rather than request editing before generation, and from editable AI output by protecting manual edits instead of directly editing generated drafts.",
+    "liveDemoBehavior": "The live demo shows retry same prompt, prompt snapshot, response version, previous answer, regenerate answer, retry failed response, continue partial output, retry from start, retry failed sources, retry failed tool, no-tool rerun, changed context, changed model, compare versions, restore previous, cooldown, rate limited, safety blocked, manual edits present, and mobile regenerate states. Bad states cover vague try again, silent overwrite, hidden context change, duplicate tool side effect, automatic retry loop, lost partial, and prompt edit disguise failures.",
+    "comparisonDecisionRules": "The linked regenerate-retry-vs-retry-vs-chat-interface-vs-streaming-response-vs-prompt-box-vs-editable-ai-output comparison gives concrete rules for response-level AI reruns, new answer versions, same-prompt retry, partial-output continuation, source retry, tool retry, non-AI failed operations, whole transcript, live partial output, request editing before generation, manually revising generated drafts, prompt snapshot, response version, previous answer, new answer, attempt count, cooldown, source scope, tool scope, model settings, changed context, same context, no-tool rerun, rate limit, quota exhausted, permission denied, safety blocked, manual edits present, side-effecting tool risk, vague try again, silent overwrite, hidden prompt edit, automatic retry loop, and ordinary operation retry.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and 390px mobile checks rendered /patterns/regenerate-retry/ with the live demo, exercised Retry same prompt, Prompt snapshot, Response version, Previous answer, Regenerate answer, Retry failed response, Continue partial output, Retry from start, Retry failed sources, Retry failed tool, No-tool rerun, Changed context, Changed model, Compare versions, Restore previous, Cooldown, Rate limited, Safety blocked, Manual edits present, Mobile regenerate, Vague try again, Silent overwrite, Hidden context change, Duplicate tool side effect, Automatic retry loop, Lost partial, and Prompt edit disguise states, and found no duplicate IDs, page overflow, or regenerate-retry demo overflow. The comparison route /compare/regenerate-retry-vs-retry-vs-chat-interface-vs-streaming-response-vs-prompt-box-vs-editable-ai-output/ included regenerate / retry, retry, chat interface, streaming response, prompt box, editable AI output, response-level AI reruns, new answer versions, same-prompt retry, partial-output continuation, source retry, tool retry, non-AI failed operations, whole transcript, live partial output, request editing before generation, manually revising generated drafts, retry same prompt, regenerate answer, continue partial output, retry failed sources, retry failed tools, compare versions, restore previous answer, keep both generated versions, prompt snapshot, response version, previous answer, new answer, attempt count, cooldown, source scope, tool scope, model settings, changed context, same context, no-tool rerun, rate limit, quota exhausted, permission denied, safety blocked, manual edits present, side-effecting tool risk, vague try again, silent overwrite, hidden prompt edit, automatic retry loop, and ordinary operation retry terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/regenerate-retry.png"
+    ]
+  },
+  "name": "Regenerate / retry",
+  "aliases": [
+    "regenerate answer",
+    "retry AI response",
+    "rerun assistant answer",
+    "response regeneration",
+    "retry same prompt",
+    "regenerate from prompt",
+    "assistant retry",
+    "AI answer retry",
+    "try another answer",
+    "regenerate with same context"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State",
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "AI response regeneration and same-turn retry control with version and context preservation",
+  "uiGuidance": [
+    "Render regenerate / retry as a response-level control that names whether it will rerun the same prompt, continue after failure, regenerate a new answer version, or retry failed tool and source work.",
+    "Show the prompt snapshot, carried context, source scope, tool scope, model or settings changes, previous output version, new output version, and compare or restore controls so users understand what changed."
+  ],
+  "uxGuidance": [
+    "Use regenerate / retry when users need another AI attempt for the same submitted request, or need recovery from a failed, stopped, low-quality, stale, blocked, or partially generated response.",
+    "Protect previous work: preserve the prior answer, citations, edits, prompt, partial output, selected sources, and version history unless the user deliberately replaces them."
+  ],
+  "uiExamples": {
+    "good": [
+      "A chat answer shows Regenerate answer, Retry failed sources, and Compare versions with the original prompt, source scope, model, and tool changes visible.",
+      "A stopped stream shows Retry from start, Continue partial, and Keep partial output so users can choose whether the same prompt repeats or the partial answer is preserved."
+    ],
+    "bad": [
+      "A Try again button silently changes the prompt, model, sources, and tools, then overwrites the previous answer and citations.",
+      "A failed assistant response can be retried repeatedly with no attempt count, cooldown, failure reason, source state, or previous output recovery."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user sees answer v1 has stale citations, chooses Regenerate with refreshed sources, compares v1 and v2, then restores v1 because v2 lost a required caveat.",
+      "A rate-limited response shows next retry timing and keeps the prompt, draft answer, and selected files intact until Retry same prompt is available."
+    ],
+    "bad": [
+      "A user taps Regenerate and the product removes the original answer, so copied recommendations and review comments no longer have a version reference.",
+      "A retry after tool failure creates duplicate side effects because the UI does not separate answer regeneration from tool execution retry."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI users often need to retry a failed answer or ask for another generated version, but a plain retry control can hide whether the same prompt, model, context, sources, tools, citations, and partial output are being reused or changed.",
+  "solution": "Provide explicit regenerate and retry controls that preserve the original prompt and output version, explain what will rerun, distinguish same-prompt retry from new answer regeneration, show attempt and cooldown state, protect prior versions, and connect changed outputs to source, tool, citation, and edit review surfaces.",
+  "problemContext": [
+    "A generated response may fail, stop, stall, be rate-limited, miss sources, produce weak output, use stale context, encounter a tool failure, or need a new variant.",
+    "Retrying an AI answer may mean repeating the same response request, continuing a partial stream, rerunning retrieval, retrying a tool, changing model settings, or generating an alternate version.",
+    "Regeneration may produce materially different conclusions, citations, tone, structure, tool use, or safety decisions even when the visible prompt is unchanged.",
+    "Users may have copied, edited, commented on, cited, approved, or applied the prior answer before regeneration is requested.",
+    "Some retry paths are subject to rate limits, backoff, idempotency, tool side effects, permission gates, or source freshness."
+  ],
+  "selectionRules": [
+    "Choose regenerate / retry when the task is rerunning an AI response attempt, creating a new answer version, continuing a failed generation, or recovering from failed AI source or tool work.",
+    "Use retry when the task is repeating a non-AI failed operation such as export, upload, payment, save, or sync under the same request scope.",
+    "Use chat interface when the design problem is the full multi-turn transcript, conversation list, history, and composer; regenerate / retry is one response-level action inside that surface.",
+    "Use streaming response when the design problem is the live partial-output lifecycle; regenerate / retry handles the recovery or alternate-version action after stop, stall, failure, or completion.",
+    "Use prompt box when users should edit the request before generation instead of rerunning the submitted prompt.",
+    "Use editable AI output when users directly revise the generated draft; regenerate / retry should not overwrite those manual edits without compare or recovery.",
+    "Use source grounding display or citation display when the key task is evidence inspection rather than requesting another generated version.",
+    "Show same prompt, edited prompt, same context, changed context, same model, changed model, same sources, refreshed sources, same tools, retried tools, and no-tool rerun differences before the user commits.",
+    "Do not hide the prior answer, citations, tool trace, partial output, edits, or version identity when a new answer is generated.",
+    "Do not automatically retry AI work in a tight loop when rate limits, overload, safety review, permission denial, or side-effecting tools make repetition unsafe."
+  ],
+  "requiredStates": [
+    "Initial answer state with prompt snapshot, response version, source scope, model or mode, and available regenerate or retry controls.",
+    "Failed response retry state with failure reason, attempt count, preserved prompt, and Retry same prompt action.",
+    "Stopped or partial output state with Continue partial, Retry from start, Copy partial, and Discard controls.",
+    "Regenerating state with in-flight status, duplicate activation guard, attempt number, and previous version still available.",
+    "Regenerated version state that shows v1 and v2 identity, changed model, changed context, changed sources, changed tools, and compare versions controls.",
+    "Retry failed sources, retry failed tool, and no-tool rerun states when the answer depends on retrieval or tool calls.",
+    "Rate-limited, cooldown, quota exhausted, offline, permission denied, safety blocked, and non-retryable states.",
+    "Stale context and refreshed source states that make source freshness explicit before regeneration.",
+    "Manual edits present state that blocks overwrite and routes users to compare, keep edited, regenerate from edit, or restore original.",
+    "Mobile compact regeneration state that preserves prior version, prompt snapshot, source status, and retry timing."
+  ],
+  "interactionContract": [
+    "Retry same prompt repeats the submitted prompt and visible context unless the UI explicitly shows which context changed.",
+    "Regenerate creates a new answer version or clearly replaces the current version with an undo and restore path.",
+    "Previous output, partial output, citations, tool events, copied state, and review comments remain inspectable after regeneration when they affected user decisions.",
+    "Retry failed source work and retry failed tool work are distinct from regenerating answer text.",
+    "If model, mode, source scope, tools, safety policy, or prompt text changes between attempts, the difference is visible before or immediately after the new attempt.",
+    "Retry controls enter a pending state and suppress duplicate activation until the attempt completes, fails, cools down, or is cancelled.",
+    "Rate limits, cooldowns, safety blocks, permission denials, and non-retryable failures replace the action with honest recovery or explanation.",
+    "Regeneration never discards manual edits from editable AI output unless the user chooses a replacement path with version recovery."
+  ],
+  "implementationChecklist": [
+    "Model prompt snapshot, submitted prompt ID, response ID, response version, attempt number, partial output, previous output, selected context, source scope, tool scope, model settings, and retry status separately.",
+    "Track regenerate reason such as weak answer, user requested variant, failed stream, failed source, failed tool, stale source, safety block, rate limit, or edited draft.",
+    "Represent same-prompt retry, edited-prompt retry, continue partial, retry from start, regenerate alternate, retry sources, retry tools, compare versions, restore previous, and keep both as separate actions.",
+    "Show source, tool, citation, and model differences between attempts in structured rows instead of burying them in final answer text.",
+    "Protect side-effecting tool calls with idempotency, permission gates, or no-tool rerun options before allowing retries that can change external systems.",
+    "Persist old answer versions long enough for copy, citation, audit, review, compare, and rollback tasks.",
+    "Apply cooldown, retry limits, and rate-limit timing for repeated AI retries and automatic retries.",
+    "Test same prompt retry, changed context, changed model, failed source retry, failed tool retry, stopped partial output, rate limit, safety block, manual edits, version compare, mobile wrapping, keyboard operation, and screen-reader status changes."
+  ],
+  "commonMisuses": [
+    "Using one Try again button for same-prompt retry, prompt edit, tool retry, source refresh, and alternate answer generation.",
+    "Overwriting the previous answer and citations after regeneration.",
+    "Hiding changed model, tools, source scope, or context between attempts.",
+    "Retrying side-effecting tools while presenting the action as harmless answer regeneration.",
+    "Letting users regenerate over manually edited output without conflict handling.",
+    "Using infinite automatic retries during rate limits, overload, safety review, or permission denial.",
+    "Treating a regenerated answer as more correct without showing source, confidence, or review changes."
+  ],
+  "critiqueQuestions": [
+    "Will this action retry the same prompt, continue partial output, regenerate a new version, retry sources, retry tools, or edit the prompt?",
+    "Can users see the prompt snapshot, version identity, source scope, tool scope, model settings, attempt count, and changed context?",
+    "What happens to the previous answer, citations, copied state, comments, approvals, and manual edits?",
+    "Which failures are retryable, cooled down, blocked, exhausted, or non-retryable?",
+    "Does any retry path repeat side-effecting tools, and what prevents duplicate external effects?",
+    "Would general retry, chat interface, streaming response, prompt box, or editable AI output better match the actual task?"
+  ],
+  "useWhen": [
+    "A user needs another AI-generated answer for the same request or a visible recovery path after response failure.",
+    "The product can preserve prompt, prior output, source, tool, citation, and version state across attempts.",
+    "Users need to compare, restore, continue, or choose between generated versions.",
+    "AI retry behavior may change model output, evidence, or tool use in ways users must understand."
+  ],
+  "avoidWhen": [
+    "The task is a simple non-AI operation retry already covered by the Retry pattern.",
+    "Users should edit the prompt or structured input before another generation.",
+    "The product cannot preserve prior output or explain changed context between attempts.",
+    "Retrying could repeat unsafe side effects and no idempotency or permission gate exists.",
+    "The failure is a hard policy, permission, quota, or safety block that cannot change through repetition."
+  ],
+  "variants": [
+    "Retry same prompt",
+    "Regenerate answer",
+    "Regenerate with refreshed sources",
+    "Retry failed retrieval",
+    "Retry failed tool call",
+    "Continue partial generation",
+    "Retry from start",
+    "Compare regenerated versions",
+    "Restore previous answer",
+    "Mobile regenerate sheet"
+  ],
+  "accessibility": [
+    "Expose same prompt, changed context, regenerating, retrying, version created, compare available, cooldown, exhausted, blocked, and restored states as text.",
+    "Do not rely on icon rotation, animation, color, or a changed answer alone to communicate that regeneration happened.",
+    "Make Retry same prompt, Continue partial, Regenerate answer, Retry sources, Retry tools, Compare versions, Restore previous, Keep both, and Cancel controls keyboard reachable.",
+    "Announce meaningful status changes such as retry started, new version ready, source retry failed, cooldown active, previous answer restored, or regeneration blocked without moving focus unexpectedly.",
+    "Keep focus near the response-level action or version comparison after retry, failure, regeneration, restore, or cooldown.",
+    "Ensure long prompts, source titles, model names, failure reasons, and version differences wrap at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches response actions, version controls, retry details, compare versions, restore previous, source/tool retry details, and fallback actions in a predictable order.",
+    "Enter or Space activates retry and regenerate controls once, then pending state prevents keyboard repeat from starting duplicate attempts.",
+    "Escape closes version comparison, source detail, or retry explanation panels and returns focus to the invoking control.",
+    "After retry succeeds, focus moves to a new-version status or remains near the regenerated answer according to the page flow.",
+    "After retry fails, focus stays near the failed response and updated recovery choices.",
+    "Keyboard users can move between v1, v2, source differences, tool differences, and restore controls without losing the current answer."
+  ],
+  "failureModes": [
+    "Users cannot tell whether Retry repeats the same prompt or changes the request.",
+    "Regenerate overwrites prior answer, citations, partial output, or comments without recovery.",
+    "Changed source scope, model, tools, or context are hidden between versions.",
+    "A failed source or tool retry is presented as a complete regenerated answer.",
+    "Retry loops continue through rate limits, permission denial, safety blocks, or non-retryable failures.",
+    "Side-effecting tools run twice because answer regeneration was not separated from tool retry.",
+    "Manual edits are lost when the answer is regenerated.",
+    "Screen reader users hear only answer text changes and never learn that a new version replaced an old one."
+  ],
+  "relatedPatterns": [
+    "retry",
+    "chat-interface",
+    "streaming-response",
+    "prompt-box",
+    "editable-ai-output",
+    "source-grounding-display",
+    "citation-display",
+    "tool-use-visibility"
+  ],
+  "comparisons": [
+    "regenerate-retry-vs-retry-vs-chat-interface-vs-streaming-response-vs-prompt-box-vs-editable-ai-output"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI conversation state guide",
+      "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "platform": "ai",
+      "notes": "Documents response chaining and conversation state needed to preserve prompt and response identity across retries.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI Responses streaming events",
+      "url": "https://developers.openai.com/api/reference/resources/responses/streaming-events/",
+      "platform": "ai",
+      "notes": "Documents response event lifecycles that support failed, partial, and completed response handling.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "AWS Builders' Library retries and backoff",
+      "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
+      "platform": "web",
+      "notes": "Supports backoff, jitter, retry limits, and avoiding retry amplification for repeated AI attempts.",
+      "checkedAt": "2026-06-09"
+    },
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Supports user control, correction, feedback, and appropriate trust around AI regeneration.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports preserving conversation, prompt, response, and tool state across response attempts."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports event-based handling for partial, failed, and completed generated responses."
+    },
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports distinguishing edited-prompt iteration from regenerating the same submitted prompt."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user correction, control, feedback, and appropriate reliance in AI experiences."
+    },
+    {
+      "id": "aws-builders-library-retries-backoff-jitter",
+      "note": "Supports capped retry, backoff, jitter, and retry-amplification risk for repeated attempts."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Supports idempotency concerns when retries can repeat side-effecting tool calls."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible announcements for retry, regeneration, cooldown, and version status changes."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

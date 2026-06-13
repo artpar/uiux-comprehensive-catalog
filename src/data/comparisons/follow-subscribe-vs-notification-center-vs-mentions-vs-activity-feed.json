@@ -1,0 +1,58 @@
+{
+  "id": "follow-subscribe-vs-notification-center-vs-mentions-vs-activity-feed",
+  "title": "Follow / subscribe vs notification center vs mentions vs activity feed",
+  "summary": "Use follow or subscribe when a user intentionally opts into future updates from a specific item, thread, channel, space, repository, or saved view; use notification center for retained delivery, mentions for directed attention, and activity feed for broad catch-up.",
+  "patternIds": [
+    "follow-subscribe",
+    "notification-center",
+    "mentions",
+    "activity-feed",
+    "threaded-discussion",
+    "settings-management",
+    "saved-view",
+    "comments"
+  ],
+  "decisionRules": [
+    "Choose follow / subscribe when the user's main action is opting into future updates for a concrete target such as a thread, page, space, channel, issue, repository, saved view, or topic.",
+    "Choose notification center when the problem is where delivered updates are retained, triaged, marked read, filtered, or acted on; a subscription may create center items but is not the center itself.",
+    "Choose mentions when the sender needs to route attention to a specific person or group inside authored content; follow / subscribe is recipient-driven and can continue without new mentions.",
+    "Choose activity feed when users need catch-up across many event sources; follow / subscribe narrows which future events should be elevated from that feed.",
+    "Choose threaded discussion when users need durable reply structure; follow / subscribe controls whether that thread's future replies notify the user.",
+    "Use settings management for global notification defaults, digests, channels, quiet hours, or delivery media; keep per-object follow state visible beside the object it affects.",
+    "Use saved view when the user stores a filtered work surface; add follow / subscribe only when that saved view can generate future update delivery.",
+    "Use comments when users need to write feedback or a reply; subscribing to comments means receiving future comment activity, not contributing content.",
+    "A follow control must show current state, target scope, delivery destination, event types, permission limits, auto-follow reasons, digest behavior, and an obvious unfollow path.",
+    "Avoid automatic subscriptions that have no explanation or cleanup path, because users cannot tell why they are receiving updates or how to stop them."
+  ],
+  "failureModes": [
+    "A page says Following but does not reveal whether the scope is one thread, a whole channel, a space, a repository, or every future reply.",
+    "Users receive notifications because they replied or were mentioned, but the UI never explains the auto-follow reason or how to unfollow.",
+    "A subscribe button sends email, push, and in-app updates without showing delivery channel or digest rules.",
+    "Unfollow is hidden in global settings, forcing users to hunt through notification preferences to stop one noisy object.",
+    "Permission changes keep a user subscribed to an item they can no longer access, creating dead notification links.",
+    "A saved search, view, or channel is followed but updates never appear in the promised destination or activity feed."
+  ],
+  "sources": [
+    {
+      "id": "github-notifications-subscriptions",
+      "note": "GitHub describes notifications as updates about activity users have subscribed to and documents reasons for receiving notifications."
+    },
+    {
+      "id": "github-managing-subscriptions",
+      "note": "GitHub documents reviewing and unsubscribing from subscriptions and watched repositories from inbox and management pages."
+    },
+    {
+      "id": "atlassian-confluence-watch-content",
+      "note": "Confluence documents watching pages, spaces, blogs, live docs, whiteboards, and slides to receive update notifications."
+    },
+    {
+      "id": "slack-thread-notifications",
+      "note": "Slack documents thread-specific notification follow and unfollow controls."
+    },
+    {
+      "id": "microsoft-teams-follow-threads",
+      "note": "Microsoft Teams documents followed threads, automatic follow reasons, and followed thread access."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

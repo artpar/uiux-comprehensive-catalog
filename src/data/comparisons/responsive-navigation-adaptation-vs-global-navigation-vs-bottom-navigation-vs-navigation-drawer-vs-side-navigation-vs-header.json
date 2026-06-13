@@ -1,0 +1,61 @@
+{
+  "id": "responsive-navigation-adaptation-vs-global-navigation-vs-bottom-navigation-vs-navigation-drawer-vs-side-navigation-vs-header",
+  "title": "Responsive navigation adaptation vs global navigation vs bottom navigation vs navigation drawer vs side navigation vs header",
+  "summary": "Use responsive navigation adaptation when the same navigation model must change presentation across compact, medium, expanded, and dense destination states without changing information architecture or losing current state. Use the individual navigation patterns when the problem is a specific fixed surface: global destinations, bottom mobile destinations, drawer overflow, local side hierarchy, or current-view header actions.",
+  "patternIds": [
+    "responsive-navigation-adaptation",
+    "global-navigation",
+    "bottom-navigation",
+    "navigation-drawer",
+    "side-navigation",
+    "header"
+  ],
+  "decisionRules": [
+    "Choose responsive navigation adaptation when viewport width, device posture, orientation, pointer mode, safe areas, or destination count require navigation to move between bottom bar, rail, drawer, side panel, top overflow, or simplified header while preserving the same destination identities.",
+    "Choose global navigation when the core problem is a stable top-level product or service destination set; responsive navigation adaptation may decide where that set appears at each width, but global navigation owns the destination scope and current-section semantics.",
+    "Choose bottom navigation when compact mobile users need three to five peer primary destinations visible at thumb reach; responsive adaptation owns the rule for when that bottom bar becomes a navigation rail, drawer, or side panel.",
+    "Choose navigation drawer when constrained layouts need a dismissible list of extra destinations; responsive adaptation owns when the drawer is modal, dismissible, standard, permanent, or replaced by another surface.",
+    "Choose side navigation when desktop or wide layouts need persistent local hierarchy beside content; responsive adaptation owns how that side navigation collapses, moves, or becomes a drawer without changing labels or current-page state.",
+    "Choose header/top app bar when the current view needs a title, leading affordance, actions, and overflow; responsive adaptation owns how header controls collapse or move without mixing view actions with destination navigation.",
+    "A responsive navigation adaptation must define breakpoint or container-query rules, destination priority, overflow ownership, current state continuity, focus return, label consistency, safe-area handling, and what happens to open panels or unsaved state during resize.",
+    "Do not remove destinations, rename labels, reset route state, duplicate the same destination set in competing surfaces, or move primary actions into navigation just because the viewport becomes narrow.",
+    "When adapting from compact to expanded width, keep the selected destination, nested route, scroll or filter state, badge state, and open/closed disclosure state coherent across the new surface.",
+    "When destination count changes beyond compact limits, prioritize the highest-frequency destinations and place secondary destinations in a labelled overflow or drawer instead of shrinking labels or creating hidden icon-only navigation."
+  ],
+  "failureModes": [
+    "The mobile bottom bar, tablet rail, and desktop side nav use different labels for the same destination.",
+    "A current destination disappears at a breakpoint and users cannot tell where they are.",
+    "The compact layout duplicates primary destinations in both a bottom bar and a drawer without a clear overflow rule.",
+    "Resizing from mobile to desktop resets filters, drafts, scroll position, or nested route state.",
+    "A header action such as Save or Search is moved into destination navigation and becomes ambiguous.",
+    "Safe-area and keyboard insets cover bottom navigation on compact mobile screens.",
+    "Focus remains inside a hidden drawer after the layout adapts to a rail or side navigation."
+  ],
+  "sources": [
+    {
+      "id": "android-responsive-navigation",
+      "note": "Supports adapting navigation among bottom navigation, navigation rail, and drawers based on width and destination count."
+    },
+    {
+      "id": "android-navigation-ui",
+      "note": "Supports primary and secondary mobile navigation surfaces and responsive navigation choices."
+    },
+    {
+      "id": "material-responsive-layout-grid",
+      "note": "Supports breakpoint and layout-grid reasoning for responsive structure."
+    },
+    {
+      "id": "material-bottom-navigation",
+      "note": "Supports compact bottom-navigation destination-count and selected-state constraints."
+    },
+    {
+      "id": "material-navigation-drawer",
+      "note": "Supports drawer variants, modal behavior, and persistent navigation behavior used as expanded-width alternatives."
+    },
+    {
+      "id": "uswds-side-navigation",
+      "note": "Supports persistent side navigation and current-page state as an expanded local navigation alternative."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

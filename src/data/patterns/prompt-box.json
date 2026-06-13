@@ -1,0 +1,248 @@
+{
+  "id": "prompt-box",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed AI request composer pattern with guidance for editable draft, visible context chips, attachments, source and tool scope, explicit send, newline behavior, over-limit repair, unavailable context, safety block, submitted prompt, generation pending, failed send, retry, edit-and-resend, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers the AI prompt composer as a primary editable request surface, including draft text, selected text, current page context, files, source IDs, read-only or tool scope, output format, model or mode indicator, empty-field hint behavior, explicit send, newline behavior, over-limit, unavailable source, privacy block, submitted prompt, pending generation, failed send, retry, edit-and-resend, and draft preservation.",
+    "relatedPatternDistinction": "The entry separates prompt box from prompt suggestions by making the prompt box own the editable request surface, from command palette by avoiding known app-command execution, from search suggestions by avoiding retrieval-query behavior, from textarea by adding AI context and model lifecycle states, and from chat interface by treating conversation history, streaming output, citations, and follow-up turns as a broader surrounding surface.",
+    "liveDemoBehavior": "The live demo shows a contract review prompt box with Draft, Context chips, Attach file, Over limit, Unavailable source, Blocked send, Send prompt, Pending, Failed send, Retry, Edit resend, and Clear draft states. Bad states cover hint submit, enter send, hidden context, unreadable file, auto suggest, draft loss, and command disguise.",
+    "comparisonDecisionRules": "The linked prompt-box-vs-prompt-suggestions-vs-command-palette-vs-search-suggestions-vs-textarea comparison gives concrete rules for compose, edit, review, attach context, natural-language request, starter prompts, known application commands, retrieval query, long-form text field, send action, draft, submitted prompt, selected text, attached files, current page context, workspace data, tools, empty-field hint text, Enter key, blocked send, generation pending, error, retry, edit-and-resend, chat interface, conversation history, streaming output, and citations.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/prompt-box/ with the live demo, changed Draft, Context chips, Attach file, Over limit, Unavailable source, Blocked send, Send prompt, Pending, Failed send, Retry, Edit resend, Clear draft, Hint submit, Enter send, Hidden context, Unreadable file, Auto suggest, Draft loss, and Command disguise states, and found no duplicate IDs, page overflow, or prompt-box overflow. The comparison route /compare/prompt-box-vs-prompt-suggestions-vs-command-palette-vs-search-suggestions-vs-textarea/ included prompt box, prompt suggestions, command palette, search suggestions, textarea, compose, edit, review, attach context, natural-language request, starter prompts, known application commands, retrieval query, long-form text field, send action, draft, submitted prompt, selected text, attached files, current page context, workspace data, tools, empty-field hint text, enter key, blocked send, generation pending, error, retry, edit-and-resend, chat interface, conversation history, streaming output, and citations terms with no duplicate IDs or page-level overflow on desktop and mobile.",
+    "screenshots": [
+      "screenshots/patterns/prompt-box.png"
+    ]
+  },
+  "name": "Prompt box",
+  "aliases": [
+    "AI prompt input",
+    "prompt composer",
+    "AI input box",
+    "assistant input",
+    "model request field",
+    "prompt editor",
+    "natural language command field",
+    "copilot input",
+    "AI request composer",
+    "prompt entry"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Primary editable input surface for composing and submitting an AI request",
+  "uiGuidance": [
+    "Render the prompt box as a labelled, editable composer with visible draft area, send control, context chips, attachment controls, model or mode indicator when relevant, character or token boundary feedback, and clear disabled or blocked-send reasons.",
+    "Show exactly what the prompt will include before submission: typed instruction, selected text, attached files, page context, workspace sources, tool access, output format, safety or privacy limits, and whether Enter sends or inserts a newline."
+  ],
+  "uxGuidance": [
+    "Use a prompt box when users need to author a natural-language request for AI generation, transformation, analysis, or automation and must remain in control of the exact request being submitted.",
+    "Protect users from accidental or misleading submissions by preserving drafts, requiring explicit send for consequential work, validating unavailable context, supporting edit-and-resend, and distinguishing prompt composition from search, command execution, and normal text entry."
+  ],
+  "uiExamples": {
+    "good": [
+      "An assistant composer labels the selected source as Contract draft, shows Attach file, Use selected text, Format: table, and Send, and blocks sending when the referenced file is no longer available.",
+      "A prompt box expands for a multi-line request, shows Shift+Enter for newline, Enter to send only when configured, and keeps the draft after a failed model request."
+    ],
+    "bad": [
+      "A blank AI field shows only Ask me anything and sends vague requests with hidden page context.",
+      "A prompt input has attachment and tool icons but no labels, no context summary, and no indication that generated output will need review."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user selects a policy paragraph, writes Summarize risks for a non-lawyer, sees Selected text and Output: bullets chips, submits, then edits and resends the exact prompt after the first answer is too broad.",
+      "A user attaches a spreadsheet, sees that the model can use only the visible sheet, changes the prompt to ask for a CSV-ready summary, and keeps their draft when upload validation fails."
+    ],
+    "bad": [
+      "A user presses Enter expecting a new line and accidentally sends an unfinished prompt to an external model.",
+      "A user asks the prompt box to update records, but the surface hides that tool access is disabled until after generation fails."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI features often invite open-ended requests, but a vague or under-instrumented prompt field hides what context, sources, tools, permissions, limits, and side effects will be included, causing accidental sends, weak outputs, privacy mistakes, and confusion with search or command execution.",
+  "solution": "Provide a prompt box that makes the editable draft, included context, source and tool scope, submission behavior, safety limits, blocked states, and recovery paths visible before the request is sent.",
+  "problemContext": [
+    "Users may be asking for generation, summarization, extraction, classification, rewrite, planning, data analysis, tool use, or workflow automation.",
+    "A prompt may include typed text, selected page content, files, current object metadata, conversation history, workspace knowledge, external tools, hidden system instructions, or no additional context.",
+    "The AI response can be non-deterministic, incomplete, ungrounded, delayed, blocked, rate-limited, or require user review before use.",
+    "Prompt input often sits near prompt suggestions, generated responses, chat history, citations, approvals, attachments, and model-selection controls.",
+    "Mobile keyboards, IME composition, speech input, paste, file upload, and Enter/newline behavior can change how users submit or edit prompts."
+  ],
+  "selectionRules": [
+    "Choose prompt box when the central user action is composing and submitting an AI request.",
+    "Use prompt suggestions when the interface provides starter requests that should load into an editable prompt box before send.",
+    "Use command palette when the typed input selects known app commands or routes rather than open-ended AI output.",
+    "Use search suggestions when the input creates or refines a retrieval query and returns matching items.",
+    "Use textarea when the field is ordinary human-authored long text without AI context, sources, model state, or generated-output lifecycle.",
+    "Use chat interface when conversation history, assistant turns, follow-up prompts, streaming responses, and multi-turn memory are the primary surface.",
+    "Require explicit send when a prompt can trigger tool use, publish content, contact people, alter records, reveal sensitive data, or spend money.",
+    "Show context inclusion and repair paths before send when selected text, files, workspace sources, or tools are unavailable, stale, too large, or permission-limited.",
+    "Keep empty-field hint copy instructional but never treat hint text as submitted prompt content.",
+    "Preserve draft text, attachments, selected context, focus, and scroll when send fails, model availability changes, or users navigate back from output review."
+  ],
+  "requiredStates": [
+    "Empty prompt state with label, helpful instruction, and no implied hidden submission.",
+    "Typing state with expandable multi-line draft, send affordance, newline behavior, and character or token boundary feedback.",
+    "Context-attached state with selected text, current page, file, source, or tool chips.",
+    "Unavailable-context, unsupported-file, over-limit, permission-limited, blocked-safety, and offline states with repair paths.",
+    "Submitted prompt state that records the exact prompt sent and distinguishes it from the editable draft.",
+    "Generation pending, failed request, rate limited, retry, edit-and-resend, cancel, and cleared draft states.",
+    "Sensitive-content warning, external-model disclosure, tool-use review, and human-approval handoff states when relevant.",
+    "Mobile keyboard state with accessible send, attachment, newline, voice input, and draft-preservation behavior."
+  ],
+  "interactionContract": [
+    "The prompt box always exposes the user's editable draft before submission.",
+    "Send uses the visible draft and the visible context chips; hidden context must be disclosed elsewhere in the same surface.",
+    "Placeholder, suggestion, or hint text never submits as a user prompt unless the user explicitly selects or types it.",
+    "Enter, Shift+Enter, Command+Enter, mobile send, and IME composition behavior are stated or follow platform expectations without accidental sends.",
+    "Context chips can be inspected, removed, repaired, or replaced before the request is sent.",
+    "Blocked send states explain whether the problem is empty prompt, missing context, unsupported file, safety policy, permission, rate limit, model availability, or network state.",
+    "After failed send or blocked send, the draft and attachments remain available and focus stays near the repair control.",
+    "After submit, users can inspect the exact prompt, edit and resend it, or clear the draft without losing the previous output."
+  ],
+  "implementationChecklist": [
+    "Define prompt payload structure: user text, selected content, files, source IDs, tool permissions, conversation scope, output format, model or mode, and safety flags.",
+    "Keep prompt draft state separate from submitted prompt history, generated answer, command execution state, and search query state.",
+    "Implement labelled controls for send, attach, context source, remove context, clear draft, edit previous prompt, retry, cancel generation, and open safety or privacy details.",
+    "Validate empty prompt, over-limit text, unsupported attachments, unavailable sources, revoked permissions, offline state, rate limits, and blocked content before send.",
+    "Preserve drafts across focus loss, route changes within the task, failed requests, file validation errors, and model availability changes.",
+    "Test keyboard, screen reader, mobile keyboard, paste, IME composition, dictation, long prompts, file attachments, sensitive content, and low-connectivity states."
+  ],
+  "commonMisuses": [
+    "Showing Ask anything as the only instruction while hiding what sources and tools the model can use.",
+    "Auto-sending prompt suggestions, pasted content, or empty-field hint wording.",
+    "Using a prompt box for deterministic commands that should be explicit buttons or command-palette actions.",
+    "Styling a prompt box like search and implying generated answers are exact retrieved results.",
+    "Letting users attach files or select context without showing whether the model can read them.",
+    "Clearing the draft after a rate limit, upload failure, safety block, or network error.",
+    "Hiding consequential tool use behind conversational phrasing."
+  ],
+  "critiqueQuestions": [
+    "Can users see the exact request, context, attachments, sources, tools, and output expectation before send?",
+    "What prevents accidental send from Enter, starter prompts, paste, mobile keyboard actions, or empty-field hint text?",
+    "Which failures preserve the draft, and which provide repair before submission?",
+    "Does this surface need a chat interface, prompt suggestions, command palette, search box, or ordinary textarea instead?",
+    "Are privacy, sensitive-data, external-model, and tool-use consequences visible at the prompt box boundary?",
+    "Can users edit and resend the exact prompt after reviewing a weak, failed, or incomplete output?"
+  ],
+  "useWhen": [
+    "Users must write or revise an AI request before generation, analysis, transformation, or automation begins.",
+    "The system can make context, sources, tools, permissions, limits, and submit behavior visible before request execution.",
+    "The prompt draft and submitted prompt need a recoverable lifecycle separate from AI output."
+  ],
+  "avoidWhen": [
+    "The task is better expressed as a fixed form, button, or command with known parameters.",
+    "Users only need query suggestions or retrieval search, not AI generation or transformation.",
+    "The product cannot disclose or constrain what context the model will use.",
+    "High-risk automation requires structured review, approval, or form fields before any natural-language request runs.",
+    "The interface cannot preserve drafts through common failure and navigation states."
+  ],
+  "variants": [
+    "Single-turn prompt box",
+    "Expandable prompt composer",
+    "Prompt box with context chips",
+    "Prompt box with file attachments",
+    "Prompt box with output format controls",
+    "Prompt box with tool-use review",
+    "Inline prompt box",
+    "Floating assistant input",
+    "Voice-assisted prompt box",
+    "Mobile prompt composer"
+  ],
+  "accessibility": [
+    "Provide a programmatic label for the prompt editor and named controls for send, attach, remove context, clear, retry, and cancel.",
+    "Expose draft, empty-field hint, context chips, over-limit text, blocked send, generation pending, and failed-send states in text.",
+    "Do not rely on icon-only controls for attach, send, model mode, source, or tool access.",
+    "Keep focus in or near the prompt box after blocked send, failed upload, validation error, retry, or cancel generation.",
+    "Announce status messages without moving focus when context is added, removed, blocked, submitted, or restored.",
+    "Respect IME composition, dictation, mobile keyboards, zoom, long text, screen readers, and reduced motion during generation state changes."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches prompt editor, context chips, attach, mode, send, clear, and related controls in a predictable order.",
+    "Enter behavior is explicit: either send on Enter with Shift+Enter for newline, or newline on Enter with a separate send shortcut.",
+    "Escape closes attachment menus, source pickers, and suggestion popovers without deleting the prompt draft.",
+    "Backspace or Delete removes a focused context chip only after focus is clearly on that chip.",
+    "Command+Enter or Control+Enter may send from a multi-line prompt when the shortcut is exposed.",
+    "After send, focus moves to the generated-output status or remains in the prompt box according to the product's stated flow."
+  ],
+  "failureModes": [
+    "Empty-field hint text is treated like a prompt.",
+    "Enter sends an unfinished multi-line request.",
+    "Hidden page context or workspace data is included without notice.",
+    "Attachments appear added but are unreadable, too large, stale, or permission-limited.",
+    "Prompt suggestions submit without review.",
+    "The draft disappears after a safety block, timeout, rate limit, or network failure.",
+    "A prompt field runs commands or tool actions without review.",
+    "Users cannot inspect the exact prompt that produced an output."
+  ],
+  "relatedPatterns": [
+    "prompt-suggestions",
+    "command-palette",
+    "search-suggestions",
+    "textarea",
+    "text-input"
+  ],
+  "comparisons": [
+    "prompt-box-vs-prompt-suggestions-vs-command-palette-vs-search-suggestions-vs-textarea"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI prompt engineering guide",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+      "platform": "ai",
+      "notes": "Documents effective instructions, context, constraints, examples, and iteration for model prompts.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft 365 Copilot prompt writing",
+      "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-writing-prompts-in-microsoft-365-copilot",
+      "platform": "ai",
+      "notes": "Documents prompt elements including goal, context, expectations, and source.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Copilot Studio Prompt Assistant",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/prompt-assistant",
+      "platform": "ai",
+      "notes": "Documents a prompt draft workflow where users review, edit, keep, and test generated prompt drafts.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft 365 Copilot Prompt Gallery",
+      "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-prompt-gallery",
+      "platform": "ai",
+      "notes": "Documents suggested, saved, shared, and team prompts that are adjacent to but distinct from the primary prompt box.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports explicit instructions, context, constraints, structured response expectations, and iteration."
+    },
+    {
+      "id": "microsoft-365-copilot-writing-prompts",
+      "note": "Supports goal, context, expectations, and source as prompt components."
+    },
+    {
+      "id": "microsoft-copilot-studio-prompt-assistant",
+      "note": "Supports prompt draft review, edit, keep, and test behavior."
+    },
+    {
+      "id": "microsoft-copilot-prompt-gallery",
+      "note": "Supports the distinction between prompt suggestions and the primary prompt input surface."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

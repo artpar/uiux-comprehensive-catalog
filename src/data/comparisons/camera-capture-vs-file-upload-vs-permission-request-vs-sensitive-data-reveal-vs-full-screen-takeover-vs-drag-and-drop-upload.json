@@ -1,0 +1,61 @@
+{
+  "id": "camera-capture-vs-file-upload-vs-permission-request-vs-sensitive-data-reveal-vs-full-screen-takeover-vs-drag-and-drop-upload",
+  "title": "Camera capture vs file upload vs permission request vs sensitive-data reveal vs full-screen takeover vs drag-and-drop upload",
+  "summary": "Use camera capture when the product asks users to create new media from a live camera preview and then review, retake, crop, or submit it. Use file upload for existing files, permission request for the access ask, sensitive-data reveal for hiding captured private content, full-screen takeover for temporary focused modes, and drag-and-drop upload for pointer-based file transfer.",
+  "patternIds": [
+    "camera-capture",
+    "file-upload",
+    "permission-request",
+    "sensitive-data-reveal",
+    "full-screen-takeover",
+    "drag-and-drop-upload"
+  ],
+  "decisionRules": [
+    "Choose camera capture when users must create new photo or video evidence through a live preview, capture control, framing guidance, camera switch, capture result, review, retake, crop, and submit flow.",
+    "Choose file upload when users already have a file and need browse, select, validate, preview, replace, remove, and upload behavior without live camera access or media stream lifecycle.",
+    "Choose permission request when the design problem is explaining and timing access to camera, microphone, photos, or other resources; camera capture begins only after permission is granted or a file fallback is chosen.",
+    "Choose sensitive-data reveal when captured media or extracted text must stay masked, redacted, timed, audited, or hidden until deliberate reveal; camera capture owns acquisition before privacy handling.",
+    "Choose full-screen takeover when the camera task needs a temporary immersive mode with its own back, close, dirty-exit review, focus boundary, and parent-page return, independent of the camera media lifecycle.",
+    "Choose drag-and-drop upload when users transfer existing local files by pointer or keyboard equivalent; do not use it for new photos that need live preview, shutter feedback, retake, or camera device selection.",
+    "Camera capture must define permission state, secure-context or unsupported state, selected camera, live preview, privacy indicator, framing aid, capture button, shutter feedback, frozen preview, review state, retake, crop or rotate, upload fallback, cancellation, and stream cleanup.",
+    "Do not start camera streams on page load, hide browser or app camera indicators, treat capture as final upload, or leave media tracks active after close, navigation, denial, or submit.",
+    "For document, receipt, barcode, identity, or damage evidence workflows, separate capture quality feedback from final validation; blurry, cropped, glare, unsupported file, and upload failure states need repair paths.",
+    "When camera capture can expose faces, IDs, addresses, payment cards, private spaces, minors, or location context, show purpose, retention, redaction, and non-camera alternatives before asking for access."
+  ],
+  "failureModes": [
+    "The camera opens immediately on route load before the user chooses a camera task.",
+    "The app shows a live preview but no active camera indicator, stop control, or explanation of what is being captured.",
+    "The shutter instantly uploads a blurry or misframed photo without review, retake, or cancel.",
+    "Camera permission denial blocks the task even though file upload or manual entry would work.",
+    "The product asks for camera permission when the actual task is only selecting an existing file.",
+    "A full-screen capture mode traps users without Back, Close, Save draft, or discard review.",
+    "Captured media remains visible or stored after the user cancels a sensitive task."
+  ],
+  "sources": [
+    {
+      "id": "mdn-mediadevices-getusermedia",
+      "note": "Supports permission-gated camera stream capture and failure states."
+    },
+    {
+      "id": "mdn-html-capture-attribute",
+      "note": "Supports file input capture as a hint for newly captured camera media."
+    },
+    {
+      "id": "w3c-mediacapture-streams",
+      "note": "Supports camera media streams, media tracks, constraints, and privacy indicators."
+    },
+    {
+      "id": "mdn-media-capture-constraints",
+      "note": "Supports camera facing mode, resolution constraints, capabilities, and fallback behavior."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports permission state awareness for camera access."
+    },
+    {
+      "id": "mdn-html-file-input",
+      "note": "Supports selected file fallback, accept filtering, and capture hints in file inputs."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

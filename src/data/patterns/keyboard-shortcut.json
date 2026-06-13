@@ -1,0 +1,265 @@
+{
+  "id": "keyboard-shortcut",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed keyboard shortcut pattern with key-command accelerator guidance, platform variants, command registry ownership, active scope, text-field suppression, disabled state, conflict detection, executed-command feedback, risky-command review, remapping, character-key controls, aria-keyshortcuts exposure, shortcut help, mobile fallback, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers keyboard shortcut as a direct key-command accelerator with shortcut hint, platform variant, command registry, active scope, text-field suppression, disabled shortcut, conflict detected, executed command, risky confirmation, remap shortcut, character-key off, aria-keyshortcuts exposure, shortcut help, and mobile fallback states.",
+    "relatedPatternDistinction": "Separated from command palette as searchable command discovery, menu menubar as persistent command grouping, toolbar as visible view-scoped controls, undo and redo as edit-history semantics, context menu as object-scoped secondary invocation, and focus traversal as navigation through focusable elements rather than command execution.",
+    "liveDemoBehavior": "Good demo exercises shortcut hint, platform variant, command registry, active scope, text-field suppression, disabled shortcut, conflict detected, executed command, risky confirmation, remap shortcut, character-key off, aria-keyshortcuts exposure, shortcut help, and mobile fallback states. Bad demo exercises hidden only, global character key, platform mismatch, stale hint, disabled fires, conflict override, and risky instant failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes keyboard shortcut from command palette, menu menubar, toolbar, undo, and redo by one memorized key combination, directly invokes one command, searchable command discovery, stable visible grouping, view-scoped controls, edit-history semantics, platform variant, visible hint, aria-keyshortcuts, remapping, character-key shortcuts, browser conflicts, operating-system conflicts, screen reader conflicts, and text editing conflicts.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 268 complete patterns, 1 excluded in-progress pattern, 29 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/keyboard-shortcut/ with required terms present, no duplicate IDs, and no page overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/keyboard-shortcut-vs-command-palette-vs-menu-menubar-vs-toolbar-vs-undo-vs-redo/ was checked at desktop and compact widths with concrete decision terms present, no duplicate IDs, and no page overflow.",
+    "screenshots": [
+      "screenshots/patterns/keyboard-shortcut.png"
+    ]
+  },
+  "name": "Keyboard shortcut",
+  "aliases": [
+    "hotkey",
+    "key command",
+    "keybinding",
+    "keyboard accelerator",
+    "shortcut key",
+    "command shortcut"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding",
+    "Input And Data Entry",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Direct key combination that activates a known command, focus target, or mode",
+  "uiGuidance": [
+    "Render keyboard shortcuts as discoverable command hints near the visible command, in shortcut help, in menus or toolbars when space allows, and in platform-specific form such as Command+S on macOS and Control+S on Windows.",
+    "Show the shortcut's command name, key chord, platform variant, scope, enabled or disabled state, conflict warning, and recovery requirement instead of treating the key sequence as hidden behavior."
+  ],
+  "uxGuidance": [
+    "Use keyboard shortcuts as accelerators for frequent, reversible, well-understood commands that already have visible controls or reachable command surfaces.",
+    "Define where the shortcut works, when it is disabled, what it conflicts with, how users learn it, how they remap or turn off character-key shortcuts, and how risky commands are confirmed or undone."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document editor Save button shows Command+S on macOS and Control+S on Windows, disables the shortcut while a blocking validation dialog is open, and announces Saved draft.",
+      "A table toolbar lists Export selected with Shift+E only when rows are selected, exposes the same shortcut in shortcut help, and explains why it is unavailable with no selection.",
+      "A video player offers J, K, and L shortcuts only while the player has focus and includes settings to turn single-key shortcuts off."
+    ],
+    "bad": [
+      "A product hides Submit behind Control+Enter with no visible button, hint, focus rule, or mobile equivalent.",
+      "A global D key deletes records while users type in comments or dictate with speech input.",
+      "The command palette says Control+K, the menu says Command+P, and the toolbar has no shortcut state for the same command."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user presses Command+S in an editor, sees Saving then Saved, focus remains in the editor, and the same Save command remains available in the toolbar and menu.",
+      "A user opens shortcut help, searches Export, sees platform-specific variants and current scope, then remaps a conflicting single-letter shortcut.",
+      "A user presses Delete on a selected file and receives the same confirmation or undo recovery as the visible Delete command."
+    ],
+    "bad": [
+      "A screen reader user cannot discover the shortcut because it is not exposed in help, command labels, or aria-keyshortcuts.",
+      "A keyboard user presses Control+F expecting browser find but the app opens an unrelated filter with no way to restore standard behavior.",
+      "A speech input user says a sentence containing g and d, triggering global shortcuts that navigate away and delete a draft."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Keyboard shortcuts can make expert workflows fast, but hidden or conflicting key commands can steal text input, override browser or assistive-technology behavior, fire accidental character-key actions, and make important commands undiscoverable to mouse, touch, switch, and screen reader users.",
+  "solution": "Design keyboard shortcuts as documented accelerators bound to visible commands, with platform-aware key chords, clear scope, conflict checks, accessible exposure, disabled state, status feedback, remapping or disable controls for character keys, and confirmation or undo for risky actions.",
+  "problemContext": [
+    "Users repeat commands such as save, search, copy, format, open command palette, move focus, toggle panels, archive, export, or run tools.",
+    "The product runs inside browsers, operating systems, text editors, assistive technologies, and international keyboard layouts that already own many key combinations.",
+    "Commands may be global, page-scoped, editor-scoped, object-scoped, modal-scoped, or active only while a component has focus.",
+    "Some users rely on keyboard-only work, switch control, screen readers, speech input, touch keyboards, remapped hardware keys, or platform shortcuts."
+  ],
+  "selectionRules": [
+    "Choose keyboard shortcut when the design problem is accelerating one known command with a key combination, not helping users discover commands.",
+    "Use command palette when users need searchable command discovery, ranking, recents, scope filtering, or fuzzy matching before execution.",
+    "Use menu menubar when command organization, submenu hierarchy, disabled or checked state, and persistent desktop-style command grouping are the main concerns.",
+    "Use toolbar when visible repeated commands near a view or selection matter more than memorized activation.",
+    "Use undo or redo when the pattern is about edit-history semantics; keyboard shortcuts can invoke them but do not define their history behavior.",
+    "Use focus traversal when the problem is predictable Tab order, roving focus, landmarks, or moving through interactive elements rather than executing commands.",
+    "Prefer modifier chords for global commands and reserve single-character shortcuts for focused components or user-configurable expert modes.",
+    "Provide visible alternatives for every primary workflow and every non-essential shortcut outcome.",
+    "Avoid overriding browser, operating-system, assistive-technology, text-editing, and common platform shortcuts unless the app has a strong editor-like reason and a recovery path.",
+    "Require confirmation, preview, undo, or delayed execution for shortcuts that delete, publish, send, spend money, change permissions, or affect other people."
+  ],
+  "requiredStates": [
+    "Visible command with shortcut hint.",
+    "Shortcut help or command list state showing command name, key chord, platform variant, and scope.",
+    "Global shortcut active state.",
+    "Focused-component shortcut active state.",
+    "Text field or editable-content suppression state.",
+    "Enabled command state and disabled shortcut state with reason.",
+    "Conflict detected state with browser, operating system, assistive technology, product, or custom shortcut map.",
+    "Shortcut executed state with status feedback and focus preservation.",
+    "Risky shortcut confirmation, preview, or undo state.",
+    "Remap shortcut state and restore default state.",
+    "Character-key shortcut off or focus-only state.",
+    "International keyboard layout or platform variant state.",
+    "Mobile or touch-keyboard state where shortcuts are supplemental and visible controls remain primary."
+  ],
+  "interactionContract": [
+    "A shortcut maps to one named command, focus target, or mode and uses the same command handler as visible controls.",
+    "The key chord is platform-aware and formatted consistently wherever the command appears.",
+    "The shortcut fires only in its declared scope and never while text entry, composition, screen reader commands, or browser-reserved behavior should own the key event.",
+    "When the command is disabled, the shortcut is disabled too and the disabled reason is available through the same visible command surface.",
+    "Shortcut activation reports success, pending, failure, undo, confirmation required, or conflict using visible and accessible status messaging.",
+    "Shortcut hints, help, menus, toolbars, and command palette rows stay synchronized with the same command registry.",
+    "Users can turn off, remap, or focus-scope single-character shortcuts that are implemented in web content.",
+    "Risky shortcuts do not bypass review, confirmation, permissions, rate limits, or audit requirements."
+  ],
+  "implementationChecklist": [
+    "Inventory commands and classify each shortcut by command name, scope, platform chord, risk level, visible fallback, disabled condition, and owner.",
+    "Build shortcuts from a central command registry so menus, toolbars, command palette rows, help pages, and keyboard handlers share one source of truth.",
+    "Check conflicts against browser shortcuts, operating-system shortcuts, screen reader commands, text-editing commands, composition events, and existing product shortcuts.",
+    "Suppress global shortcuts inside inputs, textareas, contenteditable regions, combo boxes, and editing modes unless the shortcut is explicitly owned by that component.",
+    "Expose shortcuts through visible hints, shortcut help, command rows, aria-keyshortcuts where appropriate, and onboarding only for frequent expert accelerators.",
+    "Provide remapping, disable, or focus-only options for single-character shortcuts and preserve user settings across sessions.",
+    "Route destructive, expensive, permission-changing, or external-side-effect shortcuts through confirmation, preview, undo, or approval workflows.",
+    "Test Windows, macOS, Linux, browser variants, screen readers, speech input, international layouts, hardware keyboards on tablets, mobile fallback, high zoom, and focus return."
+  ],
+  "commonMisuses": [
+    "Making a shortcut the only path to a primary command.",
+    "Binding single-letter global shortcuts that fire during typing, dictation, or screen reader use.",
+    "Showing shortcut hints that do not match the current platform or remapped key.",
+    "Letting disabled commands still run from the keyboard handler.",
+    "Overriding browser find, save, print, back, refresh, or operating-system shortcuts without a strong app-like reason.",
+    "Using one shortcut for different commands in different panels without showing scope.",
+    "Executing destructive, paid, public, or permission-changing commands from a key press without review or recovery.",
+    "Documenting shortcuts in a help page but not exposing them near commands, menus, toolbars, or command search."
+  ],
+  "critiqueQuestions": [
+    "What visible command does this shortcut invoke, and does the shortcut call the same command handler?",
+    "Where is the shortcut active, and where is it deliberately suppressed?",
+    "Which browser, operating-system, assistive-technology, text-editing, and product shortcuts could conflict?",
+    "How do users discover, search, remap, disable, and restore the shortcut?",
+    "What happens when the command is disabled, pending, failed, risky, or no longer valid?",
+    "Does this shortcut still work with international keyboard layouts, speech input, screen readers, and hardware keyboards on tablets?",
+    "Is a visible button, menu item, toolbar control, command palette row, or focus traversal pattern the real primary pattern?"
+  ],
+  "useWhen": [
+    "Users repeat a known command often enough that memorized keyboard acceleration saves meaningful time.",
+    "The command has a visible alternative and a stable outcome users can predict.",
+    "The product can define scope, conflict rules, disabled state, and feedback for the key combination.",
+    "The shortcut respects platform conventions and accessibility requirements."
+  ],
+  "avoidWhen": [
+    "The command is rare, novice-oriented, high-risk, or hard to explain before execution.",
+    "The shortcut would be the only path to a primary workflow.",
+    "The key sequence conflicts with browser, operating-system, assistive-technology, or text-editing expectations.",
+    "The product cannot provide remap or disable options for character-key shortcuts.",
+    "Touch-first or mobile users would lose an equivalent visible path."
+  ],
+  "variants": [
+    "Global shortcut",
+    "Page-scoped shortcut",
+    "Focused-component shortcut",
+    "Editor shortcut",
+    "Command shortcut hint",
+    "Shortcut help overlay",
+    "Remappable shortcut",
+    "Single-character shortcut",
+    "Platform-specific shortcut",
+    "Risky shortcut with confirmation"
+  ],
+  "accessibility": [
+    "Make all shortcut outcomes available through visible controls or reachable command surfaces.",
+    "Expose implemented shortcuts with aria-keyshortcuts when the shortcut activates or focuses a specific element and the exposure will help assistive-technology users.",
+    "Allow users to turn off, remap, or focus-scope shortcuts made only from character keys.",
+    "Do not rely on color, icons, or symbols alone to communicate shortcut hints.",
+    "Avoid overriding screen reader, switch, speech input, browser, operating-system, and text-editing shortcuts.",
+    "Announce shortcut results through status messages when the command changes state without moving focus.",
+    "Keep focus stable after shortcut activation unless the command intentionally moves focus and announces the destination.",
+    "Provide mobile, touch, mouse, and assistive equivalents for shortcut-only accelerators."
+  ],
+  "keyboardBehavior": [
+    "Modifier chords such as Command+S or Control+S invoke the command only in declared scope.",
+    "Single-character shortcuts are disabled, remappable, or active only when the relevant component has focus.",
+    "Shortcut handlers ignore key events during text composition and ordinary text editing unless the component owns the command.",
+    "Escape cancels shortcut help, remap capture, confirmation, or pending preview without executing the command.",
+    "Enter or Space activates visible command controls; shortcuts are accelerators, not replacements for button semantics.",
+    "When a shortcut moves focus, the destination is predictable and announced by label, landmark, or status.",
+    "Disabled command shortcuts do not execute and expose the same reason as the visible disabled control.",
+    "Remap capture detects duplicate chords before saving and offers restore default."
+  ],
+  "failureModes": [
+    "A global shortcut runs while the user is typing in a form.",
+    "A shortcut hint is visible but the command is not actually wired.",
+    "Platform variants are wrong or missing.",
+    "The same key combination runs different commands without showing scope.",
+    "A shortcut bypasses confirmation, undo, or permission review.",
+    "A command is disabled visually but still executes from the shortcut.",
+    "Shortcut help lists stale commands after a feature flag, role change, or remap.",
+    "Speech input, screen reader commands, or international keyboard layouts trigger accidental commands."
+  ],
+  "relatedPatterns": [
+    "command-palette",
+    "menu-menubar",
+    "toolbar",
+    "undo",
+    "redo",
+    "context-menu"
+  ],
+  "comparisons": [
+    "keyboard-shortcut-vs-command-palette-vs-menu-menubar-vs-toolbar-vs-undo-vs-redo"
+  ],
+  "examples": [
+    {
+      "product": "WAI WCAG Character Key Shortcuts",
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts",
+      "platform": "web",
+      "notes": "Documents accessibility risks of character-key shortcuts and the need for turn-off, remap, or focus-scope behavior.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN ariaKeyShortcuts",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/ariaKeyShortcuts",
+      "platform": "web",
+      "notes": "Documents exposing implemented keyboard shortcuts that activate or focus an element.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Microsoft Windows keyboard shortcuts",
+      "url": "https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec",
+      "platform": "desktop",
+      "notes": "Documents common platform shortcut conventions and text-editing shortcut behavior.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Visual Studio Code default keyboard shortcuts",
+      "url": "https://code.visualstudio.com/docs/reference/default-keybindings",
+      "platform": "desktop",
+      "notes": "Documents command identifiers, default shortcuts, platform variants, and expert editor keybinding behavior.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wcag-character-key-shortcuts",
+      "note": "Supports disabling, remapping, or focus-scoping shortcuts made only from character keys."
+    },
+    {
+      "id": "mdn-aria-keyshortcuts",
+      "note": "Supports exposing implemented shortcuts to assistive technology through aria-keyshortcuts."
+    },
+    {
+      "id": "microsoft-windows-keyboard-shortcuts",
+      "note": "Supports platform shortcut conventions and common text-editing shortcuts."
+    },
+    {
+      "id": "vscode-default-keybindings",
+      "note": "Supports command identifiers and platform keybindings in a keyboard-heavy editor."
+    },
+    {
+      "id": "apple-hig-keyboards",
+      "note": "Supports platform-respecting keyboard shortcut design and standard shortcut expectations."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "master-detail-vs-details-panel-vs-list-view-vs-window-splitter",
+  "title": "Master-detail vs details panel vs list view vs window splitter",
+  "summary": "Use master-detail for an adaptive list and detail navigation layout; use details panel for adjacent selected-object inspection, list view for the source list alone, and window splitter for user-controlled pane resizing.",
+  "patternIds": [
+    "master-detail",
+    "details-panel",
+    "list-view",
+    "window-splitter"
+  ],
+  "decisionRules": [
+    "Choose master-detail when a list item opens or selects a full detail experience and the layout must adapt between side-by-side panes and stacked list/detail navigation.",
+    "Choose details panel when users stay in one workspace and need a persistent adjacent inspector for concise selected-object metadata rather than a full detail route.",
+    "Choose list view when the product only needs a scannable list of object rows and selection does not own a coordinated detail pane or detail navigation state.",
+    "Choose window splitter when the main problem is letting users resize adjacent panes; splitter behavior does not by itself define the list-detail ownership model.",
+    "Master-detail should preserve the selected item, detail scroll or edit state, and back path as the viewport changes between stacked and side-by-side layouts.",
+    "Master-detail should show an explicit empty or placeholder detail pane on wide screens when no item is selected, instead of displaying stale detail.",
+    "Do not use master-detail for row-local disclosure; expandable row or tree grid is more accurate when the detail belongs inside the source row.",
+    "Do not use master-detail when the detail is a temporary overlay with close behavior; drawer or sheet is more accurate for that lifecycle.",
+    "Use details panel or preview panel when detail content is short, inspection-oriented, and should not become its own navigable page.",
+    "Use table or data grid instead when users mainly compare repeated values across rows and do not need a coordinated detail destination."
+  ],
+  "failureModes": [
+    "A narrow layout opens detail with no Back to list path, trapping users away from the master list.",
+    "The side-by-side layout changes selection but leaves the old item loaded in the detail pane.",
+    "A stacked layout loses the selected item and detail scroll state when the viewport widens.",
+    "The product calls a small right inspector master-detail even though the detail cannot stand as a navigable page.",
+    "A splitter is added between panes but selection, empty detail, and stacked navigation behavior remain undefined.",
+    "The detail pane starts with unrelated content instead of an empty prompt when no list item is selected."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-list-details-pattern",
+      "note": "Microsoft documents list/details with list and details panes, stacked and side-by-side styles, selection visuals, and adaptive breakpoints."
+    },
+    {
+      "id": "android-canonical-list-detail",
+      "note": "Android canonical layout guidance supports side-by-side list-detail on expanded widths, stacked navigation on compact widths, and state preservation across size changes."
+    },
+    {
+      "id": "material-canonical-layouts",
+      "note": "Material canonical layouts distinguish list-detail from feed and supporting-pane layouts."
+    },
+    {
+      "id": "apple-hig-split-views",
+      "note": "Apple split-view guidance supports adjacent pane hierarchies for primary and detail content."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

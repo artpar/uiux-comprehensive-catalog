@@ -1,0 +1,261 @@
+{
+  "id": "task-list",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed task list pattern with guidance for row-level task names, whole-row or task-name links, concise hints, status text, grouping, unavailable reasons, returned work, lower-emphasis completed rows, status labels that do not behave like buttons, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers component-level task rows, short user-facing names, optional hints, accessible status text, startable and unavailable rows, grouping, status updates after return, lower emphasis for completed rows, and whole-row or task-name activation.",
+    "relatedPatternDistinction": "Task list is separated from complete multiple tasks transaction hubs, step navigation ordered sequences, process list public journey guidance, multi-step form page flow, tag status labels, list view records, progress bar metrics, and review before submit answer review.",
+    "liveDemoBehavior": "The demo shows application task rows for Contact details, Work history, Upload evidence, and Review and send, with controls for Names, Hints, Status, Blocked, Groups, Returned, Mobile wrap, Done quiet, Long hint, Clickable status, Color only, Record list, Hidden blocked, and Summary row.",
+    "comparisonDecisionRules": "Comparison task-list-vs-complete-multiple-tasks-vs-step-navigation-vs-process-list explains when to choose row-level task lists versus transaction hubs, ordered steps, public processes, forms, tags, lists, progress indicators, or final review.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Desktop browser check verified two task-list frames, eight task rows, two bad grids, all controls, no duplicate IDs, no task-list overflow, and comparison terms including row, hint, status, component, and whole-row. Mobile browser check at the narrow viewport verified single-column frames, rows, and bad grids with Blocked, Mobile wrap, Color only, and Hidden blocked states.",
+    "screenshots": [
+      "screenshots/patterns/task-list.png"
+    ]
+  },
+  "name": "Task list",
+  "aliases": [
+    "task list component",
+    "task rows",
+    "section status list",
+    "application task rows",
+    "task completion list",
+    "task status list",
+    "checklist with statuses",
+    "service task rows",
+    "section task list"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Feedback, Status, And System State",
+    "Data Display And Exploration",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Component-level list of linked task rows with names, hints, and statuses",
+  "uiGuidance": [
+    "Render a task list as a set of row-level tasks where each row has a short task name, optional single-sentence hint, link target when startable, and status text that indicates whether the task is completed, incomplete, in progress, not started, unavailable, optional, or ready.",
+    "Keep the row or task name as the primary activation target, attach status and hint text to the task link for assistive technology, and keep status tags visually distinct from buttons so users do not mistake statuses for actions."
+  ],
+  "uxGuidance": [
+    "Use task list when users need to scan a known set of service tasks, understand what each task is, choose a task to start or resume, and see each task's current status.",
+    "Use the component inside a larger transaction hub or service flow, while keeping component concerns focused on task row anatomy, status readability, hint clarity, grouping, and unavailable-task affordance."
+  ],
+  "uiExamples": {
+    "good": [
+      "A task list row for Upload evidence shows the task name, a short hint, a linked row, and a Needs attention status with the unavailable reason in the row text.",
+      "A grouped task list shows Company details, Financial history, and References with Completed as plain text and Incomplete as a lower-emphasis status tag."
+    ],
+    "bad": [
+      "A task list uses uppercase button-like status pills and users click the status instead of the row.",
+      "A row contains three inline links, a long explanation, hidden status colour, and no clear target for starting the task."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user scans five task rows, sees that Financial history is incomplete, selects anywhere on that row, completes the section, and returns to find the row status changed to Completed.",
+      "A user cannot start Review yet, but the disabled row explains Upload evidence first and keeps the task visible."
+    ],
+    "bad": [
+      "A user returns to a list of internal section codes and cannot tell which task relates to evidence upload.",
+      "A completed row has the strongest colour treatment, so users repeatedly revisit it instead of incomplete rows."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Task lists fail when row names are vague, hint text is too long, statuses look like buttons, unavailable tasks have no reason, status text is not connected to the row link, or the component tries to carry full transaction behavior by itself.",
+  "solution": "Provide task rows with short user-facing names, concise hints only when useful, accessible status text, clear link targets, understandable unavailable reasons, appropriate grouping, and visual emphasis on tasks needing action rather than completed rows.",
+  "problemContext": [
+    "The component appears inside a service, application, setup, onboarding, registration, renewal, case, or task hub where users complete a known set of tasks.",
+    "Each task row may represent one page, a section, a group of questions, an upload, a verification, a review task, or a dependent task.",
+    "Users need to scan which rows are complete, which need action, which cannot yet start, and which row to open next.",
+    "Task names, hints, status labels, grouping, and row activation determine whether users can navigate the broader transaction safely.",
+    "The component may be used with a complete-multiple-tasks hub, but the component itself does not define the service's completion model."
+  ],
+  "selectionRules": [
+    "Choose task list when the interface needs row-level task names, links, hint text, and status labels for a known set of service tasks.",
+    "Use complete multiple tasks when the problem includes saved transaction progress, grouping across sessions, dependencies, final action gating, or review readiness beyond row anatomy.",
+    "Use step navigation when users must move through a strict ordered path and should not choose any task row in any order.",
+    "Use process list when users need public journey guidance rather than live task completion status.",
+    "Use list view when users are browsing or managing arbitrary records with sorting, filtering, pagination, row menus, or bulk selection.",
+    "Use progress bar when progress is continuous or measured as a bounded operation rather than a set of discrete tasks.",
+    "Use tag inside task rows only for status labels that need emphasis; keep Completed lower weight so unfinished tasks remain prominent.",
+    "Use review before submit for answer review after task completion, not inside the task list row itself.",
+    "Include hint text only when users need extra context to decide whether to open the row, and keep it short.",
+    "Hide neither blocked nor unavailable tasks; explain the dependency and route users to the unlocking task.",
+    "Task names should be user-recognizable actions or sections, not internal model names.",
+    "Connect each row's status and hint to its link or accessible description so screen reader users hear the task state before opening it."
+  ],
+  "requiredStates": [
+    "Linked startable task row.",
+    "Completed task row.",
+    "Incomplete or not started task row.",
+    "In progress task row.",
+    "Unavailable or cannot start yet task row with reason.",
+    "Needs attention task row.",
+    "Optional task row.",
+    "Ready task row.",
+    "Task row with concise hint text.",
+    "Task row without hint text.",
+    "Grouped task list section.",
+    "Updated status after returning from a task.",
+    "Mobile stacked row state.",
+    "Long task name or long status wrapping state.",
+    "Keyboard focus and hover state for the row link."
+  ],
+  "interactionContract": [
+    "A startable task row opens the represented task; the status label is not a separate primary command.",
+    "Task statuses update when the user returns from the task, using the broader service state as the source of truth.",
+    "Unavailable tasks remain visible with the reason and do not trap focus on disabled links.",
+    "Hint text adds context only to the row it describes and does not contain separate links when the whole row is linked.",
+    "Completed rows remain navigable if the broader service allows editing or review.",
+    "Status labels are text first and colour second, and they do not rely on uppercase styling or button-like treatment.",
+    "Rows wrap cleanly on mobile without detaching the status from the task name."
+  ],
+  "implementationChecklist": [
+    "Define each task row's user-facing name, route, status source, optional hint, dependency reason, grouping, and completed-row edit behavior.",
+    "Use semantic list markup or equivalent list structure with one focusable row or task link per startable task.",
+    "Associate hint and status text with the task link through visible text and accessible description relationships.",
+    "Keep status vocabulary small and consistent with the broader service, such as Completed, In progress, Not started, Cannot start yet, Needs attention, Optional, and Ready.",
+    "Style Completed with lower emphasis than tasks needing action, and avoid status pills that look like primary buttons.",
+    "Design mobile wrapping so long names, hints, and statuses remain readable without horizontal scrolling.",
+    "Test keyboard activation, screen reader task names and statuses, blocked rows, status updates after return, long labels, grouping, high zoom, mobile, and row hover/focus affordance."
+  ],
+  "commonMisuses": [
+    "Using task list as the whole service architecture without defining saved progress, dependencies, or final readiness elsewhere.",
+    "Using task list as an answer summary.",
+    "Using it for arbitrary records that need list view features such as sorting, filters, row actions, or selection.",
+    "Using it for a strict linear journey that should use step navigation.",
+    "Making status tags look like buttons or links.",
+    "Putting several links or actions inside one task row.",
+    "Writing long hints that screen reader users must hear every time they focus the task.",
+    "Using colour alone to show status."
+  ],
+  "critiqueQuestions": [
+    "What task does each row start, and is the name clear enough without internal jargon?",
+    "Does each row need hint text, or can the name carry the task by itself?",
+    "Can users distinguish the row link from the non-interactive status label?",
+    "Is the status text accurate, current, and connected to the row for assistive technology?",
+    "What should users do when a task cannot start yet?",
+    "Is this really a task list component problem, or a complete-multiple-tasks service pattern problem?"
+  ],
+  "useWhen": [
+    "A page needs to display a known set of tasks with status and links to start or resume them.",
+    "Users must scan completion state and choose a task row.",
+    "The broader service already owns task completion logic and the component needs to present it clearly."
+  ],
+  "avoidWhen": [
+    "Users are browsing arbitrary records rather than completing a fixed set of service tasks.",
+    "The flow is strictly linear and should not allow free task selection.",
+    "The page is primarily an answer summary or final review.",
+    "The service has no reliable status source for each task.",
+    "The task names or statuses cannot be made understandable without long explanatory text in every row."
+  ],
+  "variants": [
+    "Simple task list",
+    "Grouped task list",
+    "Task list with hints",
+    "Task list with blocked rows",
+    "Task list with status tags",
+    "Application task rows",
+    "Setup task rows",
+    "Service section list",
+    "Returning-session task rows",
+    "Review-ready task rows"
+  ],
+  "accessibility": [
+    "Use list semantics for the collection of task rows and clear heading structure for grouped task lists.",
+    "Make each startable row reachable through a single obvious link or button target.",
+    "Associate each row's hint and status with the row link so screen readers announce the task state before navigation.",
+    "Keep hint text short and avoid nested links inside hints.",
+    "Do not rely on colour alone for task status.",
+    "Ensure non-interactive status tags are not styled like primary buttons or links.",
+    "Provide text reasons for unavailable tasks and preserve focus when users return from a task with an updated status."
+  ],
+  "keyboardBehavior": [
+    "Tab moves through startable task rows or task links in visible order.",
+    "Enter activates the task row or link, not the status label.",
+    "Unavailable tasks either expose a focusable explanation or remain readable without creating a dead disabled control.",
+    "Returning from a task restores focus to the changed row or nearby status summary when possible.",
+    "Grouped task headings do not add unnecessary tab stops.",
+    "Mobile and high-zoom layouts preserve one logical activation target per row."
+  ],
+  "failureModes": [
+    "Status is only shown by colour, so users miss whether a task is complete or blocked.",
+    "The status tag looks clickable and users cannot find the real task link.",
+    "A long hint makes every row noisy for keyboard and screen reader users.",
+    "A completed row receives more visual emphasis than the incomplete rows that need action.",
+    "A blocked task disappears, leaving users unsure why review cannot start.",
+    "Task rows use database labels that users do not recognize.",
+    "The task list is used for sortable records and becomes a weak list view.",
+    "Rows wrap poorly on mobile and detach the status from the task name."
+  ],
+  "relatedPatterns": [
+    "complete-multiple-tasks",
+    "step-navigation",
+    "process-list",
+    "multi-step-form",
+    "tag",
+    "list-view",
+    "progress-bar",
+    "review-before-submit",
+    "error-summary"
+  ],
+  "comparisons": [
+    "task-list-vs-complete-multiple-tasks-vs-step-navigation-vs-process-list"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK task list component",
+      "url": "https://design-system.service.gov.uk/components/task-list/",
+      "platform": "web",
+      "notes": "Documents task rows with title, optional hint, status, href, id prefix, whole-row link, clear task descriptions, concise hint text, grouping, and status behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NHS task list component",
+      "url": "https://service-manual.nhs.uk/design-system/components/task-list",
+      "platform": "web",
+      "notes": "Documents task list use for long complex services, chosen task order, completed status after return, all-completed gating, task names, hint text, grouping, and statuses.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Scottish Government task list",
+      "url": "https://designsystem.gov.scot/patterns/task-list",
+      "platform": "web",
+      "notes": "Documents task lists with current completion states, completed counts, application incomplete heading, and skip to first incomplete section.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GOV.UK task list iteration research",
+      "url": "https://designnotes.blog.gov.uk/2023/12/15/working-as-a-community-to-iterate-the-task-list-pattern/",
+      "platform": "web",
+      "notes": "Documents whole-row clickable task rows, additional hint text, non-uppercase status tags, status tags that looked too much like buttons, and lower visual weight for completed tasks.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-task-list-component",
+      "note": "GOV.UK supports task row title, optional hint, status, href, id prefix, whole-row links, clear task names, concise hints, grouping, and status behavior."
+    },
+    {
+      "id": "nhs-task-list-component",
+      "note": "NHS supports task rows for long complex services, chosen order, status updates after return, all-completed gating, clear names, hints, grouping, and status text."
+    },
+    {
+      "id": "scottish-government-task-list-pattern",
+      "note": "Scottish Government supports completion states, completed counts, incomplete heading, and first-incomplete navigation in task lists."
+    },
+    {
+      "id": "govuk-task-list-iteration-research",
+      "note": "GOV.UK research supports whole-row clickable tasks, hint text, non-uppercase status tags, avoiding button-like statuses, and lower emphasis for completed rows."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

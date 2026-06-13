@@ -1,0 +1,254 @@
+{
+  "id": "sign-in",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed returning-account authentication pattern with guidance for destination context, credential autocomplete, saved credentials, passkeys, SSO, neutral failure handling, recovery routes, step-up verification, return-to-task behavior, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers protected destination naming, identifier entry, current-password semantics, username and webauthn autocomplete, saved credentials, passkey path, SSO route, magic-link and one-time-code variants, neutral failed-authentication copy, throttling, locked or disabled account handling, recovery links, create-account separation, step-up verification, validated return destinations, and successful return to the protected task.",
+    "relatedPatternDistinction": "The entry separates sign in from account creation by proving access to an existing account rather than establishing one, from password input by owning the surrounding authentication flow rather than only the secret field, from password creation by entering an existing authenticator rather than choosing a new secret, from email address entry by authenticating rather than contact capture, from session timeout warning by starting or restoring a session rather than warning before expiry, and from permission denied state by treating authentication rather than authorization.",
+    "liveDemoBehavior": "The live demo uses a private Q2 budget review sign-in flow with protected-destination context, username and current-password fields, passkey route, company SSO route, neutral account-details error, one-time-code step-up, successful return to the document, and bad modes for account reveal, lost return, password-manager blocking, equal routes, CAPTCHA-only recovery, and stale-session privacy risk.",
+    "comparisonDecisionRules": "The linked sign-in-vs-account-creation-vs-password-input-vs-session-timeout-warning comparison gives concrete rules for returning access, new-account setup, individual password control scope, authenticated-session expiry, contact-only email capture, return-destination preservation, enumeration-resistant errors, credential autocomplete, password-manager support, and step-up authentication boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/sign-in/ on 2026-06-11 in Chromium: verified destination, saved credentials, passkey, company SSO, neutral error, step up, continue, reveals account, lost return, blocks manager, equal routes, CAPTCHA only, and stale session states; verified credential autocomplete attributes; verified /compare/sign-in-vs-account-creation-vs-password-input-vs-session-timeout-warning/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/sign-in.png"
+    ]
+  },
+  "name": "Sign in",
+  "aliases": [
+    "sign-in",
+    "sign into account",
+    "returning user access",
+    "authenticate",
+    "start authenticated session",
+    "account sign in",
+    "password sign in",
+    "passkey sign in",
+    "single sign-on entry",
+    "reauthenticate entry"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Returning-account authentication and session start flow",
+  "uiGuidance": [
+    "Render sign in as a focused authentication surface with a clear service or destination name, account identifier field, current-password or passkey path, password-manager-friendly attributes, recovery routes, create-account route, and neutral error area.",
+    "Keep account creation, password creation, profile setup, two-factor enrollment, and broad onboarding separate unless the sign-in decision genuinely needs to route to those flows."
+  ],
+  "uxGuidance": [
+    "Use sign in when users are returning to an existing account, protected resource, invitation, draft, checkout, or workspace and need to prove control of an authenticator.",
+    "Preserve the intended destination, support saved credentials and passkeys, avoid account enumeration, explain locked or throttled states without exposing account status, and return users to the task they came from after success."
+  ],
+  "uiExamples": {
+    "good": [
+      "A sign-in page names the workspace, shows email or username, password with current-password autocomplete, passkey option, forgot-password link, create-account link, and a destination reminder such as Continue to Q2 budget review.",
+      "A federated sign-in page shows the organization domain after the identifier step, explains Continue with company SSO, and preserves the original invite after identity-provider return."
+    ],
+    "bad": [
+      "A sign-in page has four equal buttons for sign in, create account, reset password, and browse plans, with no indication of the protected destination.",
+      "A failed sign-in says This email exists but the password is wrong, exposing account status."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user opens a private document link, signs in with a saved passkey, and lands back on the same document with focus near the access confirmation.",
+      "A user mistypes credentials, sees a generic account-details error, can retry, use forgot password, or switch to SSO without losing the return destination."
+    ],
+    "bad": [
+      "A user signs in from checkout and lands on a generic account dashboard, losing the cart and payment context.",
+      "A password manager cannot fill the form because the identifier and password fields were renamed and paste was blocked."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Sign-in flows sit at the boundary between public and protected work, so unclear identity choices, password-manager resistance, revealing errors, missing recovery, or lost return destinations can block legitimate users while leaking account information to attackers.",
+  "solution": "Provide a focused returning-access flow that authenticates the user with available credentials or identity provider options, preserves the intended destination, handles failure without enumeration, supports password managers and passkeys, and routes safely to recovery, account creation, or step-up verification only when needed.",
+  "problemContext": [
+    "Users are trying to access an existing account, protected record, workspace, invitation, checkout, subscription, saved draft, or personal data.",
+    "The product may support password, passkey, SSO, magic link, one-time code, or multi-factor step-up authentication.",
+    "The same surface must serve first-time visitors who need account creation, returning users who need sign in, locked or disabled accounts, and users who forgot their password.",
+    "Security requirements may require generic error messages, throttling, risk-based step-up, protected channels, phishing-resistant authenticators, or reauthentication.",
+    "Users may arrive from deep links and expect the product to preserve the protected destination after authentication."
+  ],
+  "selectionRules": [
+    "Choose sign in when the user needs to start or restore an authenticated session for an existing account.",
+    "Name the destination or service being accessed so users know why authentication is required.",
+    "Use account creation when the user is establishing a new account, not when they are proving access to an existing one.",
+    "Use password input for the individual secret field behavior; sign in owns the surrounding flow, routing, errors, recovery, and return destination.",
+    "Use session timeout warning when an existing authenticated session is approaching expiry; sign in is the recovery or reauthentication destination after the boundary occurs.",
+    "Support password managers, autofill, passkeys, and paste with standard username, current-password, one-time-code, and webauthn semantics where applicable.",
+    "Provide forgot password, switch account, SSO, passkey, help, and create-account routes with clear priority and explanations.",
+    "Use neutral failure copy that does not reveal whether the account exists, the password was wrong, the account is locked, or the account is disabled.",
+    "Preserve and validate the return URL or originating task so successful authentication returns users to the protected context instead of a generic dashboard.",
+    "Escalate to step-up authentication only when risk, policy, authenticator type, or protected action requires it."
+  ],
+  "requiredStates": [
+    "Initial sign-in state with service or destination context.",
+    "Identifier entry state for email, username, phone, organization domain, or account name.",
+    "Password, passkey, SSO, magic-link, or authenticator-choice state.",
+    "Password-manager and autofill-ready state using credential autocomplete semantics.",
+    "Generic failed-authentication state that preserves retry and recovery without enumeration.",
+    "Throttled, suspicious, locked, disabled, or support-needed state with safe copy and next steps.",
+    "Forgot-password, create-account, switch-account, and help route state.",
+    "Step-up or one-time-code state when additional verification is required.",
+    "Successful sign-in state that returns to the intended destination.",
+    "Expired or invalid return-destination state with a safe fallback and explanation."
+  ],
+  "interactionContract": [
+    "The sign-in form identifies the protected service or destination before requesting credentials.",
+    "Credential fields use labels and autocomplete values that let browsers, password managers, and assistive technology understand identifier, current password, passkey, and one-time-code purposes.",
+    "Users can paste and autofill credentials unless a specific security owner approves a narrower exception with an accessible alternative.",
+    "Failure responses do not distinguish unknown account, wrong password, locked account, disabled account, or unverified account in a way that enables enumeration.",
+    "Retry, forgot-password, create-account, passkey, SSO, and help routes keep the return destination when policy allows.",
+    "Successful sign in rotates or establishes the authenticated session and returns users to the protected route, invite, draft, checkout, or action they started from.",
+    "Throttling, CAPTCHA, device challenge, or step-up checks state why more verification is needed without blaming the user or exposing sensitive status."
+  ],
+  "implementationChecklist": [
+    "Define supported identifiers, authenticators, identity providers, passkeys, magic links, one-time codes, recovery paths, and step-up policies with security owners.",
+    "Add username, current-password, one-time-code, and webauthn autocomplete attributes where applicable, and test browser and password-manager fill behavior.",
+    "Preserve a validated return destination through sign in, SSO redirects, recovery, MFA, throttling, and account switching.",
+    "Use a single generic failed-authentication message and verify HTTP status, response body, redirect behavior, error codes, timing, and analytics do not reveal account existence.",
+    "Separate create-account, forgot-password, passwordless, SSO, passkey, and help links visually and semantically from the primary sign-in action.",
+    "Test wrong identifier, wrong password, unknown account, locked account, disabled account, expired password, rate limit, passkey unavailable, SSO failure, MFA needed, browser Back, mobile keyboard, screen readers, high contrast, and deep-link return."
+  ],
+  "commonMisuses": [
+    "Using account-specific error messages that reveal whether an identifier exists.",
+    "Blocking paste, password managers, passkeys, or autofill by using nonstandard field names or autocomplete off.",
+    "Sending successful users to a generic dashboard instead of the document, checkout, invite, draft, or action they requested.",
+    "Making create account, forgot password, and sign in look like equal primary actions.",
+    "Forcing profile setup, marketing preferences, or onboarding before completing the sign-in return path.",
+    "Treating expired-session recovery as a brand-new sign-in without preserving private work or explaining timeout.",
+    "Using a CAPTCHA as the only recovery from failed sign-in attempts."
+  ],
+  "critiqueQuestions": [
+    "What protected destination or task brought the user to sign in?",
+    "Which identifier and authenticator options are actually supported for this account population?",
+    "Can password managers, passkeys, one-time codes, and paste work with the fields as implemented?",
+    "Does the failure response reveal account existence through copy, redirects, timing, status codes, URLs, or analytics?",
+    "Where does the user land after successful sign in, SSO return, MFA, recovery, or account switch?",
+    "Which sign-in failures require support, throttling, step-up, or password recovery rather than another retry?"
+  ],
+  "useWhen": [
+    "Users need to access an existing account or protected destination.",
+    "Authentication is required before showing private, paid, editable, or account-specific information.",
+    "The product can preserve a return destination and support safe recovery from authentication failures."
+  ],
+  "avoidWhen": [
+    "The user is creating a new account, choosing a new password, or verifying a new contact method.",
+    "The product only needs an email address for contact, newsletter, receipt, or status updates.",
+    "The user is already authenticated and only needs a session timeout warning or permission recovery path.",
+    "The protected action requires a dedicated transaction authorization or high-risk step-up flow rather than ordinary sign in."
+  ],
+  "variants": [
+    "Password sign in",
+    "Passkey sign in",
+    "Passwordless sign in",
+    "Magic-link sign in",
+    "Single sign-on entry",
+    "Two-step identifier-first sign in",
+    "Deep-link sign in",
+    "Reauthentication sign in",
+    "Switch-account sign in",
+    "Risk-based sign in"
+  ],
+  "accessibility": [
+    "Use explicit labels for identifier, password, passkey, SSO, and one-time-code controls rather than placeholder-only prompts.",
+    "Keep the sign-in heading, destination context, error summary, and field errors programmatically connected.",
+    "Make password visibility, passkey, SSO, forgot-password, create-account, and help controls keyboard reachable with clear focus styles.",
+    "Do not rely on color or icons alone to communicate failure, throttling, locked state, or selected sign-in method.",
+    "Announce failed sign-in and step-up requirements without moving focus unpredictably away from the recovery action.",
+    "Ensure CAPTCHA, device challenge, or bot checks have accessible alternatives if used."
+  ],
+  "keyboardBehavior": [
+    "Initial focus lands on the sign-in heading or first credential field after destination context is available.",
+    "Tab order follows identifier, authenticator field or method choice, show-password control, submit, recovery, create-account, SSO, passkey, and help routes.",
+    "Enter submits only when the visible form has enough information and does not activate secondary recovery links.",
+    "After failed sign in, focus moves to the error summary or first relevant credential field while preserving entered identifier when appropriate.",
+    "After successful sign in, focus lands on the protected destination heading, restored task message, or first actionable item."
+  ],
+  "failureModes": [
+    "Legitimate users abandon because saved credentials and passkeys do not appear.",
+    "Attackers enumerate accounts through differentiated copy, redirects, response times, status codes, or URLs.",
+    "Users lose deep-link, invite, checkout, or draft context after successful authentication.",
+    "Users are trapped between sign in and account creation because the page does not explain which route fits.",
+    "Users cannot recover from a locked, throttled, disabled, or SSO-only account state.",
+    "A one-time code, passkey, or SSO step fails without returning to the sign-in state safely.",
+    "A session timeout sends users to sign in with private content still visible in another tab."
+  ],
+  "relatedPatterns": [
+    "account-creation",
+    "password-input",
+    "password-creation",
+    "email-address-entry",
+    "session-timeout-warning",
+    "permission-denied-state"
+  ],
+  "comparisons": [
+    "sign-in-vs-account-creation-vs-password-input-vs-session-timeout-warning"
+  ],
+  "examples": [
+    {
+      "product": "OWASP Authentication Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+      "platform": "web",
+      "notes": "Documents generic authentication responses, login throttling, password-manager support, protected transport, reauthentication, and account enumeration risks.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "MDN autocomplete credential tokens",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete",
+      "platform": "web",
+      "notes": "Documents username, current-password, new-password, and one-time-code autocomplete values relevant to sign-in fields.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "HTML Standard credential autofill and webauthn",
+      "url": "https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill",
+      "platform": "web",
+      "notes": "Documents current-password and webauthn autocomplete behavior for sign-in pages offering saved passwords or public key credentials.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NIST SP 800-63B authentication and lifecycle management",
+      "url": "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      "platform": "web",
+      "notes": "Documents authentication assurance, phishing-resistant options, protected channels, session and reauthentication requirements, and authenticator lifecycle.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "owasp-authentication-account-enumeration",
+      "note": "OWASP supports generic authentication failure responses that do not disclose whether an account exists, is locked, or has a wrong password."
+    },
+    {
+      "id": "owasp-authentication-password-managers",
+      "note": "OWASP supports password-manager-friendly sign-in forms with standard username and password inputs, paste support, and simple tab order."
+    },
+    {
+      "id": "nist-sp-800-63b-authentication-lifecycle",
+      "note": "NIST supports authentication assurance, phishing-resistant options, protected channels, and reauthentication boundaries."
+    },
+    {
+      "id": "mdn-input-password",
+      "note": "MDN supports current-password semantics and password input behavior for existing authentication secrets."
+    },
+    {
+      "id": "mdn-autocomplete-credentials",
+      "note": "MDN documents username, current-password, new-password, and one-time-code autocomplete purposes."
+    },
+    {
+      "id": "html-autocomplete-webauthn",
+      "note": "The HTML Standard supports webauthn credential suggestions alongside current-password on sign-in pages."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

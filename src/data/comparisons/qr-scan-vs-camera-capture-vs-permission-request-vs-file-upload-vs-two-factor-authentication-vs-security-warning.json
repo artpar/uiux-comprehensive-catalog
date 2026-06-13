@@ -1,0 +1,61 @@
+{
+  "id": "qr-scan-vs-camera-capture-vs-permission-request-vs-file-upload-vs-two-factor-authentication-vs-security-warning",
+  "title": "QR scan vs camera capture vs permission request vs file upload vs two-factor authentication vs security warning",
+  "summary": "Use QR scan when the task is detecting, decoding, validating, previewing, and acting on a QR payload from a live camera or image. Use camera capture for creating reviewable media, permission request for access rationale, file upload for existing files, two-factor authentication for identity proof or authenticator setup, and security warning for unsafe decoded destinations.",
+  "patternIds": [
+    "qr-scan",
+    "camera-capture",
+    "permission-request",
+    "file-upload",
+    "two-factor-authentication",
+    "security-warning"
+  ],
+  "decisionRules": [
+    "Choose QR scan when the product must guide users through scanning a visible code, decode the payload, show scan status, handle unsupported detectors, camera permission, torch, focus, distance, glare, no code found, multiple codes, invalid format, duplicate scan, expired payload, offline decode, and safe action preview.",
+    "Choose camera capture when users need to create a photo or video and review, crop, retake, upload, or store the media; QR scan may use camera preview but owns detection, decode, payload validation, and post-scan action.",
+    "Choose permission request when the main problem is explaining why camera access is needed; QR scan includes permission as one state but must also handle detector support, scanning aim, decode quality, payload preview, and fallback entry.",
+    "Choose file upload when users select an existing image, PDF, or file for attachment or import; QR scan from photo is only a fallback when the goal is decoding a code from an existing image.",
+    "Choose two-factor authentication when the QR code is part of identity verification, authenticator enrollment, recovery, backup-code handling, or second-factor challenge; QR scan is the camera/decoder interaction inside that flow.",
+    "Choose security warning when the decoded payload is suspicious, external, irreversible, payment-related, credential-related, or malformed; QR scan should surface the warning before opening or submitting the payload.",
+    "A QR scan flow must confirm what was decoded before action when the payload can open a URL, join a network, start payment, pair a device, import credentials, or change account state.",
+    "Scanning failure needs repair paths: move closer, improve light, turn on torch, clean lens, switch camera, try from photo, paste code, enter key manually, or use another device.",
+    "Do not treat the first detected code as final in dense environments; show the selected target or decoded summary when multiple codes are visible.",
+    "Do not persist camera frames, decoded secrets, Wi-Fi credentials, payment intents, or authenticator seeds longer than the task requires."
+  ],
+  "failureModes": [
+    "The scanner opens a camera but never says whether it is detecting, decoding, blocked, unsupported, or waiting for a code.",
+    "The app opens a decoded URL immediately with no preview, domain display, or warning for external or suspicious destinations.",
+    "A QR authenticator setup stores the seed in logs or screenshots after pairing.",
+    "A denied camera prompt blocks the flow even though paste code or scan from photo would work.",
+    "The detector reads the wrong code in a cluster and executes the wrong action without confirmation.",
+    "Glare, distance, dim light, motion, or small codes produce a spinner with no torch, focus, or manual guidance.",
+    "An expired or already-used code is accepted visually but fails later with no explanation or retry."
+  ],
+  "sources": [
+    {
+      "id": "mdn-barcode-detection-api",
+      "note": "Supports QR code detection from images and video sources, limited support, secure context, detector creation, and supported formats."
+    },
+    {
+      "id": "mdn-barcodedetector",
+      "note": "Supports BarcodeDetector interface behavior, format discovery, and detection of two-dimensional barcode values."
+    },
+    {
+      "id": "wicg-shape-detection-api",
+      "note": "Supports detected barcode raw values, bounding boxes, corner points, formats, and decode errors."
+    },
+    {
+      "id": "google-ml-kit-code-scanner",
+      "note": "Supports built-in Android scanning without app camera permission, returned barcode objects, auto-zoom, and scanner UI tradeoffs."
+    },
+    {
+      "id": "google-ml-kit-barcode-scanning-android",
+      "note": "Supports custom Android scanning UI, performance, supported formats, and decoded barcode data."
+    },
+    {
+      "id": "mdn-mediadevices-getusermedia",
+      "note": "Supports camera preview and camera-permission states when a web scanner uses the device camera."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

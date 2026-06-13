@@ -1,0 +1,240 @@
+{
+  "id": "fake-undo",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed anti-pattern for undo affordances that cannot faithfully reverse a completed action, with distinct boundaries from undo, toast notification, restore from trash, destructive action confirmation, autosave recovery, and confirmation dialog behavior, unique captured-state, exact-restore, external-blocked, expired-labelled, multiple-target, partial-labelled, no-state-captured, partial-restore, external-effect, overwritten-target, expired-active, wrong-item, toast-vanished, and bulk-partial demo states, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers fake undo where a recovery affordance promises reversal without restoring exact prior state, including missing state capture, partial restore, external side effects, expired windows, overwritten undo targets, wrong-item restore, disappearing toast recovery, bulk partial failure, honest partial labels, and when to use durable trash restore or pre-action confirmation instead.",
+    "relatedPatternDistinction": "The entry separates fake undo from undo by focusing on broken or misleading reversal rather than truthful prior-state recovery, from toast notification by requiring any Undo action in a toast to be real and reachable, from restore from trash by later durable recovery with retention metadata, from destructive action confirmation by pre-commit review when recovery cannot be faithful, from autosave recovery by unsaved or uncertain local work rather than completed command reversal, and from confirmation dialog by consequence prevention before action.",
+    "liveDemoBehavior": "The live demo exposes 14 scoped controls: captured prior state, exact restore, external blocked, expired labelled, multiple targets, partial labelled, no state captured, partial restore, external effect, overwritten target, expired still active, wrong item, toast vanished, and bulk partial.",
+    "comparisonDecisionRules": "The fake-undo-vs-undo-vs-toast-notification-vs-restore-from-trash-vs-destructive-action-confirmation-vs-autosave-recovery comparison gives concrete rules for object identity, order, relationships, permissions, values, counts, selection, visible context, external side effects, truthful toast undo, durable deleted-items recovery, destructive confirmation when recovery is impossible, autosave recovery for local unsaved work, partial repair labels, bulk actions, skipped items, conflicts, overwritten payloads, and expired windows.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 289 complete patterns, 1 stub pattern, 8 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Rendered /patterns/fake-undo/ and /compare/fake-undo-vs-undo-vs-toast-notification-vs-restore-from-trash-vs-destructive-action-confirmation-vs-autosave-recovery/ on 2026-06-13. Live check verified fake undo, pre-promotion status, captured prior state, exact restore, external blocked, expired labelled, multiple targets, partial labelled, no state captured, partial restore, external effect, overwritten target, expired still active, wrong item, toast vanished, bulk partial, undo, restore from trash, toast notification, destructive action confirmation, autosave recovery, external side effect, permissions, comments, and sort position; found 14 .fake-undo-controls buttons, found no duplicate IDs or horizontal overflow on desktop or compact viewport, exercised Exact restore, External blocked, Expired labelled, Multiple targets, Partial labelled, Partial restore, External effect, Overwritten target, Expired still active, Wrong item, Toast vanished, and Bulk partial controls, verified comparison route decision terms and compact overflow, and saw only Vite development console messages. screenshots/patterns/fake-undo.png captures the pre-promotion page with Good UI, Bad UI, Good UX, Bad UX, scoped state controls, source-backed guidance, related links, comparison link, and pre-promotion status.",
+    "screenshots": [
+      "screenshots/patterns/fake-undo.png"
+    ]
+  },
+  "name": "Fake undo",
+  "aliases": [
+    "undo that does not restore",
+    "misleading undo",
+    "fake restore",
+    "broken undo",
+    "nonfunctional undo",
+    "partial undo",
+    "undo placebo",
+    "toast undo that lies"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Anti-pattern where a recovery affordance promises undo but cannot restore the prior state",
+  "uiGuidance": [
+    "Do not label an action Undo unless the system has captured enough state to restore the affected object, order, relationships, permissions, counts, focus context, and visible outcome.",
+    "If recovery is partial, delayed, external-effect-limited, permission-limited, or unavailable after a commit boundary, label the action honestly as Restore from trash, Request recovery, Recreate, Retry, or Contact support instead of Undo."
+  ],
+  "uxGuidance": [
+    "Users should trust that activating Undo returns them to the state before the action, not a best-effort approximation that hides what remains changed.",
+    "Treat undo as an implementation contract: capture state before commit, block or re-label undo after external side effects, and report restored, expired, failed, partial, and final states separately."
+  ],
+  "uiExamples": {
+    "good": [
+      "Deleting Quarterly report stores the row ID, folder, owner, sort position, labels, shared access, and selected filter, then Undo restores the row to the same list location.",
+      "Sending a customer email does not show Undo; it shows Message sent and View activity because the external recipient cannot be recalled."
+    ],
+    "bad": [
+      "A toast says Undo after removing a teammate, but Undo only re-adds the name and not the permissions, group memberships, or notification that already went out.",
+      "A bulk archive action offers one Undo button, but a second archive overwrites the first recovery target."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user archives a task by mistake, activates Undo, and the task returns with its original owner, due date, tags, position, and selection state.",
+      "A user sees Undo expired after the local recovery window ends and can still open Trash because the object moved to a durable recovery surface."
+    ],
+    "bad": [
+      "A user clicks Undo after deleting a shared file and the file name reappears, but collaborators, comments, and folder path are lost.",
+      "A user clicks Undo for a sent refund email and assumes the customer never received it, but the external email was already delivered."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Undo creates strong user trust, but products sometimes expose an undo label before they can actually reverse the action. The result is worse than no recovery because users believe a harmful change was undone when data, permissions, order, messages, or external effects remain changed.",
+  "solution": "Only show Undo when exact prior-state recovery is implemented for the committed action; otherwise use a more honest recovery label, durable trash restore, destructive confirmation, autosave recovery, or status explanation that names what cannot be reversed.",
+  "problemContext": [
+    "A product shows Undo in a toast, snackbar, activity row, command bar, keyboard shortcut, history stack, or recovery panel after a completed action.",
+    "The action may affect object identity, list order, filters, permissions, relationships, notifications, background jobs, external recipients, payments, webhooks, or audit state.",
+    "The product may capture only part of the prior state or let the recovery window expire while the control still looks available.",
+    "Users may perform multiple actions quickly, change filters, leave the route, reload, go offline, or lose permission before trying to undo."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when an Undo control does not restore the exact object, value, order, relationship, permission, selection, and visible status it claims to reverse.",
+    "Flag it when undo appears after an external side effect such as email, payment, webhook, permission notification, customer message, or production command has already left the system boundary.",
+    "Flag it when several actions overwrite one recovery target without showing which action Undo will reverse.",
+    "Flag it when undo expires silently or remains visible after the recovery window is gone.",
+    "Use undo when the product captures prior state before the action and can restore it faithfully before irreversible side effects occur.",
+    "Use restore from trash when recovery happens later from a durable deleted-items location with retention and restore metadata.",
+    "Use destructive action confirmation when exact recovery is impossible and users need to decide before commitment.",
+    "Use toast notification for disposable feedback only; a toast may carry Undo only when the recovery action remains reachable long enough and works truthfully.",
+    "Use autosave recovery when the recovery target is unsaved or uncertain local work rather than a completed reversible command.",
+    "Use confirmation fatigue to audit overuse of confirmations, but do not replace a broken undo with another prompt unless pre-action review is the right safeguard."
+  ],
+  "requiredStates": [
+    "Pre-action state with enough identity, relationship, order, permission, and context captured for reversal.",
+    "Completed recoverable state that names the affected action and exact target.",
+    "Undo available state with a visible, keyboard-reachable recovery control.",
+    "Restored state showing the object, values, relationships, counts, selection, and focus context returned.",
+    "Undo expired state that removes or disables the control and explains the final commitment.",
+    "Undo failed state that reports what was not restored and why.",
+    "Partial restore state that is not labelled as full undo.",
+    "External side-effect state where undo is unavailable or truthfully labelled as request, revoke, restore, or follow-up.",
+    "Multiple-action queue state that shows which action each undo reverses.",
+    "Bad fake undo state where the control appears but restoration is absent, partial, stale, overwritten, or misleading."
+  ],
+  "interactionContract": [
+    "The system captures reversible state before applying the action, not after users request undo.",
+    "The undo label names the action or object when ambiguity is possible.",
+    "Activating Undo restores enough state for the user to trust that the action was reversed.",
+    "If restoration is partial, the UI says partial restore, restore available, request recovery, or open trash instead of Undo.",
+    "Undo remains reachable long enough for pointer, keyboard, screen reader, and distracted users, or the action is routed to durable recovery.",
+    "When the undo window expires, the UI removes or re-labels the control and reports final commitment.",
+    "External effects are called out honestly; undo must not imply recalled email, payment, webhook, or notification unless that recall is actually implemented.",
+    "Multiple recoverable actions are queued, grouped, or scoped so one Undo cannot accidentally refer to a different action."
+  ],
+  "implementationChecklist": [
+    "Define what exact prior state must be restored for each action: ID, parent, order, labels, ownership, permissions, relationships, counts, draft values, and focus target.",
+    "Capture the restore payload before mutating local, server, and external systems.",
+    "Make undo idempotent and scoped to a stable action ID so duplicate clicks or retries do not corrupt recovery.",
+    "Block or re-label undo for actions with irreversible external effects, or delay those effects until the recovery window closes.",
+    "Keep recovery controls visible, keyboard reachable, and stable while focused; do not auto-remove a focused Undo button.",
+    "Handle multiple actions with an undo stack, per-item undo, grouped undo, or explicit commit boundary.",
+    "Report restored, expired, failed, partial, final, and unavailable states in text, not only by removing the toast.",
+    "Test reload, route changes, filters, pagination, selection, offline, duplicate actions, permissions, external notifications, and screen reader status before claiming undo."
+  ],
+  "commonMisuses": [
+    "Showing Undo after an action that has already sent email, money, permissions, or webhooks outside the product.",
+    "Restoring only a visible row while losing comments, labels, sharing, order, or ownership.",
+    "Letting a second action overwrite the first action's undo payload.",
+    "Using a disappearing toast as the only recovery path for an important object.",
+    "Keeping Undo visible after the server has already committed a permanent delete.",
+    "Treating rollback failure as success because the item name reappeared.",
+    "Saying Undo when the real action is open trash, recreate from template, request admin restore, or retry save."
+  ],
+  "critiqueQuestions": [
+    "What exact state is captured before the action, and what proof shows it can be restored?",
+    "Can any external recipient, payment, webhook, permission change, or audit event still observe the action after Undo?",
+    "Does Undo restore identity, order, relationships, labels, permissions, counts, selection, and focus context?",
+    "What happens if the user performs another action before clicking Undo?",
+    "When does the recovery window expire, and how does the UI show final commitment?",
+    "Is this actually trash restore, autosave recovery, retry, confirmation, or support recovery rather than undo?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit products that show Undo, Restore, Revert, or rollback controls without proving exact reversal.",
+    "Use it when a toast undo, command undo, bulk undo, or keyboard undo may hide partial restoration, expired windows, external effects, or overwritten recovery state."
+  ],
+  "avoidWhen": [
+    "Do not flag a clearly labelled partial recovery, restore-from-trash, request-recovery, or recreate flow as fake undo if it does not claim full reversal.",
+    "Do not use this entry to remove useful undo where exact state capture, recovery timing, and final status are already implemented and verified."
+  ],
+  "variants": [
+    "Toast undo that does nothing",
+    "Partial restore labelled undo",
+    "External side-effect undo",
+    "Overwritten undo target",
+    "Expired undo still visible",
+    "Undo restores wrong item",
+    "Bulk undo ambiguity",
+    "Keyboard undo without stack",
+    "Optimistic undo failure",
+    "Undo after permanent commit"
+  ],
+  "accessibility": [
+    "Do not rely on a disappearing visual toast for important recovery; make the control reachable and stable for keyboard and assistive technology users.",
+    "Announce completed, undo available, restored, expired, failed, partial, and final states through status text.",
+    "Keep undo labels object-specific when several recent actions are possible.",
+    "If undo expires while focused, move focus predictably to a final status or durable recovery link.",
+    "Do not communicate restoration success only by visual row reappearance; state what was restored.",
+    "If recovery is unavailable because of external side effects or permissions, explain that boundary in text."
+  ],
+  "keyboardBehavior": [
+    "Undo controls must be reachable through Tab or a documented shortcut while the recovery window is valid.",
+    "A focused Undo control must not disappear without a replacement status or recovery path.",
+    "Keyboard undo shortcuts must operate on a visible, current undo stack or announce when no action can be undone.",
+    "After Undo, focus returns to the restored object, the recovery status, or the command source in a predictable location.",
+    "If multiple actions are queued, keyboard users can inspect which action each Undo command targets.",
+    "When undo is unavailable, disabled controls include a reason or are replaced by the correct recovery action."
+  ],
+  "failureModes": [
+    "Undo restores a deleted item name but loses comments, permissions, folder path, tags, or sort position.",
+    "Undo appears for a sent email, issued refund, webhook call, or permission notification that cannot be recalled.",
+    "A second delete overwrites the first recovery payload, so Undo restores the wrong item.",
+    "Undo remains clickable after the recovery window expired and then reports vague failure.",
+    "The toast disappears before keyboard or screen reader users can activate the only recovery path.",
+    "Undo after reload or route change loses local state and silently does nothing.",
+    "Bulk Undo reverses only some selected items but reports the whole batch restored."
+  ],
+  "relatedPatterns": [
+    "undo",
+    "toast-notification",
+    "restore-from-trash",
+    "destructive-action-confirmation",
+    "autosave-recovery",
+    "confirmation-dialog"
+  ],
+  "comparisons": [
+    "fake-undo-vs-undo-vs-toast-notification-vs-restore-from-trash-vs-destructive-action-confirmation-vs-autosave-recovery"
+  ],
+  "examples": [
+    {
+      "product": "Apple Human Interface Guidelines Undo and redo",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/undo-and-redo",
+      "platform": "desktop",
+      "notes": "Supports undo as a real reversal mechanism and provides the positive boundary for when a product should not claim undo without reliable restoration.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Material Design Snackbars",
+      "url": "https://m2.material.io/go/design-snackbar",
+      "platform": "mobile",
+      "notes": "Documents snackbars with one action such as Undo, supporting the need for truthful action behavior and timing when undo appears in transient feedback.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "GitLab Pajamas Saving and feedback",
+      "url": "https://design.gitlab.com/patterns/saving-and-feedback/",
+      "platform": "web",
+      "notes": "Documents undo and failed-save feedback boundaries, supporting truthful recovery language when an operation cannot be reversed cleanly.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-undo-redo",
+      "note": "Apple undo and redo guidance provides the positive recovery contract for real reversal."
+    },
+    {
+      "id": "material-design-snackbar",
+      "note": "Material snackbar guidance supports the toast-action boundary where Undo must be a truthful recovery action."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports choosing confirmation or prevention when undo cannot faithfully recover consequences."
+    },
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab saving and feedback guidance supports clear save, failed-save, undo, and leave-warning distinctions."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports exposing recovery and final states without relying on focus movement."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

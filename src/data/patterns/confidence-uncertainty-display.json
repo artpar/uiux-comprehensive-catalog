@@ -1,0 +1,259 @@
+{
+  "id": "confidence-uncertainty-display",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed confidence and uncertainty pattern with calibrated reliability guidance, threshold and review behavior, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers prediction reliability, calibrated confidence, uncertainty labels, confidence ranges, review thresholds, insufficient evidence, conflicting signals, out-of-distribution inputs, stale model and data states, calibration unavailable states, threshold changes, explain confidence behavior, apply gating, review and fallback actions, mobile compact panels, invalidation events, and audit records.",
+    "relatedPatternDistinction": "The entry separates confidence / uncertainty display from source grounding display by model reliability rather than source coverage, from citation display by prediction-level uncertainty rather than claim-level source inspection, from meter by calibrated AI reliability rather than a read-only bounded scalar gauge, from warning text by probability and review behavior rather than severe consequence copy, and from recommended next action, query correction, and adaptive defaults by treating confidence as a cross-cutting reliability signal rather than those workflow-specific actions.",
+    "liveDemoBehavior": "The live demo shows high confidence, medium confidence, low confidence, insufficient evidence, conflicting signals, out-of-distribution input, stale model, calibration unavailable, threshold changed, review required, explain confidence, apply gated, and mobile compact panel states. Bad states cover fake percent, color-only confidence, no threshold, hidden uncertainty, confidence as proof, stale confidence, uncalibrated score, and buried review failures.",
+    "comparisonDecisionRules": "The linked confidence-uncertainty-display-vs-source-grounding-display-vs-citation-display-vs-meter-vs-warning-text comparison gives concrete rules for confidence / uncertainty display, source grounding display, citation display, meter, warning text, prediction reliability, calibrated confidence, uncertainty label, review threshold, source coverage, claim-level evidence, bounded scalar gauge, severe consequence warning, high confidence, low confidence, insufficient evidence, conflicting signals, out-of-distribution, stale model, calibration unavailable, apply gated, and not source proof.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/confidence-uncertainty-display/ with the live demo, exercised High confidence, Medium confidence, Low confidence, Insufficient evidence, Conflicting signals, Out-of-distribution, Stale model, Calibration unavailable, Threshold changed, Review required, Explain confidence, Apply gated, Mobile compact panel, Fake percent, Color-only confidence, No threshold, Hidden uncertainty, Confidence as proof, Stale confidence, Uncalibrated score, and Buried review states, and found no duplicate IDs, page overflow, or confidence-uncertainty demo overflow. The comparison route /compare/confidence-uncertainty-display-vs-source-grounding-display-vs-citation-display-vs-meter-vs-warning-text/ included confidence / uncertainty display, source grounding display, citation display, meter, warning text, prediction reliability, calibrated confidence, uncertainty label, review threshold, source coverage, claim-level evidence, bounded scalar gauge, severe consequence warning, high confidence, low confidence, insufficient evidence, conflicting signals, out-of-distribution, stale model, calibration unavailable, apply gated, and not source proof terms with no duplicate IDs or page-level overflow on desktop and mobile; mobile element-level overflow was limited to the existing site nav.",
+    "screenshots": [
+      "screenshots/patterns/confidence-uncertainty-display.png"
+    ]
+  },
+  "name": "Confidence / uncertainty display",
+  "aliases": [
+    "confidence display",
+    "uncertainty display",
+    "AI confidence indicator",
+    "model confidence",
+    "prediction reliability",
+    "uncertainty label",
+    "confidence band",
+    "confidence score",
+    "calibration display",
+    "review threshold display"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Error Prevention And Recovery",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Calibrated reliability and uncertainty display for AI or automated predictions before user action",
+  "uiGuidance": [
+    "Render confidence and uncertainty as labelled reliability information with confidence band, reason, input scope, calibration status, review threshold, freshness, and the next safe action.",
+    "Use numbers only when the model score is calibrated for the task; otherwise use honest labels such as high confidence, medium confidence, low confidence, insufficient evidence, conflicting signals, or calibration unavailable."
+  ],
+  "uxGuidance": [
+    "Use confidence / uncertainty display when users need to decide whether an AI prediction, classification, recommendation, extraction, risk assessment, or generated answer is reliable enough to apply.",
+    "Keep uncertainty actionable by showing what the system knows, what it does not know, what threshold applies, and whether the user should apply, review, verify sources, collect more input, or escalate."
+  ],
+  "uiExamples": {
+    "good": [
+      "A claim classifier says Medium confidence, 71 to 78 percent calibrated range, review threshold 80 percent, conflicting account-age signal, and routes the case to manual review.",
+      "A document extraction panel marks the amount field Low confidence because the scan is blurred, disables Apply all, and offers Open source page and Request reviewer actions.",
+      "A customer reply suggestion shows High confidence from recent policy and matching intent, while still linking to the confidence explanation and source-grounding panel."
+    ],
+    "bad": [
+      "A generated answer shows 97 percent sure without calibration, threshold, source coverage, or review path.",
+      "A red-yellow-green dot beside an AI suggestion is the only uncertainty signal and users cannot tell what action is safe.",
+      "A low-confidence fraud flag looks identical to a verified rule match and can be applied to the account without review."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer sees low confidence and out-of-distribution input, opens the reason panel, collects the missing invoice, and avoids auto-denying the claim.",
+      "An agent sees that the confidence threshold changed for medical content, so the reply is gated until a specialist reviews it.",
+      "A mobile user can expand a compact uncertainty panel and see the band, reason, stale model warning, and safe fallback before acting."
+    ],
+    "bad": [
+      "Users treat a high-confidence label as proof even though the answer has no source grounding and the claim still needs evidence.",
+      "A model update invalidates old confidence scores but the UI keeps showing them as current.",
+      "A buried review link makes low-confidence automation feel like the normal primary path."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI predictions and automated assessments often look authoritative even when the system is unsure, uncalibrated, out of distribution, stale, missing evidence, or below the threshold for safe action.",
+  "solution": "Show calibrated confidence or honest uncertainty labels with reasons, thresholds, freshness, invalidation rules, and review or fallback actions so users can judge reliability before they apply, publish, send, approve, deny, or escalate.",
+  "problemContext": [
+    "The product uses model output, rules, retrieval, extraction, classification, ranking, risk scoring, or generated text to support a user decision.",
+    "The system can estimate reliability, uncertainty, missing input, conflicting signals, distribution shift, source weakness, model freshness, or calibration limits.",
+    "The user's action can affect customers, money, access, legal status, safety, operations, compliance, or public communication.",
+    "A confidence display may appear inside chat, work queues, review panels, recommendation cards, form extraction, decision support, incident triage, or content publishing flows.",
+    "A high confidence score is not the same as source proof, policy permission, legal correctness, or a severe consequence warning."
+  ],
+  "selectionRules": [
+    "Choose confidence / uncertainty display when users need to judge prediction reliability before acting on AI or automation output.",
+    "Use source grounding display when the task is answer-wide source coverage, searched corpora, used evidence, and unsupported claims.",
+    "Use citation display when the task is inspecting one claim-level source, quote, metadata, or source permission state.",
+    "Use meter when the value is a read-only bounded scalar gauge and not an AI reliability state with calibration, threshold, and review implications.",
+    "Use warning text when the message is a known severe consequence before an action rather than a reliability estimate.",
+    "Use recommended next action when the system is proposing the action itself; confidence can appear inside it but should not replace reason, consequence, and review controls.",
+    "Use query correction or adaptive defaults when confidence only gates those specific workflows.",
+    "Expose the threshold that changes behavior, such as auto-apply, review required, source verification required, specialist review, or no automation.",
+    "Do not show a precise percentage unless the number is calibrated, current, scoped to this task, and meaningful to the user's decision.",
+    "Do not let confidence imply correctness, source support, policy approval, permission, or safety beyond the measured reliability dimension."
+  ],
+  "requiredStates": [
+    "High confidence state with calibration scope, reason, and whether direct apply is allowed.",
+    "Medium confidence state with review recommendation, uncertainty reason, and threshold context.",
+    "Low confidence state with apply gated and a review, verify, collect more input, or fallback action.",
+    "Insufficient evidence state when the model cannot assess the input because required signals are absent.",
+    "Conflicting signals state when evidence or model features disagree and need human judgment.",
+    "Out-of-distribution or unfamiliar input state when the model sees content outside its trained or monitored operating range.",
+    "Stale model, stale data, stale source, or threshold changed state that invalidates previous confidence.",
+    "Calibration unavailable or uncalibrated score state that avoids fake precision.",
+    "Review required, explain confidence, blocked apply, and mobile compact panel states."
+  ],
+  "interactionContract": [
+    "The display names the task, prediction, source of the confidence estimate, calibration scope, and last calibration or update time when available.",
+    "Confidence labels, bands, and numeric values are tied to threshold rules that determine apply, review, escalation, verification, or fallback behavior.",
+    "Users can open an explanation that identifies the main reliability drivers without exposing sensitive training data or protected signals.",
+    "Low confidence, insufficient evidence, conflicting signals, out-of-distribution input, stale model, and calibration unavailable states change available actions before the user commits.",
+    "Regeneration, edited input, changed source scope, model updates, threshold changes, and new evidence invalidate or recompute the visible confidence state.",
+    "Copy, apply, approve, publish, send, deny, or export actions carry the current uncertainty state or are gated when the threshold is not met.",
+    "Users can report incorrect confidence, override with reason where policy allows, or route the item to a reviewer without losing context."
+  ],
+  "implementationChecklist": [
+    "Define the prediction, confidence source, calibration method, operating scope, threshold rules, freshness policy, invalidation events, and user actions before rendering the display.",
+    "Model high, medium, low, insufficient evidence, conflict, out-of-distribution, stale, uncalibrated, threshold changed, review required, and gated-action states as structured data.",
+    "Separate model confidence from source grounding, claim citations, policy rules, permission checks, warning text, task status, and user feedback.",
+    "Show the confidence label, calibrated range or caveat, threshold, reason, freshness, and recommended next action close to the AI output.",
+    "Gate high-impact actions below threshold with review, verification, specialist escalation, or fallback, and re-check thresholds immediately before commit.",
+    "Record overrides, reviewer decisions, user feedback, confidence state, threshold version, model version, and input version for audit where outcomes matter.",
+    "Test fake precision, missing calibration, stale model, threshold changes, conflicting signals, no evidence, mobile wrapping, keyboard flow, screen-reader output, and high-zoom layouts."
+  ],
+  "commonMisuses": [
+    "Showing a fake percent or exact decimal for an uncalibrated model score.",
+    "Using color-only confidence badges without text, threshold, reason, or action guidance.",
+    "Treating high confidence as proof, source support, legal approval, or permission.",
+    "Hiding low confidence, insufficient evidence, conflicting signals, or out-of-distribution states behind an action menu.",
+    "Letting stale confidence persist after source, input, model, threshold, or policy changes.",
+    "Using confidence display to avoid exposing source grounding, citations, warnings, or review workflows.",
+    "Making low-confidence automation look like the normal primary path because the review option is buried."
+  ],
+  "critiqueQuestions": [
+    "Is the displayed confidence calibrated for this exact task, population, model version, and threshold?",
+    "Can users tell what action is safe at high confidence, medium confidence, low confidence, and insufficient evidence?",
+    "What invalidates the displayed uncertainty after edits, regeneration, source changes, model updates, or threshold changes?",
+    "Does the UI separate model reliability from source grounding, citation evidence, policy approval, permissions, and severe consequence warnings?",
+    "Can users open an explanation, request review, correct feedback, or override with reason where policy permits?",
+    "Does the mobile layout keep uncertainty, threshold, and gated action visible before users commit?"
+  ],
+  "useWhen": [
+    "Users must judge whether an AI prediction, classification, recommendation, extraction, risk score, or generated answer is reliable enough to use.",
+    "The system can expose calibrated confidence, uncertainty label, threshold, reason, scope, freshness, or caveat.",
+    "Wrong automation can cause material impact and users need review, fallback, escalation, or verification controls.",
+    "Confidence changes when evidence, model version, threshold, or source scope changes."
+  ],
+  "avoidWhen": [
+    "The system cannot estimate uncertainty or calibration honestly.",
+    "Users only need source coverage or claim evidence, which belongs to source grounding display or citation display.",
+    "The value is a simple bounded resource or health gauge, which belongs to meter.",
+    "The message is a known severe consequence before an action, which belongs to warning text.",
+    "Displaying confidence would encourage automation bias without review, explanation, or fallback controls."
+  ],
+  "variants": [
+    "Confidence band",
+    "Uncertainty label",
+    "Review threshold panel",
+    "Calibrated probability range",
+    "Low-confidence gate",
+    "Out-of-distribution warning",
+    "Insufficient-evidence state",
+    "Conflicting-signals state",
+    "Stale model confidence",
+    "Mobile uncertainty sheet"
+  ],
+  "accessibility": [
+    "Expose confidence label, uncertainty reason, threshold, freshness, and gated action as text rather than relying on color, position, or animation alone.",
+    "Use programmatic status messaging when confidence changes after input edits, model updates, source-scope changes, threshold changes, or review decisions.",
+    "Keep explanation, review, verify, override, and fallback controls keyboard reachable and labelled by their effect.",
+    "Do not use vague labels such as safe or unsafe without stating confidence basis, consequence, and next action.",
+    "Ensure compact mobile and high-zoom layouts preserve label, threshold, reason, and action controls before the user commits.",
+    "When numeric confidence is available, provide useful value text that includes the range, calibration caveat, and threshold."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the confidence summary, explanation control, source or evidence links, review action, fallback action, override control, and apply control in a predictable order.",
+    "Enter or Space opens the confidence explanation, requests review, verifies sources, submits feedback, or activates the selected action according to native control behavior.",
+    "Escape closes layered explanation or override panels and returns focus to the invoking control.",
+    "When confidence changes, focus remains stable and a status message announces the meaningful state change.",
+    "Blocked apply controls expose the reason and route focus to review, verification, missing input, or fallback controls.",
+    "Mobile sheets and popovers return focus to the compact confidence summary after dismissal."
+  ],
+  "failureModes": [
+    "Users over-trust an AI answer because a confidence badge looks authoritative.",
+    "The score is uncalibrated but formatted as a precise probability.",
+    "The threshold for review is hidden, so users cannot tell why a result is blocked or allowed.",
+    "Low confidence is visible only after users expand details below the primary action.",
+    "Source coverage is absent but confidence is treated as evidence.",
+    "A model update or stale input invalidates confidence but the old display remains.",
+    "Mobile users can tap Apply without seeing the uncertainty reason or review requirement."
+  ],
+  "relatedPatterns": [
+    "source-grounding-display",
+    "citation-display",
+    "meter",
+    "warning-text",
+    "recommended-next-action",
+    "query-correction",
+    "adaptive-defaults"
+  ],
+  "comparisons": [
+    "confidence-uncertainty-display-vs-source-grounding-display-vs-citation-display-vs-meter-vs-warning-text"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Research-backed guidance includes communicating AI uncertainty, capability boundaries, dismissal, correction, and user control.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google People + AI Guidebook",
+      "url": "https://pair.withgoogle.com/guidebook/",
+      "platform": "ai",
+      "notes": "Provides human-centered AI product guidance for setting expectations, explanations, feedback, and trust.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NIST AI Risk Management Framework",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "platform": "ai",
+      "notes": "Frames AI trustworthiness and risk management as measured, monitored, transparent, valid, reliable, and accountable.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "IBM Carbon for AI",
+      "url": "https://carbondesignsystem.com/guidelines/carbon-for-ai/",
+      "platform": "web",
+      "notes": "Documents design-system guidance for transparent, explainable, and identifiable AI instances in product interfaces.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports capability boundaries, uncertainty communication, correction, feedback, and control in AI experiences."
+    },
+    {
+      "id": "google-people-ai-guidebook",
+      "note": "Supports human-centered AI design guidance around expectations, explanation, feedback, and trust."
+    },
+    {
+      "id": "nist-ai-risk-management-framework",
+      "note": "Supports measured AI reliability, validity, risk management, monitoring, transparency, and accountability."
+    },
+    {
+      "id": "ibm-carbon-for-ai",
+      "note": "Supports visible AI identity, transparency, explainability, labels, and AI interface patterns."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports status announcements for changed uncertainty, review, and blocked-action states."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,249 @@
+{
+  "id": "toast-only-success-for-completed-transaction",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a transient-only completed-transaction anti-pattern with source-backed receipt and confirmation guidance, related-pattern distinctions, durable proof rules, unique live demo behavior, duplicate audit coverage, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets completed applications, bookings, payments, orders, account changes, and submitted responses where a disappearing toast is the only success proof; it requires durable reference, receipt, what-happens-next content, copy/save/print/email/track actions where useful, pending/failed boundaries, and duplicate-submit protection.",
+    "relatedPatternDistinction": "The entry separates confirmation page for final journey endpoint proof, success confirmation for durable in-context proof, toast notification for low-risk or supplemental status only, notification banner for page-flow notices, and offline mobile retry or sync state for queued or pending work that is not complete.",
+    "liveDemoBehavior": "The live demo renders a durable corrected receipt and a broken toast-only transaction; Good UX switches through receipt, supplemental toast, toast expired, copy reference, save receipt, email receipt, track, bookmark return, start another, duplicate-submit, pending-not-success, failed-not-success, print receipt, amend or cancel, and mobile receipt states; Bad UX switches through disappeared proof, no reference, dashboard redirect, false commit, screen reader timeout, duplicate submit, vague Done copy, and lost booking details.",
+    "comparisonDecisionRules": "The comparison gives concrete rules for flagging toast-only success, choosing confirmation page, choosing success confirmation, limiting toast notification to supplemental or disposable status, requiring authoritative commit proof, preserving reference and receipt, and avoiding short-lived live-region-only confirmation.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 278 complete patterns, 1 stub pattern, 19 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Desktop and compact browser checks covered the pattern page and comparison page, required transaction-proof terms, duplicate IDs, main overflow, and 23 live demo controls. Screenshot captured after promotion at screenshots/patterns/toast-only-success-for-completed-transaction.png.",
+    "screenshots": [
+      "screenshots/patterns/toast-only-success-for-completed-transaction.png"
+    ]
+  },
+  "name": "Toast-only success for completed transaction",
+  "aliases": [
+    "toast-only transaction success",
+    "disappearing receipt",
+    "snackbar-only confirmation",
+    "toast-only submitted state",
+    "temporary transaction confirmation",
+    "toast-only payment receipt",
+    "toast-only booking complete"
+  ],
+  "category": "Feedback, Status, And System State",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Transient-only completed-transaction anti-pattern",
+  "uiGuidance": [
+    "Replace a lone success toast for completed transactions with a durable confirmation page or in-context success confirmation that names the completed transaction, reference, receipt, submitted details, and what happens next.",
+    "If a toast is used at all, make it supplemental and link or point back to persistent proof; never let the timed notification be the only visible record of a payment, booking, application, account change, or submitted response."
+  ],
+  "uxGuidance": [
+    "Use this anti-pattern during review when a completed transaction clears context, redirects, or appears successful while proof, reference, receipt, next steps, and recovery paths are only present in a disappearing message.",
+    "Design the corrected flow around the user's post-commit needs: verify completion, copy or save proof, understand timing, track status, amend or cancel when allowed, contact support, and start another transaction without losing the completed one."
+  ],
+  "uiExamples": {
+    "good": [
+      "After submitting an application, a confirmation page says Application complete, shows reference APP-48291, explains the response window, and offers Save record and Track application.",
+      "After adding evidence inside an ongoing case, a success confirmation near the evidence checklist says Evidence uploaded, shows receipt EV-2048, and keeps View receipt available.",
+      "A short toast says Receipt ready, but the receipt card remains visible in the page and notification history."
+    ],
+    "bad": [
+      "A dashboard toast says Application submitted and disappears with no reference, receipt, next steps, or track link.",
+      "A payment flow shows a Paid toast while the checkout form clears and no transaction ID or receipt is shown.",
+      "A booking snackbar says Done, but users cannot verify the appointment time or cancellation path afterward."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user submits a benefits form, copies the reference, saves the receipt, reads that the agency will respond within 5 working days, and can return from a bookmark to a safe tracking route.",
+      "A user finishes a booking, verifies location and time, emails the receipt, and starts another booking without confusing the two transactions."
+    ],
+    "bad": [
+      "A user looks away while the toast appears and later cannot prove whether the payment completed.",
+      "A screen reader announces a brief success status but no focusable confirmation, receipt, or next-step content remains on the page.",
+      "A submit handler shows success before the server commit finishes and later fails silently."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "A consequential transaction completes, but the only success feedback is a transient toast that can disappear before users can verify the outcome, copy proof, understand next steps, or recover the receipt.",
+  "solution": "Treat toast-only success for completed transaction as an anti-pattern: keep durable proof in a confirmation page or in-context success confirmation, use any toast only as supplemental awareness, and preserve receipt, reference, status, next-step, and support paths after the transient message is gone.",
+  "problemContext": [
+    "The user has completed or appears to have completed an application, booking, order, payment, account change, survey response, publication, approval, or service request.",
+    "The transaction may need a reference number, receipt, submitted detail summary, next-step timing, tracking, contact, cancellation, amend, save, print, email, or support path.",
+    "The implementation uses a toast, snackbar, flash, or temporary notification as the only completion proof or redirects users to a dashboard without durable confirmation.",
+    "Users may look away, use assistive technology, close the page, refresh, return from browser history, contact support, or need proof later."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a committed or high-consequence transaction is confirmed only by a disappearing toast.",
+    "Replace it with confirmation page when the transaction or service journey has ended.",
+    "Replace it with success confirmation when the user stays in the same task but still needs durable object-specific proof.",
+    "Allow toast notification only when success is low consequence, self-evident, and proof is not needed after the toast disappears.",
+    "Show a transaction name, submitted object, reference or timestamp when useful, and what happens next.",
+    "Keep save, print, email receipt, copy reference, track, amend, cancel, contact, or support actions available when they support the completed transaction.",
+    "Do not show success before the authoritative commit, server acceptance, payment authorization, booking creation, or submission record exists.",
+    "Use pending, offline mobile retry, sync state, progress, or error state when the transaction is queued, unaccepted, failed, denied, or still processing.",
+    "Preserve a safe return route for bookmark, refresh, Back, duplicate submit, expired session, and history return scenarios.",
+    "During generated UI review, flag handlers whose final step is only toast.success(...) or equivalent after clearing transaction state."
+  ],
+  "requiredStates": [
+    "Pre-submit state with the transaction and affected object visible.",
+    "Committed confirmation state with durable proof after authoritative success.",
+    "Receipt/reference state with copy, save, print, email, or tracking where useful.",
+    "What-happens-next state with timing, owner, and user responsibility.",
+    "Supplemental toast state that is not the only proof.",
+    "Toast expired state where the durable confirmation still remains.",
+    "Dashboard or return state that preserves transaction proof or a tracking route.",
+    "Duplicate-submit protection state after commit.",
+    "Failure, pending, queued, denied, or processing state that does not render as success.",
+    "Start another transaction state that does not erase the completed receipt."
+  ],
+  "interactionContract": [
+    "The completed transaction remains provable after the toast expires.",
+    "The user can identify what completed, when, and what reference or receipt proves it.",
+    "Any transient toast points to or duplicates a durable confirmation surface rather than replacing it.",
+    "The transaction context is not cleared until proof and next steps are rendered or safely reachable.",
+    "Copy, save, print, email, tracking, contact, amend, cancel, and start-again actions preserve the completed transaction's identity.",
+    "The UI prevents duplicate submit, refresh resubmit, or Back resubmit after commit.",
+    "If the authoritative success event is not available, the UI stays pending, queued, retrying, or failed instead of showing completed success."
+  ],
+  "implementationChecklist": [
+    "Identify which actions are completed transactions rather than disposable status events.",
+    "Define the authoritative commit event, reference, receipt, timestamp, object identity, submitted summary, and next-step content before rendering success.",
+    "Choose confirmation page for journey endpoints and success confirmation for in-context proof.",
+    "Use toast only as secondary notification and provide a route to the persistent confirmation.",
+    "Keep proof visible through toast expiry, refresh, Back, bookmarked return, dashboard redirect, and session recovery where permitted.",
+    "Remove or guard duplicate submit controls after commit and ensure refresh cannot replay the transaction.",
+    "Write success copy with the transaction name and proof, not vague Done or Success.",
+    "Test with screen reader timing, keyboard navigation, slow readers, mobile viewport, support-reference copying, print/save behavior, and interrupted attention."
+  ],
+  "commonMisuses": [
+    "Redirecting to a dashboard and showing a five-second Application submitted toast with no receipt page.",
+    "Using a generic Done toast for payment, booking, order, application, and profile-change outcomes.",
+    "Clearing the form immediately after submit without rendering a durable success state.",
+    "Showing a toast before the server commit finishes.",
+    "Putting the reference number only inside the toast.",
+    "Hiding next steps, timing, or support path behind notification history.",
+    "Letting users refresh or tap Submit again because no persistent completed state exists.",
+    "Treating a queued offline or pending async action as completed transaction success."
+  ],
+  "critiqueQuestions": [
+    "If the toast disappears, can users still prove the transaction completed?",
+    "What reference, receipt, timestamp, or submitted details might users need later?",
+    "Does the UI explain what happens next and when?",
+    "What authoritative event proves the transaction completed before success is shown?",
+    "What happens on refresh, Back, duplicate submit, bookmark return, or expired session?",
+    "Should this be a confirmation page, in-context success confirmation, or only a disposable toast?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to identify transaction success handled only by transient feedback.",
+    "Use it when reviewing generated UI, checkout, booking, application, account-change, publishing, approval, or survey flows that clear context after toast success."
+  ],
+  "avoidWhen": [
+    "The success is low-risk, self-evident, and no proof or next step is needed.",
+    "A toast supplements a durable confirmation page, success confirmation, notification center item, or receipt route.",
+    "The action is not actually completed and needs pending, retry, offline, sync, or progress treatment.",
+    "The feedback is for a reversible low-risk action where undo is the primary post-action need."
+  ],
+  "variants": [
+    "Toast-only application submitted",
+    "Toast-only payment receipt",
+    "Toast-only booking complete",
+    "Toast-only order confirmation",
+    "Toast-only account change success",
+    "Toast-only survey submitted",
+    "Toast-only publication complete",
+    "Dashboard redirect with disappearing receipt"
+  ],
+  "accessibility": [
+    "Do not rely on an auto-dismissing live-region announcement as the only completed-transaction proof.",
+    "Render durable confirmation text in normal reading order with transaction name, reference, and next steps.",
+    "Keep copy reference, print, save, email, track, amend, cancel, contact, and start-again controls keyboard reachable where present.",
+    "Avoid timing traps where users must read or act before the toast disappears.",
+    "When navigating to a confirmation page, move focus to the confirmation heading or panel.",
+    "Make reference numbers selectable and available to assistive technology outside the toast."
+  ],
+  "keyboardBehavior": [
+    "After final submit, focus lands on the confirmation page heading or in-context success confirmation, not on a disappearing toast.",
+    "Tab order reaches proof, next steps, copy/save/print/email controls, tracking/contact links, and start-again actions.",
+    "If a supplemental toast has a View receipt action, the same receipt route remains reachable after the toast closes.",
+    "Refresh and Back do not replay the transaction or return focus to a stale submit button.",
+    "Starting another transaction moves focus to the new task while the previous receipt remains accessible through an explicit route when supported."
+  ],
+  "failureModes": [
+    "Users cannot prove a completed payment, booking, order, or application after the toast times out.",
+    "Support cannot help because the reference existed only in a disappearing message.",
+    "Screen reader users hear success but cannot find the confirmation afterward.",
+    "The same transaction is submitted twice after users refresh or tap again.",
+    "Users miss next-step timing and contact the service too early or not at all.",
+    "The UI shows success for a pending, queued, denied, or failed transaction.",
+    "A generic toast hides which object or transaction completed."
+  ],
+  "relatedPatterns": [
+    "confirmation-page",
+    "success-confirmation",
+    "toast-notification",
+    "notification-banner",
+    "offline-mobile-retry",
+    "sync-state"
+  ],
+  "comparisons": [
+    "toast-only-success-for-completed-transaction-vs-confirmation-page-vs-success-confirmation-vs-toast-notification"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Confirmation pages",
+      "url": "https://design-system.service.gov.uk/patterns/confirmation-pages/",
+      "platform": "web",
+      "notes": "Documents transaction-end confirmation pages with reference number, next steps, contact details, useful onward links, feedback, save-record behavior, and bookmarked returns.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "NHS digital service manual Confirmation page",
+      "url": "https://service-manual.nhs.uk/design-system/patterns/confirmation-page",
+      "platform": "web",
+      "notes": "Documents booking-complete pages with a green panel, submitted details, next-step timing, optional reference number, and restrained endpoint content.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "ONS Service Manual Confirmation page",
+      "url": "https://service-manual.ons.gov.uk/design-system/patterns/confirmation-page",
+      "platform": "web",
+      "notes": "Documents survey response confirmation pages and the boundary against service problems, permission denial, and further-guidance pages.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Carbon Design System Notification",
+      "url": "https://carbondesignsystem.com/components/notification/usage/",
+      "platform": "web",
+      "notes": "Documents notification variants, including transient toast behavior and persistent/actionable alternatives.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-confirmation-pages-pattern",
+      "note": "Supports durable transaction-end confirmation pages with reference, next steps, contact details, useful onward links, feedback, saved-record behavior, and bookmarked returns."
+    },
+    {
+      "id": "nhs-confirmation-page-pattern",
+      "note": "Supports confirmation page structure for completed bookings, submitted details, next steps, optional references, and restrained endpoint content."
+    },
+    {
+      "id": "ons-confirmation-page-pattern",
+      "note": "Supports survey completion pages and the boundary against using confirmation pages for failed or denied outcomes."
+    },
+    {
+      "id": "carbon-notification-component",
+      "note": "Supports distinguishing transient toast notifications from persistent or actionable notification variants."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing dynamic status without moving focus while preserving visible confirmation where proof is required."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

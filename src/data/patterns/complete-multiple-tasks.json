@@ -1,0 +1,283 @@
+{
+  "id": "complete-multiple-tasks",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed complete multiple tasks pattern with guidance for saved transaction hubs, grouped tasks, task row statuses, concise hints, dependencies, returning sessions, first incomplete resume cues, editable completed sections, stale or changed tasks, optional sections, review gating, final submission readiness, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers long or complex saved transactions made of several sections; first visits, returning sessions, grouped tasks, short task names, concise hints, whole-row links, completed count, first incomplete shortcut, not started, in progress, completed, cannot start yet, needs attention, optional, ready, stale, blocked, edited, all-complete, review-ready, and submitted states; dependency updates, canonical server-side status, editing completed tasks, and final action gating.",
+    "relatedPatternDistinction": "The entry separates complete multiple tasks from the task list component by owning transaction-level grouping, saved progress, dependencies, returning sessions, edit behavior, and submission readiness while task list rows provide the component anatomy; from step navigation by supporting non-linear section work rather than one ordered Continue path; from process list by storing in-service completion rather than public journey guidance; from multi-step form by acting as a hub rather than one guided form path; from start page by appearing after transaction start; from draft state by navigating the saved record; from review before submit by preceding final answer review; and from confirmation page by ending before successful submission.",
+    "liveDemoBehavior": "The live demo uses a Childcare licence application with Check before you start and Application details groups; Eligibility check, Your contact details, Work history, Upload evidence, Reference letter, Review and send, and Application sent rows; statuses for Not started, In progress, Completed, Cannot start yet, Needs attention, Optional, and Ready; saved return cue, completed count, blocked final Apply action, expired evidence, edit completed contact details, all-complete review readiness, submitted reference CL-2048, and bad states for linear steps, summary misuse, hidden blocker, clickable status, too many statuses, and locked edit.",
+    "comparisonDecisionRules": "The linked complete-multiple-tasks-vs-step-navigation-vs-process-list-vs-multi-step-form comparison gives concrete rules for saved transaction hubs, step navigation, process lists, multi-step forms, start pages, review before submit, draft state, confirmation pages, task-list component boundaries, returning sessions, dependencies, final submission gating, and editable completed tasks.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/complete-multiple-tasks/ on 2026-06-11 in Chromium: verified Start, Return, In progress, Blocked, Needs attention, Optional, Edit completed, All complete, Review ready, Submitted, Linear steps, Summary misuse, Hidden blocker, Clickable status, Too many statuses, and Locked edit controls; verified Childcare licence application, grouped task sections, completed count, saved yesterday cue, Work history resume, Upload evidence dependency, Passport expired needs-attention state, optional Reference letter, editable completed Contact details, Apply disabled and enabled states, Review and send ready state, submitted CL-2048 reference, no duplicate IDs, and no complete-tasks-surface horizontal overflow; verified /compare/complete-multiple-tasks-vs-step-navigation-vs-process-list-vs-multi-step-form/ concrete decision rules; and checked mobile viewport with collapsed task hub frame, task rows, bad grid, key good and bad states, all controls, and no complete-tasks-surface horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/complete-multiple-tasks.png"
+    ]
+  },
+  "name": "Complete multiple tasks",
+  "aliases": [
+    "task hub",
+    "transaction task list",
+    "complete sections",
+    "application task list",
+    "multi-section application",
+    "return to task list",
+    "service task list",
+    "completion hub",
+    "application checklist",
+    "section completion"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Feedback, Status, And System State",
+    "Input And Data Entry",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Saved transaction hub for completing several sections or tasks over one or more sessions",
+  "uiGuidance": [
+    "Render complete multiple tasks as a transaction hub with a service name, grouped task sections, task rows, short task names, optional concise hints, completion statuses, blocked or unavailable reasons, completed count, resume cue, and a final action that only becomes available when required tasks are complete.",
+    "Show completed, in progress, not started, cannot start yet, needs attention, and changed since last visit states as text tied to each task row, with the row itself acting as the primary link into the task rather than status tags behaving like buttons."
+  ],
+  "uxGuidance": [
+    "Use complete multiple tasks when users need control over a long or complex transaction, may not finish in one sitting, and can complete meaningful sections in an order that works for them.",
+    "Help returning users resume safely by preserving task progress, naming the first incomplete or changed section, explaining dependencies, allowing completed sections to be reopened for edits, and routing to review before final submission."
+  ],
+  "uiExamples": {
+    "good": [
+      "An application hub shows Check before you start, Your details, Business information, Upload evidence, Review and send, statuses for Completed, In progress, Not started, Cannot start yet, and a disabled Apply button with the remaining requirement.",
+      "A health registration service groups related tasks under About you, Medical information, and Evidence, shows 3 of 6 sections complete, and provides a skip link to the first incomplete section."
+    ],
+    "bad": [
+      "A long transaction uses a linear step indicator even though users need to complete independent sections over several sessions.",
+      "A task list shows coloured status pills only, lets users click the pills instead of rows, and enables Submit while required tasks are incomplete."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user completes contact details, leaves work history in progress, returns later, follows Resume work history, edits contact details, uploads evidence, then reaches Review and send only after all required sections are complete.",
+      "A user tries to open Review and send before uploading evidence and sees that the task is locked until Upload evidence is complete."
+    ],
+    "bad": [
+      "A returning applicant sees six numbered steps but no saved status, so they reopen completed sections to discover what is missing.",
+      "A user reaches the final Apply button even though a required disclosure task is still marked Not started."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Long transactions fail when users cannot see the sections involved, which ones are complete, which can be done next, what is blocked, whether progress is saved, or when the transaction is ready to submit.",
+  "solution": "Provide a saved task-completion hub that groups meaningful sections, shows task-specific statuses and dependencies, preserves progress across sessions, lets users enter and edit each task, and gates final review or submission until required tasks are complete.",
+  "problemContext": [
+    "The user is completing an application, registration, onboarding, claim, setup, renewal, disclosure, case file, or other transaction made of several sections.",
+    "Some sections may be independent while others depend on eligibility, identity, previous answers, uploaded evidence, payment, review, or approval.",
+    "Users may need to stop, return later, edit completed sections, complete tasks in a personal order, or share work with another contributor.",
+    "The product must store progress and expose the difference between not started, in progress, completed, blocked, changed, stale, and ready to submit.",
+    "The final action may have legal, financial, service, or operational consequences, so completion state must be accurate before review or submit."
+  ],
+  "selectionRules": [
+    "Choose complete multiple tasks when users need a saved progress hub for several meaningful task sections in a transaction.",
+    "Use the task list component inside this pattern for row-level task names, hints, links, and statuses; the pattern owns grouping, session return, dependency, edit, and submit readiness behavior.",
+    "Use step navigation when the service must be completed in a strict linear order and users should continue one page at a time.",
+    "Use process list when users need public guidance for an ordered journey outside the active saved transaction.",
+    "Use multi-step form when the work is one guided form path rather than independent sections users can complete in different orders.",
+    "Use draft state to describe the persisted incomplete record; use complete multiple tasks to navigate and update the sections inside that record.",
+    "Use review before submit after every required task is complete and users need to check answers before the final action.",
+    "Use confirmation page only after the final action has succeeded.",
+    "Group related actions into tasks that match user goals, not internal data models, and split tasks that are too broad to name clearly.",
+    "Show unavailable task dependencies before users open the task, such as Complete identity check first or Upload evidence before review.",
+    "Keep statuses few and research-backed; completed tasks should draw less attention than tasks needing action.",
+    "Always allow users to reopen completed tasks to edit answers and return to the hub with the updated status."
+  ],
+  "requiredStates": [
+    "First visit state with task groups, task names, initial statuses, and start guidance.",
+    "Returning session state with saved progress and resume cue.",
+    "Not started task state.",
+    "In progress task state.",
+    "Completed task state.",
+    "Cannot start yet or dependency-blocked task state.",
+    "Needs attention, changed, or stale task state.",
+    "Optional task state that does not block final action.",
+    "Task reopened for edit state.",
+    "Task completion question or explicit return-to-hub state when needed.",
+    "All required tasks complete state.",
+    "Final review available state.",
+    "Final action disabled or blocked state with reasons.",
+    "Submitted handoff state to confirmation page."
+  ],
+  "interactionContract": [
+    "Selecting a task row opens that task and returns users to the same hub with updated status after save, skip, or completion.",
+    "Task statuses are stored from canonical task data, not inferred only from visited pages or client-side progress.",
+    "Changing an answer in one task updates dependent task statuses, warnings, and final action readiness.",
+    "Blocked tasks remain visible with the reason and the task that unlocks them.",
+    "Completed tasks remain editable, and edits can move dependent tasks back to needs attention when necessary.",
+    "The final review or submit action is disabled or replaced with a clear blocked reason until all required tasks are complete.",
+    "Returning sessions show saved progress, first incomplete task, changed tasks, and any expired or stale evidence."
+  ],
+  "implementationChecklist": [
+    "Define transaction tasks, task groups, required versus optional tasks, dependencies, completion rules, status vocabulary, resume behavior, edit behavior, review readiness, and final submission rules.",
+    "Build task status from server-side saved answers, uploads, verification, payments, approvals, and dependency state rather than page-visit history.",
+    "Design task rows with short names, optional concise hints, text statuses, whole-row links, unavailable reasons, completed count, and first incomplete shortcut when useful.",
+    "Add return paths from each task to the hub, including saved, skipped, incomplete, completed, changed, error, and edit outcomes.",
+    "Update dependent statuses when an answer changes, evidence expires, a required task becomes optional, or a previously completed section needs attention.",
+    "Gate review and final submission against canonical required task completion and show exact missing or blocked tasks.",
+    "Test first visit, returning session, mobile wrapping, long task names, screen readers, keyboard row activation, completed edit, dependency changes, stale evidence, optional tasks, final gating, browser Back, and saved-progress recovery."
+  ],
+  "commonMisuses": [
+    "Using complete multiple tasks for a service that can be simplified into a single short flow.",
+    "Using it as an answer summary instead of a progress hub.",
+    "Showing a task list when the user must complete every step in one strict order.",
+    "Letting the final action proceed while required tasks are incomplete or stale.",
+    "Making status tags look like clickable buttons while the task row is the real link.",
+    "Using too many statuses so users cannot remember what each one means.",
+    "Hiding locked tasks or dependencies until after users click them.",
+    "Preventing users from reopening completed tasks to edit answers."
+  ],
+  "critiqueQuestions": [
+    "Do users need to complete this transaction over more than one sitting or choose the order of sections?",
+    "What are the real task groups, required tasks, optional tasks, dependencies, and final submission rules?",
+    "Which statuses are necessary for users to plan their work, and which create noise?",
+    "How does the hub change when users return, edit a completed task, or change an answer that affects another section?",
+    "What exact task blocks review or submission, and can users see how to fix it?",
+    "Is this page a progress hub, or is it being misused as an answer summary or process guide?"
+  ],
+  "useWhen": [
+    "A transaction has several meaningful sections or tasks and progress is saved.",
+    "Users may need to stop and return later, choose section order, or reopen completed tasks.",
+    "The final action depends on accurate completion of required tasks and visible unresolved blockers."
+  ],
+  "avoidWhen": [
+    "The service is short enough to complete in one simple flow.",
+    "The order is strictly linear and users should follow a single Continue path.",
+    "The page only explains a public process before a transaction starts.",
+    "The page is mainly a read-only answer review.",
+    "The product cannot store task completion or dependency state reliably."
+  ],
+  "variants": [
+    "Application task hub",
+    "Registration task hub",
+    "Saved service checklist",
+    "Grouped task list",
+    "Returning-session task hub",
+    "Evidence completion hub",
+    "Setup checklist with dependencies",
+    "Multi-contributor task hub",
+    "Review-ready task hub",
+    "Stale task recovery"
+  ],
+  "accessibility": [
+    "Use headings for the service, task groups, and final action area so users understand the hub structure.",
+    "Make the whole task row keyboard reachable when it is a link, and ensure status text is included in the accessible name or description.",
+    "Do not rely on colour alone for completed, in progress, not started, blocked, optional, or needs attention states.",
+    "Keep hint text concise because screen readers read it when users interact with the task link.",
+    "Do not put separate links inside task hint text when the whole row links to the task.",
+    "Expose disabled or unavailable task reasons as text tied to that task.",
+    "After returning from a task, move focus to the updated task row or status summary and announce changed completion state."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows the progress summary, task groups, task rows, first incomplete shortcut when present, and final action area.",
+    "Task rows activate with standard link or button behavior and do not require drag, swipe, or pointer-only interaction.",
+    "If tasks can be reordered, provide a keyboard and non-drag method.",
+    "Returning from a task preserves hub scroll position or focuses the task whose status changed.",
+    "Blocked tasks explain their dependency without trapping focus on disabled controls.",
+    "Final review or submit controls remain reachable but explain missing required tasks when blocked."
+  ],
+  "failureModes": [
+    "Users cannot resume because the hub does not show saved progress or the first incomplete task.",
+    "A task is marked completed because it was visited, even though required fields are missing.",
+    "Changing one answer leaves dependent tasks incorrectly marked completed.",
+    "Required tasks are hidden or blocked without explanation.",
+    "The final action submits an incomplete transaction.",
+    "Task status labels look like buttons and users try to click them instead of the row.",
+    "Long hints or nested links make task rows noisy for screen reader users.",
+    "Completed tasks cannot be edited, so users abandon or restart the transaction."
+  ],
+  "relatedPatterns": [
+    "step-navigation",
+    "process-list",
+    "multi-step-form",
+    "start-page",
+    "review-before-submit",
+    "draft-state",
+    "confirmation-page",
+    "progress-bar",
+    "error-summary"
+  ],
+  "comparisons": [
+    "complete-multiple-tasks-vs-step-navigation-vs-process-list-vs-multi-step-form"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK complete multiple tasks",
+      "url": "https://design-system.service.gov.uk/patterns/complete-multiple-tasks/",
+      "platform": "web",
+      "notes": "Documents transaction-level task completion, task order, completed status, task grouping, section completion question, and editing previous task answers.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GOV.UK task list component",
+      "url": "https://design-system.service.gov.uk/components/task-list/",
+      "platform": "web",
+      "notes": "Documents task list rows, statuses, hint text, grouped task lists, whole-row links, and when users need control over long complex services.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NHS complete multiple tasks",
+      "url": "https://service-manual.nhs.uk/design-system/patterns/complete-multiple-tasks",
+      "platform": "web",
+      "notes": "Documents start and returning session placement, grouping related actions into tasks, showing statuses, and not using the page as an answer summary.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NHS task list",
+      "url": "https://service-manual.nhs.uk/design-system/components/task-list",
+      "platform": "web",
+      "notes": "Documents chosen-order task completion, status updates after returning, all-complete gating, task names, hints, and grouped lists.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Scottish Government task list",
+      "url": "https://designsystem.gov.scot/patterns/task-list",
+      "platform": "web",
+      "notes": "Documents current completion states, completed section count, application incomplete heading, and skip to first incomplete section.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GOV.UK task list iteration research",
+      "url": "https://designnotes.blog.gov.uk/2023/12/15/working-as-a-community-to-iterate-the-task-list-pattern/",
+      "platform": "web",
+      "notes": "Documents whole-row clickable tasks, hint text, non-uppercase statuses, and research about status tags looking too much like buttons.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-complete-multiple-tasks-pattern",
+      "note": "GOV.UK supports transaction-level task visibility, order, completion state, grouping, completion questions, and editable previous sections."
+    },
+    {
+      "id": "govuk-task-list-component",
+      "note": "GOV.UK supports task row names, statuses, hints, grouped lists, whole-row links, and chosen-order task completion."
+    },
+    {
+      "id": "nhs-complete-multiple-tasks-pattern",
+      "note": "NHS supports using complete multiple tasks pages at start and returning sessions, grouping actions into tasks, statuses, and avoiding answer-summary misuse."
+    },
+    {
+      "id": "nhs-task-list-component",
+      "note": "NHS supports task list status updates, all-completed gating, clear task descriptions, concise hints, and grouped lists."
+    },
+    {
+      "id": "scottish-government-task-list-pattern",
+      "note": "Scottish Government supports completion counts, current states, application incomplete heading, and skip to first incomplete section."
+    },
+    {
+      "id": "govuk-task-list-iteration-research",
+      "note": "GOV.UK research supports whole-row clickable tasks, hint text, status tags that do not look like buttons, and less visual weight for completed tasks."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

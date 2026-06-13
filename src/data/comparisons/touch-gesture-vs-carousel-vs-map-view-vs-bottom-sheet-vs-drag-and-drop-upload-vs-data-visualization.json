@@ -1,0 +1,54 @@
+{
+  "id": "touch-gesture-vs-carousel-vs-map-view-vs-bottom-sheet-vs-drag-and-drop-upload-vs-data-visualization",
+  "title": "Touch gesture vs carousel vs map view vs bottom sheet vs drag-and-drop upload vs data visualization",
+  "summary": "Use touch gesture for the general touchscreen interaction contract: gesture vocabulary, thresholds, feedback, cancellation, target sizing, and equivalent controls. Use carousel, map view, bottom sheet, drag-and-drop upload, and data visualization when gesture behavior is only one part of a more specific content or component pattern.",
+  "patternIds": [
+    "touch-gesture",
+    "carousel",
+    "map-view",
+    "bottom-sheet",
+    "drag-and-drop-upload",
+    "data-visualization"
+  ],
+  "decisionRules": [
+    "Choose touch gesture when the design problem is how touch input itself is recognized, previewed, canceled, committed, and made available through non-gesture alternatives.",
+    "Choose carousel when horizontal swipe or drag moves through a set of panels, cards, media items, or recommendations and the primary questions are position, previous or next controls, pagination, auto-advance, and content discoverability.",
+    "Choose map view when pinch, pan, drag, zoom, marker selection, clustering, geolocation, and spatial target density are part of a geographic browsing surface.",
+    "Choose bottom sheet when a drag changes a bottom-anchored contextual overlay, detent, or dismissal state; keep scroll-versus-drag priority in the sheet contract.",
+    "Choose drag-and-drop upload when pointer or touch movement is specifically a file-selection enhancement with drop-zone, rejected drop, file queue, progress, remove, retry, and file-input fallback states.",
+    "Choose data visualization when touch is used to inspect marks, pan ranges, zoom charts, or reveal values and the main issue is data comprehension, exact value access, series selection, and chart navigation.",
+    "Touch gesture must provide single-pointer alternatives for multipoint or path-based functions such as pinch, two-finger swipe, rotate, fast flick, and strict gesture paths unless the gesture is essential.",
+    "Touch gesture must define target size, target spacing, start region, movement threshold, direction lock, velocity, scroll conflict, cancellation, commit boundary, system gesture boundary, and recovery.",
+    "Do not use touch gesture as a completion bucket for specialized patterns that need their own rules, such as carousel pagination, map marker precision, bottom-sheet detents, file-drop validation, or chart value inspection.",
+    "Do not hide critical, destructive, payment, consent, security, account, or legal actions behind gesture-only behavior."
+  ],
+  "failureModes": [
+    "A map has pinch zoom but no plus, minus, reset, or single-pointer controls.",
+    "A carousel requires a fast horizontal flick and hides previous and next buttons.",
+    "A feed scroll accidentally triggers a row delete because diagonal movement is interpreted as an action too early.",
+    "A bottom sheet drag fights inner list scrolling and dismisses the sheet while users are trying to read.",
+    "A file uploader says drag here but has no file-picker fallback for keyboard, touch, or assistive technology users.",
+    "A chart reveals exact values only through pointer hover, so touch users cannot inspect the same data.",
+    "A keyboard shortcut is the only alternative to a multipoint gesture, leaving pointer-only assistive technology users without a simple pointer path.",
+    "Targets are too small or too close, causing accidental activation on touchscreens."
+  ],
+  "sources": [
+    {
+      "id": "android-touch-gestures",
+      "note": "Supports platform gesture conventions, common gestures, multi-touch, drag and scale, touch dispatch, and not depending on gestures for basic behavior."
+    },
+    {
+      "id": "w3c-wcag-pointer-gestures",
+      "note": "Supports simple single-pointer alternatives for multipoint and path-based gestures."
+    },
+    {
+      "id": "w3c-wcag-target-size-minimum",
+      "note": "Supports pointer target size, spacing, and equivalent control expectations."
+    },
+    {
+      "id": "w3c-wcag-pointer-cancellation-drag-drop",
+      "note": "Supports cancellation and recovery expectations for pointer and touch drag interactions."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

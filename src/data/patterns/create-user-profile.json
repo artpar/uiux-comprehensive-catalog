@@ -1,0 +1,253 @@
+{
+  "id": "create-user-profile",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed visible identity and profile presentation pattern with guidance for display identity, optional avatar fallback, field visibility, profile preview, managed fields, public exposure, required versus optional profile data, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers display name versus legal name, public name and handle distinctions, initials or neutral avatar fallback, optional bio, title, pronouns, location, local time, social links, field visibility choices, managed or synced fields, profile preview, public and app exposure warnings, required-field marking, skip paths, edit-later routes, and return-to-context behavior.",
+    "relatedPatternDistinction": "The entry separates create user profile from account creation by focusing on visible identity rather than credentials, from onboarding by defining profile presentation rather than first-use activation, from single-page form by requiring downstream visibility and preview rules rather than simple data capture, from name entry by adding avatar, role, bio, visibility, and publication concerns, and from email address entry by avoiding contact-only capture.",
+    "liveDemoBehavior": "The live demo uses a team directory profile flow with required display name, optional pronouns and title, initials avatar fallback, photo preview, field visibility, managed title notice, saved profile return, and bad modes for forced photo, public-by-default details, legal-name leak, managed overwrite, no preview, and required optional data.",
+    "comparisonDecisionRules": "The linked create-user-profile-vs-account-creation-vs-onboarding-vs-single-page-form comparison gives concrete rules for visible personal profile setup, persistent credentials, first-use activation, compact related fields, narrow name collection, minimal required profile fields, profile preview and visibility, managed or synced fields, photo fallback, and public publishing warnings.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/create-user-profile/ on 2026-06-11 in Chromium: verified display name, skip photo, set visibility, managed title, preview card, save profile, forced photo, public default, legal name leak, managed overwrite, no preview, and required extras states; verified /compare/create-user-profile-vs-account-creation-vs-onboarding-vs-single-page-form/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/create-user-profile.png"
+    ]
+  },
+  "name": "Create user profile",
+  "aliases": [
+    "profile creation",
+    "user profile creation",
+    "create profile",
+    "complete profile",
+    "profile intro",
+    "public profile setup",
+    "member profile setup",
+    "personal profile setup",
+    "collaboration profile",
+    "profile identity"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Collaboration And Social Interaction",
+    "Trust, Safety, And Privacy",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Visible personal identity and profile presentation setup",
+  "uiGuidance": [
+    "Render profile creation as a focused identity setup surface with required display identity, optional photo or initials, optional role or bio fields, visibility choices, managed-field indicators, and a live preview of how the profile will appear.",
+    "Keep account credentials, security setup, notification preferences, and onboarding tasks separate from the profile form unless they directly affect how the user's profile is shown."
+  ],
+  "uxGuidance": [
+    "Use create user profile when users need to decide what personal information represents them to other people or public surfaces.",
+    "Ask only for the profile fields needed now, explain where each field appears, make optional fields skippable, protect sensitive information with visibility controls, and return users to the collaboration or public context that needs the profile."
+  ],
+  "uiExamples": {
+    "good": [
+      "A new workspace member chooses a display name, sees initials as the default avatar, optionally adds pronouns and job title, chooses whether location is visible to the team, and previews a mention card before saving.",
+      "A developer profile asks for public name and bio, warns that the bio and profile photo may be visible publicly, and lets the user leave social links empty."
+    ],
+    "bad": [
+      "A profile setup screen requires a photo, birthday, location, phone number, biography, and social links before the user can enter a private project.",
+      "A public profile form labels every field Profile info but never shows which values appear in search, mentions, comments, or external pages."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user saves a profile with only display name and initials, sees how it appears to teammates, and adds a bio later from the profile page.",
+      "A user sees that job title is managed by the organization, understands where to request changes, and can still edit their public name and visibility."
+    ],
+    "bad": [
+      "A user's legal name is shown to external collaborators because the profile creation screen did not distinguish legal name from public display name.",
+      "A user uploads a photo thinking it is private, then discovers it appears in public comments and search results."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Profile creation turns personal details into visible identity across mentions, directories, comments, assignments, and public pages, so unclear required fields, missing visibility controls, forced optional details, or no preview can expose users or create a misleading profile.",
+  "solution": "Create a small profile setup flow that explains where profile data appears, separates required display identity from optional enrichment, supports safe defaults and managed fields, previews audience-specific visibility, and saves only the information users choose to share.",
+  "problemContext": [
+    "Users are entering a collaboration product, community, marketplace, developer platform, employee directory, social surface, or public contribution system.",
+    "Other people need enough profile information to identify, mention, assign, contact, trust, or understand the user.",
+    "Profile details can be visible to teammates, organizations, external collaborators, public pages, search, apps, or marketplaces.",
+    "Some fields may be synced from an identity provider, admin-managed, legally required, or optional self-expression.",
+    "Users may not know the difference between full name, public name, display name, username, handle, bio, status, job title, pronouns, location, local time, and profile photo."
+  ],
+  "selectionRules": [
+    "Choose create user profile when the user is defining visible identity information that other people or public surfaces will see.",
+    "Require only the smallest set of profile fields needed for recognition or safety, such as display name or public name.",
+    "Make optional fields clearly optional and explain why adding them helps, where they appear, and whether they can be skipped.",
+    "Show safe defaults such as initials, empty bio, hidden location, or organization-only visibility before asking for extra details.",
+    "Preview the profile card, public profile, mention, comment byline, or directory result before saving when profile visibility matters.",
+    "Use visibility choices for fields that can expose personal information, especially photo, full name, pronouns, location, local time, email, bio, and social links.",
+    "Mark organization-managed or identity-provider-synced fields as managed and provide a route to request changes.",
+    "Avoid using profile creation to collect account credentials, marketing preferences, onboarding answers, or broad settings.",
+    "Use account creation when the user is establishing credentials and recovery; use onboarding when the user is learning the product; use profile setup later when users are enriching an existing profile.",
+    "Do not publish profile information to public pages, search, or third-party apps until visibility consequences are explicit."
+  ],
+  "requiredStates": [
+    "Initial profile purpose state explaining where the profile will appear.",
+    "Required display identity state with clear labels for display name, public name, handle, or full name.",
+    "Optional avatar state with upload, remove, initials fallback, and image-crop or alt-text guidance where relevant.",
+    "Optional bio, role, title, pronouns, location, local time, social link, or status state with skip path.",
+    "Field visibility state showing audience such as Only you, organization, teammates, external collaborators, or anyone.",
+    "Managed field state for values controlled by admin, directory sync, SSO, or identity provider.",
+    "Preview state showing how the profile appears in at least one real destination.",
+    "Save confirmation state that returns users to the context that needed the profile.",
+    "Edit later state explaining where profile details and visibility can be changed.",
+    "Public or external exposure warning state when profile information may be indexed, shared, or accessed by apps."
+  ],
+  "interactionContract": [
+    "The form states which profile fields are required, optional, managed, hidden, or public before users save.",
+    "Users can skip optional profile enrichment without losing access to the core product unless policy requires it.",
+    "Changing a field updates the preview and any visibility summary tied to that field.",
+    "Photo upload has a fallback path and does not block saving when a photo is optional.",
+    "Visibility controls apply to the actual downstream profile surfaces, not just the setup page.",
+    "Managed fields cannot be edited as if user-controlled; the UI explains the source and change path.",
+    "Saving the profile preserves user-entered fields, records visibility choices, and returns focus to the next useful task or profile preview."
+  ],
+  "implementationChecklist": [
+    "Inventory where each profile field appears: mentions, cards, directories, search, public pages, apps, comments, assignments, and exports.",
+    "Classify each field as required, optional, managed, derived, private, organization-visible, external-visible, or public.",
+    "Use existing name, email, avatar, locale, and organization data only when users understand how it will be displayed.",
+    "Design initials fallback, missing-photo state, skipped-bio state, invalid link state, long-name state, and translated-label state.",
+    "Show a profile preview for the most important destination, and include audience or visibility labels near sensitive fields.",
+    "Keep account credentials, MFA, notification preferences, marketing consent, and onboarding choices out of the required profile step.",
+    "Test display names with spaces, capitalization, non-English characters, long names, initials, no photo, managed fields, mobile keyboard, screen readers, high contrast, and public/private visibility."
+  ],
+  "commonMisuses": [
+    "Forcing optional profile completion before users can do the task they came for.",
+    "Publishing profile data without a preview or visibility explanation.",
+    "Confusing legal name, full name, public name, display name, username, and handle.",
+    "Making profile photo mandatory when initials or a neutral avatar would work.",
+    "Letting users edit fields that are later overwritten by directory sync.",
+    "Using profile creation to ask for credentials, security setup, marketing preferences, or product onboarding data.",
+    "Hiding required fields among optional enrichment fields.",
+    "Showing the same profile preview for all audiences when visibility differs."
+  ],
+  "critiqueQuestions": [
+    "Where will each profile field appear after save?",
+    "Which fields are truly required for recognition, safety, collaboration, or policy?",
+    "Can users skip photo, bio, location, pronouns, and social links?",
+    "What visibility does each sensitive field have by default?",
+    "Which fields are user-controlled versus admin-managed or synced?",
+    "Does the preview match mentions, cards, directories, public pages, and app access?"
+  ],
+  "useWhen": [
+    "Users need to create a visible profile for collaboration, community, directory, marketplace, public contribution, support, or social interaction.",
+    "Profile information affects how other people identify, mention, contact, trust, assign, or understand the user.",
+    "The product can explain visibility and let users edit or remove profile details later."
+  ],
+  "avoidWhen": [
+    "The task is only creating credentials, signing in, setting a password, or verifying an email.",
+    "The service can operate with account details already collected and no visible profile is needed.",
+    "The product mainly wants extra demographic, marketing, or preference data unrelated to profile display.",
+    "The team cannot enforce profile visibility choices across downstream surfaces."
+  ],
+  "variants": [
+    "Member profile creation",
+    "Public profile creation",
+    "Directory profile creation",
+    "Collaboration profile",
+    "Developer profile",
+    "Community profile",
+    "Profile card setup",
+    "Avatar and display name setup",
+    "Managed organization profile",
+    "Profile visibility setup"
+  ],
+  "accessibility": [
+    "Use explicit labels for display name, public name, full name, username, and handle so users know what each value means.",
+    "Mark required fields at the field level and do not rely only on top-of-form instructions.",
+    "Provide text alternatives or initials fallback for profile photos and do not make image upload the only way to continue.",
+    "Expose visibility controls as labelled radios, selects, or segmented controls with the affected field named.",
+    "Announce preview updates without forcing focus into the preview after every keystroke.",
+    "Make managed-field source and edit restrictions available to screen reader and keyboard users.",
+    "Avoid color-only privacy states and use text labels such as Public, Organization, Team, or Only you."
+  ],
+  "keyboardBehavior": [
+    "Initial focus lands on the profile creation heading or first required field after purpose text.",
+    "Tab order follows required fields, optional enrichment fields, visibility controls, preview, save, skip, and edit-later actions.",
+    "Photo upload, remove photo, crop, skip, and fallback controls are reachable by keyboard.",
+    "Changing visibility updates the preview or summary without moving focus unexpectedly.",
+    "Submit with missing required profile data moves focus to an error summary or first invalid field.",
+    "After save, focus lands on the saved profile preview, next task, or originating collaboration surface."
+  ],
+  "failureModes": [
+    "Users abandon because too many optional profile details are required.",
+    "Users are exposed because public visibility was the default and not previewed.",
+    "Users are misidentified because legal name, display name, and handle are mixed together.",
+    "A photo upload failure blocks profile creation even though initials would work.",
+    "Managed fields appear editable and then revert later.",
+    "A profile preview omits how information appears in comments, mentions, search, public pages, or third-party apps.",
+    "Required field errors appear only after submit and do not identify which profile value is missing."
+  ],
+  "relatedPatterns": [
+    "account-creation",
+    "onboarding",
+    "single-page-form",
+    "name-entry",
+    "email-address-entry"
+  ],
+  "comparisons": [
+    "create-user-profile-vs-account-creation-vs-onboarding-vs-single-page-form"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian profile visibility",
+      "url": "https://support.atlassian.com/atlassian-account/docs/update-your-profile-and-visibility-settings/",
+      "platform": "web",
+      "notes": "Documents profile photo defaults, public name behavior, visibility controls, product surfaces, public forums, and app access implications.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack display name",
+      "url": "https://slack.com/intl/en-nz/help/articles/216360827-Change-your-display-name",
+      "platform": "web",
+      "notes": "Documents full name, optional display name, mentions, non-English characters, capitalization, and managed SSO restrictions.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack custom profiles",
+      "url": "https://slack.com/help/articles/212281478-Customize-member-profiles",
+      "platform": "web",
+      "notes": "Documents collaboration-oriented profile fields such as time zone, job title, location, start date, social links, searchable fields, and identity-provider syncing.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub personal profile",
+      "url": "https://docs.github.com/en/account-and-profile/concepts/personal-profile",
+      "platform": "web",
+      "notes": "Documents customizable profile information, user control over what to include, public profile risks, private profile behavior, and profile visibility options.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-profile-visibility-settings",
+      "note": "Atlassian supports visibility controls, public-name behavior, profile photo fallback, and warnings about where profile information appears."
+    },
+    {
+      "id": "slack-display-name-profile",
+      "note": "Slack supports full-name and display-name distinctions and shows display names in mentions."
+    },
+    {
+      "id": "slack-customize-member-profiles",
+      "note": "Slack supports collaboration profile fields, custom fields, searchable profile fields, and identity-provider syncing."
+    },
+    {
+      "id": "github-profile-overview",
+      "note": "GitHub supports user-controlled public profile information and documents public visibility risks."
+    },
+    {
+      "id": "nng-required-fields-forms",
+      "note": "NN/g supports explicit required-field marking for forms with mixed required and optional fields."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

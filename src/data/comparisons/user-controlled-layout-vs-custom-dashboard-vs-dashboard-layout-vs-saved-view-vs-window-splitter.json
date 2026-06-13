@@ -1,0 +1,55 @@
+{
+  "id": "user-controlled-layout-vs-custom-dashboard-vs-dashboard-layout-vs-saved-view-vs-window-splitter",
+  "title": "User-controlled layout vs custom dashboard vs dashboard layout vs saved view vs window splitter",
+  "summary": "Use user-controlled layout when users adjust the arrangement, visibility, or relative placement of panes inside an active workspace; custom dashboard when users compose persisted widget dashboards; dashboard layout when the product defines a monitoring page; saved view when one data surface's presentation is stored; and window splitter when the control is specifically an accessible pane-resizing separator.",
+  "patternIds": [
+    "user-controlled-layout",
+    "custom-dashboard",
+    "dashboard-layout",
+    "saved-view",
+    "window-splitter"
+  ],
+  "decisionRules": [
+    "Choose user-controlled layout when users need to switch between single-pane, side-by-side, stacked, inspector, focus, or compact workspace arrangements while keeping the same task objects, selection, filters, draft, scroll position, and keyboard focus.",
+    "Choose custom dashboard when the user selects dashboard widgets, changes widget order or size, and saves a personal or shared dashboard composition across sessions.",
+    "Choose dashboard layout when the product team defines a coherent monitoring page with KPI hierarchy, filters, freshness, drill paths, and responsive priority rather than letting each user rearrange the work surface.",
+    "Choose saved view when the persistent object is one table, list, board, or record surface with columns, filters, sort, grouping, density, or display mode rather than the arrangement of surrounding panes.",
+    "Choose window splitter when the primary interaction is moving a separator between adjacent panes with min, max, collapse, restore, orientation, and aria value behavior.",
+    "A user-controlled layout must expose layout name, affected regions, scope, preview, save, reset, and responsive fallback so users know whether the change is temporary, personal, device-scoped, workspace-scoped, or policy-managed.",
+    "Keep layout state separate from density, theme, zoom, text size, dashboard composition, data filters, saved views, and split-pane pixel sizes unless the user explicitly saves a combined workspace preset.",
+    "When a layout change hides a pane or changes order, preserve the hidden pane's draft, selected item, validation state, scroll anchor, and return path instead of destroying the pane's working state.",
+    "On small screens, use a named stacked or focus layout with clear navigation between regions rather than copying a desktop side-by-side layout that creates off-screen panes or horizontal scrolling.",
+    "Do not call a layout user-controlled if users can only collapse one sidebar, resize a splitter, or choose dashboard widgets without controlling the broader work-surface arrangement."
+  ],
+  "failureModes": [
+    "A layout toggle switches from split to focus mode and discards the open draft in the hidden detail pane.",
+    "A saved view stores layout arrangement, filters, columns, and density as one opaque preset, so users cannot reset only the layout.",
+    "A desktop side-by-side workspace is reused on mobile and leaves the inspector as a sliver off screen.",
+    "A personal layout save silently changes the shared workspace default for every teammate.",
+    "A splitter-only resize is described as user-controlled layout even though users cannot choose region order, visibility, or focus mode.",
+    "A custom dashboard widget editor is used when the task is simply arranging panes around one active record or queue."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-window-splitter",
+      "note": "WAI-ARIA defines accessible splitter behavior that informs, but does not fully replace, broader user-controlled layout choices."
+    },
+    {
+      "id": "salt-splitter-accessibility",
+      "note": "Salt describes splitter controls as a way to customize workspace layout by adjusting panel boundaries."
+    },
+    {
+      "id": "servicenow-resizable-panes",
+      "note": "ServiceNow documents resizable and hideable panes for fitting workspace content to user needs."
+    },
+    {
+      "id": "tableau-dashboard-size-layout",
+      "note": "Tableau documents layout containers and responsive sizing, useful for separating authored dashboard layout from user workspace layout."
+    },
+    {
+      "id": "microsoft-windows-app-settings-guidelines",
+      "note": "Microsoft settings guidance helps distinguish durable configuration surfaces from in-context layout controls."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

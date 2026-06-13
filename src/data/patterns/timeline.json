@@ -1,0 +1,270 @@
+{
+  "id": "timeline",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed chronological event-record pattern with distinct boundaries from feed, activity log, audit log, process list, step navigation, table, and data grid; includes event anatomy, date and actor handling, past/current/future states, expansion, filtering, grouping, hidden-range handling, corrected-time risks, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers one-object event histories, chronological ordering, event identity, timestamp or date labels, actor or system source, event title, status, type, concise summaries, current and expected future markers, expanded detail, filtering, grouping, hidden ranges, loading older events, unknown or corrected times, timezone risks, source-record links, and timeline-specific accessibility.",
+    "relatedPatternDistinction": "The entry separates timeline from feed by bounded chronological records instead of dynamic stream insertion, from activity or audit logs by summarized sequence instead of exhaustive provenance, from process list by event history instead of planned journey guidance, from step navigation by case history instead of current route progress, and from table or data grid by sequence comprehension instead of column comparison or export.",
+    "liveDemoBehavior": "The live demo shows a benefit claim history with dated events, actor and source labels, current milestone, expected future event, event expansion, newest and oldest order switching, system-event filtering, older-range loading, future-marker hiding and restoring, and bad-mode contrasts for missing dates, future-as-complete styling, audit evidence loss, feed misuse, hidden ranges, and stepper confusion.",
+    "comparisonDecisionRules": "The timeline-vs-feed-vs-process-list-vs-step-navigation comparison gives concrete rules for bounded chronological event records, dynamic streams, planned end-to-end journey guidance, current transaction progress, event anatomy, future-state labelling, audit-log boundaries, live-insertion boundaries, and loading or grouping long histories.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/timeline/ and /compare/timeline-vs-feed-vs-process-list-vs-step-navigation/ on 2026-06-11. Live check exercised Oldest first, Expand current, System filter, Load older, Future marker, Future as done, Audit loss, Feed misuse, Hidden range, and Stepper confusion controls while the page was in review state, plus a 390px narrow viewport check. screenshots/patterns/timeline.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/timeline.png"
+    ]
+  },
+  "name": "Timeline",
+  "aliases": [
+    "event timeline",
+    "case timeline",
+    "history timeline",
+    "chronological timeline",
+    "order timeline",
+    "application timeline",
+    "status timeline",
+    "milestone timeline",
+    "activity timeline"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State",
+    "Collaboration And Social Interaction",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Bounded chronological record of past, current, or expected events",
+  "uiGuidance": [
+    "Render the timeline as a labelled chronological sequence where each event has a visible date or time, event title, actor or system source when known, status or type, and a short summary.",
+    "Use a clear connector, marker, grouping label, or range boundary only to reinforce time order; do not let the line or icon replace event text, timestamps, or source labels."
+  ],
+  "uxGuidance": [
+    "Use timeline when users need to understand what happened, where they are now, and what may happen next in a case, claim, application, order, incident, or process.",
+    "Keep timeline items brief enough for scanning, preserve chronological order under filtering or loading, and route detailed evidence, dense logs, or current-step progress to more appropriate surfaces."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefits application timeline groups events by date and shows Application submitted, Evidence requested, Evidence received, Decision pending, and Next review, with actor, timestamp, and status marker.",
+      "An order timeline shows Created, Paid, Packed, Carrier handoff, Delivery exception, and Expected delivery, with current and future markers visually distinct."
+    ],
+    "bad": [
+      "A vertical line lists Approved, More, Update, and Done with no dates, actors, status, or explanation.",
+      "A dense audit table is squeezed into timeline cards and hides changed fields, exact actor identity, and retention proof."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A caseworker filters the timeline to System events, sees two date groups hidden, restores all events, and the event order and current marker stay stable.",
+      "A claimant expands one event for supporting detail, then collapses it without losing their place in the overall timeline."
+    ],
+    "bad": [
+      "A user sees a future appointment marker styled like completed history and assumes the appointment already happened.",
+      "A timeline replaces a stepper inside a form, so users cannot tell which current step is complete or blocked."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users often need to understand a sequence of important events around a case, order, application, incident, or process, but raw logs, feeds, tables, or step indicators can obscure time order, current state, actor context, and what happened next.",
+  "solution": "Present a bounded chronological timeline with clear event markers, dates, actors, summaries, status, current and future distinctions, grouping, optional expansion, filtering, loading, and routes to detailed records when the timeline summary is not enough.",
+  "problemContext": [
+    "Events belong to one case, claim, order, application, person, incident, project, shipment, or process.",
+    "Users need to understand sequence and causality more than compare columns, consume live updates, or complete current form steps.",
+    "Events may be generated by people, systems, integrations, or scheduled milestones.",
+    "The timeline may include past events, the current event, expected future events, collapsed groups, filters, or links to source records."
+  ],
+  "selectionRules": [
+    "Choose timeline when the main user question is what happened, when it happened, who or what caused it, and what came next.",
+    "Use feed when items keep arriving as a dynamic stream and reading-position preservation is central.",
+    "Use activity log or audit log when users need exhaustive, immutable, compliance-grade evidence, field-level changes, actor IDs, retention, export, or search across logs.",
+    "Use process list when users need planned journey guidance and task links rather than a record of events.",
+    "Use step navigation when users are inside a current linear task and progress must reflect validated route state.",
+    "Use table or data grid when users need to compare many events by shared columns, sort by multiple fields, or export records.",
+    "Keep timeline items short and link to details instead of turning each event into a full case note.",
+    "Label current and future expected events differently from completed historical events.",
+    "Group long histories by date, phase, month, or status range while preserving visible order and hidden-count context.",
+    "Avoid timeline when event order is uncertain, unimportant, or likely to be misread as causality."
+  ],
+  "requiredStates": [
+    "Default timeline with heading, order label, date or phase groups, and event markers.",
+    "Past, current, expected future, cancelled, failed, warning, and system-generated event states.",
+    "Expanded and collapsed event detail states.",
+    "Filtered, grouped, searched, paginated, loading-more, no-events, and failed-load states.",
+    "Hidden-range or hidden-filter count state when not all events are visible.",
+    "Unknown time, approximate time, corrected timestamp, timezone, and duplicate-event states when applicable.",
+    "Responsive narrow-screen state where date, title, actor, status, and actions remain readable.",
+    "Linked source-record state when users need deeper case notes, documents, messages, or audit evidence."
+  ],
+  "interactionContract": [
+    "Each event has one stable identity, timestamp or date label, event title, and actor or system source when known.",
+    "The visual marker and connector reinforce chronological order but do not carry the only meaning.",
+    "Filtering and grouping never reorder events without stating the active order and hidden range.",
+    "Expanding an event reveals supporting detail in place without hiding adjacent dates or changing event identity.",
+    "Opening a source record preserves return context to the same event or date group.",
+    "Current and future items are visually and textually distinct from completed history.",
+    "Corrected, approximate, unknown, or timezone-sensitive times are labelled rather than silently normalized.",
+    "Long timelines expose load, pagination, or range controls that preserve date boundaries and focus."
+  ],
+  "implementationChecklist": [
+    "Define event identity, timestamp, date granularity, actor, source system, title, summary, status, type, detail route, and whether the item is past, current, or future.",
+    "Choose the default order and state it in the UI, such as newest first, oldest first, grouped by date, or grouped by phase.",
+    "Use semantic list structure with headings or time elements for date groups and event titles.",
+    "Provide text labels for markers such as current, expected, failed, cancelled, system, warning, or corrected time.",
+    "Add expansion only for concise supporting detail; route dense notes, documents, audit evidence, and comments to dedicated records.",
+    "Design filters and range loading with visible hidden counts, active filters, empty results, retry, and order preservation.",
+    "Preserve focus and scroll position when expanding events, filtering, loading older events, or returning from source records.",
+    "Test long titles, missing actors, approximate dates, localization, timezones, keyboard order, screen-reader date grouping, and mobile wrapping."
+  ],
+  "commonMisuses": [
+    "Using timeline as decorative chrome around a normal list with no meaningful time sequence.",
+    "Omitting dates, actors, or event summaries and expecting icons to communicate the sequence.",
+    "Mixing future tasks and completed events without text that distinguishes expectation from history.",
+    "Replacing audit logs with simplified timeline summaries when users need exact evidence.",
+    "Replacing a feed with timeline visuals while live insertion and ranking behavior remain unresolved.",
+    "Replacing step navigation inside a form with a timeline that cannot validate progress.",
+    "Letting filters or groups hide events without counts or range labels.",
+    "Treating event order as causality when the product only knows timestamps."
+  ],
+  "critiqueQuestions": [
+    "What object, case, order, application, or process does this timeline belong to?",
+    "Are users trying to understand event sequence, consume a live stream, follow a planned process, or complete current steps?",
+    "Which event fields are required: date, time, actor, source, status, event type, summary, document, or action?",
+    "How are current and future expected events distinguished from completed past events?",
+    "What happens when events are filtered, grouped, corrected, duplicated, missing timestamps, or loaded in ranges?",
+    "Would feed, activity log, audit log, process list, step navigation, table, or data grid better fit the task?"
+  ],
+  "useWhen": [
+    "Users need a chronological record of important events for one object, case, order, application, or process.",
+    "Time order, current state, actor/source context, and milestone meaning are more important than dense comparison.",
+    "The product can summarize each event while linking to deeper evidence or records when needed.",
+    "The sequence benefits from markers, grouping, current/future distinction, or optional event expansion."
+  ],
+  "avoidWhen": [
+    "The surface is a live stream whose content keeps arriving and must preserve reader position.",
+    "The surface must serve as exhaustive audit evidence with immutable field-level detail.",
+    "Users are inside an active multistep transaction that needs validated progress.",
+    "The information is a planned task guide rather than a record of events.",
+    "Users need to compare many event rows by columns, export them, or search logs at scale."
+  ],
+  "variants": [
+    "Case timeline",
+    "Application timeline",
+    "Order timeline",
+    "Shipment timeline",
+    "Incident timeline",
+    "Medical journey timeline",
+    "Milestone timeline",
+    "Status timeline",
+    "Grouped timeline",
+    "Expandable timeline",
+    "Filtered timeline",
+    "Past and future timeline",
+    "Horizontal timeline",
+    "Vertical timeline"
+  ],
+  "accessibility": [
+    "Use semantic list or ordered-list structure with date-group headings and text event labels.",
+    "Use time elements or readable date text for timestamps, including timezone or approximate labels when relevant.",
+    "Do not rely on connector lines, marker color, or icon shape alone to communicate status or order.",
+    "Ensure event actions and expansion controls include the event title or date in their accessible names.",
+    "Expose current, expected, failed, cancelled, hidden, filtered, and loaded range states in text.",
+    "Keep focus on the activated event control or next sensible event after expansion, filtering, or loading.",
+    "Avoid extremely long tab sequences by keeping per-event actions limited and moving dense evidence to detail routes."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches date-range controls, filters, event expansion controls, event links, and load-more controls in chronological reading order.",
+    "Enter or Space expands an event when the event heading is implemented as a button.",
+    "Escape closes an event menu or inline detail panel and returns focus to the invoking event.",
+    "After filtering or loading older events, focus stays on the triggering control, the changed range summary, or the first newly loaded event.",
+    "Opening and returning from an event detail route restores focus or scroll near the source event.",
+    "Optional arrow-key shortcuts may move between events only when standard Tab navigation remains sufficient."
+  ],
+  "failureModes": [
+    "Users cannot tell whether newest or oldest events appear first.",
+    "A future event is styled as completed history.",
+    "An event marker indicates warning or failure only by color.",
+    "Filtering hides older events and users assume the visible list is complete.",
+    "Expansion repeats whole case notes and makes the sequence hard to scan.",
+    "Timestamp corrections or timezone shifts silently reorder events.",
+    "Timeline summaries are used where audit-grade details, export, retention, or exact field changes are required.",
+    "Returning from an event detail page resets the timeline to the top."
+  ],
+  "relatedPatterns": [
+    "feed",
+    "list-view",
+    "process-list",
+    "step-navigation",
+    "notification-center",
+    "filter-panel",
+    "sort-controls",
+    "pagination",
+    "details-panel",
+    "empty-state"
+  ],
+  "comparisons": [
+    "timeline-vs-feed-vs-process-list-vs-step-navigation"
+  ],
+  "examples": [
+    {
+      "product": "MOJ Design System Timeline",
+      "url": "https://design-patterns.service.justice.gov.uk/components/timeline/",
+      "platform": "web",
+      "notes": "Documents timelines for showing what has happened in a service, including who added information and when.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NHS App Timeline",
+      "url": "https://design-system.nhsapp.service.nhs.uk/components/timeline/",
+      "platform": "mobile",
+      "notes": "Documents timelines for broad process understanding, including happened so far, current point, and what comes next.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "DWP Design System Timeline",
+      "url": "https://design-system.dwp.gov.uk/components/timeline",
+      "platform": "web",
+      "notes": "Documents time-ordered event records with brief overviews.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "ONS Service Manual Timeline",
+      "url": "https://service-manual.ons.gov.uk/design-system/components/timeline",
+      "platform": "web",
+      "notes": "Documents timelines for linear records of past or future events.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Home Office Timeline",
+      "url": "https://design.homeoffice.gov.uk/design-system/components?name=Timeline",
+      "platform": "web",
+      "notes": "Documents event timelines with dates, times, descriptions, actors, and possible actions.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "moj-design-system-timeline",
+      "note": "MOJ supports timelines for service histories with information about who added an item and when."
+    },
+    {
+      "id": "nhs-app-timeline",
+      "note": "NHS App supports timeline use for broad process understanding and cautions against dense stage detail."
+    },
+    {
+      "id": "dwp-design-system-timeline",
+      "note": "DWP supports time-ordered records of events with brief overviews."
+    },
+    {
+      "id": "ons-service-manual-timeline",
+      "note": "ONS supports timelines for linear records of past or future events."
+    },
+    {
+      "id": "home-office-design-system-timeline",
+      "note": "Home Office supports event dates, times, descriptions, actors, and actions in timelines."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

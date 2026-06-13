@@ -1,0 +1,241 @@
+{
+  "id": "custom-dashboard",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a persisted dashboard-customization pattern with source-backed guidance for edit mode, widget gallery, add, remove, move, resize, personal and shared save scope, responsive preview, required widgets, permission-limited widgets, reset recovery, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers dashboard edit mode, widget composition, selected and available widgets, move and resize controls, save scope, shared-impact warnings, responsive order preview, required widgets, permission-limited widgets, reset paths, and failed or conflicting save recovery.",
+    "relatedPatternDistinction": "The entry separates custom dashboard from dashboard layout by requiring user-authored widget composition, from saved view by composing several widgets rather than one data surface, from preference center by avoiding account and communication preference categories, and from settings page by treating layout personalization as the primary task.",
+    "liveDemoBehavior": "The live demo shows a personal support dashboard with editable widgets, selected-widget cards, widget gallery, required SLA tile, source and freshness labels, add widget, move SLA first, resize queue, mobile preview, permission widget, save personal, save team, reset default, and bad modes for drag-only, shared overwrite, hidden required widget, mobile order, blank permission, filter confusion, and unsaved loss.",
+    "comparisonDecisionRules": "The linked custom-dashboard-vs-dashboard-layout-vs-saved-view-vs-preference-center comparison gives concrete rules for persisted widget composition, fixed dashboard monitoring layout, single-surface saved presentation, preference management, shared-edit scope, responsive preview, policy-locked widgets, and permission-limited widget recovery.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/custom-dashboard/ with the live demo, clicked Customize, Add widget, Move SLA first, Resize queue, Mobile preview, Permission widget, Save personal, Save team, Reset default, Drag only, Shared overwrite, Hidden required, Mobile order, Blank permission, Filter confusion, and Unsaved loss, and found no duplicate IDs, page overflow, or custom-dashboard overflow. The comparison route /compare/custom-dashboard-vs-dashboard-layout-vs-saved-view-vs-preference-center/ included the expected decision terms and had no duplicate IDs or page overflow.",
+    "screenshots": [
+      "screenshots/patterns/custom-dashboard.png"
+    ]
+  },
+  "name": "Custom dashboard",
+  "aliases": [
+    "personal dashboard",
+    "customizable dashboard",
+    "dashboard builder",
+    "dashboard personalization",
+    "user dashboard",
+    "widget dashboard",
+    "personal analytics dashboard",
+    "dashboard workspace"
+  ],
+  "category": "Personalization And Preference",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Task And Workflow Patterns",
+    "Navigation And Wayfinding"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "User-configurable dashboard canvas with persisted widget composition",
+  "uiGuidance": [
+    "Expose a customization mode that separates normal dashboard reading from editing, with visible controls for adding widgets, removing widgets, moving widgets, resizing tiles, previewing responsive order, saving changes, canceling edits, and resetting to a default layout.",
+    "Show each dashboard widget with a stable title, source, freshness, permission state, size, edit affordance, and drag or keyboard move target so users can tell what will be persisted before they save."
+  ],
+  "uxGuidance": [
+    "Use custom dashboard when users need to compose a personal or role-specific dashboard from multiple widgets, data sources, saved views, filters, or shortcuts, then return to that arrangement across sessions.",
+    "Keep customization state distinct from dashboard data filters and from shared dashboard definitions so users know whether a change affects only their view, a team dashboard, or the underlying data."
+  ],
+  "uiExamples": {
+    "good": [
+      "A team lead opens Customize, sees selected widgets, available widgets, size controls, keyboard move buttons, unsaved changes, and a preview of how the dashboard will stack on mobile.",
+      "A dashboard card labelled SLA risk shows source, last refresh, current size, visible-to-team status, and Move earlier, Resize, Hide, and Remove actions."
+    ],
+    "bad": [
+      "Dashboard widgets can be dragged around, but there is no edit mode, no saved state, and no indication whether the new order is personal or shared.",
+      "A widget gallery lets users add charts with vague names such as Metric and Overview, no data source, no permission warning, and no preview of responsive placement."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A manager adds the Escalations widget, moves it above the revenue chart, previews mobile order, saves as My support dashboard, and can reset to the team default later.",
+      "A user tries to add a restricted finance widget and sees a permission-limited card with a request-access route rather than a blank tile."
+    ],
+    "bad": [
+      "A user rearranges a shared operations dashboard and accidentally overwrites the layout for the whole team.",
+      "A mobile dashboard keeps desktop widget order and pushes the only actionable queue below several decorative charts."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Different users need different dashboard priorities, but fixed dashboard layouts either bury personally important widgets or make customization risky because users cannot tell what will be saved, who will be affected, or how the layout behaves on smaller screens.",
+  "solution": "Provide a custom dashboard workflow with an explicit edit mode, widget gallery, add remove move and resize controls, personal versus shared save scope, responsive preview, permission-limited widget handling, reset paths, and clear unsaved-change feedback.",
+  "problemContext": [
+    "The product has reusable widgets, charts, KPI cards, saved views, queues, shortcuts, or reports that different roles prioritize differently.",
+    "Users need a persistent personal or role-based arrangement rather than only global filters on a fixed dashboard.",
+    "Dashboard composition may affect shared workspaces, role defaults, navigation shortcuts, alert visibility, or mobile order.",
+    "Widgets can fail, become unavailable, require permission, have different refresh cadences, or be removed from the product catalog.",
+    "Users may customize with a pointer, keyboard, touch, narrow screen, or assistive technology."
+  ],
+  "selectionRules": [
+    "Choose custom dashboard when users need to choose which widgets appear, where they appear, and how much space they occupy.",
+    "Use dashboard layout when the product team defines one coherent monitoring page and users mainly read, filter, or drill from it.",
+    "Use saved view when users persist the presentation of one data surface rather than composing several dashboard widgets.",
+    "Use preference center when users configure communications, privacy, notification, or account preferences rather than dashboard content.",
+    "Use pinned items or favorites when users only need quick access shortcuts and are not arranging a widget canvas.",
+    "Offer shared-dashboard editing only when ownership, edit permission, audience impact, review, and rollback are explicit.",
+    "Avoid custom dashboard when the widget set is too small, unrelated, or unreliable to support meaningful personal composition.",
+    "Avoid drag-only customization; every widget move, resize, remove, save, cancel, and reset action needs a keyboard-accessible path."
+  ],
+  "requiredStates": [
+    "Read-only dashboard state with current layout name, owner or scope, active widgets, freshness, and customize entry point.",
+    "Customization mode with selected widgets, available widget gallery, unsaved changes, move, resize, remove, save, cancel, and reset controls.",
+    "Personal save, shared save, save as copy, discard changes, reset to default, and restored default states.",
+    "Widget added, widget removed, widget reordered, widget resized, duplicate-widget blocked, and maximum-widget-count states.",
+    "Unavailable, permission-limited, retired, loading, failed, stale, empty, and source-disconnected widget states.",
+    "Responsive preview and narrow-screen state where critical widgets, edit controls, save status, and reset remain reachable."
+  ],
+  "interactionContract": [
+    "Entering customization mode freezes dashboard reading interactions and makes layout-editing controls explicit.",
+    "Adding a widget places it in a predictable location, announces the change, and marks the dashboard as unsaved until saved or canceled.",
+    "Moving or resizing a widget updates visual order, keyboard order, and responsive order together.",
+    "Saving states whether changes apply to only this user, a role default, or a shared team dashboard before committing.",
+    "Cancel and reset restore the previous persisted layout without changing dashboard filters, selected data, or saved views inside widgets.",
+    "Permission-limited or retired widgets remain explainable with remove, replace, or request-access paths.",
+    "Responsive preview shows how widget order and size will adapt before users save a desktop arrangement.",
+    "The system records enough metadata to recover from failed saves, conflicting shared edits, and removed widgets."
+  ],
+  "implementationChecklist": [
+    "Define a dashboard layout model with dashboard ID, owner, scope, widget IDs, widget order, widget sizes, responsive priority, data bindings, and saved timestamp.",
+    "Separate layout state from data filters, query state, saved view definitions, and widget data refresh state.",
+    "Provide add, remove, move earlier, move later, resize, save, cancel, reset, duplicate handling, and shared-impact confirmation.",
+    "Validate every widget against permissions, source availability, retired-widget catalog state, mobile size, and maximum dashboard constraints.",
+    "Persist personal layouts separately from team defaults and provide a way to copy a shared dashboard before editing.",
+    "Announce customization changes through a stable status region and keep focus on the edited widget or next safe control.",
+    "Test pointer drag, keyboard moves, touch reordering, narrow widths, long widget titles, failed saves, conflicting shared edits, and reset recovery."
+  ],
+  "commonMisuses": [
+    "Treating a fixed dashboard with filters as a custom dashboard even though users cannot choose widgets, order, or size.",
+    "Letting users drag widgets without save, cancel, reset, keyboard movement, or shared-impact confirmation.",
+    "Saving a personal layout over a team default without owner or audience warning.",
+    "Using customization to hide mandatory operational alerts or compliance widgets with no policy explanation.",
+    "Losing widget order on mobile or making keyboard order differ from the visible arrangement.",
+    "Showing blank spaces when a widget is retired, permission-limited, or disconnected from its source."
+  ],
+  "critiqueQuestions": [
+    "Can users tell whether they are editing layout, filtering data, or changing a saved view inside a widget?",
+    "Which changes are personal, shared, default, temporary, unsaved, or policy locked?",
+    "Can each widget be added, removed, moved, resized, replaced, and restored without pointer-only interactions?",
+    "What happens when a widget becomes unavailable, loses permission, fails refresh, or is removed from the catalog?",
+    "Does responsive order preserve user intent and keep critical widgets before decorative or low-priority widgets?",
+    "Would dashboard layout, saved view, pinned items, favorites, or preference center better match the user task?"
+  ],
+  "useWhen": [
+    "Users have different monitoring priorities and need a persistent personal or role-based dashboard arrangement.",
+    "The product offers reusable widgets or tiles with clear purpose, source, and permission boundaries.",
+    "Users must add, remove, reorder, resize, or reset dashboard widgets across sessions.",
+    "Shared dashboard edits can be permissioned, confirmed, audited, and recovered."
+  ],
+  "avoidWhen": [
+    "The dashboard must remain identical for everyone because it encodes a regulated process, operational standard, or safety-critical alert order.",
+    "Users only need to filter, drill, or collapse sections in a fixed dashboard layout.",
+    "The interface cannot explain which widgets are saved, who owns the layout, or how the dashboard adapts responsively.",
+    "The widget catalog is mostly decorative, stale, or unrelated to the user's decisions.",
+    "Customization would hide required alerts, mandatory tasks, or compliance information without a governed policy path."
+  ],
+  "variants": [
+    "Personal dashboard",
+    "Role-based dashboard",
+    "Team dashboard",
+    "Widget dashboard",
+    "Dashboard builder",
+    "Configurable home dashboard",
+    "Embedded analytics dashboard",
+    "Mobile custom dashboard",
+    "Default dashboard copy",
+    "Policy-locked dashboard"
+  ],
+  "accessibility": [
+    "Expose customization mode, unsaved changes, dashboard scope, widget title, widget position, widget size, and permission state in text.",
+    "Provide keyboard controls for moving, resizing, adding, removing, saving, canceling, resetting, and replacing widgets.",
+    "Keep focus on the widget being edited after move or resize and announce the new position or size.",
+    "Ensure visible order, DOM order, and screen-reader order stay aligned after customization and responsive reflow.",
+    "Do not rely on drag handles, icons, color, or card size alone to communicate edit actions or widget priority.",
+    "Make retired, failed, permission-limited, and policy-locked widgets understandable without exposing restricted data."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches Customize, widget gallery, each widget action group, save, cancel, reset, responsive preview, and exit controls in a predictable order.",
+    "Enter or Space activates Add, Remove, Move earlier, Move later, Resize, Save, Cancel, Reset, and Request access controls.",
+    "After adding a widget, focus moves to the added widget's first edit control and announces its position.",
+    "After moving a widget, focus stays with the moved widget and announces the new order.",
+    "Escape exits menus or customization mode only after preserving or confirming unsaved changes.",
+    "Reset returns focus to the dashboard heading or Customize button with a status message explaining the restored layout."
+  ],
+  "failureModes": [
+    "A dashboard claims to be custom but only lets users filter fixed widgets.",
+    "Drag-and-drop rearrangement changes the visual layout but not keyboard or mobile order.",
+    "A shared dashboard edit overwrites every teammate's layout with no warning or rollback.",
+    "Unsaved dashboard changes disappear when users navigate away or resize the browser.",
+    "Users can remove required compliance, alert, or queue widgets without explanation.",
+    "Retired or permission-limited widgets become blank tiles with no replace, remove, or request-access path.",
+    "A widget added on desktop lands below critical work on mobile because responsive priority was never previewed.",
+    "A failed save leaves the screen looking saved even though the previous layout is still active."
+  ],
+  "relatedPatterns": [
+    "dashboard-layout",
+    "saved-view",
+    "preference-center",
+    "settings-page",
+    "data-visualization"
+  ],
+  "comparisons": [
+    "custom-dashboard-vs-dashboard-layout-vs-saved-view-vs-preference-center"
+  ],
+  "examples": [
+    {
+      "product": "Power BI dashboard tiles",
+      "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboard-tiles",
+      "platform": "web",
+      "notes": "Documents dashboard tiles as pinned units from reports and other sources that compose a dashboard.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Power BI dashboard design tips",
+      "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboards-design-tips",
+      "platform": "web",
+      "notes": "Documents dashboard composition guidance for hierarchy, context, important information, clean layout, and avoiding unnecessary decoration.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Tableau dashboard size and layout",
+      "url": "https://help.tableau.com/current/pro/desktop/en-us/dashboards_organize_floatingandtiled.htm",
+      "platform": "web",
+      "notes": "Documents dashboard sizing, tiled and floating layout, layout containers, grouping, spacing, and responsive layout behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "HubSpot saved views",
+      "url": "https://knowledge.hubspot.com/records/create-and-manage-saved-views",
+      "platform": "web",
+      "notes": "Documents visibility, sharing, and saved presentation boundaries that help distinguish dashboard customization from saved data views.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-power-bi-dashboard-tiles",
+      "note": "Microsoft documents dashboard tiles as pinned composition units from reports and other sources."
+    },
+    {
+      "id": "microsoft-power-bi-dashboard-design-tips",
+      "note": "Microsoft documents dashboard hierarchy, context, clean layout, and prominent important information."
+    },
+    {
+      "id": "tableau-dashboard-size-layout",
+      "note": "Tableau documents dashboard size, tiled and floating layout, layout containers, grouping, and responsive behavior."
+    },
+    {
+      "id": "hubspot-saved-views",
+      "note": "HubSpot documents saved view visibility and sharing boundaries that contrast with multi-widget dashboard composition."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

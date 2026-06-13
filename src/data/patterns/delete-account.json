@@ -1,0 +1,255 @@
+{
+  "id": "delete-account",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed account closure and associated data deletion pattern with specific guidance for discoverable deletion paths, account identity, affected services, associated and retained data, linked apps, subscriptions, export-before-delete, reauthentication, typed confirmation, scheduled and pending deletion, recovery windows, support-required flows, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets delete account, account closure workflow, account identity, affected services, associated data, retained data, linked apps, subscription warning, export first, reauthentication, typed confirmation, scheduled deletion, pending request, completed deletion, cancel deletion, recovery window, legal retention, backup retention, web deletion link, support-required flow, wrong-account block, enterprise-managed account, child account, mobile compact deletion, receipt, request ID, and erasure status states.",
+    "relatedPatternDistinction": "The entry separates delete account from destructive action confirmation by focusing on identity-bearing account closure and data lifecycle rather than one object delete; from typed confirmation by using exact target entry only as an escalation; from data export by keeping copy-before-delete separate from erasure; from settings management by handling account closure rather than durable preferences; and from restore from trash by requiring truthful recovery windows rather than implying irreversible closure is a recoverable trash move.",
+    "liveDemoBehavior": "The live demo shows Account identity, Affected services, Associated data, Retained data, Linked apps, Subscription warning, Export first, Reauthentication, Typed confirmation, Scheduled deletion, Pending request, Completed deletion, Cancel deletion, Recovery window, Legal retention, Backup retention, Web deletion link, Support-required flow, Wrong-account block, Enterprise-managed account, Child account, and Mobile compact deletion states. Bad states cover Hidden delete, Deactivate only, Export confusion, Wrong account, Retention mystery, Subscription surprise, and Support only failures.",
+    "comparisonDecisionRules": "The linked delete-account-vs-destructive-action-confirmation-vs-typed-confirmation-vs-data-export-vs-settings-management-vs-restore-from-trash comparison gives concrete rules for account-level closure, associated data deletion, destructive action confirmation, typed confirmation, data export, settings management, restore from trash, identity-bearing account scope, legal/data-retention lifecycle, export-does-not-delete boundaries, retained data, billing, linked apps, recovery window, and support-only failures.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero normalized duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-12 Chromium desktop and compact-width checks rendered /patterns/delete-account/ with the live demo, exercised Account identity, Affected services, Associated data, Retained data, Linked apps, Subscription warning, Export first, Reauthentication, Typed confirmation, Scheduled deletion, Pending request, Completed deletion, Cancel deletion, Recovery window, Legal retention, Backup retention, Web deletion link, Support-required flow, Wrong-account block, Enterprise-managed account, Child account, Mobile compact deletion, Hidden delete, Deactivate only, Export confusion, Wrong account, Retention mystery, Subscription surprise, and Support only states, and found no missing state terms, duplicate IDs, page overflow, or delete-account demo overflow. The comparison route /compare/delete-account-vs-destructive-action-confirmation-vs-typed-confirmation-vs-data-export-vs-settings-management-vs-restore-from-trash/ included account-level closure, associated data deletion, destructive action confirmation, typed confirmation, data export, settings management, restore from trash, legal/data-retention lifecycle, export does not itself close the account, retained data, billing, linked apps, recovery window, and support-only distinctions with no duplicate IDs or content overflow on desktop or compact width.",
+    "screenshots": [
+      "screenshots/patterns/delete-account.png"
+    ]
+  },
+  "name": "Delete account",
+  "aliases": [
+    "account deletion",
+    "close account",
+    "delete my account",
+    "account closure",
+    "erase account data",
+    "remove account",
+    "data deletion request",
+    "right to erasure account flow"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Task And Workflow Patterns",
+    "Personalization And Preference",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Account-level closure and associated personal data deletion workflow",
+  "uiGuidance": [
+    "Render delete account as a discoverable account-settings workflow that names the signed-in account, affected services, associated data, retained data, subscriptions, linked sign-in methods, recovery window, and final deletion status.",
+    "Separate account deletion from deactivation, sign out, data export, privacy settings, unsubscribe, service removal, and support contact; use direct labels such as Delete this account or Request account deletion."
+  ],
+  "uxGuidance": [
+    "Use delete account when users need to close an identity-bearing account and remove or request removal of associated personal, profile, authentication, app, subscription, and service data.",
+    "Protect users from wrong-account and unclear-erasure mistakes by showing identity, consequences, export-before-delete, legal retention, cancellation or recovery windows, and progress until deletion is completed, blocked, or scheduled."
+  ],
+  "uiExamples": {
+    "good": [
+      "An account settings page shows Delete account for maya.chen@example.com, lists profile, projects, messages, connected apps, subscriptions, and retained invoices, offers Download data first, then schedules deletion with a 14-day cancel window.",
+      "A mobile app links directly from Account settings to a deletion page, explains that the account record and associated data will be deleted except legally retained fraud and billing records, and shows request status until completion."
+    ],
+    "bad": [
+      "A page offers only Deactivate account, tells users to email support, and never says whether profile data, authentication records, subscriptions, or linked apps are deleted.",
+      "A red Delete button appears beside Data export and Sign out with no account identity, service list, retention explanation, billing warning, or recovery window."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user exports their data, verifies the account email, reviews affected services and subscription handling, types the email to confirm, schedules deletion, and can cancel during the stated recovery window.",
+      "A user requests deletion after uninstalling the app through a public web link, receives a request ID, sees what data is retained for legal reasons, and gets a completion notification."
+    ],
+    "bad": [
+      "A user deletes an account from the wrong identity provider session because the flow hides which Google, Apple, or email account is signed in.",
+      "A user thinks all data is immediately erased, but backups, public posts, invoices, fraud logs, or third-party recipients remain without explanation."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Account deletion is high-risk when the path is hidden, confused with deactivation or data export, omits signed-in identity, hides billing and linked-service consequences, gives no retention or recovery explanation, or claims erasure before the deletion request is actually completed.",
+  "solution": "Provide a direct account deletion workflow that verifies identity, explains account and data scope, offers export-before-delete, handles subscriptions and linked services, discloses retained data and timing, requires deliberate confirmation, supports cancellation or recovery where available, and reports request status through completion or refusal.",
+  "problemContext": [
+    "The account may own profile data, authentication credentials, posts, messages, files, projects, billing records, subscriptions, purchases, app data, linked apps, third-party sign-in tokens, organization memberships, child-account data, and audit records.",
+    "The deletion may be immediate, scheduled, request-based, regulatorily constrained, support-assisted for highly regulated products, or partially blocked by legal, fraud, safety, billing, enterprise, or child-account requirements.",
+    "Users may need to initiate deletion inside an app, through a direct web link after uninstall, or from an account settings surface.",
+    "The product may need to distinguish whole-account deletion from deleting one service, removing an account from a device, signing out, disabling, deactivating, unsubscribing, or changing privacy settings."
+  ],
+  "selectionRules": [
+    "Choose delete account when the user's goal is account-level closure and associated data deletion or erasure request.",
+    "Use destructive action confirmation for one destructive object command; delete account is broader because it spans identity, personal data, linked services, retention, and account recovery.",
+    "Use typed confirmation as an escalation inside delete account when the account email, username, workspace, or broad scope must be reproduced to prevent wrong-account deletion.",
+    "Use data export before or near delete account when users may want a copy, but do not imply export deletes source data.",
+    "Use settings management for ordinary account or privacy preferences that keep the account active.",
+    "Use restore from trash only when the account or data can be recovered faithfully inside a stated window.",
+    "Make the deletion option easy to find from account settings or an equivalent account-control surface.",
+    "Name the exact account, provider, workspace, or child account before users confirm deletion.",
+    "List affected services, associated data categories, retained data, subscriptions, linked apps, sign-in methods, recovery options, and request timing.",
+    "If deletion cannot be self-serve because of regulated-industry, enterprise, legal, safety, fraud, or billing constraints, explain the required request or support path and status."
+  ],
+  "requiredStates": [
+    "Discoverable account deletion entry point in account settings or a direct web deletion resource.",
+    "Account identity review state showing email, username, provider, workspace, organization, or child account.",
+    "Data and service scope state listing deleted, retained, public, third-party, subscription, billing, and linked-service effects.",
+    "Download or export data first state that clearly says export does not delete the account.",
+    "Identity verification, reauthentication, or two-factor state before deletion request submission.",
+    "Typed confirmation or acknowledgement state for severe account closure.",
+    "Subscription, billing, purchase, entitlement, or app-store cancellation warning state.",
+    "Legal retention, backup retention, fraud/safety log, public content, recipient notification, or refusal state.",
+    "Scheduled deletion, pending request, processing, completed, canceled, expired recovery window, and failed request states.",
+    "Wrong-account, support-required, enterprise-managed, child-account, and already-deleted recovery states."
+  ],
+  "interactionContract": [
+    "The product provides a direct, discoverable account deletion path when users can create an account.",
+    "The flow identifies the account being deleted before any irreversible request is submitted.",
+    "Deleting an account is never presented as the same action as sign out, remove from device, unsubscribe, data export, service deletion, or temporary deactivation.",
+    "Users can review or download data before deletion without that export changing the deletion state.",
+    "The final action remains unavailable until identity checks, acknowledgements, typed confirmation, blockers, or support requirements are satisfied.",
+    "The UI states what data will be deleted, what may be retained, why, and whether backup or recipient erasure happens later.",
+    "The account deletion request produces a durable status, request ID, notification, or receipt when completion is not immediate.",
+    "Cancel, recover, or restore paths are shown only when they are genuinely available and include the time window."
+  ],
+  "implementationChecklist": [
+    "Inventory account-owned data, service memberships, authentication providers, billing records, purchases, subscriptions, linked apps, organizations, public content, backups, and legal retention classes.",
+    "Define whether deletion is immediate, scheduled, request-based, support-required, enterprise-managed, or blocked, and model each state explicitly.",
+    "Provide a direct in-app entry point and public web deletion resource where platform policy or product context requires it.",
+    "Show the signed-in account identity, affected services, retained data, and recovery window before the final confirmation.",
+    "Offer data export before deletion while clearly separating export from erasure.",
+    "Add reauthentication, two-factor, typed confirmation, or approval gates for severe scope or wrong-account risk.",
+    "Handle active subscriptions, unpaid invoices, refunds, app-store billing, legal holds, fraud locks, child accounts, and enterprise ownership before commit.",
+    "Generate a request ID or receipt and status updates for scheduled, pending, refused, partial, or completed deletion.",
+    "Test wrong account, multiple accounts, SSO, deleted email address, app uninstall web path, mobile deep link, expired recovery window, backup retention, and screen-reader progress states."
+  ],
+  "commonMisuses": [
+    "Offering only deactivate, disable, sign out, remove from device, unsubscribe, or contact support when users need account deletion.",
+    "Hiding account deletion behind unrelated settings, FAQs, email support, a vague privacy page, or an unlabeled Delete button.",
+    "Combining data export and account deletion into one ambiguous control.",
+    "Failing to name the signed-in account, provider, child account, or workspace before deletion.",
+    "Claiming immediate full erasure while retaining backups, legal records, invoices, fraud logs, public copies, or recipient copies without explanation.",
+    "Deleting subscriptions, purchases, entitlements, or third-party tokens without explaining their separate cancellation or revocation path.",
+    "Leaving users with no request ID, status, notification, or recovery information after a long-running deletion request."
+  ],
+  "critiqueQuestions": [
+    "Can users find the account deletion path from account settings or the required public web resource?",
+    "What exact account, provider, workspace, or child account will be closed?",
+    "Which data and services are deleted, retained, transferred, public, or outside the product's control?",
+    "What billing, subscription, purchase, entitlement, linked-app, or sign-in-token consequences remain?",
+    "Can users export data first without confusing export with deletion?",
+    "What proof shows deletion was scheduled, completed, blocked, refused, canceled, or recoverable?",
+    "What time window applies to request response, scheduled deletion, backup overwrite, and account recovery?"
+  ],
+  "useWhen": [
+    "Users can create an account and need a self-serve or direct request path to close it and delete associated data.",
+    "Account deletion affects identity, authentication, personal data, app data, subscriptions, or linked services.",
+    "The product must disclose retained data, legal exceptions, backup timing, or request status."
+  ],
+  "avoidWhen": [
+    "The task is simply signing out, removing an account from one device, deleting one service, unsubscribing from email, disabling notifications, or changing a privacy preference.",
+    "The user is deleting one project, file, workspace object, or record; use destructive action confirmation and typed confirmation if severity warrants.",
+    "The product can only move data to trash with faithful recovery; use restore from trash behavior.",
+    "A regulated or enterprise process requires support-assisted identity checks; show that support-required state instead of a false instant delete."
+  ],
+  "variants": [
+    "Self-serve account deletion",
+    "Request account deletion",
+    "Scheduled account deletion",
+    "Mobile in-app account deletion",
+    "Public web deletion resource",
+    "Account deletion with data export",
+    "Subscription-linked account deletion",
+    "Enterprise-managed account deletion",
+    "Child account deletion",
+    "Wrong-account deletion prevention",
+    "Right to erasure request status"
+  ],
+  "accessibility": [
+    "Use headings and labels that name the account and deletion action, not color or danger styling alone.",
+    "Associate warnings, retained-data explanations, typed confirmation, and identity verification with the final action.",
+    "Make data scope, retained data, recovery window, and request status available as text.",
+    "Keep safe cancellation, export data, contact support, and final delete controls keyboard reachable.",
+    "Announce scheduled, pending, blocked, completed, canceled, and failed deletion states without relying on transient toasts.",
+    "Avoid forcing users through phone-only or email-only flows unless a regulated process genuinely requires support assistance.",
+    "Ensure long account identifiers, emails, organization names, and legal-retention explanations wrap without horizontal scrolling."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches account identity, data scope, export-first option, verification controls, acknowledgement or typed confirmation, safe cancel, and final delete in order.",
+    "Enter or Space on the initial Delete account trigger opens review rather than submitting deletion immediately.",
+    "The final delete action remains disabled until required verification, acknowledgement, typed confirmation, and blockers pass.",
+    "Escape cancels only while no deletion request has started; after request submission, users need an explicit cancel or recover action when available.",
+    "After scheduling, completion, block, or cancellation, focus moves to a stable status or receipt instead of disappearing with the account page.",
+    "Status updates for long-running requests are reachable from account settings, email, notification, or a direct request URL."
+  ],
+  "failureModes": [
+    "Users cannot find deletion, so they abandon the product or contact support for ordinary self-serve deletion.",
+    "Users delete the wrong account in a multi-account session.",
+    "Users lose subscription access, purchases, files, or linked-app authentication unexpectedly.",
+    "Users believe all data is erased, but retained legal, fraud, billing, backup, or public data is not disclosed.",
+    "A pending deletion request has no status or receipt, so users cannot tell whether it was accepted.",
+    "The product offers deactivation only while still retaining active profile and personal data.",
+    "Users cannot recover within an available recovery window because the UI never named the window or recovery route."
+  ],
+  "relatedPatterns": [
+    "destructive-action-confirmation",
+    "typed-confirmation",
+    "data-export",
+    "settings-management",
+    "restore-from-trash",
+    "confirmation-dialog",
+    "session-timeout",
+    "account-creation",
+    "consent-prompt",
+    "audit-log"
+  ],
+  "comparisons": [
+    "delete-account-vs-destructive-action-confirmation-vs-typed-confirmation-vs-data-export-vs-settings-management-vs-restore-from-trash"
+  ],
+  "examples": [
+    {
+      "product": "Apple account deletion guidance",
+      "url": "https://developer.apple.com/support/offering-account-deletion-in-your-app/",
+      "platform": "mobile",
+      "notes": "Documents in-app initiation, discoverability, account record and associated data deletion, direct web completion, user information, and billing handling.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Google Play account deletion requirements",
+      "url": "https://support.google.com/googleplay/android-developer/answer/13327111?hl=en",
+      "platform": "mobile",
+      "notes": "Documents in-app and web deletion paths, associated data deletion, public disclosure, uninstall-friendly web requests, and retained-data expectations.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Google Account deletion",
+      "url": "https://support.google.com/accounts/answer/32046?hl=en",
+      "platform": "web",
+      "notes": "Documents reviewing and downloading data before deletion, account-specific deletion, service-specific deletion distinctions, and possible recovery within a limited time.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "ICO right to erasure",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-erasure/",
+      "platform": "web",
+      "notes": "Documents erasure request obligations, non-absolute applicability, response timing, recipient notification, backup handling, and legal exceptions.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "apple-account-deletion-in-app",
+      "note": "Supports discoverable in-app account deletion, full account-record deletion, direct web completion, transparency, and billing handling."
+    },
+    {
+      "id": "google-play-account-deletion-requirements",
+      "note": "Supports in-app and web deletion paths, associated data deletion, store-listing disclosure, retained-data expectations, and uninstall-friendly web requests."
+    },
+    {
+      "id": "google-account-delete-help",
+      "note": "Supports review and download before delete, exact account identity, service deletion distinction, and possible recovery window."
+    },
+    {
+      "id": "ico-right-to-erasure",
+      "note": "Supports erasure request timing, non-absolute rights, recipient notification, backup handling, and legal exceptions."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

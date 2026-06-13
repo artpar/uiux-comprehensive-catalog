@@ -1,0 +1,262 @@
+{
+  "id": "data-grid",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed interactive data-grid pattern with distinct boundaries from table, inline edit, pagination, transfer list, tree grid, list and card views, and complex forms; includes managed focus, cell editing, row selection, virtual row metadata, validation, save and cancel behavior, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers labelled grid purpose, column and row identity, one managed tab entry, arrow-key cell movement, focused-cell versus selected-row state, edit mode entry and exit, dirty and invalid cells, readonly cells, virtualized row and column metadata, sort and filter state, copy and paste, save failure, narrow-screen alternatives, and avoiding static-table misuse.",
+    "relatedPatternDistinction": "The entry separates data grid from table by interactive composite focus and editable cell behavior, from inline edit by full row-and-column navigation instead of one local value edit, from pagination by dividing rows rather than owning cell interaction, from transfer list by not moving items between sets, from tree grid by excluding hierarchical expandable rows, and from forms by requiring repeated column meaning.",
+    "liveDemoBehavior": "The live demo shows an invoice approvals grid with column headers, row headers, selected rows, focused cells, dirty and invalid amount cells, edit mode, save and cancel actions, virtual row movement, row selection shortcut simulation, managed tab exit messaging, and bad-mode contrasts for static role, excessive tab stops, arrow-key conflict, wrong row index, lost focus, and mobile trap failures.",
+    "comparisonDecisionRules": "The data-grid-vs-table-vs-inline-edit-vs-pagination comparison gives concrete rules for spreadsheet-like interaction, read-only table comparison, one-value inline edit, result paging, edit-mode keyboard boundaries, virtual row truthfulness, narrow-screen alternatives, and interaction-cost tradeoffs.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/data-grid/ and /compare/data-grid-vs-table-vs-inline-edit-vs-pagination/ on 2026-06-10. Live check exercised Arrow right, Enter edit, Type value, Save cell, Shift+Space, Page rows, Validate paste, Leave grid, Tab every cell, Arrow conflict, Wrong index, Lost focus, and Mobile trap controls while the page was in pre-completion state, then refreshed after completion. screenshots/patterns/data-grid.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/data-grid.png"
+    ]
+  },
+  "name": "Data grid",
+  "aliases": [
+    "interactive data table",
+    "spreadsheet grid",
+    "editable grid",
+    "cell grid",
+    "row grid",
+    "record grid",
+    "virtualized grid"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Search, Browse, And Discovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Interactive row-and-column data workspace",
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to inspect, select, edit, sort, filter, copy, or operate on many records in rows and columns, but a basic table becomes slow or unsafe when every cell, widget, and row action is placed in normal tab order or when editing has no grid focus contract.",
+  "solution": "Provide a data grid with a labelled dataset, visible column and row identity, one managed entry point in page tab order, arrow-key cell navigation, explicit edit mode, stable selection, truthful row and column metadata, and recovery for sorting, filtering, virtualization, validation, and saving.",
+  "problemContext": [
+    "The task involves many records with shared columns, and users repeatedly move across cells or down columns to compare, update, or triage values.",
+    "Cells may contain editable values, links, menus, checkboxes, validation, calculated values, row actions, or status widgets.",
+    "Users need keyboard-efficient navigation that avoids hundreds of tab stops while keeping cell identity and row context clear.",
+    "The product may virtualize rows or columns, hide columns, sort, filter, pin, paginate, copy, paste, or save individual cell changes."
+  ],
+  "selectionRules": [
+    "Choose data grid when row-and-column data is interactive enough to require managed cell focus, arrow-key movement, selection, editing, or keyboard shortcuts.",
+    "Use a table when records are mainly read-only comparison and ordinary links, buttons, or checkboxes in row order are sufficient.",
+    "Use inline edit when one displayed value or one row enters local edit mode without full spreadsheet-style navigation.",
+    "Use tree grid instead of data grid when rows are hierarchical and expandable while still needing columns.",
+    "Use list view, card list, or card grid when object summaries, imagery, or uneven metadata matter more than column-by-column work.",
+    "Use transfer list when the task is moving items between sets rather than editing cells in place.",
+    "Use pagination, infinite loading, or saved views to control very large row counts, but do not let paging erase grid focus, selection, or edit state.",
+    "Avoid data grid when the task is a form with unrelated fields, section dependencies, or review-before-submit consequences.",
+    "Avoid data grid when the team cannot implement and test keyboard navigation, focus movement, edit mode, row and column metadata, and screen reader behavior.",
+    "Avoid forcing a dense data grid onto mobile when a list-plus-detail or focused edit route would preserve task accuracy better."
+  ],
+  "requiredStates": [
+    "Default navigation state with labelled grid, column headers, row headers or row identifiers, focused cell, and row count context.",
+    "Focused-cell state that distinguishes focus from selection and survives movement across rows and columns.",
+    "Selected row, selected cell, selected range, and bulk-selected states when selection is supported.",
+    "Edit mode for a cell or row, with clear entry, focused editor, dirty draft, save, cancel, and validation states.",
+    "Readonly or locked-cell state for cells that can be navigated but not changed.",
+    "Sorted, filtered, grouped, hidden-column, and resized-column states with visible and programmatic state feedback.",
+    "Virtualized, paginated, or lazy-loaded state with truthful total row and column counts, visible indices, and loading boundaries.",
+    "Copied, pasted, invalid paste, undo, redo, saving, saved, failed-save, and conflict states when grid editing supports those actions.",
+    "Empty, no-results, permission-restricted, and partial-data states that keep the grid label and recovery path visible.",
+    "Narrow-screen or reduced-column state that preserves row identity, edit safety, and a route to the full task."
+  ],
+  "interactionContract": [
+    "Tab moves into the grid at one managed focus point and out to the next page control rather than visiting every cell by default.",
+    "Arrow keys move focus between cells; Home, End, Page Up, Page Down, and modified Home or End commands move by row, viewport, or grid boundary according to the documented contract.",
+    "The focused cell, selected cell, selected row, checked row, active editor, hover target, and row action are visually and programmatically distinct.",
+    "Column headers that sort, filter, resize, pin, or open menus are reachable and announce their current state.",
+    "Entering edit mode with Enter, F2, typing, or an explicit Edit command moves focus into the editor and temporarily changes how arrow keys are interpreted.",
+    "Escape cancels editing or returns to grid navigation according to a visible and tested discard contract.",
+    "Saving a cell, row, or pasted range keeps the edited location understandable after sorting, filtering, pagination, refresh, or server validation.",
+    "Virtualization, hidden columns, frozen areas, and pinned rows must not make row or column indices, reading order, or focused-cell restoration untrue."
+  ],
+  "implementationChecklist": [
+    "Define the grid purpose, row object, primary row identifier, columns, editable fields, readonly fields, selection model, and supported shortcut set.",
+    "Choose native table plus role grid or ARIA row and gridcell structure only when the interaction truly behaves as a grid.",
+    "Expose a label or labelled heading for the grid and a description for keyboard help, row count, filters, or selection status.",
+    "Use row, columnheader, rowheader, and gridcell semantics, and provide aria-rowcount, aria-colcount, aria-rowindex, and aria-colindex when rows or columns are virtualized or hidden.",
+    "Keep only the current managed cell or inner widget in the page tab sequence and update tabIndex as focus moves.",
+    "Separate navigation mode from edit mode, including how Enter, F2, typing, Escape, Tab, arrow keys, and Save behave.",
+    "Associate validation messages, dirty indicators, readonly state, and save errors with the affected cell or row.",
+    "Preserve focused cell, selected rows, expanded detail, dirty edits, and scroll position across sort, filter, pagination, refresh, and column visibility changes where possible.",
+    "Test with keyboard only, screen readers, high contrast, zoom, row virtualization, long values, pasted invalid data, mobile viewports, and assistive-technology reading order."
+  ],
+  "commonMisuses": [
+    "Using role grid on a static table only to make it sound richer.",
+    "Putting hundreds of inputs, menus, and links into normal tab order instead of implementing managed focus.",
+    "Calling a dense settings form a data grid even though fields do not share row and column meaning.",
+    "Letting arrow keys both navigate cells and operate the active cell editor without an edit-mode boundary.",
+    "Hiding columns or virtualizing rows without row and column counts, indices, or truthful reading order.",
+    "Using color alone for selected, dirty, invalid, readonly, and saved cell states.",
+    "Sorting or filtering while a cell is dirty and moving it out of view before users can confirm the result.",
+    "Packing row actions, nested menus, multiselect widgets, and expandable detail into cells without a tested focus strategy."
+  ],
+  "critiqueQuestions": [
+    "What does one row represent, and what is the primary row identifier?",
+    "Which cells are navigable, editable, readonly, selected, invalid, dirty, or saving?",
+    "Can a keyboard user enter the grid, move by cell, edit, cancel, save, select, copy, and leave without getting trapped?",
+    "When does focus land on the cell itself versus an element inside the cell?",
+    "What happens to focus, selection, dirty edits, and validation after sort, filter, pagination, virtual scroll, refresh, or save failure?",
+    "Would a table, inline edit, list view, card layout, transfer list, or complex form solve the task with less interaction cost?"
+  ],
+  "useWhen": [
+    "Users repeatedly inspect or update many records in shared columns.",
+    "Cells, rows, or ranges are interactive and benefit from arrow-key navigation rather than hundreds of tab stops.",
+    "The workflow includes editing, selection, copy and paste, column operations, virtualized records, or spreadsheet-like shortcuts.",
+    "The team can implement and maintain a tested keyboard and accessibility model."
+  ],
+  "avoidWhen": [
+    "The data is read-only and ordinary table navigation is enough.",
+    "Only one value needs occasional in-place editing.",
+    "Rows are better understood as cards, messages, feed items, or object summaries.",
+    "The content is a form with unrelated labels and dependencies.",
+    "The available viewport or platform cannot support dense cell navigation accurately."
+  ],
+  "variants": [
+    "Readonly navigable data grid",
+    "Editable cell grid",
+    "Editable row grid",
+    "Spreadsheet-style grid",
+    "Selectable-row grid",
+    "Cell-selection grid",
+    "Range-selection grid",
+    "Virtualized data grid",
+    "Pinned-column grid",
+    "Column-visibility grid",
+    "Sortable and filterable grid",
+    "Grid with row actions"
+  ],
+  "accessibility": [
+    "Use grid semantics only for an interactive composite widget with managed focus.",
+    "Give the grid a programmatic label and optional description for keyboard help and current state.",
+    "Expose column headers, row headers or row identifiers, rows, and grid cells through native or ARIA semantics.",
+    "Keep one managed cell or inner widget in the page tab sequence unless a deliberate edit mode changes the contract.",
+    "Expose aria-selected for selected cells or rows, aria-readonly for navigable locked values, and aria-sort for sortable headers.",
+    "Use aria-rowcount, aria-colcount, aria-rowindex, and aria-colindex when rows or columns are hidden, loaded lazily, virtualized, or not all present in the DOM.",
+    "Do not rely on visual position, color, frozen panes, or hover affordances alone to communicate cell identity, selection, errors, or editability.",
+    "Test screen reader announcements for focused cell, header association, selected state, invalid edit, sorted column, and virtualized row position."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus into the grid at the current cell or first useful cell, and a subsequent Tab leaves the grid or follows the documented inner-widget contract.",
+    "Arrow keys move focus by cell in navigation mode without wrapping in ways that contradict row and column meaning.",
+    "Home and End move to the first or last cell in the current row; modified Home and End can move to the first or last cell in the whole grid.",
+    "Page Up and Page Down move by a visible row group or page when the grid scrolls or virtualizes rows.",
+    "Enter, F2, typing, or an explicit Edit command enters edit mode when the focused cell is editable.",
+    "Escape cancels an edit or restores grid navigation, with dirty changes handled explicitly.",
+    "Space, Shift+Space, modified Space, Shift+Arrow, or product-specific shortcuts select rows, columns, or ranges only when selection is supported and documented.",
+    "Column headers support keyboard sorting, menus, resizing, or pinning only when those functions are visible and labelled."
+  ],
+  "failureModes": [
+    "Keyboard users tab through every cell and cannot efficiently reach controls after the grid.",
+    "Screen reader users hear cell values without row or column headers because roles, indices, or labels are missing.",
+    "The grid reports selection but the visual highlight is focus, or focus highlight is mistaken for selected data.",
+    "An editable text cell captures arrow keys for the caret while the grid also moves focus, causing data loss or disorientation.",
+    "A virtualized row reports the wrong row number or disappears from the DOM while focused.",
+    "Sorting or filtering moves a dirty row before validation and save status are resolved.",
+    "Pinned columns, grouped headers, or hidden columns break reading order and make header announcements unreliable.",
+    "Mobile users receive a shrunken spreadsheet when a focused edit screen or list-detail flow would be usable."
+  ],
+  "relatedPatterns": [
+    "table",
+    "inline-edit",
+    "pagination",
+    "sort-controls",
+    "filter-panel",
+    "transfer-list",
+    "details-panel",
+    "empty-state"
+  ],
+  "comparisons": [
+    "data-grid-vs-table-vs-inline-edit-vs-pagination"
+  ],
+  "examples": [
+    {
+      "product": "WAI-ARIA APG Grid Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/grid/",
+      "platform": "web",
+      "notes": "Defines data grid as an interactive grid for tabular information with managed focus, keyboard navigation, selection, editing, and roles.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "WAI-ARIA APG Data Grid Examples",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/grid/examples/data-grids/",
+      "platform": "web",
+      "notes": "Shows financial-transaction data grids with focusable cells, sortable headers, editable descriptions, editable category popups, scrolling, and column hiding.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "MUI X Data Grid Accessibility",
+      "url": "https://v5.mui.com/x/react-data-grid/accessibility/",
+      "platform": "web",
+      "notes": "Documents managed tab sequence, render-cell focus responsibility, arrow navigation, selection shortcuts, copy commands, and keyboard sorting.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "AG Grid Accessibility",
+      "url": "https://www.ag-grid.com/javascript-data-grid/accessibility/",
+      "platform": "web",
+      "notes": "Documents role and ARIA metadata, keyboard navigation, screen reader testing, DOM order, virtualization, selected state, row and column indices, and known limitations.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-grid",
+      "note": "APG grid guidance supports the core data-grid interaction model, keyboard navigation, editing boundary, selection, focus management, and ARIA roles and states."
+    },
+    {
+      "id": "wai-aria-apg-data-grid-examples",
+      "note": "APG data-grid examples support financial-transaction grids with editable cells, sorting, scrolling, and column visibility."
+    },
+    {
+      "id": "mdn-aria-grid-role",
+      "note": "MDN grid role guidance supports composite widget semantics and two-dimensional keyboard focus."
+    },
+    {
+      "id": "ag-grid-accessibility",
+      "note": "AG Grid accessibility guidance supports production concerns around ARIA metadata, virtualization, DOM order, screen reader testing, and grid limitations."
+    },
+    {
+      "id": "mui-data-grid-accessibility",
+      "note": "MUI data-grid accessibility guidance supports one tab stop, inner-cell focus management, navigation, selection, copying, and sorting shortcuts."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "uiGuidance": [
+    "Render the grid as a named work surface with visible headers, row identifiers, focus location, selection state, dirty and invalid cell markers, column controls, and status text for row count, sort, filter, and save state.",
+    "Keep visual density deliberate: align values for scanability, separate focus from selection, expose readonly and editable cells, and provide a compact but reachable toolbar for grid-level actions."
+  ],
+  "uxGuidance": [
+    "Use a data grid when cell-level interaction makes users faster and more accurate than opening each record separately.",
+    "Treat focus, edit mode, selection, validation, save, sort, filter, virtual scroll, and pagination as one workflow contract instead of isolated features."
+  ],
+  "uiExamples": {
+    "good": [
+      "An invoice-review grid shows frozen invoice IDs, column headers for Vendor, Amount, Due, Owner, and Status, one highlighted focused cell, two selected rows, a dirty edited amount, and a status line naming the current cell.",
+      "A virtualized asset grid shows row 41 of 2,000, col 5 of 12, a selected range, and a toolbar with Sort, Filter, Columns, Copy, and Save changes commands."
+    ],
+    "bad": [
+      "A static report uses role grid even though users only read values and ordinary table semantics would be clearer.",
+      "Every cell is an input or menu in page tab order, so reaching the Save button requires tabbing through hundreds of controls."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user presses Arrow Right to move from Amount to Due, presses Enter to edit the due date, presses Escape to cancel, and focus returns to the same cell in navigation mode.",
+      "A user pastes three invalid amounts, sees each invalid cell marked with a message, fixes them in place, saves, and the grid keeps selection and scroll position after the server responds."
+    ],
+    "bad": [
+      "A user edits an amount, sorts by status, and the row disappears with no saved or unsaved indication.",
+      "A keyboard user opens a cell menu and cannot return to the same grid cell or leave the grid without reloading the page."
+    ]
+  }
+}

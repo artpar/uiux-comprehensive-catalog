@@ -1,0 +1,261 @@
+{
+  "id": "validation-that-clears-user-input",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed validation data-loss anti-pattern with distinct boundaries from inline validation, error summary, single-page form, autosave recovery, error state, password input, text input, textarea, and input mask behavior, unique preserve, server, retry, raw-value, textarea, upload, session, sensitive-exception, reset, and loss-mode demo states, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers preserving safe user-entered values through client validation, server validation, failed submit, formatter or mask rejection, retry, reload, session return, raw and formatted value handling, textarea drafts, upload names, valid sibling fields, narrow sensitive-field exceptions, and deliberate reset separation.",
+    "relatedPatternDistinction": "The entry separates validation data loss from inline validation by focusing on erased values rather than field-adjacent correction, from error summary by preserving rehydrated fields before linked recovery, from single-page form by failed-submit state preservation across the full form, from autosave recovery by validation and retry loss rather than uncertain background saves, from error state by user-entered value preservation rather than system outage recovery, and from password input by treating secret clearing as a narrow exception rather than a rule for ordinary fields.",
+    "liveDemoBehavior": "The live demo exposes 19 scoped controls: preserved invalid, sibling fields kept, server validation rehydrated, retry same value, raw value preserved, textarea draft, upload names kept, session return, sensitive exception, reset separate, full reset, field wipe, sibling loss, server blank, formatter loss, textarea loss, upload loss, session loss, and overbroad secret clear.",
+    "comparisonDecisionRules": "The validation-that-clears-user-input-vs-inline-validation-vs-error-summary-vs-single-page-form-vs-autosave-recovery-vs-error-state comparison gives concrete rules for flagging client validation, server validation, failed submit, formatter rejection, retry, reload, reauthentication, blank defaults, sibling loss, upload loss, raw input loss, and overbroad sensitive-field clearing while choosing inline validation, error summary, single-page form, autosave recovery, or error state alternatives when they better describe the recovery job.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 287 complete patterns, 1 stub pattern, 10 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Rendered /patterns/validation-that-clears-user-input/ and /compare/validation-that-clears-user-input-vs-inline-validation-vs-error-summary-vs-single-page-form-vs-autosave-recovery-vs-error-state/ on 2026-06-13. Live check verified validation, clears, input, preserve, server validation, retry, session, sensitive, password, textarea, upload, all 19 control labels, and comparison terms for client validation, server validation, failed submit, formatter rejection, retry, reload, reauthentication, safe user-entered values, raw input, and blank defaults; found 19 .validation-clears-controls buttons, found no duplicate IDs or horizontal overflow on desktop or compact viewport, exercised Server validation rehydrated, Raw value preserved, Textarea draft, Upload names kept, Sensitive exception, Full reset, Formatter loss, Textarea loss, and Overbroad secret clear controls, and saw only Vite/React development console messages after adding form field name attributes. screenshots/patterns/validation-that-clears-user-input.png captures the pre-promotion page with Good UI, Bad UI, Good UX, Bad UX, scoped state controls, source-backed guidance, related links, comparison link, and stub status.",
+    "screenshots": [
+      "screenshots/patterns/validation-that-clears-user-input.png"
+    ]
+  },
+  "name": "Validation that clears user input",
+  "aliases": [
+    "validation clears form",
+    "input erased after error",
+    "form data loss on validation",
+    "failed submit clears fields",
+    "validation wipes entered values",
+    "server error loses input"
+  ],
+  "category": "Error Prevention And Recovery",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Anti-pattern where validation or failed submission destroys recoverable user-entered values",
+  "uiGuidance": [
+    "Do not clear, replace, mask into emptiness, or reset user-entered values just because validation failed, the server rejected the payload, or a retry is needed.",
+    "Keep the failing value visible and editable beside a precise field error, and preserve valid sibling fields, uploaded file names, selected options, text area drafts, and formatted/raw values unless policy explicitly requires clearing a sensitive secret."
+  ],
+  "uxGuidance": [
+    "Users should be able to fix the smallest wrong part of their answer without retyping unrelated work.",
+    "Treat value preservation as part of validation: every client rule, server rule, formatter, retry, reload, session return, and masked input path must either preserve the value or explain a narrow, policy-backed exception."
+  ],
+  "uiExamples": {
+    "good": [
+      "A failed email validation keeps maya@@example visible, shows Enter an email address in the correct format, and leaves the phone and message fields intact.",
+      "A server-side address error returns users to the form with all safe fields restored, the exact failed field focused, and the original apartment line still visible."
+    ],
+    "bad": [
+      "A checkout form fails cardholder-name validation and reloads with every shipping field blank.",
+      "A textarea exceeds the character limit and the product replaces the draft with an empty field and a generic Invalid message."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user corrects one mistyped character in a preserved phone number after validation instead of re-entering the full number.",
+      "A user retries a failed save and sees the same local value sent again, with a copy fallback before any destructive reset."
+    ],
+    "bad": [
+      "A user uploads evidence, enters long notes, hits Submit, and loses the notes because one date was invalid.",
+      "A user pastes an account number with spaces and validation clears the input instead of explaining the acceptable format or preserving the raw value."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Validation is supposed to help users correct data, but clearing input after errors turns a small correction into rework, loses context, and can make users abandon or mistrust the form.",
+  "solution": "Preserve all safe user-entered values through validation, server rejection, retry, and recovery; show precise field-level errors and summaries, keep raw and formatted values distinguishable, and clear only narrow sensitive values with explicit reason and recovery guidance.",
+  "problemContext": [
+    "A form, editor, checkout, upload, import, authentication, or configuration screen validates user-entered values on blur, submit, save, retry, or server response.",
+    "Validation can fail locally, through server-side rules, from normalization or masking, after session expiry, during autosave, or after a network error.",
+    "The user may have entered multiple related fields, long text, uploads, selected options, pasted values, or formatted values that are expensive to recreate.",
+    "Some sensitive values such as passwords, card verification codes, or one-time codes may need special clearing rules, but that exception must not be generalized to ordinary fields."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when validation failure, failed submit, server rejection, formatting, retry, reload, or route return clears safe user-entered values.",
+    "Use inline validation when one field can be corrected locally while its failing value remains visible and editable.",
+    "Use error summary when failed submit produces one or more errors and users need linked recovery without losing values.",
+    "Use single-page form when several related fields are submitted together and all entered values must survive validation.",
+    "Use autosave recovery when a background save failed or became uncertain and the latest local value needs explicit recovery.",
+    "Use error state when a save/load/sync failure blocks progress but the primary task is system failure recovery rather than field correction.",
+    "Preserve invalid values unless they are unsafe to redisplay, impossible to store, or policy requires clearing a specific sensitive secret.",
+    "If a value must be cleared for security, say which value was cleared, why, and how to re-enter only that value.",
+    "Do not normalize by deleting user input silently; show the interpreted value, preserve the raw value when useful, or ask for confirmation.",
+    "Do not clear valid sibling fields, hidden active fields, file selections, filters, or long text because a different field failed validation."
+  ],
+  "requiredStates": [
+    "Initial typed state with values entered across multiple fields.",
+    "Field-level invalid state with the failing value preserved and editable.",
+    "Submit failed state with error summary, matching field messages, and all safe values preserved.",
+    "Server validation returned state with the submitted payload safely rehydrated into the form.",
+    "Network or retry state where the same local value remains visible until retry succeeds or is explicitly discarded.",
+    "Formatter or mask rejected state where raw input is preserved with correction guidance.",
+    "Long text over-limit state where the draft remains and excess is identified rather than removed.",
+    "File or upload validation state where acceptable uploaded files and filenames remain while failed files are explained.",
+    "Session expired return state where safe local values are restored after reauthentication.",
+    "Sensitive exception state where a password, CVV, or one-time code is cleared with explicit reason while non-sensitive fields remain.",
+    "Bad full-reset state where all fields are blank after one validation error.",
+    "Bad field-wipe state where the invalid field is emptied and users must retype from memory.",
+    "Bad sibling-loss state where unrelated valid fields are cleared.",
+    "Bad formatter-loss state where formatting destroys the raw value.",
+    "Bad upload-loss state where every selected file disappears after one file fails."
+  ],
+  "interactionContract": [
+    "Validation messages name the problem and leave the user's value in place for editing.",
+    "Submit-time recovery keeps all safe field values, selected options, file names, expanded sections, and scroll context available.",
+    "Server validation responses rehydrate the submitted values before moving focus to the error summary or first invalid field.",
+    "Retry sends the latest preserved local value, not a blank default or stale server value.",
+    "Formatters and masks do not erase raw input; they either preserve it, show the interpreted value, or ask for correction.",
+    "Security-sensitive clearing is scoped to the sensitive field and explained without clearing unrelated values.",
+    "Reset, Clear, Cancel, and Start over are separate deliberate actions and are not triggered by validation."
+  ],
+  "implementationChecklist": [
+    "Keep form state separate from validation state so adding an error cannot reset field values.",
+    "On failed submit, render the previous submitted values back into every safe control before showing errors.",
+    "Return server validation errors with field keys and the submitted values or preserve the client-side payload until response handling completes.",
+    "Preserve raw and formatted values separately for masks, currency, dates, phone numbers, addresses, and IDs.",
+    "Protect long text and uploads with local draft or temporary object state while validation runs.",
+    "Handle network failure, retry, session expiry, route reload, browser Back, and reauthentication without falling back to blank defaults.",
+    "Define explicit exceptions for passwords, card verification codes, one-time codes, and prohibited file contents; clear only those values and explain the reason.",
+    "Test failed client validation, failed server validation, slow network, reload, reauth, mobile keyboard, pasted input, autofill, uploads, long textarea text, and screen reader recovery."
+  ],
+  "commonMisuses": [
+    "Calling form reset after submit regardless of success or failure.",
+    "Replacing the user's raw value with an empty string when parsing fails.",
+    "Re-rendering the form from default values after a server validation response.",
+    "Clearing every field because one field was invalid.",
+    "Clearing uploaded files without preserving valid file names or explaining the failed file.",
+    "Using password-clearing rules as an excuse to clear ordinary text fields.",
+    "Showing only a toast after data loss instead of restoring the user's work.",
+    "Combining Reset and Submit controls so users accidentally erase work while fixing validation."
+  ],
+  "critiqueQuestions": [
+    "Which values survive client validation, server validation, retry, reload, and session return?",
+    "Can the user edit the failing value directly, or must they retype it?",
+    "Are valid sibling fields preserved when one field fails?",
+    "Does formatting preserve raw input or explain how it was interpreted?",
+    "What sensitive fields are deliberately cleared, and is the reason visible?",
+    "Can long text, uploads, and selected options be recovered after an error?",
+    "Does the error summary link to fields without rebuilding the form from defaults?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit forms, editors, imports, checkouts, onboarding flows, and configuration screens where validation can erase recoverable user work.",
+    "Use it when QA needs to prove failed validation preserves typed values across client, server, network, reload, and session-recovery paths."
+  ],
+  "avoidWhen": [
+    "Do not use this entry to prevent deliberately clearing sensitive secrets such as CVV, one-time codes, or passwords when policy requires it.",
+    "Do not apply it to an explicit user-selected Reset, Clear form, Cancel, Discard, or Start over action with clear warning."
+  ],
+  "variants": [
+    "Failed submit clears form",
+    "Server validation clears values",
+    "Inline validation wipes field",
+    "Formatter clears raw input",
+    "Textarea limit clears draft",
+    "Upload validation loses files",
+    "Session return loses form",
+    "Retry clears local value",
+    "Mask rejection empties field",
+    "Sensitive-field clear exception"
+  ],
+  "accessibility": [
+    "Preserved values must remain in their controls so screen reader and keyboard users can edit them in place.",
+    "Move focus to an error summary or invalid field only after the form is rehydrated with the user's values.",
+    "Do not announce errors in a way that replaces or removes the current field value.",
+    "If a value is cleared for security, announce the field name and reason in nearby text.",
+    "Keep labels, hints, errors, and preserved values connected with stable descriptions after re-render.",
+    "Avoid focus jumps that land users on blank fields without explaining what was lost."
+  ],
+  "keyboardBehavior": [
+    "After validation failure, Tab reaches the same fields with their entered values intact.",
+    "Error summary links move focus to preserved invalid values, not empty replacements.",
+    "Retry, save, or submit failure returns focus near the error or affected field without resetting the form.",
+    "Escape or closing a picker must not clear the typed value unless the control explicitly documents clearing behavior.",
+    "Reset or Clear form requires a separate deliberate keyboard-reachable command.",
+    "When a sensitive field is cleared, focus remains predictable and the user can re-enter only that value."
+  ],
+  "failureModes": [
+    "Failed validation empties the invalid field.",
+    "Failed validation clears valid sibling fields.",
+    "Server-side validation re-renders blank defaults.",
+    "Formatter or mask rejection deletes the raw value.",
+    "Long textarea text is lost after a length error.",
+    "File validation removes every selected file after one file fails.",
+    "Session expiry or reauthentication returns to a blank form.",
+    "Network retry sends a blank value instead of the user's last local value.",
+    "Only sensitive values should be cleared, but ordinary fields are cleared too."
+  ],
+  "relatedPatterns": [
+    "inline-validation",
+    "error-summary",
+    "single-page-form",
+    "autosave-recovery",
+    "error-state",
+    "text-input",
+    "textarea",
+    "input-mask",
+    "password-input"
+  ],
+  "comparisons": [
+    "validation-that-clears-user-input-vs-inline-validation-vs-error-summary-vs-single-page-form-vs-autosave-recovery-vs-error-state"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Error message component",
+      "url": "https://design-system.service.gov.uk/components/error-message/",
+      "platform": "web",
+      "notes": "Documents preserving entered answers while showing field-adjacent validation messages with clear correction text.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "GOV.UK Design System Error summary component",
+      "url": "https://design-system.service.gov.uk/components/error-summary/",
+      "platform": "web",
+      "notes": "Documents top-of-page validation summaries with focus behavior and links back to invalid fields.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "USWDS Form templates",
+      "url": "https://designsystem.digital.gov/templates/form-templates/",
+      "platform": "web",
+      "notes": "Documents validation aligned with fields, required indicators, grouping, and accessible form recovery.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "GOV.UK Password input component",
+      "url": "https://design-system.service.gov.uk/components/password-input/",
+      "platform": "web",
+      "notes": "Provides the boundary exception for password-related clearing after failed login while preserving ordinary form data elsewhere.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-error-message-component",
+      "note": "GOV.UK error message guidance supports preserving entered answers while showing clear field-level correction text."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports linked submit-time recovery after the form is rendered with field errors."
+    },
+    {
+      "id": "uswds-form-templates",
+      "note": "USWDS form-template guidance supports aligned validation, field grouping, required indicators, and accessible recovery."
+    },
+    {
+      "id": "govuk-text-input-component",
+      "note": "GOV.UK text input guidance supports value, label, hint, error, and described-by wiring for preserving and correcting field input."
+    },
+    {
+      "id": "govuk-textarea-component",
+      "note": "GOV.UK textarea guidance supports value, label, hint, error, and length-related validation for multi-line text."
+    },
+    {
+      "id": "govuk-password-input-component",
+      "note": "GOV.UK password guidance supports the boundary case where failed login clears a password while preserving non-secret context."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

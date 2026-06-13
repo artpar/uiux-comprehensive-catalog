@@ -1,0 +1,258 @@
+{
+  "id": "required-field-hidden-by-conditional-logic",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed form validation anti-pattern with distinct boundaries from conditional reveal fields, dependent fields, error summary, single-page form, review before submit, multi-step form, and wizard behavior, unique requirement-map, trigger, submit recovery, server validation, draft, review, mobile, assistive, and hidden-blocker demo states, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers conditional required fields whose validation state disagrees with visibility, including requirement maps, visible owning triggers, reveal-only required state, trigger-cleared exclusion, error summary restoration, server validation branch context, saved draft synchronization, browser Back, review edits, nested branch escalation, assistive notification, mobile collapsed panels, disabled-required controls, and hidden error targets.",
+    "relatedPatternDistinction": "The entry separates the hidden-required anti-pattern from conditional reveal fields by focusing on unreachable validation blockers rather than healthy trigger-owned follow-ups, from dependent fields by hidden required state rather than visible downstream option or validity changes, from error summary by the broken hidden target rather than the recovery component, from single-page form by conditional branch state rather than short visible form composition, and from review before submit by newly required branch resolution before final commitment.",
+    "liveDemoBehavior": "The live demo exposes 19 scoped controls: requirement map, trigger selected, trigger cleared, submit recovery, server restored, draft synced, review branch, nested escalated, assistive notice, mobile collapsed, hidden blocker, stale trigger, disabled required, dead link, server-only, after-submit reveal, nested surprise, mobile trap, and silent reveal.",
+    "comparisonDecisionRules": "The required-field-hidden-by-conditional-logic-vs-conditional-reveal-fields-vs-dependent-fields-vs-error-summary-vs-single-page-form-vs-review-before-submit comparison gives concrete rules for flagging hidden, collapsed, disabled, off-route, server-only, stale-draft, and review-created required fields; choosing healthy conditional reveal, dependent field, error summary, single-page form, or review-before-submit alternatives; and escalating complex branches to pages or steps.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 286 complete patterns, 1 stub pattern, 11 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Rendered /patterns/required-field-hidden-by-conditional-logic/ and /compare/required-field-hidden-by-conditional-logic-vs-conditional-reveal-fields-vs-dependent-fields-vs-error-summary-vs-single-page-form-vs-review-before-submit/ on 2026-06-13. Live check verified all required hidden-field, conditional, required, trigger, error summary, server validation, saved draft, review, visible, and recovery terms, found 19 .required-hidden-controls buttons, found no duplicate IDs or horizontal overflow on desktop or compact viewport, exercised Submit recovery, Server restored, Trigger cleared, Review branch, Hidden blocker, Dead link, Server-only, Mobile trap, and Silent reveal controls, and saw only Vite/React development console messages. screenshots/patterns/required-field-hidden-by-conditional-logic.png captures the pre-promotion page with Good UI, Bad UI, Good UX, Bad UX, scoped state controls, source-backed guidance, related links, comparison link, and stub status.",
+    "screenshots": [
+      "screenshots/patterns/required-field-hidden-by-conditional-logic.png"
+    ]
+  },
+  "name": "Required field hidden by conditional logic",
+  "aliases": [
+    "hidden required field",
+    "conditional required field trap",
+    "invisible required answer",
+    "hidden validation blocker",
+    "branch required field",
+    "conditional form validation trap"
+  ],
+  "category": "Input And Data Entry",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Anti-pattern where required form data is hidden or unreachable because conditional state and validation disagree",
+  "uiGuidance": [
+    "Do not let a required answer be hidden, visually collapsed, disabled, off-screen, or absent from the current branch while validation still blocks submission.",
+    "When a trigger makes a follow-up required, keep the trigger, the revealed required field, the requirement text, and the error summary recovery path visible and connected."
+  ],
+  "uxGuidance": [
+    "Users should be able to tell which answers are currently required before submit, why they are required, and how to reveal or remove the requirement.",
+    "Treat conditional requirement state as data, not decoration: every hide, reveal, trigger change, saved draft, browser Back, server validation, and review step must recompute whether the hidden field is required or excluded."
+  ],
+  "uiExamples": {
+    "good": [
+      "A benefits form asks whether the user needs an accommodation; selecting Yes reveals a required Accommodation details field directly below the trigger with helper text and validation.",
+      "After failed submit, the error summary says Accommodation details is required because Yes is selected and links to the visible revealed field."
+    ],
+    "bad": [
+      "Submit fails with Enter accommodation details, but the accommodation field is hidden because the branch is collapsed and the trigger is off-screen.",
+      "A server requires Partner date of birth from an old draft answer, but the current page shows Single and no partner fields."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user changes Yes to No and the required follow-up is cleared, excluded from validation, and removed from the review page.",
+      "A user returns from review after changing an upstream answer and is asked the newly required question before final submit."
+    ],
+    "bad": [
+      "A user repeatedly presses Submit because the only missing required field lives in a hidden branch with no link or visible trigger state.",
+      "A screen reader user changes a radio answer and is not told that a new required question appeared below it."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Conditional form logic often hides fields to reduce noise, but if hidden fields remain required, stale, submitted, or server-enforced without a visible recovery path, users cannot tell what blocks completion.",
+  "solution": "Keep conditional requirement state synchronized with the visible branch: reveal required follow-ups beside their triggers, clear or exclude hidden answers when triggers change, restore hidden branches before linking errors, and use review or separate pages when branching is too large for same-page reveal.",
+  "problemContext": [
+    "A form has radio, checkbox, select, eligibility, account type, permission, or saved-draft answers that control which later answers are required.",
+    "The required field may be visually hidden, collapsed, disabled, moved to another page, filtered out, or missing from the current route.",
+    "Validation may run on the client, server, saved draft, review step, imported payload, or resumed session.",
+    "Users need recovery after submit, browser Back, review edits, mobile accordions, assistive technology changes, and stale conditional answers."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a required field can block submit while it is hidden, collapsed, disabled, off-screen, absent from the current route, or disconnected from its trigger.",
+    "Use conditional reveal fields when one selected answer owns a short visible follow-up field directly under the trigger and required only while selected.",
+    "Use dependent fields when an always-owned downstream control changes options, requirement, or validity based on an upstream answer.",
+    "Use error summary when submit-time validation needs a top-of-page list of visible, linked errors with matching field messages.",
+    "Use single-page form when a short set of related fields can remain visible together with clear required indicators and one submit action.",
+    "Use review before submit when changed answers can create newly required branches that must be resolved before final commitment.",
+    "Use a separate question page, multi-step form, or wizard when the conditional branch has multiple required fields, long reading, or enough complexity that same-page hiding becomes hard to recover from.",
+    "Do not mark hidden fields required unless the trigger that makes them required is visible, selected, and recoverable from validation errors.",
+    "When hiding a branch, clear or exclude its values and errors unless draft restoration is explicitly tied to reselecting the same trigger.",
+    "When server validation finds a conditional required error, restore or route to the owning trigger and field before asking users to fix it."
+  ],
+  "requiredStates": [
+    "Initial state with all currently required fields identified before users submit.",
+    "Trigger selected state where the newly required follow-up is revealed adjacent to the trigger.",
+    "Trigger cleared state where hidden follow-up values and errors are cleared or excluded.",
+    "Failed submit state where the error summary links to a visible field, not a hidden target.",
+    "Server validation state where backend-required conditional fields are restored or routed to before recovery.",
+    "Saved draft return state where trigger and required branch are synchronized.",
+    "Browser Back or review edit state where changed upstream answers recompute required downstream questions.",
+    "Nested branch state where the UI escalates to a page or step instead of hiding several required fields.",
+    "Assistive notification state where newly revealed required fields are discoverable to keyboard and screen reader users.",
+    "Mobile collapsed state where a required field is not trapped inside a closed panel with no error route.",
+    "Bad hidden blocker state where submit fails but the required field remains invisible.",
+    "Bad stale trigger state where old saved values keep a hidden branch required.",
+    "Bad disabled-required state where a disabled or unavailable control is still required.",
+    "Bad error-summary dead link state where the error target is hidden or missing.",
+    "Bad server-only required state where the UI never exposed the field that the backend requires."
+  ],
+  "interactionContract": [
+    "Selecting a trigger that creates a required follow-up reveals that follow-up immediately in logical DOM and visual order.",
+    "Changing or clearing the trigger removes hidden required state, hidden errors, and hidden payload values unless reselecting the trigger intentionally restores a draft.",
+    "Submit-time errors only point to fields that are visible or are made visible before focus moves.",
+    "Error summary links restore collapsed branches, select or preserve the owning trigger, and move focus to the field or group that can be fixed.",
+    "Server-side validation returns enough branch context for the client to reveal or route to the owning conditional field.",
+    "Review changes that create new required branches send users through those questions before final submit.",
+    "Assistive technology users are informed when a selected answer reveals a new required field."
+  ],
+  "implementationChecklist": [
+    "Create a requirement map that ties every conditional required field to its owning trigger, active condition, visibility state, payload key, and error target.",
+    "Keep client validation, server validation, saved draft restoration, and review pages using the same condition rules.",
+    "Reveal short required follow-ups beside the trigger; route larger branches to pages or steps with their own required indicators.",
+    "Before submit, validate only fields whose triggers make them active and visible or routeable.",
+    "When hiding a branch, clear or mark inactive its values, errors, dirty state, and review rows.",
+    "When an error is produced for a hidden field, first restore the branch or route to the owning question, then focus the summary or field.",
+    "Test with browser Back, saved drafts, server errors, review edits, mobile collapsed sections, screen readers, keyboard-only navigation, and stale branch values.",
+    "Log or assert when validation references a hidden or missing DOM target so hidden blockers are caught before release."
+  ],
+  "commonMisuses": [
+    "Keeping a visually hidden input required because the backend schema says the field is required in some cases.",
+    "Showing an error summary that links to an element hidden by CSS, collapsed accordion state, or conditional route logic.",
+    "Using disabled required controls to represent unavailable answers.",
+    "Clearing the trigger visually but leaving the old branch active in saved draft or server payload.",
+    "Only marking required fields after failed submit, forcing users to discover branch rules by trial and error.",
+    "Putting a required conditional field at the bottom of the form far away from its trigger.",
+    "Nesting several required conditional fields inside one local reveal instead of splitting the flow.",
+    "Relying on visual reveal animation without making new required fields discoverable to assistive technology."
+  ],
+  "critiqueQuestions": [
+    "Which trigger makes this field required, and is that trigger visible when the error appears?",
+    "Can a hidden, disabled, collapsed, or off-route field ever block submit?",
+    "What happens to values and errors when the trigger changes?",
+    "Does the error summary link to a visible recoverable field?",
+    "Does server validation return enough branch context to reveal or route to the missing answer?",
+    "Can review edits or browser Back create newly required questions before final submit?",
+    "Would this branch be clearer as a separate page, step, or review-gated question?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern entry to audit forms where conditional logic, validation, saved drafts, or server schemas might require fields that are not visible or reachable.",
+    "Use it during design and QA reviews of eligibility, account, checkout, consent, benefits, healthcare, enterprise configuration, and onboarding forms with conditional branches."
+  ],
+  "avoidWhen": [
+    "Do not use this entry to reject simple conditional reveal fields that visibly reveal and validate a related follow-up only while its trigger is active.",
+    "Do not apply it to optional hidden metadata that never blocks submit and is not required for the user's task."
+  ],
+  "variants": [
+    "Hidden required field",
+    "Collapsed required section",
+    "Disabled required control",
+    "Server-only required field",
+    "Saved draft stale requirement",
+    "Review edit creates required branch",
+    "Nested hidden required branch",
+    "Mobile accordion required trap",
+    "Error summary hidden target",
+    "Assistive technology missed reveal"
+  ],
+  "accessibility": [
+    "Newly required conditional fields must be placed after the trigger in DOM order or announced through tested status behavior.",
+    "Error summaries must link to visible fields or reveal collapsed branches before moving focus.",
+    "Do not use display none, hidden, aria-hidden, inert, or disabled controls for active required fields.",
+    "Use fieldsets, legends, labels, hints, and error text to explain why a conditional field is required.",
+    "Avoid color, indentation, animation, or collapsed-panel badges as the only signal that a required answer exists.",
+    "Screen reader and keyboard users must be able to discover, fill, clear, and recover every active required branch.",
+    "When focus is inside a branch that becomes hidden, move focus to the owning trigger or next logical control."
+  ],
+  "keyboardBehavior": [
+    "Tab order reaches the trigger before the revealed required field.",
+    "Activating the trigger reveals the required field without moving focus unexpectedly.",
+    "Submit with a missing active conditional field moves focus to an error summary or the revealed field, never to a hidden target.",
+    "Error summary links open or restore the branch before focusing the missing field.",
+    "Changing the trigger while focused in a branch returns focus to the trigger or next logical visible control.",
+    "Collapsed required sections can be opened by keyboard and expose the missing field in order.",
+    "Disabled controls are not used to satisfy required answers; an enabled recovery path is provided."
+  ],
+  "failureModes": [
+    "Submit fails because a required field is hidden.",
+    "An error summary link targets a hidden, missing, disabled, or collapsed control.",
+    "A server requires a field that the UI never revealed.",
+    "A saved draft restores stale branch values without restoring the trigger.",
+    "Changing an upstream answer creates a newly required field only after final submit.",
+    "Nested conditional logic hides several required fields with no progress or review route.",
+    "A mobile accordion contains a required field but no visible section error or expansion behavior.",
+    "Screen reader users are not informed that selecting an answer introduced a required follow-up.",
+    "Hidden branch values are submitted or validated after the branch no longer applies."
+  ],
+  "relatedPatterns": [
+    "conditional-reveal-fields",
+    "dependent-fields",
+    "error-summary",
+    "inline-validation",
+    "single-page-form",
+    "review-before-submit",
+    "multi-step-form",
+    "wizard"
+  ],
+  "comparisons": [
+    "required-field-hidden-by-conditional-logic-vs-conditional-reveal-fields-vs-dependent-fields-vs-error-summary-vs-single-page-form-vs-review-before-submit"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Accessibility in government conditional reveals update",
+      "url": "https://accessibility.blog.gov.uk/2021/09/21/an-update-on-the-accessibility-of-conditionally-revealed-questions/",
+      "platform": "web",
+      "notes": "Documents the accessibility risk that users may not be notified when conditional follow-up questions appear.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Agriculture Design System conditional reveal pattern",
+      "url": "https://design-system.agriculture.gov.au/patterns/conditional-reveal",
+      "platform": "web",
+      "notes": "Documents limiting conditional reveals to directly related questions under the initial input and avoiding complete forms or unrelated revealed content.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "NN/g Marking Required Fields in Forms",
+      "url": "https://www.nngroup.com/articles/required-fields/",
+      "platform": "web",
+      "notes": "Supports making required fields clear before users submit instead of relying on hidden or ambiguous requirements.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "GOV.UK Error summary component",
+      "url": "https://design-system.service.gov.uk/components/error-summary/",
+      "platform": "web",
+      "notes": "Supports linked submit-time error recovery with focus and matching field messages.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-conditional-reveal-accessibility",
+      "note": "GOV.UK accessibility research supports the risk that newly revealed conditional questions may be missed by assistive technology users."
+    },
+    {
+      "id": "agriculture-design-system-conditional-reveal",
+      "note": "Agriculture Design System supports limiting conditional reveals to related questions and using another page for larger branches."
+    },
+    {
+      "id": "nng-required-fields-forms",
+      "note": "NN/g supports marking required fields clearly so users can predict what must be completed."
+    },
+    {
+      "id": "govuk-error-summary-component",
+      "note": "GOV.UK error summary guidance supports focusable summaries with links to visible field errors."
+    },
+    {
+      "id": "uswds-form-component",
+      "note": "USWDS form guidance supports required indicators, validation alignment, DOM order, grouping, and explaining disabled states."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

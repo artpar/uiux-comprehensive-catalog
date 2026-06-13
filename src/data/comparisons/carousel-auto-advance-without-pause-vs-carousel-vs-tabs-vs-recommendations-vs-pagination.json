@@ -1,0 +1,57 @@
+{
+  "id": "carousel-auto-advance-without-pause-vs-carousel-vs-tabs-vs-recommendations-vs-pagination",
+  "title": "Carousel auto-advance without pause vs carousel vs tabs vs recommendations vs pagination",
+  "summary": "Flag unpausable auto-advance when timed rotation changes content without immediate control; use carousel only for small controlled slide sets, tabs for named panels, recommendations for ranked suggestions with feedback, and pagination for large ordered results.",
+  "patternIds": [
+    "carousel-auto-advance-without-pause",
+    "carousel",
+    "tabs",
+    "recommendations",
+    "pagination"
+  ],
+  "decisionRules": [
+    "Choose the auto-advance anti-pattern label when content rotates on a timer and users cannot pause or stop before the first slide change.",
+    "Choose the auto-advance anti-pattern label when rotation continues during keyboard focus, pointer hover, touch exploration, form entry, recommendation feedback, or reduced-motion mode.",
+    "Choose carousel only for a small peer slide set in one constrained visual slot, with previous, next, named picker, visible position, and first reachable pause or play controls when motion exists.",
+    "Choose tabs when users choose among named sibling panels; tabs should not auto-advance, hide required content, or pretend slide dots are meaningful tab labels.",
+    "Choose recommendations when items are ranked, contextual, sponsored, personalized, or model-selected; reasons, dismissal, save, feedback, and sponsored disclosure must remain stable even if the presentation uses a rail.",
+    "Choose pagination when users browse a large ordered result set with page numbers, current page, ranges, totals, previous and next, and return-position persistence.",
+    "Prefer static page sections, a list, or a grid over any carousel when every item matters, comparison is important, or users need stable reading time.",
+    "If rotation exists, Pause or Stop must be first reachable in the carousel tab order, visible on mobile, and honored for focus, hover, reduced motion, and background tab return.",
+    "Do not use auto-advance for legal terms, eligibility warnings, consent choices, required forms, checkout details, or any content where missing one slide changes the user's outcome.",
+    "Do not announce timer-driven slide changes repeatedly; reserve status changes for user-initiated controls and explicit motion-state changes."
+  ],
+  "failureModes": [
+    "A hero carousel advances every few seconds with no pause and users lose the sentence they were reading.",
+    "The pause control is hidden after anonymous dots, appears only on hover, or is unreachable from the keyboard before motion begins.",
+    "A focused slide button remains in the tab order while the visible slide rotates away.",
+    "Reduced-motion users still receive automatic rotation and large animated transitions.",
+    "A recommendation carousel rotates away reasons, dismiss controls, sponsored labels, or feedback while the user is deciding.",
+    "Tabs are implemented as auto-rotating panels, so named sections change without user choice.",
+    "A large ordered result set is squeezed into a carousel, losing current page, result range, total count, and return position.",
+    "Screen reader users hear constant unsolicited announcements for timer-driven slide changes."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-carousel",
+      "note": "APG supports rotation controls, pause behavior, and stopping automatic rotation on focus or hover."
+    },
+    {
+      "id": "wai-carousels-tutorial",
+      "note": "WAI tutorial supports carousel animation controls and accessible item announcements."
+    },
+    {
+      "id": "nng-auto-forwarding-carousels",
+      "note": "NN/g supports avoiding auto-forwarding because it interrupts reading and reduces visibility."
+    },
+    {
+      "id": "nng-effective-carousels",
+      "note": "NN/g supports visible controls and considering static alternatives to carousel presentation."
+    },
+    {
+      "id": "wcag-focus-order",
+      "note": "WCAG focus order supports preserving meaningful keyboard traversal as slide content changes."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "calendar-view-vs-date-picker-vs-timeline-vs-list-view",
+  "title": "Calendar view vs date picker vs timeline vs list view",
+  "summary": "Use calendar view when scheduled items must be understood by date, time, duration, recurrence, and visual overlap; use date picker, timeline, or list view when the task is narrower.",
+  "patternIds": [
+    "calendar-view",
+    "date-picker",
+    "timeline",
+    "list-view"
+  ],
+  "decisionRules": [
+    "Choose calendar view when users need to scan or manage multiple scheduled events across days, weeks, or months and the placement of each event on a date or time grid changes the decision.",
+    "Choose date picker when the user only needs to choose one date for a field; do not show a full event calendar when there are no event blocks, ranges, all-day items, or schedule conflicts to inspect.",
+    "Choose timeline when the task is to understand a bounded history or sequence for one case, order, or process rather than to compare open time slots or overlapping future events.",
+    "Choose list view when users need a compact vertical agenda for a known interval and spatial placement by weekday or hour is less important than scanning titles, owners, or actions.",
+    "Calendar view should expose the visible date range, timezone, day/week/month mode, today marker, selected date, event start and end, all-day status, recurrence, overflow count, and empty days.",
+    "Use calendar overflow disclosure such as plus-more links or popovers when a day has more events than fit; do not silently hide remaining events in a month cell.",
+    "Use time-grid or resource calendar variants when users need to compare duration, overlap, business hours, rooms, people, or equipment availability.",
+    "Use agenda/list fallback on narrow screens when grid density would make event titles, selected state, or keyboard focus unreadable.",
+    "Do not use calendar view as a decorative monthly card for records that are not scheduled; a table, list view, timeline, or activity log may preserve identity and metadata better.",
+    "If drag, resize, or create-on-slot behavior is allowed, show constraints, conflict handling, undo or confirmation, and focus recovery after the event moves."
+  ],
+  "failureModes": [
+    "A month grid hides extra events without a count or overflow popover.",
+    "A dense weekly schedule allows overlapping drag moves without conflict feedback or undo.",
+    "A responsive layout crushes event titles into unreadable cells instead of switching to an agenda list.",
+    "The calendar shows local dates while exports, reminders, or attendees use a different timezone.",
+    "All-day, multi-day, recurring, cancelled, tentative, and unavailable events are visually indistinguishable.",
+    "A date picker is expanded into a full calendar page even though users only need to enter one known date."
+  ],
+  "sources": [
+    {
+      "id": "fullcalendar-month-view",
+      "note": "FullCalendar documents month view as a day grid with options for fixed week count and non-current dates."
+    },
+    {
+      "id": "fullcalendar-timegrid-view",
+      "note": "FullCalendar documents day and week time grids with horizontal days, vertical time, all-day slots, overlap, and time-axis options."
+    },
+    {
+      "id": "fullcalendar-event-popover",
+      "note": "FullCalendar documents overflow handling when not all events fit in a day cell."
+    },
+    {
+      "id": "microsoft-power-apps-calendar-control",
+      "note": "Microsoft documents calendar views for scheduled activities with start, end, description, and duration fields."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,50 @@
+{
+  "id": "data-grid-vs-table-vs-inline-edit-vs-pagination",
+  "title": "Data grid vs table vs inline edit vs pagination",
+  "summary": "Use a data grid for dense interactive row-and-column work with managed cell focus; use a table for semantic comparison, inline edit for local value changes, and pagination to divide long result sets.",
+  "patternIds": [
+    "data-grid",
+    "table",
+    "inline-edit",
+    "pagination"
+  ],
+  "decisionRules": [
+    "Choose data grid when users need spreadsheet-like interaction: arrow-key cell navigation, editable cells, selected rows or cells, copy and paste, keyboard-managed widgets, virtualized records, or column operations inside one dense surface.",
+    "Choose table when users mainly compare records across shared columns and every interactive control can remain in the normal page tab sequence without cell-by-cell grid navigation.",
+    "Choose inline edit when one displayed value or one row switches locally into edit mode but the surrounding surface does not need a full grid focus model.",
+    "Choose pagination when the problem is splitting a large ordered dataset into stable pages rather than editing, selecting, or navigating individual cells.",
+    "A data grid may include sortable headers, filters, column visibility, pagination, and inline cell editors, but it owns the combined focus, selection, editing, and state-restoration contract.",
+    "Do not upgrade a read-only table to data grid just to reduce tab stops; the grid must provide visible instructions and reliable keyboard interaction for pointer, keyboard, and assistive-technology users.",
+    "Do not call a dense form a data grid when fields have unrelated labels, dependencies, or review requirements that belong in a form or complex form.",
+    "When a cell enters edit mode, define how users enter editing, where focus lands, how Escape cancels, how Enter or Save commits, and when arrow keys return to grid navigation.",
+    "When rows are virtualized, hidden, sorted, filtered, pinned, or paginated, keep row and column counts, indices, labels, selected state, dirty edits, and focus location truthful.",
+    "On narrow screens, consider a task-specific edit route or list-plus-detail workflow instead of forcing a dense spreadsheet interaction into an unusable viewport."
+  ],
+  "failureModes": [
+    "A static read-only table uses role grid and traps arrow keys even though users expected ordinary reading and tab order.",
+    "Every cell contains a tabbable input or menu, so keyboard users must traverse hundreds of controls before leaving the surface.",
+    "Editable cells use arrow keys both for text caret movement and grid navigation without an explicit edit-mode boundary.",
+    "Virtualized rows expose wrong row indices or lose selected rows and dirty edits after sorting, filtering, or scrolling.",
+    "A single inline edit is implemented as a full data grid, adding keyboard complexity without a spreadsheet-like task.",
+    "Pagination moves rows to another page but silently clears focused cell, selected rows, validation errors, or pending edits."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-grid",
+      "note": "APG grid guidance supports the data-grid boundary, keyboard model, focus management, editing, selection, roles, and ARIA state requirements."
+    },
+    {
+      "id": "wai-aria-apg-data-grid-examples",
+      "note": "APG examples support sortable, editable, scrollable, and show-or-hide data-grid variants."
+    },
+    {
+      "id": "mdn-aria-grid-role",
+      "note": "MDN grid role guidance supports composite-widget semantics and two-dimensional focus navigation."
+    },
+    {
+      "id": "mui-data-grid-accessibility",
+      "note": "MUI data-grid accessibility guidance supports one tab stop, render-cell focus management, arrow navigation, selection, copy, and sorting shortcuts."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

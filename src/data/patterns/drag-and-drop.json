@@ -1,0 +1,262 @@
+{
+  "id": "drag-and-drop",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed drag-and-drop pattern with object movement guidance, pickup handle, drag preview, target validity, insertion indicator, auto-scroll, drop preview, cancel recovery, server rejection recovery, equivalent move controls, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers drag and drop as source-to-destination object movement with idle object, pickup handle, dragging preview, valid target, invalid target, insertion indicator, auto-scroll, drop preview, successful drop, canceled drag, failed drop, keyboard move, screen reader move, multi-select drag, mobile compact, and risky move states.",
+    "relatedPatternDistinction": "Separated from touch gesture as the broader input system, long press as sustained-contact pickup or secondary action, drag-and-drop upload as operating-system file intake, kanban board as workflow columns and status mapping, sort controls as rule-based ordering, and list view as object presentation with row actions.",
+    "liveDemoBehavior": "Good demo exercises idle object, pickup handle, dragging preview, valid target, invalid target, insertion indicator, auto-scroll, drop preview, successful drop, canceled drag, failed drop, keyboard move, screen reader move, multi-select drag, mobile compact, and risky move states. Bad demo exercises pointer-only movement, no target feedback, silent invalid target, scroll hijack, no cancel, server mismatch, and no equivalent move failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes drag and drop from touch gesture, long press, drag-and-drop upload, kanban board, and sort controls by source object, pickup handle, drag preview, valid target, invalid target, insertion indicator, equivalent non-drag move control, server rejection, scroll conflict, operating-system upload, workflow-board scope, and ordering-rule scope.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 267 complete patterns, 1 excluded in-progress pattern, 30 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/drag-and-drop/ with required terms present, no duplicate IDs, and no page overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/drag-and-drop-vs-touch-gesture-vs-long-press-vs-drag-and-drop-upload-vs-kanban-board-vs-sort-controls/ was checked at desktop and compact widths with concrete decision terms present, no duplicate IDs, and no page overflow.",
+    "screenshots": [
+      "screenshots/patterns/drag-and-drop.png"
+    ]
+  },
+  "name": "Drag and drop",
+  "aliases": [
+    "drag drop",
+    "drag-and-drop interaction",
+    "object drag",
+    "move by dragging",
+    "reorder by drag",
+    "drop target interaction",
+    "direct manipulation move"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Selection And Choice",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Pointer or touch movement that picks up an object and drops it onto a valid destination",
+  "uiGuidance": [
+    "Render drag and drop with a visible draggable object, pickup affordance, drag preview, valid and invalid drop targets, insertion or placement feedback, cancellation, and a non-drag equivalent move path.",
+    "Show what will change before drop: source, destination, order position, affected count, constraints, and whether the operation moves, copies, links, reorders, assigns, or changes status."
+  ],
+  "uxGuidance": [
+    "Use drag and drop when direct object movement between destinations is faster and more understandable than choosing source and destination from separate controls.",
+    "Treat dragging as an enhancement, not the only path; keyboard, switch, screen reader, touch, mouse, and users with limited precision need explicit Move, Reorder, or Choose destination controls."
+  ],
+  "uiExamples": {
+    "good": [
+      "A task card has a visible drag handle, lifts on pickup, highlights valid columns, previews the insertion position, blocks Done with a WIP warning, and offers a Move to column menu.",
+      "A dashboard tile reorder flow shows drag handles, current position, target position, invalid zones, Save layout, Cancel, and keyboard Move up or Move down controls.",
+      "A file move surface shows source folder, destination folder, copy versus move mode, drop confirmation for shared folders, and undo move."
+    ],
+    "bad": [
+      "Cards move only by pointer drag, with no keyboard move controls or destination menu.",
+      "Every column highlights as valid even when the user cannot drop into locked or full columns.",
+      "Dropping a record immediately changes ownership and triggers notifications with no preview, confirmation, or undo."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user picks up a card, drags it over Review, sees the insertion line and WIP count, drops it, then receives Moved to Review with Undo.",
+      "A keyboard user opens Move, chooses Review, confirms the same WIP warning, and focus returns to the moved card in its new column.",
+      "A user drags outside any target and the card returns to its original source without changing status."
+    ],
+    "bad": [
+      "A user starts scrolling a board and accidentally drags a card into Done.",
+      "A screen reader user hears only Card but cannot discover available destinations.",
+      "A drop target accepts a card visually but the server rejects it silently after the card disappears."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Drag and drop makes movement feel direct, but it often hides destination rules, conflicts with scroll and selection, fails for keyboard or assistive technology users, and can change data before users understand the destination or consequence.",
+  "solution": "Design drag and drop as a complete movement contract: explicit pickup, drag preview, valid targets, insertion feedback, drop result, cancellation, constraints, recovery, and equivalent non-drag move controls that produce the same outcomes.",
+  "problemContext": [
+    "Users need to move, copy, reorder, assign, group, place, or change status for cards, files, tiles, rows, objects, layers, widgets, or records.",
+    "The interface has one or more source objects and destinations such as columns, lists, folders, groups, positions, canvases, zones, or containers.",
+    "The move can be local, persisted to a server, constrained by permissions, blocked by business rules, or coupled to workflow side effects.",
+    "The same surface may also support click, long press, swipe action, text selection, scroll, multi-select, keyboard movement, and context menus."
+  ],
+  "selectionRules": [
+    "Choose drag and drop when the design problem is moving an object from a source to a destination, position, group, or order.",
+    "Use touch gesture when the question is the broader gesture vocabulary, target sizing, cancellation, and equivalent controls across many gestures.",
+    "Use long press when sustained contact is only the pickup or secondary-action invocation before drag begins.",
+    "Use drag-and-drop upload when the dragged object comes from the operating system as files and the product needs upload validation and queue states.",
+    "Use kanban board when the primary pattern is workflow columns, WIP limits, card details, filtering, and status mapping; drag may be one input method inside it.",
+    "Use sort controls when users choose a deterministic ordering rule rather than manually positioning individual objects.",
+    "Use list view, table, tree grid, or card grid when object presentation, selection, and row or card action anatomy are the main concerns.",
+    "Provide explicit Move, Reorder, Destination, Position, or Assign controls for every non-essential drag outcome.",
+    "Require confirmation or review when drop changes permissions, ownership, billing, notifications, destructive state, or external side effects.",
+    "Do not use drag and drop for invisible commands, hidden deletion, primary-only workflows, or tasks where destinations cannot be previewed clearly."
+  ],
+  "requiredStates": [
+    "Idle state with draggable object identity and visible drag handle or move affordance.",
+    "Pickup state that confirms which object or selected set is being moved.",
+    "Dragging state with preview, source placeholder, and object count.",
+    "Valid target hover state with destination name and insertion or placement indicator.",
+    "Invalid target state with reason such as permission, WIP limit, locked folder, unsupported type, or max items.",
+    "Auto-scroll or edge-scroll state for large lists, boards, and canvases.",
+    "Drop preview state showing move, copy, link, reorder, assign, or status-change consequence before commit.",
+    "Successful drop state with status message, stable focus, updated position, and undo where appropriate.",
+    "Canceled drag state that returns the object to source when released outside a valid target or Escape is used.",
+    "Failed drop or server-rejected state that restores the prior model and explains retry or fallback.",
+    "Equivalent keyboard, screen reader, switch, touch, mouse, and explicit move-menu state.",
+    "Multi-select or bulk drag state with selected count and destination constraints.",
+    "Mobile compact and large-text state where handles, targets, and messages remain readable."
+  ],
+  "interactionContract": [
+    "Dragging starts only from the intended handle, object, or selected set, not from unrelated scroll or text-selection movement.",
+    "The source object remains identifiable during drag through a preview, ghost, placeholder, or selected-set label.",
+    "Targets report whether they are valid, invalid, full, locked, hidden, filtered, or permission-limited before drop.",
+    "The drop location shows exact insertion position, destination, or placement zone before the user releases.",
+    "Releasing outside a valid target, pressing Escape, or cancelling the equivalent move path leaves the model unchanged.",
+    "The product commits the move only after a valid drop or explicit confirmation, and reports success, failure, or pending sync.",
+    "Equivalent controls expose the same destinations, constraints, warnings, confirmation, undo, and error states as drag.",
+    "Drag does not steal vertical scroll, text selection, swipe action, pull-to-refresh, or system gestures without a deliberate handle or threshold."
+  ],
+  "implementationChecklist": [
+    "Inventory draggable object types, allowed sources, destinations, move modes, constraints, side effects, and equivalent controls.",
+    "Define pickup target, handle size, drag threshold, drag preview, source placeholder, target highlighting, insertion indicator, and drop commit timing.",
+    "Expose invalid target reasons before drop and keep them available as text, not color alone.",
+    "Implement Move to, Reorder, Position, Assign, or destination menus that call the same command handlers as drag.",
+    "Preserve focus, selection, scroll anchor, filters, expanded state, and object identity after move, cancel, undo, and server failure.",
+    "Add undo, confirmation, or pending review for risky moves and any operation with external side effects.",
+    "Resolve conflicts with long press, scroll, swipe action, text selection, nested draggable regions, auto-scroll, and browser-native drag behavior.",
+    "Test keyboard-only movement, screen reader actions, switch control, touch, mouse, trackpad, stylus, mobile landscape, large text, invalid targets, concurrent updates, and server rejection."
+  ],
+  "commonMisuses": [
+    "Making drag the only way to move, reorder, assign, or change status.",
+    "Showing no valid target, invalid target, insertion, or destination feedback before drop.",
+    "Letting any pointer movement drag when users intended to scroll or select text.",
+    "Dropping into hidden, filtered, full, locked, or permission-denied destinations without explanation.",
+    "Changing workflow state, permissions, ownership, or notifications immediately without confirmation or undo.",
+    "Using drag and drop upload guidance for object movement inside the product.",
+    "Leaving focus behind after a keyboard-equivalent move.",
+    "Persisting a failed server move visually and making the model inconsistent."
+  ],
+  "critiqueQuestions": [
+    "What object or selected set is being moved, and where is the source shown during drag?",
+    "Which destinations are valid, invalid, full, locked, or permission-limited, and how do users know before drop?",
+    "What exact result happens on drop: move, copy, link, reorder, assign, status change, or external side effect?",
+    "What non-drag control completes the same move for keyboard, screen reader, switch, and low-precision users?",
+    "How can users cancel before drop, recover after drop, and understand server rejection?",
+    "How does drag avoid fighting scroll, long press, swipe action, text selection, nested drag regions, and system gestures?",
+    "Where does focus land after pickup, cancel, drop, undo, failure, and equivalent move?"
+  ],
+  "useWhen": [
+    "Users need spatial or ordered movement between clear sources and destinations.",
+    "Direct manipulation improves comprehension of grouping, ordering, placement, or workflow movement.",
+    "The product can show valid targets, constraints, preview, cancellation, and equivalent non-drag controls."
+  ],
+  "avoidWhen": [
+    "The action is rare, destructive, high-impact, or hard to preview before release.",
+    "Destinations are hidden, ambiguous, too small, or too numerous to target reliably.",
+    "The product cannot provide keyboard and assistive equivalents.",
+    "The same surface already has unresolved scroll, swipe, text-selection, or system gesture conflicts.",
+    "A simple select, action menu, sort control, stepper, checkbox, or visible move button would be clearer."
+  ],
+  "variants": [
+    "Card drag and drop",
+    "List reorder drag",
+    "Kanban card move",
+    "Dashboard tile reorder",
+    "Folder move drag",
+    "Canvas object drag",
+    "Multi-select drag",
+    "Drag with invalid target",
+    "Drag with confirmation",
+    "Drag with keyboard move menu"
+  ],
+  "accessibility": [
+    "Provide a single-pointer alternative without dragging for non-essential drag functionality.",
+    "Provide keyboard, screen reader, switch, and visible-control paths for moving objects to every valid destination.",
+    "Name the draggable object, selected count, target destination, insertion position, invalid reason, and drop result in text.",
+    "Do not rely on color, motion, pointer position, or ghost previews alone to communicate validity.",
+    "Keep drag handles and equivalent controls large enough and separated from row navigation, text selection, and swipe actions.",
+    "Let users cancel before drop and recover after drop through undo, confirmation, or restore where appropriate.",
+    "Avoid deprecated drag-and-drop ARIA patterns; use clear buttons, menus, lists, and status messaging that match actual behavior."
+  ],
+  "keyboardBehavior": [
+    "Keyboard users can activate a Move, Reorder, Assign, or Choose destination control near the object.",
+    "Destination choices expose the same valid, invalid, disabled, full, locked, and warning states as drag targets.",
+    "Move up, Move down, Move to top, Move to bottom, or Choose position controls handle ordered lists where appropriate.",
+    "Escape cancels equivalent move, destination menu, confirmation, or preview without changing data.",
+    "After a successful keyboard move, focus moves to the moved object in its new location or a status message with a return path.",
+    "After failure or invalid destination, focus remains near the object and reason so users can choose another destination."
+  ],
+  "failureModes": [
+    "A card can only be moved by mouse drag.",
+    "A drop target highlights as valid but rejects the object after release with no restoration.",
+    "A user drags while trying to scroll and changes a workflow status.",
+    "Keyboard users can focus the card but cannot move it to another column.",
+    "Screen reader users hear only a list of cards and no destination controls.",
+    "Dropping into a filtered board hides the moved object and users cannot find it.",
+    "Auto-scroll moves too fast and drops into the wrong target.",
+    "Undo restores visual order but not the underlying status field."
+  ],
+  "relatedPatterns": [
+    "touch-gesture",
+    "long-press",
+    "drag-and-drop-upload",
+    "kanban-board",
+    "sort-controls",
+    "list-view"
+  ],
+  "comparisons": [
+    "drag-and-drop-vs-touch-gesture-vs-long-press-vs-drag-and-drop-upload-vs-kanban-board-vs-sort-controls"
+  ],
+  "examples": [
+    {
+      "product": "MDN HTML Drag and Drop API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API",
+      "platform": "web",
+      "notes": "Documents draggable elements, drop targets, release-to-drop behavior, feedback, and customizing drag sources and targets.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Dragging Movements",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html",
+      "platform": "web",
+      "notes": "Documents the requirement that dragging movement functionality also be achievable by a single pointer without dragging unless dragging is essential.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Technique G210",
+      "url": "https://w3c.github.io/wcag/techniques/general/G210",
+      "platform": "web",
+      "notes": "Documents drag-and-drop cancellation and recovery expectations such as releasing outside the target, confirmation, or undo.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Trello board basics",
+      "url": "https://trello.com/guide/trello-101",
+      "platform": "web",
+      "notes": "Documents boards, lists, cards, card detail, and drag-and-drop movement across lists.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-html-drag-and-drop-api",
+      "note": "Supports general browser drag source, drop target, feedback, and release-to-drop behavior."
+    },
+    {
+      "id": "wcag-dragging-movements",
+      "note": "Supports providing a non-drag single-pointer alternative for dragging movement functionality."
+    },
+    {
+      "id": "w3c-wcag-pointer-cancellation-drag-drop",
+      "note": "Supports cancellation, confirmation, and undo expectations for drag-and-drop actions."
+    },
+    {
+      "id": "trello-board-basics",
+      "note": "Supports drag-and-drop card movement across board lists as a product example."
+    },
+    {
+      "id": "w3c-wcag-target-size-minimum",
+      "note": "Supports target size and spacing expectations for drag handles, drop targets, and equivalent controls."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

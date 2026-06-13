@@ -1,0 +1,231 @@
+{
+  "id": "bottom-sheet",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a mobile bottom-anchored contextual overlay pattern with source-backed detent guidance, clear boundaries from sheet, drawer, bottom navigation, and action menu, live peek/half/full behavior, comparison rules, duplicate audit, screenshot, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets mobile lower-edge overlays, including bottom anchoring, visible drag handle, meaningful peek state, half and full detents, map or feed context preservation, thumb reach, modal versus standard behavior, safe-area spacing, drag and inner-scroll priority, selected-object preservation, close and back behavior, and focus return.",
+    "relatedPatternDistinction": "The entry separates bottom sheet from sheet by requiring mobile bottom-edge anchoring and detents, from drawer by lower-edge reach instead of side-adjacent inspection, from bottom navigation by temporary contextual content instead of persistent destinations, from modal dialog by background-orientation and detent behavior, and from action menu by supporting richer contextual detail and previews.",
+    "liveDemoBehavior": "The live demo opens Harbor station from a map pin, shows peek, half, and full detents, keeps the selected pin visible, moves focus into reachable sheet controls, selects Ferry shuttle while preserving detent and map context, explains handle versus list-scroll gesture rules, closes with Escape, returns focus to the selected pin, and contrasts no-peek-content, scroll-conflict, covers-context, nav-mix, safe-area-block, and gesture-only failures.",
+    "comparisonDecisionRules": "The bottom-sheet-vs-sheet-vs-drawer-vs-bottom-navigation comparison gives concrete rules for mobile contextual lower-edge overlays, broader adaptive sheets, side drawers, persistent bottom destinations, modal versus standard bottom sheets, useful detent heights, gesture and dismissal rules, full-page escalation, action-menu alternatives, and scroll-versus-drag handling.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/bottom-sheet/ and /compare/bottom-sheet-vs-sheet-vs-drawer-vs-bottom-navigation/ on 2026-06-10. Live check exercised Open sheet, Peek, Half, Full, Ferry shuttle selection, keyboard Escape close, No peek content, Scroll conflict, Covers context, Nav mix, Safe-area block, and Gesture only controls. screenshots/patterns/bottom-sheet.png captures Good UI, Bad UI, Good UX, Bad UX, full detent, selected departure, map context, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/bottom-sheet.png"
+    ]
+  },
+  "name": "Bottom sheet",
+  "aliases": [
+    "bottom drawer",
+    "bottom panel",
+    "bottom overlay",
+    "modal bottom sheet",
+    "standard bottom sheet",
+    "half sheet",
+    "detent sheet"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Cross-Device And Physical Interaction"
+  ],
+  "platforms": [
+    "mobile",
+    "web"
+  ],
+  "problem": "Mobile users need contextual details or controls without leaving the current map, feed, media, object, or task, and the controls should be reachable from the lower part of the screen.",
+  "solution": "Present a bottom-anchored sheet with a clear handle, useful detents, visible title or context label, predictable dismissal, and a defined relationship between sheet dragging, inner scrolling, and the background content it partially covers.",
+  "problemContext": [
+    "The user is on a mobile screen where the current background context still matters.",
+    "The extra content is contextual, temporary, and easier to use from the bottom edge than in a centered dialog or side panel.",
+    "The sheet may need peek, half, or full heights so users can inspect more detail without losing orientation.",
+    "The product can define scrim behavior, background interaction, gesture handling, focus movement, and safe-area spacing."
+  ],
+  "selectionRules": [
+    "Choose bottom sheet when contextual details, options, or controls are best reached from the lower edge of a mobile viewport while the background remains useful for orientation.",
+    "Use sheet when the surface is a broader temporary child task that does not depend on bottom-edge anchoring or mobile detents.",
+    "Use drawer when side placement and comparison with a list, table, or chart matter more than thumb reach.",
+    "Use bottom navigation when the bottom surface contains persistent top-level destinations rather than temporary contextual content.",
+    "Use action menu or menu button when the user only needs a short command list near the trigger and no preview, grouping, or detent behavior.",
+    "Use modal dialog or alert dialog when the user must focus on a compact blocking task or urgent response and bottom reach is not the deciding factor.",
+    "Use a full page when the content needs deep reading, multiple steps, route history, saved progress, or durable sharing.",
+    "Use a standard bottom sheet only when background interaction remains intentional; use a modal bottom sheet when background changes would conflict."
+  ],
+  "requiredStates": [
+    "Closed state with a trigger tied to the current map item, feed card, route, media item, or contextual action.",
+    "Peek state that shows a meaningful title, summary, or first action rather than only a handle.",
+    "Half or medium state that exposes the common controls while leaving enough background context visible.",
+    "Full state for detailed review or longer lists, with clear scroll boundaries.",
+    "Dragging or resizing state that makes the target detent understandable and does not conflict with inner scrolling.",
+    "Modal state with scrim, background inactivation, focus containment, and dismissal behavior.",
+    "Standard state where background content and sheet state remain intentionally coordinated.",
+    "Dismissed or collapsed state that preserves the selected background object and returns focus or touch target context."
+  ],
+  "interactionContract": [
+    "The sheet enters from the bottom edge and remains visually attached to that edge or device safe area.",
+    "The drag handle, title, and first visible content explain why the sheet appeared.",
+    "Each detent has a useful purpose: peek for identity, half for primary controls, and full for details or list scanning.",
+    "Drag gestures, inner scrolling, and swipe-to-dismiss have explicit priority rules.",
+    "The sheet does not cover persistent bottom navigation or critical device safe-area controls without replacing them intentionally.",
+    "Modal bottom sheets use a scrim and prevent background changes until dismissed.",
+    "Standard bottom sheets keep background interaction meaningful and synchronize selected objects or map/feed state.",
+    "Closing, collapsing, saving, selecting, scrim tap, Escape, and back all return users to the correct background object or control."
+  ],
+  "implementationChecklist": [
+    "Define whether the sheet is modal or standard and which background controls remain usable.",
+    "Define allowed detents, default detent, expansion limits, and what content appears at each height.",
+    "Provide a visible handle when the sheet can be dragged and a close route when dismissal is allowed.",
+    "Keep primary actions visible above safe-area insets and outside ambiguous scroll traps.",
+    "Decide when dragging moves the sheet, scrolls inner content, changes detent, or dismisses the sheet.",
+    "Preserve selected map pins, feed cards, media items, or route context while the sheet opens and closes.",
+    "Use scrim, inert background, focus containment, and focus return for modal sheets.",
+    "Test one-handed reach, small screens, landscape, keyboard appearance, screen reader order, reduced motion, and large text."
+  ],
+  "commonMisuses": [
+    "Using a bottom sheet as hidden global navigation or a dumping ground for unrelated commands.",
+    "Opening a bottom sheet at a height that hides the map, feed, or object the user needs for context.",
+    "Providing a peek state with no meaningful content.",
+    "Letting sheet dragging fight inner list scrolling.",
+    "Covering bottom navigation, home indicator, or primary actions without safe-area treatment.",
+    "Putting long multi-step workflows into a bottom sheet with no route, progress, or save recovery.",
+    "Relying only on swipe gestures for close or resize without accessible controls."
+  ],
+  "critiqueQuestions": [
+    "What background context must remain visible when this bottom sheet is open?",
+    "What useful content appears at peek, half, and full heights?",
+    "Should the sheet be modal, or can users keep interacting with the map, feed, or media behind it?",
+    "When the user drags inside the sheet, does the gesture move the sheet, scroll content, or dismiss it?",
+    "Does the sheet collide with bottom navigation, safe areas, keyboard, or primary actions?",
+    "Would a regular sheet, drawer, modal dialog, action menu, or full page better match this content?"
+  ],
+  "useWhen": [
+    "Mobile users need extra contextual detail or controls while staying oriented to a map, feed, route, media item, or selected object.",
+    "The lower edge improves reach, and detents help users choose how much detail to reveal.",
+    "The content is temporary and contextual rather than persistent navigation or a long workflow."
+  ],
+  "avoidWhen": [
+    "The surface contains persistent app destinations or global navigation.",
+    "The content is always needed and should remain visible in the main layout.",
+    "The user needs long-form editing, progress, browser history, or shareable state.",
+    "A compact centered dialog, side drawer, inline disclosure, popover, or full page would be clearer.",
+    "Gesture, focus, safe-area, or scroll behavior cannot be made predictable."
+  ],
+  "variants": [
+    "Standard bottom sheet",
+    "Modal bottom sheet",
+    "Peek bottom sheet",
+    "Half-height bottom sheet",
+    "Full-height bottom sheet",
+    "Map detail bottom sheet",
+    "Media controls bottom sheet",
+    "Context picker bottom sheet"
+  ],
+  "accessibility": [
+    "Give the bottom sheet a visible heading or context label and expose it as the accessible name.",
+    "Provide button controls for expand, collapse, and close when gestures are available.",
+    "For modal bottom sheets, make the background inert, keep focus inside the sheet, and return focus to the trigger or selected background object on close.",
+    "For standard bottom sheets, keep the focus order between background and sheet predictable.",
+    "Announce detent changes, selected background object changes, and modal dismissal outcomes.",
+    "Respect safe-area insets, large text, screen reader navigation, and keyboard appearance.",
+    "Avoid gesture-only actions for critical controls."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the trigger opens the bottom sheet.",
+    "Initial focus moves to the sheet heading, drag-handle equivalent, first action, or selected item according to task risk.",
+    "Keyboard users can expand, collapse, and close the sheet without drag gestures.",
+    "Tab order follows visible sheet content and, for modal sheets, remains inside until dismissal.",
+    "Escape or back closes or collapses according to the same rule used by close and scrim dismissal.",
+    "After close or selection, focus returns to the triggering control or selected background object."
+  ],
+  "failureModes": [
+    "A bottom sheet behaves like a full-page takeover and hides the context it was supposed to preserve.",
+    "The sheet's detents expose cropped controls or meaningless partial content.",
+    "Users cannot tell whether a gesture will scroll the sheet's list, expand the sheet, or dismiss it.",
+    "Background content remains active behind a modal bottom sheet.",
+    "The sheet covers bottom navigation, home indicator space, or sticky actions.",
+    "Focus moves behind the modal sheet or disappears when it collapses.",
+    "A long workflow or persistent navigation is forced into a temporary bottom overlay."
+  ],
+  "relatedPatterns": [
+    "sheet",
+    "drawer",
+    "modal-dialog",
+    "bottom-navigation",
+    "action-menu"
+  ],
+  "comparisons": [
+    "bottom-sheet-vs-sheet-vs-drawer-vs-bottom-navigation"
+  ],
+  "examples": [
+    {
+      "product": "Material Design 3 Bottom sheets",
+      "url": "https://m3.material.io/components/bottom-sheets/overview",
+      "platform": "mobile",
+      "notes": "Documents bottom sheets as bottom-anchored secondary surfaces with standard and modal variants.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Android Developers Bottom sheets",
+      "url": "https://developer.android.com/develop/ui/compose/components/bottom-sheets",
+      "platform": "mobile",
+      "notes": "Documents ModalBottomSheet implementation and dismiss handling through sheet state.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Nielsen Norman Group Bottom Sheets",
+      "url": "https://www.nngroup.com/articles/bottom-sheet/",
+      "platform": "mobile",
+      "notes": "Defines bottom sheets as mobile bottom-edge overlays for contextual details or actions and describes progressive disclosure tradeoffs.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "material-bottom-sheets",
+      "note": "Material bottom sheet guidance supports bottom anchoring and standard versus modal variants."
+    },
+    {
+      "id": "android-compose-bottom-sheets",
+      "note": "Android Developers documentation supports modal bottom sheet state and dismiss behavior."
+    },
+    {
+      "id": "nng-bottom-sheets",
+      "note": "NN/g defines bottom sheets as mobile lower-edge overlays for contextual details or actions and warns that they obscure part of the screen."
+    },
+    {
+      "id": "material-bottom-navigation",
+      "note": "Material bottom navigation guidance supports the distinction from persistent bottom destinations."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "patternType": "ui-ux",
+  "surfaceType": "Mobile bottom-anchored contextual overlay with detents",
+  "uiGuidance": [
+    "Render a bottom sheet as a lower-edge surface with a visible handle, rounded top edge, safe-area spacing, meaningful peek content, and controls that remain reachable from the bottom of the screen.",
+    "Use scrim, elevation, detent height, and background visibility to communicate whether the bottom sheet is modal, standard, collapsed, half-expanded, or full-height."
+  ],
+  "uxGuidance": [
+    "Use bottom sheets for mobile contextual details or controls that benefit from lower-edge reach while preserving orientation to the current background object.",
+    "Make detents, drag behavior, inner scrolling, dismissal, selected-object preservation, and focus return predictable so the sheet feels like controlled progressive disclosure."
+  ],
+  "uiExamples": {
+    "good": [
+      "A map pin opens a bottom sheet with a handle, station name, distance, primary route action, half-height service details, and full-height stop list.",
+      "A modal bottom sheet dims the feed, shows grouped quick actions above the safe area, and provides visible close and expand controls."
+    ],
+    "bad": [
+      "A bottom panel covers the entire map immediately, has no handle, and hides the selected pin.",
+      "A bottom sheet contains a long settings workflow and bottom navigation links, with the primary action below the device safe area."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Users open a station sheet from the map, peek at the station identity, expand to half height for next departures, expand to full height for all stops, collapse back to the map, and keep the selected pin visible.",
+      "Dragging the handle changes detents while dragging the departure list scrolls the list only after the sheet is fully expanded."
+    ],
+    "bad": [
+      "Users drag on the list expecting to scroll, but the whole sheet dismisses and loses the selected map pin.",
+      "The bottom sheet blocks the bottom navigation and leaves keyboard focus behind the modal overlay."
+    ]
+  }
+}

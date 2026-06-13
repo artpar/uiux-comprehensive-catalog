@@ -1,0 +1,279 @@
+{
+  "id": "offline-mobile-retry",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed offline mobile retry pattern for queued phone and tablet actions under absent, flaky, backgrounded, metered, battery-constrained, captive-portal, auth-expired, attachment-failure, conflict, and reconnecting network states, with local persistence, manual retry, background retry, duplicate-submit guards, idempotency, retry timing, fallback handoff, related-pattern distinctions, comparison rules, duplicate audit coverage, browser spot-checks, unique live behavior, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance is specific to mobile retry after offline or intermittent connectivity: local queued action, phone or tablet lifecycle, foreground retry, background retry eligibility, background-unavailable foreground recovery, metered data pause, Wi-Fi-only upload, low battery, captive portal, auth expiry, attachment retry, partial upload, duplicate guard, idempotency, retry exhaustion, cancellation, conflict review, and expired queue states.",
+    "relatedPatternDistinction": "Distinguishes offline mobile retry from offline state as broad connectivity mode, retry as one failed operation without mobile queue or lifecycle constraints, sync state as local-remote reconciliation status, pull to refresh as user-requested content reload, fallback path as recovery when retry is exhausted or unsafe, and error state as the broader failure surface.",
+    "liveDemoBehavior": "Unique demo covers 21 good states (offline submit, queued local, retry ready, retrying, background eligible, background unavailable, app return, metered pause, Wi-Fi only, low battery, captive portal, auth expired, attachment retry, partial upload, duplicate guard, success, failed again, exhausted, cancelled, conflict review, expired queue) and 7 bad states (false sent, hidden queue, duplicate submit, retry loop, metered drain, lost background, payment duplicate).",
+    "comparisonDecisionRules": "Comparison rules choose offline mobile retry for preserved mobile saves, sends, uploads, submissions, check-ins, or payments that need queued local storage, retry timing, foreground or background replay, duplicate-submit protection, mobile network policy handling, and fallback when retry is unsafe or exhausted.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 277 complete patterns, 1 stub pattern, 20 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Rendered /patterns/offline-mobile-retry/ and /compare/offline-mobile-retry-vs-offline-state-vs-retry-vs-sync-state-vs-pull-to-refresh-vs-fallback-path/ on 2026-06-13. Desktop and compact checks found required pattern/comparison terms, no duplicate ids, and no page-level horizontal overflow; all 28 offline mobile retry demo controls were clicked successfully. screenshots/patterns/offline-mobile-retry.png captures the completed pattern.",
+    "screenshots": [
+      "screenshots/patterns/offline-mobile-retry.png"
+    ]
+  },
+  "name": "Offline mobile retry",
+  "aliases": [
+    "offline retry",
+    "mobile offline retry",
+    "queued mobile retry",
+    "retry when online",
+    "background retry",
+    "offline upload retry",
+    "mobile outbox retry",
+    "retry queued action"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Mobile queued-action retry and background replay recovery",
+  "uiGuidance": [
+    "Render a mobile retry surface that names the queued action, local storage location, last attempt, next retry trigger, manual retry control, background retry eligibility, and duplicate-submit guard instead of using only a global offline banner.",
+    "Show mobile-specific constraints such as app backgrounded, OS background sync unavailable, Wi-Fi-only upload, metered data pause, low battery pause, captive portal, expired sign-in, attachment retry, and server conflict as distinct retry states."
+  ],
+  "uxGuidance": [
+    "Use offline mobile retry when users need confidence that a mobile save, send, upload, submit, check-in, or payment attempt is preserved locally and will retry safely when connection and policy conditions allow.",
+    "Keep queued work visible and recoverable until it succeeds, fails with a reason, is cancelled, expires, needs reauthentication, enters conflict review, or moves to a fallback path; never make users guess whether tapping again creates a duplicate."
+  ],
+  "uiExamples": {
+    "good": [
+      "A mobile inspection form says Saved on this device, 2 photos queued, last attempt 10:42, next retry on Wi-Fi, Retry now, and request ID MOB-1842.",
+      "A failed offline message stays in an outbox row with Waiting for connection, manual Send now, cancel, and background retry paused by low battery.",
+      "After reconnect, the card changes to Retrying upload, disables Submit again, then shows Uploaded or Needs review if server validation fails."
+    ],
+    "bad": [
+      "A phone shows Sent while in airplane mode and gives no queue, request ID, or local-save explanation.",
+      "Retry keeps firing every few seconds on a metered connection with no pause or Wi-Fi-only choice.",
+      "A generic Pull to refresh reloads the page but does not retry the queued photo upload."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user submits a field report in a basement, sees it queued locally with photos and an idempotency reference, closes the app, and later sees background retry complete after reconnect.",
+      "A user regains network through a captive portal and the retry queue explains Sign in to network before retrying rather than looping silently.",
+      "A user taps Retry now after sign-in expires, is routed through reauthentication, then returns to the same queued item without losing attachments."
+    ],
+    "bad": [
+      "The user repeatedly taps Submit because the app hides the offline queue and creates duplicate reports after reconnect.",
+      "The app clears a queued upload after OS background sync is unavailable instead of keeping it for foreground retry.",
+      "A payment retry starts automatically after reconnect without telling users whether the first authorization reached the server."
+    ]
+  },
+  "platforms": [
+    "mobile",
+    "web"
+  ],
+  "problem": "Mobile users often lose connectivity, background the app, switch networks, enter captive portals, hit metered or low-battery constraints, or attach large files while trying to save, send, upload, submit, or check in, and they need to know whether the action is queued, retrying, safe to retry, blocked, or already accepted.",
+  "solution": "Provide an offline mobile retry surface that persists the original action locally, exposes queue and attempt status, retries automatically only when allowed, offers manual retry and cancel controls, guards duplicate side effects with stable request identity, and hands off to sign-in, conflict review, fallback, or support when retry can no longer proceed safely.",
+  "problemContext": [
+    "The action originates from a phone, tablet, PWA, mobile webview, or native shell where connectivity, app lifecycle, OS background limits, battery, and metered data can change mid-task.",
+    "Users may attach photos, scan codes, send messages, submit forms, save field records, check in, approve work, invite people, or perform payments while offline or intermittently connected.",
+    "The app can store local payloads, queue requests, identify retryable failures, and distinguish foreground retry from background replay.",
+    "Offline mobile retry sits near offline state, retry, sync state, pull to refresh, fallback path, error state, loading spinner, progress bar, draft state, and conflict resolution."
+  ],
+  "selectionRules": [
+    "Choose offline mobile retry when a mobile action should be preserved and retried after connection loss, flaky network, app backgrounding, or policy-limited connectivity.",
+    "Show whether the action is saved locally, queued, waiting for connection, retrying in foreground, eligible for background retry, paused, failed, expired, or accepted remotely.",
+    "Keep the original request identity, object, attachment list, timestamp, retry count, and idempotency reference visible or recoverable for side-effecting actions.",
+    "Offer manual Retry now when users need control, but disable duplicate submit while the same queued action is pending or retrying.",
+    "Pause or explain retry when the network is metered, battery saver is active, Wi-Fi-only upload is required, captive portal blocks requests, account sign-in expired, or OS background sync is unavailable.",
+    "Use offline state when the main question is what works while disconnected, not one queued mobile action's retry lifecycle.",
+    "Use retry when a single failed operation is retryable without mobile offline, background, or queue constraints.",
+    "Use sync state when several local and remote copies are reconciling and users need accepted, partial, failed, paused, or conflict status across a queue.",
+    "Use pull to refresh for user-requested content refresh, not for hidden retry of pending submissions.",
+    "Use fallback path when retry is exhausted, unsafe, non-retryable, or requires another channel such as export, manual entry, call support, or later return."
+  ],
+  "requiredStates": [
+    "Online successful action state.",
+    "No connection at submit state with local queue confirmation.",
+    "Queued mobile action state with request ID, timestamp, and stored payload summary.",
+    "Manual retry-ready state that preserves the original action and disables duplicate submit.",
+    "Retry pending state with attempt count and duplicate guard.",
+    "Background retry eligible and background retry unavailable states.",
+    "App backgrounded or returned-to-foreground state with queue still visible.",
+    "Metered data, Wi-Fi-only, low battery, and battery saver paused states.",
+    "Captive portal or server unreachable state distinct from device offline.",
+    "Sign-in expired or permission changed state that routes to recovery before retry.",
+    "Attachment upload failed, partial upload, and retry attachment states.",
+    "Retry succeeded, failed again, retry exhausted, cancelled, expired, and conflict-needs-review states."
+  ],
+  "interactionContract": [
+    "The UI never reports server success for a mobile action that is only saved locally or queued.",
+    "Retry repeats the preserved queued action rather than creating a new submission unless users explicitly duplicate or edit it.",
+    "A pending queued action suppresses duplicate Submit, Send, Upload, Pay, Check in, or Approve controls for the same scope.",
+    "Automatic background retry respects OS support, connectivity, battery, metered-data, authentication, idempotency, and retry-limit constraints.",
+    "Manual retry reports pending, succeeded, failed again, paused, sign-in required, conflict, exhausted, or fallback outcome.",
+    "Queued work remains visible after app restart, background return, network change, and page refresh until users resolve or cancel it.",
+    "Side-effecting operations expose enough identity for deduplication, support, and user trust without leaking sensitive payload details."
+  ],
+  "implementationChecklist": [
+    "Classify mobile actions by retry safety, side effects, idempotency needs, attachment size, credential requirements, and allowed network conditions.",
+    "Persist queued payloads in native storage, IndexedDB, Cache API, service-worker queue, upload manager, or another durable local store with stable IDs.",
+    "Store request ID, retry count, last attempt, next retry time, backoff rule, payload summary, attachment status, and user-visible object name.",
+    "Distinguish device offline, server unreachable, captive portal, timeout, sign-in expired, validation failure, conflict, and policy pause.",
+    "Use background sync or native background transfer only when the UI can show eligibility, retention, retry limits, and foreground fallback.",
+    "Disable duplicate submit while a matching queued action exists, and provide cancel, edit, export, retry now, retry on Wi-Fi, and fallback actions as appropriate.",
+    "Announce meaningful queue transitions such as queued, retrying, sent, failed, paused, sign-in required, and conflict needs review.",
+    "Test airplane mode, tunnel or basement loss, flaky connection, captive portal, low battery, metered data, app kill/restart, background return, duplicate tap, attachment failure, auth expiry, and server conflict."
+  ],
+  "commonMisuses": [
+    "Showing a success toast for an offline submission that is only queued.",
+    "Hiding the queue after users leave the screen or background the app.",
+    "Letting Submit create a second request while a matching queued request is pending.",
+    "Retrying every few seconds on unstable mobile networks with no backoff or pause.",
+    "Treating captive portal, expired auth, validation failure, and offline as the same retryable state.",
+    "Uploading large attachments on metered data without user control.",
+    "Clearing attachments after a background retry fails.",
+    "Using pull to refresh as the only way to recover queued saves or uploads."
+  ],
+  "critiqueQuestions": [
+    "What exact mobile action is queued, and where is it saved until retry?",
+    "What proves the server accepted the action, and what visible state exists before that proof?",
+    "What prevents duplicate records, messages, payments, uploads, approvals, or check-ins if users tap again?",
+    "Will retry happen in the background, only in foreground, only on Wi-Fi, or only after sign-in or user action?",
+    "How are metered data, low battery, captive portal, auth expiry, partial attachments, and conflicts represented?",
+    "What is the fallback when retry is exhausted, unsafe, expired, or unsupported by the OS?"
+  ],
+  "useWhen": [
+    "A mobile user action can be saved locally and retried after network or app lifecycle conditions improve.",
+    "Users need to leave the screen, background the app, or move through unreliable connectivity without losing work.",
+    "The action may create side effects and therefore needs duplicate-submit prevention and stable request identity.",
+    "Retry timing depends on mobile constraints such as Wi-Fi, metered data, battery, OS background support, or foreground return."
+  ],
+  "avoidWhen": [
+    "The app cannot persist the action locally or safely identify whether the first attempt reached the server.",
+    "The failure is a validation, permission, policy, or conflict issue that needs correction before retry.",
+    "The task is read-only cached content and a broad offline state is enough.",
+    "The operation is a simple in-place failed request with no mobile offline, background, queue, or lifecycle constraint.",
+    "Automatic retry would be unsafe, privacy-sensitive, payment-related, or destructive without explicit review."
+  ],
+  "variants": [
+    "Mobile outbox retry",
+    "Queued form submission",
+    "Queued photo upload",
+    "Foreground retry",
+    "Background sync retry",
+    "Retry on Wi-Fi",
+    "Metered data paused retry",
+    "Battery-saver paused retry",
+    "Captive portal blocked retry",
+    "Sign-in-required retry",
+    "Idempotent payment retry",
+    "Conflict after retry"
+  ],
+  "accessibility": [
+    "Use visible text and accessible names for queued, local, retrying, paused, failed, sign-in required, and sent states; do not rely on icons alone.",
+    "Expose queue state changes through polite status messages when they affect the current task.",
+    "Keep Retry now, Cancel queued action, Edit before retry, Sign in, Send on Wi-Fi, and Export local copy controls reachable by keyboard and switch control.",
+    "Do not move focus unexpectedly when background retry updates; move focus only after user-initiated retry or when a persistent recovery region appears.",
+    "Associate paused and failed retry messages with the exact queued item and action.",
+    "Make retry timing, last attempt, and server-accepted versus local-only state available to screen readers."
+  ],
+  "keyboardBehavior": [
+    "Focus remains stable when connectivity changes or background retry starts.",
+    "Tab reaches the queued item summary, retry action, cancel action, fallback action, and detail disclosure in logical order.",
+    "Enter or Space activates Retry now once, then the pending state suppresses repeated activation.",
+    "If retry requires sign-in, focus moves to the sign-in recovery flow and returns to the queued item after authentication.",
+    "When a queued item succeeds after user-initiated retry, focus lands on a persistent success or sent status; background success uses a polite status update.",
+    "If the app adapts between mobile and desktop views, focus stays with the same queued item or its equivalent list row."
+  ],
+  "failureModes": [
+    "Queued mobile work disappears after the app is backgrounded or restarted.",
+    "Users submit twice because offline retry status is hidden.",
+    "Automatic retry creates duplicate charges, messages, reports, or uploads.",
+    "Retry runs forever during a service outage or captive portal.",
+    "A background upload fails but the only feedback was a transient toast.",
+    "Battery saver, metered data, or Wi-Fi-only settings are ignored.",
+    "Expired sign-in, validation failure, and conflict are retried instead of routed to recovery.",
+    "The app reports sent before attachments are accepted by the server."
+  ],
+  "relatedPatterns": [
+    "offline-state",
+    "retry",
+    "sync-state",
+    "pull-to-refresh",
+    "fallback-path",
+    "error-state"
+  ],
+  "comparisons": [
+    "offline-mobile-retry-vs-offline-state-vs-retry-vs-sync-state-vs-pull-to-refresh-vs-fallback-path"
+  ],
+  "examples": [
+    {
+      "product": "web.dev Offline UX design guidelines",
+      "url": "https://web.dev/articles/offline-ux-design-guidelines",
+      "platform": "web",
+      "notes": "Supports preserving task progress, visibly distinguishing local save from online save, and explaining slow, intermittent, or absent connectivity.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN PWA offline and background operation",
+      "url": "https://developer.mozilla.org/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation",
+      "platform": "web",
+      "notes": "Supports service-worker-controlled offline behavior, cache strategies, fallback pages, and background operation for intermittent connectivity.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN Background Synchronization API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Background_Synchronization_API",
+      "platform": "web",
+      "notes": "Supports deferring server synchronization work until stable connectivity returns.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Workbox Background Sync",
+      "url": "https://developer.chrome.com/docs/workbox/modules/workbox-background-sync",
+      "platform": "web",
+      "notes": "Supports queued failed requests, later replay, browser-managed retry timing, fallback replay, and retention limits.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Azure Architecture Center Retry pattern",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/retry",
+      "platform": "web",
+      "notes": "Supports immediate, delayed, and cancelled retry strategies for transient failures.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Material Design Offline states",
+      "url": "https://m1.material.io/patterns/offline-states.html",
+      "platform": "mobile",
+      "notes": "Supports mobile offline states, intermittent connectivity planning, visible offline labeling, and feature-level offline affordances.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "webdev-offline-ux-design-guidelines",
+      "note": "Supports task continuity, local-save feedback, and meaningful offline communication under intermittent connectivity."
+    },
+    {
+      "id": "mdn-pwa-offline-background-operation",
+      "note": "Supports offline fallback, service-worker behavior, caching, and background operation for PWAs."
+    },
+    {
+      "id": "mdn-background-synchronization-api",
+      "note": "Supports deferring synchronization work until stable network connectivity returns."
+    },
+    {
+      "id": "workbox-background-sync",
+      "note": "Supports queued failed requests, later replay, retry timing, fallback replay, and retention limits."
+    },
+    {
+      "id": "microsoft-azure-retry-pattern",
+      "note": "Supports retry strategy selection for transient failures and cancelled retry conditions."
+    },
+    {
+      "id": "material-design-offline-states",
+      "note": "Supports mobile offline affordances and slow or missing connection planning."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,233 @@
+{
+  "id": "sheet",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an adaptive temporary sheet pattern with source-backed child-task guidance, distinct boundaries from drawer, modal dialog, alert dialog, and navigation drawer, live dirty-dismissal and sizing behavior, comparison rules, duplicate audit, screenshot, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets context-bound temporary sheet tasks, including adaptive compact and expanded sizing, side or window attachment, modal versus standard side sheet behavior, visible title and close affordance, dirty-state tracking, consistent close, Escape, back, outside-click and drag-dismiss rules, sticky actions, focus placement, and focus return.",
+    "relatedPatternDistinction": "The entry separates sheet from drawer by child-task completion versus supplemental inspection, from modal dialog by adaptive sheet sizing and edge attachment, from alert dialog by non-urgent task flow versus required urgent response, from confirmation dialog by not being solely a consequence decision, and from navigation drawer by not owning destination routing.",
+    "liveDemoBehavior": "The live demo opens a follow-up sheet from Claim C-1042, focuses the reviewer note, edits the note into an unsaved state, expands and compacts while preserving typed content, uses Escape to show discard review, supports Keep editing and Discard changes, saves the follow-up, returns focus to the claim row, and contrasts no-title, silent-discard, background-edit, wrong-surface, hidden-actions, and stacked-sheet failures.",
+    "comparisonDecisionRules": "The sheet-vs-drawer-vs-modal-dialog-vs-alert-dialog comparison gives concrete rules for temporary child tasks, supplemental drawer inspection, compact modal tasks, urgent alert responses, modal and standard side sheets, navigation misuse, short-help alternatives, unsaved-dismissal protection, full-page escalation, and focus return.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/sheet/ and /compare/sheet-vs-drawer-vs-modal-dialog-vs-alert-dialog/ on 2026-06-10. Live check exercised Open sheet, Edit note, Expand sheet, keyboard Escape close, Keep editing, Save follow-up, No title, Silent discard, Background edit, Wrong surface, Hidden actions, and Stacked sheet controls. screenshots/patterns/sheet.png captures Good UI, Bad UI, Good UX, Bad UX, expanded sheet, unsaved draft state, discard review, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/sheet.png"
+    ]
+  },
+  "name": "Sheet",
+  "aliases": [
+    "modal sheet",
+    "task sheet",
+    "form sheet",
+    "side sheet",
+    "adaptive sheet",
+    "presentation sheet"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Input And Data Entry"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users need a temporary child task related to the current context, but the task needs more room and stronger dismissal rules than a small dialog or popover.",
+  "solution": "Present a titled sheet as an adaptive surface attached to a window, side, or viewport edge, move focus into it, keep the parent context available only as allowed by the sheet mode, and guard dismissal when work inside the sheet is unsaved.",
+  "problemContext": [
+    "A user starts a related form, picker, review, preview, or settings task from an existing page or object.",
+    "The task is short enough to remain a temporary surface but too spatially rich for a compact dialog.",
+    "The product needs adaptive sizing, side placement, drag or detent behavior, or a roomy edge-attached layout.",
+    "Dismissal could discard in-progress edits, so close, Escape, back, drag, and outside-click paths must share one rule."
+  ],
+  "selectionRules": [
+    "Choose sheet when the user starts a short child task tied to the current page and needs a roomy temporary surface with title, actions, and a controlled close path.",
+    "Use drawer when the surface is mainly supplemental inspection or light action that should preserve side-by-side comparison with the parent page.",
+    "Use modal dialog when the task is compact, centered, and does not need adaptive sheet sizing, edge attachment, or drag-style dismissal.",
+    "Use alert dialog when the user must answer an urgent or consequential interruption before continuing.",
+    "Use a full page when the task needs multiple steps, saved progress, shareable URL state, or long-form reading.",
+    "Use popover, hover card, tooltip, or inline disclosure when the content is local, brief, or does not need a temporary task mode.",
+    "Use a bottom sheet for mobile-first lower-edge contextual controls when reach, detents, and underlying map or feed context define the interaction.",
+    "Use a standard side sheet only when the sheet and parent can share layout intentionally; use a modal sheet when parent interaction must stop."
+  ],
+  "requiredStates": [
+    "Closed parent state with an opener tied to the object, field, or task that launches the sheet.",
+    "Opening state that moves focus into the sheet and communicates whether the parent is inert or shareable.",
+    "Open sheet state with visible title, optional subtitle or selected-object identity, close affordance, body content, and task actions.",
+    "Dirty state when edits, selections, or uploads inside the sheet have not been saved.",
+    "Dismissal review state when a close, Escape, back, outside click, or drag gesture would discard unsaved work.",
+    "Expanded or compact state when the sheet supports size changes or side placement.",
+    "Completed state that applies the sheet task and returns users to the parent context.",
+    "Responsive state that changes placement or size without changing the task contract."
+  ],
+  "interactionContract": [
+    "The opener explains why the sheet appears and which parent object or task it belongs to.",
+    "Opening the sheet moves focus to the sheet title, first field, or first useful control according to task risk.",
+    "The sheet title names the child task or selected object rather than saying Sheet.",
+    "All dismissal routes use the same unsaved-change rule, including close button, Escape, back, scrim or outside click, and drag gesture.",
+    "Primary and secondary actions stay visible or predictably reachable when sheet content scrolls.",
+    "Modal sheets make the parent inert and contain focus until the sheet closes.",
+    "Standard side sheets define how focus moves between the sheet and parent when both remain usable.",
+    "Closing the sheet returns focus to the opener or the parent object that launched it and preserves parent filters, scroll, and selection."
+  ],
+  "implementationChecklist": [
+    "Define whether the sheet is modal, standard, side-attached, window-attached, compact, expanded, or full-screen at each breakpoint.",
+    "Give the sheet a visible title and wire that title to the accessible name of the surface.",
+    "Provide a visible close affordance and consistent Escape, back, outside-click, and drag-dismiss behavior.",
+    "Track dirty state inside the sheet and intercept destructive dismissals with a discard-or-continue decision.",
+    "Keep primary actions visible, sticky, or reachable when content scrolls.",
+    "Set initial focus on open and restore focus after save, cancel, discard, Escape, or gesture dismissal.",
+    "Preserve the parent context that launched the sheet.",
+    "Test small screens, zoom, long content, swipe or drag dismissal, screen readers, keyboard order, and unsaved edits."
+  ],
+  "commonMisuses": [
+    "Using a sheet as a catch-all panel for navigation, filters, help, settings, and unrelated actions.",
+    "Allowing swipe, Escape, outside click, or back to discard unsaved sheet edits silently.",
+    "Opening a sheet for a tiny sentence of help that belongs in inline text, tooltip, hover card, or popover.",
+    "Using a dismissible sheet for an urgent mandatory response that needs alert-dialog behavior.",
+    "Letting a sheet grow into a full workflow without progress, saved state, route history, or shareable location.",
+    "Leaving background controls focusable behind a modal sheet.",
+    "Changing sheet size or breakpoint behavior in a way that hides actions or changes the meaning of dismissal."
+  ],
+  "critiqueQuestions": [
+    "What child task does this sheet contain, and why is it not a drawer, compact dialog, or page?",
+    "Which dismissal routes exist, and do they all protect unsaved edits the same way?",
+    "Is the parent view inert, shareable, or partially visible, and does focus behavior match that choice?",
+    "Does the sheet title identify the task or selected object?",
+    "What happens when the sheet is compact, expanded, dragged, closed, or reopened?",
+    "Would bottom sheet, drawer, modal dialog, alert dialog, popover, or full page better match the content?"
+  ],
+  "useWhen": [
+    "A user starts a short context-bound task that needs more room than a dialog but should not become a full page.",
+    "The surface needs adaptive size, edge attachment, drag or detent behavior, or a clear temporary child-task mode.",
+    "The parent context should remain visually available for orientation while interaction is blocked or deliberately shared.",
+    "Dismissal can be handled consistently across pointer, keyboard, back, outside click, and gesture paths."
+  ],
+  "avoidWhen": [
+    "The content is mainly destination navigation.",
+    "The task requires long editing, multiple steps, saved progress, routing, or shareable history.",
+    "The user must compare continuously with the parent page, making a drawer or standard side-by-side panel more appropriate.",
+    "The message is urgent and requires an explicit response before continuing.",
+    "The content is short local help or a small action menu."
+  ],
+  "variants": [
+    "Modal sheet",
+    "Standard side sheet",
+    "Form sheet",
+    "Preview sheet",
+    "Picker sheet",
+    "Review sheet",
+    "Compact sheet",
+    "Expanded sheet",
+    "Full-screen sheet"
+  ],
+  "accessibility": [
+    "Give the sheet a visible heading and use it as the accessible name.",
+    "Expose modal sheets with dialog-like semantics, inert background content, contained focus, and predictable focus return.",
+    "For standard side sheets, keep focus order understandable between the sheet and parent content.",
+    "Provide labelled close and back controls, not only a gesture affordance.",
+    "Announce dirty-state or discard-review messages when dismissal is blocked.",
+    "Ensure sticky actions, scrollable content, and size changes remain usable at zoom and narrow viewports.",
+    "Do not rely on drag gestures as the only way to resize or dismiss a sheet."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the opener launches the sheet.",
+    "Initial focus moves to the sheet heading, first field, or first meaningful control.",
+    "Tab moves through sheet controls; modal sheets keep focus inside until close.",
+    "Escape requests dismissal and, if edits are dirty, opens the same discard review used by close or back.",
+    "Keyboard users can reach size or expansion controls when the sheet supports them.",
+    "Save, cancel, discard, or close returns focus to the opener or selected parent object."
+  ],
+  "failureModes": [
+    "Unsaved sheet edits vanish after a swipe, Escape, back, or outside click.",
+    "The sheet has no title, close control, or clear relationship to the parent object.",
+    "Focus can move behind a modal sheet or is lost when the sheet closes.",
+    "Primary actions scroll away while users edit long content.",
+    "A sheet is used as a navigation drawer, filter panel, action sheet, or alert dialog without the correct interaction contract.",
+    "Responsive behavior changes a sheet into a different task surface without preserving state.",
+    "The sheet is too small for its content or too large for a temporary task."
+  ],
+  "relatedPatterns": [
+    "drawer",
+    "modal-dialog",
+    "alert-dialog",
+    "confirmation-dialog",
+    "navigation-drawer"
+  ],
+  "comparisons": [
+    "sheet-vs-drawer-vs-modal-dialog-vs-alert-dialog"
+  ],
+  "examples": [
+    {
+      "product": "Apple Human Interface Guidelines Sheets",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/sheets",
+      "platform": "mobile",
+      "notes": "Documents sheets as modal targeted experiences tied to a parent view, including dismissal guidance for unsaved changes.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Material Design 3 Side sheets",
+      "url": "https://m3.material.io/components/side-sheets",
+      "platform": "web",
+      "notes": "Documents side sheets as secondary content surfaces anchored to the side, with standard and modal variants.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Material Components Android SideSheet",
+      "url": "https://github.com/material-components/material-components-android/blob/master/docs/components/SideSheet.md",
+      "platform": "mobile",
+      "notes": "Documents side sheet anatomy, modal scrim, close affordances, optional actions, and drag dismissal behavior.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-sheets",
+      "note": "Apple sheet guidance supports targeted child-task sheets, modal parent blocking, and unsaved-change dismissal handling."
+    },
+    {
+      "id": "material-side-sheets",
+      "note": "Material side sheet guidance supports standard and modal edge-attached sheet variants."
+    },
+    {
+      "id": "material-components-android-side-sheet",
+      "note": "Material Components side sheet docs support sheet anatomy, close affordances, scrim behavior, drag behavior, and dismissal."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Modal dialog accessibility guidance applies to modal sheets that make the parent view inert."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "patternType": "ui-ux",
+  "surfaceType": "Adaptive temporary sheet for a context-bound child task",
+  "uiGuidance": [
+    "Render a sheet as a titled adaptive surface with clear edge or window attachment, visible close or back controls, stable actions, and sizing that matches the task.",
+    "Use scrim, elevation, divider, or shared layout treatment to communicate whether the parent is blocked, visible for orientation, or deliberately usable beside the sheet."
+  ],
+  "uxGuidance": [
+    "Use sheets for short child tasks that need more room than a dialog while preserving parent context after the task closes.",
+    "Make save, cancel, discard, drag, Escape, back, outside click, size change, and focus return behave consistently so users understand the temporary mode."
+  ],
+  "uiExamples": {
+    "good": [
+      "A review follow-up sheet opens from a claim row with the title Schedule follow-up for Claim C-1042, fields, close control, compact and expanded sizes, and sticky Save and Cancel actions.",
+      "A modal side sheet shows a scrim over the queue, names the parent claim, and keeps discard-review controls visible when the user tries to close with unsaved edits."
+    ],
+    "bad": [
+      "A panel titled Sheet opens with no selected object, no close affordance, and hidden actions below an inner scroll area.",
+      "A swipe-dismiss sheet contains unsaved form fields but disappears immediately when the user drags or presses Escape."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Opening the sheet focuses the first useful field, expanding the sheet preserves typed notes, Escape triggers discard review when edits are dirty, and Save returns focus to the claim row.",
+      "Users can cancel a clean sheet immediately, but dirty sheets require Keep editing or Discard changes from every close route."
+    ],
+    "bad": [
+      "A user changes the appointment note, presses back, and loses the work without a decision point.",
+      "The sheet blocks the queue even though the user's main task is comparing records, or it contains full navigation that should belong elsewhere."
+    ]
+  }
+}

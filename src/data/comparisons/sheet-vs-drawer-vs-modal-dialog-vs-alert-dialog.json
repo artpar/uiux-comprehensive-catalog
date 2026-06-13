@@ -1,0 +1,51 @@
+{
+  "id": "sheet-vs-drawer-vs-modal-dialog-vs-alert-dialog",
+  "title": "Sheet vs drawer vs modal dialog vs alert dialog",
+  "summary": "Use a sheet for a context-bound temporary task surface with adaptive size or edge placement, a drawer for supplemental page-adjacent detail, a modal dialog for compact blocking tasks, and an alert dialog for urgent required responses.",
+  "patternIds": [
+    "sheet",
+    "drawer",
+    "modal-dialog",
+    "alert-dialog"
+  ],
+  "decisionRules": [
+    "Choose sheet when users need a temporary child task related to the current context, with enough room for a short form, picker, preview, or review flow and a clear dismissal path.",
+    "Choose drawer when the surface primarily supports inspection or light action while the parent page remains the comparison anchor.",
+    "Choose modal dialog when the task is compact enough for a centered blocking layer and does not need sheet-specific sizing, detents, edge attachment, or swipe-style dismissal.",
+    "Choose alert dialog when the interruption is urgent and the user must respond before continuing, especially for security, destructive, or session decisions.",
+    "Use a modal sheet when changes behind the sheet would conflict with the child task; use a standard side sheet only when the main view and sheet can share space intentionally.",
+    "Do not use a sheet as a navigation drawer; destination lists need selected-route state, grouping, and close-after-navigation behavior.",
+    "Do not use a sheet for one-line contextual help; use tooltip, hover card, popover, or inline disclosure according to persistence and interaction needs.",
+    "If the sheet has unsaved edits, intercept drag, back, Escape, outside click, and close-button dismissal with a discard-or-continue path.",
+    "If the content grows into a multi-step workflow with progress, deep links, saved progress, or long reading, move it to a page rather than stretching the sheet.",
+    "When the sheet closes, restore focus and preserve the parent context that launched it instead of resetting filters, scroll, or selected objects."
+  ],
+  "failureModes": [
+    "A sheet can be swiped away while unsaved changes disappear without warning.",
+    "The sheet blocks the parent page even though the user needs side-by-side comparison, making a drawer or standard side sheet a better fit.",
+    "The sheet contains destination navigation, settings, unrelated actions, and the active task in one mixed panel.",
+    "A compact modal dialog is expanded into a large sheet without adding room-dependent content or adaptive behavior.",
+    "An urgent security response is hidden in a dismissible sheet instead of using an alert dialog.",
+    "The sheet opens at the wrong size for the content and hides primary actions below an inner scroll boundary.",
+    "Focus remains behind the sheet or returns to the top of the page after close."
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-sheets",
+      "note": "Apple's sheet guidance supports the modal, targeted child-task framing and unsaved-change dismissal requirements."
+    },
+    {
+      "id": "material-side-sheets",
+      "note": "Material side sheet guidance supports the standard versus modal distinction for edge-attached secondary surfaces."
+    },
+    {
+      "id": "material-components-android-side-sheet",
+      "note": "Material Components side sheet docs support anatomy, close affordance, scrim, and drag/dismiss behavior."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Modal dialog focus and inert-background guidance applies when a sheet is modal."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

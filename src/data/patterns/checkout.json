@@ -1,0 +1,261 @@
+{
+  "id": "checkout",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed purchase checkout pattern with guidance for order summary, guest checkout, delivery, discounts, tax, payment handoff, final review, processing guard, payment decline recovery, inventory and price change acknowledgement, expired checkout recovery, confirmation handoff, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers end-to-end purchase commitment after item selection, cart summary, guest and sign-in boundary, contact details, shipping or pickup, delivery cost and date, discounts, tax, payment handoff, final review, place-order action, duplicate-submit guard, payment decline recovery, price and inventory change acknowledgement, expired checkout recovery, and order confirmation handoff.",
+    "relatedPatternDistinction": "The entry separates checkout from payment card entry by coordinating purchase state around secure payment capture, from review before submit by owning purchase-specific totals, delivery, inventory, payment, and recovery, from step navigation by using progress only as a supporting cue, from address entry by applying address changes to delivery and tax, and from confirmation page by ending before post-order receipt and next steps.",
+    "liveDemoBehavior": "The live demo uses a checkout lifecycle with cart summary, guest checkout, delivery change, discount error, payment method ready, final review, processing with disabled primary action, payment declined, changed total, expired checkout, placed order handoff, and bad modes for forced account, surprise fee, lost cart, duplicate submit, vague failure, stale inventory, and early confirmation.",
+    "comparisonDecisionRules": "The linked checkout-vs-payment-card-entry-vs-review-before-submit-vs-step-navigation comparison gives concrete rules for checkout, payment card entry, review before submit, step navigation, address entry, confirmation page, synchronized totals, delivery effects, payment state, place-order timing, and recovery boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/checkout/ on 2026-06-11 in Chromium: verified Cart, Guest, Delivery, Discount error, Payment, Review, Processing, Declined, Changed total, Expired, Placed, Forced account, Surprise fee, Lost cart, Duplicate submit, Vague failure, Stale inventory, and Early confirmation states; verified processing disables the primary place-order action; verified /compare/checkout-vs-payment-card-entry-vs-review-before-submit-vs-step-navigation/ concrete decision rules; and checked mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/checkout.png"
+    ]
+  },
+  "name": "Checkout",
+  "aliases": [
+    "purchase checkout",
+    "order checkout",
+    "cart checkout",
+    "ecommerce checkout",
+    "place order flow",
+    "buy flow",
+    "checkout funnel",
+    "guest checkout",
+    "order finalization"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Purchase commitment and order finalization flow",
+  "uiGuidance": [
+    "Render checkout as a purchase commitment flow with order summary, customer contact, shipping or pickup choice, payment handoff, discount and tax state, total due, review, place-order action, payment processing, and confirmation handoff.",
+    "Keep checkout separate from payment-card entry, review before submit, step navigation, address entry, and confirmation page: checkout coordinates the purchase state across those pieces but does not replace their specialized controls."
+  ],
+  "uxGuidance": [
+    "Use checkout when a user is ready to turn selected items, services, tickets, or subscriptions into a committed order and needs confidence about total cost, delivery, payment, and recovery before placing the order.",
+    "Reduce abandonment by preserving cart state, supporting guest checkout where account creation is not required, keeping totals synchronized, avoiding surprise fees, and recovering from payment, inventory, shipping, and session errors without losing the order."
+  ],
+  "uiExamples": {
+    "good": [
+      "A checkout shows cart items, shipping address, delivery options, taxes, discount, total, payment state, and a Place order button that disables while authorization is pending.",
+      "A guest checkout keeps email receipt, shipping, payment, and review steps visible and lets the user create an account after the order is placed."
+    ],
+    "bad": [
+      "A checkout hides shipping costs until after card entry and changes the total at the last moment.",
+      "A payment decline clears the cart and sends the user back to the store with no order recovery."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user changes shipping speed, sees delivery date and total update in the sticky order summary, reviews the final charge, places the order once, and lands on a confirmation page with an order number.",
+      "A user receives a payment decline, sees the card problem, keeps their cart and shipping selection, changes payment method, and retries with the same order reference."
+    ],
+    "bad": [
+      "A user cannot find guest checkout, creates an unwanted account, then abandons when email confirmation blocks payment.",
+      "A user taps Place order twice during a slow authorization and receives two duplicate orders."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Purchase flows fail when users cannot see the true total, are forced through unnecessary account creation, lose cart context during payment or shipping errors, or cannot tell when the order is actually committed.",
+  "solution": "Use a checkout flow that keeps cart summary, customer details, delivery, discounts, tax, payment, final review, processing, and confirmation synchronized while preserving state and giving specific recovery paths for purchase-blocking problems.",
+  "problemContext": [
+    "The user has selected products, services, tickets, subscriptions, donations, or billable options and is ready to commit to payment or order placement.",
+    "Checkout may need contact details, shipping or pickup address, delivery option, billing details, payment method, discounts, tax, fees, terms acceptance, inventory reservation, fraud checks, and receipts.",
+    "Users compare total cost, delivery timing, trust signals, return policy, account requirements, and payment options while deciding whether to continue.",
+    "Totals and availability can change when quantity, address, shipping speed, tax location, discount, inventory, or payment method changes.",
+    "Checkout errors can have external effects such as payment authorization, inventory holds, duplicate orders, abandoned carts, or legal acceptance."
+  ],
+  "selectionRules": [
+    "Choose checkout when the primary task is completing a purchase or order from selected items or priced services.",
+    "Use payment card entry for secure card capture inside checkout; checkout owns when payment is requested, reviewed, authorized, retried, or confirmed.",
+    "Use review before submit for the final editable summary, but add checkout-specific total, shipping, payment, inventory, discount, and terms details before the place-order action.",
+    "Use step navigation only to communicate checkout progress; it must reflect actual validity of contact, delivery, payment, and review steps.",
+    "Use address entry for shipping or billing address capture; checkout owns how address changes update delivery options, tax, fees, and order availability.",
+    "Use confirmation page after the order is committed, not as a substitute for checkout review or payment processing state.",
+    "Offer guest checkout unless account creation is required by the business or regulatory task, and defer account creation until after order placement when possible.",
+    "Keep the order summary, item quantities, shipping cost, discounts, taxes, fees, and total due visible or easily reachable throughout checkout.",
+    "Recalculate and explain total, delivery, tax, or inventory changes before the user places the order.",
+    "Preserve cart, address, shipping, discount, and payment method context across validation errors, payment declines, authentication, redirects, refresh, and browser Back.",
+    "Disable or guard duplicate place-order actions while payment authorization, inventory reservation, or order creation is in flight.",
+    "Route success to a confirmation page with order number, receipt, delivery or pickup expectations, and next steps."
+  ],
+  "requiredStates": [
+    "Cart summary state with items, quantities, price, shipping, tax, discount, and total due.",
+    "Guest or sign-in choice state that does not block purchase without a clear reason.",
+    "Contact and receipt details state.",
+    "Shipping or pickup address state with delivery eligibility and address-change effects.",
+    "Delivery option state with cost, arrival estimate, unavailable option, and changed total.",
+    "Discount or promotion state with applied, invalid, removed, and expired cases.",
+    "Payment method state with secure card entry, wallet, saved payment, redirect, or alternate route.",
+    "Final review state with charge amount, items, delivery, payment summary, terms, and explicit place-order action.",
+    "Processing state that disables duplicate commit while keeping order reference and recovery context visible.",
+    "Payment declined, authentication required, or authorization failed state with preserved checkout details.",
+    "Inventory, price, or shipping changed state that requires acknowledgement before order placement.",
+    "Abandoned or expired checkout recovery state.",
+    "Order placed handoff state that routes to confirmation with receipt and next steps."
+  ],
+  "interactionContract": [
+    "Changing quantity, address, delivery method, discount, or payment route updates the order summary and total before commit.",
+    "Users can move between checkout steps without losing valid entered data or hiding newly invalid dependent choices.",
+    "The final action names the purchase consequence, such as Place order or Pay now, and is protected against duplicate activation.",
+    "Payment errors preserve non-sensitive checkout context and return focus to the failing payment or recovery area.",
+    "Shipping, tax, inventory, and price changes are shown near the affected order summary and must be acknowledged when they affect the final charge.",
+    "Guest checkout, sign-in, wallet, payment redirect, and browser Back return to the same checkout context unless security policy requires a fresh start.",
+    "Successful order creation removes editable checkout controls and hands off to a confirmation page."
+  ],
+  "implementationChecklist": [
+    "Define checkout ownership for cart state, customer identity, guest rules, addresses, delivery, tax, discounts, payment authorization, inventory holds, order creation, receipts, and post-order account creation.",
+    "Design cart summary, guest choice, contact, shipping, delivery, discount, payment, review, processing, decline, changed-total, expired-session, and confirmation handoff states.",
+    "Bind checkout totals to canonical pricing, tax, shipping, discount, and inventory services rather than duplicating calculations only in the browser.",
+    "Use secure payment components or redirects for payment credentials and keep checkout state resumable after authentication or payment-provider returns.",
+    "Use idempotency, duplicate-submit guards, and clear processing states for place-order, payment authorization, and order creation requests.",
+    "Preserve safe checkout data through validation, payment decline, refresh, browser Back, and session timeout while redacting payment secrets.",
+    "Explain final total changes, unavailable items, expired discounts, address-dependent tax or shipping changes, and delivery promise changes before commit.",
+    "Test guest checkout, forced sign-in exceptions, mobile viewport, long order summaries, address changes, delivery changes, discount failure, card decline, wallet cancel, redirect return, duplicate tap, inventory change, abandoned cart return, screen readers, and high zoom."
+  ],
+  "commonMisuses": [
+    "Forcing account creation before purchase when guest checkout would work.",
+    "Hiding shipping, tax, fees, or total until after payment details are entered.",
+    "Letting totals change after payment capture without a visible review or acknowledgement.",
+    "Clearing the cart, address, discount, or delivery choice after a payment decline.",
+    "Treating all checkout failures as one vague checkout failed message.",
+    "Leaving Place order enabled while authorization or order creation is already running.",
+    "Using step labels that imply payment or shipping is complete before required dependencies are valid.",
+    "Showing a confirmation page before payment, inventory, or order creation is actually committed."
+  ],
+  "critiqueQuestions": [
+    "What exactly is committed when the user presses the final checkout action?",
+    "Can the user see the current total, shipping cost, taxes, discounts, delivery promise, and payment state before commit?",
+    "Which checkout changes can alter the final charge, delivery eligibility, or inventory state?",
+    "Does guest checkout remain available unless there is a specific reason to require an account?",
+    "How are payment decline, authentication, redirect cancel, duplicate submit, inventory change, and expired session recovered without losing the order?",
+    "Where does checkout stop and the post-order confirmation page begin?"
+  ],
+  "useWhen": [
+    "A user is ready to purchase selected items, services, tickets, subscriptions, donations, or orderable options.",
+    "The product must coordinate cart summary, customer details, shipping or pickup, discount, tax, payment, final review, and order creation.",
+    "Errors or changes in payment, shipping, inventory, session, or price need recovery without losing the order."
+  ],
+  "avoidWhen": [
+    "The task is only secure card capture, bank-details entry, address entry, or a final answer review without purchase state.",
+    "The user has already placed the order and needs a confirmation page, receipt, or post-purchase management.",
+    "The task is a free signup, quote request, booking request, or application that has no purchase commitment.",
+    "The product cannot preserve checkout state or guard duplicate order creation.",
+    "A single low-risk item can be ordered with an already verified one-click purchase contract."
+  ],
+  "variants": [
+    "Guest checkout",
+    "Signed-in checkout",
+    "Single-page checkout",
+    "Multi-step checkout",
+    "Express wallet checkout",
+    "Pickup checkout",
+    "Shipping checkout",
+    "Subscription checkout",
+    "Donation checkout",
+    "B2B purchase-order checkout",
+    "Inventory-changed checkout",
+    "Payment-declined checkout",
+    "Abandoned checkout recovery"
+  ],
+  "accessibility": [
+    "Use headings that expose the current checkout task and step, such as Delivery, Payment, or Review order.",
+    "Keep order summary totals, delivery changes, discount errors, payment errors, and processing states available as text, not only color or icons.",
+    "Ensure sticky order summaries do not cover form fields, buttons, or error messages on mobile or zoomed layouts.",
+    "Connect field errors and step errors to the owning controls and provide a top-level recovery summary when several checkout sections need attention.",
+    "Announce total or delivery changes in a polite status region when they result from address, shipping, discount, or quantity changes.",
+    "Move focus to payment decline, inventory change, expired session, or order confirmation headings after state changes.",
+    "Keep guest checkout, sign-in, address change, delivery selection, payment method, discount, place-order, and retry controls reachable by keyboard."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows checkout step content, order summary actions, delivery options, payment controls, review rows, terms, and final action in a predictable order.",
+    "Changing delivery, address, quantity, or discount updates status text without moving focus unexpectedly.",
+    "The final action is a real button, disables or reports busy state while committing, and does not allow duplicate activation.",
+    "After validation errors, focus moves to an error summary or the first actionable section error without clearing safe entered data.",
+    "After payment decline or redirect cancel, focus returns to the payment recovery area with cart and delivery context preserved.",
+    "After successful order placement, focus lands on the confirmation page heading or order number."
+  ],
+  "failureModes": [
+    "Users abandon because they cannot find guest checkout or are forced into account creation too early.",
+    "A surprise shipping fee or tax appears after card entry and breaks trust.",
+    "The order summary and payment amount disagree.",
+    "A discount code appears applied but the total did not update.",
+    "An unavailable shipping method remains selected after an address change.",
+    "A card decline or wallet cancel erases the cart and delivery choices.",
+    "A duplicate tap creates two orders or two payment authorizations.",
+    "A stale checkout places an order for out-of-stock items or an expired price.",
+    "The confirmation page lacks order number, receipt, delivery expectations, or support path."
+  ],
+  "relatedPatterns": [
+    "payment-card-entry",
+    "review-before-submit",
+    "step-navigation",
+    "address-entry",
+    "confirmation-page",
+    "loading-spinner",
+    "retry",
+    "error-summary",
+    "inline-validation"
+  ],
+  "comparisons": [
+    "checkout-vs-payment-card-entry-vs-review-before-submit-vs-step-navigation"
+  ],
+  "examples": [
+    {
+      "product": "Baymard Institute Checkout usability",
+      "url": "https://baymard.com/research/checkout-usability",
+      "platform": "web",
+      "notes": "Summarizes checkout-specific usability issues across order review, account requirements, shipping, payment, totals, forms, and abandonment.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Nielsen Norman Group mobile checkout UX",
+      "url": "https://www.nngroup.com/articles/mobile-checkout-ux/",
+      "platform": "mobile",
+      "notes": "Discusses mobile checkout friction, purchase context, form effort, and account-creation pressure.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Stripe Checkout",
+      "url": "https://docs.stripe.com/payments/checkout",
+      "platform": "web",
+      "notes": "Documents hosted checkout for collecting payment details, status, shipping or tax options, and success or cancel return paths.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "baymard-checkout-usability",
+      "note": "Baymard supports checkout-specific order review, guest checkout, form, total, shipping, payment, and abandonment guidance."
+    },
+    {
+      "id": "nng-mobile-checkout-ux",
+      "note": "NN/g supports reducing mobile checkout friction, preserving purchase context, and avoiding unnecessary account creation pressure."
+    },
+    {
+      "id": "stripe-checkout-overview",
+      "note": "Stripe supports checkout concepts for payment details, shipping and tax options, payment status, and success or cancel returns."
+    },
+    {
+      "id": "stripe-idempotent-requests",
+      "note": "Stripe supports idempotency for duplicate-safe payment and order-like request retries."
+    },
+    {
+      "id": "google-address-validation-checkout",
+      "note": "Google address validation checkout guidance supports address validation as a checkout subtask affecting delivery reliability."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-11"
+}

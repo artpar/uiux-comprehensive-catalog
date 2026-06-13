@@ -1,0 +1,50 @@
+{
+  "id": "popover-vs-menu-button-vs-modal-dialog-vs-sheet",
+  "title": "Popover vs menu button vs modal dialog vs sheet",
+  "summary": "Use a popover for small anchored contextual content or light controls, a menu button for command lists, a modal dialog for blocking compact tasks, and a sheet for roomier temporary child tasks.",
+  "patternIds": [
+    "popover",
+    "menu-button",
+    "modal-dialog",
+    "sheet"
+  ],
+  "decisionRules": [
+    "Choose popover when a trigger, field, selected object, or inline marker needs a small nearby surface that keeps the page usable and explains or edits only that local context.",
+    "Choose menu button when the popup is a short action or navigation command list with menu semantics, active item movement, item activation, and no rich form layout.",
+    "Choose modal dialog when the user must complete or cancel a compact task before interacting with the page behind it.",
+    "Choose sheet when the temporary child task needs more room, stronger dismissal rules, adaptive sizing, sticky actions, or protected unsaved work handling.",
+    "Do not use a popover for required critical information that disappears before the user can read or act on it; put essential instruction inline or in the task surface.",
+    "Do not put long forms, tables, destructive reviews, or multi-step workflows in a popover; move them to a dialog, sheet, drawer, or page.",
+    "If the content is only a label or short noninteractive hint, keep it as inline text or a tooltip-style hint rather than a richer popover surface.",
+    "If the surface contains commands, decide whether users expect menu keyboard behavior; if yes, use a menu button instead of a general popover.",
+    "If outside click or Escape would discard changes, the surface has outgrown ordinary light-dismiss popover behavior.",
+    "When the popover closes, restore focus to the invoker or the next logical local target and keep the anchor relationship visible."
+  ],
+  "failureModes": [
+    "A local date explanation is implemented as a modal dialog, interrupting the form even though page context should remain usable.",
+    "A popover contains command menu roles, form fields, and links at once, so keyboard users cannot predict the interaction model.",
+    "A long edit workflow is squeezed into a tiny anchored layer with hidden actions and no state protection.",
+    "A popover opens detached from its trigger after scrolling, leaving users unsure which field it belongs to.",
+    "Required eligibility instructions appear only in a dismissible hover layer and vanish before touch or keyboard users can use them.",
+    "Closing the popover drops focus at the top of the page instead of returning to the trigger."
+  ],
+  "sources": [
+    {
+      "id": "mdn-popover-api-using",
+      "note": "MDN documents focus order adjacency, Escape close requests, and invoker focus return for popovers."
+    },
+    {
+      "id": "mdn-popover-attribute",
+      "note": "MDN defines auto light-dismiss behavior and manual popover tradeoffs."
+    },
+    {
+      "id": "open-ui-popover-explainer",
+      "note": "Open UI supports the ephemeral top-layer framing and click-away or Escape dismissal expectations."
+    },
+    {
+      "id": "fluent-popover-component",
+      "note": "Fluent supports keeping popover content brief, contextual, and nonessential."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

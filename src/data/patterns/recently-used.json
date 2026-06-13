@@ -1,0 +1,239 @@
+{
+  "id": "recently-used",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an automatic recent-use return pattern with source-backed guidance for meaningful use events, target identity, last-used ordering, deduplication, scope, removal, clearing, privacy, stale-target repair, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers meaningful use events, target type, location, last-used time, device, account, and workspace scope, most-recent-first ordering, deduplication, cap and expiry rules, remove-one, clear-all, privacy, unavailable targets, permission loss, and remove-history-not-delete behavior.",
+    "relatedPatternDistinction": "The entry separates recently used from recently viewed by operated targets versus opened content, from recently searched by used targets versus submitted queries, from favorites by automatic history versus deliberate saved preference, from pinned items by recency versus stable prominence, and from recommendations by observed use versus proposed next actions.",
+    "liveDemoBehavior": "The live demo shows a Recently used shortcut list with target type, location, last-used time, scope, availability, resume controls, remove-history controls, scope selector, use file command, run stale job, resume workspace, remove first, clear recent use, repair stale, restore recents, and bad modes for counted views, mixed saved, delete confusion, no scope, unlimited history, recommendation pollution, and dead shortcut.",
+    "comparisonDecisionRules": "The linked recently-used-vs-recently-viewed-vs-favorites-vs-pinned-items comparison gives concrete rules for meaningful use events, opened-item history, saved preference, pinned prominence, most-recent ordering, scope labels, remove-not-delete behavior, recommendation separation, stale targets, permission recovery, and search-history separation.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/recently-used/ with the live demo, changed recent-use scope, clicked Use file command, Run stale job, Resume workspace, Remove first, Clear recent use, Repair stale, Restore recents, Counted views, Mixed saved, Delete confusion, No scope, Unlimited history, Recommendation pollution, and Dead shortcut, and found no duplicate IDs, page overflow, or recently-used overflow. The comparison route /compare/recently-used-vs-recently-viewed-vs-favorites-vs-pinned-items/ included recently used, recently viewed, favorites, pinned items, use event, operated, viewed, automatic, history, favorite, preference, stable, prominence, pin, scope, device, account, workspace, remove, clear, delete, recommendation, stale, permission, and search history terms with no duplicate IDs or page overflow.",
+    "screenshots": [
+      "screenshots/patterns/recently-used.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-11",
+  "name": "Recently used",
+  "aliases": [
+    "recently used items",
+    "recent apps",
+    "recent commands",
+    "recent tools",
+    "recent files",
+    "recent workspaces",
+    "recently accessed tasks",
+    "used recently"
+  ],
+  "category": "Personalization And Preference",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Task And Workflow Patterns",
+    "Search, Browse, And Discovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Automatic list of targets the current user meaningfully operated or used recently",
+  "uiGuidance": [
+    "Render a labelled Recently used area with target name, type, location or workspace, last-used time, use scope, availability, and a remove-from-recent-use control near each entry.",
+    "Make the qualifying use event clear through context and labels: recently used tools, commands, files, apps, workspaces, or tasks should not be visually mixed with items merely viewed, favorited, pinned, recommended, or searched."
+  ],
+  "uxGuidance": [
+    "Use recently used when users benefit from returning to the tools, files, commands, apps, workspaces, or tasks they actually operated, especially in products with many possible work surfaces.",
+    "Treat recent-use history as personal behavior data: cap it, expire it, let users remove or clear entries, expose device/account/workspace sync, and never turn it into a saved preference without deliberate user action."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document editor Insert link flow shows Recently used cloud files with file type, folder, last-used time, and a Browse all files option.",
+      "A workspace launcher shows recently used tools with app name, workspace, last-used time, and a remove-from-recent-use action that leaves the tool installed.",
+      "A mobile task switcher shows recently accessed tasks that can be resumed or removed from the switcher without uninstalling the app."
+    ],
+    "bad": [
+      "A Recent list contains tools the user hovered over, suggested starters, favorite files, and pinned dashboards with no reason or ordering rule.",
+      "The product labels a list Recently used but fills it with promoted actions the user has never run.",
+      "Removing a recently used workspace deletes the workspace instead of clearing the recency shortcut."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user reopens the Export invoices tool from Recently used after running it yesterday, sees it belongs to Finance, and removes an obsolete workspace shortcut without deleting anything.",
+      "A user on a managed shared laptop clears recently used files before handing off the device and sees that Favorites and pinned files remain unchanged.",
+      "A user selects a recently used cloud file from an insert-link flow instead of browsing the full document library again."
+    ],
+    "bad": [
+      "A reporting app treats viewing a dashboard as using it, so the recently used tools list fills with dashboards the user only inspected.",
+      "An AI assistant auto-adds recommended actions to Recently used before the user runs them, making the history look like a recommendation rail.",
+      "A recent-use shortcut to a moved file fails with a broken link and no remove or browse-again recovery."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users repeatedly return to tools, files, commands, apps, workspaces, or tasks they actually operated, but broad navigation, search, and favorites can force them to reconstruct recent working context from memory.",
+  "solution": "Provide a bounded, personal recently used list that records meaningful use events, orders targets by most recent use, identifies each target clearly, separates use history from views, favorites, pins, recommendations, and searches, and supports removal, clearing, privacy, sync, and stale-target recovery.",
+  "problemContext": [
+    "The product has many tools, files, commands, apps, workspaces, forms, starter flows, reports, or task surfaces users may operate repeatedly.",
+    "Use events are stronger than impressions or views because they indicate the user actually ran, selected, edited, inserted, launched, resumed, or completed work with the target.",
+    "Recent-use history can reveal sensitive work, internal projects, customer records, financial files, health contexts, or shared-device behavior.",
+    "Recently used targets can be renamed, moved, removed, restricted, archived, duplicated, superseded, synced across devices, or confused with favorites, pins, recommendations, and search history."
+  ],
+  "selectionRules": [
+    "Choose recently used when a meaningful use event should create a temporary return shortcut for the current user.",
+    "Use recently viewed when the list should record opened or inspected content, even if the user did not operate a tool or complete work with it.",
+    "Use favorites when users deliberately mark a preferred item for durable saved access.",
+    "Use pinned items when the item should remain in a stable prominent position or user-controlled order.",
+    "Use recommendations when the system proposes next actions based on model, rule, popularity, or context rather than the user's own last use events.",
+    "Use search history when the remembered object is a submitted query, not the target that was used after the query.",
+    "Record only meaningful use events such as launch, insert, run, edit, export, submit, resume, or select; avoid counting hover, preview, impression, suggestion display, or accidental focus.",
+    "Deduplicate by stable target ID, move reused targets to the top, cap visible count, and expire entries according to the task's memory window.",
+    "Expose account, device, workspace, and shared-device scope when recently used entries sync or could appear outside the immediate session.",
+    "Keep remove and clear actions explicitly scoped to recent-use history so users do not fear deleting the target or changing favorites, pins, or subscriptions."
+  ],
+  "requiredStates": [
+    "Empty or hidden state before any qualifying use event exists.",
+    "Populated state with most-recent-first ordering and recognizable target identity.",
+    "Just-used state that moves the reused target to the top instead of duplicating it.",
+    "Remove-one and clear-all states that affect only recent-use history.",
+    "Device-scoped, account-synced, workspace-scoped, private-mode, and managed-device states when those scopes exist.",
+    "Unavailable, moved, renamed, archived, permission-lost, stale, and duplicate-name target states.",
+    "Mobile or narrow-screen state where target identity, scope, and remove controls remain reachable."
+  ],
+  "interactionContract": [
+    "A qualifying use event writes or updates a recent-use entry for the current user and declared scope.",
+    "Using the same target again updates recency and moves it to the top instead of creating duplicates.",
+    "Opening a recently used entry resumes or launches that exact target, command, app, file, workspace, or task if still available.",
+    "Removing an entry removes only the recent-use reference and leaves the target, favorite state, pin state, subscription state, and search history intact.",
+    "Clearing recently used entries empties the visible recent-use history for the declared scope and does not clear recently viewed, favorites, pinned items, saved views, or saved searches.",
+    "Unavailable or permission-lost entries remain explainable with remove, request-access, browse-again, or replace paths.",
+    "The component is omitted or privacy-protected when recent-use history is disabled, private, signed out, or unsafe to show on shared screens."
+  ],
+  "implementationChecklist": [
+    "Define the exact use events that write history for each target type, such as launched tool, inserted file, submitted command, opened app task, edited document, or selected workspace.",
+    "Store stable target ID, target type, display name, location, scope, last-used time, use source, availability, and permissions rather than copied labels alone.",
+    "Deduplicate entries by target ID, update the last-used timestamp, enforce visible count and lifetime limits, and handle least-recently-used removal when limits are reached.",
+    "Label the list by scope, such as Recently used in this workspace, Recently used on this device, or Recently used in your account.",
+    "Provide remove-one, clear-all, pause or disable history, and browse-all alternatives when the list is empty, stale, or privacy-sensitive.",
+    "Refresh target metadata before rendering or navigating and mark moved, deleted, archived, renamed, or restricted targets clearly.",
+    "Test keyboard operation, mobile wrapping, long names, duplicate names, clear scope, sync across devices, shared-device exposure, failed recency writes, and stale-target repair."
+  ],
+  "commonMisuses": [
+    "Counting views, hovers, previews, suggestions, ads, or recommendations as use.",
+    "Mixing recently used with recently viewed, favorites, pinned items, search history, saved views, subscriptions, or recommendations in one ambiguous list.",
+    "Letting remove or clear delete the underlying file, app, command, workspace, or task.",
+    "Showing sensitive recent-use history on shared, public, signed-out, or screen-shared surfaces without controls.",
+    "Keeping an unlimited history until the list becomes an activity log rather than a return shortcut.",
+    "Leaving stale recently used entries as dead links."
+  ],
+  "critiqueQuestions": [
+    "What exact action proves the user used this target instead of merely seeing or viewing it?",
+    "Can users tell whether the entry is a file, command, app, workspace, task, or tool before reopening it?",
+    "What scope controls where this recent-use history appears: device, account, workspace, browser, or managed profile?",
+    "Can users remove or clear the shortcut without deleting the target or changing pins and favorites?",
+    "How long should a recent-use shortcut remain useful before it expires?",
+    "What recovery appears when the recently used target has moved, changed permission, or become unavailable?"
+  ],
+  "useWhen": [
+    "Users repeatedly operate a broad set of tools, files, commands, apps, workspaces, or tasks.",
+    "The product can identify a meaningful use event and store a stable target reference.",
+    "Recent-use shortcuts reduce navigation or browsing effort without needing durable saved preference.",
+    "The surface can explain scope, privacy, removal, and stale-target behavior."
+  ],
+  "avoidWhen": [
+    "The product only knows what users viewed or searched, not what they actually used.",
+    "The target list is small enough that recent-use history adds noise.",
+    "Users need durable favorites, stable pins, named collections, saved views, or subscriptions instead of temporary history.",
+    "The surface is shared, public, signed out, or privacy-sensitive and cannot offer clear controls.",
+    "The team wants to promote recommended actions or popular tools rather than return the user's own recent use."
+  ],
+  "variants": [
+    "Recently used files",
+    "Recently used tools",
+    "Recently used commands",
+    "Recently used apps",
+    "Recently used workspaces",
+    "Recent tasks",
+    "Recent starters",
+    "Recent exports",
+    "Account-synced recent use",
+    "Device-local recent use"
+  ],
+  "accessibility": [
+    "Use a heading or labelled region that names the scope and target type, such as Recently used tools or Recently used files.",
+    "Expose target name, type, location, status, and last-used time as text, not only icons or thumbnails.",
+    "Ensure remove and clear controls have names that mention recent-use history, such as Remove from recently used.",
+    "Announce use, remove, clear, stale-target, and unavailable-target changes through a stable status region.",
+    "Keep visual order, DOM order, and screen-reader order aligned after a reused item moves to the top.",
+    "Do not rely on color alone to distinguish unavailable, synced, private, or managed recent-use entries."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches each recently used entry, primary launch action, remove control, scope controls, and clear-all action in a predictable order.",
+    "Enter or Space launches a focused entry when it is implemented as a button; links keep normal Enter behavior.",
+    "Remove-one keeps focus on the next entry or the empty-state message and announces that only history was removed.",
+    "Clear-all asks for confirmation when the scope is broad or synced, then returns focus to the empty state.",
+    "If a used entry moves to the top after activation, focus follows the resumed target or returns to the updated entry when navigation is not performed.",
+    "Horizontal rails provide keyboard-operable scroll controls and do not trap focus."
+  ],
+  "failureModes": [
+    "Recently used becomes a recommendation rail filled with targets the user never operated.",
+    "The list records every view and hover, obscuring the tools or files the user actually used.",
+    "Recent-use removal deletes the target or clears unrelated favorites, pins, or subscriptions.",
+    "Sensitive work context appears on shared devices or screen shares without a clear scope label.",
+    "Entries use copied labels that become stale after files, commands, or workspaces are renamed.",
+    "The list has no cap or expiration and becomes an activity archive.",
+    "Unavailable entries open dead links instead of offering repair or removal."
+  ],
+  "relatedPatterns": [
+    "recently-viewed",
+    "recently-searched",
+    "search-history",
+    "favorites",
+    "pinned-items",
+    "recommendations"
+  ],
+  "comparisons": [
+    "recently-used-vs-recently-viewed-vs-favorites-vs-pinned-items"
+  ],
+  "examples": [
+    {
+      "product": "Microsoft Office recently used files",
+      "url": "https://support.microsoft.com/en-gb/office/customize-the-list-of-recently-used-files-in-office-apps-b70b195a-eaba-4750-87d3-d9723820137e",
+      "platform": "desktop",
+      "notes": "Documents automatic recent files, removal, clearing, count adjustment, cross-device sync caveats, and distinction from Favorites.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Office add links to recent files",
+      "url": "https://support.microsoft.com/en-us/office/add-links-to-recent-files-67ebccae-0f87-40b2-966e-1a92d89d6ebc",
+      "platform": "desktop",
+      "notes": "Documents presenting recently used cloud files inside an insert-link command so users can reuse a file without browsing.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Android Recents screen",
+      "url": "https://developer.android.com/guide/components/activities/recents",
+      "platform": "mobile",
+      "notes": "Documents recently accessed tasks that users can resume or remove, including least-recently-used behavior when limits are reached.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "microsoft-office-recent-files",
+      "note": "Microsoft Office documents recently used files with removal, clearing, count, sync, and Favorite distinctions."
+    },
+    {
+      "id": "microsoft-office-add-links-recent-files",
+      "note": "Microsoft documents recently used cloud files surfaced in an action flow for quick reuse."
+    },
+    {
+      "id": "android-recents-screen",
+      "note": "Android documents recent accessed tasks users can resume or remove, with least-recently-used limits."
+    },
+    {
+      "id": "microsoft-office-pin-frequently-used-files",
+      "note": "Microsoft documents pinning frequent files from Recent, separating automatic recency from deliberate pins."
+    }
+  ]
+}

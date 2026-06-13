@@ -1,0 +1,54 @@
+{
+  "id": "pull-to-refresh-vs-touch-gesture-vs-feed-vs-offline-state-vs-loading-spinner-vs-retry",
+  "title": "Pull to refresh vs touch gesture vs feed vs offline state vs loading spinner vs retry",
+  "summary": "Use pull to refresh for the specific top-of-scroll downward drag that refreshes the current data set. Use touch gesture for the broader gesture contract, feed for stream structure, offline state for disconnected behavior, loading spinner for pending operation feedback, and retry for reattempting a known failed refresh.",
+  "patternIds": [
+    "pull-to-refresh",
+    "touch-gesture",
+    "feed",
+    "offline-state",
+    "loading-spinner",
+    "retry"
+  ],
+  "decisionRules": [
+    "Choose pull to refresh when users pull downward from the top of a scrollable content area to refresh the current list, feed, inbox, dashboard, or status surface.",
+    "Choose touch gesture when the design problem is the general touchscreen interaction contract: target size, thresholds, cancellation, conflicts, feedback, and equivalent controls across many gestures.",
+    "Choose feed when the main problem is stream ordering, live updates, unread handling, sponsored or grouped content, load older items, jump to latest, and preserving reading position.",
+    "Choose offline state when connection loss changes what can be refreshed, submitted, cached, queued, or retried and the UI must label stale or local data.",
+    "Choose loading spinner when an operation is already pending and the user only needs indeterminate waiting feedback.",
+    "Choose retry when a known refresh request failed and the user reattempts the same failed operation, usually with preserved request scope and duplicate guards.",
+    "Pull to refresh must include top-of-scroll detection, pull distance, threshold, release-to-refresh copy, refreshing status, last updated timestamp, no-new-data result, failed refresh, offline handling, and duplicate-request guard.",
+    "Pull to refresh must have a manual refresh equivalent so the gesture is not the only path to current data.",
+    "Do not use pull to refresh for destructive, reset, submit, payment, consent, account, or security actions.",
+    "Do not count a progress indicator alone as pull to refresh unless the interaction also defines the gesture start, threshold, release, and result states."
+  ],
+  "failureModes": [
+    "A feed refreshes from the middle of the list because top-of-scroll detection is missing.",
+    "The refresh gesture has no manual refresh equivalent for keyboard, screen reader, switch, D-pad, or assistive pointer users.",
+    "A nested comments panel or map pan triggers page refresh instead of scrolling the inner surface.",
+    "The indicator spins while offline and never reports cached data, last updated time, or retry path.",
+    "Manual refresh and pull-to-refresh send duplicate requests at the same time.",
+    "The refresh clears content, loses focus, resets filters, or jumps users away from the item they were reading.",
+    "A hidden pull gesture performs reset or delete behavior under the name of refresh.",
+    "A comparison incorrectly treats feed structure, offline fallback, loading feedback, and retry recovery as the same pattern."
+  ],
+  "sources": [
+    {
+      "id": "android-swipe-refresh-layout",
+      "note": "Supports scrollable swipe-to-refresh and the accessible manual refresh action."
+    },
+    {
+      "id": "android-compose-pull-to-refresh",
+      "note": "Supports beginning-of-content drag, refresh state, indicator, callback, and threshold controls."
+    },
+    {
+      "id": "w3c-wcag-pointer-gestures",
+      "note": "Supports alternatives for path-based gestures."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announced refresh status and result messaging."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

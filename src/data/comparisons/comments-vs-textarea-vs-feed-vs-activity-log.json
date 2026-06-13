@@ -1,0 +1,50 @@
+{
+  "id": "comments-vs-textarea-vs-feed-vs-activity-log",
+  "title": "Comments vs textarea vs feed vs activity log",
+  "summary": "Use comments for object-attached discussion and review notes, textarea for the field used to write longer text, feed for stream consumption, and activity log for durable event history.",
+  "patternIds": [
+    "comments",
+    "textarea",
+    "feed",
+    "activity-log",
+    "notification-center",
+    "review-queue"
+  ],
+  "decisionRules": [
+    "Choose comments when users need to attach a note to a specific object, document selection, file line, record, or review target and expect replies, edit history, resolution, moderation, or notifications around that note.",
+    "Use textarea when the design problem is the multi-line input control itself; a comments surface may contain a textarea, but also owns authorship, timestamp, permissions, reply, resolve, edit, delete, and moderation behavior.",
+    "Use feed when users are consuming a changing stream of posts or updates across many objects; comments stay anchored to a specific object or selection even when they also appear in summaries elsewhere.",
+    "Use activity log when the surface must prove what happened for audit, compliance, or troubleshooting; comments are authored discussion content and should not be the only durable event record.",
+    "Use notification center when comment activity needs cross-object inbox behavior, unread counts, retention, and preferences; the comment component should provide a direct link back to the anchored discussion rather than become the inbox.",
+    "Use review queue when many comments or content items need triage, moderation, assignment, bulk decisions, or SLA handling; a single comments surface should expose local moderation outcomes but not replace queue operations.",
+    "Show comment authors, timestamps, edited state, permission-limited actions, reply targets, and resolved or hidden state in the comment UI before adding optional reactions or assignment behavior.",
+    "Do not hide destructive or moderation outcomes: edited, redacted, resolved, hidden, and deleted comment states need visible history, reason text, or timeline evidence appropriate to the product."
+  ],
+  "failureModes": [
+    "A long textarea is labelled Comments but has no author, timestamp, reply, edit, delete, resolve, or notification state.",
+    "A product puts every object comment into a global feed and loses the exact selected text, file line, or record that the comment was about.",
+    "Users can delete comments with no warning, history, permission check, or visible timeline outcome.",
+    "Resolved comments disappear permanently and cannot be found, reopened, or used as follow-up evidence.",
+    "Comment moderation actions are only hover controls, making edit, hide, delete, and resolve paths unavailable to keyboard or touch users.",
+    "Comment notifications link to a generic page rather than the exact comment, object, and reply context."
+  ],
+  "sources": [
+    {
+      "id": "github-commenting-on-pull-request",
+      "note": "GitHub supports object and line comments, replies, batching, notifications, reactions, resolving conversations, and conversation status navigation."
+    },
+    {
+      "id": "google-docs-comments-action-items",
+      "note": "Google Docs supports content-attached comments, replies, resolve and reopen, action-item assignment, reassignment, done state, follow-up counts, and reactions."
+    },
+    {
+      "id": "atlassian-assets-comments",
+      "note": "Atlassian supports comments attached to objects, permission checks, activity placement, add, edit, delete, and irreversible deletion warning."
+    },
+    {
+      "id": "github-managing-disruptive-comments",
+      "note": "GitHub moderation guidance supports hide, unhide, edit history, redaction, delete permissions, delete timeline events, and reasoned moderation."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

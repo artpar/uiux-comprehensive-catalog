@@ -1,0 +1,234 @@
+{
+  "id": "drawer",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a supplemental edge-panel drawer pattern with source-backed side-surface guidance, clear boundaries from modal dialog, navigation drawer, and filter panel, live row-detail behavior, comparison rules, duplicate audit, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets supplemental edge panels for current-page detail or light actions, including selected-object identity, edge placement, close and Escape behavior, focus movement and return, pinned versus temporary modes, non-modal comparison context, modal drawer limits, object-switching updates, and page-state preservation.",
+    "relatedPatternDistinction": "The entry separates drawer from modal dialog by preserving parent-page context rather than blocking a contained task, from navigation drawer by handling contextual object detail rather than destinations, from filter panel by not owning result criteria or active-count synchronization, from notification center by not being durable notification history, and from side navigation by not being persistent local hierarchy.",
+    "liveDemoBehavior": "The live demo opens a claim details drawer from a queue row, preserves the urgent-claims filter and selected row, switches from Claim C-1042 to Claim C-1043 without stale detail, pins the drawer for side-by-side comparison, closes with Escape, returns focus to the selected row, and contrasts no-close, stale-detail, navigation-mix, modal-blocking, state-loss, and overstuffed failures.",
+    "comparisonDecisionRules": "The drawer-vs-modal-dialog-vs-navigation-drawer-vs-filter-panel comparison gives concrete rules for supplemental side detail, blocking modal tasks, destination drawers, result-filter panels, pinned and non-modal drawers, modal drawer limits, contextual help alternatives, response-required alternatives, and focus return.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/drawer/ and /compare/drawer-vs-modal-dialog-vs-navigation-drawer-vs-filter-panel/ on 2026-06-10. Live check exercised Open C-1042, Switch to C-1043, Pin drawer, keyboard Escape close, No close, Stale detail, Navigation mix, Modal blocking, State loss, and Overstuffed controls. screenshots/patterns/drawer.png captures Good UI, Bad UI, Good UX, Bad UX, open drawer, selected-object detail, related links, comparison link, and source-backed guidance.",
+    "screenshots": [
+      "screenshots/patterns/drawer.png"
+    ]
+  },
+  "name": "Drawer",
+  "aliases": [
+    "side drawer",
+    "side panel",
+    "slide-out panel",
+    "edge panel",
+    "context drawer",
+    "details drawer"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Task And Workflow Patterns",
+    "Data Display And Exploration"
+  ],
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need supplemental detail or light actions related to the current page, but a full page would break context and a modal would over-block comparison with the underlying content.",
+  "solution": "Open an edge-aligned drawer that keeps the parent page visible, identifies the selected object or task, supports close and focus return, and optionally allows pinned side-by-side comparison when background context remains useful.",
+  "problemContext": [
+    "A table row, card, chart point, activity item, or object summary has more detail than fits inline.",
+    "Users benefit from comparing drawer content with the page behind it.",
+    "The drawer content is supplemental or lightly actionable, not a long independent workflow.",
+    "The product can maintain selected-object state, close behavior, and focus return when the drawer opens and closes."
+  ],
+  "selectionRules": [
+    "Choose drawer when users need page-adjacent detail, preview, metadata, comments, simple actions, or object inspection without leaving the current page.",
+    "Use modal dialog when the task must block the page until the user completes or cancels it.",
+    "Use navigation drawer when the side surface contains app destinations rather than contextual detail for the current page.",
+    "Use filter panel when the side surface contains criteria that narrow results and require applied-count, result-count, and clear-state synchronization.",
+    "Use inline disclosure, popover, tooltip, or hover card when the information is short, local, or only needed temporarily near one control.",
+    "Use a full page or details panel when the content requires deep reading, shareable URL state, long editing, or durable navigation history.",
+    "Use a pinned or non-modal drawer when users must compare details with the underlying list or chart.",
+    "Use a modal drawer only when background interaction would create conflicting state; provide scrim, Escape behavior, and focus containment in that case."
+  ],
+  "requiredStates": [
+    "Closed state with a clear opener tied to a specific object or page section.",
+    "Opening state that identifies the selected object and moves focus to the drawer heading or first useful control.",
+    "Open drawer state with visible title, object identity, close control, and supplemental content.",
+    "Pinned or non-modal comparison state when background content remains intentionally usable.",
+    "Modal or temporary state when background interaction must be blocked until close.",
+    "Object-switching state where choosing another row updates the drawer without stale content.",
+    "Dismissed state that returns focus to the opener or selected object and preserves page context.",
+    "Responsive state that adapts drawer width, side, or full-screen behavior without changing the task contract."
+  ],
+  "interactionContract": [
+    "The opener names or is adjacent to the object whose detail will appear in the drawer.",
+    "Opening the drawer does not unexpectedly navigate away or erase list, filter, selection, scroll, or chart state.",
+    "The drawer title names the current object or supplemental task, not just Drawer.",
+    "A visible close control, Escape behavior, and route/back handling close the drawer predictably.",
+    "Focus moves into the drawer on open and returns to the opener, selected row, or next logical object on close.",
+    "If the drawer is non-modal, background controls that remain usable are intentionally designed and do not conflict with drawer state.",
+    "If the drawer is modal, focus stays inside the drawer and background content is inert until close.",
+    "Changing the selected object while the drawer is open updates the drawer title, content, and status without leaving stale information visible."
+  ],
+  "implementationChecklist": [
+    "Define whether the drawer is non-modal, pinned, dismissible, or modal for this workflow.",
+    "Anchor the drawer to a page edge and size it so main content remains useful when comparison matters.",
+    "Show the selected object, record, or task name in the drawer heading.",
+    "Provide a labelled close button and Escape/back behavior.",
+    "Move focus into the drawer on open and restore focus after close.",
+    "Preserve underlying page state such as filters, selected rows, scroll position, and drafted inputs.",
+    "Handle object changes while open with an updated heading, status, and content rather than stale details.",
+    "Keep drawer actions light and move long workflows to a page, modal task, or dedicated editor.",
+    "Test narrow viewports, long drawer content, scroll boundaries, pinned state, keyboard order, and screen reader names."
+  ],
+  "commonMisuses": [
+    "Using a drawer as an unlabeled junk panel for unrelated commands, navigation, filters, and help.",
+    "Opening a drawer with no close control or keyboard dismissal.",
+    "Treating a drawer like a modal while the page behind it remains partly interactive by accident.",
+    "Covering the exact content users need for comparison without a pinned or resized state.",
+    "Leaving stale details visible after the selected object changes.",
+    "Putting a long multi-step workflow in a narrow drawer with hidden primary actions.",
+    "Returning focus to the top of the page instead of the object or opener that launched the drawer."
+  ],
+  "critiqueQuestions": [
+    "What parent-page context must remain visible while this drawer is open?",
+    "Is the drawer content supplemental, or has it become a separate task needing a page or modal?",
+    "Can users close the drawer by pointer, keyboard, Escape, and route/back behavior?",
+    "Where does focus move on open, close, object switch, and responsive breakpoint changes?",
+    "Does changing the selected object update the drawer immediately and visibly?",
+    "Would a navigation drawer, filter panel, modal dialog, popover, or details panel better match the content?"
+  ],
+  "useWhen": [
+    "Users need to inspect object detail, metadata, comments, history, or light actions while staying on the current page.",
+    "Users benefit from comparing drawer content with the underlying list, table, map, chart, or workspace.",
+    "The content is too large for a popover or inline disclosure but not large enough to require a page."
+  ],
+  "avoidWhen": [
+    "The surface is mainly app navigation or destination switching.",
+    "The content is a grouped filter control surface for a result set.",
+    "The user must make a blocking decision before continuing.",
+    "The task needs long-form editing, saved progress, browser history, sharing, or deep reading.",
+    "The drawer would obscure the parent context users need and cannot be pinned, resized, or moved."
+  ],
+  "variants": [
+    "Details drawer",
+    "Inspector drawer",
+    "Preview drawer",
+    "Edit drawer",
+    "Comments drawer",
+    "Pinned drawer",
+    "Modal drawer",
+    "Non-modal drawer",
+    "Right-side drawer",
+    "Left-side drawer"
+  ],
+  "accessibility": [
+    "Give the drawer a visible heading and expose it as the accessible name for the region or dialog-like surface.",
+    "Move focus into the drawer when it opens and return focus to the opener or selected object when it closes.",
+    "Provide a labelled close control and Escape behavior where platform conventions support it.",
+    "Use inert background and contained focus only when the drawer is truly modal.",
+    "For non-modal drawers, keep focus order predictable between page content and drawer content.",
+    "Announce selected-object changes when the drawer updates while open.",
+    "Ensure drawer width, scroll, and sticky actions work at zoom and narrow viewports."
+  ],
+  "keyboardBehavior": [
+    "Enter or Space on the opener opens the drawer.",
+    "Initial focus lands on the drawer heading, close control, or first useful field according to task risk.",
+    "Tab moves through drawer content and then either returns to page content in a non-modal drawer or wraps inside a modal drawer.",
+    "Escape closes dismissible drawers and returns focus to the opener or selected object.",
+    "Arrow, Next, Previous, or row activation can switch selected objects while keeping focus and status understandable.",
+    "Pinned-state controls are keyboard reachable and do not reorder focus unexpectedly."
+  ],
+  "failureModes": [
+    "No close path or Escape behavior.",
+    "Focus moves behind a modal drawer or disappears when the drawer closes.",
+    "The drawer title does not identify the selected object.",
+    "Main page state resets when the drawer opens or closes.",
+    "The drawer content becomes stale after row selection changes.",
+    "Users cannot compare drawer content with the underlying list because the drawer covers it.",
+    "Long workflows, navigation trees, or filter controls are mislabeled as a generic drawer."
+  ],
+  "relatedPatterns": [
+    "modal-dialog",
+    "navigation-drawer",
+    "filter-panel",
+    "notification-center",
+    "side-navigation"
+  ],
+  "comparisons": [
+    "drawer-vs-modal-dialog-vs-navigation-drawer-vs-filter-panel"
+  ],
+  "examples": [
+    {
+      "product": "Fluent 2 Drawer",
+      "url": "https://fluent2.microsoft.design/components/web/react/core/drawer/usage",
+      "platform": "web",
+      "notes": "Documents drawers as secondary edge surfaces for supplemental information and simple actions related to main content.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Nord Design System Drawer",
+      "url": "https://nordhealth.design/components/drawer",
+      "platform": "web",
+      "notes": "Documents drawers for context-sensitive actions and information, with a distinction from modals that block task completion.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Material Design Navigation drawer",
+      "url": "https://m2.material.io/components/navigation-drawer",
+      "platform": "mobile",
+      "notes": "Used as a contrast source for destination drawers, scrims, and dismissal behavior.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "fluent-drawer-component",
+      "note": "Fluent defines drawers as secondary content surfaces that slide in from an edge for supplemental information and simple actions related to main content."
+    },
+    {
+      "id": "nord-drawer-component",
+      "note": "Nord positions drawers as context-sensitive action and information surfaces that do not block task completion like modals."
+    },
+    {
+      "id": "material-navigation-drawer",
+      "note": "Material navigation drawer guidance provides contrast for destination-oriented drawers and modal scrim behavior."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "Modal dialog focus and inert-background guidance informs the accessibility requirements when a drawer is intentionally modal."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10",
+  "patternType": "ui-ux",
+  "surfaceType": "Supplemental edge panel for current-context detail or light actions",
+  "uiGuidance": [
+    "Render a drawer as an edge-aligned panel with a visible heading, selected-object identity, close control, stable width, and clear relationship to the page content it supplements.",
+    "Use visual treatment, scrim, pinning, and layout width to communicate whether the drawer is non-modal comparison space, pinned side-by-side content, or a temporary modal overlay."
+  ],
+  "uxGuidance": [
+    "Use drawers to preserve parent-page context while users inspect supplemental detail or perform simple adjacent actions.",
+    "Keep drawer entry, object switching, close behavior, focus return, and underlying page-state preservation predictable so users do not lose their place."
+  ],
+  "uiExamples": {
+    "good": [
+      "A right-side case details drawer opens from a table row, names Claim C-1042, shows status, owner, activity, and a close button while the table remains visible.",
+      "A pinned inspector drawer sits beside a chart so users can compare selected segment details with the chart."
+    ],
+    "bad": [
+      "A panel slides over the table with the title Details, no close control, and no selected record name.",
+      "A drawer contains navigation links, filters, account settings, and destructive commands under one unlabeled heading."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "Opening the drawer preserves the table filter and selected row, Next item updates the drawer title, Escape closes it, and focus returns to the selected row.",
+      "Pinning the drawer keeps it open side-by-side while users select other rows for comparison."
+    ],
+    "bad": [
+      "The drawer keeps showing Claim C-1042 after the user selects Claim C-1043 in the table.",
+      "Closing the drawer sends focus to the page header and clears the user's selected row and scroll position."
+    ]
+  }
+}

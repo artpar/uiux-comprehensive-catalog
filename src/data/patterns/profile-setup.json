@@ -1,0 +1,272 @@
+{
+  "id": "profile-setup",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed existing-profile readiness and enrichment pattern with guidance for current profile review, required versus recommended fields, optional skips, visibility labels, managed and synced fields, partial save, return-to-task behavior, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers setup after an account or profile already exists, current profile preview, completion summary, required scheduling details, recommended but skippable enrichment, optional photo and social details, field visibility, public profile state, managed or synced organization fields, partial save, failed save preservation, repeated prompt avoidance, and return to the workflow that launched setup.",
+    "relatedPatternDistinction": "The entry separates profile setup from create user profile by focusing on readiness and enrichment of an existing profile, from account creation by avoiding credentials and recovery, from onboarding by avoiding product teaching and first-value activation, from inline edit by using a guided setup surface rather than one in-place value change, and from review before submit by reserving pre-commit review for higher-risk profile changes.",
+    "liveDemoBehavior": "The live demo uses a team profile readiness flow with current profile state, required time zone, recommended skippable details, field visibility, synced title handling, partial save, return to project invitation, and bad modes for completion-meter pressure, public defaults, synced-field edit, no skip path, mixed account settings, and repeated prompts.",
+    "comparisonDecisionRules": "The linked profile-setup-vs-create-user-profile-vs-onboarding-vs-account-creation comparison gives concrete rules for existing profile readiness, first visible identity creation, first-use product activation, persistent credentials, single-value inline edits, final review gates, managed fields, optional enrichment, visibility, and completion meter boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/profile-setup/ on 2026-06-11 in Chromium: verified Current, Required, Skip optional, Visibility, Synced field, Save partial, Return, Meter pressure, Public default, Synced edit, No skip, Mixed settings, and Repeated prompt states; verified current profile readiness, 64 and 82 percent states, required time zone, Team only visibility, Public profile off, synced title handling, skipped optional details, partial save, and return to project invitation; verified no duplicate IDs and no page-level horizontal overflow; verified /compare/profile-setup-vs-create-user-profile-vs-onboarding-vs-account-creation/ concrete decision rules; and checked mobile viewport with collapsed layout and no horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/profile-setup.png"
+    ]
+  },
+  "name": "Profile setup",
+  "aliases": [
+    "complete profile",
+    "profile completion",
+    "edit profile setup",
+    "member profile setup",
+    "profile readiness",
+    "profile details setup",
+    "profile enrichment",
+    "complete your profile"
+  ],
+  "category": "Task And Workflow Patterns",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Personalization And Preference",
+    "Trust, Safety, And Privacy",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Existing-profile readiness and enrichment flow",
+  "uiGuidance": [
+    "Render profile setup as a focused completion surface for an existing account or profile, with current profile preview, missing recommended fields, managed-field notices, visibility controls, skip or do-later paths, and clear save state.",
+    "Keep profile setup separate from account creation, first-run onboarding, generic settings, and initial profile creation: it helps users improve an already established profile without treating every optional profile detail as mandatory."
+  ],
+  "uxGuidance": [
+    "Use profile setup when a user already has a usable account or profile and needs guided help to make the profile complete enough for collaboration, public identity, trust, or discovery.",
+    "Explain why each missing field matters, where it will appear, which fields are optional, which are managed by an organization, and what the user can safely skip or finish later."
+  ],
+  "uiExamples": {
+    "good": [
+      "A workspace profile setup checklist shows that display name is complete, photo is optional with initials fallback, title is managed by HR, time zone helps scheduling, and location visibility is set to Team only.",
+      "A developer profile readiness page previews the public profile, recommends a bio and pinned project, warns that public fields are searchable, and lets the user save partial progress."
+    ],
+    "bad": [
+      "A complete your profile banner blocks the product until the user uploads a photo, birthday, phone number, location, and social links.",
+      "A profile setup page asks for department and job title even though those fields are later overwritten by identity-provider sync."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user adds time zone and pronouns, leaves photo and social links blank, sees the team-card preview update, and returns to the project they were working on.",
+      "A user tries to edit a synced job title, sees who manages it, saves other profile changes, and gets a route to request the title correction."
+    ],
+    "bad": [
+      "A user provides a personal phone number to dismiss a profile-completion warning, then discovers it is visible to external collaborators.",
+      "A user abandons because profile setup is mixed with account security, onboarding tips, notification preferences, and marketing consent."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "After an account or initial profile exists, products often pressure users to fill every profile field, but unclear visibility, managed-field conflicts, and mandatory optional details can expose personal data or delay the user's real task.",
+  "solution": "Provide a guided profile setup surface that shows the current profile, distinguishes required, recommended, optional, private, public, and managed fields, previews visibility, saves partial progress, and lets users return later without blocking unrelated work.",
+  "problemContext": [
+    "The user already has an account, workspace membership, community profile, employee directory entry, developer profile, marketplace identity, or collaboration profile.",
+    "The profile can be improved with optional fields such as photo, bio, pronouns, title, department, time zone, location, social links, skills, languages, or pinned work.",
+    "Some fields may affect recognition, scheduling, trust, discovery, search, assignments, comments, public pages, or third-party app access.",
+    "Some values may be synced from an identity provider, administrator-managed, or visible to different audiences.",
+    "The user may have arrived from an in-product prompt and needs to return to the original task after setup."
+  ],
+  "selectionRules": [
+    "Choose profile setup when an existing profile is usable but incomplete, stale, or missing recommended details that improve collaboration, discovery, trust, or public presentation.",
+    "Use create user profile when the user is first defining the visible identity required to establish a profile.",
+    "Use account creation when the main task is credentials, verification, persistence, recovery, or authorization.",
+    "Use onboarding when the user needs first-use product orientation or activation rather than profile-field readiness.",
+    "Use inline edit when the user is changing one visible profile value in place rather than working through a guided profile setup surface.",
+    "Use review before submit when profile changes need a final commit gate because they are public, high-risk, regulated, or hard to undo.",
+    "Do not block unrelated product use for optional profile fields unless a field is legally, safety, or access-policy required.",
+    "Show where each requested profile value appears before asking for it, especially for public, external, searchable, or app-visible fields.",
+    "Let users save partial progress and return to the originating task when profile setup is prompted from inside another workflow."
+  ],
+  "anatomy": [
+    "Profile setup heading that names the profile context",
+    "Current profile preview or card",
+    "Completion checklist or grouped missing fields",
+    "Required, recommended, optional, managed, and private/public labels",
+    "Field-level visibility controls or audience labels",
+    "Managed-field source and change route",
+    "Save, skip for now, and return-to-task actions",
+    "Saved, partial, failed-save, and stale-sync states"
+  ],
+  "interactionStates": [
+    "Existing profile loaded with current values and missing-field summary",
+    "Required field missing state with specific reason",
+    "Recommended field skipped state",
+    "Optional field left blank state",
+    "Visibility changed state with preview update",
+    "Managed or synced field read-only state",
+    "Partial save state",
+    "Return later state",
+    "Stale profile data state after sync",
+    "Failed save state with preserved draft"
+  ],
+  "requiredStates": [
+    "Current profile preview with existing values",
+    "Missing required field state",
+    "Recommended but skippable field state",
+    "Optional field intentionally blank state",
+    "Field visibility or audience state",
+    "Managed or synced field state",
+    "Partial save and return later state",
+    "Failed save with preserved draft state"
+  ],
+  "interactionContract": [
+    "Opening profile setup loads the current saved profile and clearly distinguishes already-complete, missing, recommended, optional, managed, and visibility-sensitive fields.",
+    "Saving updates only the edited profile values and preserves skipped recommended or optional fields as intentional choices rather than validation failures.",
+    "Visibility changes update the preview or audience labels before save and are persisted with the relevant field.",
+    "Managed or synced fields remain read-only or clearly constrained, with source and correction route visible before users try to edit them.",
+    "Skipping profile setup returns the user to the originating workflow without discarding existing profile data or repeatedly blocking unrelated tasks.",
+    "Failed saves preserve typed drafts, uploaded-photo state where possible, visibility choices, and the user's return path.",
+    "Public or external profile changes are not presented as final until the backend confirms the saved profile state."
+  ],
+  "implementationChecklist": [
+    "Inventory all profile fields and label each as required, recommended, optional, managed, synced, public, organization-visible, team-visible, private, or app-visible.",
+    "Define the minimum profile needed for access separately from recommended profile completeness.",
+    "Show a current profile preview for the most important destination such as team card, directory row, public profile, comment byline, or marketplace listing.",
+    "Keep account security, notification settings, marketing consent, billing, and product onboarding outside the profile setup flow unless directly related to profile visibility.",
+    "Persist partial progress and record skipped recommended fields without nagging users on every unrelated page.",
+    "Provide a managed-field explanation and request-change route for identity-provider or administrator-owned values.",
+    "Test long names, no photo, initials fallback, hidden location, public bio, managed title, skipped recommended fields, failed save, mobile layout, screen readers, keyboard navigation, and high zoom."
+  ],
+  "commonMisuses": [
+    "Calling every optional field required profile completion.",
+    "Blocking the main product until users add photos, biographies, birthdays, phone numbers, or social links.",
+    "Publishing setup fields without visibility labels or preview.",
+    "Letting users edit synced fields that will be overwritten later.",
+    "Mixing profile setup with onboarding, security setup, notification preferences, marketing consent, or billing.",
+    "Using a percentage-complete meter that pressures users to reveal unnecessary personal information.",
+    "Repeating profile completion prompts after users intentionally skipped optional fields.",
+    "Failing to return users to the task that launched profile setup."
+  ],
+  "critiqueQuestions": [
+    "Which profile fields are truly required, and which are only recommended?",
+    "Where will each field appear after save?",
+    "Which fields can be seen by public visitors, external collaborators, team members, apps, or only the user?",
+    "Can users skip optional fields and still complete their real task?",
+    "Which fields are synced or admin-managed, and how can users correct them?",
+    "Does the setup surface preserve partial progress and return to the originating workflow?"
+  ],
+  "useWhen": [
+    "Users already have an account or profile and need guided help to complete, review, enrich, or update it.",
+    "Profile quality affects collaboration, discovery, scheduling, trust, public presentation, marketplace identity, or directory usefulness.",
+    "The product can distinguish required access fields from optional enrichment and can enforce visibility choices downstream."
+  ],
+  "avoidWhen": [
+    "The user is creating their first profile identity rather than completing an existing profile.",
+    "The task is account creation, authentication, password setup, onboarding, notification preferences, or general account settings.",
+    "The product cannot explain where profile data appears or honor visibility choices.",
+    "Profile completion is mainly a growth tactic unrelated to the user's current task.",
+    "The team cannot support partial saves, managed-field correction, skipped optional fields, or later editing."
+  ],
+  "variants": [
+    "Profile completion checklist",
+    "Member profile setup",
+    "Public profile setup",
+    "Directory profile setup",
+    "Developer profile setup",
+    "Marketplace seller profile setup",
+    "Collaboration profile readiness",
+    "Managed employee profile",
+    "Profile visibility setup",
+    "Profile enrichment prompt"
+  ],
+  "accessibility": [
+    "Use explicit field labels and required or optional text for every profile value.",
+    "Do not communicate completeness, public/private state, or managed status with color alone.",
+    "Expose profile preview updates with a status region only when the change matters; do not move focus after every keystroke.",
+    "Keep skip, save, request-change, visibility, and return actions keyboard reachable.",
+    "Associate managed-field explanations and visibility labels with the relevant inputs.",
+    "Ensure profile photos have meaningful alt text or initials fallback and that upload is not required to continue.",
+    "Make partial-save and failed-save states available to screen readers while preserving entered values."
+  ],
+  "keyboardBehavior": [
+    "Initial focus lands on the profile setup heading or first missing required field after a short context message.",
+    "Tab order follows profile preview summary, required fields, recommended fields, optional fields, visibility controls, managed-field routes, save, skip, and return actions.",
+    "Changing visibility does not move focus unexpectedly.",
+    "Submit with missing required profile data moves focus to the specific error or error summary.",
+    "Save preserves optional skipped fields and leaves focus on a saved status or return action.",
+    "Cancel or return restores focus to the surface that launched profile setup when possible."
+  ],
+  "failureModes": [
+    "Users disclose unnecessary personal information to satisfy a completion prompt.",
+    "Public or app-visible fields are saved without visibility warning.",
+    "Users edit a synced field and later see their change disappear.",
+    "A failed save clears photo, bio, or visibility drafts.",
+    "A completion meter keeps nagging after intentional skips.",
+    "Profile setup blocks urgent work even though missing fields are optional.",
+    "The preview differs from the actual directory, mention, public page, or marketplace listing.",
+    "Screen reader or keyboard users cannot reach skip, visibility, upload fallback, or managed-field help."
+  ],
+  "relatedPatterns": [
+    "create-user-profile",
+    "account-creation",
+    "onboarding",
+    "inline-edit",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "profile-setup-vs-create-user-profile-vs-onboarding-vs-account-creation"
+  ],
+  "examples": [
+    {
+      "product": "Atlassian profile and visibility settings",
+      "url": "https://support.atlassian.com/atlassian-account/docs/update-your-profile-and-visibility-settings/",
+      "platform": "web",
+      "notes": "Documents visibility controls, public-name behavior, profile photo fallback, where profile fields appear, and app-access implications.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack customize member profiles",
+      "url": "https://slack.com/help/articles/212281478-Customize-member-profiles",
+      "platform": "web",
+      "notes": "Documents collaboration profile fields, custom fields, searchable profile information, identity-provider syncing, and admin field management.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub personal profile",
+      "url": "https://docs.github.com/en/account-and-profile/concepts/personal-profile",
+      "platform": "web",
+      "notes": "Documents customizable profile information, public profile risks, private profile behavior, profile README, pinned items, status, and visibility options.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack display name",
+      "url": "https://slack.com/intl/en-nz/help/articles/216360827-Change-your-display-name",
+      "platform": "web",
+      "notes": "Documents display name, full name, mentions, non-English characters, capitalization, and single sign-on restrictions.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "atlassian-profile-visibility-settings",
+      "note": "Atlassian supports profile visibility controls, profile photo fallback, public-name behavior, and warnings about profile information surfaces."
+    },
+    {
+      "id": "slack-customize-member-profiles",
+      "note": "Slack supports collaboration profile fields, searchable fields, admin-managed fields, and identity-provider syncing."
+    },
+    {
+      "id": "github-profile-overview",
+      "note": "GitHub supports user control over public profile information, profile README, pinned items, status, and visibility options."
+    },
+    {
+      "id": "slack-display-name-profile",
+      "note": "Slack supports full-name and display-name distinctions, mention behavior, non-English names, and SSO-managed restrictions."
+    },
+    {
+      "id": "nng-required-fields-forms",
+      "note": "NN/g supports clearly communicating required and optional fields, relevant to profile setup with required versus recommended details."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

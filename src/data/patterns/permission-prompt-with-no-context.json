@@ -1,0 +1,244 @@
+{
+  "id": "permission-prompt-with-no-context",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern entry for device, browser, or app permission prompts shown before the user understands the feature, resource, purpose, fallback, or timing.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets cold-start, launch-time, onboarding, splash-screen, vague-rationale, resource-mismatch, bundled-permission, repeat-nag, blocked-on-deny, no-fallback, and deceptive setup prompts for camera, microphone, location, photos, contacts, notifications, Bluetooth, clipboard, motion, storage, and other powerful-feature requests.",
+    "relatedPatternDistinction": "The entry separates permission-prompt-with-no-context from permission-request by focusing on the premature or unexplained anti-pattern rather than the corrected contextual prompt; from location-permission-flow by limiting location detail to context timing rather than precision, stale coordinates, active tracking, or stop sharing; from consent-prompt by separating platform resource access from optional data-use opt-in; from permission-denied-state by separating device permission denial from account authorization boundaries; and from notification-preferences by separating OS notification access timing from channel, topic, and frequency management.",
+    "liveDemoBehavior": "The live demo shows Good UI and Bad UI panels plus 13 interactive permission-context controls: 9 corrected or audit states for cold-start prompt, vague rationale, resource mismatch, bundled permissions, feature-triggered correction, least-access alternative, deny without punishment, settings recovery, and mobile compact, plus 4 failure states for repeat nag, blocked on deny, no fallback, and deceptive setup.",
+    "comparisonDecisionRules": "The permission-prompt-with-no-context-vs-permission-request-vs-location-permission-flow-vs-consent-prompt-vs-permission-denied-state-vs-notification-preferences comparison gives concrete rules for choosing the anti-pattern, corrected permission request, location permission flow, consent prompt, permission denied state, or notification preferences.",
+    "duplicateAudit": "Before promotion, node --import tsx scripts/catalog-completion-audit.ts reported 295 complete patterns, 1 stub pattern, 2 missing goal patterns, and 0 normalized duplicate field groups.",
+    "manualSpotCheck": "Rendered /patterns/permission-prompt-with-no-context/ and /compare/permission-prompt-with-no-context-vs-permission-request-vs-location-permission-flow-vs-consent-prompt-vs-permission-denied-state-vs-notification-preferences/ on 2026-06-13. Pattern checks found all required context, mismatch, bundled, fallback, settings, repeat nag, blocked-on-deny, and deceptive setup terms, 13 .contextless-permission-controls buttons, no duplicate IDs, no desktop or compact overflow, and exercised Feature-triggered correction and Blocked on deny controls. Comparison checks found required decision terms including improve your experience, mismatched system prompt, first-run setup, manual entry, and settings recovery, no duplicate IDs, no desktop or compact overflow, and no console warnings or errors. Screenshot captured at screenshots/patterns/permission-prompt-with-no-context.png.",
+    "screenshots": [
+      "screenshots/patterns/permission-prompt-with-no-context.png"
+    ]
+  },
+  "name": "Permission prompt with no context",
+  "aliases": [
+    "cold-start permission prompt",
+    "contextless permission request",
+    "permission prompt on launch",
+    "vague permission ask",
+    "unexplained device permission",
+    "premature permission prompt",
+    "permission nag before need",
+    "resource prompt without rationale"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Disclosure And Attention Management",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State",
+    "Cross-Device And Physical Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Anti-pattern for platform permission prompts shown without a feature-triggered rationale, fallback, or recovery path",
+  "uiGuidance": [
+    "Do not trigger camera, microphone, location, photos, contacts, notification, Bluetooth, clipboard, motion, or storage permission prompts on launch, sign-in, onboarding, or unrelated navigation before the feature need is visible.",
+    "Replace a contextless permission prompt with a contextual feature gate that names the resource, task, timing, choices, fallback, denial outcome, and settings recovery before invoking the system prompt."
+  ],
+  "uxGuidance": [
+    "Treat permission prompts without context as an anti-pattern because users cannot make an informed choice when the resource, benefit, immediate task, and consequence of denial are unclear.",
+    "Ask only when the user starts the resource-dependent feature, request the least powerful resource that works, and preserve eligible work through manual input, picker, limited access, or continue-without routes."
+  ],
+  "uiExamples": {
+    "good": [
+      "A receipt scanner waits until the user taps Scan receipt, explains camera is needed only for the scan, then offers Scan with camera or Upload file.",
+      "A route check-in shows why current location verifies arrival, offers Enter address instead, then opens the system location prompt only after Use current location.",
+      "A notification opt-in appears after a user follows a shipment and names delivery alerts, frequency, and the continue-without-notifications path."
+    ],
+    "bad": [
+      "An app opens with location, contacts, photos, and notifications prompts before any feature is selected.",
+      "A modal says Allow access to improve your experience and then triggers microphone permission.",
+      "A denied prompt blocks the whole account even though only one optional feature needed the resource."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user declines camera access for receipt scanning, uploads an image instead, and can keep using expense entry.",
+      "A user dismisses location access at first, later taps Find near me, sees a contextual explanation, grants approximate location, and finishes the task.",
+      "A user previously denied notifications and sees settings instructions plus an email-alert fallback instead of repeated browser prompts."
+    ],
+    "bad": [
+      "A user denies a first-launch permission prompt because it appears before the app explains the feature, then cannot find how to turn the feature on later.",
+      "A user accepts a vague request believing it is for nearby search, but the app also enables background tracking.",
+      "A user denies contacts access and the onboarding flow loops the same prompt instead of allowing manual invite entry."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users are more likely to deny, distrust, or misunderstand permission requests when a product asks before the relevant feature is visible, uses vague benefit copy, requests the wrong resource, bundles multiple resources, or provides no fallback after denial.",
+  "solution": "Classify contextless permission prompts as an anti-pattern, move the ask to the feature-triggered moment, show a resource-specific rationale and fallback before the platform prompt, avoid unrelated or bundled requests, and handle denied, dismissed, limited, revoked, and settings-required states explicitly.",
+  "problemContext": [
+    "The prompt requests an operating-system, browser, or app-level permission for a device resource or powerful feature such as location, camera, microphone, photos, contacts, notifications, Bluetooth, clipboard, motion sensors, or storage access.",
+    "The user has not yet chosen the feature that needs the resource, or the UI does not name the task and benefit before the system prompt appears.",
+    "The product may use first-run onboarding, account creation, a splash screen, a fake setup checklist, or a broad modal to collect permission for speculative future use.",
+    "Denial may be mishandled through repeat nags, blocked flows, settings dead ends, broad consent assumptions, resource mismatch, or loss of unrelated product access."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a permission prompt appears before the user starts a resource-dependent feature or before the interface explains why the resource is needed now.",
+    "Flag it when vague copy such as improve your experience, stay connected, or enable full functionality hides the resource, task, fallback, or denial outcome.",
+    "Flag it when one action triggers a different permission than the visible feature implies, such as a scan action triggering contacts or a store finder triggering background location.",
+    "Flag it when multiple permissions are requested together without separate feature-specific rationale and separate recovery paths.",
+    "Use permission request for the corrected pattern when the product can ask in context, name the resource, invoke the system prompt deliberately, and handle grant or denial.",
+    "Use location permission flow when the context problem is specifically current coordinates, precision, stale location, active tracking, stop sharing, or location fallback.",
+    "Use consent prompt when the choice is optional data use rather than OS or browser resource access.",
+    "Use permission denied state when the user is authenticated but lacks an account role, license, share, policy, or owner-granted authorization.",
+    "Use notification preferences when the user is managing message topics, channels, digest, quiet hours, or subscription settings after OS-level access is handled.",
+    "Use privacy settings when the user is reviewing durable account-level resource, data, or sharing controls rather than reacting to a just-in-time permission ask."
+  ],
+  "requiredStates": [
+    "Cold-start prompt state before the user chooses a relevant feature.",
+    "Vague rationale state where the copy hides the resource, task, or fallback.",
+    "Resource mismatch state where the system prompt asks for a different resource than the UI described.",
+    "Bundled permissions state that asks for multiple resources as one broad setup step.",
+    "Feature-triggered correction state showing the exact resource and task before the system prompt.",
+    "Least-access alternative state with picker, upload, manual entry, approximate access, one-time access, or continue-without path.",
+    "Deny without punishment state where unrelated work remains available.",
+    "Previously denied or settings-required state with concise recovery instead of another prompt loop.",
+    "Repeat nag and blocked-on-deny bad states.",
+    "Mobile compact state where context, resource, primary choice, and fallback remain visible."
+  ],
+  "interactionContract": [
+    "The product must not invoke the platform prompt from page load, app launch, passive onboarding, timers, or unrelated navigation.",
+    "The pre-prompt must name the resource, user-triggered feature, immediate benefit, denial outcome, and fallback before the system prompt is invoked.",
+    "Each permission ask is scoped to one feature or clearly separated feature group; bundled prompts require separate explanation and separate choices.",
+    "The requested resource must match the visible action and copy.",
+    "Dismissing or declining the contextual explanation must not trigger the system prompt.",
+    "Denying the permission must preserve unrelated navigation and eligible non-resource tasks.",
+    "Previously denied, permanently denied, revoked, blocked, or limited states must show a settings route or lower-access fallback rather than loop the same prompt.",
+    "The UI must distinguish permission request from consent, account authorization, notification topic settings, privacy settings, and approval gates."
+  ],
+  "implementationChecklist": [
+    "Inventory every system permission and map it to the exact feature action that first needs the resource.",
+    "Remove first-run, splash-screen, onboarding, sign-in, page-load, and unrelated-navigation permission triggers unless the feature itself is being started.",
+    "Write resource-specific rationale copy that names the task, resource, benefit, choice, fallback, and settings path.",
+    "Split bundled resource asks into separate feature-triggered requests or lower-access alternatives.",
+    "Add denial, dismissal, previously denied, permanently denied, limited, revoked, unavailable, and settings-required branches.",
+    "Provide fallback routes such as manual address, upload file, paste code, type contact, chat-only mode, continue without notifications, or open settings.",
+    "Test cold start, feature-triggered ask, grant, deny, dismiss, repeat visit, permanent denial, resource mismatch, bundled permissions, compact layout, keyboard order, and status messaging."
+  ],
+  "commonMisuses": [
+    "Requesting permissions on first launch because analytics show users may need the feature later.",
+    "Asking for location, notifications, contacts, and photos as one setup checklist before explaining any task.",
+    "Using vague benefit copy instead of naming the resource and feature.",
+    "Triggering a system prompt from a custom modal close, page load, hover, timeout, or background script.",
+    "Treating denial as a reason to block the whole product.",
+    "Looping a custom prompt or browser prompt after denial.",
+    "Requesting a more invasive permission than the feature needs."
+  ],
+  "critiqueQuestions": [
+    "What exact user action made this permission necessary now?",
+    "Can the user understand the resource, task, benefit, fallback, and denial outcome before the system prompt appears?",
+    "Is the requested resource the least powerful option that works for this task?",
+    "What does the product do after deny, dismiss, limited access, revoked permission, or permanent denial?",
+    "Can users complete the core task through a manual or lower-access route?",
+    "Is this a device permission, optional data-use consent, account authorization, notification preference, privacy setting, or human approval decision?"
+  ],
+  "useWhen": [
+    "A product currently asks for device, browser, or app permissions before the relevant feature context exists.",
+    "A prompt requests sensitive resources with vague copy, broad setup framing, mismatched resources, bundled asks, or no fallback.",
+    "A team needs to audit permission conversion problems, denial dead ends, repeated nags, or low-trust first-run prompts."
+  ],
+  "avoidWhen": [
+    "The permission is requested after a clear feature-triggering action with resource-specific rationale and fallback; use permission request.",
+    "The issue is specifically location precision, tracking, stale coordinates, or manual location fallback; use location permission flow.",
+    "The issue is optional data processing consent rather than platform resource access; use consent prompt.",
+    "The user lacks account authorization after sign-in; use permission denied state.",
+    "The user is tuning notification channels, topics, or frequency; use notification preferences."
+  ],
+  "variants": [
+    "First-run permission prompt",
+    "Launch-time location ask",
+    "Cold-start notification prompt",
+    "Vague resource prompt",
+    "Bundled setup permissions",
+    "Permission mismatch",
+    "Repeat permission nag",
+    "Blocked after denial",
+    "Permission prompt before feature",
+    "No-fallback permission request"
+  ],
+  "accessibility": [
+    "Expose the resource, task, and fallback as text before the system prompt rather than relying on platform icons or button order.",
+    "Do not trigger permission prompts automatically while keyboard or assistive technology users are still orienting to the page.",
+    "Keep continue, not now, fallback, settings, and retry controls labelled with the resource and task.",
+    "Announce grant, denial, limited, revoked, settings-required, and fallback states through visible status text.",
+    "Keep long resource names, settings paths, and fallback explanations wrapped on compact mobile layouts.",
+    "Return focus to the feature task, fallback, or recovery panel after the platform prompt resolves."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches context explanation, continue to system prompt, not now, fallback, settings help, and safe exit before any permission prompt is invoked.",
+    "Enter or Space activates only the focused visible control and must not trigger hidden permission requests.",
+    "Escape closes only the custom explanation surface before the system prompt; it must not grant, deny, or silently invoke the platform prompt.",
+    "After denial or dismissal, focus moves to fallback or recovery instructions rather than back to a repeated ask.",
+    "After settings recovery, focus returns to retry permission or continue without permission."
+  ],
+  "failureModes": [
+    "Users deny a first-run prompt because the product has not shown why the resource matters.",
+    "A vague rationale causes users to approve a permission they would not approve if the resource and use were explicit.",
+    "The app requests the wrong resource and users cannot tell whether it is accidental or deceptive.",
+    "Denial blocks onboarding, checkout, account access, or unrelated navigation.",
+    "The product repeatedly nags after denial and damages trust.",
+    "A permanently denied prompt has no settings route or manual fallback.",
+    "Assistive technology users encounter a system prompt before the feature context is announced."
+  ],
+  "relatedPatterns": [
+    "permission-request",
+    "location-permission-flow",
+    "consent-prompt",
+    "permission-denied-state",
+    "notification-preferences",
+    "privacy-settings",
+    "sensitive-data-reveal"
+  ],
+  "comparisons": [
+    "permission-prompt-with-no-context-vs-permission-request-vs-location-permission-flow-vs-consent-prompt-vs-permission-denied-state-vs-notification-preferences"
+  ],
+  "examples": [
+    {
+      "product": "NN/G permission request UX",
+      "url": "https://www.nngroup.com/articles/permission-requests/",
+      "platform": "mobile",
+      "notes": "Documents contextual timing, understandable copy, user benefit framing, informed choice, reversal, and avoiding manipulative permission prompts.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Android runtime permissions",
+      "url": "https://developer.android.com/training/permissions/requesting",
+      "platform": "mobile",
+      "notes": "Documents asking in context, associating permission requests with user actions, handling denial, and graceful degradation.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN Permissions API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API",
+      "platform": "web",
+      "notes": "Documents permission query states, prompt behavior, browser permission handling, and revocation through settings.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "nng-permission-requests",
+      "note": "Supports contextual timing, clear request copy, user benefit framing, informed choice, reversal, and dark-pattern avoidance."
+    },
+    {
+      "id": "android-runtime-permissions",
+      "note": "Supports asking for runtime permissions in context, associating permission requests with user actions, handling denial and revocation, and graceful degradation."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports browser permission status checks, prompt state, API-specific prompt triggers, manual revocation, and device-resource examples."
+    },
+    {
+      "id": "w3c-permissions-api",
+      "note": "Supports powerful-feature permission states, allow or deny choices, permission lifetime, and revocation handling."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

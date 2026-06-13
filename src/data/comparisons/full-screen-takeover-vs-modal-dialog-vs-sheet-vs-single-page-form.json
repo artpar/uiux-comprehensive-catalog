@@ -1,0 +1,50 @@
+{
+  "id": "full-screen-takeover-vs-modal-dialog-vs-sheet-vs-single-page-form",
+  "title": "Full-screen takeover vs modal dialog vs sheet vs single-page form",
+  "summary": "Use full-screen takeover for a temporary mode that needs the entire viewport but must return to the invoking context, modal dialog for compact blocking tasks, sheet for adaptive child tasks, and single-page form for routable standalone completion.",
+  "patternIds": [
+    "full-screen-takeover",
+    "modal-dialog",
+    "sheet",
+    "single-page-form"
+  ],
+  "decisionRules": [
+    "Choose full-screen takeover when a task must temporarily occupy the whole viewport for focus, capture, immersive preview, or dense editing, while still needing an explicit exit that returns users to the previous context.",
+    "Choose modal dialog when the same blocking task is short enough for a compact centered layer with actions visible without full-viewport navigation chrome.",
+    "Choose sheet when the task is a context-bound child surface that benefits from adaptive size, edge attachment, detents, or partial parent visibility.",
+    "Choose single-page form when the task should have its own URL, browser history position, saved progress, page title, and normal navigation rather than an overlay lifecycle.",
+    "Use full-screen takeover instead of a drawer when side-by-side comparison with the parent page is not useful or would distract from a capture, scan, preview, or focused setup flow.",
+    "Do not use full-screen takeover for routine messages, short confirmations, or one-field edits; those belong in alert dialog, confirmation dialog, modal dialog, inline edit, or popover patterns.",
+    "If users can move deeper inside the takeover, provide internal Back for the previous takeover step and reserve Close or Exit for leaving the takeover and returning to the invoking context.",
+    "When takeover content has unsaved edits, route close, Escape, browser or system back, and any gesture dismissal through the same discard, save, or continue decision.",
+    "Avoid stacked takeovers and mixed close controls because users can lose their place or exit more of the flow than intended.",
+    "When the takeover closes, restore focus, scroll, selected object, filters, and drafted parent-page context unless completion intentionally navigates to a new result."
+  ],
+  "failureModes": [
+    "A full-screen overlay looks like a normal page but has no route, no page title, no browser-history contract, and a close button that drops users somewhere unexpected.",
+    "Close and Back mean different things inside the takeover, causing users to exit the entire flow when they meant to return one internal step.",
+    "A compact edit form is expanded to full screen without using the extra space or reducing interruption.",
+    "A long multi-step workflow is trapped in a takeover with no saved progress, shareable URL, or recovery after refresh.",
+    "The parent page state is reset after closing, losing filters, selected row, scroll position, or draft work.",
+    "Multiple takeovers stack above each other, making the visible close control ambiguous."
+  ],
+  "sources": [
+    {
+      "id": "material-full-screen-dialog",
+      "note": "Material full-screen dialog guidance supports full-viewport dialog presentation with explicit save and dismiss behavior."
+    },
+    {
+      "id": "apple-hig-modality",
+      "note": "Apple modality guidance supports the dedicated-mode framing and parent-view blocking behavior."
+    },
+    {
+      "id": "wai-aria-apg-dialog-modal",
+      "note": "APG modal dialog guidance supplies the inert background, contained focus, Escape, and focus-return requirements."
+    },
+    {
+      "id": "nng-accidental-overlay-dismissal",
+      "note": "NN/g overlay research supports rules for clear close behavior, back behavior, avoiding stacks, and preventing lost work."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

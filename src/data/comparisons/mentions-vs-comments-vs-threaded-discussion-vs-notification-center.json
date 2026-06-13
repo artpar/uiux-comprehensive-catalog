@@ -1,0 +1,58 @@
+{
+  "id": "mentions-vs-comments-vs-threaded-discussion-vs-notification-center",
+  "title": "Mentions vs comments vs threaded discussion vs notification center",
+  "summary": "Use mentions for targeted attention inside an existing message, comment, or document; comments for object-attached discussion; threaded discussion for branchable topic conversations; and notification center for cross-object inbox triage.",
+  "patternIds": [
+    "mentions",
+    "comments",
+    "threaded-discussion",
+    "notification-center",
+    "object-picker",
+    "typeahead",
+    "activity-log",
+    "permission-denied-state",
+    "review-queue"
+  ],
+  "decisionRules": [
+    "Choose mentions when the user is composing inside an existing surface and needs to reference one or more people, teams, channels, or roles so the chosen recipients receive attention, notification, assignment, or routing behavior.",
+    "Choose comments when the core object needs durable authored discussion with anchor, author, timestamp, reply, resolve, edit, delete, and moderation state; a comment composer may contain mentions, but mentions do not replace the comment thread.",
+    "Choose threaded discussion when the primary unit is a parent topic or message with reply branches, follow or mute state, unread reply state, and answer marking; mentions inside a thread should target recipients without changing the branch model.",
+    "Use notification center when users need a retained inbox of mention notifications, unread triage, filters, and preference behavior across many objects; mention chips should deep-link there only after a notification has been generated.",
+    "Use object picker when the user is selecting people, teams, or entities as structured fields outside prose; mentions are inline references embedded in editable text and must handle caret position, parsing, display names, and notification rules.",
+    "Use typeahead or combobox for the suggestion list mechanics behind mentions, but keep mention-specific semantics separate: selected chips need stable recipient IDs, access checks, audience warnings, and notification outcomes.",
+    "Use activity log when the product must prove that a person was assigned, notified, or permission-blocked; the mention itself is authored content and should not be the only durable audit record.",
+    "Use permission-denied state when a mentioned person cannot see the object, private channel, file, or thread; the composer should warn before send, offer invite or remove choices where allowed, and avoid silent non-delivery.",
+    "Use review queue when mentions or broad-audience alerts create moderation, spam, abuse, escalation, or bulk-triage work; an inline mention control should show local warning and routing state but not become the queue."
+  ],
+  "failureModes": [
+    "A plain @name string looks like a mention but is not bound to a stable recipient ID, so the wrong person or nobody is notified.",
+    "The mention suggestion list ignores access scope and allows users to mention people who cannot see the private channel, record, file, or thread.",
+    "Broad mentions such as @everyone or @channel send immediately without warning, permission check, paused-notification context, or audience size.",
+    "Several people share the same display name and the interface does not force disambiguation before sending.",
+    "Mention notifications open the object top instead of the exact sentence, comment, thread reply, or action item where the mention appeared.",
+    "A mention is used as an assignment, but the task owner, due state, done state, or responsibility record is never created."
+  ],
+  "sources": [
+    {
+      "id": "slack-use-mentions",
+      "note": "Slack supports @ suggestion selection, multiple mentions, channel and DM notification behavior, private-channel access limits, ambiguous display-name disambiguation, and mention activity views."
+    },
+    {
+      "id": "slack-channel-workspace-mentions",
+      "note": "Slack documents broad audience mentions, paused-notification and thread limits, confirmation warnings, admin restrictions, guest limits, and sparing-use guidance."
+    },
+    {
+      "id": "microsoft-teams-mentions",
+      "note": "Microsoft Teams supports typing @, selecting a recipient menu item, mention notifications that open the exact conversation point, team and channel mentions, chat @everyone, and owner enablement."
+    },
+    {
+      "id": "atlassian-confluence-mentions",
+      "note": "Confluence supports person and team mentions through autocomplete or toolbar insertion, notification drawer and email delivery, action-item assignment, task completion, and team mention limits."
+    },
+    {
+      "id": "github-team-notifications",
+      "note": "GitHub supports team mention notification settings scoped to team @mentions in issues, pull requests, and comments."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

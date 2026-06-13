@@ -1,0 +1,50 @@
+{
+  "id": "recently-used-vs-recently-viewed-vs-favorites-vs-pinned-items",
+  "title": "Recently used vs recently viewed vs favorites vs pinned items",
+  "summary": "Use recently used for automatic return to things the user actually operated, recently viewed for opened-item history, favorites for deliberate saved preference, and pinned items for stable prominence.",
+  "patternIds": [
+    "recently-used",
+    "recently-viewed",
+    "favorites",
+    "pinned-items"
+  ],
+  "decisionRules": [
+    "Choose recently used when the list should be written by a real use event such as opening an app, running a tool, selecting a workspace, inserting a file, using a command, or completing work in a document.",
+    "Choose recently viewed when the history should capture objects the user inspected or opened, even if they did not operate that object or run a tool against it.",
+    "Choose favorites when users intentionally mark affinity or saved preference and expect the item to remain saved until they remove that mark.",
+    "Choose pinned items when a small set must remain in a top section, featured position, stable prominence, or stable user-controlled order.",
+    "Recently used entries should be ordered by most recent meaningful use, deduplicated by target ID, capped or expired, and removable without deleting the target.",
+    "Do not auto-promote recently used items into favorites or pins; recency is system-observed behavior, while favorites and pins are deliberate user or owner choices.",
+    "Use scope labels such as on this device, in this account, or in this workspace when recently used entries sync across devices or appear in shared environments.",
+    "When a recently used target becomes unavailable, moved, restricted, stale, or affected by permission changes, show repair, remove, request-access, or browse-again paths instead of a dead shortcut.",
+    "Avoid recently used when the surface is meant to recommend next best actions; a recommendation needs rationale and ranking beyond the user's last use events.",
+    "Keep recently used separate from search history because used targets are apps, tools, files, workspaces, or commands, while search history stores submitted queries."
+  ],
+  "failureModes": [
+    "Recently used, recently viewed, favorites, and pinned items are merged into one Important list with no rule for ordering or removal.",
+    "The product records hover, preview, impression, or recommendation display as use and pollutes the list with things the user never operated.",
+    "Removing a recent-use entry deletes the underlying file, app, workspace, or command configuration.",
+    "A shared device exposes sensitive recently used workspaces or documents without scope or clear controls.",
+    "The list never expires or caps entries, turning quick return into a noisy activity archive.",
+    "A stale recently used shortcut opens a broken path with no remove, repair, permission recovery, or find-again option."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-office-recent-files",
+      "note": "Microsoft Office documents recent-file lists as automatic quick-access lists with removal, clearing, count, and sync behavior."
+    },
+    {
+      "id": "microsoft-office-add-links-recent-files",
+      "note": "Microsoft documents surfacing recently used cloud files inside an Office command flow."
+    },
+    {
+      "id": "android-recents-screen",
+      "note": "Android documents recently accessed tasks users can resume or remove, with least-recently-used removal at limits."
+    },
+    {
+      "id": "microsoft-office-pin-frequently-used-files",
+      "note": "Microsoft distinguishes automatic recent files from user-pinned frequently used files."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

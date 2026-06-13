@@ -1,0 +1,61 @@
+{
+  "id": "tooltip-only-required-information-vs-tooltip-vs-inline-message-vs-disclosure-details-vs-popover",
+  "title": "Tooltip-only required information vs tooltip vs inline message vs disclosure details vs popover",
+  "summary": "Flag tooltip-only required information when instructions, eligibility, limits, formatting rules, legal consequences, or recovery steps needed to complete a task exist only inside a temporary hover or focus bubble. Use tooltip only for short supplemental descriptions, inline message for persistent task guidance, disclosure details for optional in-place help, and popover for intentionally opened anchored content.",
+  "patternIds": [
+    "tooltip-only-required-information",
+    "tooltip",
+    "inline-message",
+    "disclosure-details",
+    "popover"
+  ],
+  "decisionRules": [
+    "Flag tooltip-only required information when users must read the content to answer a field, satisfy a rule, avoid an error, understand a consequence, meet an eligibility limit, recover from a blocked action, or choose safely.",
+    "Choose tooltip only when the trigger already has a usable name and the content is short, noninteractive, supplemental, and safe to lose after blur, pointer out, Escape, or touch dismissal.",
+    "Choose inline message when the information is required, validation-related, consequence-bearing, time-sensitive, or must remain visible while users type, compare, copy, or decide.",
+    "Choose disclosure details when the help is optional but longer than a tooltip and should remain inline after users intentionally open it.",
+    "Choose popover when users intentionally open a small anchored surface with richer content, links, or light controls; do not rely on hover timing for required instructions.",
+    "If the information includes required password rules, document requirements, payment limits, eligibility thresholds, deadline consequences, support reference details, or correction steps, make those requirements visible near the task before validation or open the supporting surface during recovery.",
+    "A tooltip can repeat or summarize required content that is already visible elsewhere, but it must not be the only copy users can access by keyboard, touch, screen reader, zoom, or slow reading.",
+    "Do not attach required instructions to disabled native controls when the control cannot receive keyboard focus; provide adjacent explanation, enabled wrapper help, or a recoverable inline message.",
+    "For content on hover or focus, verify dismissible, hoverable, and persistent behavior, but still move required information out of transient tooltip-only treatment.",
+    "During generated UI review, flag question-mark icons, title attributes, aria-describedby tooltips, or info bubbles whose hidden text is necessary to complete the form or avoid an error."
+  ],
+  "failureModes": [
+    "A tax ID field hides the required format and where to find the number in a tooltip, then the tooltip disappears while the user types.",
+    "Eligibility thresholds are available only by hovering a help icon, so touch users submit an ineligible application.",
+    "A disabled Continue button has a hover tooltip explaining missing documents, but keyboard users cannot focus the disabled control.",
+    "A payment limit and fee consequence live only in a tooltip that closes on Escape or scroll.",
+    "A password field shows the full rule list only on focus, then validation fails after users tab away and cannot see what to fix.",
+    "A legal declaration relies on tooltip text for the consequence of checking the box.",
+    "A compact table hides required column definitions in cell tooltips with no persistent legend or details route.",
+    "A mobile form uses title-attribute help that cannot be opened by touch or screen reader users."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-tooltip",
+      "note": "Supports the tooltip boundary as focus or hover-triggered content where focus remains on the trigger and Escape, blur, or pointer-out dismisses the popup."
+    },
+    {
+      "id": "mdn-aria-tooltip-role",
+      "note": "Supports aria-describedby tooltip ownership, automatic display, and the no-focusable-content boundary."
+    },
+    {
+      "id": "fluent-tooltip-component",
+      "note": "Supports concise associated tooltip content and warns against using tooltip treatment for essential content."
+    },
+    {
+      "id": "redhat-tooltip-accessibility",
+      "note": "Supports keyboard focus and Escape behavior, showing why tooltip content is temporary and trigger-owned."
+    },
+    {
+      "id": "wcag-content-on-hover-or-focus",
+      "note": "Supports dismissible, hoverable, and persistent behavior for hover or focus content, but not hiding required task content solely in transient layers."
+    },
+    {
+      "id": "material-rich-tooltips",
+      "note": "Supports the boundary between short tooltips, richer anchored content, and content that should move to a more stable surface."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

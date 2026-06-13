@@ -1,0 +1,260 @@
+{
+  "id": "compare-view",
+  "completionStatus": "complete",
+  "completionNotes": "Completed with source-backed side-by-side comparison guidance, distinct shortlist decision rules, a live laptop comparison demo, comparison coverage against table, card grid, and details panel patterns, duplicate audit coverage, manual desktop and mobile browser checks, and captured evidence.",
+  "name": "Compare view",
+  "aliases": [
+    "comparison view",
+    "comparison table",
+    "compare products",
+    "side-by-side comparison",
+    "feature comparison",
+    "shortlist comparison",
+    "comparison matrix",
+    "product compare"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Selection And Choice",
+    "Task And Workflow Patterns",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Selected side-by-side attribute comparison of peer items",
+  "uiGuidance": [
+    "Render compared items as a bounded side-by-side matrix with item identity, thumbnail or icon when useful, price or status, remove controls, action controls, grouped attribute rows, row labels, consistent units, missing-value notation, and difference indicators.",
+    "Keep compared item identity visible during long comparisons through sticky column headers, repeated compact headers, pinned item cards, or a persistent selected-item tray."
+  ],
+  "uxGuidance": [
+    "Use Compare view when users have selected a small set of similar items and need to weigh several meaningful attributes together before choosing, saving, buying, applying, or discarding options.",
+    "Help users reduce cognitive load by limiting the number of compared items, hiding identical attributes, highlighting differences, grouping related specs, preserving selected items, and offering a route back to browsing."
+  ],
+  "uiExamples": {
+    "good": [
+      "A laptop compare view shows three selected models as columns, grouped rows for performance, display, portability, and support, a sticky model header with price, and a differences-only switch.",
+      "A plan comparison view keeps plan names, monthly cost, primary action, and remove buttons visible while users scroll through included limits and service features."
+    ],
+    "bad": [
+      "A comparison page shows seven products in tiny columns with paragraphs in every cell, no row grouping, no sticky headers, and no way to remove one item.",
+      "A side-by-side card layout repeats marketing copy but omits shared row labels, units, missing-value marks, and difference highlighting."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A shopper selects three laptops, opens comparison, hides identical specs, highlights battery and memory differences, removes the weakest option, and returns to the same shortlist in the product grid.",
+      "A mobile user compares only two saved plans at a time, switches which item is visible in the second column, and keeps plan identity and price pinned above the attributes."
+    ],
+    "bad": [
+      "A user must open three product detail pages in separate tabs and remember battery, weight, and warranty values because the site has no comparison view.",
+      "A compare view resets the selected items after sorting or returning to browse, so the user must rebuild the shortlist from memory."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to choose among similar offerings with many attributes, but browsing cards, opening detail pages, or scanning a large table forces memory work and makes tradeoffs between nonadjacent items hard to judge.",
+  "solution": "Provide a bounded Compare view where users intentionally add similar items, see them side by side across consistent grouped attributes, hide or highlight differences, keep item identity visible while scrolling, remove or swap candidates, and act on the chosen item without losing the shortlist.",
+  "problemContext": [
+    "Items are similar enough to share meaningful attributes, such as products, plans, locations, services, courses, vendors, devices, loans, or saved options.",
+    "Users are in a shortlisting phase after search, browse, filtering, or saved-item collection and need to make a compensatory decision across several criteria.",
+    "The attribute set may be longer than a card can show, and some attributes matter only to a subset of users.",
+    "The view may be static with preselected options or dynamic with user-selected candidates from a list, grid, search result, or saved view.",
+    "Mobile and narrow layouts make the full matrix difficult, so the product needs item-count limits, attribute subsets, paired comparison, or a saved shortlist fallback."
+  ],
+  "selectionRules": [
+    "Choose Compare view when users need to evaluate a small number of similar items across the same attributes.",
+    "Use Compare view after users have narrowed candidates through search, filter, category browsing, recommendations, favorites, or saved items.",
+    "Use table when the main task is scanning many records, auditing values, sorting rows, or exporting the dataset rather than comparing a selected shortlist.",
+    "Use card grid or card list when users are still discovering candidates and do not need aligned attribute tradeoffs.",
+    "Use details panel when users need to inspect one selected item while staying in a list, grid, map, or board.",
+    "Use data grid when users need to edit values, reorder columns extensively, or navigate cells like a spreadsheet.",
+    "Use filters or facets when one nonnegotiable attribute should eliminate items before comparison.",
+    "Avoid Compare view when items are not mutually exclusive, too cheap or simple to justify comparison, mostly aesthetic, or too unique to share useful attributes.",
+    "Limit comparison to a small set, usually two to five items on desktop and fewer on mobile.",
+    "Do not hide important differences behind hover-only cells, collapsed rows, or marketing-only labels."
+  ],
+  "requiredStates": [
+    "No compared items state with instructions for adding items and a route back to browse.",
+    "One compared item state that explains another item is needed for meaningful comparison.",
+    "Full comparison state with item headers, grouped attribute rows, actions, row labels, and selected-item count.",
+    "Maximum item limit reached state with a clear remove or replace path.",
+    "Differences highlighted, identical rows hidden, attribute group collapsed, attribute group expanded, and all attributes restored states.",
+    "Item removed, item swapped, item unavailable, missing attribute, stale price or status, loading attributes, and failed attribute load states.",
+    "Mobile pair comparison, horizontal-scroll comparison, sticky header, and selected-item tray states.",
+    "Return-to-browse, save comparison, share comparison, export comparison, and choose item states."
+  ],
+  "interactionContract": [
+    "Compared columns represent user-selected or explicitly preselected peer items, and the view states the item count and comparison limit.",
+    "Each row compares the same attribute across items using consistent labels, units, formatting, and missing-value rules.",
+    "Hide-identical and highlight-differences controls update row visibility or row emphasis without changing the selected items.",
+    "Removing, swapping, saving, or returning to browse preserves the remaining shortlist and the user's place in the originating list or grid when possible.",
+    "Sticky item headers, row labels, and group headings preserve orientation while users scroll vertically or horizontally.",
+    "Mobile comparison either limits columns, lets users choose a pair or subset, or provides a saved-item fallback instead of squeezing the full matrix unreadably.",
+    "Action buttons such as Choose, Buy, Apply, Save, or Contact are tied to the correct compared item and remain distinguishable from remove controls.",
+    "The view explains unavailable, stale, missing, estimated, normalized, or vendor-supplied attributes before users rely on the comparison."
+  ],
+  "implementationChecklist": [
+    "Define comparable item type, maximum item count, required attributes, optional attributes, groups, units, missing-value notation, primary action, and return-to-browse state.",
+    "Add compare affordances to source cards or rows with persistent labels, keyboard access, and a selected-item reminder or tray.",
+    "Render comparison with item headers as columns, attributes as rows, grouped sections, sticky identity, row separators, and responsive behavior.",
+    "Implement remove, replace, hide-identical, highlight-differences, group collapse, save, share, export, and choose actions with clear focus management.",
+    "Model empty, one-item, max-items, missing attributes, stale attributes, unavailable item, loading, failed-load, mobile, and horizontal overflow states.",
+    "Keep selected items keyed by object ID rather than visible index so filtering, sorting, reordering, and returning to browse do not corrupt the shortlist.",
+    "Test with long item names, long attribute labels, mixed units, missing values, duplicate names, many groups, narrow screens, keyboard, zoom, and high contrast.",
+    "Provide a table, data grid, or details handoff when users need exact row work, many records, editing, or deep per-item inspection."
+  ],
+  "commonMisuses": [
+    "Allowing too many compared items so columns become unreadable.",
+    "Using inconsistent labels, units, or attribute availability across compared items.",
+    "Showing long marketing paragraphs instead of concise comparable values.",
+    "Hiding compare selection behind hover-only controls.",
+    "Dropping item names, prices, or key status when users scroll.",
+    "Failing to hide or highlight identical rows, forcing users to search manually for differences.",
+    "Treating a general table, details page, or card grid as a Compare view without selected-item management.",
+    "Removing selected items when users return to browse, filter, sort, or change viewport."
+  ],
+  "critiqueQuestions": [
+    "What decision are users making, and which attributes genuinely influence that decision?",
+    "Are the compared items similar enough for row-by-row comparison and mutually exclusive enough to justify choosing among them?",
+    "Can users see item identity, price or status, row labels, units, and differences while scrolling?",
+    "What is the item limit, and how do users remove, replace, or add candidates?",
+    "How does the view behave with missing attributes, identical attributes, stale values, and mobile width?",
+    "Would a table, card grid, details panel, filter panel, or saved list better match the user's stage?"
+  ],
+  "useWhen": [
+    "Users need to choose among similar offerings using multiple comparable attributes.",
+    "Users have already narrowed a larger result set to a small shortlist.",
+    "The product can provide consistent, meaningful, current attribute values across compared items.",
+    "The interface can preserve item identity, selected items, row labels, and differences across scroll and viewport changes."
+  ],
+  "avoidWhen": [
+    "Items are unique, nonexclusive, too simple, too cheap, or mostly aesthetic.",
+    "Users need to scan, sort, edit, or export many records.",
+    "The comparable attributes are missing, inconsistent, stale, or not decision-relevant.",
+    "The product cannot preserve selected-item state or provide a mobile-appropriate comparison strategy.",
+    "A single filter criterion should eliminate options before comparison is useful."
+  ],
+  "variants": [
+    "Static comparison table",
+    "Dynamic selected-item compare view",
+    "Two-item mobile compare view",
+    "Differences-only compare view",
+    "Highlighted-differences compare view",
+    "Grouped-spec comparison",
+    "Plan comparison",
+    "Product comparison",
+    "Vendor comparison",
+    "Saved shortlist comparison",
+    "Compare view with sticky headers",
+    "Compare view with item swap"
+  ],
+  "accessibility": [
+    "Expose comparison title, selected item count, maximum item count, item names, row labels, group headings, units, and missing-value meanings as text.",
+    "Use table semantics or equivalent row and column associations when the comparison is a matrix of attributes and items.",
+    "Keep item headers and row labels available to screen-reader and keyboard users even when visually sticky or horizontally scrolled.",
+    "Make add, remove, replace, hide-identical, highlight-differences, group collapse, save, share, export, and choose controls keyboard operable.",
+    "Do not rely only on color to highlight differences; pair highlighting with labels, icons, text, or difference summaries.",
+    "Announce selected-item count changes, max-limit errors, rows hidden, differences highlighted, item removed, and attribute load failures.",
+    "Ensure mobile or narrow layouts preserve header-cell relationships rather than turning values into unlabeled text."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches compare-selection controls in source results, selected-item tray, comparison controls, item remove buttons, item actions, group toggles, and return-to-browse control.",
+    "Enter or Space toggles add to compare, hide identical, highlight differences, group expansion, save, remove, replace, and item action controls.",
+    "After adding or removing an item, focus remains on the invoking control, selected-item tray, or next sensible compared item with an announced count change.",
+    "Keyboard users can move through row labels, item headers, and values without losing which item and attribute they are reading.",
+    "Horizontal scroll regions, sticky headers, and paired mobile selectors are keyboard operable.",
+    "Escape closes attribute notes, item swap menus, or overflow menus and returns focus to the invoking control."
+  ],
+  "failureModes": [
+    "Users compare by memory across separate detail pages because there is no shortlist or side-by-side surface.",
+    "The comparison matrix has too many columns, too many rows, and no grouping or difference controls.",
+    "Item identity disappears while scrolling, causing users to misread which column belongs to which item.",
+    "Identical rows and irrelevant attributes bury the few meaningful differences.",
+    "Missing values, stale prices, vendor-supplied specs, or normalized values are not disclosed.",
+    "Removing one item resets the entire comparison or returns users to the top of the source list.",
+    "Mobile layout clips columns and values instead of limiting items or attributes.",
+    "Compare buttons are hidden on hover or have labels that do not include the item being added."
+  ],
+  "relatedPatterns": [
+    "table",
+    "data-grid",
+    "card-grid",
+    "card-list",
+    "details-panel",
+    "filter-panel",
+    "sort-controls",
+    "pagination",
+    "collection"
+  ],
+  "comparisons": [
+    "compare-view-vs-table-vs-card-grid-vs-details-panel"
+  ],
+  "examples": [
+    {
+      "product": "NN/g comparison tables",
+      "url": "https://www.nngroup.com/articles/comparison-tables/",
+      "platform": "web",
+      "notes": "Documents comparison table structure, static and dynamic comparison, item limits, sticky headers, meaningful attributes, and difference controls.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Baymard comparison feature scanning",
+      "url": "https://baymard.com/blog/user-friendly-comparison-tools",
+      "platform": "web",
+      "notes": "Documents hiding identical attributes, grouping attributes, sticky column headings, row styling, and highlighting differences.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Baymard spec-driven comparison features",
+      "url": "https://baymard.com/blog/provide-comparison-features",
+      "platform": "web",
+      "notes": "Documents persistent compare checkboxes, selected-item reminders, side-by-side specs, and mobile tradeoffs for comparison features.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "NN/g mobile tables",
+      "url": "https://www.nngroup.com/articles/mobile-tables/",
+      "platform": "mobile",
+      "notes": "Documents locking headers and allowing subset selection for usable mobile comparison and data tables.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "nng-comparison-tables",
+      "note": "NN/g supports comparison table structure, limited compared item counts, scannability, meaningful attributes, sticky headers, and user controls."
+    },
+    {
+      "id": "baymard-user-friendly-comparison-tools",
+      "note": "Baymard supports hiding identical attributes, grouping attributes, persistent headings, row styling, and difference highlighting."
+    },
+    {
+      "id": "baymard-provide-comparison-features",
+      "note": "Baymard supports persistent compare checkboxes, selected-item reminders, and side-by-side specs for spec-driven products."
+    },
+    {
+      "id": "nng-mobile-tables",
+      "note": "NN/g supports locked headers and subset selection for mobile comparison tables."
+    },
+    {
+      "id": "nng-data-tables-tasks",
+      "note": "NN/g supports comparison as a table task and the need to keep headers and data points close."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers selected item count and limits, side-by-side item columns, grouped rows, row labels, consistent units, missing and stale attribute states, remove and replace controls, add-from-browse flow, hide-identical control, difference highlighting, sticky item identity, selected-item tray, mobile pair comparison, and export or return behavior.",
+    "relatedPatternDistinction": "Distinguishes Compare view from table for many records, data-grid for editable cell work, card grid and card list for candidate browsing, details-panel for one selected object, filter-panel and sort-controls for narrowing the source set, pagination for result navigation, and collection for managing a saved set.",
+    "liveDemoBehavior": "The demo compares a laptop shortlist with grouped attributes, sticky item cards, hide-identical and highlight-difference controls, Add Terra, remove item, mobile pair mode, group toggling, export messaging, and bad modes for too many items, hidden compare control, missing sticky identity, identical clutter, inconsistent specs, crushed mobile columns, and lost shortlist state.",
+    "comparisonDecisionRules": "Comparison compare-view-vs-table-vs-card-grid-vs-details-panel defines when to use selected side-by-side comparison, many-row tables, candidate-browsing card grids, and single-object details panels, including requirements for item limits, selected-item preservation, row-label alignment, sticky identity, differences-only mode, and mobile pair handling.",
+    "duplicateAudit": "Completion audit reports zero normalized duplicate field groups after adding the pattern.",
+    "manualSpotCheck": "Checked /patterns/compare-view/ in Chromium, exercised good controls for Add Terra, remove item, hide identical, highlight diffs, pin header, mobile pair, group specs, and export shortlist, exercised all bad-mode controls, checked the comparison route, and inspected the 390px mobile layout on 2026-06-11.",
+    "screenshots": [
+      "screenshots/patterns/compare-view.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

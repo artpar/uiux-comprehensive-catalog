@@ -1,0 +1,282 @@
+{
+  "id": "map-view",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed spatial viewport pattern with distinct boundaries from list view, card list, card grid, table, data grid, calendar view, filter panel, search scope selector, and details panel; includes map bounds, zoom, coordinate-anchored markers, selected-place popup, cluster counts and expansion, layer controls, geolocation recovery, route preview, synchronized fallback list, legend and distance rules, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Defines spatial viewport, visible bounds, zoom and distance context, coordinate-anchored markers, selected marker, popup or side detail, cluster counts, layer and filter controls, route or radius overlay, geolocation permission recovery, stale tile and empty region states, and synchronized fallback results.",
+    "relatedPatternDistinction": "Separates Map view from list view and card surfaces for object scanning, table and data grid for field comparison, calendar view for time placement, filter panel and search scope selector for query controls, and details panel for selected-object inspection.",
+    "liveDemoBehavior": "Good UI and UX demos show Downtown west bounds, marker buttons, selected-place popup, cluster count and expansion, transit layer toggle, denied-location manual recovery, route preview, fallback list mode, synchronized result list, and bad modes for decorative pins, no cluster, no legend, permission dead end, stale bounds, hover-only detail, and wrong distance.",
+    "comparisonDecisionRules": "map-view-vs-list-view-vs-calendar-view-vs-table explains when spatial placement, distance, route, coverage, density, or viewport boundaries require Map view instead of list view, calendar view, or table.",
+    "duplicateAudit": "catalog-completion-audit reports zero normalized duplicate field groups after adding this pattern.",
+    "manualSpotCheck": "Browser spot-check on 2026-06-11 exercised the Map view route, pan, cluster expansion, marker selection, layer toggle, denied-location recovery, route preview, fallback list mode, all bad-mode buttons, comparison route, and 390px mobile viewport.",
+    "screenshots": [
+      "screenshots/patterns/map-view.png"
+    ]
+  },
+  "name": "Map view",
+  "aliases": [
+    "interactive map",
+    "location map",
+    "geographic map",
+    "spatial view",
+    "map browser",
+    "places map",
+    "asset map",
+    "store locator map",
+    "incident map"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Search, Browse, And Discovery",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Spatial viewport for location-based objects, layers, and routes",
+  "uiGuidance": [
+    "Render a real spatial viewport with visible map region, zoom state, scale or distance context, markers or shapes anchored to coordinates, selected-place detail, cluster counts, visible layer/filter controls, and a fallback list or table for the same results.",
+    "Show marker states, selected marker, popup or side-detail position, cluster expansion, geolocation permission state, route or radius overlays, legends, empty-region state, and loading or stale-tile states without depending on color or pointer hover alone."
+  ],
+  "uxGuidance": [
+    "Use Map view when the user's decision depends on where objects are, how far apart they are, what falls inside the current area, which route or coverage applies, or how dense nearby points are.",
+    "Keep spatial interaction honest: panning, zooming, filtering, clustering, geolocation, route preview, and popup selection must update counts, bounds, fallback list, distance context, and focus in ways that preserve the selected place."
+  ],
+  "uiExamples": {
+    "good": [
+      "A clinic finder map shows visible bounds, zoom level, selected clinic marker, appointment availability markers, a transit layer toggle, cluster counts, distance chips, and a synchronized results list.",
+      "An operations incident map shows sensor markers, outage polygons, a legend, selected incident popup, service-radius overlay, stale-data badge, and keyboard-accessible place list."
+    ],
+    "bad": [
+      "A decorative map background contains unlabeled pins with no coordinate meaning, no current region, no selected marker, no legend, and no list fallback.",
+      "A store locator uses a full map but every pin overlaps, cluster counts are missing, distance is not shown, and the popup floats away from the selected location."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A dispatcher pans to the west district, the result count and list update to the current bounds, a cluster expands at closer zoom, and the selected incident popup remains tied to the marker.",
+      "A traveler denies location permission, enters an address instead, sees nearby stations sorted by distance, toggles bike-lane and transit layers, and previews a route without losing the selected station."
+    ],
+    "bad": [
+      "A user filters to open locations but the map markers update while the list still shows closed locations, causing the wrong branch to be selected.",
+      "A location permission prompt is rejected and the entire locator becomes unusable even though manual search or a saved address exists."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to make decisions from geographic position, distance, route, density, region, or coverage, but list, table, and calendar surfaces flatten location into text and hide spatial relationships.",
+  "solution": "Provide a Map view with coordinate-anchored objects, pan and zoom, marker selection, popups or details, clustering, layers, geolocation recovery, viewport-aware counts, route or radius context, legends, and a synchronized non-map fallback.",
+  "problemContext": [
+    "Locations, assets, incidents, events, service areas, deliveries, rooms, or routes are meaningful because of where they are.",
+    "Users may need to pan, zoom, search within bounds, inspect clusters, choose a nearby item, compare distance, or understand coverage.",
+    "Maps often combine basemap tiles, vector layers, markers, routes, polygons, popups, clustering, filters, and browser geolocation.",
+    "Location permission, stale tiles, dense markers, hidden layers, offscreen popups, and unsynchronized fallback lists can make a map misleading.",
+    "Map view must remain usable for keyboard users, low-vision users, users who deny location, and users who need a structured list instead of visual geography."
+  ],
+  "selectionRules": [
+    "Choose Map view when spatial relationship, proximity, coverage, route, region, or real-world placement changes the user's decision.",
+    "Use list view when the main task is scanning object summaries and location can be represented as text or a distance sort.",
+    "Use table when users need aligned field comparison, bulk review, or export of records.",
+    "Use calendar view when time placement, duration, availability, or recurrence matters more than geography.",
+    "Use data visualization when the task is aggregate trend, distribution, or metric analysis rather than choosing place-level objects.",
+    "Use search results when ranked matching is primary and map position is secondary.",
+    "Cluster dense markers and disclose cluster counts when markers overlap or density makes individual selection unreliable.",
+    "Show the current area, active layers, filters, location source, selected marker, and result count so the map's scope is not ambiguous.",
+    "Provide a fallback list, table, or accessible result summary that stays synchronized with the map bounds and filters.",
+    "Avoid Map view when coordinates are decorative, approximate without disclosure, or unrelated to the user's decision.",
+    "Avoid Map view as the only control when geolocation permission or map tile loading can fail."
+  ],
+  "requiredStates": [
+    "Default map state with visible viewport, zoom level or distance context, markers, layer state, result count, and synchronized fallback list.",
+    "Marker selected, marker focused, popup open, popup dismissed, side detail open, and selected item in fallback list.",
+    "Clustered markers, expanded cluster, dense overlap, empty region, filtered region, hidden layer, and hidden-result count states.",
+    "Panning, zooming, search-this-area, fit-to-results, route preview, radius selection, and layer toggle states.",
+    "Geolocation requested, allowed, denied, unavailable, manual-location fallback, and approximate-location disclosure states.",
+    "Loading tiles, failed tiles, stale map data, slow network, offline fallback, and attribution visible states.",
+    "Keyboard marker navigation, list fallback navigation, popup focus return, and non-pointer route or selection states.",
+    "Responsive state where map controls, selected detail, bounds count, and fallback list remain reachable on mobile."
+  ],
+  "interactionContract": [
+    "Markers, shapes, routes, clusters, and overlays represent explicit coordinates, features, or geographic areas, not decorative positions.",
+    "Panning, zooming, filtering, layer toggling, and search-this-area update visible markers, counts, selected detail, and fallback list from the same result set.",
+    "Selecting a marker opens a popup or detail that names the place, explains relevant distance or status, and provides a keyboard path back to the marker and fallback list.",
+    "Clusters expose count and category composition when useful, and users can expand, zoom, or inspect contained items without losing map context.",
+    "Geolocation is optional unless the task truly requires it; denied or unavailable location provides manual search, saved location, current map area, or list fallback.",
+    "Legends and text labels explain marker color, shape, heat, route, polygon, radius, and layer meaning.",
+    "Distances, routes, travel times, and service areas state origin, unit, mode, approximation, and stale-data status when those affect the decision.",
+    "Keyboard and assistive-technology users can reach layer controls, search, result list, selected place details, and map movement alternatives without pointer-only gestures."
+  ],
+  "implementationChecklist": [
+    "Define feature schema: id, name, coordinate, geometry type, category, status, distance, availability, popup fields, route metadata, layer, timestamp, and permissions.",
+    "Define viewport model: center, zoom, bounds, selected feature, active filters, active layers, result count, cluster state, and fallback-list ordering.",
+    "Implement marker selection, popup or side detail, fit-to-results, search-this-area, cluster expansion, layer toggles, radius or route preview, and manual location fallback.",
+    "Keep map markers, cluster counts, fallback list, search results, and selected detail synchronized after pan, zoom, filter, layer, and geolocation changes.",
+    "Model empty region, dense cluster, denied location, unavailable geolocation, stale data, failed tiles, hidden layer, offscreen popup, and mobile stacked layouts.",
+    "Show attribution, legends, scale or distance context, location source, and result scope near the map.",
+    "Test keyboard access, popup focus return, marker labels, high marker density, long place names, small screens, slow tiles, and denied browser permissions.",
+    "Use a proven map SDK or service for projection, panning, tile loading, clustering, geolocation, and geometry math in production rather than inventing spatial math."
+  ],
+  "commonMisuses": [
+    "Using a map as decoration when the positions do not affect the task.",
+    "Showing markers without labels, selected state, popup detail, count, or fallback list.",
+    "Letting dense markers overlap without clustering or zoom guidance.",
+    "Treating geolocation denial as a dead end.",
+    "Changing map filters without updating list results and result counts.",
+    "Showing route, distance, radius, or service area without units, origin, mode, or approximation.",
+    "Hiding layer meaning behind color-only markers with no legend.",
+    "Making panning, zooming, popup opening, or marker selection pointer-only."
+  ],
+  "critiqueQuestions": [
+    "What spatial decision does the map make easier than a list, table, calendar, or chart?",
+    "Can users tell the current area, zoom, layer state, result count, and selected marker?",
+    "Do markers, clusters, popups, fallback list, filters, and bounds update from the same data?",
+    "What happens when markers overlap, map tiles fail, location permission is denied, or the selected marker moves offscreen?",
+    "Can keyboard and assistive-technology users inspect places and complete the task without dragging or hovering on the map?",
+    "Would a list view, table, calendar view, data visualization, or search result list better fit the task?"
+  ],
+  "useWhen": [
+    "Users choose or inspect objects by where they are, how near they are, or what area they fall inside.",
+    "Density, clusters, routes, regions, service areas, or nearby alternatives matter to the task.",
+    "The product can keep map state, selected detail, result list, and location source synchronized.",
+    "A non-map fallback can support users who cannot or do not want to use visual map interaction."
+  ],
+  "avoidWhen": [
+    "Location is only a label or decorative backdrop.",
+    "Users primarily compare structured fields or bulk-edit records.",
+    "Users primarily manage time, duration, recurrence, or availability.",
+    "The implementation cannot provide clustering, fallback results, permission recovery, or accessible controls.",
+    "Approximate or stale coordinates would mislead users without clear disclosure."
+  ],
+  "variants": [
+    "Store locator map",
+    "Asset tracking map",
+    "Incident map",
+    "Delivery route map",
+    "Property search map",
+    "Transit stop map",
+    "Indoor venue map",
+    "Coverage area map",
+    "Service radius map",
+    "Heatmap with point details",
+    "Clustered marker map",
+    "Map with synchronized result list"
+  ],
+  "accessibility": [
+    "Expose the map name, current area, result count, active filters, layers, selected place, and location permission state as text.",
+    "Give markers or fallback list rows accessible names with place name, category, status, distance, and selected state.",
+    "Provide keyboard-operable controls for search, zoom, pan alternatives, fit-to-results, layer toggles, cluster expansion, marker selection, popup close, and list fallback.",
+    "Keep marker popup focus contained only when needed, return focus to the selected marker or list row, and do not trap focus in the map canvas.",
+    "Do not rely only on color for marker category, availability, route, radius, selection, cluster density, or stale data.",
+    "Announce changes to result count, selected place, geolocation denial, active layers, search-this-area updates, and failed map tiles in text or status regions.",
+    "Maintain usable target sizes and avoid controls that overlap attribution, selected detail, or mobile browser safe areas."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches search, result count, layer controls, zoom controls, fit-to-results, selected place detail, fallback list, and primary place actions.",
+    "Enter or Space selects markers in the fallback list, opens and closes place detail, toggles layers, expands clusters, and previews routes.",
+    "Arrow-key map panning may be implemented, but non-pointer controls or fallback list navigation must still make the task possible.",
+    "Escape closes popups, route previews, layer menus, and geolocation prompts and returns focus to the invoking control.",
+    "After pan, zoom, filter, search-this-area, or cluster expansion, focus remains near the triggering control or moves to an announced result summary.",
+    "When geolocation fails or is denied, focus moves to manual location entry or a clear fallback action."
+  ],
+  "failureModes": [
+    "Markers overlap and users cannot tell how many results are hidden.",
+    "The selected popup is detached from the marker or opens outside the viewport.",
+    "Bounds, filters, clusters, and fallback list disagree about which results are visible.",
+    "Geolocation permission denial prevents all progress.",
+    "Layer colors and route lines have no text legend.",
+    "Distance or route values omit origin, unit, travel mode, or stale-data status.",
+    "Keyboard users cannot select markers, expand clusters, or close popups.",
+    "Mobile map controls cover selected details, attribution, or primary actions."
+  ],
+  "relatedPatterns": [
+    "list-view",
+    "card-list",
+    "card-grid",
+    "table",
+    "data-grid",
+    "calendar-view",
+    "filter-panel",
+    "search-scope-selector",
+    "details-panel",
+    "empty-state"
+  ],
+  "comparisons": [
+    "map-view-vs-list-view-vs-calendar-view-vs-table"
+  ],
+  "examples": [
+    {
+      "product": "Google Maps JavaScript API info windows",
+      "url": "https://developers.google.com/maps/documentation/javascript/infowindows",
+      "platform": "web",
+      "notes": "Documents map popups attached to markers or latitude/longitude and exposed as dialogs.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Maps JavaScript API marker clustering",
+      "url": "https://developers.google.com/maps/documentation/javascript/marker-clustering",
+      "platform": "web",
+      "notes": "Documents grouping many markers into clusters that change with zoom.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Mapbox GL JS markers and clusters",
+      "url": "https://docs.mapbox.com/mapbox-gl-js/guides/add-your-data/markers/",
+      "platform": "web",
+      "notes": "Documents coordinate-positioned interactive markers and related map data display choices.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Leaflet quick start",
+      "url": "https://leafletjs.com/examples/quick-start/",
+      "platform": "web",
+      "notes": "Documents maps with markers, popups, geometry, tiles, and interaction events.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "ArcGIS Maps SDK popups and clustering",
+      "url": "https://developers.arcgis.com/javascript/latest/references/core/widgets/Popup/",
+      "platform": "web",
+      "notes": "Documents popups for feature attributes and cluster summaries for dense map features.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "google-maps-info-windows",
+      "note": "Google documents info windows as popup content attached to markers or coordinates and exposed as dialogs."
+    },
+    {
+      "id": "google-maps-marker-clustering",
+      "note": "Google documents marker clustering for large marker sets and zoom-dependent cluster behavior."
+    },
+    {
+      "id": "mapbox-gl-js-markers",
+      "note": "Mapbox documents markers as coordinate-positioned interactive elements for specific locations."
+    },
+    {
+      "id": "mapbox-gl-js-clusters",
+      "note": "Mapbox documents clusters, cluster counts, zoom expansion, and point popups."
+    },
+    {
+      "id": "mapbox-gl-js-geolocate-control",
+      "note": "Mapbox documents a geolocation control based on the browser geolocation API."
+    },
+    {
+      "id": "leaflet-quick-start-map-markers-popups",
+      "note": "Leaflet documents mobile-friendly interactive maps with markers, popups, geometry, and event handling."
+    },
+    {
+      "id": "arcgis-javascript-popup",
+      "note": "ArcGIS documents popups that show feature attributes from map layers."
+    },
+    {
+      "id": "arcgis-javascript-feature-reduction-cluster",
+      "note": "ArcGIS documents cluster renderers, labels, and popups that summarize grouped features."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

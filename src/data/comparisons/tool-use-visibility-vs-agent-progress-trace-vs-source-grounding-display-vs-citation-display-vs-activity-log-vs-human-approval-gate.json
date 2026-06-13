@@ -1,0 +1,61 @@
+{
+  "id": "tool-use-visibility-vs-agent-progress-trace-vs-source-grounding-display-vs-citation-display-vs-activity-log-vs-human-approval-gate",
+  "title": "Tool-use visibility vs agent progress trace vs source grounding display vs citation display vs activity log vs human approval gate",
+  "summary": "Use tool-use visibility for inspectable AI tool calls, inputs, outputs, permissions, redaction, and side effects; agent progress trace for run-level step progress; source grounding display for whole-answer evidence coverage; citation display for claim-level sources; activity log for retained event evidence; and human approval gate for a paused authorization decision.",
+  "patternIds": [
+    "tool-use-visibility",
+    "agent-progress-trace",
+    "source-grounding-display",
+    "citation-display",
+    "activity-log",
+    "human-approval-gate"
+  ],
+  "decisionRules": [
+    "Choose tool-use visibility when users need inspectable AI tool calls with tool name, tool input, tool output, permission scope, target object, side-effect risk, redaction reason, raw payload eligibility, and tool status.",
+    "Choose agent progress trace when users need the run-level ordered sequence of steps, current step, queued step, blocker, retry, cancellation, and final outcome.",
+    "Choose source grounding display when users need whole-answer evidence coverage, source scope, retrieved sources, used evidence, and unsupported claims.",
+    "Choose citation display when users need claim-level source preview and claim-to-source mapping.",
+    "Choose activity log when users need retained event evidence, export, retention, actor, timestamp, and audit investigation after the run.",
+    "Choose human approval gate when one tool call or automation step is a paused authorization decision and an eligible human must approve, reject, edit, or bypass before execution continues.",
+    "Tool-use visibility should show pending, running, succeeded, failed, denied, redacted, permission-limited, retrying, approval-required, side-effect preview, side-effect executed, and stale result states.",
+    "The tool surface should summarize safely before exposing raw request, raw response, stack trace, command output, file path, source excerpt, private record, credential, or hidden prompt detail.",
+    "Use redaction labels, role-gated details, copy tool ID, open source, open target, view audit, retry, cancel, grant permission, and open approval gate actions according to tool state.",
+    "Do not replace tool-use visibility with a vague Using tools label, raw JSON dump, progress spinner, citation list, grounding badge, or post-hoc audit row.",
+    "Do not treat tool output as verified evidence unless citation display or source grounding display shows how the output supports the generated claim."
+  ],
+  "failureModes": [
+    "Tool calls are hidden behind a spinner or Thinking label.",
+    "Raw payloads leak secrets, credentials, private records, hidden prompts, or irrelevant internal events.",
+    "A side-effecting tool call executes without preview, permission scope, or human approval gate.",
+    "A failed, denied, partial, stale, or redacted tool output is shown as simple success.",
+    "Retrying a side-effecting tool creates duplicate changes because idempotency and target object are hidden.",
+    "The final audit record cannot be tied back to tool call ID, run ID, step ID, and reviewed plan version."
+  ],
+  "sources": [
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports structured tool calls and tool outputs in conversation state."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports event-based lifecycle handling during tool and response work."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports control, feedback, correction, and capability disclosure for AI behavior."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible status updates for tool-call state changes."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports distinguishing file-search tool output inspection from source grounding coverage."
+    },
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports distinguishing web-search tool output inspection from claim-level citation mapping."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

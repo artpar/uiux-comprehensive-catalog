@@ -1,0 +1,266 @@
+{
+  "id": "swipe-action",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed swipe-action pattern with row ownership, horizontal gesture hint, partial reveal, threshold, snap-back, revealed actions, safe commit, destructive review, undo, bidirectional action, disabled action, scroll-conflict, keyboard, screen reader, bulk-selection, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers swipe action as a horizontal row-level gesture that reveals or commits item-scoped commands, with idle row, gesture hint, partial reveal, threshold, snap back, revealed actions, committed action, destructive action, undo, bidirectional actions, disabled action, scroll conflict, keyboard path, screen reader action, bulk selection, and mobile compact states.",
+    "relatedPatternDistinction": "Separated from touch gesture as the broader gesture contract, list view as row structure and scanning behavior, action menu as explicit command access, undo as post-action recovery, confirmation dialog as pre-action consequence review, and pull to refresh as vertical top-of-scroll data refresh.",
+    "liveDemoBehavior": "Good demo exercises idle row, gesture hint, partial reveal, threshold, snap back, revealed actions, committed action, destructive action, undo, bidirectional actions, disabled action, scroll conflict, keyboard path, screen reader action, bulk selection, and mobile compact states. Bad demo exercises hidden-only, accidental delete, no undo, vertical conflict, icon mystery, destructive no confirm, and no equivalent failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes swipe action from touch gesture, list view, action menu, undo, and confirmation dialog by horizontal row gesture, row-scoped action, partial reveal, threshold, release boundary, snap-back, equivalent non-gesture control, status message, row anatomy, explicit command trigger, post-action recovery, and pre-action review.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 265 complete patterns, 1 excluded in-progress pattern, 32 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/swipe-action/ with required terms present, no duplicate IDs, no page overflow, and no swipe-action demo overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/swipe-action-vs-touch-gesture-vs-list-view-vs-action-menu-vs-undo-vs-confirmation-dialog/ was checked at desktop and compact widths with concrete decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/swipe-action.png"
+    ]
+  },
+  "name": "Swipe action",
+  "aliases": [
+    "contextual swipe",
+    "swipe to reveal",
+    "swipe to delete",
+    "swipe to archive",
+    "row swipe action",
+    "swipe-to-dismiss",
+    "swipe-to-update"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Selection And Choice",
+    "Error Prevention And Recovery",
+    "Data Display And Exploration"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Horizontal item-level gesture that reveals or commits row-scoped actions",
+  "uiGuidance": [
+    "Render swipe action as a row-scoped horizontal gesture with clear direction, action label, background affordance, threshold feedback, cancel behavior, and a visible action-menu or button equivalent.",
+    "Use distinct visual treatment for safe, positive, and destructive swipe actions, and keep destructive outcomes reversible or routed to confirmation when recovery is not reliable."
+  ],
+  "uxGuidance": [
+    "Use swipe action for frequent item-level actions such as archive, mark read, complete, pin, dismiss, or reveal row commands when the row remains understandable without the gesture.",
+    "Do not make swipe the only way to act; protect vertical scrolling, pull-to-refresh, row navigation, selection, assistive technology, keyboard, and pointer users with equivalent controls and conflict rules."
+  ],
+  "uiExamples": {
+    "good": [
+      "A message row reveals Archive on left swipe and More actions on right swipe, shows action labels behind the row, snaps back before threshold, and keeps a More menu for the same commands.",
+      "A task row crossing the complete threshold shows Complete task, moves the task to Done, and displays Undo complete with the task name."
+    ],
+    "bad": [
+      "A hidden swipe deletes a row immediately with no label, threshold feedback, undo, confirmation, or menu equivalent.",
+      "A diagonal scroll inside a list activates a destructive swipe action while the user is trying to read older rows.",
+      "Two icon-only actions appear behind a row with no text, no direction hint, and no screen reader path."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user partially swipes a notification, sees Archive and Mark read labels, releases before threshold, and the row snaps back unchanged.",
+      "A keyboard user opens the row action menu, chooses Archive, and receives the same archived status plus Undo as the swipe path.",
+      "A user swipes a destructive row far enough to reveal Delete, then must tap Delete or confirm because the item cannot be restored safely."
+    ],
+    "bad": [
+      "A user swipes to scroll a horizontally cramped row and accidentally archives a critical alert.",
+      "A user with switch control cannot find the hidden Archive action because the row has no visible action equivalent.",
+      "A screen reader user hears only the row title, not the available swipe actions or the completed result."
+    ]
+  },
+  "platforms": [
+    "mobile",
+    "web",
+    "desktop"
+  ],
+  "problem": "Swipe actions can make repeated row work fast on touch devices, but hidden horizontal gestures are hard to discover, easy to trigger accidentally, and exclusionary when they replace visible, keyboard, or assistive action paths.",
+  "solution": "Design swipe action as a row-level shortcut with visible affordance or teaching, directional labels, partial reveal, threshold and snap-back behavior, conflict resolution with scroll and navigation, equivalent controls, and recovery or confirmation for risky outcomes.",
+  "problemContext": [
+    "The surface contains repeated list, feed, card, notification, message, task, file, or table rows with row-scoped actions.",
+    "The same row may support tap-to-open, selection, action menu, drag, vertical scrolling, pull-to-refresh, nested horizontal content, or bulk actions.",
+    "Actions can be safe, reversible, positive, destructive, permission-limited, disabled, or unavailable while the object is syncing.",
+    "Users may interact through touch, mouse, trackpad, keyboard, switch control, screen reader, stylus, or assistive pointer devices."
+  ],
+  "selectionRules": [
+    "Choose swipe action when the design problem is a horizontal item-level gesture that reveals or commits row-scoped commands.",
+    "Use touch gesture when the question is the broader gesture vocabulary, threshold, feedback, cancellation, target sizing, and equivalent controls across many gestures.",
+    "Use list view when the main problem is row anatomy, scanning, selection, sorting, filtering, pagination, or opening objects.",
+    "Use action menu when commands should be explicitly listed from a visible trigger instead of hidden behind horizontal movement.",
+    "Use undo when the core design problem is post-action recovery after a completed reversible action.",
+    "Use confirmation dialog when a destructive or high-impact row action cannot be safely undone.",
+    "Use pull to refresh for a vertical top-of-scroll refresh gesture, not for horizontal item actions.",
+    "Use drag and drop when the gesture moves an object from a source to a destination rather than revealing row commands.",
+    "Reveal destructive actions before committing them unless the outcome is routine, clearly labeled, and reliably recoverable.",
+    "Do not place hidden swipe action as the only path to primary, critical, security, payment, consent, or account actions."
+  ],
+  "requiredStates": [
+    "Idle row state with visible row identity and discoverable action path.",
+    "Gesture hint state for teaching that the row supports a horizontal swipe action.",
+    "Partial reveal state showing action label, icon, direction, and affected row.",
+    "Below-threshold snap-back state that leaves the row unchanged.",
+    "Threshold reached state with release-to-commit or release-to-reveal feedback.",
+    "Revealed actions state with tappable row-scoped commands and cancel behavior.",
+    "Committed safe action state with status message and stable focus or row position.",
+    "Destructive action state with undo, confirmation, or review according to reversibility.",
+    "Multiple action or bidirectional state that clearly separates left and right swipe outcomes.",
+    "Disabled or permission-limited action state with explanation.",
+    "Conflict state for vertical scroll, pull-to-refresh, row navigation, selection, nested carousel, or system back gesture.",
+    "Keyboard, screen reader, switch, mouse, and action-menu equivalent state.",
+    "Bulk-selection state where row swipe does not conflict with selected-set actions.",
+    "Mobile compact, large text, and landscape states with readable labels and targets."
+  ],
+  "interactionContract": [
+    "Swipe action starts only from the intended row and horizontal axis; vertical scroll and pull-to-refresh win when movement is primarily vertical.",
+    "The row shows a visible background, label, icon, and progress before any command is committed.",
+    "Releasing before threshold snaps the row back and leaves the model unchanged.",
+    "Crossing threshold either reveals actions for explicit tap or commits one clearly labeled action according to the product's risk rule.",
+    "Destructive or high-impact actions are reversible with undo or require confirmation before final execution.",
+    "Every swipe action has an equivalent visible button, action menu item, keyboard command, or contextual action path with the same disabled, pending, success, and recovery states.",
+    "Only one row remains actively swiped open unless the product deliberately supports multiple open rows.",
+    "Completed actions announce the row name, action name, and recovery path where applicable."
+  ],
+  "implementationChecklist": [
+    "Inventory each row action, direction, threshold, reveal width, commit rule, reversibility, disabled reason, and equivalent non-gesture control.",
+    "Define whether each swipe reveals action buttons, commits on release, or requires a tap after reveal.",
+    "Write direction-specific labels such as Archive message, Mark read, Pin task, or Delete file instead of relying on color or icons alone.",
+    "Set movement thresholds, angle locks, velocity handling, snap-back animation, and system edge-reservation rules.",
+    "Resolve conflicts with vertical scroll, pull-to-refresh, horizontal carousels, row selection, drag handles, nested scrollers, and browser or OS back gestures.",
+    "Make row action menus, visible buttons, keyboard shortcuts, or context menus trigger the same command handlers as swipe.",
+    "Add undo, confirmation, or delayed finalization for destructive actions according to reversibility and external side effects.",
+    "Test accidental diagonal movement, one-handed use, large text, screen reader, keyboard, switch control, mouse drag, trackpad swipe, pointer cancellation, and bulk selection."
+  ],
+  "commonMisuses": [
+    "Making a hidden swipe the only way to archive, delete, complete, or reveal row actions.",
+    "Committing a destructive action before users see the label or cross a clear threshold.",
+    "Letting vertical scroll, pull-to-refresh, row navigation, and swipe action trigger at the same time.",
+    "Using unlabeled icon-only action backgrounds or color-only destructive cues.",
+    "Offering different commands in swipe and the visible action menu.",
+    "Leaving multiple rows half-open and visually confusing list state.",
+    "Providing no undo, confirmation, or recovery for a risky swipe result.",
+    "Assuming desktop hover hints teach mobile users the gesture."
+  ],
+  "critiqueQuestions": [
+    "What exact row action does each swipe direction reveal or commit?",
+    "How does the user learn that the row supports swipe action before they need it?",
+    "What threshold, release boundary, and snap-back behavior prevent accidental activation?",
+    "Where is the non-gesture equivalent for keyboard, screen reader, switch, mouse, and assistive pointer users?",
+    "Which outcomes are reversible with undo, and which require confirmation before execution?",
+    "How do vertical scroll, pull-to-refresh, row open, row selection, drag, and system back gestures avoid fighting each other?",
+    "What status message names the affected row and result after activation?"
+  ],
+  "useWhen": [
+    "Users repeatedly perform simple item-level actions on touch-first rows.",
+    "The row already has a visible or accessible equivalent action path.",
+    "The action can be labeled, previewed, canceled, and recovered or confirmed safely."
+  ],
+  "avoidWhen": [
+    "The action is rare, complex, high-impact, non-reversible, or requires review before execution.",
+    "The row has dense nested controls, horizontal scrolling content, drag handles, maps, or other gestures that cannot be resolved cleanly.",
+    "The product cannot provide an equivalent non-gesture control.",
+    "The action changes a selected set, account state, payment, permission, consent, or security posture.",
+    "Users need to compare or edit multiple values rather than act on one row."
+  ],
+  "variants": [
+    "Swipe to reveal actions",
+    "Swipe to archive",
+    "Swipe to delete",
+    "Swipe to complete",
+    "Swipe to mark read",
+    "Bidirectional swipe actions",
+    "Swipe with undo",
+    "Swipe with confirmation",
+    "Swipe action menu equivalent",
+    "Swipe action disabled state"
+  ],
+  "accessibility": [
+    "Provide a visible or programmatic action equivalent that does not require a path-based gesture.",
+    "Expose row action labels with the affected object name, such as Archive Budget review message.",
+    "Announce partial reveal only when it matters, and announce committed results with status messaging.",
+    "Do not rely on color, position, motion, or icon alone for action meaning or destructive risk.",
+    "Keep revealed action targets large enough and spaced from row navigation or selection controls.",
+    "Ensure screen reader custom actions, row menus, or buttons expose the same choices as the swipe path.",
+    "Keep focus stable after snap-back and move focus predictably after completion, undo, or confirmation."
+  ],
+  "keyboardBehavior": [
+    "Keyboard users can reach row actions through a visible button, action menu, context menu, shortcut, or row command area.",
+    "Enter or Space on the row opens or selects the row according to list rules, not a hidden swipe command.",
+    "Arrow keys and Tab do not move through offscreen revealed actions unless the row has been intentionally opened.",
+    "Escape closes revealed actions and returns the row to idle without changing data.",
+    "After an action completes, focus moves to a status, undo control, confirmation dialog, affected row, or next row according to the command outcome.",
+    "Repeated activation is disabled while a row action is pending."
+  ],
+  "failureModes": [
+    "A diagonal scroll archives a row while the user is trying to read the list.",
+    "A row deletes immediately on swipe with no label, undo, or confirmation.",
+    "A visible More menu offers different commands from the hidden swipe actions.",
+    "Screen reader users cannot discover Archive because it exists only as a gesture.",
+    "Two rows remain open and the user cannot tell which row an action belongs to.",
+    "Swipe action conflicts with pull-to-refresh at the top of the list.",
+    "A disabled swipe action gives no reason and no alternate path.",
+    "A system back edge gesture is captured by a row action."
+  ],
+  "relatedPatterns": [
+    "touch-gesture",
+    "list-view",
+    "action-menu",
+    "undo",
+    "confirmation-dialog",
+    "pull-to-refresh"
+  ],
+  "comparisons": [
+    "swipe-action-vs-touch-gesture-vs-list-view-vs-action-menu-vs-undo-vs-confirmation-dialog"
+  ],
+  "examples": [
+    {
+      "product": "Android Developers Swipe to dismiss or update",
+      "url": "https://developer.android.com/develop/ui/compose/touch-input/user-interactions/swipe-to-dismiss",
+      "platform": "mobile",
+      "notes": "Documents item-level swipe gestures that dismiss or update a row, including background content, thresholds, and direction behavior.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Material Design 3 Gestures",
+      "url": "https://m3.material.io/foundations/interaction/gestures",
+      "platform": "mobile",
+      "notes": "Documents swipe as a gesture for navigation and completing actions, including list-item swipe revealing additional actions.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Apple HIG Lists and tables",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/lists-and-tables",
+      "platform": "mobile",
+      "notes": "Documents row actions including deleting and swipe actions in list and table contexts.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Pointer Gestures",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html",
+      "platform": "web",
+      "notes": "Supports providing non-path-based alternatives for functionality operated by path-based gestures.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "android-compose-swipe-to-dismiss",
+      "note": "Supports item-level swipe gestures that reveal background content, use thresholds, and dismiss or update rows."
+    },
+    {
+      "id": "material-design-gestures",
+      "note": "Supports swipe as a recognized gesture for completing actions and revealing list-item actions."
+    },
+    {
+      "id": "apple-hig-lists-tables",
+      "note": "Supports list and table row actions, including deleting, moving, and swipe actions."
+    },
+    {
+      "id": "w3c-wcag-pointer-gestures",
+      "note": "Supports alternatives for path-based gestures."
+    },
+    {
+      "id": "w3c-wcag-target-size-minimum",
+      "note": "Supports target size and spacing expectations for revealed row actions and equivalent controls."
+    },
+    {
+      "id": "nng-contextual-swipe-actions",
+      "note": "Supports discoverability, accidental activation, and hidden contextual-action risk analysis for swipe actions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

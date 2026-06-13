@@ -1,0 +1,268 @@
+{
+  "id": "reactions",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed lightweight emoji feedback pattern with guidance for item anchoring, add and remove behavior, own-state highlighting, who-reacted disclosure, picker access, custom emoji, skin tone labels, overflow grouping, not-reactable policy, workflow-trigger warnings, activity grouping, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers source-item anchoring, compact reaction chips, emoji names, counts, the current user's selected state, add and remove paths, who-reacted disclosure, picker access, custom emoji policy, skin tone labels, disabled and not-reactable states, already-reacted handling, reaction overflow, workflow-trigger disclosure, mobile long-press behavior, notification policy, activity-feed grouping, moderation, privacy, and sync failure.",
+    "relatedPatternDistinction": "The entry separates reactions from comments by keeping emoji feedback lightweight and reversible rather than written discussion, from mentions by not treating emoji as attention routing, from threaded discussion by avoiding reply structure, from activity feed by making the feed a summary surface rather than the control, from notification center by using durable unread semantics only when configured, from presence by not inferring availability from counts, from button group by adding source-item reaction records, and from tag by avoiding status-label semantics.",
+    "liveDemoBehavior": "The live demo shows message-attached reaction chips with counts, own selected state and remove behavior, add-reaction picker, who-reacted disclosure, custom emoji label, skin tone reaction, grouped overflow, not-reactable disabled policy, workflow-trigger warning, activity grouping, and bad modes for approval confusion, hover-only access, hidden actors, surprise workflow, missing emoji names, and reaction storms.",
+    "comparisonDecisionRules": "The linked reactions-vs-comments-vs-mentions-vs-activity-feed comparison gives concrete rules for reactions, comments, mentions, threaded discussion, activity feed, notification center, presence, approval boundaries, workflow-trigger disclosure, who-reacted visibility, overflow grouping, not-reactable states, and avoiding reactions for assignment, audit evidence, or sensitive decisions.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/reactions/ on 2026-06-11 in Chromium desktop: verified status, Good UI and Bad UI frames, Good UX controls for Default, React mine, Remove mine, Picker, Who reacted, Custom, Skin tone, Overflow, Not reactable, Workflow, and Activity, Bad UX controls for Approval confusion, Hover only, Hidden actors, Surprise workflow, No emoji name, and Reaction storm, no duplicate IDs, and no Reactions demo overflow. Checked /compare/reactions-vs-comments-vs-mentions-vs-activity-feed/ for reactions, comments, mentions, threaded discussion, activity feed, notification center, presence, approval, workflow, who reacted, overflow, and not-reactable decision terms with no duplicate IDs or overflow. Checked 390px mobile emulation for Picker, Who reacted, Custom, Skin tone, Overflow, Not reactable, Workflow, Activity, Surprise workflow, and Reaction storm states with no Reactions demo overflow.",
+    "screenshots": [
+      "screenshots/patterns/reactions.png"
+    ]
+  },
+  "name": "Reactions",
+  "aliases": [
+    "emoji reactions",
+    "message reactions",
+    "comment reactions",
+    "quick reactions",
+    "reaction chips",
+    "emoji response",
+    "like reaction",
+    "reaction count",
+    "who reacted",
+    "reacji"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Disclosure And Attention Management",
+    "Task And Workflow Patterns",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Lightweight emoji feedback control anchored to an existing message, comment, issue, document selection, or work item",
+  "uiGuidance": [
+    "Render reactions as compact chips or controls attached to a specific item, showing emoji or reaction name, count, the current user's selected state, add-reaction access, remove behavior, and a way to inspect who reacted.",
+    "Keep reaction controls distinct from comments, mentions, approvals, assignments, votes, and status tags by naming reaction intent, showing whether reaction counts are informal, and disclosing any workflow automation tied to a specific emoji."
+  ],
+  "uxGuidance": [
+    "Use reactions when users need a fast, low-friction way to acknowledge, support, celebrate, flag lightly, or express sentiment without creating a new reply.",
+    "Protect interpretation by making add/remove reversible, avoiding overloading one emoji with hidden meaning, grouping noisy reactions in activity feeds, and routing consequential decisions to stronger patterns."
+  ],
+  "uiExamples": {
+    "good": [
+      "A message row shows 👍 6, 👀 2, and Add reaction; the user's 👍 is highlighted, clicking it removes their reaction, and opening the count reveals who reacted.",
+      "A Docs selection shows an emoji reaction anchored to highlighted text as a lightweight alternative to a comment, while full comments remain available for written feedback."
+    ],
+    "bad": [
+      "A thumbs-up chip is styled like a formal Approve button and commits a release without approver route, audit, or version context.",
+      "A reaction count appears with no accessible name, no user list, no selected state, and no keyboard path to add or remove a reaction."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A teammate adds 👀 to show they are looking at a message, sees their reaction highlighted, removes it after replying, and the activity feed groups the reaction event with other low-priority reactions.",
+      "A team configures ❗ as a Teams workflow trigger and the reaction picker warns that the emoji will create a helpdesk escalation only in selected channels."
+    ],
+    "bad": [
+      "A user adds ✅ as casual acknowledgement, but an automation silently closes the task.",
+      "A message receives thirty custom emoji and the important comment underneath is pushed out of view with no collapse or grouping."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Reaction systems become misleading when products hide who reacted, make reactions hover-only, treat informal emoji as approvals or assignments, trigger automations without disclosure, flood activity streams, or fail to expose counts and selected state accessibly.",
+  "solution": "Provide item-anchored reaction chips with clear emoji names, counts, own-state highlighting, add and remove paths, who-reacted disclosure, picker and policy rules, grouped overflow, notification and activity behavior, and explicit boundaries for workflow triggers or consequential decisions.",
+  "problemContext": [
+    "Reactions can appear on chat messages, comments, pull requests, issues, discussions, document selections, canvas text, meeting chats, posts, files, and work items.",
+    "Users may react to acknowledge, vote lightly, show sentiment, celebrate, signal that they are looking, avoid adding a reply, or trigger a product-defined workflow.",
+    "Emoji choice may include default emoji, custom workspace emoji, skin tone modifiers, gender modifiers, one-click suggestions, recent emoji, restricted emoji, or admin-managed defaults.",
+    "Reaction events may affect activity feeds, notification centers, workflow automation, moderation, analytics, accessibility output, and content density.",
+    "The same emoji may carry different team conventions, so products must avoid implying stronger semantics than the system can enforce."
+  ],
+  "selectionRules": [
+    "Choose reactions when lightweight feedback can safely remain attached to an existing item and does not require a written reply.",
+    "Use comments when users need text, rationale, evidence, questions, moderation, edit history, resolve state, or a reply thread.",
+    "Use mentions when the job is to notify or route attention to people or groups.",
+    "Use approval workflow when the decision is governed, versioned, audited, and made by eligible approvers.",
+    "Use assignment when someone becomes responsible for doing work; a reaction should not create accountability unless the product explicitly models that side effect.",
+    "Use activity feed to summarize reaction events across work; group repeated low-value reaction activity so it does not hide mentions or failures.",
+    "Use notification center only for reaction events that should create durable unseen or unread items with user preferences.",
+    "Show the current user's own reaction state separately from total count.",
+    "Provide a way to see who reacted and handle privacy or permission-limited names honestly.",
+    "Support add, remove, already-reacted, not-reactable, disabled-by-policy, offline, sync-failed, and custom-emoji-unavailable states.",
+    "Disclose workflow triggers for specific emoji, including trigger scope, frequency, and who can trigger them.",
+    "Collapse or summarize high-volume reaction sets without hiding the user's own reaction or important workflow-trigger emoji."
+  ],
+  "requiredStates": [
+    "No reactions state.",
+    "One reaction added by current user state.",
+    "Existing reaction by others state.",
+    "Multiple emoji reaction chips with counts.",
+    "Current user's reaction highlighted or selected state.",
+    "Remove own reaction state.",
+    "Add reaction picker open state.",
+    "Who reacted disclosure state.",
+    "Custom emoji, skin tone, and inaccessible emoji name states.",
+    "Reaction overflow or collapsed count state.",
+    "Reaction disabled, not-reactable, already-reacted, or permission-limited state.",
+    "Workflow-trigger reaction warning state.",
+    "Reaction notification or activity-feed grouping state.",
+    "Mobile long-press reaction state.",
+    "Offline or sync-failed reaction state."
+  ],
+  "interactionContract": [
+    "Each reaction attaches to one named source item and does not create a separate conversation by itself.",
+    "Selecting an existing reaction chip adds the user's reaction if absent or removes their reaction if already selected, according to product policy.",
+    "The count represents unique reaction records for that emoji and updates after add, remove, sync, or server rejection.",
+    "The picker exposes searchable emoji names, recent or suggested reactions, custom emoji policy, and skin tone or identity preferences where supported.",
+    "Who-reacted disclosure lists visible people or explains hidden/private reactors without leaking restricted identities.",
+    "Reaction events synchronize with activity feed and notification center only when configured by product policy.",
+    "Workflow-trigger emoji require a visible warning or configuration surface before casual reactions start automation.",
+    "Keyboard and touch users can add, remove, inspect, and dismiss reactions without hover-only affordances."
+  ],
+  "implementationChecklist": [
+    "Define reaction target types, allowed emoji set, custom emoji policy, user identity, duplicate prevention, reaction count model, and remove behavior.",
+    "Separate reaction records from comments, mentions, approvals, assignments, votes, statuses, presence, and notification records in the data model.",
+    "Build add picker, one-click suggestions, selected state, remove action, count update, who-reacted disclosure, overflow grouping, and moderation or policy-disabled states.",
+    "Model API errors such as already reacted, item not reactable, access denied, invalid target, deleted item, offline queue, and sync failure.",
+    "Handle workflow-trigger emoji with explicit configuration, scope, frequency, eligibility, preview, and audit or activity output.",
+    "Synchronize reaction events with activity feed, notification preferences, unread rules, analytics, and source-item rendering without flooding catch-up surfaces.",
+    "Test keyboard controls, touch long-press, screen-reader names, custom emoji labels, skin tone modifiers, high counts, overflow collapse, permission-limited reactors, deleted users, and localization."
+  ],
+  "commonMisuses": [
+    "Using reactions as formal approvals without approver eligibility, audit trail, or version context.",
+    "Treating reactions as assignments or commitments with no responsibility record.",
+    "Hiding add reaction behind pointer hover only.",
+    "Showing counts without who-reacted disclosure or privacy explanation.",
+    "Using color or emoji shape alone without accessible names.",
+    "Triggering workflow automation from a reaction without warning users.",
+    "Letting reaction storms dominate message layout or activity feeds.",
+    "Allowing custom emoji that undermine moderation, privacy, or accessibility policies."
+  ],
+  "critiqueQuestions": [
+    "What exactly does each reaction mean in this product, and what does it not mean?",
+    "Can users add, remove, and inspect reactions with keyboard, touch, and assistive technology?",
+    "Can users tell which reactions they personally added and who else reacted?",
+    "Does any emoji trigger notifications, activity feed events, workflow automation, assignment, or status changes?",
+    "How are custom emoji, skin tones, hidden reactors, deleted users, and permission-limited items represented?",
+    "How are high-volume reactions grouped so they do not bury comments, mentions, or important work events?"
+  ],
+  "useWhen": [
+    "Users need quick, lightweight feedback on an existing message, comment, issue, document selection, or work item.",
+    "The response can remain informal and reversible.",
+    "The product can show counts, own-state, who-reacted disclosure, and add/remove behavior clearly."
+  ],
+  "avoidWhen": [
+    "The response needs written reasoning, evidence, or a reply thread.",
+    "The decision is formal approval, assignment, voting, legal consent, audit evidence, or status transition.",
+    "The product cannot expose reaction meaning, count, own-state, and accessible names.",
+    "Reaction automation would surprise users or cause consequential side effects.",
+    "The target item is too sensitive to reveal reaction identities or sentiment."
+  ],
+  "variants": [
+    "Message reactions",
+    "Comment reactions",
+    "Issue reactions",
+    "Pull request reactions",
+    "Document text reactions",
+    "One-click reactions",
+    "Custom emoji reactions",
+    "Skin tone reactions",
+    "Workflow-trigger reactions",
+    "Collapsed reaction overflow",
+    "Anonymous or permission-limited reactions",
+    "Mobile long-press reactions"
+  ],
+  "accessibility": [
+    "Give each reaction chip an accessible name that includes emoji meaning, count, selected state, and target item context.",
+    "Do not rely on emoji glyph, color, or highlight alone to identify reaction type or own-state.",
+    "Make add reaction, remove reaction, open picker, inspect reactors, and close disclosure keyboard reachable.",
+    "Expose custom emoji names and skin tone choices as text.",
+    "Announce reaction added, removed, failed, already present, disabled, and workflow-trigger warnings through status text.",
+    "Provide touch and keyboard alternatives for hover-only one-click reaction controls.",
+    "Keep high-count and overflow layouts readable at high zoom and on mobile."
+  ],
+  "keyboardBehavior": [
+    "Tab moves to existing reaction chips, add reaction control, picker search, picker categories, emoji options, who-reacted disclosure, and close controls.",
+    "Enter or Space toggles the focused reaction chip according to selected state.",
+    "Arrow keys may move inside the emoji picker when it implements grid or listbox semantics.",
+    "Escape closes the picker or who-reacted popover and returns focus to the invoking reaction control.",
+    "Removing a reaction keeps focus on the chip if it remains visible or moves to Add reaction if the chip disappears.",
+    "Workflow-trigger warnings keep focus inside the confirmation or configuration disclosure until dismissed."
+  ],
+  "failureModes": [
+    "A reaction chip has no text alternative, so screen-reader users hear only a count.",
+    "A user cannot remove a reaction they added.",
+    "The same user can add duplicate reactions because already-reacted errors are ignored.",
+    "A reaction count updates optimistically but never recovers after sync failure.",
+    "A custom emoji has an unclear name or offensive meaning and appears in shared work.",
+    "A reaction reveals that a restricted user viewed sensitive content.",
+    "A casual emoji starts a workflow or status change without warning.",
+    "A reaction storm overwhelms the source item and activity feed."
+  ],
+  "relatedPatterns": [
+    "comments",
+    "mentions",
+    "threaded-discussion",
+    "activity-feed",
+    "notification-center",
+    "presence",
+    "button-group",
+    "tag"
+  ],
+  "comparisons": [
+    "reactions-vs-comments-vs-mentions-vs-activity-feed"
+  ],
+  "examples": [
+    {
+      "product": "Slack emoji reactions",
+      "url": "https://slack.com/help/articles/202931348-Use-emoji-and-reactions",
+      "platform": "web",
+      "notes": "Documents adding reactions, own reaction highlighting, click to remove, mobile tap-and-hold, one-click reactions, and who-reacted disclosure.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub reactions API",
+      "url": "https://docs.github.com/en/rest/reactions/reactions",
+      "platform": "web",
+      "notes": "Documents reactions on comments, issues, pull requests, and discussions with constrained reaction values and list/create/delete behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Docs emoji reactions",
+      "url": "https://workspaceupdates.googleblog.com/2022/04/new-emoji-reactions-in-google-docs-on.html",
+      "platform": "web",
+      "notes": "Documents emoji reactions as a less formal alternative to comments anchored to document content, with identity and emoji preference support.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Teams emoji reaction workflows",
+      "url": "https://support.microsoft.com/en-us/teams/apps-service/create-a-workflow-from-an-emoji-reaction-in-microsoft-teams",
+      "platform": "web",
+      "notes": "Documents emoji reactions as workflow triggers with configurable emoji, trigger frequency, eligibility, and channel scope.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "slack-use-emoji-reactions",
+      "note": "Slack documents add reaction, remove own reaction, current-user highlighting, one-click reactions, mobile long-press, and who-reacted disclosure."
+    },
+    {
+      "id": "slack-reactions-add-api",
+      "note": "Slack developer docs document reaction target parameters, skin tone modifiers, already-reacted errors, access errors, and reaction_added event broadcast."
+    },
+    {
+      "id": "github-rest-reactions",
+      "note": "GitHub documents creating and managing reactions on comments, issues, pull requests, and discussions with allowed reaction content values."
+    },
+    {
+      "id": "google-workspace-docs-emoji-reactions",
+      "note": "Google documents Docs emoji reactions as a less formal alternative to comments and anchored content feedback."
+    },
+    {
+      "id": "microsoft-teams-emoji-reaction-workflows",
+      "note": "Microsoft documents Teams emoji reactions as workflow triggers with emoji, frequency, eligibility, and channel scope."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

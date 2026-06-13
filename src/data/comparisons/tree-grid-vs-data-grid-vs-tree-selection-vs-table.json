@@ -1,0 +1,50 @@
+{
+  "id": "tree-grid-vs-data-grid-vs-tree-selection-vs-table",
+  "title": "Tree grid vs data grid vs tree selection vs table",
+  "summary": "Use a tree grid when hierarchical rows need tabular columns and grid interaction; use data grid for flat interactive rows, tree selection for hierarchical choice, and table for read-only comparison.",
+  "patternIds": [
+    "tree-grid",
+    "data-grid",
+    "tree-selection",
+    "table"
+  ],
+  "decisionRules": [
+    "Choose tree grid when rows have parent-child hierarchy and users must compare, edit, select, sort, or act on values across shared columns.",
+    "Choose data grid when rows are flat or grouping is only a view option, and the primary task is cell navigation, editing, selection, or spreadsheet-like work across columns.",
+    "Choose tree selection when users only choose nodes in a hierarchy and do not need tabular columns, editable cells, sortable headers, or per-column comparison.",
+    "Choose table when the data is read-only or mostly read-only and ordinary table navigation with row actions is sufficient.",
+    "A tree grid owns both expansion state and grid focus state: expand or collapse cannot hide the focused row, lose selected descendants silently, or make row and column indices untrue.",
+    "Do not use tree grid for ordinary navigation menus, folder trees with one label column, or settings forms with visual indentation but no repeated column meaning.",
+    "When a parent row summarizes children, define whether parent values are editable, aggregate-only, selectable with descendants, or readonly containers.",
+    "If sorting or filtering is available, define whether child rows stay under parents, whether empty parents remain visible, and how expanded state is preserved.",
+    "If virtualization or lazy loading is used, expose truthful row count, row index, level, set size, position in set, loading, and collapsed-descendant states.",
+    "On narrow screens, prefer a hierarchy list plus detail route when columns, expansion controls, and edit affordances cannot remain understandable together."
+  ],
+  "failureModes": [
+    "A flat data grid is given treegrid semantics even though no rows expand or collapse.",
+    "A tree selection widget grows columns and row actions but still exposes only treeitem behavior.",
+    "Collapsing a parent hides selected or dirty child rows without a warning, badge, or recovery path.",
+    "Sorting breaks hierarchy by scattering child rows away from their parents.",
+    "Leaf rows include aria-expanded, causing assistive technologies to describe every row as a parent.",
+    "Virtual or lazy-loaded rows report stale levels, row indices, set sizes, or focused-cell locations."
+  ],
+  "sources": [
+    {
+      "id": "wai-aria-apg-treegrid",
+      "note": "APG treegrid guidance supports the hierarchy-plus-grid boundary, keyboard navigation, expansion, selection, roles, aria-expanded, sort, readonly, and index requirements."
+    },
+    {
+      "id": "mdn-aria-treegrid-role",
+      "note": "MDN treegrid role guidance supports tree and grid role combination, parent row semantics, aria-expanded placement, managed focus, and dynamic row or column metadata."
+    },
+    {
+      "id": "kendo-react-treelist-keyboard",
+      "note": "KendoReact TreeList keyboard guidance supports treegrid as a single managed tab stop with roving tabindex or active descendant focus management."
+    },
+    {
+      "id": "devextreme-treelist-keyboard",
+      "note": "DevExtreme TreeList demo supports production keyboard behavior for region navigation and focused-row expansion or collapse."
+    }
+  ],
+  "lastVerified": "2026-06-10"
+}

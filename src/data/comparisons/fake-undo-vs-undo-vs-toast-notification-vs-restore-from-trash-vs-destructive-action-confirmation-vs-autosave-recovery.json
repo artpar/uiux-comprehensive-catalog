@@ -1,0 +1,56 @@
+{
+  "id": "fake-undo-vs-undo-vs-toast-notification-vs-restore-from-trash-vs-destructive-action-confirmation-vs-autosave-recovery",
+  "title": "Fake undo vs undo vs toast notification vs restore from trash vs destructive action confirmation vs autosave recovery",
+  "summary": "Flag fake undo when the UI advertises reversal but cannot restore the exact prior state; use undo, toast, trash restore, confirmation, or autosave recovery according to reversibility, timing, and recovery evidence.",
+  "patternIds": [
+    "fake-undo",
+    "undo",
+    "toast-notification",
+    "restore-from-trash",
+    "destructive-action-confirmation",
+    "autosave-recovery"
+  ],
+  "decisionRules": [
+    "Choose the fake-undo anti-pattern when an Undo, Restore, Revert, or rollback control appears but does not restore the affected object identity, order, relationships, permissions, values, counts, selection, or visible context.",
+    "Choose the fake-undo anti-pattern when external side effects such as email, payment, webhook, permission notification, customer message, or production command already happened and the UI still implies they were recalled.",
+    "Choose undo when the product captures exact prior state before commit, keeps the recovery control reachable, scopes multiple recent actions clearly, and reports restored, expired, and committed outcomes.",
+    "Choose toast notification when the message is disposable status feedback; a toast may include Undo only if the recovery action is truthful and stable long enough to use.",
+    "Choose restore from trash when the object was soft-deleted into a durable deleted-items location with retention metadata and restoration may happen after the immediate undo window.",
+    "Choose destructive action confirmation when no faithful post-action recovery exists and users must inspect consequence before permanent deletion, external effects, or broad-scope loss.",
+    "Choose autosave recovery when the endangered state is unsaved or uncertain local work after a failed, stale, conflicted, or expired background save rather than a completed reversible command.",
+    "Do not use Undo copy for partial repair; label it Restore comments, Recreate row, Request recovery, Open trash, Retry save, or View activity according to what the product can actually do.",
+    "For bulk actions, compare selected count, per-item status, skipped items, conflicts, and overwritten undo payloads before claiming one batch Undo restored the whole set.",
+    "When the undo window expires, remove or re-label the control and show final commitment or durable recovery instead of leaving a failing Undo button visible."
+  ],
+  "failureModes": [
+    "A deleted row reappears after Undo but loses folder path, comments, labels, shared permissions, or sort position.",
+    "A sent email or webhook shows Undo even though the external recipient already received the side effect.",
+    "A second archive overwrites the first recovery target, so Undo restores the wrong item.",
+    "A toast undo disappears or expires before keyboard and screen reader users can activate it.",
+    "A bulk Undo reports success while some items failed because of permissions, missing parents, or retention expiry.",
+    "The product uses Undo where it should have used destructive confirmation because the action cannot be faithfully reversed."
+  ],
+  "sources": [
+    {
+      "id": "apple-hig-undo-redo",
+      "note": "Apple undo and redo guidance supports undo as a reliable reversal contract rather than a decorative recovery label."
+    },
+    {
+      "id": "material-design-snackbar",
+      "note": "Material snackbar guidance supports transient actions such as Undo when the action can be operated truthfully."
+    },
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports choosing confirmation or prevention when undo is not a reliable recovery path."
+    },
+    {
+      "id": "gitlab-saving-and-feedback",
+      "note": "GitLab saving and feedback guidance supports truthful distinctions among saved, failed, undo, and leave-warning states."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "WCAG status-message guidance supports announcing restored, failed, expired, and final states without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

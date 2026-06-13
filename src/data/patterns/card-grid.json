@@ -1,0 +1,265 @@
+{
+  "id": "card-grid",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed responsive card-grid browsing pattern with distinct boundaries from card list, collection, list view, table, data grid, browse by category, carousel, filter panel, sort controls, and pagination; includes multi-column tile anatomy, stable thumbnail ratios, responsive reflow, density changes, object-keyed selection, saved state, hidden selected counts, loading more, missing-thumbnail fallback, concrete comparison rules, duplicate audit coverage, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers multi-column peer object cards, responsive column counts, stable tile widths, gutters, preview aspect ratios, title, provider, compact metadata, state labels, selection, saved state, density changes, filters, sorting, load-more behavior, missing-thumbnail fallbacks, hidden selected counts, empty states, and comparison escape paths.",
+    "relatedPatternDistinction": "The entry separates card grid from card list by prioritizing simultaneous multi-card visual browsing over single-column reading, from collection by avoiding set ownership and membership management, from table and data grid by rejecting aligned column work and cell interaction, from browse by category by representing objects rather than taxonomy destinations, and from carousel by keeping peer cards visible together.",
+    "liveDemoBehavior": "The live demo shows a course marketplace grid with consistent thumbnail area, title, provider, level, duration, price, rating, status, Select, Save, responsive density, available-only filtering, hidden selected count, Load more, missing-thumbnail fallback, and bad-mode contrasts for masonry order, comparison trap, index selection, hover-only actions, collapsed thumbnail, and mixed card roles.",
+    "comparisonDecisionRules": "The card-grid-vs-card-list-vs-collection-vs-table comparison gives concrete rules for simultaneous visual browsing, single-column rich summaries, named managed sets, aligned table comparison, card anatomy, responsive reflow, category boundaries, grid-level controls, and table or data-grid boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/card-grid/ and /compare/card-grid-vs-card-list-vs-collection-vs-table/ on 2026-06-10. Live check exercised Toggle density, Available only, Select systems, Save analytics, Load more, Missing thumbnail, Compare trap, Index selection, Hover only, Collapsed thumb, and Mixed roles controls while the page was in review state, plus a 390px narrow viewport check with no document overflow. screenshots/patterns/card-grid.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/card-grid.png"
+    ]
+  },
+  "name": "Card grid",
+  "aliases": [
+    "card view",
+    "tile grid",
+    "object grid",
+    "visual card grid",
+    "product grid",
+    "asset grid",
+    "gallery cards",
+    "result tiles",
+    "card gallery",
+    "responsive card layout"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Selection And Choice",
+    "Navigation And Wayfinding",
+    "Personalization And Preference"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Responsive multi-column grid of peer object cards",
+  "uiGuidance": [
+    "Arrange peer object cards in a responsive grid with stable tile widths, predictable gutters, consistent preview aspect ratios, titles, compact metadata, state labels, and one primary action area.",
+    "Keep grid-level controls such as filters, sort, result count, selected count, density, pagination, and loading status outside the cards so each tile stays focused on one object."
+  ],
+  "uxGuidance": [
+    "Use card grid when users need visual browsing, light comparison, and quick selection across many peer objects that can be understood from compact card summaries.",
+    "Preserve object identity, selected state, saved state, focus, and result position as the grid changes column count, loads more cards, filters, sorts, or switches density."
+  ],
+  "uiExamples": {
+    "good": [
+      "A course catalog grid shows four cards per row on desktop, each with the same image ratio, course title, provider, level, duration, saved state, and Enroll action.",
+      "A media asset grid shows thumbnail, file type, usage rights, modified date, selected checkbox, and a More actions button in the same place on every card."
+    ],
+    "bad": [
+      "A grid mixes landscape images, portrait images, text-only cards, and action tiles without reserving preview space or explaining missing media.",
+      "Each card has different metadata order, different action placement, and different height, making the grid look rich but hard to scan."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A shopper filters a product grid to In stock, switches from comfortable to compact density, selects three items, and the selected count and item positions remain understandable.",
+      "A keyboard user tabs through card title, Save, checkbox, and More actions while the visual row and column order match the reading order."
+    ],
+    "bad": [
+      "A user tries to compare course prices, but every card wraps the price under different text lengths and the grid gives no sort or table alternative.",
+      "A user filters to saved assets and loses selection because the product tracked selected cards by visible position rather than object ID."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users need to browse many peer objects where visual preview, compact metadata, and quick selection matter, but a vertical card list is too slow, a table overemphasizes columns, and a named collection would imply membership management that is not present.",
+  "solution": "Present the objects as a responsive card grid with consistent card anatomy, stable preview dimensions, predictable column reflow, grid-level controls, clear selected and saved states, loading and empty states, keyboard order that matches visual order, and explicit alternatives for dense comparison tasks.",
+  "problemContext": [
+    "Items are peer objects such as products, courses, files, templates, assets, locations, people, articles, media, reports, or examples.",
+    "Users choose from visual or semi-visual summaries instead of reading every item in full.",
+    "The result set may be filtered, sorted, searched, selected, saved, paginated, infinitely loaded, or displayed at multiple densities.",
+    "Cards may contain thumbnail, title, short label, rating, price, status, owner, file type, duration, tags, and one or two object actions."
+  ],
+  "selectionRules": [
+    "Choose card grid when users need to see multiple objects at once and visual preview or compact card identity helps them choose.",
+    "Choose card grid when items are peers with comparable card anatomy and no collection-level membership behavior.",
+    "Choose card grid when the layout can reflow across breakpoints without hiding title, preview, state, selection, or primary actions.",
+    "Use card list when each object requires a longer summary, more metadata, or a stronger single-column reading sequence.",
+    "Use collection when the item set has a title, owner, saved membership, sharing, ordering, sections, or add and remove behavior.",
+    "Use table or data grid when aligned attribute comparison, numeric ranking, row operations, cell editing, or dense scanning is the main task.",
+    "Use browse by category when each card is a topic or taxonomy destination rather than an object card.",
+    "Use carousel only when a small curated subset is sequentially featured and not every card needs simultaneous visibility.",
+    "Avoid card grid when images are decorative, missing, or inconsistent enough to dominate the layout without improving choice.",
+    "Avoid card grid when users need to compare exact values that would be clearer in columns."
+  ],
+  "requiredStates": [
+    "Default grid with heading or label, result count, active view controls, and at least one full row of peer cards.",
+    "Card default, hover, focus, active, selected, saved, unavailable, loading, failed-thumbnail, missing-thumbnail, disabled, and opened states.",
+    "Grid filtered, sorted, searched, compact density, comfortable density, loading-more, paginated, empty, no-results, and failed-load states.",
+    "Responsive one-column, two-column, three-column, and wide multi-column states with stable gutters and preserved card order.",
+    "Selected-away, hidden selected, bulk action, saved count, item removed, item added, and restored item states when selection or saving is supported.",
+    "Long title, missing image, mixed media type, permission-limited, stale item, duplicate title, and unavailable action states."
+  ],
+  "interactionContract": [
+    "Each card represents one object and keeps title, preview, key metadata, state, and actions in the same relative positions across cards.",
+    "Visual order, DOM order, keyboard order, and screen-reader order remain consistent after responsive reflow.",
+    "Card activation, selection, save, overflow, and destructive actions have separate hit targets and accessible names that include the object title.",
+    "Grid-level filters, sort controls, density switches, pagination, and load-more controls update counts and preserve object-keyed selected, saved, and focused state.",
+    "Missing images use a reserved fallback area so card height, row alignment, focus position, and action placement do not jump.",
+    "Column-count changes do not convert card grid behavior into a hidden carousel, a masonry layout with confusing order, or a dense table without headers.",
+    "Bulk actions state whether they affect visible cards, selected cards, hidden selected cards, or all matching cards.",
+    "When users need exact comparison, the surface offers a sort, filter, details view, compare mode, table view, or other clear path instead of forcing visual hunting."
+  ],
+  "implementationChecklist": [
+    "Define card anatomy: thumbnail or icon, title, secondary label, compact metadata, status, price or rating if relevant, primary action, selection control, save control, and overflow action.",
+    "Set grid minimum card width, maximum columns, gutters, row gaps, preview aspect ratio, title line limits, and responsive breakpoints before binding live content.",
+    "Render the card set as a list or grid with accessible labelling, object-keyed IDs, visible result count, selected count, saved count, and active filters.",
+    "Keep interactive descendants separate rather than placing multiple buttons and links inside one wrapping card button.",
+    "Provide stable fallbacks for missing previews, long titles, unavailable items, mixed media, duplicate names, and permission-limited cards.",
+    "Preserve selected, saved, expanded, focused, and recently acted-on cards across sort, filter, density change, breakpoint reflow, pagination, and loading more.",
+    "Offer keyboard operation for selection, save, overflow, bulk actions, load more, and any reorder or compare controls.",
+    "Test screen reader order, zoom, localization, high contrast, long text, reduced width, pointer target spacing, async loading, and virtualized grids."
+  ],
+  "commonMisuses": [
+    "Using card grid as decorative chrome for rows that need dense scanning or aligned comparison.",
+    "Allowing every card to choose its own image ratio, title placement, metadata order, and action area.",
+    "Treating a grid of result cards as a collection without collection identity, owner, count, or membership rules.",
+    "Hiding important card actions behind hover-only affordances that vanish on touch and keyboard.",
+    "Tracking selected cards by index, so filtering, sorting, or responsive reflow changes which object is selected.",
+    "Using masonry layout for task-critical keyboard navigation without a clear reading order.",
+    "Letting missing thumbnails collapse cards and break row alignment.",
+    "Putting too many visible actions in every card until the grid becomes a tab-stop maze."
+  ],
+  "critiqueQuestions": [
+    "What does the grid reveal by showing several cards at once that a card list would slow down?",
+    "Are users visually browsing peer objects, managing a named collection, navigating categories, or comparing columns?",
+    "Which fields must appear in the same place on every card for scanning to work?",
+    "How does the grid preserve selected, saved, focused, and acted-on cards after filtering, sorting, loading, and breakpoint changes?",
+    "What fallback keeps missing previews from changing card height or keyboard order?",
+    "When exact comparison becomes important, what route to table, sort, filter, compare, or details view is provided?"
+  ],
+  "useWhen": [
+    "Users browse peer objects where visual preview, compact identity, and quick first-pass selection matter.",
+    "Several cards should be visible at the same time, especially on desktop or tablet.",
+    "Items share enough structure for consistent tile anatomy and responsive reflow.",
+    "The grid can support selection, saving, loading, filtering, sorting, and responsive states without losing object identity."
+  ],
+  "avoidWhen": [
+    "Users need dense scanning of many text-heavy records.",
+    "Users need aligned numeric or date comparison across many items.",
+    "Each item needs long explanatory copy or a linear reading sequence.",
+    "The item set has collection-level ownership, membership, sharing, ordering, or curation behavior.",
+    "Preview media is mostly absent, untrustworthy, or too inconsistent to help selection."
+  ],
+  "variants": [
+    "Product card grid",
+    "Course card grid",
+    "Template gallery",
+    "Asset picker grid",
+    "Media grid",
+    "People card grid",
+    "Selectable card grid",
+    "Saved-card grid",
+    "Compact card grid",
+    "Responsive card gallery",
+    "Grid with preview panel",
+    "Grid with filters",
+    "Grid with pagination",
+    "Infinite card grid"
+  ],
+  "accessibility": [
+    "Give the grid or list a heading, result count, and concise description of active filters or sort order.",
+    "Keep DOM order and keyboard order aligned with visual row-major order after responsive reflow.",
+    "Use accessible names for card links, Save, Select, More, Remove, and destructive actions that include the object title.",
+    "Do not rely on image, color, position, hover, or card shape alone to communicate type, state, selected status, or availability.",
+    "Expose selected, saved, unavailable, loading, missing-thumbnail, and failed-load states visibly and programmatically where applicable.",
+    "Provide focus indicators for card activation and every internal action.",
+    "Reserve preview space and provide text alternatives or labelled fallbacks for missing and decorative imagery.",
+    "Announce result-count changes, selected-count changes, loaded-more outcomes, and no-results states when they are not otherwise obvious."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches grid controls, the first card's activation, card actions, selection controls, bulk actions, pagination, and load-more controls in predictable order.",
+    "Enter activates the focused card link or button, and Space toggles checkbox, save, or selection controls according to their role.",
+    "If arrow-key grid navigation is implemented, roving focus keeps row and column position clear and does not trap users away from normal Tab navigation.",
+    "Escape closes card action menus, preview overlays, or transient compare controls and returns focus to the invoking card control.",
+    "After filtering, sorting, selecting, saving, removing, loading more, or changing density, focus remains on the triggering control, the same object, a status message, or the next sensible card.",
+    "Keyboard alternatives exist for bulk selection, compare, reorder, or drag actions when those actions are supported."
+  ],
+  "failureModes": [
+    "Cards with long titles stretch rows while neighboring cards hide status and actions below the fold.",
+    "A responsive change rearranges cards visually while DOM order stays different, confusing keyboard and screen-reader users.",
+    "Missing thumbnails collapse, causing row jumps and shifting the selected checkbox to a new position.",
+    "A filter hides selected cards but bulk actions still include them without a hidden-selected count.",
+    "Card grid is used for comparing prices, deadlines, ratings, and owner names, but those fields are not aligned or sortable.",
+    "Every card exposes many buttons, menus, chips, and links, making one row of cards take dozens of tab stops.",
+    "Infinite scrolling adds cards without announcing new result count or preserving focus near the load point.",
+    "Category cards, product cards, promotions, and empty-state actions are mixed in one grid without clear roles."
+  ],
+  "relatedPatterns": [
+    "card-list",
+    "collection",
+    "list-view",
+    "table",
+    "data-grid",
+    "browse-by-category",
+    "filter-panel",
+    "sort-controls",
+    "pagination",
+    "empty-state",
+    "hover-card",
+    "preview-panel"
+  ],
+  "comparisons": [
+    "card-grid-vs-card-list-vs-collection-vs-table"
+  ],
+  "examples": [
+    {
+      "product": "React Spectrum CardView",
+      "url": "https://react-spectrum.adobe.com/CardView",
+      "platform": "web",
+      "notes": "Documents card-view collection behavior for rendering object cards with selection, keyboard navigation, dynamic collections, and loading.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Material Design Cards and Responsive Layout Grid",
+      "url": "https://m3.material.io/components/cards/guidelines",
+      "platform": "web",
+      "notes": "Cards describe single-topic content and actions, while the responsive grid guidance supports column, gutter, margin, and breakpoint decisions for grid layouts.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "Primer Card",
+      "url": "https://primer.style/brand/components/Card/",
+      "platform": "web",
+      "notes": "Documents grouped cards, consistent imagery, similar content length, responsive card groups, and vertical stacking at smaller widths.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "NN/g Cards Component",
+      "url": "https://www.nngroup.com/articles/cards-component/",
+      "platform": "web",
+      "notes": "Defines cards as bounded summaries for conceptual units and supports the distinction between card-based browsing and list/table-style scanning.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "react-spectrum-cardview",
+      "note": "Supports card collection behavior, selection, keyboard navigation, dynamic rendering, and loading behavior."
+    },
+    {
+      "id": "material-cards-guidelines",
+      "note": "Supports card content and actions around one topic with scan-friendly summaries."
+    },
+    {
+      "id": "material-responsive-layout-grid",
+      "note": "Supports responsive columns, gutters, margins, and breakpoint behavior for arranging card grids."
+    },
+    {
+      "id": "primer-card",
+      "note": "Supports card groups, consistent image treatment, content-length constraints, and stacking at smaller viewports."
+    },
+    {
+      "id": "nng-cards-component",
+      "note": "Supports card components as short bounded object summaries and cautions about when cards are less suitable than dense scanning layouts."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-10"
+}

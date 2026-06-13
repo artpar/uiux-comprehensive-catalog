@@ -1,0 +1,264 @@
+{
+  "id": "ai-answer-without-sources",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as an anti-pattern for AI answers that make factual, policy, legal, medical, financial, operational, customer-impact, or data-derived claims without visible sources, source scope, retrieval status, unsupported-claim state, or verification path.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets generated support answers, policy summaries, file-search answers, web-search answers, enterprise knowledge answers, uploaded-document answers, customer-facing drafts, compliance summaries, operational recommendations, and data-derived answers where users need sourced, not searched, no supporting source found, retrieval failed, permission-limited, pending source search, draft-only, source-needed, human-verification, and copy/apply gated states.",
+    "relatedPatternDistinction": "The entry separates ai-answer-without-sources from source-grounding-display by focusing on the absent or failed evidence route rather than answer-wide coverage display, from citation-display by no claim-to-source mapping being available, from confidence-uncertainty-display by source absence rather than calibrated reliability, from streaming-response by source status after or during generation rather than chunk rendering, and from correction-feedback by pre-action no-source handling rather than post-answer reporting.",
+    "liveDemoBehavior": "The live demo shows Good UI and Bad UI panels plus 17 interactive source-status controls: 10 recoverable states for sourced answer, not searched, no supporting source found, retrieval failed, permission-limited, pending source search, draft from model knowledge, source needed, human verification, and copy/apply gated, plus 7 failure states for confident no-source, related links as evidence, hidden retrieval failure, permission omitted, citation promised missing, stale source claim, and copy strips warning.",
+    "comparisonDecisionRules": "The ai-answer-without-sources-vs-source-grounding-display-vs-citation-display-vs-confidence-uncertainty-display-vs-streaming-response-vs-correction-feedback comparison gives concrete rules for choosing no-source anti-pattern handling, answer-wide grounding, claim-level citation display, calibrated reliability display, source-pending streaming, or post-answer correction feedback.",
+    "duplicateAudit": "Before promotion, node --import tsx scripts/catalog-completion-audit.ts reported 292 complete patterns, 1 stub pattern, 5 missing goal patterns, and 0 normalized duplicate field groups.",
+    "manualSpotCheck": "Rendered /patterns/ai-answer-without-sources/ and /compare/ai-answer-without-sources-vs-source-grounding-display-vs-citation-display-vs-confidence-uncertainty-display-vs-streaming-response-vs-correction-feedback/ on 2026-06-13. Pattern checks found all required source-status and failure terms, 17 .ai-no-sources-controls buttons, no duplicate IDs, no desktop or compact overflow, and exercised Retrieval failed and Citation promised missing controls. Comparison checks found required decision terms, no duplicate IDs, no duplicate pattern links, no desktop or compact overflow, and no console warnings or errors. Screenshot captured at screenshots/patterns/ai-answer-without-sources.png.",
+    "screenshots": [
+      "screenshots/patterns/ai-answer-without-sources.png"
+    ]
+  },
+  "name": "AI answer without sources",
+  "aliases": [
+    "unsourced AI answer",
+    "uncited generated answer",
+    "AI answer with no evidence",
+    "source-free answer",
+    "unverifiable AI answer",
+    "AI answer without citations",
+    "unsupported generated claim"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Feedback, Status, And System State",
+    "Disclosure And Attention Management",
+    "Data Display And Exploration"
+  ],
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "Users receive a confident-looking AI answer that includes factual claims or recommendations but no usable source, source scope, retrieval status, unsupported-claim label, or verification path.",
+  "solution": "Treat unsourced AI answers as an anti-pattern for evidence-dependent tasks: show citations or source grounding when evidence was used, show not searched or no supporting source found when evidence is absent, and gate copy, publish, apply, or external use until users can verify or explicitly continue without sources.",
+  "problemContext": [
+    "The answer may be generated from web search, file search, enterprise knowledge sources, selected documents, uploaded files, chat history, model prior knowledge, tool outputs, or no retrieval at all.",
+    "The answer contains claims users may rely on for policy, compliance, support, operations, money, safety, medicine, law, customer communication, product decisions, or public publication.",
+    "The system may have skipped retrieval, failed retrieval, hidden permission-limited sources, mixed model knowledge with retrieved evidence, or returned a no-source answer after a source-backed request.",
+    "Users need to know whether the answer is sourced, not searched, unsupported, permission-limited, stale, or draft-only before acting on it."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when an AI answer makes evidence-dependent claims and provides no source link, citation marker, grounding panel, source scope, or verification action.",
+    "Flag it when the UI presents a polished answer as final even though source search was not run, failed, or returned no supporting source.",
+    "Use source grounding display when the answer needs answer-wide source scope, searched/retrieved/used evidence, and unsupported-claim coverage.",
+    "Use citation display when individual claims need inline citation markers and source previews.",
+    "Use confidence / uncertainty display when the issue is model reliability or calibrated uncertainty; confidence is not a replacement for sources.",
+    "Use streaming response when source events are still pending during generation; keep the answer labelled pending until sources settle.",
+    "Use correction feedback when users need to report that an answer is wrong, unsupported, or uses the wrong source after the answer is shown.",
+    "Use AI limitation onboarding when users need upfront expectations about what the system can and cannot source before they ask.",
+    "Do not show related links, suggested reading, or a generic Learn more list as if those links were evidence used by the answer.",
+    "If no source is available, label the answer as not sourced, not searched, no supporting source found, or draft from model knowledge, and provide a path to search, upload, cite, ask a human, or continue with explicit risk."
+  ],
+  "requiredStates": [
+    "Sourced answer state with citations or grounding visible.",
+    "Not searched state where retrieval was not run and the answer is labelled accordingly.",
+    "No supporting source found state with unsupported claims separated from answer text.",
+    "Retrieval failed state with retry source search path.",
+    "Permission-limited source state that explains an access gap without pretending the answer is verified.",
+    "Pending source search state while streaming or retrieval is still resolving.",
+    "Draft from model knowledge state that blocks source-dependent apply or publish actions.",
+    "User-provided source needed state with upload, connect, or choose source action.",
+    "Human verification state for high-stakes answers that remain unsourced.",
+    "Copy/apply gated state when sources are missing.",
+    "Bad confident answer state with no source route.",
+    "Bad related links as evidence state.",
+    "Bad hidden retrieval failure state.",
+    "Bad permission omission state.",
+    "Bad citation promised but missing state.",
+    "Bad stale source claim state.",
+    "Bad copy final state that strips no-source warning."
+  ],
+  "interactionContract": [
+    "Evidence-dependent answers must expose whether sources were searched, retrieved, used, unavailable, permission-limited, failed, or not required.",
+    "Copy, publish, apply, send, export, and automate controls must preserve or surface no-source status when the answer lacks evidence.",
+    "No-source answers must offer at least one recovery path when possible: search sources, choose corpus, upload file, request access, retry retrieval, ask a human, or mark as draft.",
+    "When users intentionally continue without sources, the UI records the no-source state and does not convert it into a verified answer.",
+    "If sources arrive after streaming, answer status updates from pending to sourced, unsupported, permission-limited, or no supporting source found.",
+    "Related links are clearly separated from evidence used by the answer.",
+    "Accessible names and status text include the source state, not only a visual badge."
+  ],
+  "implementationChecklist": [
+    "Track answer provenance as structured state: source mode, source scope, retrieval status, used evidence, unsupported claims, permissions, freshness, and no-source reason.",
+    "Render no-source and not-searched labels beside the answer summary, not only in hidden metadata or logs.",
+    "Provide search, retry, source selection, upload, request access, ask human, and draft-only actions when those routes can change the source state.",
+    "Block or warn before copy, publish, apply, send, or automate when evidence-dependent claims remain unsourced.",
+    "Preserve source state in copied text, exports, audit logs, handoffs, and regenerated answer versions.",
+    "Do not replace missing sources with confidence percentages, related links, generic disclaimers, or decorative citation numbers.",
+    "Test no retrieval, retrieval failure, zero results, permission-limited sources, stale sources, streaming pending, mobile layout, high zoom, keyboard flow, and screen reader status."
+  ],
+  "commonMisuses": [
+    "Showing a polished answer with no citations or grounding after the user asked for a policy-backed answer.",
+    "Adding a generic disclaimer while still letting users copy or send the unsourced answer as if it were verified.",
+    "Hiding retrieval failure and returning an answer from model memory.",
+    "Showing related links below the answer without saying they were not used as evidence.",
+    "Promising citations in the prompt or product copy and then returning an answer with no source state.",
+    "Letting regenerated or edited output drop citations without changing the answer status.",
+    "Treating high confidence as a substitute for source evidence."
+  ],
+  "critiqueQuestions": [
+    "Which claims in this answer require evidence before users act?",
+    "Were sources searched, retrieved, used, unavailable, permission-limited, or not searched?",
+    "Can users tell whether the answer came from retrieved evidence or model prior knowledge?",
+    "What happens when retrieval fails or finds no supporting source?",
+    "Does copy, publish, apply, or send preserve the no-source warning?",
+    "Would source grounding display, citation display, confidence / uncertainty display, streaming response, or correction feedback be the precise pattern?"
+  ],
+  "useWhen": [
+    "A generated answer makes source-dependent claims but no source route is visible.",
+    "Users may rely on the answer for policy, compliance, customer support, operations, finance, legal, medical, safety, or public content.",
+    "A product needs to distinguish sourced, unsourced, pending, failed, permission-limited, and draft-only generated answers."
+  ],
+  "avoidWhen": [
+    "The answer is explicitly creative, brainstorming, stylistic, or personal drafting and does not claim factual support.",
+    "The answer already includes valid claim-level citations and source previews; use citation display for improvements.",
+    "The answer has answer-wide source coverage; use source grounding display for coverage quality.",
+    "The main issue is calibrated reliability, not source presence; use confidence / uncertainty display.",
+    "The product cannot know source state at all and must instead constrain the feature as unsupported for evidence-dependent tasks."
+  ],
+  "variants": [
+    "No citations on factual answer",
+    "Not searched answer",
+    "Retrieval failed but answered",
+    "No supporting source found",
+    "Permission-limited source omitted",
+    "Related links presented as evidence",
+    "Generated answer from model memory",
+    "Copied unsourced answer",
+    "Unsourced customer reply",
+    "Unsourced policy summary",
+    "Mobile no-source answer"
+  ],
+  "accessibility": [
+    "Expose source state as text near the answer and in status regions, not only as color or icon.",
+    "Make source search, retry, upload source, request access, ask human, and draft-only controls keyboard reachable.",
+    "Ensure copied or exported unsourced answers preserve the no-source status when that status changes user risk.",
+    "Announce transitions from pending to sourced, no supporting source found, retrieval failed, or permission-limited without moving focus unexpectedly.",
+    "Do not rely on decorative superscripts or link styling to imply evidence.",
+    "Keep no-source labels readable and reachable in mobile, high-zoom, and screen-reader flows."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches answer source status, recovery actions, and any gated copy/apply controls in a predictable order.",
+    "Enter or Space activates Search sources, Retry retrieval, Upload source, Request access, Ask human, Copy draft, or Continue without sources according to native control behavior.",
+    "If copy or apply is gated, focus moves to the no-source explanation and recovery actions rather than silently failing.",
+    "Streaming source status updates do not steal focus from the answer or composer.",
+    "After a source recovery action completes, focus remains near the updated source status or moves to the first unsupported claim."
+  ],
+  "failureModes": [
+    "Users treat a fluent answer as verified because no source warning is visible.",
+    "A high-stakes answer is copied into customer communication without citations or grounding.",
+    "Retrieval fails but the UI hides the failure and returns a confident answer.",
+    "Permission-limited sources disappear, making the answer look complete.",
+    "Related links look like citations even though they were not used by the answer.",
+    "Regeneration drops sources and leaves the answer labelled as sourced.",
+    "Assistive technology users never hear that the answer is unsourced."
+  ],
+  "relatedPatterns": [
+    "source-grounding-display",
+    "citation-display",
+    "confidence-uncertainty-display",
+    "streaming-response",
+    "correction-feedback",
+    "ai-limitation-onboarding",
+    "chat-interface",
+    "related-links"
+  ],
+  "comparisons": [
+    "ai-answer-without-sources-vs-source-grounding-display-vs-citation-display-vs-confidence-uncertainty-display-vs-streaming-response-vs-correction-feedback"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI web search citations",
+      "url": "https://developers.openai.com/api/docs/guides/tools-web-search",
+      "platform": "ai",
+      "notes": "Documents visible citations for web-search-backed output, useful as a contrast to unsupported source-free answers.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "OpenAI file search citations",
+      "url": "https://developers.openai.com/api/docs/guides/tools-file-search",
+      "platform": "ai",
+      "notes": "Documents file-search annotations and search results that can support visible evidence paths.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Microsoft Copilot Studio knowledge sources",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+      "platform": "ai",
+      "notes": "Documents source scope and authenticated knowledge access that help distinguish searched, unsearched, and permission-limited answers.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports visible source references for web-search-backed answers."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports annotations and search result inclusion for file-backed generated output."
+    },
+    {
+      "id": "openai-retrieval",
+      "note": "Supports retrieval over selected source stores rather than source-free answers."
+    },
+    {
+      "id": "microsoft-copilot-studio-knowledge-sources",
+      "note": "Supports knowledge-source scope and authenticated source access."
+    },
+    {
+      "id": "microsoft-365-copilot-linked-citations",
+      "note": "Supports linked citations in AI answers so users can inspect sources."
+    },
+    {
+      "id": "microsoft-365-copilot-web-references",
+      "note": "Supports web references and policy-controlled source availability."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing changed source status without moving focus."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13",
+  "patternType": "ui-ux",
+  "surfaceType": "Unsourced AI answer anti-pattern",
+  "uiGuidance": [
+    "Do not present evidence-dependent AI answers as final when no citations, grounding, source scope, or no-source status is visible.",
+    "Show sourced, pending, not searched, retrieval failed, no supporting source found, permission-limited, and draft-only states beside the answer and preserve them through copy, apply, export, and handoff actions."
+  ],
+  "uxGuidance": [
+    "Help users know whether they can rely on an AI answer by exposing its evidence state before they act.",
+    "When sources are missing, provide recovery routes such as search sources, upload documents, choose source scope, retry retrieval, request access, ask a human, or continue only as a draft."
+  ],
+  "uiExamples": {
+    "good": [
+      "A support answer says Not sourced: source search was not run, offers Search help center and Ask human, and keeps Send to customer disabled until a source or override is chosen.",
+      "A policy summary says No supporting source found for the refund exception claim and links to the unsupported claim before copy.",
+      "A generated draft from model knowledge is labelled Draft without sources and copied with that label attached."
+    ],
+    "bad": [
+      "A confident policy answer has no citations, no source scope, and no explanation that retrieval was skipped.",
+      "A retrieval failure is hidden and the model returns an answer from prior knowledge.",
+      "A Learn more list appears under the answer and looks like evidence even though none of the links were used."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user sees that a customer-facing answer is unsourced, runs source search, reviews one unsupported claim, then sends only after the source state changes.",
+      "A reviewer copies an answer as a draft and the copied text retains Not sourced so it cannot be mistaken for verified guidance.",
+      "A user with missing document permission requests access rather than trusting an incomplete answer."
+    ],
+    "bad": [
+      "A user sends an unsourced renewal-policy answer to a customer because the fluent answer looked complete.",
+      "A user assumes related links are citations and misses that the answer was never grounded in the policy source.",
+      "A mobile user cannot see that copy is gated because the no-source warning is hidden below the fold."
+    ]
+  }
+}

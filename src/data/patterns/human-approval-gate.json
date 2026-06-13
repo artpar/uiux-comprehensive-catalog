@@ -1,0 +1,272 @@
+{
+  "id": "human-approval-gate",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed human approval gate pattern with runtime pause/resume guidance, eligibility and stale-decision behavior, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers paused automation checkpoints, proposed actions, tool or workflow step, triggering rule, risk, payload snapshot, run context, approver eligibility, self-review block, approve and resume, edit before approve, reject, cancel, timeout, stale gate, bypass override, failed resume, mobile compact gate, revalidation, and audit records.",
+    "relatedPatternDistinction": "The entry separates human approval gate from approval workflow by runtime pause and resume behavior rather than a durable submitted request route, from review queue by one armed automation checkpoint rather than many-item triage, from review before submit by human authorization over automation rather than the initiating user's final answer review, from recommended next action by required authorization rather than optional guidance, and from confidence / uncertainty display, source grounding display, citation display, activity log, and notification center by treating those as decision inputs or supporting surfaces rather than the gate itself.",
+    "liveDemoBehavior": "The live demo shows paused gate, proposed action, payload snapshot, triggering rule, eligible approver, self-review block, approve and resume, edit before approve, reject, cancel, timeout, stale gate, bypass override, failed resume, and mobile compact gate states. Bad states cover blind approve, post-action audit, stale notification, any-viewer approval, confidence-only gate, stuck rejection, and hidden resume failures.",
+    "comparisonDecisionRules": "The linked human-approval-gate-vs-approval-workflow-vs-review-queue-vs-review-before-submit-vs-recommended-next-action comparison gives concrete rules for human approval gate, approval workflow, review queue, review before submit, recommended next action, paused automation step, proposed action, triggering rule, risk or impact, input snapshot, model or workflow version, approver eligibility, timeout, approve, reject, edit, expire, bypass, resume only the gated automation step, stale decisions, and post-hoc audit.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/human-approval-gate/ with the live demo, exercised Paused gate, Eligible approver, Self-review block, Approve and resume, Edit before approve, Reject, Cancel, Timeout, Stale gate, Bypass override, Failed resume, Mobile compact gate, Blind approve, Post-action audit, Stale notification, Any-viewer approval, Confidence-only gate, Stuck rejection, and Hidden resume states, and found no duplicate IDs, page overflow, or human-approval-gate demo overflow. The comparison route /compare/human-approval-gate-vs-approval-workflow-vs-review-queue-vs-review-before-submit-vs-recommended-next-action/ included human approval gate, approval workflow, review queue, review before submit, recommended next action, paused automation step, proposed action, triggering rule, risk or impact, input snapshot, model or workflow version, approver eligibility, timeout, approve, reject, edit, expire, bypass, resume only the gated automation step, stale decisions, and post-hoc audit terms with no duplicate IDs or page-level overflow on desktop and mobile; mobile element-level overflow was limited to the existing site nav.",
+    "screenshots": [
+      "screenshots/patterns/human-approval-gate.png"
+    ]
+  },
+  "name": "Human approval gate",
+  "aliases": [
+    "human-in-the-loop approval",
+    "human approval checkpoint",
+    "manual approval gate",
+    "automation approval gate",
+    "agent approval gate",
+    "run approval",
+    "approval checkpoint",
+    "manual resume gate",
+    "human authorization gate",
+    "human review gate"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Runtime checkpoint that pauses AI or automation until an eligible human authorizes the next step",
+  "uiGuidance": [
+    "Render a human approval gate as a paused automation checkpoint with the proposed action, tool or workflow step, triggering rule, risk level, payload snapshot, requester or agent, approver eligibility, timeout, and explicit approve, reject, edit, cancel, or bypass controls.",
+    "Show what will happen after each decision: approve resumes the exact gated step, reject stops or routes fallback, edit changes the payload before resume, timeout expires or escalates, and bypass records an authorized override."
+  ],
+  "uxGuidance": [
+    "Use human approval gate when automation is ready to act but policy, risk, confidence, cost, access, publication, deployment, customer impact, or legal consequence requires a human decision before execution continues.",
+    "Keep the gate tied to the live automation run so users can see why it paused, what is armed to run, what has already happened, what can still change, and whether the snapshot is still fresh."
+  ],
+  "uiExamples": {
+    "good": [
+      "An AI support agent pauses before issuing a refund, shows the proposed amount, customer, policy match, confidence, source grounding, approver role, timeout, Approve refund, Edit amount, Reject, and Stop run controls.",
+      "A deployment run pauses at production release, shows required reviewer group, commit SHA, environment, wait timer, self-review block, risk checks, and the job that will resume after approval.",
+      "A workflow automation waits before emailing customers, previews the exact message, recipient segment, suppression checks, approver eligibility, stale-data warning, and cancel or approve controls."
+    ],
+    "bad": [
+      "A banner says Human approval needed but does not show the tool call, payload, approver, timeout, or resume consequence.",
+      "A notification has Approve and Reject buttons for an agent action without opening the current run state or checking whether the payload changed.",
+      "A reviewer can approve an automation run after the action already executed, making the gate only decorative audit text."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A billing lead opens the paused refund gate, sees that the amount is under policy but source grounding is partial, edits the refund to the verified amount, approves, and the agent resumes only that step.",
+      "A release manager rejects a deployment gate because the smoke test is stale; the workflow cancels the production step, records the reason, and keeps the pre-production artifacts visible.",
+      "A mobile approver opens the compact gate, sees the proposed action, risk, approver role, timeout, and stale-state warning before approving."
+    ],
+    "bad": [
+      "A human approves a stale agent action from email and the agent applies it to a different customer state.",
+      "Rejecting the gate leaves an automation run suspended with no cancel, revise, retry, or escalation path.",
+      "An approver sees only the AI recommendation and confidence score, not the actual action that will run after approval."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI agents and automations can make high-impact changes faster than users can inspect them, and ordinary approval pages, queues, or logs often fail to show the live step that is armed, the payload that will execute, or the conditions that make approval valid.",
+  "solution": "Pause the automation at a named gate, show the proposed action, evidence, payload, risk, eligibility, timeout, freshness, and resume consequences, then allow an eligible human to approve, reject, edit, cancel, escalate, or bypass with audit before the automation continues.",
+  "problemContext": [
+    "An agent, workflow, deployment, rule, model, integration, or scheduled automation has reached a step that can send messages, spend money, change access, publish content, run tools, deploy code, delete data, update legal status, or affect customers.",
+    "The system can identify the exact step, payload, run state, prior steps, approver rule, current input version, model or workflow version, freshness, and downstream consequence.",
+    "Approval may be required because of risk threshold, policy, low confidence, source gap, high cost, external side effect, customer impact, compliance, security, or manual separation of duties.",
+    "The human decision must affect whether the next automation step runs now, runs with edits, is canceled, is retried, is escalated, or is overridden.",
+    "The gate can appear in agent consoles, workflow run pages, deployment screens, service desks, content operations, finance tools, and mobile approval notifications."
+  ],
+  "selectionRules": [
+    "Choose human approval gate when automation is paused at runtime and cannot execute the next step until an eligible human authorizes it.",
+    "Use approval workflow when a submitted request needs a durable multi-state approval route independent of a currently paused automation run.",
+    "Use review queue when users triage many queued items rather than decide one armed automation checkpoint.",
+    "Use review before submit when the initiating user is checking their own answers before committing a transaction.",
+    "Use recommended next action when the system suggests an optional next step; use human approval gate when policy or runtime safety requires human authorization.",
+    "Use confidence / uncertainty display inside the gate when reliability affects the decision, but do not let confidence replace the approval decision.",
+    "Use source grounding display or citation display inside the gate when evidence affects approval, but keep the gate responsible for pause, authorization, and resume.",
+    "Show the exact action, payload, target, prior run context, and resume consequence before the human can approve.",
+    "Block approval when the run state, payload, source scope, model version, permissions, risk threshold, or approver eligibility changed after the gate was opened.",
+    "Do not treat post-action audit, passive notifications, or vague pending labels as an approval gate."
+  ],
+  "requiredStates": [
+    "Paused gate state with proposed action, payload snapshot, reason for gate, and run context.",
+    "Eligible approver state with role, separation-of-duties rule, and decision controls.",
+    "Not eligible or self-review-blocked state with request-access, delegate, or escalation path.",
+    "Approve and resume state that revalidates freshness before executing the gated step.",
+    "Reject or cancel state that stops the step and records reason and fallback.",
+    "Edit before approve state that changes the proposed payload and requires revalidation.",
+    "Timeout, expired, due soon, and escalated gate states.",
+    "Stale gate state when input, payload, source, model, policy, or workflow version changed.",
+    "Bypass or emergency override state with elevated permission and audit reason.",
+    "Resumed, completed, failed after approval, and rolled-back states.",
+    "Mobile compact approval state that still shows action, risk, payload, approver rule, and timeout."
+  ],
+  "interactionContract": [
+    "The gate belongs to a specific automation run, step ID, payload version, model or workflow version, target object, and approver rule.",
+    "Approval is valid only for the displayed snapshot and must re-check run state, payload hash, eligibility, source freshness, policy, and threshold immediately before resume.",
+    "Approve resumes the named gated step and does not authorize unrelated future actions unless the UI states that scope explicitly.",
+    "Reject, cancel, timeout, and stop-run outcomes leave the run in a known terminal or fallback state with reason and recovery path.",
+    "Edit-before-approve changes the payload, marks the gate revised, and re-runs validation before the edited action can resume.",
+    "Delegate, reassign, escalate, and bypass actions preserve the original gate context and record actor, role, reason, timestamp, and version.",
+    "Notifications and mobile approvals must deep-link to the canonical gate and refuse stale decisions.",
+    "The audit trail records the gate reason, shown payload, approver eligibility, decision, comment, resume event, failure after approval, and override reason."
+  ],
+  "implementationChecklist": [
+    "Model automation run ID, gate ID, step ID, proposed action, payload snapshot, payload hash, target object, trigger reason, risk level, evidence, confidence, source scope, approver rule, timeout, and downstream action separately.",
+    "Define which actions require approval by policy, threshold, confidence, cost, data sensitivity, external side effect, deployment target, access scope, publication state, or customer impact.",
+    "Render the paused step with prior completed steps, current gate, next step, action preview, payload diff, approver eligibility, timeout, and decision controls.",
+    "Revalidate run state, payload hash, source freshness, model or workflow version, approver role, and policy before accepting approve, edit, reject, bypass, or mobile decisions.",
+    "Add outcomes for approve and resume, edit and revalidate, reject with reason, cancel run, delegate, escalate, timeout, emergency stop, bypass with reason, failed resume, and rollback.",
+    "Keep confidence, source grounding, citations, warnings, and audit history available as decision inputs without turning them into the gate itself.",
+    "Log gate-visible payload, decision reason, actor, role, timestamp, version, notification source, stale-decision rejection, resume result, and downstream execution result.",
+    "Test stale email approvals, self-review block, missing approver role, edited payload, timeout, delegate, bypass, failed resume, mobile decision, keyboard flow, screen-reader status updates, and high-zoom payload wrapping."
+  ],
+  "commonMisuses": [
+    "Showing Approve without the exact action, payload, target, risk, or resume consequence.",
+    "Using a post-action audit record as if it were a pre-action human gate.",
+    "Letting stale notifications approve changed automation state.",
+    "Allowing any viewer or the automation requester to approve when policy requires an eligible independent reviewer.",
+    "Treating low confidence, source grounding, or warning text as a substitute for a human decision.",
+    "Leaving rejected or timed-out gates suspended without cancel, fallback, edit, or retry state.",
+    "Approving a whole run when the UI only described one step, or approving one step when future steps also need gates.",
+    "Hiding the failure after approval, rollback, or downstream execution result from the approver."
+  ],
+  "critiqueQuestions": [
+    "What exact automation run, step, payload, target, and version is the human authorizing?",
+    "Why did this gate trigger, and which policy, threshold, risk, or confidence condition requires human approval?",
+    "Who is eligible to approve, who is blocked from self-review, and what happens if no one responds before timeout?",
+    "What changes after approve, reject, edit, timeout, stop, delegate, escalate, or bypass?",
+    "What revalidation prevents stale email, mobile, notification, or reopened-tab decisions from resuming unsafe automation?",
+    "Does the audit trail prove what the human saw before approval and what actually executed after approval?"
+  ],
+  "useWhen": [
+    "An AI agent, workflow, deployment, or automation is ready to perform a high-impact step and must pause for human authorization.",
+    "The product can show the exact proposed action, payload, run state, risk, approver rule, timeout, and resume consequence.",
+    "Approval, rejection, edit, timeout, or bypass directly controls whether the next automated step runs.",
+    "Stale decisions can be detected and refused before the automation resumes."
+  ],
+  "avoidWhen": [
+    "The action has already happened and users only need an audit log.",
+    "The work is a normal submitted request approval route with no paused automation run.",
+    "Reviewers need to triage many independent records rather than authorize one armed step.",
+    "The user is simply checking their own form answers before submit.",
+    "The system cannot show the payload, enforce approver eligibility, or block stale approval."
+  ],
+  "variants": [
+    "Agent tool approval gate",
+    "Refund approval gate",
+    "Deployment approval gate",
+    "Email send approval gate",
+    "Data deletion approval gate",
+    "Access change approval gate",
+    "Publication approval gate",
+    "Low-confidence automation gate",
+    "Cost threshold gate",
+    "Emergency bypass gate",
+    "Mobile approval gate"
+  ],
+  "accessibility": [
+    "Expose gate status, proposed action, target, payload summary, risk, approver rule, timeout, and current run state as text.",
+    "Do not rely on color, timeline position, animation, or icon-only controls to communicate paused, approved, rejected, stale, timed out, bypassed, or resumed states.",
+    "Announce meaningful gate status changes such as paused for approval, approval accepted, stale decision refused, run resumed, rejected, timed out, or bypassed.",
+    "Make approve, reject, edit, cancel, delegate, escalate, stop, and bypass controls keyboard reachable with labels naming the action and target.",
+    "Associate required rejection, edit, or bypass reasons with their comment fields and errors.",
+    "Ensure payload previews, diffs, risk labels, source links, and timeout text wrap cleanly at mobile widths and high zoom."
+  ],
+  "keyboardBehavior": [
+    "Tab order follows gate summary, proposed action, payload preview, evidence or confidence inputs, approver eligibility, timeout, decision reason, and decision controls.",
+    "Enter or Space activates approve, reject, edit, cancel, delegate, escalate, stop, and bypass controls according to native behavior.",
+    "Decision dialogs return focus to the gate status after submission or cancellation.",
+    "When a stale gate is detected, focus moves to the stale-state message and recovery controls instead of leaving focus on the disabled approve button.",
+    "After approval, focus moves to the resumed run status or next paused gate.",
+    "Mobile sheets return focus to the compact approval summary after dismissal."
+  ],
+  "failureModes": [
+    "Users approve without seeing the tool call, customer, amount, content, deployment target, or downstream consequence.",
+    "A stale approval resumes an automation run against changed input or a new model version.",
+    "A self-review block is missing, so the same person who triggered automation approves it.",
+    "The UI says approval required but does not say who can approve or when the gate expires.",
+    "The gate allows approve but provides no reject, edit, stop, or fallback outcome.",
+    "An edited payload resumes without revalidation.",
+    "A bypass hides the reason or does not appear in audit history.",
+    "After approval, the run fails or rolls back but the approver sees only Approved."
+  ],
+  "relatedPatterns": [
+    "approval-workflow",
+    "review-queue",
+    "review-before-submit",
+    "recommended-next-action",
+    "confidence-uncertainty-display",
+    "source-grounding-display",
+    "citation-display",
+    "activity-log",
+    "notification-center"
+  ],
+  "comparisons": [
+    "human-approval-gate-vs-approval-workflow-vs-review-queue-vs-review-before-submit-vs-recommended-next-action"
+  ],
+  "examples": [
+    {
+      "product": "GitHub Actions deployment protection rules",
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments",
+      "platform": "web",
+      "notes": "Documents required reviewers, manual approval before jobs proceed, prevention of self-review, wait timers, bypass controls, and deployment protection rules.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Power Automate approvals",
+      "url": "https://learn.microsoft.com/en-us/power-automate/get-started-approvals",
+      "platform": "web",
+      "notes": "Documents flows that start and wait for approval, notify approvers, and continue based on approval outcomes.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "ServiceNow Ask for Approval action",
+      "url": "https://www.servicenow.com/docs/r/washingtondc/build-workflows/ask-approval-flow-designer.html",
+      "platform": "web",
+      "notes": "Documents workflow approval actions with rules, approvers, due dates, output states, and waiting-state safeguards.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Guidelines for Human-AI Interaction",
+      "url": "https://www.microsoft.com/en-us/research/?p=564561",
+      "platform": "ai",
+      "notes": "Supports user control, correction, and capability-boundary guidance for human-AI interaction.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-actions-deployment-protection-rules",
+      "note": "Supports manual approval before a run proceeds, required reviewers, self-review prevention, wait timers, bypass controls, and custom protection rules."
+    },
+    {
+      "id": "microsoft-power-automate-approvals",
+      "note": "Supports automation that starts and waits for human approval before continuing."
+    },
+    {
+      "id": "servicenow-ask-for-approval-action",
+      "note": "Supports workflow approval actions, waiting states, rules, due dates, and approval output states."
+    },
+    {
+      "id": "gitlab-merge-request-approvals",
+      "note": "Supports eligible reviewers, approval status, required approval counts, and revocation before merge."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports human control, correction, uncertainty, and capability-boundary guidance."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing gate pause, approval, rejection, timeout, and resumed-run states."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

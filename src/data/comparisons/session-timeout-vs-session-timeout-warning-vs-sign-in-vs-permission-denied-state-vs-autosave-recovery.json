@@ -1,0 +1,52 @@
+{
+  "id": "session-timeout-vs-session-timeout-warning-vs-sign-in-vs-permission-denied-state-vs-autosave-recovery",
+  "title": "Session timeout vs session timeout warning vs sign in vs permission denied state vs autosave recovery",
+  "summary": "Session timeout handles the already-expired authenticated-session state. Session timeout warning intervenes before expiry, sign in starts or resumes authentication, permission denied handles authorization after authentication, and autosave recovery protects uncertain saved work.",
+  "patternIds": [
+    "session-timeout",
+    "session-timeout-warning",
+    "sign-in",
+    "login",
+    "permission-denied-state",
+    "autosave-recovery"
+  ],
+  "decisionRules": [
+    "Use session timeout for the already-expired authenticated-session state when private content must be hidden, authenticated controls must stop, and the next valid action is sign in, reauthentication, restart, or safe task restoration.",
+    "Use session timeout warning when the session is still valid and the user can prevent expiry through a policy-valid action such as stay signed in, save draft, finish now, sign out, or reauthenticate.",
+    "Use sign in when the user is entering an unauthenticated service or returning to a protected route; session timeout adds the interrupted-task context, signed-out reason, safe reference, and restoration contract.",
+    "Use login for the credential-verification attempt itself, including pending verification, neutral failure, throttling, lockout, success, and session creation after the timeout screen sends the user there.",
+    "Use permission denied state when the user has an authenticated session but lacks the role, grant, license, policy, or ownership needed for the resource or action.",
+    "Use autosave recovery when the main risk is a failed, stale, local-only, or conflicted save; session timeout can route into autosave recovery after reauthentication if local work still needs repair.",
+    "A session timeout state should hide private content, remove stale authenticated actions, state the session-ended reason, and show safe metadata such as a reference ID, masked account, saved timestamp, or return destination.",
+    "Do not label expired authentication as access denied, not found, service unavailable, or retryable network failure; those messages send users into the wrong recovery path.",
+    "After reauthentication, session timeout should validate the return target, account, permission, and saved state, then restore protected content only inside a fresh session.",
+    "When no recoverable work exists, session timeout should say so plainly and offer a restart path instead of implying that a draft or transaction survived."
+  ],
+  "failureModes": [
+    "A timed-out form remains visible with Submit enabled, so the next action fails or duplicates work against an expired session.",
+    "The timeout page says Request access, even though the user simply needs to sign in again.",
+    "A pre-expiry warning and post-expiry timeout use the same copy, so users cannot tell whether extension is still possible.",
+    "After sign-in, the app drops the user on a dashboard and loses the interrupted task reference.",
+    "The timeout support log stores full protected URLs, form answers, tokens, or file names.",
+    "Autosave failed before timeout, but the timeout page promises the work was saved."
+  ],
+  "sources": [
+    {
+      "id": "nist-sp-800-63b-session-management",
+      "note": "Supports inactivity timeout, overall timeout, termination, and reauthentication reset behavior."
+    },
+    {
+      "id": "owasp-session-management-cheat-sheet",
+      "note": "Supports session expiration, automatic client logout after idle timeout, and work-loss concerns around silent expiry."
+    },
+    {
+      "id": "w3c-wcag-reauthenticating",
+      "note": "Supports preserving activity and data after reauthentication."
+    },
+    {
+      "id": "w3c-wcag-timeouts",
+      "note": "Supports timeout communication and data-loss risk around inactivity."
+    }
+  ],
+  "lastVerified": "2026-06-12"
+}

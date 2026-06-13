@@ -1,0 +1,59 @@
+{
+  "id": "agent-plan-preview-vs-task-list-vs-recommended-next-action-vs-human-approval-gate-vs-step-navigation",
+  "title": "Agent plan preview vs task list vs recommended next action vs human approval gate vs step navigation",
+  "summary": "Use agent plan preview when an AI agent will execute a multi-step plan and users need to inspect, edit, approve, or constrain the plan before execution; task list for known user-owned tasks; recommended next action for one contextual suggestion; human approval gate for a paused runtime authorization point; and step navigation for a fixed user journey.",
+  "patternIds": [
+    "agent-plan-preview",
+    "task-list",
+    "recommended-next-action",
+    "human-approval-gate",
+    "step-navigation"
+  ],
+  "decisionRules": [
+    "Choose agent plan preview when the system has generated or assembled a multi-step agent plan before execution and users need to inspect objective, ordered steps, tool use, data access, dependencies, risks, approval gates, and expected outputs.",
+    "Choose task list when the steps are known user-owned tasks with persistent completion statuses, not an AI agent's proposed execution plan.",
+    "Choose recommended next action when the system suggests one immediate workflow action, not a full ordered plan with dependencies and tool calls.",
+    "Choose human approval gate when execution has already paused at a runtime checkpoint that needs authorization before the next step resumes.",
+    "Choose step navigation when a human is moving through a fixed page sequence, not reviewing a model-generated plan before an autonomous or semi-autonomous run.",
+    "An agent plan preview must show which steps are fixed, editable, optional, conditional, blocked, or require approval before run starts.",
+    "The preview must distinguish plan intent from executed work: proposed steps, planned tools, planned data access, planned outputs, and approval gates are not status history.",
+    "Show changed plan, stale plan, permission-limited step, missing input, risk warning, and unsupported step states before users start execution.",
+    "Let users edit, remove, reorder where safe, approve, run, save, or cancel the plan without hiding what the agent will do.",
+    "When execution starts, the plan preview hands off to progress trace, tool-use visibility, human approval gate, or audit trail patterns rather than pretending the preview is runtime monitoring."
+  ],
+  "failureModes": [
+    "The agent runs a multi-step plan after showing only a one-line summary.",
+    "The preview hides planned tool calls, data access, external messages, cost, or destructive steps.",
+    "Users edit a plan but the agent executes the original unseen version.",
+    "A completed progress trace is shown as if it were the pre-run plan preview.",
+    "The UI labels an optional recommendation as a plan and makes it look mandatory.",
+    "A stale plan remains runnable after permissions, source scope, input, or model instructions changed."
+  ],
+  "sources": [
+    {
+      "id": "openai-prompt-engineering-guide",
+      "note": "Supports explicit goals, instructions, context, constraints, structured outputs, and iterative refinement for model behavior."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports multi-turn context, messages, tool calls, tool outputs, and response chaining that affect agent planning state."
+    },
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports separating previewed plans from later response and tool execution events."
+    },
+    {
+      "id": "microsoft-copilot-studio-prompt-assistant",
+      "note": "Supports user review, keep, edit, and test behavior for AI-generated drafts before use."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, correction, expectations, and uncertainty boundaries in AI-assisted experiences."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing plan updates, blocked steps, validation results, and run-start state changes."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

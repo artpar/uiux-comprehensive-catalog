@@ -1,0 +1,255 @@
+{
+  "id": "chart-drilldown",
+  "completionStatus": "complete",
+  "completionNotes": "Completed with source-backed chart hierarchy guidance, distinct drilldown interaction rules, a live aggregate-to-child demo, comparison rules against visualization, details, and table patterns, duplicate audit coverage, manual desktop and mobile browser checks, and captured evidence.",
+  "name": "Chart drilldown",
+  "aliases": [
+    "drill-down chart",
+    "chart hierarchy drill",
+    "visual drilldown",
+    "aggregate drilldown",
+    "chart drill path",
+    "hierarchical chart exploration",
+    "drill into chart",
+    "drill-up chart"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Navigation And Wayfinding",
+    "Task And Workflow Patterns",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Interactive chart hierarchy from aggregate marks to child-level data",
+  "uiGuidance": [
+    "Render a drillable chart with an analytic title, metric, current hierarchy level, selected parent mark, child-level label, axes, units, breadcrumbs or drill-up control, reset control, selected child mark, tooltip, inherited-filter summary, and data table alternative.",
+    "Distinguish drillable marks from ordinary selectable marks through labels, affordance, focus style, hover or focus hint, and disabled state when a mark has no child series."
+  ],
+  "uxGuidance": [
+    "Use Chart drilldown when users need to start from an aggregate visual pattern and inspect the planned next level of the same hierarchy without losing the original metric, filter scope, or chart question.",
+    "Preserve orientation on every level change: announce the new level, show the path back to the aggregate, keep selected parent context visible, and disclose any change to unit, aggregation, filter, time range, sample, or freshness."
+  ],
+  "uiExamples": {
+    "good": [
+      "A revenue-by-region bar chart labels Region level, lets users drill into APAC, replaces the bars with APAC countries, shows a Global > APAC breadcrumb, and keeps USD thousands and the date range visible.",
+      "A product defect chart uses focusable bars with drill hints, disables bars with no child data, and provides a synchronized child table after drilldown."
+    ],
+    "bad": [
+      "A user clicks a tall bar and the whole chart changes to unlabeled smaller bars with no selected parent, no level label, and no way to return.",
+      "A chart drilldown changes from revenue to margin and from monthly to quarterly data but keeps the same title, making users compare incompatible values."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "An analyst drills from Region to Country, compares child bars, drills back to all regions, and sees the selected parent and inherited filters preserved throughout.",
+      "A keyboard user tabs to APAC, activates drilldown, hears that the chart changed to Country level for APAC, then uses the breadcrumb to return to Region level."
+    ],
+    "bad": [
+      "A dashboard treats drilldown like a hidden filter: drilling into Sales hides all other departments with no breadcrumb, so users think the whole company dropped.",
+      "A chart lets users drill five asymmetric levels deep without showing totals, peer context, or a reset path."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Users see an aggregate chart mark that raises a follow-up question, but switching to a separate table, report page, or filter panel can break analytic context and make the parent-to-child relationship unclear.",
+  "solution": "Provide an in-chart drilldown path where activating a drillable mark replaces or expands the chart with its child series while keeping hierarchy path, selected parent, metric, units, filters, return controls, accessible announcements, and exact-value alternatives synchronized.",
+  "problemContext": [
+    "The chart shows aggregate values whose children are meaningful, such as region to country, year to quarter, product group to SKU, or category to issue type.",
+    "Users need to investigate why an aggregate is high, low, anomalous, or changing without leaving the visual analysis flow.",
+    "The hierarchy is planned and finite; each child series is a real breakdown of the selected parent rather than an unrelated filter or page navigation.",
+    "Users may need to compare child contributors, return to peer aggregates, export context, or switch to a row-level table when visual drilldown is no longer enough.",
+    "Orientation risk grows as depth increases because the current chart can hide peer context, inherited filters, and the original aggregate question."
+  ],
+  "selectionRules": [
+    "Choose Chart drilldown when a visible chart mark represents an aggregate with a direct child series that answers the next analytic question.",
+    "Use ordinary Data visualization when users only need to read the current encoded pattern and do not need to traverse a hierarchy.",
+    "Use details panel when the user needs descriptive object information beside the chart rather than replacing the chart with child aggregate marks.",
+    "Use table or data grid when exact records, row reconciliation, export, sorting, or editing is the primary need.",
+    "Use drillthrough to a separate page when the detail view needs multiple visuals, richer entity context, or a different layout while preserving a clear Back path.",
+    "Do not use Chart drilldown for arbitrary filtering, surprise page navigation, unrelated metric changes, or decorative click effects.",
+    "Only expose drilldown on marks with available child data; show disabled or terminal state for leaves.",
+    "Limit levels or provide strong breadcrumbs, reset, and summary context when hierarchies are deep, sparse, or asymmetric."
+  ],
+  "requiredStates": [
+    "Top-level chart with drillable marks, level label, metric, units, date or filter scope, tooltip, legend, and table alternative.",
+    "Drillable mark focused, hovered, selected, activated, loading child data, child data loaded, child data empty, and terminal leaf states.",
+    "Drilled level with selected parent, child-level title, breadcrumb path, drill-up control, reset-to-root control, inherited filters, and synchronized selected child mark.",
+    "Drill-up, breadcrumb jump, reset, failed child load, stale child data, permission-limited child data, no child data, and export-with-path states.",
+    "Mobile state where hierarchy path, selected parent, drill controls, selected child, and table alternative remain reachable without clipped chart labels.",
+    "Keyboard and assistive-technology state where activation announces the new chart level and focus lands on the level heading, breadcrumb, or first child mark predictably."
+  ],
+  "interactionContract": [
+    "A drillable mark can only reveal data that is a child of that mark under the current filters, metric, unit, time range, aggregation, and permission scope.",
+    "Activating a mark updates chart marks, title, level label, breadcrumb, tooltip, data table, summary copy, and live announcement from the same child dataset.",
+    "Breadcrumbs and drill-up controls return users to a previous level without losing the original filters, selected path, or available peer context.",
+    "If drilldown changes aggregation, sampling, unit, baseline, or freshness, the changed interpretation is disclosed before the user reads the child chart.",
+    "Terminal marks communicate that no deeper child series exists and do not behave like broken buttons.",
+    "Export, share, and copy actions include the full drill path, selected parent, current level, filters, units, and timestamp."
+  ],
+  "implementationChecklist": [
+    "Define the drill hierarchy, parent-child keys, maximum depth, terminal leaves, child-count thresholds, permission rules, and fallback table route before rendering drillable marks.",
+    "Generate parent aggregate, child marks, breadcrumbs, tooltips, tables, and summary text from the same filtered hierarchy model.",
+    "Implement keyboard activation, focus restoration, live announcements, drill-up, reset, loading, empty child, failed child, stale child, and permission-limited child states.",
+    "Style drillable marks with explicit affordance and focus indicators, and style terminal marks differently so users do not expect deeper data.",
+    "Test deep paths, asymmetric branches, empty children, long labels, metric changes, filters, exports, mobile layout, high contrast, and screen-reader announcements.",
+    "Provide a table or row-level handoff when users need exact child records after reaching the useful visual drill depth."
+  ],
+  "commonMisuses": [
+    "Replacing a chart with child data without breadcrumbs, selected parent, or drill-up path.",
+    "Using drilldown as a hidden filter that silently narrows the whole dashboard.",
+    "Changing metric, unit, baseline, or time grain during drilldown without disclosure.",
+    "Making every mark look drillable even when some marks have no child data.",
+    "Opening an unrelated detail page and calling it chart drilldown.",
+    "Hiding exact child values behind pointer-only tooltips."
+  ],
+  "critiqueQuestions": [
+    "What parent-child hierarchy does each drillable mark represent, and can users see that path before and after activation?",
+    "Does the child chart preserve the same metric, unit, filter scope, and analytic question as the parent chart?",
+    "Can users drill up, jump through breadcrumbs, reset to the root, and export with the full path preserved?",
+    "What happens for terminal leaves, empty child series, stale child data, permission-limited data, and failed child loads?",
+    "Would a details panel, table, data grid, filter panel, or drillthrough page better fit the next step?"
+  ],
+  "useWhen": [
+    "Users need to investigate an aggregate chart mark by moving to the next planned level of a hierarchy.",
+    "The child data answers the same analytic question at a more specific granularity.",
+    "The interface can preserve path, parent context, metric continuity, accessible announcements, and a return path.",
+    "The visual drill depth is limited enough that users can stay oriented."
+  ],
+  "avoidWhen": [
+    "The next step is exact row auditing, editing, or export rather than aggregate visual comparison.",
+    "The target is an unrelated report page, free-form filter, or object detail view.",
+    "The hierarchy is unclear, unbounded, sparse, or likely to change interpretation between levels.",
+    "The product cannot provide breadcrumbs, drill-up, focus management, and synchronized table alternatives.",
+    "Changing level would silently change metric, unit, baseline, aggregation, or time range."
+  ],
+  "variants": [
+    "Single-level chart drilldown",
+    "Multi-level hierarchy drilldown",
+    "Drill-up breadcrumb path",
+    "Expandable in-place series",
+    "Drilldown with detail table handoff",
+    "Cross-highlight plus drilldown",
+    "Chart drillthrough handoff"
+  ],
+  "accessibility": [
+    "Expose chart title, current hierarchy level, selected parent, drill path, metric, units, filters, and available drill controls as text.",
+    "Make drillable marks keyboard focusable and activatable, with a visible focus ring and label that says what level will open.",
+    "Announce new child data, level changes, failed loads, empty children, and reset actions in a live region.",
+    "Provide a synchronized table or textual summary for each drill level so exact values are not pointer-only.",
+    "Return focus predictably to the activated mark, new level heading, breadcrumb, or first child mark after drilling and drilling up.",
+    "Do not rely only on color or animation to indicate drillability, selected parent, active breadcrumb, or terminal leaf."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches drill controls, breadcrumbs, reset, drillable marks, selected child marks, table toggle, and export controls.",
+    "Enter or Space activates a focused drillable mark, breadcrumb, drill-up control, reset control, or terminal-leaf explanation.",
+    "Arrow-key mark navigation may move between chart marks when implemented, but tab order and a table alternative must still work.",
+    "Escape can leave an open tooltip or child detail popover without changing drill level.",
+    "After drilldown, focus moves to the new level heading or first child mark and an announcement names the selected parent and level.",
+    "After drill-up or reset, focus returns to the corresponding parent mark or root chart control."
+  ],
+  "failureModes": [
+    "Drilldown has no breadcrumb, level label, selected parent, or return control.",
+    "Child data is not a true breakdown of the selected aggregate.",
+    "Metric, unit, aggregation, baseline, time grain, filter scope, or sample changes silently between levels.",
+    "Keyboard users cannot activate drillable marks or tell which level opened.",
+    "Screen-reader users receive no notice when chart data is replaced.",
+    "Terminal leaves behave like broken buttons instead of explaining that there is no deeper level.",
+    "Deep drill paths hide peer context and make comparison unreliable.",
+    "Responsive layout clips breadcrumbs, drill controls, axes, or selected child labels."
+  ],
+  "relatedPatterns": [
+    "data-visualization",
+    "details-panel",
+    "table",
+    "data-grid",
+    "breadcrumbs",
+    "filter-panel"
+  ],
+  "comparisons": [
+    "chart-drilldown-vs-data-visualization-vs-details-panel-vs-table"
+  ],
+  "examples": [
+    {
+      "product": "Highcharts drilldown",
+      "url": "https://www.highcharts.com/docs/chart-concepts/drilldown",
+      "platform": "web",
+      "notes": "Documents point-linked hidden drilldown series that replace the visible series and can chain multiple levels.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Highcharts breadcrumbs",
+      "url": "https://www.highcharts.com/docs/advanced-chart-features/breadcrumbs",
+      "platform": "web",
+      "notes": "Documents breadcrumbs for returning through prior drilldown and hierarchy levels.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Power BI drill-down support",
+      "url": "https://learn.microsoft.com/en-us/power-bi/developer/visuals/drill-down-support",
+      "platform": "web",
+      "notes": "Documents hierarchy-level drill support, current level display, selection, context menu, and matrix traversal.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Power BI drillthrough",
+      "url": "https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-drillthrough",
+      "platform": "web",
+      "notes": "Documents navigation from a selected visual value to a filtered detail page with a return path, useful as a contrast to in-chart drilldown.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Tableau hierarchies",
+      "url": "https://help.tableau.com/current/pro/desktop/en-us/qs_hierarchies.htm",
+      "platform": "web",
+      "notes": "Documents plus and minus controls for adding or subtracting levels of detail in a visualization hierarchy.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "highcharts-drilldown",
+      "note": "Highcharts documents drilldown as linking a clicked chart point to a child series that replaces the visible series."
+    },
+    {
+      "id": "highcharts-breadcrumbs",
+      "note": "Highcharts documents breadcrumbs for navigating back through drilldown and hierarchy levels."
+    },
+    {
+      "id": "highcharts-accessible-dynamic-data",
+      "note": "Highcharts documents announcements for dynamic data and drilldown changes."
+    },
+    {
+      "id": "microsoft-power-bi-drill-down-support",
+      "note": "Microsoft documents hierarchy-driven drill-down support in custom Power BI visuals."
+    },
+    {
+      "id": "microsoft-power-bi-drillthrough",
+      "note": "Microsoft documents drillthrough as navigation to a filtered detail page, clarifying the boundary with chart drilldown."
+    },
+    {
+      "id": "tableau-hierarchies-drill",
+      "note": "Tableau documents drilling up or down within a hierarchy by adding or removing levels of detail."
+    },
+    {
+      "id": "highcharts-accessibility-module",
+      "note": "Highcharts documents keyboard navigation, screen-reader access, and data table support for charts."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers aggregate chart marks, parent-child hierarchy keys, current level labels, selected parent context, child-level chart replacement, breadcrumbs, drill-up, reset, terminal leaves, inherited filters, unit continuity, child tables, stale child data, exports, keyboard activation, and live announcements.",
+    "relatedPatternDistinction": "Distinguishes Chart drilldown from Data visualization for reading the current chart, Details panel for selected-object attributes beside a chart, table and data-grid for exact row work, breadcrumbs for navigation aids, and filter-panel for user-controlled query narrowing rather than hierarchy traversal.",
+    "liveDemoBehavior": "The demo drills from Global region values to APAC countries and India stores, exposes Global and APAC and India breadcrumbs, selected parent labels, terminal leaf messaging, drill-up, reset, child table, stale child disclosure, export-path messaging, and bad modes for no breadcrumb, metric change, fake child, hover-only discovery, missing announcement, deep trap, and broken leaf.",
+    "comparisonDecisionRules": "Comparison chart-drilldown-vs-data-visualization-vs-details-panel-vs-table defines when to use in-chart hierarchy traversal, ordinary chart reading, selected-object detail panels, exact-row tables, and drillthrough page navigation, including requirements for path, parent context, filter continuity, announcements, and bounded depth.",
+    "duplicateAudit": "Completion audit reports zero normalized duplicate field groups after adding the pattern.",
+    "manualSpotCheck": "Checked /patterns/chart-drilldown/ in Chromium, exercised good controls for APAC drill, India drill, child table, stale child disclosure, export path, drill-up, reset, and terminal leaf, exercised all bad-mode controls, checked the comparison route, and inspected the 390px mobile layout on 2026-06-11.",
+    "screenshots": [
+      "screenshots/patterns/chart-drilldown.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

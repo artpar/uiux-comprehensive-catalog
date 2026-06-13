@@ -1,0 +1,263 @@
+{
+  "id": "saved-view",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a persisted presentation-state pattern with source-backed guidance for named private, team, shared, default, table, board, invalid-field, temporary-change, save-as-new, shared-update, and mobile management flows plus related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers saved layout mode, visible columns and order, grouping, filters, sort, density, tab placement, owner, visibility, default status, private and shared lifecycle, modified-from-saved state, copy versus update choices, invalid field repair, dependency warnings, dynamic data behavior, and narrow-screen action access.",
+    "relatedPatternDistinction": "The entry separates saved view from saved search by requiring persisted presentation state beyond query criteria, from saved filter by storing more than filter values, from table, list, data grid, and kanban board by treating those as current render surfaces, from custom dashboard by avoiding multi-widget composition, from favorites or pinned items by requiring display-state persistence, and from static exports or reports by rerendering current data.",
+    "liveDemoBehavior": "The live demo uses support queue views named My urgent tickets, Team backlog, and Sprint board; shows private and team visibility, owner, default state, table and board layouts, columns, filters, sort, grouping, result counts, invalid fields, and modified state; exercises apply, switch layout, toggle owner, add risk, save as new, update view, discard, and repair field; and contrasts row snapshots, hidden settings, shared overwrite, mixed saved objects, silent invalid fields, private leaks, and mobile-hidden actions.",
+    "comparisonDecisionRules": "The linked saved-view-vs-saved-search-vs-saved-filter-vs-table comparison gives concrete rules for choosing persisted presentation state, rerunnable query criteria, reusable filter criteria, or the current row-and-column surface, including dynamic data, temporary changes, shared ownership, invalid schema, and full-view versus filter-only boundaries.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/saved-view/ on 2026-06-11 in Chromium: applied Sprint board, switched layout, toggled Owner, added Risk, saved a private copy, updated the shared view, repaired the removed field, sampled hidden-settings, overwrite, silent-invalid, private-leak, and mobile-hidden failures, verified /compare/saved-view-vs-saved-search-vs-saved-filter-vs-table/, and checked a 500px mobile viewport with no page-level horizontal overflow.",
+    "screenshots": [
+      "screenshots/patterns/saved-view.png"
+    ]
+  },
+  "name": "Saved view",
+  "aliases": [
+    "custom view",
+    "saved table view",
+    "saved list view",
+    "record view",
+    "project view",
+    "ticket view",
+    "queue view",
+    "view preset",
+    "workspace view",
+    "shared view"
+  ],
+  "category": "Data Display And Exploration",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Personalization And Preference",
+    "Task And Workflow Patterns",
+    "Collaboration And Social Interaction"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Persisted named presentation state for a data workspace",
+  "uiGuidance": [
+    "Render saved views as named, selectable workspace presentations with visible owner or visibility, active state, saved layout mode, columns or fields, grouping, sort, filters, and last-updated metadata.",
+    "Show exactly which display settings will be saved before Save, Update, Duplicate, Share, Set default, or Delete actions: layout, visible columns, column order, grouping, filters, sort, density, and tab placement when applicable."
+  ],
+  "uxGuidance": [
+    "Use saved view when users need to return to a complete operational presentation of a changing dataset rather than rebuilding columns, layout, grouping, filters, and sort every session.",
+    "Keep temporary view tweaks separate from updating the saved definition, especially for shared, default, dashboard-backed, or queue-driving views."
+  ],
+  "uiExamples": {
+    "good": [
+      "A support queue has saved views named My urgent tickets, Team backlog, and SLA breach risk, each showing columns, sort, filters, owner, and private or team visibility before users apply it.",
+      "A project workspace lets users save a table view with Owner, Status, Due date, and Risk columns, then duplicate it as a board view grouped by Status without overwriting the original."
+    ],
+    "bad": [
+      "A tab labelled Saved view applies hidden filters, changes columns, and switches layout with no preview or active-state summary.",
+      "A saved view list mixes saved filters, saved searches, static exports, bookmarks, and recent pages under one generic Saved label."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A manager opens SLA breach risk, sees the board layout, grouped Status lanes, five saved columns, and current result count, then changes density and saves a private copy instead of overwriting the team view.",
+      "A user opens a shared ticket view, edits columns temporarily, and the UI marks Unsaved changes with Update shared view and Save as new options."
+    ],
+    "bad": [
+      "A user changes one column while reviewing a team queue and accidentally updates the shared default for everyone.",
+      "A saved view references a removed field, silently drops that field, and changes the queue count without explaining which saved setting failed."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Data-heavy products let users tune columns, filters, grouping, layouts, and sort order, but without a saved view users must rebuild the same presentation repeatedly and teams cannot tell which shared view is authoritative.",
+  "solution": "Provide a named saved-view object that persists the intended presentation state, rerenders current data through that state, exposes ownership and visibility, separates temporary changes from updates, and handles copies, defaults, permissions, invalid fields, and shared dependencies explicitly.",
+  "problemContext": [
+    "The workspace has a changing data set such as records, tickets, issues, projects, orders, assets, opportunities, tasks, alerts, or audit entries.",
+    "Users can configure several presentation properties, such as table versus board layout, visible fields, column order, grouping, filters, sort, density, or tabs.",
+    "Different roles need different operational views of the same underlying data.",
+    "Saved views may be private, team, global, default, pinned, duplicated, embedded in dashboards, linked from navigation, or used as work queues.",
+    "Schema, permissions, fields, teams, and data change over time, so saved views need stale or invalid-state handling."
+  ],
+  "selectionRules": [
+    "Choose saved view when users need to persist a named combination of layout, columns, grouping, filters, sort, density, and other display preferences for a data surface.",
+    "Use saved search when the saved object is mainly query criteria, search scope, ranking, subscriptions, or rerunnable search behavior.",
+    "Use saved filter when only reusable filter values should be stored and query, sort, columns, and layout should remain separate.",
+    "Use table, list view, board, calendar, or dashboard layout for the actual current presentation; saved view is the management layer that stores how that presentation is configured.",
+    "Use custom dashboard when users compose multiple widgets, charts, or cross-source summaries rather than one configured result surface.",
+    "Use pinned items or favorites when users only need quick access, not saved display state.",
+    "Use a static export or report when users need a fixed snapshot rather than current records rendered through saved criteria and layout.",
+    "Avoid saved view when users cannot predict which settings will be saved or when shared updates cannot be permissioned or audited.",
+    "Avoid saved view for one-off column hiding that does not need naming, reuse, sharing, defaulting, or recovery.",
+    "Avoid using saved view names, counts, or criteria in shared navigation when they reveal private or unauthorized data."
+  ],
+  "requiredStates": [
+    "No saved view selected with current display settings visible and saveable.",
+    "Saved view list with active, private, team, shared, pinned, default, owner, last-updated, and result-count states.",
+    "Applied saved view state with view name, layout, columns, filters, sort, grouping, and count summary.",
+    "Modified-from-saved state when current display settings no longer match the saved definition.",
+    "Save as new, update existing, duplicate, rename, share, set default, pin, and delete states.",
+    "Shared-view update warning when changes affect other users, dashboards, queues, or navigation links.",
+    "Invalid saved view state for removed columns, missing fields, permission-denied filters, unavailable grouping, or unsupported layout.",
+    "Empty saved-view list state with a path to save the current presentation.",
+    "Deleted or unavailable saved view state with explanation and replacement route.",
+    "Narrow-screen state that preserves active view identity and access to view actions without hiding critical status."
+  ],
+  "interactionContract": [
+    "Saving stores a canonical view definition, not a static list of current row IDs.",
+    "Applying a saved view changes only the settings listed in its preview and updates the result set from current data.",
+    "The active saved view name, visibility, and modified state remain visible near the data surface.",
+    "Temporary changes to columns, filters, sort, grouping, density, or layout create a modified state until the user updates, saves a copy, or discards changes.",
+    "Updating a shared or default view confirms audience, dependencies, and edit permission before the saved definition changes.",
+    "Duplicating a saved view preserves the current configuration while assigning a new owner, name, visibility, and optional tab placement.",
+    "Invalid or unavailable saved settings remain visible with repair paths instead of silently broadening results or hiding columns.",
+    "Deleting or losing access to a saved view explains affected shortcuts, dashboards, default routes, or team queues."
+  ],
+  "implementationChecklist": [
+    "Define the canonical view model: data source, layout mode, visible fields, field order, filters, sort, grouping, density, tab placement, owner, visibility, and default status.",
+    "Show a human-readable view summary before Apply, Save, Update, Duplicate, Share, Set default, or Delete.",
+    "Separate view state from row selection, transient scroll position, temporary search text, and one-off local UI state unless the product explicitly includes those settings.",
+    "Store owner, visibility, editable audience, last updater, updated time, dependency use, and whether the view is private, team, global, system, pinned, or default.",
+    "Detect modified-from-saved state whenever saved columns, filters, sort, layout, grouping, or density differ from the active definition.",
+    "Validate saved columns, filters, grouping fields, and permissions against the current schema before applying the view.",
+    "Warn before updating or deleting a saved view used by dashboards, shared tabs, queues, automations, reports, or default navigation.",
+    "Test duplicate names, private and shared permissions, invalid fields, mobile view action access, keyboard management, and screen-reader announcements."
+  ],
+  "commonMisuses": [
+    "Saving current rows instead of presentation settings and dynamic criteria.",
+    "Calling a saved filter a saved view while hiding that columns, layout, grouping, and sort are also stored.",
+    "Overwriting a shared or default view when the user intended a temporary personal adjustment.",
+    "Applying a saved view with no preview of changed columns, filters, sort, grouping, or layout.",
+    "Mixing saved views with saved searches, saved filters, recent views, exports, and bookmarks in one list.",
+    "Silently dropping invalid columns or permission-denied filters and changing the visible result set.",
+    "Leaking private view names, criteria, counts, or columns in shared tabs or dashboards.",
+    "Making the active view look like a normal tab without showing modified or unsaved changes."
+  ],
+  "critiqueQuestions": [
+    "Which display settings are stored in this saved view, and can users inspect them before applying or updating it?",
+    "Does applying the view rerender current data rather than a stale row snapshot?",
+    "Is it clear who owns the view, who can see it, who can edit it, and whether it is a default or shared operational queue?",
+    "What happens when users change columns, filters, sort, grouping, or layout after opening a saved view?",
+    "How are removed fields, unavailable grouping, invalid criteria, or permission changes repaired?",
+    "Would saved search, saved filter, table, dashboard, favorite, pinned item, or static export better match what users are trying to preserve?"
+  ],
+  "useWhen": [
+    "Users repeatedly return to a specific presentation of a changing data set.",
+    "The reusable object includes columns, layout, grouping, sort, filters, visibility, default status, or tab placement.",
+    "Teams need named operational views that can be shared, copied, set as defaults, or linked from navigation.",
+    "Users need temporary tweaks without accidentally overwriting the saved definition."
+  ],
+  "avoidWhen": [
+    "Only one current-session filter or sort choice needs to be changed.",
+    "The product cannot show which settings are saved or who can access the saved view.",
+    "Users need a static snapshot, export, or printed report rather than a current data view.",
+    "The saved object is only query criteria, only filter criteria, or only a favorite shortcut.",
+    "The view would reveal sensitive names, criteria, counts, or columns across permission boundaries."
+  ],
+  "variants": [
+    "Private saved view",
+    "Team saved view",
+    "Global saved view",
+    "Default saved view",
+    "Pinned saved view",
+    "Table saved view",
+    "Board saved view",
+    "Record view tab",
+    "Ticket view",
+    "Invalid saved view",
+    "Duplicated saved view",
+    "Dashboard-backed saved view"
+  ],
+  "accessibility": [
+    "Expose active saved-view name, visibility, default status, and modified state in text, not only selected tab styling.",
+    "Use labelled controls for view name, visibility, layout, columns, grouping, filters, sort, density, and sharing settings.",
+    "Announce apply, save, update, duplicate, delete, invalid-field, and permission outcomes in a stable status region.",
+    "Name destructive and shared-update actions with the saved view name.",
+    "Keep view management actions keyboard reachable from the data surface and return focus after dialogs close.",
+    "When a saved view changes visible columns or layout, keep focus predictable and announce the new result count or view summary.",
+    "Do not rely on icons or color alone for private, shared, default, modified, invalid, or pinned states."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches saved-view tabs or picker, active view summary, view actions, display controls, and the data surface in predictable order.",
+    "Enter or Space applies a focused saved view and announces the active view name and current result count.",
+    "After a view is applied, focus stays on the selected view control or moves to the result summary with an announcement.",
+    "When display settings differ from the active view, Update view, Save as new, and Discard changes are separate keyboard targets.",
+    "Column picker, layout picker, visibility picker, and share dialog support Escape or Cancel with focus returned to the invoking control.",
+    "Deleting a view returns focus to the next saved view, the previous saved view, or the Save current view action."
+  ],
+  "failureModes": [
+    "Saved views store row snapshots, so new records matching the saved configuration never appear.",
+    "Users cannot tell whether a change updated their private view, a team view, or only the current session.",
+    "A shared view update changes columns and grouping for everyone without warning.",
+    "Removed fields are silently dropped and the view appears valid even though its operational meaning changed.",
+    "Saved views, filters, searches, exports, and bookmarks are collapsed into one ambiguous Saved menu.",
+    "Private view names, counts, columns, or criteria appear in shared navigation or dashboard cards.",
+    "A view used by a dashboard or queue is deleted with no dependency warning.",
+    "Mobile view tabs hide modified state and management actions, so users cannot save or discard changes."
+  ],
+  "relatedPatterns": [
+    "saved-search",
+    "saved-filter",
+    "filter-panel",
+    "sort-controls",
+    "table",
+    "list-view",
+    "data-grid",
+    "kanban-board"
+  ],
+  "comparisons": [
+    "saved-view-vs-saved-search-vs-saved-filter-vs-table"
+  ],
+  "examples": [
+    {
+      "product": "HubSpot saved record views",
+      "url": "https://knowledge.hubspot.com/records/create-and-manage-saved-views",
+      "platform": "web",
+      "notes": "Documents saved views with filters, visibility, saved tabs, editable filters, columns, sort order, and sharing controls.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub Issues saved views",
+      "url": "https://docs.github.com/en/enterprise-cloud@latest/issues/tracking-your-work-with-issues/using-issues/viewing-all-of-your-issues-and-pull-requests",
+      "platform": "web",
+      "notes": "Documents saved views with titles, descriptions, custom icons, query criteria, edit, duplicate, delete, and saved-view limits.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Zendesk ticket views",
+      "url": "https://support.zendesk.com/hc/en-us/articles/4408888828570-Creating-views-to-build-customized-lists-of-tickets",
+      "platform": "web",
+      "notes": "Documents personal and shared ticket views with condition statements, access settings, preview, columns, and cloning.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub Projects view layout",
+      "url": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/changing-the-layout-of-a-view",
+      "platform": "web",
+      "notes": "Documents changing saved project view layout between table, board, and roadmap presentations.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "hubspot-saved-views",
+      "note": "HubSpot documents saved views with filters, visibility, tabs, columns, sort, and sharing controls."
+    },
+    {
+      "id": "github-issues-saved-views",
+      "note": "GitHub documents saved views with title, description, custom icon, query criteria, edit, duplicate, delete, and limits."
+    },
+    {
+      "id": "zendesk-ticket-views",
+      "note": "Zendesk documents ticket views as personal or shared lists with condition statements, access settings, preview, columns, and cloning."
+    },
+    {
+      "id": "github-projects-changing-layout",
+      "note": "GitHub Projects documents changing a project view between table, board, and roadmap layouts."
+    },
+    {
+      "id": "github-projects-board-layout",
+      "note": "GitHub Projects board layout guidance supports columns, hidden fields, hidden columns, sorting, and grouping."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

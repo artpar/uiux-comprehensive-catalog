@@ -1,0 +1,270 @@
+{
+  "id": "mentions",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed mentions pattern with guidance for inline recipient tokens, scoped suggestion lookup, stable target identity, duplicate-name disambiguation, missing-access warnings, broad-audience confirmation, notification suppression, direct mention links, action-item side effects, token removal, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers inline @ triggers, suggestion rows, person, team, channel, role, bot, and broad-audience targets, stable recipient IDs, display labels, handles, access state, notification routing, preference-aware delivery, broad mention confirmation, token editing, token removal, and direct return to the mention context.",
+    "relatedPatternDistinction": "The entry separates mentions from object-attached comments, threaded topic discussion, notification-center inbox triage, object picker fields, typeahead mechanics, activity-log evidence, permission-denied recovery, review queues, and feed stream consumption.",
+    "liveDemoBehavior": "The demo shows a private incident note with caret-scoped suggestions, inserted mention token, ambiguous Alex choices, missing-access warning, @channel audience confirmation, suppressed notification state, exact-note deep link, action-item creation, token removal, and bad-state contrasts for plain @text, wrong person, no access warning, blast-all, nonspecific-link, and fake-assignment failures.",
+    "comparisonDecisionRules": "The linked mentions-vs-comments-vs-threaded-discussion-vs-notification-center comparison gives concrete rules for inline recipient targeting, anchored comments, topic threads, notification inboxes, object picker fields, typeahead mechanics, audit evidence, permission recovery, and review queue escalation.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Desktop browser check verified two mentions frames, two bad grids, all good and bad controls, no duplicate IDs, no mentions overflow, state assertions for suggestions, selected person, ambiguous name, missing access, broad warning, suppressed notification, deep link, action item, token removal, and comparison terms including stable recipient ID, broad-audience, deep-link, access, and notification. Mobile browser check verified single-column frames, stacked suggestion rows, broad warning, missing access, action item, wrong-person state, and no mentions overflow.",
+    "screenshots": [
+      "screenshots/patterns/mentions.png"
+    ]
+  },
+  "name": "Mentions",
+  "aliases": [
+    "@mentions",
+    "user mentions",
+    "team mentions",
+    "channel mentions",
+    "inline mentions",
+    "recipient tagging",
+    "attention tag",
+    "notify mention",
+    "mention autocomplete"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Feedback, Status, And System State",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Inline recipient reference with autocomplete, stable recipient identity, notification routing, access checks, and broad-audience safeguards",
+  "uiGuidance": [
+    "Render mentions as inline tokens or highlighted text that preserve a stable recipient identity, display name, avatar or team marker, recipient type, and selected state without breaking surrounding editable text.",
+    "Show mention suggestions at the caret with names, handles, avatars, teams, channels, availability or scope hints, permission warnings, and keyboard-highlight state; distinguish exact matches, ambiguous display names, unavailable recipients, and broad-audience mentions."
+  ],
+  "uxGuidance": [
+    "Use mentions when a user needs to call attention to a person, team, channel, role, or group from inside a message, comment, task, document, issue, or thread while keeping the reference embedded in the authored content.",
+    "Bind each selected mention to notification, permission, assignment, follow-up, or deep-link behavior so recipients know why they were mentioned and can return to the exact context where the mention appeared."
+  ],
+  "uiExamples": {
+    "good": [
+      "A comment composer opens a suggestion list after @, shows people and teams with avatars, handles, access labels, and keyboard focus, then inserts a mention chip for Priya Rao.",
+      "A broad @channel mention shows audience size, muted-thread limits, and a confirmation warning before the message is sent."
+    ],
+    "bad": [
+      "The editor highlights every @word as a mention even when it is plain text and has no recipient identity.",
+      "A suggestion list shows three Alex users with identical labels and lets the sender submit without disambiguating which person will be notified."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user mentions @Dana in a private incident note, sees that Dana lacks access, chooses Invite and mention, and the resulting notification opens the exact note.",
+      "A user types @platform-oncall, sees the team size and notification policy, confirms the broad recipient, and the team mention remains searchable and preference-aware."
+    ],
+    "bad": [
+      "A user mentions someone in a private channel, the person is not notified, and the sender receives no warning or recovery path.",
+      "A mention notification opens the record homepage rather than the exact comment sentence, forcing the recipient to search for why they were pulled in."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Collaboration breaks when inline @ references are treated as decorative text, notify the wrong audience, ignore access boundaries, fail to disambiguate similar names, or send recipients to a generic page instead of the exact context.",
+  "solution": "Provide inline mention insertion with scoped suggestions, stable recipient IDs, visible recipient type, ambiguity resolution, permission checks, audience warnings, notification routing, preference-aware delivery, and direct return links to the mention context.",
+  "problemContext": [
+    "Users are composing messages, comments, documents, tasks, issues, pull requests, notes, tickets, or thread replies and need to draw attention to specific people or groups.",
+    "Mentionable targets may include individuals, teams, channels, roles, user groups, on-call rotations, bots, or workspace-wide audiences with different notification and permission rules.",
+    "Mentions can create notifications, action items, task ownership, inbox filters, search handles, or audit events, but they remain embedded in authored content.",
+    "The recipient may lack access, have notifications paused, share a display name with another person, belong to a broad audience, or receive the mention through a team preference."
+  ],
+  "selectionRules": [
+    "Choose mentions when the interaction begins in prose or rich text and the user needs an inline reference that targets a recipient or audience.",
+    "Use object picker when the user is selecting owners, reviewers, approvers, assignees, or recipients as a structured field rather than writing a message.",
+    "Use comments when the product needs anchored conversation state; mentions can live inside comments but should not carry reply, resolve, edit, or delete behavior by themselves.",
+    "Use threaded discussion when the core task is following a branchable topic conversation; mentions inside replies should notify without changing the thread hierarchy.",
+    "Use notification center for the retained inbox where mention events are read, filtered, muted, or opened after delivery.",
+    "Use typeahead or combobox for the suggestion-list interaction, but add mention-specific recipient identity, access, and notification semantics.",
+    "Warn before broad mentions that reach a channel, team, workspace, or chat, especially when audience size, quiet hours, or admin rules make the effect large.",
+    "Do not send a mention silently when the target cannot see the object, private channel, document, issue, or thread; show invite, request access, remove, or send-without-notify choices according to product policy."
+  ],
+  "requiredStates": [
+    "Empty composer, @ trigger, loading suggestions, no results, and filtered suggestions.",
+    "Highlighted suggestion, keyboard-selected suggestion, mouse or touch-selected suggestion, and inserted mention token.",
+    "Individual, team, channel, user group, role, bot, and broad-audience mention states where the product supports them.",
+    "Ambiguous display name, duplicate handle, unavailable recipient, deleted user, deactivated account, and external guest states.",
+    "Recipient lacks access, sender lacks permission to mention, admin-restricted broad mention, guest-restricted broad mention, and invite-before-mention states.",
+    "Notification sent, notification suppressed by preferences or paused status, thread-limited mention, failed notification, and retry or remove states.",
+    "Mention edited, mention removed, pasted mention text, copied mention, escaped plain @ text, and serialized mention ID states.",
+    "Direct-linked mention state where the recipient opens the exact message, comment, reply, task, or document location."
+  ],
+  "interactionContract": [
+    "Typing @ opens a suggestion list scoped to the current workspace, channel, object, permission boundary, and caret location.",
+    "Selecting a suggestion inserts an inline token bound to a stable target ID, not just the visible display name.",
+    "Arrow keys move through suggestions, Enter or Tab commits the highlighted target, Escape closes suggestions without deleting typed text, and Backspace removes or edits the mention predictably.",
+    "Submitting content validates access, broad-audience policy, duplicate recipients, quiet-hour or paused-notification behavior, and notification preferences before delivery.",
+    "If a recipient cannot see the content, the sender gets a clear warning and an allowed recovery path such as invite, request access, remove mention, or send without notifying.",
+    "Mention notifications deep-link to the exact sentence, comment, task, reply, or document location and highlight the mention or its containing item on arrival.",
+    "Editing a mention updates the target identity, display text, notification rules, and audit or activity evidence according to product policy."
+  ],
+  "implementationChecklist": [
+    "Define mentionable target types, stable IDs, display labels, handles, avatars, membership, visibility, notification policy, broad-audience rules, and serialization format before building the editor.",
+    "Implement caret-aware suggestion positioning, keyboard navigation, loading and empty states, duplicate-name disambiguation, screen-reader labels, touch-safe rows, and mobile viewport behavior.",
+    "Validate access and notification outcomes at submit time, including private spaces, guest users, deactivated users, muted threads, paused notifications, broad mentions, and admin restrictions.",
+    "Design warning and recovery flows for broad mentions, unavailable recipients, missing access, duplicate mentions, failed notification delivery, and mention edits.",
+    "Ensure copied, pasted, edited, deleted, and rendered mentions preserve or intentionally drop target identity with visible feedback.",
+    "Test notification deep links, inbox filtering, search, action-item creation, assignment side effects, audit evidence, localization of display names, and ambiguous names."
+  ],
+  "commonMisuses": [
+    "Parsing @words after submit without requiring the sender to choose a real recipient.",
+    "Treating a mention suggestion list as a generic people picker and ignoring caret position, inline serialization, and notification side effects.",
+    "Allowing broad mentions with no audience size, policy, quiet-hours, or confirmation warning.",
+    "Mentioning people who cannot access the object and giving neither sender nor recipient a recoverable path.",
+    "Using mentions as the only assignment mechanism without creating task ownership, due state, or completion behavior.",
+    "Letting ambiguous display names, renamed users, deactivated users, or external guests collapse into the same visible token.",
+    "Sending notification links to the top of a page rather than the exact mention context.",
+    "Failing to distinguish person mentions, team mentions, channel mentions, bots, roles, and plain @ text."
+  ],
+  "critiqueQuestions": [
+    "What stable target ID is bound to each visible mention token?",
+    "Can the sender tell whether they are mentioning a person, team, channel, role, bot, or broad audience?",
+    "What happens when several people match the same display name or handle?",
+    "Can every mentioned recipient see the underlying object or conversation?",
+    "Does the interface warn before broad mentions and respect admin, guest, quiet-hours, and notification-preference rules?",
+    "Where does the recipient land when they open the mention notification?",
+    "Does a mention also create assignment, task, or audit state, and is that state visible outside the prose?"
+  ],
+  "useWhen": [
+    "Composed content needs to target people or groups inline.",
+    "The product needs recipient-specific notifications, attention routing, action items, or searchable references from within comments, messages, documents, issues, or threads.",
+    "The sender must see and resolve access, ambiguity, or broad-audience effects before posting.",
+    "Recipients need direct return to the exact location where they were mentioned."
+  ],
+  "avoidWhen": [
+    "The user is selecting a structured owner, assignee, approver, or recipient field outside written content.",
+    "The surface is only an inbox of already-delivered notifications.",
+    "The product cannot preserve stable recipient IDs, access checks, or notification routing.",
+    "A broad broadcast or emergency alert needs a separate governed workflow rather than inline prose."
+  ],
+  "variants": [
+    "Person mention",
+    "Team mention",
+    "Channel mention",
+    "Workspace mention",
+    "Role mention",
+    "On-call mention",
+    "Bot mention",
+    "Action-item mention",
+    "Guest mention",
+    "Broad-audience mention"
+  ],
+  "accessibility": [
+    "Expose the suggestion list as a labelled popup tied to the editor and announce the number of available mention targets.",
+    "Name each suggestion with display name, handle, target type, access state, and warning state rather than relying only on avatar or color.",
+    "Keep the inline mention token readable as text while preserving target identity for assistive technology.",
+    "Announce inserted, removed, unavailable, duplicate, broad-audience, and notification-suppressed mention states.",
+    "Provide keyboard and touch access to disambiguation, invite, remove, confirm broad mention, and send-without-notify controls.",
+    "When a mention notification opens, move focus to the containing message, comment, task, or document location and identify the mention context."
+  ],
+  "keyboardBehavior": [
+    "Typing @ opens suggestions at the caret without moving focus away from the editor.",
+    "Arrow keys move through suggestions, Enter or Tab inserts the highlighted mention, Escape closes suggestions and leaves typed text intact.",
+    "Backspace on an inserted token selects or removes the whole mention before deleting surrounding prose.",
+    "Tab order reaches broad-mention confirmation, access recovery, invite, remove, and send controls in a logical order.",
+    "After inserting a mention, focus returns to the editor immediately after the token.",
+    "When a notification deep link opens a mention, focus moves to the mentioned item or a heading that names the containing context."
+  ],
+  "failureModes": [
+    "The UI highlights @text but stores no recipient ID.",
+    "The wrong Alex is notified because duplicate display names were not disambiguated.",
+    "A mentioned person lacks access and never receives a notification, while the sender thinks they were notified.",
+    "A broad mention notifies hundreds of people with no confirmation or permission check.",
+    "Notification preferences, paused notifications, or muted threads suppress delivery without visible sender feedback where the product promises it.",
+    "Mention chips break when copied, pasted, edited, localized, or rendered in plain-text fallbacks.",
+    "Mention notifications do not return to the exact sentence, comment, reply, or task.",
+    "A team mention is used as assignment but no accountable owner or task completion state exists."
+  ],
+  "relatedPatterns": [
+    "comments",
+    "threaded-discussion",
+    "notification-center",
+    "object-picker",
+    "typeahead",
+    "activity-log",
+    "permission-denied-state",
+    "review-queue",
+    "feed"
+  ],
+  "comparisons": [
+    "mentions-vs-comments-vs-threaded-discussion-vs-notification-center"
+  ],
+  "examples": [
+    {
+      "product": "Slack mentions",
+      "url": "https://slack.com/help/articles/205240127-Use-mentions-in-Slack",
+      "platform": "web",
+      "notes": "Documents @ member suggestions, multiple mentions, notification behavior in channels and DMs, private-channel non-delivery, ambiguous display-name selection, and mention activity views.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack channel and workspace mentions",
+      "url": "https://slack.com/help/articles/202009646-Notify-a-channel-or-workspace",
+      "platform": "web",
+      "notes": "Documents @everyone, @channel, and @here behavior, paused-notification and thread limits, confirmation warnings, admin restrictions, guest limits, and sparing-use guidance.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Teams @mentions",
+      "url": "https://support.microsoft.com/en-us/teams/notifications-settings/use-mentions-to-get-someone-s-attention-in-microsoft-teams",
+      "platform": "web",
+      "notes": "Documents typing @, selecting a recipient from a menu, mention notifications that open the exact conversation point, team and channel mentions, chat @everyone, and owner enablement.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Confluence person and team mentions",
+      "url": "https://support.atlassian.com/confluence-cloud/docs/mention-a-person-or-team/",
+      "platform": "web",
+      "notes": "Documents @ autocomplete and toolbar insertion, person and team notifications, email delivery, action-item assignment, task completion, and team mention limits.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub team notifications",
+      "url": "https://docs.github.com/en/organizations/organizing-members-into-teams/configuring-team-notifications",
+      "platform": "web",
+      "notes": "Documents team notification settings for team @mentions in issues, pull requests, and comments.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub issue mentions",
+      "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues",
+      "platform": "web",
+      "notes": "Documents @mentioning collaborators with repository access in issues to draw attention to comments.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "slack-use-mentions",
+      "note": "Slack supports @ member suggestions, multiple mentions, channel and DM notification behavior, private-channel non-delivery, ambiguous display-name selection, and mention activity views."
+    },
+    {
+      "id": "slack-channel-workspace-mentions",
+      "note": "Slack documents broad audience mentions, paused-notification and thread limits, confirmation warnings, admin restrictions, guest limits, and sparing-use guidance."
+    },
+    {
+      "id": "microsoft-teams-mentions",
+      "note": "Microsoft Teams supports typing @, selecting a menu recipient, notification deep links to the conversation point, team and channel mentions, chat @everyone, and owner enablement."
+    },
+    {
+      "id": "atlassian-confluence-mentions",
+      "note": "Confluence supports @ autocomplete, toolbar insertion, person and team notifications, email delivery, action-item assignment, task completion, and team mention limits."
+    },
+    {
+      "id": "github-team-notifications",
+      "note": "GitHub supports configurable team notification behavior for team @mentions in issues, pull requests, and comments."
+    },
+    {
+      "id": "github-issues-mentions",
+      "note": "GitHub issue guidance supports @mentioning collaborators who have access to draw attention to a comment."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

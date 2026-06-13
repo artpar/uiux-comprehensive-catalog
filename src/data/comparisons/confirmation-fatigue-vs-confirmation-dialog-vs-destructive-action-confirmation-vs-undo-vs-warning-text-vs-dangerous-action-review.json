@@ -1,0 +1,56 @@
+{
+  "id": "confirmation-fatigue-vs-confirmation-dialog-vs-destructive-action-confirmation-vs-undo-vs-warning-text-vs-dangerous-action-review",
+  "title": "Confirmation fatigue vs confirmation dialog vs destructive action confirmation vs undo vs warning text vs dangerous-action review",
+  "summary": "Flag confirmation fatigue when routine or reversible actions are repeatedly blocked by low-value prompts; use confirmation dialog, destructive action confirmation, undo, warning text, or dangerous-action review according to consequence, reversibility, and inspectable risk.",
+  "patternIds": [
+    "confirmation-fatigue",
+    "confirmation-dialog",
+    "destructive-action-confirmation",
+    "undo",
+    "warning-text",
+    "dangerous-action-review"
+  ],
+  "decisionRules": [
+    "Choose the confirmation-fatigue anti-pattern when Save, Close, Filter, Dismiss, Archive, Move, Hide, reorder, or delete-to-trash actions repeatedly open modal prompts even though the exact prior state can be restored or the risk is low.",
+    "Choose the confirmation-fatigue anti-pattern when the same generic Are you sure, OK, Yes, Continue, or Confirm copy is used across low-risk and high-risk actions, training automatic dismissal.",
+    "Choose confirmation dialog when a rare consequential action needs one pre-action decision and the dialog adds object, scope, consequence, or recovery-limit information that could make the user cancel.",
+    "Choose destructive action confirmation when the user has invoked a destructive final commit and the UI must name the destructive verb, target, loss inventory, dependency blocks, safe cancellation, and committed outcome.",
+    "Choose undo when a frequent action can complete immediately and the exact object, ordering, selection, relationship, permissions, and visible counts can be restored before external effects occur.",
+    "Choose warning text when the user has not started the risky command and only needs concise severe-consequence copy near a declaration, instruction, or action before deciding.",
+    "Choose dangerous-action review when the action is high impact because of money, access, production, customers, legal status, external recipients, sensitive data, or privileged agent tool use, and the user must inspect payload, evidence, freshness, side effects, alternatives, and audit before running.",
+    "Remove or suppress confirmations that add no new information beyond the trigger label, especially when prompt frequency and fast dismissals show habituation.",
+    "Do not stack confirmation dialog, destructive action confirmation, typed confirmation, warning text, and undo on the same low-risk command; each safeguard must address a different concrete risk.",
+    "Keep strong confirmation for irreversible or externally visible actions, but make it rare and specific enough that users can distinguish it from routine feedback."
+  ],
+  "failureModes": [
+    "A product confirms every archive, filter reset, dismiss, and close action, then users click through a real permanent-delete prompt unread.",
+    "The UI uses identical Are you sure text for deleting a workspace and hiding a notification, so the prompt gives no consequence signal.",
+    "A routine recoverable action is blocked by confirmation and then still shows undo, adding friction without improving recovery.",
+    "A dangerous production command uses a generic confirmation instead of a review that exposes payload, stale evidence, side effects, and audit.",
+    "A severe destructive action loses its confirmation because the team treats all prompts as fatigue rather than classifying consequence and reversibility.",
+    "Prompt telemetry tracks only cancellation count and misses fast confirm-through, repeated prompts per task, keyboard burden, and user recall."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-windows-confirmations",
+      "note": "Microsoft confirmation guidance supports avoiding unnecessary prompts and choosing prevention, undo, or feedback when confirmation adds no decision value."
+    },
+    {
+      "id": "apple-hig-alerts",
+      "note": "Apple alert guidance supports reserving alerts for important choices and avoiding alerts for common undoable actions."
+    },
+    {
+      "id": "material-design-snackbar",
+      "note": "Material snackbar guidance supports post-action feedback and undo for recent choices."
+    },
+    {
+      "id": "govuk-warning-text-component",
+      "note": "GOV.UK warning text supports before-action consequence copy when a modal decision is not needed."
+    },
+    {
+      "id": "wai-aria-apg-alertdialog",
+      "note": "APG supplies modal alertdialog semantics for important decisions that genuinely require a response."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

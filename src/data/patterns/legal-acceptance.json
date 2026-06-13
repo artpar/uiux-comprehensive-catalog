@@ -1,0 +1,259 @@
+{
+  "id": "legal-acceptance",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed legal acceptance pattern with distinct agreement-gate guidance, live demo states, comparison decision rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "name": "Legal acceptance",
+  "aliases": [
+    "terms acceptance",
+    "accept terms",
+    "terms and conditions checkbox",
+    "terms of service agreement",
+    "clickwrap agreement",
+    "conditions of sale",
+    "service agreement acceptance",
+    "terms of use acceptance",
+    "policy acknowledgement",
+    "legal acknowledgement"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Explicit agreement gate for terms, conditions, contracts, policies, legal disclosures, or updated service rules before access or transaction commitment",
+  "uiGuidance": [
+    "Render legal acceptance as a required agreement control that names the document, owner, version or effective date, scope, linked or embedded full terms, and consequence of accepting or declining.",
+    "Use unchecked explicit acceptance controls, visible legal text or links, clear validation errors, and post-acceptance status records instead of implied agreement through browsing, payment, or account continuation."
+  ],
+  "uxGuidance": [
+    "Use legal acceptance when users must knowingly agree to terms of service, conditions of sale, workplace terms of use, contract amendments, policy acknowledgements, or other legal documents before proceeding.",
+    "Help users review, retain, decline, reaccept, or recover from the agreement by showing change summaries, document versions, download or print routes, grace periods, audit records, and support paths."
+  ],
+  "uiExamples": {
+    "good": [
+      "A checkout step shows an unchecked I agree to the conditions of sale checkbox beside linked terms, blocks Place order until checked, and validates the missing agreement next to the checkbox.",
+      "A workplace sign-in gate shows a PDF terms-of-use document, version, effective date, require-expand setting, Accept and Decline actions, and records acceptance before granting cloud-app access."
+    ],
+    "bad": [
+      "A payment button says By continuing you agree to our terms, but the terms link is hidden below the order summary and no separate acceptance state is recorded.",
+      "A prechecked agreement checkbox also opts the user into marketing emails and partner sharing."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A returning user sees updated terms with a change summary, old and new effective dates, a download route, an accept action, and a clear message that access pauses if they decline.",
+      "A buyer misses a required terms checkbox, receives a field-level error, reviews the linked terms, checks the box, and then places the order with the accepted version recorded."
+    ],
+    "bad": [
+      "A user cannot access an admin app because terms changed, but the gate shows only Access denied and no policy title, version, decline route, or help path.",
+      "A mobile checkout embeds a long legal document in a tiny fixed-height panel with no search, download, print, language, or expand option."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Legal agreements become weak or hostile when terms are hidden, preaccepted, bundled with unrelated consent, shown after commitment, impossible to review on small screens, or recorded without document version and timestamp evidence.",
+  "solution": "Provide a clear legal acceptance gate with explicit unchecked agreement, document identity, version, effective date, full terms access, clear decline and consequence handling, validation, acceptance record, update/reacceptance handling, and accessible review or retention routes.",
+  "problemContext": [
+    "Legal acceptance may appear during checkout, signup, first sign-in, app installation, API onboarding, enterprise access, partner enrollment, policy updates, subscription changes, or high-risk transactions.",
+    "The agreement may be a terms-of-service document, conditions of sale, acceptable-use policy, data-processing addendum, partner agreement, workplace terms of use, liability waiver, or regulatory disclosure.",
+    "The acceptance record may need user identity, organization, document title, version, effective date, locale, source surface, timestamp, IP or device context, and later reacceptance state.",
+    "Legal acceptance frequently sits near consent prompts, cookie choices, age gates, checkout review, payment buttons, and confirmation dialogs, but each decision has a different purpose and evidence requirement."
+  ],
+  "selectionRules": [
+    "Choose legal acceptance when the user must expressly agree to terms, conditions, contracts, policies, disclosures, or an updated legal document before proceeding.",
+    "Use a required unchecked checkbox when the agreement is low to moderate risk and appears within a larger form or checkout flow.",
+    "Use a dedicated clickwrap or terms-of-use gate when the document blocks product access, has enterprise audit needs, or must be accepted before cloud resource access.",
+    "Use a stronger e-signature workflow when the agreement needs signer identity proof, signature placement, multi-party routing, notarization, or document execution beyond click acceptance.",
+    "Use consent prompt for optional data processing, marketing, research, AI training, or partner sharing; do not bundle it into legal acceptance.",
+    "Use review before submit for checking captured answers; include legal acceptance in the review only when the user can still inspect and change the agreement state.",
+    "Use checkbox group only for ordinary independent choices, not for legal agreement evidence.",
+    "Use age gate before legal acceptance when legal eligibility depends on age or parent authorization."
+  ],
+  "requiredStates": [
+    "Initial unchecked required agreement state.",
+    "Terms link or embedded document state with document title, version, owner, and effective date.",
+    "Accept enabled state after explicit agreement.",
+    "Missing acceptance validation state.",
+    "Accepted record state with timestamp and document version.",
+    "Decline or cancel state with consequence explanation.",
+    "Updated terms reacceptance state.",
+    "Grace period or access blocked state.",
+    "Download, print, copy, language, and mobile compact review states.",
+    "Enterprise terms-of-use gate, device-specific acceptance, audit report, and failed record-write states."
+  ],
+  "interactionContract": [
+    "The legal acceptance control starts unchecked unless a current acceptance record already exists for the same user, document, version, and scope.",
+    "The acceptance label names the document and links to the full terms without forcing users to leave or lose the current task.",
+    "The primary commit action is blocked or validates with a specific missing-acceptance error until the required acceptance exists.",
+    "Accepting writes an evidence record tied to document title, version or effective date, user, timestamp, locale, and source surface.",
+    "Declining or canceling explains whether the user can continue in limited mode, leave checkout, contact support, or lose access after a grace period.",
+    "Updated terms show what changed, whether reacceptance is required, and which access or transaction is blocked if declined.",
+    "Optional marketing, tracking, research, AI training, and partner-sharing consent remain separate unchecked choices with their own withdrawal routes.",
+    "Long terms remain reviewable on mobile through expandable, downloadable, printable, searchable, or language-specific routes."
+  ],
+  "implementationChecklist": [
+    "Identify every agreement document, owner, jurisdiction or region, version, effective date, scope, required surfaces, and evidence retention requirement.",
+    "Decide whether the agreement needs a simple checkbox, full clickwrap gate, recurring terms-of-use access gate, or stronger e-signature workflow.",
+    "Keep legal acceptance copy near the action it qualifies and make material terms clear and conspicuous before commitment.",
+    "Provide full terms access, change summaries for updates, download or print routes, language variants, and mobile-friendly review.",
+    "Record document title, version, effective date, locale, user, organization, timestamp, source surface, and acceptance or decline outcome.",
+    "Validate missing acceptance next to the control and preserve all entered form or checkout data after the validation error.",
+    "Separate legal acceptance from consent prompt, cookie banner, age gate, notification preferences, and marketing opt-ins.",
+    "Test current acceptance, missing acceptance, decline, reacceptance, grace period, blocked access, failed record write, mobile layout, keyboard order, screen-reader labels, and audit export."
+  ],
+  "commonMisuses": [
+    "Relying on continued browsing, payment, account creation, or a footer link as the only acceptance signal.",
+    "Prechecking a required terms checkbox.",
+    "Bundling legal acceptance with optional marketing, tracking, research, or partner-sharing consent.",
+    "Showing legal terms only after the user commits payment, signup, or access.",
+    "Using a disabled Continue button with no field-level explanation for missing acceptance.",
+    "Recording only a boolean accepted value without the document version or timestamp.",
+    "Forcing users through a tiny scroll box with no way to download, print, expand, or search the terms.",
+    "Blocking users after updated terms without showing what changed, when it takes effect, or how to get help."
+  ],
+  "critiqueQuestions": [
+    "Which exact legal document is being accepted, and what version or effective date applies?",
+    "What action or access is blocked until acceptance exists?",
+    "Can users review, download, print, search, or change language before accepting?",
+    "What happens if users decline, cancel, or need more time?",
+    "Is optional consent kept separate from legal acceptance?",
+    "What evidence proves who accepted which document from which surface and when?",
+    "How are updated terms, grace periods, device-specific terms, and failed acceptance records handled?"
+  ],
+  "useWhen": [
+    "A user must accept terms of service, conditions of sale, policy documents, service agreements, acceptable-use rules, or legal disclosures before access or transaction completion.",
+    "The product can present the relevant document before commitment and record an auditable acceptance event.",
+    "The agreement is explicit enough to be a separate user decision rather than a passive footer notice."
+  ],
+  "avoidWhen": [
+    "The choice is optional data processing, marketing, research, or AI training consent; use consent prompt.",
+    "The user is checking captured answers before submit; use review before submit.",
+    "The user is confirming one invoked action; use confirmation dialog or typed confirmation.",
+    "The surface only needs ordinary multi-choice form input; use checkbox group.",
+    "The product cannot show the terms before commitment or cannot record which version was accepted."
+  ],
+  "variants": [
+    "Terms checkbox",
+    "Checkout conditions of sale",
+    "Clickwrap agreement",
+    "Terms-of-use sign-in gate",
+    "Updated terms reacceptance",
+    "Policy acknowledgement",
+    "Contract amendment acceptance",
+    "Downloadable legal document",
+    "Grace period acceptance",
+    "Enterprise access terms"
+  ],
+  "accessibility": [
+    "Use a labelled checkbox or button whose accessible name includes the document title, not just I agree.",
+    "Associate missing-acceptance validation with the agreement control and preserve focus context.",
+    "Provide accessible links to full terms, change summaries, downloads, language choices, and support routes.",
+    "Do not communicate required acceptance by disabled button state alone.",
+    "Ensure embedded terms panes have keyboard scrolling, headings, visible focus, and escape or close paths when modal.",
+    "Keep long document titles, version labels, legal links, and validation messages wrapped on compact layouts."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the agreement label, terms link, details or expand control, checkbox, decline or cancel action, primary commit action, and help route.",
+    "Space toggles checkbox acceptance according to native checkbox behavior.",
+    "Enter activates terms links, expanders, accept, decline, download, print, and primary commit buttons.",
+    "After a missing-acceptance error, focus moves to the agreement error or checkbox rather than the top of the page.",
+    "After accepting, focus moves to the primary commit action or accepted status without losing form data.",
+    "After declining, focus moves to the consequence explanation and available exit or support route."
+  ],
+  "failureModes": [
+    "The UI claims acceptance because the user continued browsing or clicked Pay.",
+    "The agreement checkbox is prechecked.",
+    "Legal acceptance silently includes marketing or tracking consent.",
+    "Terms open in a new page that loses checkout state.",
+    "A missing acceptance error appears only as a disabled final button.",
+    "Updated terms block access with no version, effective date, change summary, or grace period.",
+    "The acceptance record cannot identify document version, user, timestamp, source surface, or locale.",
+    "A failed record-write still grants access and later cannot prove acceptance."
+  ],
+  "relatedPatterns": [
+    "consent-prompt",
+    "review-before-submit",
+    "checkbox-group",
+    "confirmation-dialog",
+    "typed-confirmation",
+    "age-gate",
+    "checkout",
+    "account-creation",
+    "sign-in",
+    "privacy-settings"
+  ],
+  "comparisons": [
+    "legal-acceptance-vs-consent-prompt-vs-review-before-submit-vs-checkbox-group-vs-confirmation-dialog-vs-typed-confirmation-vs-age-gate"
+  ],
+  "examples": [
+    {
+      "product": "Stripe Checkout terms agreement",
+      "url": "https://docs.stripe.com/payments/checkout/custom-components",
+      "platform": "web",
+      "notes": "Documents collecting a terms of service agreement during checkout before payment.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Adobe Commerce checkout terms",
+      "url": "https://experienceleague.adobe.com/en/docs/commerce-admin/stores-sales/point-of-purchase/checkout/terms-and-conditions",
+      "platform": "web",
+      "notes": "Documents required checkout terms checkbox text, full terms content, and enforcement before order placement.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "Microsoft Entra Terms of Use",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/terms-of-use",
+      "platform": "web",
+      "notes": "Documents access-gating terms of use, recurring or device-specific acceptance, PDF document display, and reporting.",
+      "checkedAt": "2026-06-12"
+    },
+    {
+      "product": "FTC Dot Com Disclosures",
+      "url": "https://www.ftc.gov/system/files/documents/plain-language/bus41-dot-com-disclosures-information-about-online-advertising.pdf",
+      "platform": "web",
+      "notes": "Documents clear and conspicuous online disclosures and proximity to material claims or transaction terms.",
+      "checkedAt": "2026-06-12"
+    }
+  ],
+  "sources": [
+    {
+      "id": "stripe-checkout-custom-components-terms",
+      "note": "Supports required terms-of-service agreement collection before payment."
+    },
+    {
+      "id": "adobe-commerce-checkout-terms-conditions",
+      "note": "Supports checkout terms checkbox text, full legal content, validation, and order-blocking behavior."
+    },
+    {
+      "id": "microsoft-entra-terms-of-use",
+      "note": "Supports terms-of-use access gates, reacceptance, device-specific acceptance, PDF terms, and acceptance reports."
+    },
+    {
+      "id": "ftc-dot-com-disclosures",
+      "note": "Supports clear and conspicuous material terms, proximity, and prominence."
+    },
+    {
+      "id": "docusign-clickwrap-agreements",
+      "note": "Supports clickwrap as button or checkbox acceptance and distinguishes it from heavier signature flows."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers legal acceptance as an explicit agreement gate with terms checkbox, embedded terms, terms link, required validation, accepted record, decline route, updated terms, change summary, grace period, access blocked, download copy, language variant, audit record, failed record write, and mobile compact legal gate states.",
+    "relatedPatternDistinction": "Separated from consent prompt as optional data-use opt-in, review before submit as captured-answer checking, checkbox group as ordinary multi-choice input, confirmation dialog as one invoked action check, typed confirmation as exact target phrase verification, age gate as eligibility by age, checkout as the larger purchase workflow, account creation and sign-in as identity lifecycle, and privacy settings as durable account controls.",
+    "liveDemoBehavior": "Good demo exercises terms checkbox, embedded terms, terms link, required validation, accepted record, decline route, updated terms, change summary, grace period, access blocked, download copy, language variant, audit record, failed record write, and mobile compact legal gate. Bad demo exercises implied acceptance, prechecked terms, bundled consent, hidden terms, disabled-only, tiny scrollbox, and no version record failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes legal acceptance from consent prompt, review before submit, checkbox group, confirmation dialog, typed confirmation, and age gate by terms of service, conditions of sale, service agreement, terms of use, document identity, version, effective date, required action, declining, prechecked boxes, continued browsing, bundled marketing consent, updated terms, grace period, acceptance record, audit, download, and print rules.",
+    "duplicateAudit": "2026-06-12: node --import tsx scripts/catalog-completion-audit.ts reported 258 complete patterns, 1 excluded pattern, 39 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-12: desktop 1440x940 and compact 500x844 browser checks exercised all good and bad legal-acceptance states; required pattern terms were present; duplicate IDs, page overflow, and demo overflow were absent. Comparison route was checked at desktop and compact widths with required decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/legal-acceptance.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-12"
+}

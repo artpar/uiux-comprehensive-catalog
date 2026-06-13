@@ -1,0 +1,59 @@
+{
+  "id": "human-approval-gate-vs-approval-workflow-vs-review-queue-vs-review-before-submit-vs-recommended-next-action",
+  "title": "Human approval gate vs approval workflow vs review queue vs review before submit vs recommended next action",
+  "summary": "Use human approval gate for pausing AI or automation before a high-impact step can run; approval workflow for routed request approval over time; review queue for triaging many items; review before submit for a requester's final editable check; and recommended next action for optional context-sensitive guidance.",
+  "patternIds": [
+    "human-approval-gate",
+    "approval-workflow",
+    "review-queue",
+    "review-before-submit",
+    "recommended-next-action"
+  ],
+  "decisionRules": [
+    "Choose human approval gate when an AI agent, automation, deployment, workflow, or model-driven action must pause at a named checkpoint until an eligible human approves, rejects, edits, or overrides before execution continues.",
+    "Choose approval workflow when the primary object is a submitted request record moving through one or more approver routes, comments, reassignments, changes, and final outcomes over time.",
+    "Choose review queue when reviewers triage many independent items, claim rows, preserve queue position, and handle stale rows or bulk scope.",
+    "Choose review before submit when the same user is checking their own captured answers before committing a form or transaction.",
+    "Choose recommended next action when the system proposes an optional workflow step; use human approval gate when policy says automation cannot continue without human authorization.",
+    "A human approval gate must show the paused automation step, proposed action, triggering rule, risk or impact, input snapshot, model or workflow version, approver eligibility, timeout, and what happens on approve, reject, edit, expire, or bypass.",
+    "Approval at the gate must resume only the gated automation step and must revalidate version, scope, permissions, threshold, and freshness before execution so stale decisions cannot resume unsafe automation.",
+    "Rejection, edit-before-approve, timeout, bypass, and emergency stop are different gate outcomes and should not collapse into one vague failed automation state.",
+    "Do not replace the gate with a passive audit log, post-hoc audit, notification, confidence score, or review queue row when the next automated step is still armed.",
+    "When several approvals are needed over days, use approval workflow around the gate; when one runtime checkpoint blocks an agent or automation run, use human approval gate."
+  ],
+  "failureModes": [
+    "Automation says waiting for approval but hides the exact tool call, payload, risk, approver, or resume behavior.",
+    "A human clicks Approve on an old notification and the agent resumes against a changed input or stale model state.",
+    "The approval UI lets any viewer approve even though the gate requires a specific role or separation of duties.",
+    "Rejecting a gate leaves the automation suspended forever with no cancel, revise, retry, or fallback path.",
+    "A review queue row marks an item reviewed but the actual armed automation step remains unclear.",
+    "The system logs a human approval after the action has already run, turning the gate into post-hoc audit and allowing stale decisions to look valid."
+  ],
+  "sources": [
+    {
+      "id": "github-actions-deployment-protection-rules",
+      "note": "Supports manual approval before jobs proceed, required reviewers, self-review prevention, wait timers, branch restrictions, bypass controls, and custom protection rules."
+    },
+    {
+      "id": "microsoft-power-automate-approvals",
+      "note": "Supports automation flows that start and wait for approval, notify approvers, and continue based on approval outcomes."
+    },
+    {
+      "id": "servicenow-ask-for-approval-action",
+      "note": "Supports flow-designer approval actions that wait on approval rules, due dates, output states, rejection, and cancellation."
+    },
+    {
+      "id": "gitlab-merge-request-approvals",
+      "note": "Supports required approvals, eligible reviewers, approval status, and revocation before merge."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports human control, correction, and capability-boundary guidance for AI-assisted experiences."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing gate pause, approval, rejection, timeout, and resumed automation states without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

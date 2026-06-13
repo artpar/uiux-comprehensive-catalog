@@ -1,0 +1,48 @@
+{
+  "id": "threaded-discussion-vs-comments-vs-feed-vs-notification-center",
+  "title": "Threaded discussion vs comments vs feed vs notification center",
+  "summary": "Use threaded discussion for a topic-centered conversation with reply branches and participation state, comments for object-attached notes, feed for stream consumption, and notification center for cross-object inbox triage.",
+  "patternIds": [
+    "threaded-discussion",
+    "comments",
+    "feed",
+    "notification-center",
+    "activity-log",
+    "review-queue",
+    "accordion",
+    "pagination"
+  ],
+  "decisionRules": [
+    "Choose threaded discussion when the interface centers on a topic, post, question, or channel message that can collect replies, nested replies, answer marking, follow or mute state, unread reply counts, and branch-level navigation.",
+    "Choose comments when feedback is attached to a specific object, document selection, file line, record, or review target; comments may have replies, but the anchor and object state matter more than topic navigation.",
+    "Use feed when users consume many independent updates in a stream; a threaded discussion may appear as one feed item, but opening it should reveal parent context, replies, unread state, and participation controls.",
+    "Use notification center when thread activity needs a cross-object inbox with unread counts, retention, and preferences; notification items should deep-link to the exact thread or reply rather than become the thread UI.",
+    "Use activity log when entries must prove system events or audit history; discussion replies are authored conversation and should not be treated as immutable provenance.",
+    "Use review queue when many discussion threads require moderation, triage, assignment, or bulk decisions; an individual thread should expose local state but not replace queue operations.",
+    "Use accordion or disclosure for expanding static content sections; threaded discussion needs author, time, reply target, branch depth, unread, follow or mute, moderation, and pagination behavior.",
+    "Use pagination or load-more controls when a thread has many replies, but preserve the parent post, reply context, focused branch, and newly loaded boundary when moving through pages."
+  ],
+  "failureModes": [
+    "Replies are appended to a flat list with no parent context, so users cannot tell which message each reply answers.",
+    "Unread counts apply to the whole discussion but do not identify which branch or reply is new.",
+    "A notification opens the topic top instead of the exact reply that mentioned or answered the user.",
+    "Deep nesting pushes replies off screen on mobile without collapse, quote, or branch navigation.",
+    "A marked answer is hidden inside a collapsed branch and cannot be found from the topic summary.",
+    "Follow, mute, resolve, answer, and moderation actions affect the wrong thread because controls are not scoped to the parent discussion."
+  ],
+  "sources": [
+    {
+      "id": "slack-threads-organize-discussions",
+      "note": "Slack supports message-centered threads, thread replies, optional broadcast back to the channel, thread windows, thread notification controls, all-thread views, unread ordering, reactions, save, and open-in-channel behavior."
+    },
+    {
+      "id": "github-discussions-participating",
+      "note": "GitHub Discussions supports original-topic comments, threaded replies to individual comments, reactions, upvotes, discussion creation, marking comments or threaded comments as answers, and unmarking answers."
+    },
+    {
+      "id": "slack-conversations-replies-api",
+      "note": "Slack API supports retrieving thread messages with parent timestamp, reply count, subscription state, last-read and unread counts, pagination cursors, has_more, and access errors."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

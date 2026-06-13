@@ -1,0 +1,247 @@
+{
+  "id": "comments",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed comments pattern with guidance for object-attached comments, selection anchors, composer behavior, author and timestamp metadata, replies, resolution and reopen lifecycle, assignments, direct links, draft recovery, permission-limited actions, edit history, moderation states, deletion outcomes, related-pattern boundaries, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers anchored comments on objects or selections, author and timestamp metadata, composer drafts, replies, resolve and reopen, assignment, direct links, permission-limited actions, edited state, hidden moderation state, deleted timeline state, and exact notification return context.",
+    "relatedPatternDistinction": "The entry separates comments from textarea field controls, feed stream consumption, activity-log audit history, notification-center inbox behavior, review-queue moderation work, details-panel inspection, permission-denied recovery, and drawer-hosted object detail.",
+    "liveDemoBehavior": "The demo shows a shipment exception note with highlighted anchor text, comment metadata, reply, resolve, reopen, assign, edit, hide, delete, direct link, permissions, recovered draft, and bad-state contrasts for loose notes, lost anchor, hover-only actions, silent delete, no deep link, and draft loss.",
+    "comparisonDecisionRules": "The linked comments-vs-textarea-vs-feed-vs-activity-log comparison gives concrete rules for anchored discussion, multi-line input controls, dynamic streams, audit records, notification inboxes, review queues, direct-link return, moderation state, and destructive outcomes.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Desktop browser check verified two comments frames, comment controls, no duplicate IDs, no comments overflow, all good and bad controls, and comparison terms including author, timestamp, reply, resolve, edit, delete, moderation, anchor, and direct link. Mobile browser check verified single-column frames, comment metadata, bad grid, direct-link anchor, recovered draft text, permission state, draft-loss state, and no comments overflow.",
+    "screenshots": [
+      "screenshots/patterns/comments.png"
+    ]
+  },
+  "name": "Comments",
+  "aliases": [
+    "comment box",
+    "object comments",
+    "document comments",
+    "review comments",
+    "annotation comments",
+    "comment thread",
+    "comment conversation",
+    "inline comments",
+    "discussion comments"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Data Display And Exploration",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Object-attached comment composer and comment list with authorship, replies, state, permissions, and moderation",
+  "uiGuidance": [
+    "Render comments as anchored contributions with author identity, timestamp, body, optional attachment or selection context, edited state, reply target, and state labels such as open, resolved, hidden, deleted, or assigned.",
+    "Expose comment actions as item-scoped controls with permission-aware labels for reply, edit, resolve, reopen, assign, copy link, hide, report, or delete, and keep the composer visually tied to the object or selected range being discussed."
+  ],
+  "uxGuidance": [
+    "Use comments when users need to discuss, question, annotate, review, or leave follow-up notes on a specific object, selection, file line, record, document, or task without changing the primary content directly.",
+    "Preserve comment drafts, anchors, authorship, notifications, edit history, deletion outcomes, and resolved or hidden states so conversation context remains trustworthy across reloads, permissions, moderation, and return visits."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document margin comment shows the selected paragraph, author, timestamp, body text, Reply, Resolve, Assign, and Copy link actions with the composer focused on that selection.",
+      "A record comment list shows open and resolved comments separately, indicates edited comments, and disables Delete for users without permission while leaving Reply available."
+    ],
+    "bad": [
+      "A Notes textarea sits under a record and calls itself comments even though every user overwrites the same field.",
+      "Comment actions appear only on hover, Delete has no warning, and resolved comments vanish without a way to find or reopen them."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer comments on a selected line, adds an action item for Dana, receives a reply, resolves the comment, and can reopen it from the resolved filter.",
+      "A moderator hides an off-topic comment with a visible reason, and readers can still tell that moderation happened without seeing the hidden text by default."
+    ],
+    "bad": [
+      "A user writes a long comment, loses network connection, and the draft disappears when the page reloads.",
+      "A notification says New comment but opens the record top, leaving users to search for the exact comment and replied-to selection."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Collaboration breaks down when feedback is stored as loose notes, global feed items, private messages, or overwritten text fields instead of anchored comments with clear authorship, state, permissions, and recovery.",
+  "solution": "Provide anchored comment composition and display with author and time metadata, reply and resolution lifecycle, draft preservation, exact object or selection links, edit and deletion history, permission-aware actions, moderation states, and notification deep links.",
+  "problemContext": [
+    "Users need to discuss or annotate a specific document selection, file line, design frame, issue, ticket, record, image, task, or content item.",
+    "The comment may be public, internal, private, permission-limited, assigned as an action item, resolved, reopened, edited, hidden, redacted, or deleted.",
+    "Comment activity may generate notifications, appear in feeds, affect review queues, or need moderation, but the canonical comment remains attached to its object or selection.",
+    "Users need to understand who said what, when it changed, who can act on it, and whether the conversation still needs attention."
+  ],
+  "selectionRules": [
+    "Choose comments when the core object needs attached discussion, review feedback, annotation, or follow-up notes that remain separate from the object's primary editable content.",
+    "Use textarea when the only need is a multi-line answer field and there is no authorship, reply, timestamp, resolution, moderation, or notification lifecycle.",
+    "Use feed when the primary experience is consuming a stream of updates from many objects rather than reading discussion anchored to one object.",
+    "Use activity log when entries must represent system events, provenance, or compliance history rather than authored conversational content.",
+    "Use notification center when comment activity must be triaged across objects with unread, retention, and preference behavior.",
+    "Use review queue when many comments need moderation, assignment, bulk triage, or repeated human decisions.",
+    "Keep comment anchors visible or recoverable when the referenced selection, line, object, or attachment changes.",
+    "Separate destructive moderation from everyday reply and resolve actions with permission checks, warnings, and history where appropriate."
+  ],
+  "requiredStates": [
+    "Empty comment list and first-comment composer.",
+    "Draft comment, saving comment, saved comment, failed save, retry, and discarded draft states.",
+    "Open comment with author, timestamp, body, anchor, and item actions.",
+    "Reply state, reply saved state, and focused return to the affected comment.",
+    "Resolved, reopened, assigned, done, edited, deleted, hidden, reported, and redacted states.",
+    "Permission-limited state where some users can read and reply but cannot edit, delete, hide, or resolve.",
+    "Anchor missing, outdated selection, collapsed conversation, filtered resolved comments, and direct-linked comment states.",
+    "Notification-deep-linked state that scrolls and focuses the exact comment or reply."
+  ],
+  "interactionContract": [
+    "Submitting a comment creates a durable item with stable ID, author, timestamp, body, anchor, visibility scope, and notification behavior.",
+    "Reply, resolve, reopen, assign, hide, edit, delete, report, and copy-link actions operate on the named comment or conversation, not on the whole object by accident.",
+    "Draft text survives navigation warnings, reload recovery, temporary offline state, validation errors, and permission checks until the user sends or discards it.",
+    "Edits show an edited indicator and, when product policy requires it, expose edit history or moderation reason to eligible users.",
+    "Deletion and redaction clearly communicate reversibility, timeline impact, and who can still see metadata or history.",
+    "Resolved or hidden comments remain discoverable through filters, history, or moderation views when the product promises recoverability.",
+    "Notification links, copied links, and search results open the exact object and comment context, with focus or highlight on the target comment."
+  ],
+  "implementationChecklist": [
+    "Define comment anchor type, author model, visibility scope, permission rules, draft lifecycle, notification triggers, and moderation states before building the composer.",
+    "Design the composer with clear placeholder text, submit and cancel behavior, attachment or formatting affordances, validation, and failure recovery.",
+    "Render comment items with stable identity, author, timestamp, body, edited state, anchor summary, and item-scoped action menu.",
+    "Support reply, resolve, reopen, assign, hide, edit, delete, report, copy link, and filter behavior only when the product rules require them.",
+    "Preserve comment drafts and comment-list position across reload, route return, failed save, offline retry, object update, and permission changes.",
+    "Add direct-link behavior that scrolls and focuses the referenced comment, including when it is collapsed, resolved, hidden, or attached to changed content.",
+    "Test keyboard access, screen reader labels, touch access to non-hover actions, long comments, deleted users, edited history, moderation, deleted anchors, and mobile wrapping."
+  ],
+  "commonMisuses": [
+    "Using one shared Notes field as a comment system and overwriting prior contributors.",
+    "Treating a comment as a feed item and losing its object or selection anchor.",
+    "Hiding edit, delete, resolve, or moderation actions behind hover-only controls.",
+    "Deleting or hiding comments without warning, permission checks, reason text, or timeline evidence.",
+    "Sending notifications that do not deep-link to the exact comment or reply.",
+    "Letting resolved or hidden comments disappear with no filter, history, or reopen path.",
+    "Making comments the only audit record for decisions that require durable activity-log evidence.",
+    "Allowing replies or assignments to fail silently when the target user lacks access."
+  ],
+  "critiqueQuestions": [
+    "What exact object, selection, line, frame, record, or task does this comment belong to?",
+    "Can users tell who wrote each comment, when it changed, and whether it still needs action?",
+    "Which actions are available to author, owner, moderator, assignee, guest, and read-only users?",
+    "What happens to comments when the anchor is edited, deleted, moved, hidden, or permission-limited?",
+    "Can a notification, copied link, or search result take users back to the exact comment context?",
+    "Is deletion reversible, and if not, does the interface warn and leave the right timeline evidence?"
+  ],
+  "useWhen": [
+    "Users need object-attached discussion without changing the primary object content directly.",
+    "Feedback must preserve author, timestamp, reply, resolution, assignment, or moderation context.",
+    "The product needs direct links or notifications back to a specific comment or selected content.",
+    "A review, document, issue, ticket, asset, or task needs lightweight discussion alongside the canonical record."
+  ],
+  "avoidWhen": [
+    "The user is simply entering a long answer into a form field.",
+    "The surface is a global stream of updates rather than comments anchored to one object.",
+    "The entries are system-generated audit events rather than authored discussion.",
+    "The product cannot preserve authorship, permission scope, anchors, drafts, or deletion outcomes reliably."
+  ],
+  "variants": [
+    "Document comments",
+    "Inline code comments",
+    "Record comments",
+    "Review comments",
+    "Annotation comments",
+    "Assigned comments",
+    "Resolved comments",
+    "Moderated comments",
+    "Private internal comments",
+    "Attachment comments"
+  ],
+  "accessibility": [
+    "Label the comments region with the object or selection being discussed.",
+    "Expose each comment as a named item with author, timestamp, state, and body in a logical reading order.",
+    "Use visible buttons or reachable menus for reply, resolve, edit, hide, delete, and copy-link actions; do not rely on hover.",
+    "Announce save, failure, resolved, reopened, hidden, and deleted outcomes with text status messages.",
+    "Connect composer validation errors to the comment input and preserve typed text after errors.",
+    "When opening a direct comment link, move focus to the comment or a heading that identifies the selected conversation."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the composer, submit, cancel, comment actions, reply controls, filters, and direct-linked target in visible order.",
+    "Enter inserts a line break in multi-line comment inputs unless the product explicitly offers a labelled keyboard shortcut for submit.",
+    "Escape closes open comment action menus or reply composers without discarding typed text unless confirmed.",
+    "After submitting or replying, focus moves to the saved comment, reply, or a status message that names the outcome.",
+    "Resolved, hidden, and collapsed conversations remain reachable through filters or reveal controls.",
+    "Keyboard users can edit, delete, hide, resolve, and copy links without hover-only menus."
+  ],
+  "failureModes": [
+    "A comment loses its anchor after the referenced content changes.",
+    "Draft comments vanish after validation, route change, reload, or temporary offline state.",
+    "Comment actions affect the wrong item because menus are not scoped to one comment.",
+    "Hidden or deleted comments leave no understandable trace for readers or moderators.",
+    "Edited comments do not indicate that content changed.",
+    "Notifications open the object but not the exact comment or reply.",
+    "Resolved comments cannot be found or reopened even though users expect a review history.",
+    "Guests can see comment metadata that reveals private object names, authors, or decisions."
+  ],
+  "relatedPatterns": [
+    "textarea",
+    "feed",
+    "activity-log",
+    "notification-center",
+    "review-queue",
+    "details-panel",
+    "permission-denied-state",
+    "drawer"
+  ],
+  "comparisons": [
+    "comments-vs-textarea-vs-feed-vs-activity-log"
+  ],
+  "examples": [
+    {
+      "product": "GitHub pull request comments",
+      "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/commenting-on-a-pull-request",
+      "platform": "web",
+      "notes": "Documents conversation comments, line and file comments, replies, batching review comments, notifications, reactions, resolving conversations, and status navigation.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Docs comments and action items",
+      "url": "https://support.google.com/docs/answer/65129?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents content-attached comments, replies, resolve and reopen, action-item assignment, reassignment, done state, follow-up counts, comment limits, and reactions.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Atlassian Assets object comments",
+      "url": "https://support.atlassian.com/assets/docs/add-edit-or-delete-comments/",
+      "platform": "web",
+      "notes": "Documents object-attached comments, permission requirements, activity placement, add, edit, delete, and irreversible deletion warning.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitHub disruptive comment moderation",
+      "url": "https://docs.github.com/en/communities/moderating-comments-and-conversations/managing-disruptive-comments",
+      "platform": "web",
+      "notes": "Documents hide, unhide, edit history, redaction, delete permissions, delete timeline events, and reasoned moderation.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-commenting-on-pull-request",
+      "note": "GitHub supports object and line comments, replies, batching, notifications, reactions, resolving conversations, and conversation status navigation."
+    },
+    {
+      "id": "google-docs-comments-action-items",
+      "note": "Google Docs supports content-attached comments, replies, resolve and reopen, action-item assignment, reassignment, done state, follow-up counts, and reactions."
+    },
+    {
+      "id": "atlassian-assets-comments",
+      "note": "Atlassian supports comments attached to objects, permission checks, activity placement, add, edit, delete, and irreversible deletion warning."
+    },
+    {
+      "id": "github-managing-disruptive-comments",
+      "note": "GitHub moderation guidance supports hide, unhide, edit history, redaction, delete permissions, delete timeline events, and reasoned moderation."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

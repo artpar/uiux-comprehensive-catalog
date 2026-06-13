@@ -1,0 +1,54 @@
+{
+  "id": "timeline-vs-feed-vs-process-list-vs-step-navigation",
+  "title": "Timeline vs feed vs process list vs step navigation",
+  "summary": "Use timeline for a bounded chronological record of events; use feed for a dynamic stream, process list for end-to-end journey guidance, and step navigation for current transaction progress.",
+  "patternIds": [
+    "timeline",
+    "feed",
+    "process-list",
+    "step-navigation"
+  ],
+  "decisionRules": [
+    "Choose timeline when users need to understand a case, claim, order, application, or process by reading dated events in time order.",
+    "Choose feed when new items may keep arriving and the main risk is preserving reading position in a dynamic stream.",
+    "Choose process list when users need a planned end-to-end journey guide with tasks, links, conditions, and offline or external actions.",
+    "Choose step navigation when users are inside a current linear transaction and need completed, current, upcoming, optional, or error step states.",
+    "A timeline item should have event identity, date or time, actor or system source when known, event summary, status, and optional supporting detail or action.",
+    "A timeline can show past, current, and future expected events, but it should not imply stored task completion unless the underlying service can prove it.",
+    "Do not use timeline as audit log when users need exhaustive immutable evidence, changed fields, actor IDs, retention, export, or compliance-grade provenance.",
+    "Do not use timeline as feed when live insertion, ranking, personalization, queued new items, and scroll preservation are central behavior.",
+    "Do not use timeline as step navigation when the user is actively moving through form routes and progress must be validated before unlocking later steps.",
+    "Collapse, group, filter, or paginate long histories while preserving date order and making hidden ranges explicit."
+  ],
+  "failureModes": [
+    "A live feed is displayed as a timeline, but new events insert above the reader with no queued update control.",
+    "An audit history is simplified into a timeline and loses exact field changes, actor IDs, retention proof, or export needs.",
+    "A timeline shows future tasks as if they are completed case history.",
+    "A process list is replaced by a timeline, so users see past events but not what they must do next.",
+    "A step indicator is replaced by a timeline, so users cannot tell which current route is complete, blocked, or upcoming.",
+    "Events are sorted inconsistently or grouped without visible date-range boundaries."
+  ],
+  "sources": [
+    {
+      "id": "moj-design-system-timeline",
+      "note": "MOJ defines timeline as a view of what has happened in a service, including who added information and when."
+    },
+    {
+      "id": "nhs-app-timeline",
+      "note": "NHS App guidance supports broad process understanding and warns against using timelines for dense detail."
+    },
+    {
+      "id": "dwp-design-system-timeline",
+      "note": "DWP guidance supports time-ordered event records with brief overviews."
+    },
+    {
+      "id": "ons-service-manual-timeline",
+      "note": "ONS guidance supports timelines for linear records of past or future events."
+    },
+    {
+      "id": "home-office-design-system-timeline",
+      "note": "Home Office guidance supports dates, times, descriptions, actors, and actions in ordered event timelines."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

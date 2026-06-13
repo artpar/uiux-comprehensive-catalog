@@ -1,0 +1,254 @@
+{
+  "id": "source-grounding-display",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed source-grounding-display pattern with answer-wide grounding guidance, source coverage states, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers source scope, searched sources, retrieved sources, used sources, supported claims, partially supported claims, unsupported claims, pending grounding, not searched source corpora, permission-limited sources, stale sources, conflicting sources, retrieval failure, source quality warnings, mobile grounding panels, copy/apply gating, and invalidation after regeneration or source-scope changes.",
+    "relatedPatternDistinction": "The entry separates source grounding display from citation display by covering answer-wide source coverage rather than one selected claim-level source, from chat interface by focusing on evidence coverage rather than the conversation transcript, from streaming response by focusing on grounding status rather than partial generated output, from related links by evidence used by the answer rather than onward navigation, and from data visualization by showing claim support and source groups rather than quantitative chart analysis.",
+    "liveDemoBehavior": "The live demo shows source scope, searched sources, retrieved sources, used sources, supported claims, partially supported claims, unsupported claims, pending grounding, not searched, permission-limited source, stale source, conflicting source, retrieval failed, source quality warning, and mobile grounding panel states. Bad states cover global badge, mixed sources, hidden unsupported, confidence only, omitted scope, vanished permission, and related links as evidence failures.",
+    "comparisonDecisionRules": "The linked source-grounding-display-vs-citation-display-vs-chat-interface-vs-streaming-response-vs-related-links comparison gives concrete rules for source grounding display, citation display, chat interface, streaming response, related links, whole-answer evidence coverage, source scope, retrieved material, used evidence, unsupported claims, claim-level source, conversation transcript, partial generated output, onward navigation, grounded, partially grounded, source unavailable, permission-limited, stale, retrieval failed, not searched, confidence score, and no supporting source found.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/source-grounding-display/ with the live demo, exercised Grounded, Partial, Unsupported, Pending, Not searched, Permission, Stale, Conflict, Retrieval failed, Quality warning, Mobile panel, Global badge, Mixed sources, Hidden unsupported, Confidence only, Omitted scope, Vanished permission, and Related links as evidence states, and found no duplicate IDs, page overflow, or source-grounding demo overflow. The comparison route /compare/source-grounding-display-vs-citation-display-vs-chat-interface-vs-streaming-response-vs-related-links/ included source grounding display, citation display, chat interface, streaming response, related links, whole-answer evidence coverage, source scope, retrieved material, used evidence, unsupported claims, claim-level source, conversation transcript, partial generated output, onward navigation, grounded, partially grounded, source unavailable, permission-limited, stale, retrieval failed, not searched, confidence score, and no supporting source found terms with no duplicate IDs or page-level overflow on desktop and mobile; mobile wide elements were limited to the existing site nav.",
+    "screenshots": [
+      "screenshots/patterns/source-grounding-display.png"
+    ]
+  },
+  "name": "Source grounding display",
+  "aliases": [
+    "grounding display",
+    "source coverage display",
+    "evidence coverage",
+    "grounded answer display",
+    "source audit panel",
+    "retrieval evidence panel",
+    "answer grounding",
+    "grounding inspector",
+    "source scope display",
+    "unsupported claims display"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Data Display And Exploration",
+    "Feedback, Status, And System State",
+    "Disclosure And Attention Management"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Whole-answer source coverage and grounding evidence display",
+  "uiGuidance": [
+    "Render source grounding as an answer-wide evidence panel that separates source scope, searched sources, retrieved sources, used sources, supported claims, partially supported claims, unsupported claims, and unresolved source states.",
+    "Use explicit labels for grounded, partially grounded, unsupported, not searched, stale, missing, permission-limited, and retrieval-failed states so a cited answer does not imply full source support."
+  ],
+  "uxGuidance": [
+    "Use source grounding display when users need to judge whether an AI answer is backed by the right body of evidence, not merely open one citation.",
+    "Let users inspect coverage gaps, source scope, retrieval status, and unsupported claims before they copy, publish, apply, or rely on the answer."
+  ],
+  "uiExamples": {
+    "good": [
+      "A policy answer includes a Grounding panel showing 4 sources searched, 3 retrieved, 2 used, 5 supported claims, 1 partially supported claim, and 1 unsupported claim with a Review action.",
+      "A support assistant shows Source scope: Help center and release notes, marks one source permission-limited, and labels a pricing claim as No supporting source found."
+    ],
+    "bad": [
+      "The answer shows a green Grounded badge even though only one citation supports one paragraph.",
+      "The UI lists ten retrieved documents under Sources but never identifies which sources were used or which claims lack support."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer opens the grounding panel, sees that the answer used the current policy but not the outdated FAQ, and flags one unsupported claim before publishing.",
+      "During streaming, source coverage remains Pending until retrieval settles, then the answer shows which sections are grounded, partially grounded, and not found."
+    ],
+    "bad": [
+      "A user trusts a generated answer because the product says Grounded, but the source scope was only web search and did not include internal policy.",
+      "A permission-limited source is silently omitted, so the answer looks complete even though the system could not inspect the required document."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "AI answers can appear grounded because they contain citations or source links, while the answer as a whole may include unsupported claims, stale sources, unsearched source scopes, permission gaps, or retrieved material that was not actually used.",
+  "solution": "Show answer-wide grounding coverage with source scope, retrieval status, used evidence, unsupported or partially supported claims, and unresolved source states so users can assess evidence before acting.",
+  "problemContext": [
+    "Grounding can involve web search, file search, vector-store retrieval, enterprise knowledge sources, user-uploaded documents, selected topic sources, or policy-controlled source access.",
+    "Retrieved sources are not always used in the final answer, and cited claims may not cover every answer claim.",
+    "A source can be stale, permission-limited, missing, not searched, low quality, outside the selected scope, or inconsistent with another source.",
+    "Grounding display often appears inside chat, streaming answers, research workspaces, review queues, document editors, and support-agent answer panels.",
+    "Users need to know source coverage before applying generated output to legal, policy, medical, financial, operational, or customer-facing decisions."
+  ],
+  "selectionRules": [
+    "Choose source grounding display when users need answer-wide evidence coverage, source scope, retrieved-versus-used source status, or unsupported-claim visibility.",
+    "Use citation display when the task is inspecting one claim's citation marker and source preview.",
+    "Use chat interface when the task is managing conversation turns, history, composer behavior, or follow-up context.",
+    "Use streaming response when the task is exposing partial generated output and response lifecycle while text arrives.",
+    "Use related links when destinations are optional onward navigation and not evidence used by the answer.",
+    "Show grounding scope before or beside the answer when source selection materially changes what the answer can prove.",
+    "Show unsupported and partially supported claims when the answer contains claims that are not fully backed by retrieved evidence.",
+    "Do not show a global grounded badge unless all claim-support rules, source scope rules, permissions, and freshness checks used by the product are satisfied.",
+    "Do not replace grounding coverage with a single confidence, quality, or trust score."
+  ],
+  "requiredStates": [
+    "Default grounded state with source scope, searched sources, retrieved sources, used sources, and supported-claim count.",
+    "Partially grounded state with at least one partially supported claim and explanation.",
+    "Unsupported claim state with claim text, no supporting source found label, and review or regenerate action.",
+    "Pending grounding state while retrieval, web search, file search, or source matching is still resolving.",
+    "Not searched or out-of-scope state when a source corpus was excluded by settings, topic, policy, or user choice.",
+    "Permission-limited source state where a source exists but cannot be opened or quoted by the current user.",
+    "Stale, missing, retrieval failed, conflicting source, and source quality warning states.",
+    "Mobile collapsed grounding panel state that preserves answer position and source coverage counts."
+  ],
+  "interactionContract": [
+    "The grounding display names the source scope that was available for this answer, not just sources the user might expect.",
+    "Searched, retrieved, used, cited, and unused sources are visually and textually distinct.",
+    "Each unsupported or partially supported claim can be located in the answer and connected to the relevant source status.",
+    "Regeneration, source-scope changes, document updates, permission changes, and answer edits invalidate or re-run grounding status.",
+    "Copy, apply, publish, and export actions can include grounding status or warn when unsupported claims remain.",
+    "Permission-limited sources explain what is hidden without leaking protected excerpts.",
+    "Keyboard and touch users can open grounding coverage, inspect source groups, jump to claims, and return to the answer without losing context.",
+    "Grounding status changes are announced as meaningful status messages without moving focus unexpectedly."
+  ],
+  "implementationChecklist": [
+    "Model source scope, retrieval calls, searched sources, retrieved sources, used sources, cited sources, unsupported claims, partial support, conflicts, permissions, freshness, and grounding status as separate structured data.",
+    "Track the answer text or claim ranges that each grounding status applies to, and update them after regeneration or editing.",
+    "Render source groups for searched, retrieved, used, unused, permission-limited, stale, missing, and conflicting sources.",
+    "Expose unsupported and partially supported claims with jump-to-claim, review, regenerate, change source scope, and report issue actions.",
+    "Show pending grounding during streaming and only mark answer-wide coverage after source matching and final text settle.",
+    "Preserve selected claim, source group, panel state, focus, and scroll when users expand or collapse the grounding display.",
+    "Test no sources, too many sources, stale sources, private sources, conflicting sources, no supporting source, changed source scope, regenerated answer, mobile layout, high zoom, keyboard, and screen reader paths."
+  ],
+  "commonMisuses": [
+    "Showing a global Grounded badge when only some claims have evidence.",
+    "Mixing searched, retrieved, used, and related sources into one undifferentiated list.",
+    "Hiding unsupported claims because some citations exist elsewhere in the answer.",
+    "Treating grounding as a confidence score instead of evidence coverage.",
+    "Omitting source scope so users do not know which corpus was searched.",
+    "Making permission-limited sources disappear instead of explaining the access gap.",
+    "Showing source coverage only after users already copied or applied the answer."
+  ],
+  "critiqueQuestions": [
+    "Can users tell which source scope was searched for this answer?",
+    "Can users distinguish searched, retrieved, used, cited, unused, missing, stale, and permission-limited sources?",
+    "Which claims are unsupported or only partially supported, and can users jump to them?",
+    "What invalidates grounding status after regeneration, editing, source updates, or permission changes?",
+    "Does the UI avoid turning grounding into a single confidence score?",
+    "Would citation display, chat interface, streaming response, related links, or a data visualization solve the actual task better?"
+  ],
+  "useWhen": [
+    "Users need answer-wide evidence coverage before trusting generated content.",
+    "The system can expose source scope, retrieval results, used evidence, and unsupported-claim status.",
+    "Source permissions, freshness, corpus selection, or retrieval failures materially affect answer trust.",
+    "The product needs reviewers to find coverage gaps before copy, publish, apply, or export."
+  ],
+  "avoidWhen": [
+    "The system cannot determine source scope, retrieval status, or claim support reliably.",
+    "The only task is opening one claim's source preview, which belongs to citation display.",
+    "Links are just optional related reading rather than evidence used by the answer.",
+    "A simple loading or streaming state is enough because evidence coverage is not available."
+  ],
+  "variants": [
+    "Grounding coverage panel",
+    "Source audit panel",
+    "Retrieved versus used sources",
+    "Unsupported claims list",
+    "Grounded answer badge with details",
+    "Permission-limited source coverage",
+    "Stale source warning",
+    "Conflicting source display",
+    "Mobile grounding sheet",
+    "Review-before-publish grounding"
+  ],
+  "accessibility": [
+    "Expose grounding summary, source scope, status counts, unsupported claims, and source groups as text.",
+    "Do not rely on green, yellow, or red status alone; pair state with labels such as Grounded, Partial, Unsupported, Pending, and Permission-limited.",
+    "Make jump-to-claim, expand source group, change scope, regenerate, review, and copy-with-grounding actions keyboard operable.",
+    "Announce grounding status changes such as source search complete, unsupported claim found, or permission-limited source as status messages.",
+    "Keep focus stable when source coverage updates after streaming, regeneration, or source-scope changes.",
+    "Ensure mobile and high-zoom layouts keep counts, source names, claim labels, and recovery actions readable."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches the grounding summary, source-scope control, source groups, unsupported claims, jump-to-claim links, and recovery actions.",
+    "Enter or Space expands source groups, opens claim details, jumps to answer claims, and returns to the grounding panel.",
+    "Escape closes a layered grounding panel or returns focus to the invoking grounding summary.",
+    "Arrow keys may move through source groups only when the component uses a documented list or tree interaction.",
+    "After regeneration or source-scope change, focus remains near the changed control or moves to a named grounding status update.",
+    "Copy, publish, or apply controls expose whether unsupported claims remain before activation."
+  ],
+  "failureModes": [
+    "Grounded status is shown before retrieval finishes.",
+    "The source scope excludes the relevant corpus but the UI does not disclose it.",
+    "Retrieved sources are presented as if they were used evidence.",
+    "Unsupported claims are hidden because some claims have citations.",
+    "Permission-limited or stale sources appear verified.",
+    "Source coverage updates after answer editing but old status remains visible.",
+    "A confidence badge replaces source coverage and claim support details.",
+    "Mobile users cannot open the grounding panel without losing their place in the answer."
+  ],
+  "relatedPatterns": [
+    "citation-display",
+    "chat-interface",
+    "streaming-response",
+    "related-links",
+    "data-visualization",
+    "review-before-submit"
+  ],
+  "comparisons": [
+    "source-grounding-display-vs-citation-display-vs-chat-interface-vs-streaming-response-vs-related-links"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI Retrieval",
+      "url": "https://developers.openai.com/api/docs/guides/retrieval",
+      "platform": "ai",
+      "notes": "Documents semantic search over vector stores for grounding responses in stored knowledge.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI File search included results",
+      "url": "https://developers.openai.com/api/docs/guides/tools-file-search",
+      "platform": "ai",
+      "notes": "Documents annotations and included search results that can support source coverage displays.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Copilot Studio knowledge sources",
+      "url": "https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio",
+      "platform": "ai",
+      "notes": "Documents knowledge-source scope, generative answers, and user-authenticated source access.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-retrieval",
+      "note": "Supports retrieval over vector stores as source scope for grounded answers."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports retrieved file annotations and included search results."
+    },
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports web-search citations and visible source references."
+    },
+    {
+      "id": "microsoft-copilot-studio-knowledge-sources",
+      "note": "Supports knowledge-source scope and user-authenticated source access."
+    },
+    {
+      "id": "microsoft-copilot-studio-generative-answers",
+      "note": "Supports topic-specific generative answers over selected sources."
+    },
+    {
+      "id": "microsoft-365-copilot-web-references",
+      "note": "Supports web-grounded response behavior and policy-controlled web access."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing grounding state changes without moving focus."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

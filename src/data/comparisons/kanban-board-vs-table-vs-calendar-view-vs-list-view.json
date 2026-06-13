@@ -1,0 +1,50 @@
+{
+  "id": "kanban-board-vs-table-vs-calendar-view-vs-list-view",
+  "title": "Kanban board vs table vs calendar view vs list view",
+  "summary": "Use Kanban board when work items move through visible workflow states and WIP/bottleneck signals matter; use table, calendar view, or list view when the organizing axis is different.",
+  "patternIds": [
+    "kanban-board",
+    "table",
+    "calendar-view",
+    "list-view"
+  ],
+  "decisionRules": [
+    "Choose Kanban board when the main task is to visualize work in progress across workflow states and move cards as their status changes.",
+    "Choose table when users need column comparison, sorting, row-level scanning, export, or dense structured data more than workflow movement.",
+    "Choose calendar view when the primary organizing axis is date, duration, availability, overlap, or schedule placement rather than workflow status.",
+    "Choose list view when users need a compact vertical queue of objects and do not need multiple workflow columns visible at once.",
+    "A Kanban board should expose column names, status mapping, card counts, WIP limits, overloaded columns, blocked cards, assignees, priority, due dates, and card details before users rely on it for flow decisions.",
+    "Dragging a card between columns should update the card's status field, show the destination state, and offer an accessible non-drag alternative.",
+    "Use swimlanes or grouping when teams need to separate work by owner, priority, workstream, service class, or slice, but avoid hiding WIP pressure in collapsed groups.",
+    "Use explicit blocked, stale, aging, dependency, or ready-to-pull indicators when work is not flowing even though a column has space.",
+    "Do not use Kanban board for arbitrary categories, mood boards, or dashboards where column movement has no workflow meaning.",
+    "When sorting is active, manual card ordering can become unavailable or misleading; disclose the ordering rule and keep move-to-column behavior clear."
+  ],
+  "failureModes": [
+    "Columns are decorative categories and moving a card does not change workflow status.",
+    "A WIP limit is exceeded but the board does not highlight the overloaded column or explain what action is needed.",
+    "Cards can only be moved by pointer drag, leaving keyboard and assistive-technology users without a status-change path.",
+    "Filters hide cards while column counts still imply the full board is visible.",
+    "Blocked or stale cards look the same as active work, so bottlenecks stay hidden.",
+    "Done, blocked, or canceled statuses are mapped to the wrong column and completion reporting becomes misleading."
+  ],
+  "sources": [
+    {
+      "id": "github-projects-board-layout",
+      "note": "GitHub documents board columns, column fields, drag-to-update status, limits, fields, sorting, slicing, and grouping."
+    },
+    {
+      "id": "azure-devops-kanban-overview",
+      "note": "Microsoft documents Kanban boards as cards arranged by workflow states with WIP limits and bottleneck visibility."
+    },
+    {
+      "id": "azure-boards-wip-limits",
+      "note": "Microsoft documents WIP limit highlighting, bottleneck monitoring, stale items, and throughput snapshots."
+    },
+    {
+      "id": "jira-cloud-configure-columns",
+      "note": "Atlassian documents column status mapping, column editing, constraints, and done-column semantics."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

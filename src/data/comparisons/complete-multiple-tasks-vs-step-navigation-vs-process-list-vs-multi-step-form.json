@@ -1,0 +1,63 @@
+{
+  "id": "complete-multiple-tasks-vs-step-navigation-vs-process-list-vs-multi-step-form",
+  "title": "Complete multiple tasks vs step navigation vs process list vs multi-step form",
+  "summary": "Use complete multiple tasks for a saved transaction hub where users can complete independent sections over one or more sessions; step navigation for a linear in-flow sequence; process list for public journey guidance; and multi-step form for one guided form path.",
+  "patternIds": [
+    "complete-multiple-tasks",
+    "step-navigation",
+    "process-list",
+    "multi-step-form",
+    "start-page",
+    "review-before-submit",
+    "draft-state",
+    "confirmation-page"
+  ],
+  "decisionRules": [
+    "Choose complete multiple tasks when a transaction contains several meaningful sections, can be saved, may span sessions, and users need to see what is complete, what is incomplete, and what can be started next.",
+    "Choose step navigation when users are inside one ordered flow where the next step depends on the current answer and jumping around would break validation or context.",
+    "Choose process list when the page explains an external or cross-service journey before users enter the transaction, rather than storing task completion state inside the transaction.",
+    "Choose multi-step form when the work is still one guided form with a primary Continue path, not a hub where users choose independent sections in different orders.",
+    "Use a start page before the transaction to explain eligibility, documents, time, and what the service does; use complete multiple tasks after the user has started and progress is stored.",
+    "Use review before submit after all required task sections are complete so users can check answers before the final send or apply action.",
+    "Use draft state for the saved incomplete transaction itself; complete multiple tasks is the navigable progress surface around that draft.",
+    "Use confirmation page only after the final transaction is sent, not as a progress hub.",
+    "The task list component is the row/status UI used inside complete multiple tasks; the pattern owns grouping, dependency, saved progress, completion gating, returning sessions, and final submission readiness.",
+    "Complete multiple tasks must expose task groups, task names, statuses, available and unavailable tasks, resume context, completed count, first incomplete shortcut when useful, final action gating, and edit paths back into completed tasks."
+  ],
+  "failureModes": [
+    "A long service uses a fixed step indicator even though users need to complete sections in different sessions.",
+    "The hub says users can apply before required sections are complete.",
+    "Task statuses use decorative colour only, uppercase tags, or button-like pills that users try to click instead of the task row.",
+    "Returning users cannot tell which section changed, which task is blocked, or where to resume.",
+    "The task hub is used as an answer summary instead of routing users to a review page.",
+    "Dependencies are hidden, so users open a task that cannot be completed until another section is done.",
+    "Completed tasks cannot be reopened to edit previously supplied answers."
+  ],
+  "sources": [
+    {
+      "id": "govuk-complete-multiple-tasks-pattern",
+      "note": "GOV.UK documents complete multiple tasks as a transaction pattern for task order, completion status, grouping, and editing previous answers."
+    },
+    {
+      "id": "govuk-task-list-component",
+      "note": "GOV.UK documents task list rows, statuses, hint text, grouping, and user-chosen task order for long complex services."
+    },
+    {
+      "id": "nhs-complete-multiple-tasks-pattern",
+      "note": "NHS documents start and returning session placement, grouping related actions into tasks, statuses, and not using the page as an answer summary."
+    },
+    {
+      "id": "nhs-task-list-component",
+      "note": "NHS documents startable statuses, completed status after return, all-completed gating, clear task names, hint text, and grouped task lists."
+    },
+    {
+      "id": "scottish-government-task-list-pattern",
+      "note": "Scottish Government documents completed counts, application incomplete heading, current completion states, and skip to first incomplete section."
+    },
+    {
+      "id": "govuk-task-list-iteration-research",
+      "note": "GOV.UK research documents whole-row clickable tasks, hint text, non-uppercase status tags, and status tags that should not look like buttons."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

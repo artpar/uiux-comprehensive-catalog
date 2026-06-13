@@ -1,0 +1,256 @@
+{
+  "id": "infinite-scroll-with-no-footer-access",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed anti-pattern for automatic infinite loading, feeds, product grids, search results, virtualized lists, and generated stream pages that prevent users from reaching footer navigation, legal links, support links, feedback, language controls, end state, or a stable completion boundary, with replacement guidance, related-pattern distinctions, unique live demo behavior, comparison decision rules, duplicate audit coverage, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets auto-load pushing the footer away, footer-only legal links, privacy/terms/contact/cookie/accessibility reachability, bounded auto-load, explicit Load more, jump-to-footer, end state, failed-load retry, return-position restoration, keyboard bypass, mobile footer access, virtualized focus loss, loaded counts, and stop-loading escape controls.",
+    "relatedPatternDistinction": "The entry separates infinite-scroll-with-no-footer-access from feed by broken footer/end-boundary access versus healthy dynamic stream consumption, from pagination by uncontrolled endless loading versus stable pages and current position, from card-list and list-view by unbounded stream behavior versus bounded object collections, from skip-link by bypass aid versus solving reachability, and from page-not-found/footer-continuity concerns by applying to long dynamic result surfaces.",
+    "liveDemoBehavior": "The live demo renders a product result stream with loaded count, loading boundary, footer links, Load more, retry, and jump-to-footer controls. Good UX switches through bounded auto-load, load more, jump to footer, footer visible, end state, failed load, return position, keyboard bypass, mobile footer, and legal links states. Bad UX switches through auto-load pushes footer, footer-only legal links, keyboard endless trap, spinner loop, lost return position, mobile footer miss, virtual focus loss, and no load-more escape failures.",
+    "comparisonDecisionRules": "The comparison gives concrete rules for flagging auto-loading that hides footer utilities, choosing feed only when loaded boundaries and footer escape routes remain reachable, choosing pagination for stable result position and guaranteed footer access, choosing card list for bounded object collections, and using skip links as a bypass aid rather than a substitute for fixing an endlessly extending stream.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 284 complete patterns, 1 stub pattern, 13 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Desktop and compact browser checks covered the pattern page and comparison page, required infinite-scroll footer terms, duplicate IDs, main overflow, demo footer landmarks, and 18 live demo controls. Browser console had no warnings or errors. Screenshot captured after promotion at screenshots/patterns/infinite-scroll-with-no-footer-access.png.",
+    "screenshots": [
+      "screenshots/patterns/infinite-scroll-with-no-footer-access.png"
+    ]
+  },
+  "name": "Infinite scroll with no footer access",
+  "aliases": [
+    "endless scroll hides footer",
+    "infinite loading trap",
+    "footer unreachable under feed",
+    "scroll trap feed",
+    "auto-load blocks footer",
+    "endless results no end state",
+    "infinite scroll no bottom"
+  ],
+  "category": "Search, Browse, And Discovery",
+  "secondaryCategories": [
+    "Navigation And Wayfinding",
+    "Data Display And Exploration",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Endless loading footer-access anti-pattern",
+  "uiGuidance": [
+    "Treat infinite scroll with no footer access as an anti-pattern when automatic loading keeps pushing footer, legal, privacy, help, contact, sitemap, language, feedback, or account links out of reach.",
+    "Replace uncontrolled auto-loading with a reachable boundary: Load more, pagination, sticky or repeated footer links, jump-to-footer, end-of-feed status, saved position, or a clear pause/stop loading control."
+  ],
+  "uxGuidance": [
+    "Use this anti-pattern during review when users try to reach the bottom of a page for help, legal, settings, unsubscribe, feedback, or navigation but more items keep appearing.",
+    "Design long streams with an escape and completion contract: users can stop loading, reach footer utilities, understand how many items loaded, resume position, recover from failure, and choose pagination or load-more when exact position or task completion matters."
+  ],
+  "uiExamples": {
+    "good": [
+      "A news feed loads two automatic batches, then shows Load more stories, End of latest batch, and a reachable footer with Privacy, Accessibility, Contact, and Cookies links.",
+      "A search result stream offers Jump to footer, Back to top, Load more, and Page 3 of results when users need exact position.",
+      "A mobile product list pauses auto-load before the footer and repeats Help, Returns, Legal, and language links above the next Load more control."
+    ],
+    "bad": [
+      "A feed appends another batch whenever the user nears the footer, so the footer never becomes reachable.",
+      "A catalog has legal and support links only in the footer, but infinite loading keeps inserting product cards before the footer.",
+      "A scrollable result page has no end state, no loaded count, no pause, no jump to footer, and no saved position after opening an item."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user scrolls through 60 updates, reaches a stable Load more boundary, opens Contact in the footer, then returns to the same feed position.",
+      "A keyboard user can skip from feed results to footer navigation without tabbing through every newly inserted card.",
+      "After a loading failure, the page keeps the footer reachable and offers Retry loading more without moving the user."
+    ],
+    "bad": [
+      "A user scrolls for the privacy link, but every near-bottom scroll loads another set of cards and pushes the footer away.",
+      "A screen reader user encounters an endless stream of new articles and cannot discover footer links or completion state.",
+      "Opening a feed item and returning resets the infinite stream to the top, so the user cannot resume or reach the footer."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Automatic infinite loading can make the page bottom unreachable, preventing users from reaching footer utilities, legal links, support routes, feedback, language controls, or a reliable end state.",
+  "solution": "Flag the endless-loading trap and provide a deliberate footer-access contract: stop or limit auto-load, expose loaded boundaries, preserve position, provide Load more or pagination when appropriate, and keep essential footer links reachable by keyboard, screen reader, and touch users.",
+  "problemContext": [
+    "The page uses infinite scroll, auto-load-on-near-bottom, virtualized lists, dynamic feeds, product grids, search results, activity streams, or media streams.",
+    "The page footer contains required or useful destinations such as privacy, terms, accessibility, cookies, contact, language, feedback, account, app download, sitemap, or support.",
+    "Users may be trying to finish a task, compare loaded items, reach help, satisfy a legal requirement, unsubscribe, change privacy settings, or leave the stream.",
+    "The product may also need reading position restoration, loaded-count disclosure, item identity, loading failures, offline retry, and mobile browser chrome behavior."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when automatic loading prevents reliable access to footer links, page end, support routes, legal links, feedback, or other bottom-of-page utilities.",
+    "Flag it when the only route to privacy, terms, contact, language, or cookie settings is below an endlessly extending list.",
+    "Use feed when users intentionally consume a continuing stream and the design preserves reading position, item identity, loaded boundaries, and access to footer or escape controls.",
+    "Use pagination when users need stable page position, shareable page state, exact result review, footer access, or a known end.",
+    "Use card list or list view when users manage a bounded object collection with filtering, sorting, selection, comparison, and object actions rather than passively consuming a stream.",
+    "Use skip link behavior for bypassing repeated page chrome or jumping to a footer target, but do not use skip links as a substitute for fixing endless auto-load.",
+    "Use an explicit Load more boundary when continuous loading is useful for browsing but users still need control over when more content is inserted.",
+    "If auto-load remains, limit the number of automatic batches before showing a deliberate Load more control and a reachable footer.",
+    "When the footer contains legally required controls, repeat those controls near the feed boundary or keep the footer reachable without relying on exact scroll timing.",
+    "Preserve scroll position, focused item, loaded count, and route return state so users can open an item, come back, and still reach the same boundary."
+  ],
+  "requiredStates": [
+    "Default stream with loaded item count, order label, and visible footer-access plan.",
+    "Auto-load paused after a small number of batches with a Load more control and footer visible.",
+    "Jump to footer or footer utility shortcut state.",
+    "End-of-feed state with footer reachable and no spinner loop.",
+    "Loading more state that does not move focus or hide the footer indefinitely.",
+    "Failed-load state with Retry and footer access still available.",
+    "Return-from-detail state that restores scroll position and loaded boundary.",
+    "Mobile compact state where footer links, back to top, and load-more controls remain reachable.",
+    "Bad state showing auto-load pushing the footer away, keyboard trap through cards, no end state, spinner loop, and lost position."
+  ],
+  "interactionContract": [
+    "Users can reach footer utilities without racing automatic loading.",
+    "Automatic loading has a bounded policy, a visible count, and a deliberate user-controlled continuation point.",
+    "Load more, Retry, Jump to footer, Back to top, and footer links are keyboard reachable without requiring traversal of every loaded item.",
+    "Newly loaded content is inserted at a predictable boundary and announced without moving focus unexpectedly.",
+    "The interface communicates whether more items exist, loading failed, loading is paused, or the end has been reached.",
+    "Opening an item and returning restores the previous scroll position, focused item, loaded count, and footer-access boundary.",
+    "Essential legal, privacy, support, cookie, language, and feedback links are available outside any unreachable footer if the stream can grow.",
+    "Pagination or explicit Load more replaces infinite scroll when users need exact position, completion, comparison, footer access, or shareable state."
+  ],
+  "implementationChecklist": [
+    "Identify all footer-only links and decide whether each must also appear near the stream boundary, header, account menu, or help menu.",
+    "Limit automatic batches before requiring an explicit Load more action.",
+    "Render a stable loaded boundary with item count, loading status, end state, failure, and retry.",
+    "Add Jump to footer or skip-to-footer behavior when long feeds precede required footer links.",
+    "Keep footer links in the normal document flow and test them with keyboard and screen reader navigation.",
+    "Preserve scroll and focus position after opening items, applying filters, sorting, navigating back, refreshing, or retrying.",
+    "Avoid auto-loading while a user is keyboard-tabbing near the footer or focused on footer-access controls.",
+    "Test mobile viewport height, virtualized list unmounting, browser back, reduced motion, offline failure, and slow network loading.",
+    "Prefer pagination or load-more controls when the stream supports search, filters, exact review, task completion, or legal footer access."
+  ],
+  "commonMisuses": [
+    "Putting Privacy, Terms, Accessibility, Contact, Cookies, or language links only in a footer that infinite scroll prevents users from reaching.",
+    "Appending items every time the footer comes into view.",
+    "Using a spinner at the bottom as the only end-of-feed indicator.",
+    "Adding a Back to top control while still making the footer unreachable.",
+    "Telling users to use search to find footer links.",
+    "Letting keyboard users tab through newly inserted cards forever before footer links.",
+    "Virtualizing items without preserving focused item or return position.",
+    "Treating infinite scroll as harmless because analytics show high engagement, while users cannot complete support or legal tasks."
+  ],
+  "critiqueQuestions": [
+    "Can a mouse, touch, keyboard, and screen reader user reliably reach the footer?",
+    "Which required links are footer-only, and what happens if the footer is pushed away?",
+    "How many batches auto-load before the user must choose Load more?",
+    "Is there a visible loaded count, end state, loading failure, and retry?",
+    "Can users jump to footer, back to top, and return to the same item after opening detail?",
+    "Would pagination, Load more, card list, list view, or a bounded feed better match this task?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern to review feeds, search results, product grids, media streams, activity streams, catalogs, and generated infinite-scroll pages.",
+    "Use it when a footer contains legal, support, navigation, account, language, feedback, or settings links that must remain reachable.",
+    "Use it when automatic loading erases a reliable page end, loaded boundary, or return position."
+  ],
+  "avoidWhen": [
+    "The stream is short, finite, and the footer remains reachable without racing the loader.",
+    "Footer utilities are available through persistent header, menu, settings, or in-context links and the stream has a clear end or Load more boundary.",
+    "The issue is missing current-page state in pagination rather than unreachable footer access.",
+    "The issue is feed item anatomy, ranking labels, notification lifecycle, or card selection rather than endless loading.",
+    "The page intentionally has no footer and required utility links are provided elsewhere in an accessible, stable location."
+  ],
+  "variants": [
+    "Auto-load pushes footer away",
+    "Footer-only legal links hidden",
+    "Keyboard endless card trap",
+    "Spinner loop no end state",
+    "No loaded count or boundary",
+    "Lost scroll position after detail",
+    "Mobile footer unreachable",
+    "Virtualized feed loses focus",
+    "No Load more escape",
+    "No jump to footer"
+  ],
+  "accessibility": [
+    "Provide a keyboard-reachable route to footer utilities before or beside the long stream.",
+    "Announce loading, loaded count, end state, failure, retry, and paused loading through polite status messaging.",
+    "Do not insert new content in a way that moves focus or traps Tab navigation before footer links.",
+    "Expose item boundaries and loaded ranges when the stream is also a feed.",
+    "Ensure Jump to footer, Load more, Retry, Back to top, and footer links have clear accessible names.",
+    "Respect focus order when virtualized items mount or unmount near the loading boundary.",
+    "Do not rely on scroll gestures alone for reaching footer links or stopping loading."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches stream controls, Load more, Jump to footer, Back to top, Retry, and footer links in a predictable order.",
+    "Enter or Space on Load more inserts one requested batch and keeps focus at a clear loaded boundary.",
+    "Activating Jump to footer moves focus to the footer landmark or first footer utility link.",
+    "Automatic loading does not trigger just because a keyboard user tabs near the bottom boundary.",
+    "After retry or route return, focus returns to the triggering control, restored item, or updated result summary.",
+    "Escape closes item menus or previews without resetting scroll position."
+  ],
+  "failureModes": [
+    "The footer never appears because each near-bottom scroll loads more items.",
+    "Privacy, terms, contact, cookie settings, or accessibility links are footer-only and unreachable.",
+    "A keyboard user tabs through hundreds of newly inserted cards before reaching any footer link.",
+    "A spinner loops forever at the bottom with no end state, retry, or footer access.",
+    "Opening a result and going back resets the stream to the top.",
+    "The feed says more items loaded but gives no loaded count, boundary, or way to stop.",
+    "Mobile browser chrome and auto-load timing make footer links impossible to tap.",
+    "Virtualization removes the focused item or footer target while the user is navigating."
+  ],
+  "relatedPatterns": [
+    "feed",
+    "pagination",
+    "card-list",
+    "list-view",
+    "skip-link",
+    "page-not-found-page",
+    "filter-panel",
+    "sort-controls"
+  ],
+  "comparisons": [
+    "infinite-scroll-with-no-footer-access-vs-feed-vs-pagination-vs-card-list-vs-skip-link"
+  ],
+  "examples": [
+    {
+      "product": "NN/g infinite scrolling guidance",
+      "url": "https://www.nngroup.com/articles/infinite-scrolling-tips/",
+      "platform": "web",
+      "notes": "Discusses continuous loading and cases where load-more or pagination better supports orientation and task completion.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "WAI-ARIA APG Feed Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/feed/",
+      "platform": "web",
+      "notes": "Supports dynamic feed article loading, item positions, busy state, and keyboard reading expectations.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "GOV.UK Pagination component",
+      "url": "https://design-system.service.gov.uk/components/pagination/",
+      "platform": "web",
+      "notes": "Supports pagination as a bounded alternative when users need position, previous/next, current page, and list-wide filter or sort behavior.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "nng-infinite-scrolling-tips",
+      "note": "Supports distinguishing infinite scroll, load-more, and pagination by orientation, task completion, and footer reachability risks."
+    },
+    {
+      "id": "wai-aria-apg-feed",
+      "note": "Supports dynamic feed article loading, item positions, busy state, and keyboard behavior when the surface is a true feed."
+    },
+    {
+      "id": "mdn-aria-feed-role",
+      "note": "Supports feed semantics for dynamic article lists that add or remove content."
+    },
+    {
+      "id": "govuk-pagination-component",
+      "note": "Supports pagination as a bounded alternative with current page, previous/next, and known result position."
+    },
+    {
+      "id": "shopify-polaris-resource-list",
+      "note": "Supports bounded resource collections with sorting, filtering, loading, selection, and pagination."
+    },
+    {
+      "id": "wcag-focus-order",
+      "note": "Supports preserving meaningful focus order when dynamic content or layout changes could trap keyboard users."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,248 @@
+{
+  "id": "pagination-without-current-page",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed anti-pattern for numbered pagination, previous/next-only controls, cursor pagination, mobile compact controls, async loading, filter/sort changes, and generated page controls that fail to expose one reliable visible and programmatic current-page or current-range state, with replacement guidance, related-pattern distinctions, unique live demo behavior, comparison decision rules, duplicate audit coverage, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets missing visible current-page markers, missing aria-current, color-only current state, multiple current pages, previous/next edge states, result range agreement, URL and visible-record synchronization, loading commit behavior, filter or sort reset, out-of-range recovery, cursor ranges, mobile compact pagination, duplicate pagination regions, and browser back or reload restoration.",
+    "relatedPatternDistinction": "The entry separates pagination-without-current-page from pagination by broken orientation versus healthy ordered result traversal, from breadcrumbs by collection position versus hierarchy, from step navigation by result slices versus task progress, from back-link by page traversal versus transaction return, from table/resource-list behavior by row content versus pagination state ownership, and from feed behavior by exact position being required.",
+    "liveDemoBehavior": "The live demo renders audit log results with query, result range, URL, current page, edge controls, and rows. Good UX switches through current marker, result range, first edge, last edge, loading commit, filter reset, out-of-range recovery, cursor range, mobile compact, and duplicate pagination states. Bad UX switches through no current page, color-only current, stale loading, range mismatch, multiple current pages, active edge controls, mobile arrows only, and empty stale page failures.",
+    "comparisonDecisionRules": "The comparison gives concrete rules for flagging missing or conflicting current-page state, choosing standard pagination, choosing breadcrumbs for hierarchy, choosing step navigation for task progress, choosing feed behavior when exact page position is not required, and checking cursor pagination, mobile controls, async loading, filters, sort, page size, browser back, and generated pagination regions.",
+    "duplicateAudit": "2026-06-13: catalog-completion-audit reported 283 complete patterns, 1 stub pattern, 14 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "Desktop and compact browser checks covered the pattern page and comparison page, required pagination-current terms, duplicate IDs, per-pagination current-page counts, main overflow, and 18 live demo controls. Browser console had no warnings or errors. Screenshot captured after promotion at screenshots/patterns/pagination-without-current-page.png.",
+    "screenshots": [
+      "screenshots/patterns/pagination-without-current-page.png"
+    ]
+  },
+  "name": "Pagination without current page",
+  "aliases": [
+    "pagination missing current state",
+    "no active page in pagination",
+    "unclear paginated position",
+    "pagination no aria-current",
+    "page numbers with no selected page",
+    "ambiguous previous next pagination",
+    "hidden current page"
+  ],
+  "category": "Navigation And Wayfinding",
+  "secondaryCategories": [
+    "Search, Browse, And Discovery",
+    "Data Display And Exploration",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Missing pagination position anti-pattern",
+  "uiGuidance": [
+    "Treat pagination without a visible and programmatic current page as an anti-pattern whenever users are moving through ordered pages of one result set.",
+    "Show exactly one current page in each pagination set, expose it with text and aria-current=\"page\" when page controls are links or buttons, and keep previous, next, result range, total count, and edge states consistent with that current page."
+  ],
+  "uxGuidance": [
+    "Use this anti-pattern during review when users cannot tell whether page 3 is selected, loading, unavailable, or merely adjacent to the current page.",
+    "Design pagination as orientation, not just movement: after filter, sort, page-size, browser back/forward, reload, or async updates, users should still know which slice of the collection they are viewing and what previous/next will do."
+  ],
+  "uiExamples": {
+    "good": [
+      "A results list says Showing 21-30 of 118 and the pagination marks Page 3 as Current page with aria-current=\"page\".",
+      "Previous is unavailable on page 1, Next is unavailable on the last page, and the page range updates with the highlighted current page.",
+      "When filters reduce the result count, the page indicator returns to Page 1 of 4 and the result range matches the visible records."
+    ],
+    "bad": [
+      "Page links 1 2 3 4 are identical, so users cannot tell which page they are on.",
+      "The URL says page=4, the result range says 31-40, and no pagination item is marked current.",
+      "The current page is shown only by a subtle color difference with no text, aria-current, or result-range confirmation."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer returns to search results and sees Page 4, 31-40 of 96, query appeal, and sort Newest still aligned.",
+      "A keyboard user tabs through pagination and hears which page is current and which previous/next controls are unavailable.",
+      "After changing page size, the app explains that it returned to Page 1 and announces the new range."
+    ],
+    "bad": [
+      "A user clicks Next twice and cannot tell whether the second click loaded, failed, or left them on the same page.",
+      "Screen reader output lists several page numbers but none is announced as the current page.",
+      "Filtering leaves users on an out-of-range empty page with no current page or recovery message."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Users are given pagination controls but cannot identify the current page or result slice, so page numbers, previous/next actions, and browser history become ambiguous.",
+  "solution": "Flag the missing-current-page treatment and replace it with pagination that exposes one current page, matching result range, edge states, URL/state alignment, and recovery when the requested page is no longer valid.",
+  "problemContext": [
+    "The interface splits a table, result list, collection, audit log, inbox, resource list, catalog, or search result into multiple pages.",
+    "Users rely on page position to resume work, compare ranges, share URLs, move with previous/next, or confirm that filters and sort persisted.",
+    "The UI may have identical page chips, previous/next-only controls, ellipses, cursor pagination, async loading, page-size changes, filters, sort, or browser back/forward.",
+    "Current-page state may be missing visually, missing from accessibility semantics, out of sync with the result range, or lost after loading."
+  ],
+  "selectionRules": [
+    "Flag this anti-pattern when a pagination set has no visible current page, no aria-current or equivalent current-state text, or more than one item that appears current.",
+    "Flag it when previous/next controls exist but the page number, result range, total pages, URL, and disabled edge states do not identify where the user is.",
+    "Use standard pagination when users are traversing ordered slices of one collection and need current page, previous, next, result range, total count, and edge states.",
+    "Use breadcrumbs when the issue is hierarchy orientation, not collection page position.",
+    "Use step navigation when the numbers represent task progress through a known workflow, not result pages.",
+    "Use table, list view, or resource-list guidance for row anatomy and collection controls, but keep pagination current-page state near the collection it controls.",
+    "Use feed or load-more behavior only when exact page position is not part of the task; if position matters, pagination needs a current state.",
+    "When filters, sort, search, or page-size changes alter the result set, either preserve a still-valid current page or visibly move to a valid page and announce why.",
+    "For cursor pagination, expose a meaningful current range or position such as Showing 41-60 and disable or hide invalid previous/next actions."
+  ],
+  "requiredStates": [
+    "Default middle-page state with exactly one visible current page and matching result range.",
+    "First page state with current page 1 and previous unavailable.",
+    "Last page state with current last page and next unavailable.",
+    "Loading state that keeps the old current page understandable until the new page is committed.",
+    "Filter or sort change state that returns to a valid page and announces the new current page.",
+    "Out-of-range recovery state when a bookmarked or stale page no longer exists.",
+    "Previous/next-only or cursor pagination state with current result range instead of ambiguous numbered links.",
+    "Bad state showing identical page numbers, multiple current pages, stale URL/range mismatch, and missing aria-current."
+  ],
+  "interactionContract": [
+    "Each pagination region has one owner collection and one current page or current range.",
+    "Exactly one page item is marked current in a numbered pagination set.",
+    "The current page is conveyed by text, visual state, and programmatic state rather than color alone.",
+    "Previous and next move relative to the current page and are unavailable at collection edges.",
+    "Result range, total count, current page, URL or route state, and visible records stay synchronized.",
+    "Page changes preserve query, filters, sort, page size, selection policy, and focus context unless the UI explicitly states a reset.",
+    "Loading, errors, and out-of-range recovery do not leave users guessing whether the current page changed.",
+    "Keyboard and screen reader users can identify the current page before activating another page control."
+  ],
+  "implementationChecklist": [
+    "Render pagination inside a labelled nav or equivalent region near the controlled results.",
+    "Apply aria-current=\"page\" to exactly one current page link or button when numbered pages are rendered.",
+    "Include visible current-page wording or an accessible label such as Page 3, current page.",
+    "Show the result range and total count near the pagination or collection summary.",
+    "Disable, hide, or relabel Previous and Next at the first and last page without making unavailable actions look active.",
+    "Keep page state, URL parameters, server cursor, result range, and visible records from drifting apart.",
+    "Handle filter, sort, search, and page-size changes by moving to a valid current page and announcing the change.",
+    "Test async loading, browser back/forward, reload, narrow layouts, ellipses, page-size selectors, and cursor-only pagination.",
+    "Ensure current state is not indicated only by color, hover, focus ring, or disabled styling."
+  ],
+  "commonMisuses": [
+    "Showing page numbers as identical chips with no selected state.",
+    "Relying on the browser URL as the only current-page indicator.",
+    "Marking both a page number and Next as current.",
+    "Leaving aria-current on a stale page after async navigation.",
+    "Using disabled styling on the current page without accessible current-page text.",
+    "Showing result range 41-50 while page 2 is highlighted.",
+    "Hiding page numbers on mobile without replacing them with Page x of y or a current range.",
+    "Treating cursor pagination as exempt from current-position feedback."
+  ],
+  "critiqueQuestions": [
+    "Which page or result range is current right now?",
+    "Can users identify the current page visually, by keyboard, and through assistive technology?",
+    "Do result range, URL, visible records, and page controls agree?",
+    "What happens to current-page state after loading, filtering, sorting, page-size changes, browser back, and reload?",
+    "Are previous and next clearly relative to the current page and unavailable at the edges?",
+    "Is this actually task progress, hierarchy navigation, or a feed rather than pagination?"
+  ],
+  "useWhen": [
+    "Use this anti-pattern to review result pages, data tables, search results, inboxes, catalogs, audit logs, resource lists, and generated pagination controls.",
+    "Use it when a pagination control exists but users cannot reliably tell their current page or result slice."
+  ],
+  "avoidWhen": [
+    "The surface is a continuous feed or load-more list where exact page position is intentionally not exposed and the task does not require it.",
+    "The numbers represent workflow steps, document pages, carousel slides, calendar dates, or sibling tabs rather than ordered result pages.",
+    "The page has only one result slice and no pagination control is needed.",
+    "The issue is filter reset, sort order, table semantics, or hierarchy navigation rather than missing current-page state."
+  ],
+  "variants": [
+    "No highlighted current page",
+    "No aria-current on current page",
+    "Multiple current pages",
+    "Previous next only with no range",
+    "Stale current page after async load",
+    "Range and page number mismatch",
+    "Mobile pagination hides position",
+    "Out-of-range page has no recovery"
+  ],
+  "accessibility": [
+    "Expose the current page with aria-current=\"page\" or equivalent current-state text in the pagination region.",
+    "Do not rely on color alone for current page; include text, shape, weight, or accessible labels.",
+    "Use a labelled navigation region such as Pagination and unique labels when multiple pagination sets exist.",
+    "Ensure disabled edge controls are not announced as available navigation actions.",
+    "Announce page changes, range changes, loading, and out-of-range recovery through a status region.",
+    "Keep focus near the pagination control or moved result summary after page changes."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches previous, page controls, next, page-size controls, and the result summary in a predictable order.",
+    "Enter or Space on a page control loads that page and updates the current-page state after commit.",
+    "Current page controls are either inert with clear current text or behave consistently as links to the current URL.",
+    "After loading, focus remains on the activated control or moves to the updated result summary with an announcement.",
+    "Browser back and forward restore the same current page, range, query, filters, and sort where shareable paging is expected."
+  ],
+  "failureModes": [
+    "Users cannot tell whether page 2 or page 3 is current.",
+    "Screen readers hear Page 1, Page 2, Page 3 with no current page announcement.",
+    "Previous and next appear active at the first or last page.",
+    "The current-page highlight stays on the old page during and after async loading.",
+    "The page number, URL, result range, and visible rows disagree.",
+    "Mobile pagination collapses to arrows only with no Page x of y text.",
+    "Filtering creates an empty page 9 of 4 with no recovery.",
+    "More than one page link has selected or current styling."
+  ],
+  "relatedPatterns": [
+    "pagination",
+    "breadcrumbs",
+    "step-navigation",
+    "back-link",
+    "table",
+    "sort-controls",
+    "filter-panel",
+    "feed"
+  ],
+  "comparisons": [
+    "pagination-without-current-page-vs-pagination-vs-breadcrumbs-vs-step-navigation-vs-feed"
+  ],
+  "examples": [
+    {
+      "product": "GOV.UK Design System Pagination",
+      "url": "https://design-system.service.gov.uk/components/pagination/",
+      "platform": "web",
+      "notes": "Documents current page, previous and next links, ellipses, labelled pagination landmarks, and whole-list filter or sort behavior.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "U.S. Web Design System Pagination",
+      "url": "https://designsystem.digital.gov/components/pagination/",
+      "platform": "web",
+      "notes": "Documents current-page highlighting, bounded pagination slots, previous/next edge behavior, and accessible current-page links.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN aria-current",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-current",
+      "platform": "web",
+      "notes": "Documents current item semantics for related sets and the need to mark only the current item.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "govuk-pagination-component",
+      "note": "Supports current page, previous/next, ellipses, pagination landmark labelling, and filter or sort behavior across the whole result set."
+    },
+    {
+      "id": "uswds-pagination-component",
+      "note": "Supports bounded pagination, current-page highlighting, previous/next visibility, and robust current-page links."
+    },
+    {
+      "id": "carbon-pagination-component",
+      "note": "Supports current-page information, result ranges, pagination placement, item-per-page behavior, and responsive pagination."
+    },
+    {
+      "id": "mdn-aria-current",
+      "note": "Supports aria-current=\"page\" and the requirement to identify one current item in a related set."
+    },
+    {
+      "id": "shopify-polaris-resource-list",
+      "note": "Supports collection identity, totals, loading, sorting, filtering, selection, and pagination in resource lists."
+    },
+    {
+      "id": "nng-infinite-scrolling-tips",
+      "note": "Supports distinguishing continuous feeds from pagination when users need orientation, position, or task completion."
+    }
+  ],
+  "maturity": "anti-pattern",
+  "lastVerified": "2026-06-13"
+}

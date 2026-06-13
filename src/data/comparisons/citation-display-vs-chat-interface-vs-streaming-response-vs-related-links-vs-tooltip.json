@@ -1,0 +1,59 @@
+{
+  "id": "citation-display-vs-chat-interface-vs-streaming-response-vs-related-links-vs-tooltip",
+  "title": "Citation display vs chat interface vs streaming response vs related links vs tooltip",
+  "summary": "Use citation display for claim-level evidence and source preview next to generated or summarized claims; chat interface for the whole conversation transcript; streaming response for partial generated output as it arrives; related links for an onward navigation list; and tooltip for a brief hover or focus hint.",
+  "patternIds": [
+    "citation-display",
+    "chat-interface",
+    "streaming-response",
+    "related-links",
+    "tooltip"
+  ],
+  "decisionRules": [
+    "Choose citation display when users need to inspect claim-level evidence through an inline citation marker, selected citation state, source preview, and open source action.",
+    "Choose chat interface when the design problem is the whole conversation transcript, prompt composer, turns, history, and follow-up context rather than one claim-to-source mapping.",
+    "Choose streaming response when the product must show partial generated output, pending citation status, stop generation, failed stream recovery, or completion state as events arrive.",
+    "Choose related links when the links are an optional onward navigation list or supporting resources, not evidence for a specific claim in the current answer.",
+    "Choose tooltip when a control needs a brief hover or focus hint; do not hide citation evidence, source title, quote, date, permission, or mismatch warnings in a tooltip.",
+    "A citation display must preserve the mapping between the claim, inline citation marker, source preview, quote or excerpt, source metadata, and open source destination.",
+    "Show pending citation, stale source, missing source, permission-limited source, and source mismatch states separately so users do not mistake unresolved evidence for verified source support.",
+    "Provide copy citation and open source actions only when they act on the selected source, and label whether the copied text is a citation, a quoted excerpt, or the generated claim.",
+    "When citations are produced during streaming, mark citations as pending until retrieval, permissions, and final answer text settle.",
+    "Treat citation display as source linkage, not a confidence score; the citation proves source presence and mapping, not overall correctness."
+  ],
+  "failureModes": [
+    "Inline numbers are decorative and do not open a source preview or source record.",
+    "The interface shows a link dump below the answer without claim-level mapping.",
+    "A citation stays attached after regeneration even though the claim changed.",
+    "A missing source, permission-limited source, or stale source appears identical to a verified source.",
+    "A tooltip hides the source details and disappears before keyboard or touch users can inspect evidence.",
+    "Users copy a claim believing it includes source support, but the copied text omits citation context."
+  ],
+  "sources": [
+    {
+      "id": "openai-citation-formatting",
+      "note": "Supports reliable citation formatting and verification-oriented citation behavior."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports annotations that connect generated text to files returned by retrieval."
+    },
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports visible and clickable inline citations for web-search results."
+    },
+    {
+      "id": "microsoft-365-copilot-linked-citations",
+      "note": "Supports linked citations in AI answers as a product example."
+    },
+    {
+      "id": "mdn-html-cite-element",
+      "note": "Supports semantic treatment of cited work titles."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing citation status changes without moving focus."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

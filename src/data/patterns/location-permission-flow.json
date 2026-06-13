@@ -1,0 +1,278 @@
+{
+  "id": "location-permission-flow",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed current-location permission flow with purpose, prompt timing, precision, one-time and while-using access, background denial, granted fix, denied state, settings recovery, timeout, stale coordinates, manual fallback, saved place fallback, active tracking, stop sharing, retention, offline distinction, related-pattern distinctions, live demo behavior, comparison rules, duplicate audit coverage, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers location permission flow as a current-coordinate lifecycle with unsupported or insecure context, pre-permission rationale, prompt ready, allow once, while using, precise versus approximate, background denial, granted current fix, denied state, permanent denial or settings required, timeout, unavailable position, stale cached coordinates, manual address fallback, saved place fallback, active tracking, stop sharing, privacy, retention, and offline distinction.",
+    "relatedPatternDistinction": "Permission request owns cross-resource access rationale; map view owns spatial display and manipulation; address entry owns typed or selected postal/place input; privacy settings owns durable account or device controls; offline state owns connectivity loss; sensitive-data reveal owns masking or disclosure after sensitive data is already present.",
+    "liveDemoBehavior": "Good demo exercises unsupported, pre-prompt, prompt ready, allow once, while using, approximate, precise, granted fix, denied, settings recovery, timeout, stale location, manual fallback, saved place, active tracking, stop sharing, retention, and offline states. Bad demo exercises cold-start ask, forced precise, no fallback, stale coordinate, background surprise, settings dead end, and retained location failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes location permission flow from permission request, map view, address entry, privacy settings, and offline state by current-position purpose, prompt timing, precision, scope, allow once, while using, background access, stale coordinates, accuracy, timeout, manual fallback, settings recovery, active tracking, stop sharing, and retention.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 272 complete patterns, 1 stub pattern, 25 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/location-permission-flow/ with required terms present, no duplicate IDs, no page overflow, and no overflowing location-permission demo elements. The live demo controls for all 18 good states and 7 bad states were clicked successfully. The comparison route /compare/location-permission-flow-vs-permission-request-vs-map-view-vs-address-entry-vs-privacy-settings-vs-offline-state/ was checked at desktop and compact widths with concrete decision terms present, no duplicate IDs, and no page overflow.",
+    "screenshots": [
+      "screenshots/patterns/location-permission-flow.png"
+    ]
+  },
+  "name": "Location permission flow",
+  "aliases": [
+    "geolocation permission",
+    "current location access",
+    "allow location",
+    "location access flow",
+    "device location prompt",
+    "location sharing prompt",
+    "precise location prompt",
+    "use my location"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Task And Workflow Patterns",
+    "Input And Data Entry",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Permission-gated current-location request and recovery flow",
+  "uiGuidance": [
+    "Render location access as a task-scoped flow with purpose text, current permission state, requested precision, scope, native-prompt handoff, granted fix, denied recovery, manual fallback, stale-coordinate labels, and stop-sharing controls.",
+    "Keep location indicators, accuracy, last-updated time, retention copy, and fallback actions close to the feature that needs location rather than hiding them in generic settings or a map-only surface."
+  ],
+  "uxGuidance": [
+    "Use a location permission flow when current device coordinates materially reduce effort or improve a location-dependent task and users can understand why location is needed before the browser or OS prompt appears.",
+    "Design the lifecycle from unsupported or insecure context through pre-prompt rationale, permission prompt, one-time or while-using grant, precise or approximate choice, current fix, timeout, stale coordinate, denial, settings recovery, manual location, active tracking, stop sharing, and retention."
+  ],
+  "uiExamples": {
+    "good": [
+      "A route check-in says Use current location to confirm you are at Gate B, offers Use current location or Enter address, accepts approximate location for city-level help, and labels the returned fix as accurate to 42 m.",
+      "A store finder explains it needs location only to sort nearby stores, lets users continue with a ZIP code, and shows Last updated 2 minutes ago when cached coordinates are reused.",
+      "A safety app shows Location sharing on for this session, visible accuracy, Stop sharing, and a retention note before it starts continuous tracking."
+    ],
+    "bad": [
+      "The home page triggers the browser location prompt before users choose any location-dependent action.",
+      "A denied prompt leaves a blank map and tells users to refresh without manual entry, saved place, retry, or settings recovery.",
+      "The app asks for precise and background location even though approximate while-using access is enough."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user taps Check in nearby, grants Allow once, sees the current fix and accuracy, confirms the place, and the app discards coordinates after check-in.",
+      "A user denies location in a browser, enters an address manually, and can finish the route search without changing settings.",
+      "A user has previously denied location, sees concise settings instructions plus saved home and manual address options, then retries after enabling access."
+    ],
+    "bad": [
+      "A user chooses delivery estimate and the app demands precise location even though postal code entry would work.",
+      "A cached coordinate from a previous trip is used for a nearby alert without a stale timestamp.",
+      "A user closes the page after active tracking starts but cannot tell whether sharing stopped or where retained location history lives."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Current-location access can remove manual entry and improve nearby, routing, check-in, safety, and device-context tasks, but it is highly sensitive, permission-gated, precision-dependent, failure-prone, and easy to misuse when prompt timing, fallback, stale coordinates, background access, and retention are unclear.",
+  "solution": "Ask for location only after a clear user action and task rationale, request the least precision and shortest scope that satisfies the task, handle grant, denial, timeout, stale data, unavailable service, and revoked permission, provide manual or saved-location fallback, show active tracking and stop controls, and state storage or retention rules.",
+  "problemContext": [
+    "The product wants current coordinates for nearby search, delivery estimate, check-in, route start, location-based support, safety sharing, field work, fraud signals, personalization, or device-local context.",
+    "Users may be on web, mobile, desktop, kiosk, VPN, low signal, disabled location services, approximate-location mode, previously denied permission, background-restricted OS state, offline mode, or a shared device.",
+    "The request may need one-time, while-using, session, background, precise, approximate, watched, or manual-location behavior depending on task risk and accuracy requirements.",
+    "Location permission flow sits near generic permission request, map view, address entry, privacy settings, offline state, sensitive-data reveal, and saved place selection."
+  ],
+  "selectionRules": [
+    "Choose location permission flow when current device coordinates are the central interaction and the task needs permission timing, precision, grant or denial recovery, and location lifecycle states.",
+    "Use permission request when the resource access pattern is generic and not specifically about current coordinates, stale location, accuracy, tracking, or manual location fallback.",
+    "Use map view when users mainly inspect or manipulate spatial information such as markers, routes, regions, or layers.",
+    "Use address entry when a typed, searched, pasted, or saved postal address is sufficient and device coordinates would add privacy cost.",
+    "Use privacy settings for durable location-history, sharing, analytics, app permission, or account-level controls outside the immediate task.",
+    "Use offline state when connectivity prevents loading or submitting data; do not confuse network loss with location services disabled or permission denied.",
+    "Request the least precision that satisfies the task, and accept approximate location where city, region, store sorting, or content localization is enough.",
+    "Ask at the moment location helps the chosen task, not on app launch, sign-in, page load, hover, or unrelated navigation.",
+    "Preserve task progress and offer manual address, saved place, retry, or settings recovery after denial, timeout, unavailable service, or stale coordinate.",
+    "Expose active tracking, background use, stop sharing, and retention copy whenever location continues beyond a one-time current-position fix."
+  ],
+  "requiredStates": [
+    "Unsupported browser, blocked iframe, missing permissions policy, insecure context, or disabled location services state.",
+    "Pre-permission rationale state with task purpose, precision need, scope, retention, and fallback.",
+    "Prompt-ready state triggered by a deliberate user action.",
+    "Allow once or one-time current-position state.",
+    "While using or session permission state.",
+    "Precise versus approximate location choice or explanation state.",
+    "Background location denied or not requested state.",
+    "Granted current fix state with coordinates summarized as place, accuracy, and timestamp.",
+    "Permission denied state with manual fallback and retry guidance.",
+    "Permanently denied or settings-required state with concise browser or OS settings recovery.",
+    "Timeout, unavailable, low-accuracy, or position-error state.",
+    "Stale cached coordinate state with last-updated time and refresh option.",
+    "Manual address, ZIP, place search, or saved location fallback state.",
+    "Active tracking or watch-position state with visible indicator.",
+    "Stop sharing, revoke, or end session state.",
+    "Privacy and retention state explaining what location is stored, for how long, and where to delete it.",
+    "Offline state that distinguishes no network from no location permission."
+  ],
+  "interactionContract": [
+    "The native browser or OS prompt appears only after users understand why location is needed and choose a location-dependent action.",
+    "The UI makes permission state, requested precision, requested scope, active tracking, last-updated time, and fallback status visible in text, not only through icons.",
+    "Denial, timeout, unavailable service, approximate-only result, and stale coordinate states never erase the user's task context.",
+    "Users can complete the task through manual address, saved place, place search, retry, or settings recovery when current location is unavailable.",
+    "One-time or session location ends after the task unless users explicitly choose continued sharing.",
+    "Location retention, sharing, background use, and deletion paths are disclosed before or immediately after sensitive location capture."
+  ],
+  "implementationChecklist": [
+    "Define the task purpose, required precision, acceptable fallback, permission scope, retention rule, and whether a one-time fix or continuous watch is needed before building the prompt.",
+    "Use secure contexts and platform permission APIs where available; handle prompt, granted, denied, revoked, blocked, timeout, unavailable, and unsupported states explicitly.",
+    "Request location from a user action such as Use current location, Check in, Find near me, or Share trip, not on route load.",
+    "Configure maximumAge, timeout, and high-accuracy options to match the task, then show accuracy and last-updated labels when a result is used.",
+    "Provide manual address entry, saved places, search by ZIP, retry, and settings recovery routes that preserve the original task.",
+    "Separate one-time current-position fixes from watch-position or background sharing, and expose Stop sharing or End session for active tracking.",
+    "Avoid storing raw latitude, longitude, movement history, or inferred home/work locations unless the user understands purpose, duration, and deletion controls.",
+    "Test denied permission, previously denied permission, approximate location, disabled location services, stale cache, low signal timeout, offline mode, keyboard, screen reader, mobile OS prompts, and browser settings recovery."
+  ],
+  "commonMisuses": [
+    "Prompting for location before users choose a task that needs it.",
+    "Requesting precise or background location when approximate or while-using access is enough.",
+    "Treating permission denial as a dead end instead of offering address entry, saved place, retry, or settings recovery.",
+    "Showing stale cached coordinates as current location.",
+    "Using a map view as if it explained permission, accuracy, retention, or tracking state.",
+    "Continuing to watch or store location after the task without a visible indicator or stop control.",
+    "Mislabeling a permission denial or disabled location service as an offline state."
+  ],
+  "critiqueQuestions": [
+    "What task action triggers the location prompt, and what rationale appears before the native permission dialog?",
+    "Is precise location necessary, or would approximate, ZIP, address, or saved place satisfy the task?",
+    "What happens after one-time grant, while-using grant, denial, permanent denial, timeout, stale coordinate, unavailable service, and offline state?",
+    "How does the UI show accuracy, age, active tracking, stop sharing, and retention?",
+    "Can users complete the task without changing browser or OS settings?",
+    "Is this really location permission flow, or is the main pattern a generic permission request, map view, address entry, privacy settings, or offline state?"
+  ],
+  "useWhen": [
+    "Current device coordinates materially improve a task such as nearby search, route start, check-in, delivery estimate, safety sharing, field work, or support diagnostics.",
+    "The product can explain purpose and precision before prompting and can preserve the task through denial, timeout, unavailable service, stale coordinates, and manual fallback.",
+    "Users need confidence about whether location is one-time, while using, actively tracked, stored, or shareable."
+  ],
+  "avoidWhen": [
+    "Typed address, postal code, saved place, or map selection is simpler and less invasive.",
+    "The product cannot offer a non-location fallback for a nonessential task.",
+    "Location is requested only for analytics, novelty, default personalization, or speculative future use.",
+    "The flow cannot clearly explain retention, active tracking, background use, or stop sharing."
+  ],
+  "variants": [
+    "Use current location button",
+    "Nearby search permission flow",
+    "Route start location flow",
+    "Check-in location flow",
+    "Delivery estimate location flow",
+    "Approximate location flow",
+    "Precise location upgrade",
+    "One-time location grant",
+    "While-using location grant",
+    "Active location sharing",
+    "Manual address fallback",
+    "Location settings recovery"
+  ],
+  "accessibility": [
+    "Provide manual address, saved place, search, or assisted alternatives for users who cannot or do not want to share device location.",
+    "Label Use current location, Enter address, Retry, Open settings, Stop sharing, and Clear location controls visibly and programmatically.",
+    "Announce permission status, location acquired, denied, timeout, stale coordinate, tracking active, stopped sharing, and fallback selection through text and status messaging.",
+    "Do not communicate accuracy, stale age, or active tracking only with color, map pins, motion, or small icons.",
+    "Keep focus on the task after the native permission prompt returns, and move focus to the recovery or result heading when state changes.",
+    "Make settings recovery instructions concise and non-modal unless the task is blocked and users requested help.",
+    "Respect reduced motion and avoid map animations that obscure the permission or recovery message.",
+    "Support zoomed text and narrow mobile widths without truncating place names, accuracy labels, or fallback controls."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches rationale text, Use current location, manual fallback, saved place, retry, settings help, stop sharing, and clear controls in logical order.",
+    "Enter or Space activates visible controls and does not trigger the native prompt from a hidden listener.",
+    "After grant, focus moves to the acquired-location summary or confirm-location action.",
+    "After denial or timeout, focus moves to manual address or recovery actions.",
+    "Escape closes optional help panels without dismissing the underlying location task.",
+    "Map panning or marker adjustment has keyboard alternatives when users can choose a location manually.",
+    "Active tracking status remains discoverable by keyboard and screen reader until stopped.",
+    "Settings recovery returns focus to retry or manual fallback after users come back to the app."
+  ],
+  "failureModes": [
+    "Location prompt appears on page load and users deny because the purpose is unclear.",
+    "The app blocks checkout, route search, or support flow even though address entry would satisfy the task.",
+    "Permission denied, disabled services, timeout, stale coordinates, and offline are collapsed into one vague error.",
+    "A high-accuracy request drains battery and slows the task when approximate location would work.",
+    "The UI shows a map pin but no accuracy, timestamp, or confidence that it represents current location.",
+    "Background sharing starts or persists after users expected one-time or while-using access.",
+    "Raw coordinates are retained after task completion without visible purpose or deletion path."
+  ],
+  "relatedPatterns": [
+    "permission-request",
+    "map-view",
+    "address-entry",
+    "privacy-settings",
+    "offline-state",
+    "sensitive-data-reveal"
+  ],
+  "comparisons": [
+    "location-permission-flow-vs-permission-request-vs-map-view-vs-address-entry-vs-privacy-settings-vs-offline-state"
+  ],
+  "examples": [
+    {
+      "product": "MDN Geolocation API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API",
+      "platform": "web",
+      "notes": "Documents secure-context location access, permission prompts, current and watched positions, and error states.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "MDN Geolocation getCurrentPosition",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/getCurrentPosition",
+      "platform": "web",
+      "notes": "Documents one-time current-position retrieval options including maximumAge, timeout, and enableHighAccuracy.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C Geolocation",
+      "url": "https://www.w3.org/TR/geolocation/",
+      "platform": "web",
+      "notes": "Defines geolocation permission, positions, options, errors, watch lifecycle, and privacy considerations.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Mapbox GL JS GeolocateControl",
+      "platform": "web",
+      "notes": "Shows how a map control can use geolocation and tracking states while still relying on a separate permission lifecycle.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-geolocation-api",
+      "note": "Supports secure-context geolocation, prompts, current or watched position, errors, permission lifetime, and privacy warnings."
+    },
+    {
+      "id": "mdn-geolocation-getcurrentposition",
+      "note": "Supports current-position requests, timeout, maximumAge, high-accuracy, and error callbacks."
+    },
+    {
+      "id": "w3c-geolocation",
+      "note": "Supports consent, privacy, position options, error states, and watch lifecycle."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports permission state queries for geolocation and prompt, granted, and denied states."
+    },
+    {
+      "id": "w3c-permissions-api",
+      "note": "Supports shared permission infrastructure, permission lifetime, and revocation behavior."
+    },
+    {
+      "id": "android-runtime-permissions",
+      "note": "Supports mobile permission rationale, runtime request, denial, and settings recovery behavior."
+    },
+    {
+      "id": "apple-privacy-location-services-settings",
+      "note": "Supports location services settings, app-level access, precise location, and user-managed recovery paths."
+    },
+    {
+      "id": "mapbox-gl-js-geolocate-control",
+      "note": "Supports map-adjacent current-location controls, tracking, and disabled location states."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

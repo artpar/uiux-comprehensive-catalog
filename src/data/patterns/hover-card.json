@@ -1,0 +1,239 @@
+{
+  "id": "hover-card",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed rich object preview pattern with distinct boundaries from tooltip, popover, disclosure details, drawer, context menu, and action menu, unique mention and file preview behavior, concrete comparison rules, duplicate audit, screenshot evidence, and manual browser spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance targets compact object previews tied to mentions, links, rows, files, people, issues, reference chips, and chart marks, including object identity, metadata, route to the full object, open and close delay, pointer handoff into the card, keyboard focus reveal, Escape dismissal, stale-object prevention, collision handling, and non-hover access.",
+    "relatedPatternDistinction": "The entry separates hover card from tooltip by rich object preview versus short noninteractive description, from popover by preview timing versus user-managed controls, from disclosure details by transient overlay versus persistent inline content, from drawer and preview panel by compact pre-navigation inspection versus durable side-by-side work, and from context menu or action menu by preview content versus commands.",
+    "liveDemoBehavior": "The live demo previews @Maya Chen and Forecast.xlsx, opens from hover or focus, keeps the card open when moving into it, switches object previews, dismisses with Escape while returning focus to the referenced object, follows the full-object route, and contrasts hover-only, pointer-gap, stale-object, required-info, interactive-trap, and focus-loss failures.",
+    "comparisonDecisionRules": "The hover-card-vs-tooltip-vs-popover-vs-disclosure-details comparison gives concrete rules for object preview, short descriptions, intentional local controls, inline persistent explanation, required information, dismissibility, pointer handoff, Escape focus behavior, primary actions, destructive decisions, forms, touch access, delays, and stale-object prevention.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts compares normalized guidance fields across complete patterns and reported no duplicate field group blocking this completed pattern.",
+    "manualSpotCheck": "Rendered /patterns/hover-card/ and /compare/hover-card-vs-tooltip-vs-popover-vs-disclosure-details/ on 2026-06-10. Live check exercised Hover Maya, Focus Maya, Move into card, File preview, Escape, Open route, Hover only, Pointer gap, Stale object, Required info, Interactive trap, and Focus loss controls. screenshots/patterns/hover-card.png captures Good UI, Bad UI, Good UX, Bad UX, source-backed guidance, related links, comparison link, and completion status.",
+    "screenshots": [
+      "screenshots/patterns/hover-card.png"
+    ]
+  },
+  "name": "Hover card",
+  "aliases": [
+    "hover preview",
+    "rich hover preview",
+    "link preview card",
+    "profile hover card",
+    "entity preview card",
+    "reference preview"
+  ],
+  "category": "Disclosure And Attention Management",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Navigation And Wayfinding",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Rich preview surface on hover or focus",
+  "uiGuidance": [
+    "Render a hover card as a compact preview visually tied to a link, mention, row, object chip, file, person, or chart mark, with a title, key metadata, optional thumbnail, recent activity, and a clear route to the full object.",
+    "Keep hover-card content preview-oriented and brief; do not turn it into a full popover workflow, command menu, form, tooltip label, or persistent details panel."
+  ],
+  "uxGuidance": [
+    "Use hover cards to help users inspect an object before navigating, especially in dense lists, mentions, dashboards, file browsers, issue trackers, and relationship-heavy interfaces.",
+    "Make opening, delay, pointer handoff, keyboard focus behavior, Escape dismissal, close delay, collision handling, and alternate access predictable so the preview helps exploration without trapping or surprising users."
+  ],
+  "uiExamples": {
+    "good": [
+      "Hovering or focusing @Maya Chen opens a card with avatar, role, local time, current project, recent activity, and View profile link.",
+      "A file reference opens a hover card with filename, owner, modified time, sync state, preview thumbnail, and Open file route."
+    ],
+    "bad": [
+      "A hover card contains a long editable form, delete buttons, filters, and settings controls.",
+      "Hovering a row shows a card for the previously hovered person, with no title or object identity."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user focuses @Maya Chen, reads the profile preview, moves the pointer into the card without it closing, presses Escape, and focus remains on the mention.",
+      "A user scans issue links and the hover card waits briefly before opening, closes after a short delay, and never changes the selected issue or route."
+    ],
+    "bad": [
+      "The card disappears while the pointer travels from the mention into the preview.",
+      "A keyboard user opens a hover preview but cannot dismiss it without losing focus or tabbing through hidden controls."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop"
+  ],
+  "problem": "Dense interfaces often contain links, mentions, files, issues, and references that users need to inspect before opening, but navigating away for every object slows comparison and short tooltips cannot carry enough context.",
+  "solution": "Show a compact object preview on hover or focus, keep it anchored to the referenced object, include only high-value metadata and an explicit route to the full object, make the card hoverable and dismissible, and provide non-hover access for users who cannot use pointer hover.",
+  "problemContext": [
+    "A link, mention, row, file, issue, alert source, or relationship reference has useful preview metadata.",
+    "Users repeatedly compare objects before deciding whether to navigate, open a drawer, or switch context.",
+    "The preview can be summarized without requiring interaction, editing, or commitment inside the card.",
+    "The implementation can support pointer hover, keyboard focus, Escape dismissal, pointer handoff, delay timing, collision handling, and alternate access."
+  ],
+  "selectionRules": [
+    "Choose hover card when users need a richer preview of an object behind a reference before deciding whether to open it.",
+    "Use tooltip when the content is only a short noninteractive description of the trigger.",
+    "Use popover when users intentionally open a stable surface with controls, choices, links, or light editing that must remain available after pointer movement.",
+    "Use disclosure details when the explanation should stay inline and visible after users open it.",
+    "Use drawer or details panel when users need persistent side-by-side inspection, comparison, or actions while continuing work.",
+    "Use preview panel or page navigation when the preview requires large media, long reading, deep metadata, or durable state.",
+    "Use context menu or action menu when the surface is primarily a command list rather than a preview.",
+    "Do not use hover card for required instructions, validation help, destructive decisions, authentication, or primary task actions."
+  ],
+  "requiredStates": [
+    "Resting trigger state with visible or accessible object identity.",
+    "Pointer hover pending state with a short open delay to avoid flicker while scanning.",
+    "Open hover card state anchored to the current trigger.",
+    "Pointer bridge or hoverable state where moving into the card does not immediately close it.",
+    "Keyboard focus state where the card can appear for the focused trigger and be dismissed with Escape.",
+    "Close delay state that prevents accidental disappearance while the user corrects pointer movement.",
+    "Collision or scroll-container state where the card flips, shifts, or closes instead of clipping or detaching.",
+    "Stale-object prevention state where a changed, removed, or re-rendered trigger closes or refreshes the card.",
+    "Touch or assistive-technology alternate route state with an explicit open link, profile route, or inline equivalent."
+  ],
+  "interactionContract": [
+    "The card previews only the object represented by the current trigger.",
+    "The card opens on pointer hover and can also open on keyboard focus when the trigger receives focus.",
+    "Open and close delays reduce flicker without hiding the existence of the preview.",
+    "Users can move the pointer from trigger to card without losing the card.",
+    "Escape dismisses the card and keeps focus on the trigger.",
+    "Pointer out, blur, scroll away, or trigger removal closes the card after the defined delay.",
+    "The preview includes an explicit route to the full object when users need durable access.",
+    "The card does not contain primary workflows, destructive choices, or controls that require stable focus management unless it is promoted to a popover or dialog.",
+    "Required information is available outside the hover card.",
+    "The card does not update the selected object, navigate, submit, or commit changes simply by opening."
+  ],
+  "implementationChecklist": [
+    "Define the object type, trigger identity, preview fields, and full-object route before designing the card.",
+    "Set open and close delays that fit dense scanning without causing flicker or sluggishness.",
+    "Keep the hover card title, metadata, status, activity, and optional thumbnail concise enough to read quickly.",
+    "Implement pointer handoff so the card remains visible while pointer moves from trigger to content.",
+    "Support keyboard focus opening and Escape dismissal, or provide a separate explicit keyboard route to the same preview.",
+    "Close or reanchor when the trigger scrolls, is removed, changes object identity, or moves near viewport edges.",
+    "Avoid hidden-only content: expose profile pages, details links, or inline equivalents for touch and assistive-technology users.",
+    "Test dense list scanning, repeated rows, stale data, slow network preview loading, zoom, scroll containers, collision, pointer jitter, keyboard focus, and screen readers."
+  ],
+  "commonMisuses": [
+    "Using a hover card as the only place for required instructions or validation help.",
+    "Putting forms, filters, destructive commands, or multi-step workflows inside the card.",
+    "Opening on hover only with no keyboard or explicit route to the same preview.",
+    "Closing as soon as the pointer leaves the trigger, before users can inspect the card.",
+    "Showing stale preview data for the previously hovered row.",
+    "Using long open delays that make the preview feel unreliable.",
+    "Letting the card cover the trigger or nearby content without Escape dismissal.",
+    "Using hover cards on touch-first interfaces where hover cannot be invoked reliably."
+  ],
+  "critiqueQuestions": [
+    "What exact object does this hover card preview?",
+    "Is the preview useful before navigation, or would a normal link, tooltip, popover, drawer, or page be clearer?",
+    "Can users reach equivalent information without pointer hover?",
+    "Can users move from trigger to card, dismiss with Escape, and keep focus on the trigger?",
+    "What happens when the row recycles, the object changes, the trigger scrolls, or the preview fetch is slow?",
+    "Is any required instruction, destructive action, or multi-step workflow hidden in this transient preview?"
+  ],
+  "useWhen": [
+    "Users need to inspect object metadata before choosing whether to open a link, mention, file, row, issue, or reference.",
+    "The preview can be summarized in a compact read-only card.",
+    "The interface contains dense references where navigation for every inspection would be costly.",
+    "An explicit full-object route or equivalent non-hover access is available."
+  ],
+  "avoidWhen": [
+    "The content is only a short description that belongs in a tooltip.",
+    "The content includes forms, complex controls, destructive decisions, or multi-step work.",
+    "The preview is required for task completion and must remain visible.",
+    "The primary target environment is touch-only and no explicit alternative is provided.",
+    "The preview cannot stay anchored or correct as the list scrolls or updates."
+  ],
+  "variants": [
+    "Profile hover card",
+    "File hover card",
+    "Issue hover card",
+    "Mention hover card",
+    "Chart mark hover card",
+    "Reference preview card",
+    "Activity hover card",
+    "Object metadata hover card"
+  ],
+  "accessibility": [
+    "Do not rely on hover card content as the only source of required information.",
+    "Make the trigger keyboard focusable and expose a usable name for the referenced object.",
+    "Support Escape dismissal when the card appears on focus or hover.",
+    "Keep pointer-triggered content hoverable so users can move into it without disappearance.",
+    "Keep hover-card content persistent while the trigger or card is hovered or focused.",
+    "Provide an explicit route to the full object or equivalent preview for touch and assistive-technology users.",
+    "Avoid focusable controls inside a hover card unless the surface is implemented as a stable popover with a clear focus model.",
+    "Do not rely on placement, color, image, or avatar alone to identify the object being previewed."
+  ],
+  "keyboardBehavior": [
+    "Tab moves focus to the trigger and may open the hover card for the focused object.",
+    "Escape dismisses the hover card and leaves focus on the trigger.",
+    "Tab away closes the hover card after focus leaves the trigger or explicit card route.",
+    "Enter or Space follows or activates the trigger's primary route, not the preview itself.",
+    "If the implementation supports a hotkey to enter card content, focus moves to the first intentional control and the surface should behave like a popover.",
+    "Arrow keys belong to the underlying list, grid, or trigger component, not to generic hover-card navigation."
+  ],
+  "failureModes": [
+    "The card appears only on mouse hover.",
+    "The card disappears before users can move the pointer into it.",
+    "Escape closes the card and also moves focus away from the trigger.",
+    "The card covers the trigger or content users need to compare.",
+    "The card shows stale metadata for a recycled row or previous trigger.",
+    "The preview fetch loads late and replaces content for the wrong object.",
+    "Touch users cannot access the preview or equivalent object detail.",
+    "Interactive controls inside the card create an unexpected focus trap."
+  ],
+  "relatedPatterns": [
+    "tooltip",
+    "popover",
+    "disclosure-details",
+    "drawer",
+    "context-menu",
+    "action-menu"
+  ],
+  "comparisons": [
+    "hover-card-vs-tooltip-vs-popover-vs-disclosure-details"
+  ],
+  "examples": [
+    {
+      "product": "Radix UI Hover Card",
+      "url": "https://www.radix-ui.com/primitives/docs/components/hover-card",
+      "platform": "web",
+      "notes": "Documents controlled state, placement, collision handling, arrows, and open and close delays for hover cards.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "WCAG Content on Hover or Focus",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html",
+      "platform": "web",
+      "notes": "Defines dismissible, hoverable, and persistent requirements for author-created hover or focus content.",
+      "checkedAt": "2026-06-10"
+    },
+    {
+      "product": "shiny.fluent HoverCard",
+      "url": "https://appsilon.github.io/shiny.fluent/reference/HoverCard.html",
+      "platform": "web",
+      "notes": "Documents hover cards for metadata, activity, and commands that can open on hover or focus.",
+      "checkedAt": "2026-06-10"
+    }
+  ],
+  "sources": [
+    {
+      "id": "radix-hover-card",
+      "note": "Supports hover-card placement, collision, arrows, controlled state, and open or close delays."
+    },
+    {
+      "id": "wcag-content-on-hover-or-focus",
+      "note": "Supports dismissible, hoverable, and persistent behavior for hover or focus content."
+    },
+    {
+      "id": "material-rich-tooltips",
+      "note": "Supports richer contextual hover or focus content as distinct from short tooltip labels."
+    },
+    {
+      "id": "shiny-fluent-hovercard",
+      "note": "Supports metadata and activity previews on hover or focus."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-10"
+}

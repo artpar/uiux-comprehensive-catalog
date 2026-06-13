@@ -1,0 +1,64 @@
+{
+  "id": "ai-agent-acts-without-approval-vs-human-approval-gate-vs-agent-plan-preview-vs-agent-progress-trace-vs-tool-use-visibility-vs-dangerous-action-review",
+  "title": "AI agent acts without approval vs human approval gate vs agent plan preview vs agent progress trace vs tool-use visibility vs dangerous-action review",
+  "summary": "Flag AI agent acts without approval when an agent executes high-impact side effects before users authorize the exact action and payload. Use the related patterns for runtime approval gates, pre-run plan inspection, live execution monitoring, tool detail inspection, or single-action payload review.",
+  "patternIds": [
+    "ai-agent-acts-without-approval",
+    "human-approval-gate",
+    "agent-plan-preview",
+    "agent-progress-trace",
+    "tool-use-visibility",
+    "dangerous-action-review"
+  ],
+  "decisionRules": [
+    "Choose AI agent acts without approval when an agent sends, spends, edits, deploys, deletes, publishes, changes access, or calls an external side-effect tool before the user approves the exact payload.",
+    "Choose human approval gate when a running agent or automation is paused at one armed step and an eligible human can approve, reject, edit, cancel, bypass, or let it expire before execution resumes.",
+    "Choose agent plan preview when users need to inspect proposed steps, planned tools, data access, side effects, approval gates, and expected outputs before the agent starts running.",
+    "Choose agent progress trace when the run has already started and users need a live timeline of queued, active, blocked, approved, failed, cancelled, or completed steps.",
+    "Choose tool-use visibility when the design problem is exposing exact tool names, inputs, outputs, permissions, redactions, and payload details for inspection rather than authorizing execution.",
+    "Choose dangerous-action review when a single user-initiated high-impact action needs payload, target, consequence, and final action review outside an agent run.",
+    "A plan preview or broad Run control authorizes only the displayed plan version; it does not authorize hidden future side-effect steps unless those steps and gates are explicitly listed.",
+    "A progress trace or activity log can show that an action happened, but it cannot convert a post-action audit event into valid pre-action approval.",
+    "Approval is valid only for the shown target, payload, tool, model or workflow version, policy version, and approver rule; stale email or mobile approvals must be refused.",
+    "If an agent acted without approval, show the executed action as already committed and provide stop, rollback, revoke, notify, incident report, escalation, and audit paths where possible."
+  ],
+  "failureModes": [
+    "The agent says it drafted an email but sends it to customers when the user taps Run.",
+    "A broad approval of the plan is used to issue refunds that were not listed in the plan.",
+    "An approval card appears after the database update already committed.",
+    "A stale notification resumes an agent step against a changed customer, source, or payload.",
+    "The requester approves their own high-risk agent action despite separation-of-duties policy.",
+    "The audit trail records a side effect but cannot show what the user saw before it executed."
+  ],
+  "sources": [
+    {
+      "id": "microsoft-agent-responsible-ai",
+      "note": "Supports accountable, transparent, safe, and informed agent behavior."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, correction, capability boundaries, and human oversight."
+    },
+    {
+      "id": "github-actions-deployment-protection-rules",
+      "note": "Supports required reviewer gates, self-review prevention, wait timers, and bypass controls before deployment proceeds."
+    },
+    {
+      "id": "microsoft-power-automate-approvals",
+      "note": "Supports automation that waits for approval before continuation."
+    },
+    {
+      "id": "servicenow-ask-for-approval-action",
+      "note": "Supports approval actions, waiting states, rule sets, approvers, due dates, and output states."
+    },
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports durable agent state, tool calls, tool outputs, and response chaining that must remain tied to authorization context."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing approval-required, stale, executed, rollback, and recovery states."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

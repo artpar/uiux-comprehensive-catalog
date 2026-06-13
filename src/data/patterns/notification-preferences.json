@@ -1,0 +1,271 @@
+{
+  "id": "notification-preferences",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed notification delivery preference pattern with guidance for event types, channels, devices, frequency, quiet hours, digest behavior, mobile overrides, OS permission blocks, admin policy, preview privacy, keyword alerts, critical exceptions, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers notification event types, in-app, email, push, banner, badge, sound, digest, integration and device channels, immediate versus digest frequency, quiet hours and quiet days, critical exceptions, mobile overrides, browser and OS permission blocks, admin-managed rows, muted sources, keyword alerts, custom routing, preview privacy, save and failed-save behavior, reset defaults, and deduplication across mentions, subscriptions, watches, and digests.",
+    "relatedPatternDistinction": "The entry separates notification preferences from settings management by focusing only on notification delivery rules rather than the whole settings center, from notification center by configuring future delivery instead of retained inbox triage, from follow / subscribe by controlling how subscribed events are delivered rather than opting into one object, from activity feed by choosing notification delivery rather than browsing event history, from toast notification by preserving current-task feedback boundaries, from mentions by controlling mention delivery channels rather than authored attention, and from permission-denied state by explaining when external policy or OS permission owns delivery.",
+    "liveDemoBehavior": "The live demo shows a notification preference matrix with event types, in-app, email, and push channels, current saved values, mention priority, digest updates, quiet hours, critical exceptions, mobile override, OS permission block, admin-managed rule, preview privacy, keyword alerts, reset preview, saved confirmation, and bad modes for master off, vague important, split channels, quiet critical, OS mismatch, and duplicate delivery.",
+    "comparisonDecisionRules": "The linked notification-preferences-vs-settings-management-vs-notification-center-vs-follow-subscribe comparison gives concrete rules for notification preferences, settings management, notification center, follow / subscribe, activity feed, toast notification, mentions, permission-denied state, channel choices, digest, quiet time, critical exceptions, OS and admin overrides, and preview privacy.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "Checked /patterns/notification-preferences/ on 2026-06-11 in Chromium desktop: verified status, Good UI and Bad UI frames, Good UX controls for Default, Mentions, Digest, Quiet hours, Critical, Mobile, OS block, Admin, Preview, Keywords, Reset, and Save, Bad UX controls for Master off, Vague important, Split channels, Quiet critical, OS mismatch, and Duplicate delivery, no duplicate IDs, and no Notification preferences demo overflow. Checked /compare/notification-preferences-vs-settings-management-vs-notification-center-vs-follow-subscribe/ for notification preferences, settings management, notification center, follow, subscribe, activity feed, toast notification, mentions, permission, channel, digest, quiet, critical, OS, admin, and preview decision terms with no duplicate IDs or overflow. Checked 390px mobile emulation for Digest, Quiet hours, Critical, Mobile, OS block, Admin, Preview, Keywords, Reset, Save, Split channels, Quiet critical, OS mismatch, and Duplicate delivery states with no Notification preferences demo overflow.",
+    "screenshots": [
+      "screenshots/patterns/notification-preferences.png"
+    ]
+  },
+  "name": "Notification preferences",
+  "aliases": [
+    "notification settings",
+    "alert preferences",
+    "email notification settings",
+    "push notification settings",
+    "notification controls",
+    "notification channels",
+    "quiet hours",
+    "mute notifications",
+    "digest settings",
+    "notification routing",
+    "activity notification settings"
+  ],
+  "category": "Personalization And Preference",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Collaboration And Social Interaction",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "User-controlled rules for notification type, channel, frequency, timing, privacy, and exceptions",
+  "uiGuidance": [
+    "Render notification preferences as a structured matrix or grouped settings surface that shows notification type, source, delivery channel, device, frequency, quiet-time rule, preview privacy, override, and current saved state.",
+    "Separate notification preferences from notification center, follow / subscribe, and general settings by showing that the user is configuring delivery behavior rather than reading delivered items, opting into one object, or editing unrelated app configuration."
+  ],
+  "uxGuidance": [
+    "Use notification preferences when users need to reduce noise without missing important mentions, assignments, security notices, incidents, reminders, or followed-object updates.",
+    "Make consequences explicit: what stops, what still arrives, which devices and channels are affected, when changes apply, and which admin, OS, or workspace policies override the user's choice."
+  ],
+  "uiExamples": {
+    "good": [
+      "A notification preferences page groups Mentions, Assigned work, Followed threads, Security, Digest, and Marketing, with columns for In-app, Email, Push, Banner, and Digest frequency.",
+      "A mobile override row says Push is enabled in app but blocked by iOS settings, with an Open system settings action and a preserved in-app preference."
+    ],
+    "bad": [
+      "A single Notifications off switch disables email, push, badges, and mention banners without saying whether security alerts or approvals still arrive.",
+      "A page lists All, Some, and None for notifications but never maps those labels to event types, channels, or devices."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user keeps mentions and assigned-work banners on, moves repository watch updates to daily digest, mutes marketing email, and sees a preview of what will still notify them during quiet hours.",
+      "A user turns off mobile push after hours, but urgent incident alerts remain allowed and the UI explains the exception."
+    ],
+    "bad": [
+      "A user disables email for a noisy project and still receives duplicate push and desktop banners because those channels live in separate hidden settings.",
+      "A user enables digest delivery and misses a time-sensitive mention because the preference did not label mentions as an immediate exception."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Notification systems overwhelm users or make them miss important work when preferences hide event types, delivery channels, frequency, quiet hours, digest behavior, privacy previews, device permissions, admin overrides, and critical exceptions.",
+  "solution": "Provide a clear notification preferences surface that lets users tune notification types, sources, channels, devices, timing, previews, sounds, digests, quiet hours, keywords, and exceptions while preserving critical delivery and explaining overrides.",
+  "problemContext": [
+    "Notifications may arrive through in-app centers, activity feeds, badges, banners, desktop notifications, push notifications, email, chat integrations, digests, sounds, previews, or system-level alerts.",
+    "Users may want different rules for mentions, DMs, reactions, followed threads, watched spaces, assignments, approvals, incidents, security alerts, marketing, reminders, and background jobs.",
+    "Preferences may be global, workspace-specific, organization-specific, project-specific, channel-specific, device-specific, or inherited from admin policy.",
+    "Operating-system notification permissions, mobile overrides, browser permissions, quiet hours, do-not-disturb modes, and email routing can contradict in-app choices.",
+    "A preference that reduces noise can create coordination risk if it suppresses mentions, assigned work, approvals, security warnings, or urgent incidents."
+  ],
+  "selectionRules": [
+    "Choose notification preferences when the user needs to configure which notification events produce which delivery behavior.",
+    "Use settings management when notification preferences are one category inside a larger persistent app configuration surface.",
+    "Use notification center for delivered-item inbox behavior such as unread state, filtering, retention, mark-read, and related-object cleanup.",
+    "Use follow / subscribe when the user opts into future updates from one object, channel, thread, space, repository, saved view, or topic.",
+    "Use activity feed when users need a catch-up stream of work events rather than delivery rules.",
+    "Use toast notification when the product needs transient current-action feedback that should not require user preference before it appears.",
+    "Use alert, inline message, or banner for current-task blockers that must appear regardless of ordinary notification preferences.",
+    "Use mentions when a sender routes attention; use preferences to control delivery channels for those mention events.",
+    "Expose type-by-channel choices for high-volume products instead of one master on/off switch.",
+    "Show critical exceptions, quiet-hour bypass rules, admin-managed settings, OS permission blocks, and unsaved or failed-save state close to the affected preference.",
+    "Let users preview or summarize what will still notify them before they save aggressive muting or digest changes."
+  ],
+  "requiredStates": [
+    "Default notification preferences state.",
+    "Per-event-type channel matrix state.",
+    "Immediate, daily digest, weekly digest, and never frequency states.",
+    "Quiet hours or quiet days state.",
+    "Critical exception or bypass state.",
+    "Device override state such as mobile push differs from desktop banners.",
+    "OS or browser permission blocked state.",
+    "Admin-managed or workspace policy override state.",
+    "Muted source, channel, project, or conversation state.",
+    "Keyword or custom routing state.",
+    "Preview privacy or sound appearance state.",
+    "Unsaved changes, saved, failed save, and restored defaults state."
+  ],
+  "interactionContract": [
+    "Opening notification preferences shows current saved values for each notification type and delivery channel.",
+    "Changing a preference names the affected event type, channel, device, frequency, and scope before save or immediate apply.",
+    "Quiet hours and digest settings reveal exceptions for urgent, security, assigned, or mentioned work.",
+    "If operating-system, browser, workspace, or admin policy blocks delivery, the affected control explains the owning layer and links to the right place when possible.",
+    "Muting a source or channel does not silently change global notification preferences unless the UI previews that scope.",
+    "Saving preferences confirms what changed and preserves unsaved choices on failure.",
+    "Reset restores only notification preferences or the named group, not unrelated settings."
+  ],
+  "implementationChecklist": [
+    "Inventory notification event types, sources, urgency levels, delivery channels, devices, default values, critical exceptions, and legal or security requirements.",
+    "Model user preferences separately from per-object subscriptions, delivered notification records, activity feed items, admin policies, and OS permissions.",
+    "Design channel and event-type controls for in-app, email, push, banner, badge, sound, digest, and integration destinations.",
+    "Support quiet hours, quiet days, digest cadence, preview privacy, keyword alerts, custom routing, mobile overrides, and mute behavior where the product offers them.",
+    "Represent admin-managed values, system permission blocks, browser permission prompts, and unavailable channels without pretending the user choice applied.",
+    "Deduplicate deliveries when one event matches multiple subscriptions, mentions, project rules, or digest rules.",
+    "Test keyboard access, screen-reader names, high zoom, mobile layout, long notification type labels, save failures, cross-device sync, policy overrides, and aggressive mute previews."
+  ],
+  "commonMisuses": [
+    "Offering one master notification switch for a complex collaboration product.",
+    "Letting users disable critical current-task, security, billing, or incident alerts without an exception model.",
+    "Hiding email, push, in-app, banner, sound, badge, and digest settings in unrelated places.",
+    "Showing a preference as enabled when OS permissions or admin policy prevent delivery.",
+    "Using vague labels such as Important, Some, or Recommended without listing included event types.",
+    "Making quiet hours suppress mentions or assignments that the product later treats as urgent.",
+    "Resetting unrelated app settings from a notification preference reset action.",
+    "Failing to deduplicate notifications across mentions, watched objects, subscriptions, and digests."
+  ],
+  "critiqueQuestions": [
+    "Which exact event types does each preference control?",
+    "Which delivery channels, devices, and frequencies are affected by this change?",
+    "What still breaks through quiet hours, digest, mute, or master-off states?",
+    "Can users tell whether OS permission, browser permission, admin policy, or workspace rules override their choice?",
+    "How does the product prevent duplicate delivery when multiple rules match the same event?",
+    "Can users recover from over-muting before they miss important work?"
+  ],
+  "useWhen": [
+    "Users receive enough notifications that they need control over type, channel, device, frequency, timing, or source.",
+    "The product can explain event types, delivery destinations, quiet-time behavior, and critical exceptions.",
+    "Users need to reduce noise without losing mentions, assignments, security notices, or urgent operational updates."
+  ],
+  "avoidWhen": [
+    "The product has only a few low-volume notifications that can be handled by defaults and inline controls.",
+    "The message is a current-task blocker that must appear in context regardless of preferences.",
+    "The system cannot honor or explain the preference because delivery is controlled entirely by an external policy.",
+    "The control would duplicate per-object follow / subscribe or mute controls without clear scope.",
+    "Disabling a notification would violate legal, safety, security, or compliance obligations."
+  ],
+  "variants": [
+    "Email notification preferences",
+    "Push notification preferences",
+    "Desktop notification preferences",
+    "Channel notification preferences",
+    "Digest settings",
+    "Quiet hours",
+    "Keyword notifications",
+    "Custom routing",
+    "Preview privacy",
+    "Sound and appearance",
+    "Mobile override",
+    "Admin-managed notification policy"
+  ],
+  "accessibility": [
+    "Group preferences with headings and fieldsets for event type, delivery channel, device, and frequency.",
+    "Do not rely on icons, color, badge shape, or switch position alone to identify notification type or channel.",
+    "Expose current value, scope, and consequences in text for each preference.",
+    "Associate blocked, admin-managed, OS permission, or dependency explanations with the affected controls.",
+    "Announce saved, failed, reset, blocked, and quiet-hours exception changes through status text.",
+    "Keep dense preference matrices keyboard reachable with clear row and column headers.",
+    "Ensure mobile layouts preserve labels when channel columns collapse into stacked controls."
+  ],
+  "keyboardBehavior": [
+    "Tab moves through notification categories, search or filters, event-type rows, channel controls, frequency controls, quiet-hour fields, reset, save, and discard actions.",
+    "Arrow keys may move inside radio groups, segmented controls, or table-like matrices when semantics support it.",
+    "Space or Enter toggles checkboxes and switches or opens channel detail menus.",
+    "Escape closes delivery, frequency, or exception menus and returns focus to the invoking control.",
+    "Saving failed preferences moves focus to an error summary or first failed control while preserving changes.",
+    "Changing a matrix cell does not move focus unexpectedly to another event type or channel."
+  ],
+  "failureModes": [
+    "A preference changes email only but the label implies all notifications stopped.",
+    "The product sends duplicate email, push, and in-app alerts for one event because mention, watch, and digest rules all match.",
+    "A disabled push toggle has no explanation that browser or OS permission is blocked.",
+    "Quiet hours hide incident alerts that the product expects users to respond to immediately.",
+    "A digest setting batches assignment changes and creates stale work ownership.",
+    "Screen-reader users hear repeated switches with no row or column context.",
+    "A reset action clears unrelated privacy, display, or account settings.",
+    "A save failure discards carefully tuned notification rules."
+  ],
+  "relatedPatterns": [
+    "settings-management",
+    "notification-center",
+    "follow-subscribe",
+    "activity-feed",
+    "toast-notification",
+    "mentions",
+    "permission-denied-state"
+  ],
+  "comparisons": [
+    "notification-preferences-vs-settings-management-vs-notification-center-vs-follow-subscribe"
+  ],
+  "examples": [
+    {
+      "product": "GitHub notification settings",
+      "url": "https://docs.github.com/subscriptions-and-notifications/get-started/configuring-notifications",
+      "platform": "web",
+      "notes": "Documents choosing notification activity types and delivery methods.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Slack notification preferences",
+      "url": "https://slack.com/help/articles/201355156-Configure-your-Slack-notifications",
+      "platform": "web",
+      "notes": "Documents notification preferences for Activity inclusion, mobile overrides, channel keywords, sounds, appearance, and message previews.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Teams notification settings",
+      "url": "https://support.microsoft.com/en-us/teams/notifications-settings/manage-notifications-in-microsoft-teams",
+      "platform": "web",
+      "notes": "Documents Teams notification settings and activity settings with search and quick views.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Jira personal notification settings",
+      "url": "https://support.atlassian.com/jira-software-cloud/docs/manage-your-jira-personal-settings/",
+      "platform": "web",
+      "notes": "Documents choosing in-app and email notifications for work item activity.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-configuring-notifications",
+      "note": "GitHub documents choosing activity types and delivery methods for notifications."
+    },
+    {
+      "id": "github-managing-organization-notifications",
+      "note": "GitHub documents organization notification routing and default notification email settings."
+    },
+    {
+      "id": "slack-configure-notifications",
+      "note": "Slack documents notification preferences, Activity inclusion, mobile overrides, channel keywords, sound, appearance, and preview settings."
+    },
+    {
+      "id": "slack-guide-notifications",
+      "note": "Slack documents how notifications work across desktop and mobile contexts."
+    },
+    {
+      "id": "microsoft-teams-manage-notifications",
+      "note": "Microsoft Teams documents notification settings, Activity feed behavior, quick views, and notification settings search."
+    },
+    {
+      "id": "atlassian-jira-personal-notification-settings",
+      "note": "Jira documents personal notification settings for work-item activity and in-app or email delivery channels."
+    },
+    {
+      "id": "atlassian-confluence-email-notifications",
+      "note": "Confluence documents email update preferences and administrator-disabled notification choices."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

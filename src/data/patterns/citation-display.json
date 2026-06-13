@@ -1,0 +1,255 @@
+{
+  "id": "citation-display",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed citation-display pattern with claim-level citation guidance, selected source preview states, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, screenshot evidence, and manual spot-check evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers inline citation markers, selected source preview, claim-to-source mapping, verified source, open source, multi-source claims, pending citation, stale citation, missing source, permission-limited source, source mismatch, copy citation, mobile source panel, source metadata, excerpts, status announcements, and source-opening return context.",
+    "relatedPatternDistinction": "The entry separates citation display from chat interface by focusing on claim-level evidence rather than conversation transcript, from streaming response by focusing on citation verification rather than partial generated output, from related links by evidence mapping rather than onward navigation list, from tooltip by persistent inspectable source records rather than short hints, and from broader grounding views by selecting one claim/source relationship at a time.",
+    "liveDemoBehavior": "The live demo shows a policy answer with inline citation markers, selected source preview, exact source excerpt, source metadata, open source, copy citation, verified, multi-source, pending, stale, missing, permission-limited, mismatch, copied, and mobile source panel states. Bad states cover link dump, vague source, dead cite, citation drift, tooltip only, hidden permission, over-cited, and decorative numbers.",
+    "comparisonDecisionRules": "The linked citation-display-vs-chat-interface-vs-streaming-response-vs-related-links-vs-tooltip comparison gives concrete rules for citation display, chat interface, streaming response, related links, tooltip, claim-level evidence, source preview, inline citation marker, conversation transcript, partial generated output, navigation list, brief hover or focus hint, pending citation, stale source, missing source, permission-limited source, source mismatch, copy citation, open source, claim-to-source mapping, and not a confidence score.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reports zero duplicate field groups after adding this completed pattern.",
+    "manualSpotCheck": "2026-06-11 Chromium desktop and 390px mobile checks rendered /patterns/citation-display/ with the live demo, exercised Verified, Open source, Multi-source, Pending, Stale, Missing, Permission, Mismatch, Copy citation, Mobile panel, Link dump, Vague source, Dead cite, Citation drift, Tooltip only, Hidden permission, Over-cited, and Decorative numbers states, and found no duplicate IDs, page overflow, or citation-display demo overflow. The comparison route /compare/citation-display-vs-chat-interface-vs-streaming-response-vs-related-links-vs-tooltip/ included citation display, chat interface, streaming response, related links, tooltip, claim-level evidence, source preview, inline citation marker, conversation transcript, partial generated output, navigation list, brief hover or focus hint, pending citation, stale source, missing source, permission-limited source, source mismatch, copy citation, open source, claim-to-source mapping, and not a confidence score terms with no duplicate IDs or page-level overflow on desktop and mobile; mobile wide elements were limited to the existing site nav.",
+    "screenshots": [
+      "screenshots/patterns/citation-display.png"
+    ]
+  },
+  "name": "Citation display",
+  "aliases": [
+    "inline citation",
+    "source citation",
+    "citation marker",
+    "evidence chip",
+    "source preview",
+    "cited answer",
+    "claim citation",
+    "reference marker",
+    "citation panel",
+    "answer sources"
+  ],
+  "category": "AI And Automation UX",
+  "secondaryCategories": [
+    "Trust, Safety, And Privacy",
+    "Data Display And Exploration",
+    "Disclosure And Attention Management",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Inline claim-to-source evidence display for generated or summarized content",
+  "uiGuidance": [
+    "Render citation markers beside the claims they support, and connect each marker to a selected source preview with title, source type, excerpt, date or version, permission state, and open source action.",
+    "Differentiate verified, pending, stale, missing, permission-limited, and mismatch citations with text labels and stable source-panel states rather than relying on color or decorative numbering."
+  ],
+  "uxGuidance": [
+    "Use citation display when users must verify where a generated claim, summary, or recommendation came from without leaving the answer context.",
+    "Keep the claim-to-source mapping durable through streaming, regeneration, copying, mobile layout changes, and permission checks so users can tell what evidence applies to which claim."
+  ],
+  "uiExamples": {
+    "good": [
+      "A policy assistant places numbered citation chips after each sourced claim; selecting a chip opens a source preview with the document title, section, quoted excerpt, updated date, and Open source action.",
+      "A generated research summary marks two citations on one claim, shows one source as pending until retrieval finishes, and labels an internal source as permission-limited when the user cannot open it."
+    ],
+    "bad": [
+      "An answer ends with five links under Sources but no marker shows which link supports which claim.",
+      "Superscript numbers appear beside claims but do not open anything, and stale citations remain after the answer is regenerated."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user checks a claim, opens its source preview, compares the quoted excerpt with the answer text, and copies the citation with the source title included.",
+      "During streaming, the answer labels citations as Pending; after final retrieval, verified markers become clickable and one unresolved marker becomes Missing source with a retry path."
+    ],
+    "bad": [
+      "A user trusts a generated compliance claim because it has a number beside it, but the number points to an unrelated source.",
+      "A mobile user taps a citation and loses their reading position because the full source page replaces the answer with no back context."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop",
+    "ai"
+  ],
+  "problem": "Generated answers and summaries often cite sources, but weak displays make citation numbers look trustworthy even when the source is unresolved, unavailable, stale, or not actually tied to the claim being read.",
+  "solution": "Attach visible citation markers to specific claims, expose a selected source preview with source metadata and excerpt, show unresolved evidence states honestly, and preserve the mapping through answer changes and source-opening flows.",
+  "problemContext": [
+    "The system may generate citations from web search, file search, enterprise retrieval, user-provided documents, code execution outputs, or manually curated references.",
+    "Citations may arrive after answer text, be removed during safety or grounding checks, be blocked by permissions, point to changed documents, or support only part of a sentence.",
+    "Users need to evaluate whether the source supports the claim without losing their place in the answer, especially on mobile or in long chat transcripts.",
+    "Citation display often sits inside a chat interface, streaming response, research workspace, document editor, review queue, or support-answer panel."
+  ],
+  "selectionRules": [
+    "Choose citation display when the main user need is verifying a generated or summarized claim against the source that supports it.",
+    "Use chat interface when the primary concern is the conversation container, prompt composer, message history, and turn-taking rather than source evidence.",
+    "Use streaming response when the primary concern is partial generated output and response lifecycle; include citation states inside streaming only when evidence arrives asynchronously.",
+    "Use related links when links are optional onward reading or adjacent resources instead of claim-level evidence.",
+    "Use tooltip only for short supplemental descriptions; citation details need persistent, inspectable source records.",
+    "Show a source preview before sending users away from the answer when verifying the evidence is part of the task.",
+    "Use a broader grounding or evidence view when users need coverage across all sources, retrieval steps, or unsupported claims rather than inspecting one selected citation.",
+    "Do not show a citation marker until the system can either resolve the source or label the citation as pending, missing, stale, permission-limited, or mismatched.",
+    "Do not use citation display as a confidence score; a source link can still be incomplete, irrelevant, outdated, or misinterpreted."
+  ],
+  "requiredStates": [
+    "Default answer with cited claims and inline citation markers.",
+    "Selected citation state with source preview, source title, source type, excerpt, date or version, and open source action.",
+    "Multiple citations supporting one claim with clear source ordering and source preview switching.",
+    "Pending citation state during streaming or retrieval before the source is verified.",
+    "Stale citation state after answer revision, document update, or regenerated text changes the claim-to-source mapping.",
+    "Missing source, unavailable source, and permission-limited source states with recovery or explanation.",
+    "Source mismatch state when the cited excerpt does not support the selected claim.",
+    "Copied citation state that confirms what was copied and keeps source context attached.",
+    "Mobile stacked-panel state that preserves reading position while the source preview opens."
+  ],
+  "interactionContract": [
+    "Each citation marker opens or focuses the source record that supports the adjacent claim.",
+    "The selected source preview remains associated with the selected claim and marker until the user changes selection or the answer changes.",
+    "Open source, copy citation, retry source, and report mismatch actions operate on the selected citation, not the whole answer.",
+    "Regeneration, editing, or streaming updates invalidate or re-check citation markers whose claim text changed.",
+    "Permission-limited citations explain that a source exists but cannot be opened by the current user.",
+    "Keyboard and touch users can select citations, inspect the source preview, open the source, and return to the claim without losing context.",
+    "Citation status changes are announced as meaningful status messages without moving focus unexpectedly."
+  ],
+  "implementationChecklist": [
+    "Store citation markers as structured ranges or anchors tied to answer text, source IDs, excerpt IDs, retrieval result IDs, and verification status.",
+    "Render source previews with title, source type, owner or publisher when useful, date or version, excerpt, page or section, permission state, and source-opening action.",
+    "Track pending, verified, stale, missing, permission-limited, mismatch, copied, and reported states separately from the answer text state.",
+    "Revalidate or clear citations after regeneration, editing, translation, summarization, document update, source deletion, or permission changes.",
+    "Preserve selected citation, scroll position, focus, and mobile source-panel state when users open and close previews.",
+    "Make copied output explicit: copy claim, copy citation, copy source title, and copy quoted excerpt should not be ambiguous.",
+    "Test citations in long answers, tables, code blocks, Markdown links, streamed output, virtualized transcripts, mobile viewports, high zoom, keyboard navigation, and screen readers."
+  ],
+  "commonMisuses": [
+    "Displaying a link dump below the answer instead of mapping sources to specific claims.",
+    "Using decorative numbers that do not open a source preview.",
+    "Keeping citations attached after the cited claim changes.",
+    "Hiding citation details in a tooltip that disappears on blur, touch, or scroll.",
+    "Treating a citation as proof of correctness without checking whether the source supports the claim.",
+    "Showing permission-blocked or missing sources as if they were verified.",
+    "Over-citing every sentence so users cannot identify the evidence that matters."
+  ],
+  "critiqueQuestions": [
+    "Can users tell exactly which claim each citation supports?",
+    "Does selecting a citation show enough source detail to verify the claim before opening a new page?",
+    "What happens when the cited source is pending, stale, missing, permission-limited, or mismatched?",
+    "Are citation markers updated or invalidated when the answer changes?",
+    "Can keyboard, touch, and screen reader users inspect citations and return to the claim without losing position?",
+    "Would related links, a chat interface, streaming status, tooltip, or a broader evidence view solve the actual user need better?"
+  ],
+  "useWhen": [
+    "Users need to verify generated claims, summaries, recommendations, or extracted facts against source material.",
+    "The system has structured source metadata, excerpts, retrieval IDs, or URL annotations that can be tied to answer ranges.",
+    "Trust depends on showing evidence close to the claim rather than only listing resources elsewhere."
+  ],
+  "avoidWhen": [
+    "The product cannot reliably map claims to sources or label unresolved citations honestly.",
+    "Links are simply optional onward reading rather than evidence for the answer.",
+    "The cited material is private, unsafe, or legally restricted and cannot be disclosed even as a permission-limited source.",
+    "Users need an overall confidence, uncertainty, or risk display rather than source inspection."
+  ],
+  "variants": [
+    "Numbered inline citations",
+    "Source chips",
+    "Footnote-style source preview",
+    "Side-panel citation inspector",
+    "Mobile bottom-sheet source preview",
+    "Multi-source claim citation",
+    "Pending citation marker",
+    "Permission-limited citation",
+    "Stale citation warning",
+    "Citation mismatch report"
+  ],
+  "accessibility": [
+    "Give citation markers accessible names that include their selected state and source status, such as Citation 2, verified source, or Citation pending.",
+    "Associate citation markers with the cited claim and source preview using accessible labels or descriptions.",
+    "Expose citation status changes such as source verified, source missing, or citation copied as status messages without moving focus.",
+    "Keep focus order predictable between the claim, citation marker, source preview, open source action, copy citation action, and return control.",
+    "Do not rely on superscript size, color, or punctuation alone to communicate citation status.",
+    "Provide touch-sized targets for citation markers and avoid hover-only source previews."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches each citation marker in reading order or through a citation list that preserves claim context.",
+    "Enter or Space opens the selected source preview without navigating away unless the control is explicitly Open source.",
+    "Escape closes the source preview or returns focus to the selected citation marker when the preview behaves as a layer.",
+    "Arrow keys may move between citations only when this behavior is documented by the component and does not conflict with text reading.",
+    "Copy citation, open source, retry source, and report mismatch are reachable from the selected source preview.",
+    "Focus remains stable when citations change from pending to verified or missing during streaming."
+  ],
+  "failureModes": [
+    "A citation appears verified while retrieval is still pending.",
+    "The source preview excerpt does not support the selected claim.",
+    "A regenerated answer reuses old citation IDs against new text.",
+    "A permission-limited source exposes private title or excerpt metadata.",
+    "A mobile source panel covers the answer and gives no way back to the selected claim.",
+    "Copying a cited claim strips the citation marker and source context.",
+    "Screen readers encounter unlabeled citation numbers with no source status or destination."
+  ],
+  "relatedPatterns": [
+    "chat-interface",
+    "streaming-response",
+    "related-links",
+    "tooltip",
+    "preview-panel",
+    "details-panel"
+  ],
+  "comparisons": [
+    "citation-display-vs-chat-interface-vs-streaming-response-vs-related-links-vs-tooltip"
+  ],
+  "examples": [
+    {
+      "product": "OpenAI Web search citations",
+      "url": "https://developers.openai.com/api/docs/guides/tools-web-search",
+      "platform": "ai",
+      "notes": "Documents inline web citations and url_citation annotations that include source URL, title, and text location.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "OpenAI File search annotations",
+      "url": "https://developers.openai.com/api/docs/guides/tools-file-search",
+      "platform": "ai",
+      "notes": "Documents output annotations and optional included search results for file-backed answers.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft 365 Copilot Chat linked citations",
+      "url": "https://learn.microsoft.com/en-us/copilot/faq",
+      "platform": "ai",
+      "notes": "Describes linked citations in Copilot Chat answers so users can further explore sources.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "openai-citation-formatting",
+      "note": "Supports reliable citation formatting and verification-oriented citation behavior."
+    },
+    {
+      "id": "openai-file-search-citations",
+      "note": "Supports file-search annotations and source-result inclusion."
+    },
+    {
+      "id": "openai-web-search-citations",
+      "note": "Supports visible, clickable inline citations for web-search output."
+    },
+    {
+      "id": "microsoft-365-copilot-linked-citations",
+      "note": "Supports linked citations in AI answer product behavior."
+    },
+    {
+      "id": "microsoft-365-copilot-web-references",
+      "note": "Supports web references and policy-controlled source availability."
+    },
+    {
+      "id": "mdn-html-cite-element",
+      "note": "Supports semantic citation markup for cited work titles."
+    },
+    {
+      "id": "whatwg-html-cite-element",
+      "note": "Supports standard citation semantics for referenced works."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports announcing citation status changes without moving focus."
+    }
+  ],
+  "maturity": "emerging",
+  "lastVerified": "2026-06-11"
+}

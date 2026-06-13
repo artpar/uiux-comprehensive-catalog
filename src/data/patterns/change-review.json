@@ -1,0 +1,278 @@
+{
+  "id": "change-review",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed proposed-change review pattern with guidance for original and proposed content, diff hunks, tracked changes, suggestions, pending review comments, submitted reviews, accept, reject, apply, batch scope, stale changes, viewed state, permissions, mobile navigation, related-pattern distinctions, comparison rules, duplicate audit coverage, browser checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Guidance covers base content, proposed content, diff hunks, tracked changes, suggested edits, line comments, pending review comments, submitted review outcomes, accept, reject, apply suggestion, batch preview, mark viewed, stale and outdated changes, unresolved and resolved conversations, permission limits, broad-scope warnings, author context, reviewer progress, mobile condensed navigation, and final review submission.",
+    "relatedPatternDistinction": "The entry separates change review from review before submit by judging proposed edits rather than a user's own final answers, from approval workflow by inspecting concrete changes rather than routed authorization, from review queue by deciding on one change set rather than triaging many items, from comments by requiring accept, reject, apply, viewed, and submit-review states, from compare view by adding decision lifecycle to comparison, from version history by reviewing pending changes rather than previous accepted snapshots, from activity log by making decisions before events are recorded, and from permission-denied state by explaining when access blocks review actions.",
+    "liveDemoBehavior": "The live demo shows a checkout copy diff with original and proposed lines, file progress, reviewer metadata, accept, reject, apply suggestion, and submit review controls, plus states for suggestion, pending private comment, submitted review, accepted suggestion, rejected suggestion, batch preview, stale hunk, mark viewed, permission limit, mobile navigation, and bad-mode contrasts for broad accept-all scope, draft feedback confusion, stale apply, missing base content, comment-only review, and hidden permission failure.",
+    "comparisonDecisionRules": "The change-review-vs-review-before-submit-vs-approval-workflow-vs-review-queue comparison gives concrete rules for change review, review before submit, approval workflow, review queue, comments, compare view, version history, activity log, permission-denied state, accept, reject, apply, pending comments, stale changes, batch scope, and request changes.",
+    "duplicateAudit": "node --import tsx scripts/catalog-completion-audit.ts reported zero normalized duplicate field groups while this pattern was reviewed.",
+    "manualSpotCheck": "Checked /patterns/change-review/ on 2026-06-11 in Chromium desktop while in review state: verified Good UI and Bad UI frames, Good UX controls for Diff, Suggestion, Pending, Submitted, Accepted, Rejected, Batch, Stale, Viewed, Permission, and Mobile, Bad UX controls for Broad scope, Draft confusion, Stale apply, No base, Comment only, and Hidden permission, no duplicate IDs, and no Change review demo overflow. Checked /compare/change-review-vs-review-before-submit-vs-approval-workflow-vs-review-queue/ for change review, review before submit, approval workflow, review queue, comments, compare view, version history, activity log, permission, accept, reject, apply, pending, stale, and request changes decision terms with no duplicate IDs or overflow. Checked 390px mobile emulation for Suggestion, Pending, Submitted, Batch, Stale, Permission, Mobile, Broad scope, Draft confusion, Stale apply, No base, and Hidden permission states with no Change review demo or page overflow.",
+    "screenshots": [
+      "screenshots/patterns/change-review.png"
+    ]
+  },
+  "name": "Change review",
+  "aliases": [
+    "review changes",
+    "suggested edit review",
+    "tracked changes review",
+    "pull request review",
+    "merge request review",
+    "diff review",
+    "redline review",
+    "suggestion review",
+    "accept reject changes",
+    "code review changes"
+  ],
+  "category": "Collaboration And Social Interaction",
+  "secondaryCategories": [
+    "Data Display And Exploration",
+    "Task And Workflow Patterns",
+    "Error Prevention And Recovery",
+    "Trust, Safety, And Privacy"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Review surface for proposed edits, diffs, tracked changes, or suggestions before they become accepted content",
+  "uiGuidance": [
+    "Render change review around a concrete proposed change with base content, proposed content, changed scope, author, timestamp, reviewer progress, pending comment state, accept, reject, apply, batch, and submit-review actions.",
+    "Separate change review from final answer review, approval routing, review queues, comments, compare-only views, version history, and activity logs by showing that users are deciding the fate of a specific proposed edit or diff."
+  ],
+  "uxGuidance": [
+    "Use change review when users need to inspect edits from another person or tool, understand impact, discuss or suggest fixes, and decide whether changes are accepted, rejected, requested, batched, or sent back for revision.",
+    "Protect users from accidental broad decisions by naming scope, showing hidden or unresolved changes, preserving rationale, surfacing stale or outdated diffs, and keeping draft review comments distinct from submitted feedback."
+  ],
+  "uiExamples": {
+    "good": [
+      "A document review pane highlights one suggested sentence, shows original and proposed text, author, comment, Accept, Reject, Previous, Next, and Preview accepted controls.",
+      "A pull request file review shows a diff hunk, pending line comment, suggestion block, Mark viewed, Review changes, Comment, Approve, and Request changes controls."
+    ],
+    "bad": [
+      "A page lists Changed item with Approve and Reject buttons but no original text, proposed text, author, scope, or consequence.",
+      "An Accept all button sits beside one visible suggestion without saying hidden suggestions will also be accepted."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A reviewer moves through tracked changes one by one, accepts a terminology fix, rejects a risky deletion with a reason, sees the next unresolved change, and submits the review summary.",
+      "A merge request author batches three suggested code changes, previews the commit, sees one suggestion is outdated, applies only the valid batch, and leaves the outdated thread open."
+    ],
+    "bad": [
+      "A reviewer writes several pending comments but never submits the review because the UI makes draft comments look published.",
+      "A user applies a suggestion after new commits changed the same lines, and the product silently creates an incorrect patch."
+    ]
+  },
+  "platforms": [
+    "web",
+    "desktop",
+    "mobile"
+  ],
+  "problem": "Collaborative products lose quality and trust when proposed edits are hard to inspect, scope is unclear, draft feedback is confused with submitted feedback, stale changes remain actionable, and accept or reject controls apply more broadly than users expect.",
+  "solution": "Provide a change review surface that binds each proposed change to original and proposed content, context, author, progress, comments, decision controls, batch scope, stale state, permissions, and final review submission behavior.",
+  "problemContext": [
+    "Proposed changes may come from collaborators, reviewers, editors, code suggestions, AI edits, merge requests, tracked changes, document suggestions, conflict recovery, dependency updates, or automated refactors.",
+    "Reviewers need enough context to understand why the change exists, what it touches, what remains unresolved, and whether accepting it will commit content, create a patch, resolve a thread, or only submit feedback.",
+    "A change can become outdated when the underlying file, branch, paragraph, version, or suggestion thread changes after the reviewer loaded it.",
+    "Review decisions may be individual, batched, file-scoped, visible-only, all-suggestions, pending-review, required-review, permission-limited, or informational depending on product rules."
+  ],
+  "selectionRules": [
+    "Choose change review when users are inspecting proposed edits, diffs, suggestions, tracked changes, or review comments before accepting, rejecting, applying, or requesting changes.",
+    "Use review before submit when the user checks their own captured answers before a transaction, not when they judge proposed edits.",
+    "Use approval workflow when the primary job is routed authorization with required approvers and downstream blocking.",
+    "Use review queue when the primary job is processing many queued items and choosing what to handle next.",
+    "Use comments when the surface only supports discussion and does not decide whether a change is accepted or rejected.",
+    "Use compare view when there is no proposed-change lifecycle or decision state.",
+    "Use version history when users browse previous accepted states rather than pending or proposed changes.",
+    "Use activity log when users need historical records after change review decisions happen.",
+    "Show original content, proposed content, changed scope, author, status, stale state, and decision consequence before action.",
+    "Make single-change, visible-only, batch, file-level, and all-change actions visually and textually distinct.",
+    "Keep pending review comments, submitted comments, resolved threads, outdated threads, and requested changes distinct.",
+    "Disable or explain accept, reject, apply, approve, and request-change controls when permissions or freshness checks fail."
+  ],
+  "requiredStates": [
+    "Default change review state with original and proposed content visible.",
+    "Single suggested edit or tracked change state.",
+    "Diff hunk with line comment state.",
+    "Pending review comment state before submission.",
+    "Submitted review state with comment, approve, or request changes outcome.",
+    "Accepted, rejected, applied, or dismissed change state.",
+    "Batch suggestions or accept-all scope preview state.",
+    "Stale, outdated, or changed-since-review state.",
+    "Marked viewed and unviewed file state.",
+    "Unresolved and resolved conversation state.",
+    "Permission-limited or read-only reviewer state.",
+    "Mobile condensed change navigation state."
+  ],
+  "interactionContract": [
+    "Selecting a change reveals the base content, proposed content, author, context, and exact scope affected by a decision.",
+    "Accept, reject, apply, dismiss, approve, comment, request changes, and mark viewed actions update the same change or review record and expose the resulting status.",
+    "Batch actions preview included changes, excluded hidden changes, conflicts, stale suggestions, and permission exceptions before commit.",
+    "Pending review comments remain private to the reviewer until the review is submitted, and the UI labels that privacy clearly.",
+    "A stale or outdated change cannot be applied silently; the user must refresh, re-review, or resolve conflict.",
+    "A rejected or dismissed change preserves enough rationale, thread status, or activity record for collaborators to understand the decision.",
+    "Keyboard and screen-reader users can move to next and previous changes, understand insertion and deletion text, and submit or abandon a review without losing comments.",
+    "After each decision, focus moves to the next unresolved change, changed status, or review summary rather than resetting the page."
+  ],
+  "implementationChecklist": [
+    "Define change record fields: base content, proposed content, location, author, timestamp, source, status, reviewer, pending comments, thread state, freshness token, permission scope, and batch eligibility.",
+    "Separate proposed-change records from comments, activity-log events, version snapshots, approval routes, review queues, and final-submit summaries.",
+    "Build diff or redline rendering that labels insertions, deletions, replacements, file names, line ranges, document sections, and hidden unchanged context.",
+    "Implement next and previous navigation, mark viewed, pending comment drafts, submit review, abandon review, accept, reject, apply, batch, and request-change flows.",
+    "Check freshness and permissions before applying or accepting a change, especially after new commits, document edits, branch updates, or conflict resolution.",
+    "Preview batch scope and exceptions for hidden changes, filtered files, stale suggestions, mixed permissions, unresolved conversations, and broad accept-all decisions.",
+    "Preserve decision rationale, thread resolution, audit event, and focus position after individual and batch decisions.",
+    "Test long diffs, whitespace-only changes, image or binary files, mobile line wrapping, high zoom, keyboard diff navigation, screen reader text alternatives, stale suggestions, and permission-limited reviewers."
+  ],
+  "commonMisuses": [
+    "Showing accept and reject controls without original and proposed content.",
+    "Using approval workflow for every change review even when no routed approver policy exists.",
+    "Calling a review queue change review when reviewers are only choosing which item to open next.",
+    "Making pending comments look submitted.",
+    "Letting broad accept-all controls appear beside a single visible suggestion without scope copy.",
+    "Applying stale suggestions after the underlying content changed.",
+    "Resolving or deleting discussion threads without preserving decision rationale.",
+    "Treating visual compare as enough when users need decision state, comments, and submission."
+  ],
+  "critiqueQuestions": [
+    "What exact original content and proposed content is the user deciding on?",
+    "Does each control say whether it affects one change, visible changes, a batch, a file, or all changes?",
+    "Can reviewers distinguish pending comments from submitted feedback?",
+    "How does the UI prevent stale, outdated, or permission-limited changes from being applied?",
+    "What happens to comments, threads, viewed state, approvals, and activity records after accept or reject?",
+    "Would review before submit, approval workflow, review queue, comments, compare view, version history, or activity log better fit this surface?"
+  ],
+  "useWhen": [
+    "Users inspect and decide on proposed edits, tracked changes, code suggestions, file diffs, or document redlines.",
+    "The system can show original and proposed content with enough context, status, permissions, and freshness checks.",
+    "Reviewers need accept, reject, apply, request changes, comment, mark viewed, batch, or submit-review behavior."
+  ],
+  "avoidWhen": [
+    "The user only checks their own answers before a transaction.",
+    "The task is governed approval routing rather than inspection of a concrete proposed change.",
+    "The main need is triaging many unrelated items in a queue.",
+    "The UI only supports discussion with no proposed-change decision state.",
+    "The product cannot honestly show changed content, scope, freshness, or consequence."
+  ],
+  "variants": [
+    "Document suggested edits",
+    "Tracked changes review",
+    "Code diff review",
+    "Pull request review",
+    "Merge request suggestions",
+    "Redline review",
+    "Batch suggestion review",
+    "Accept all changes preview",
+    "Request changes review",
+    "Mark files viewed",
+    "Pending review comments",
+    "Outdated suggestion review"
+  ],
+  "accessibility": [
+    "Expose insertion, deletion, replacement, original text, proposed text, author, and status as text, not color alone.",
+    "Give accept, reject, apply, batch, mark viewed, comment, approve, and request-change controls accessible names that include the affected change or scope.",
+    "Provide next and previous change navigation that is keyboard reachable and announces current position.",
+    "Label pending comments as private or not submitted until review submission.",
+    "Associate stale, outdated, permission-limited, conflict, and batch-exception messages with the affected controls.",
+    "Keep diff line numbers, file names, document sections, and comment threads perceivable at high zoom and on small screens.",
+    "After decisions, move focus to the next unresolved change or a status message rather than losing keyboard position."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches change navigation, diff content, comments, accept, reject, apply, batch, mark viewed, submit review, and abandon review controls in a stable order.",
+    "Next and Previous controls move between changes without accepting or rejecting them.",
+    "Enter or Space activates accept, reject, apply, mark viewed, resolve, and submit controls according to native button behavior.",
+    "Escape closes suggestion popovers, batch previews, or submit-review dialogs and returns focus to the invoking control.",
+    "Submitting a review moves focus to the submitted status or review summary.",
+    "Rejecting or accepting a change moves focus to the next unresolved change unless the user selected a setting to stay on the current location."
+  ],
+  "failureModes": [
+    "A reviewer accepts every hidden suggestion while intending to accept one visible edit.",
+    "Pending comments are lost when the user navigates away or closes the review pane.",
+    "An outdated suggestion applies to the wrong line after new commits or edits.",
+    "Rejecting a change removes the discussion without any trace of why it was rejected.",
+    "A reviewer cannot reach diff controls or line comments with the keyboard.",
+    "Whitespace-only or formatting changes appear as large content rewrites.",
+    "A read-only viewer can start a review but cannot submit, accept, or reject.",
+    "Review progress says complete even though unresolved changes are hidden by filters."
+  ],
+  "relatedPatterns": [
+    "review-before-submit",
+    "approval-workflow",
+    "review-queue",
+    "comments",
+    "compare-view",
+    "version-history",
+    "activity-log",
+    "permission-denied-state",
+    "merge-conflict-resolver",
+    "conflict-resolution"
+  ],
+  "comparisons": [
+    "change-review-vs-review-before-submit-vs-approval-workflow-vs-review-queue"
+  ],
+  "examples": [
+    {
+      "product": "GitHub pull request change review",
+      "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/reviewing-proposed-changes-in-a-pull-request",
+      "platform": "web",
+      "notes": "Documents reviewing diffs, line comments, suggestions, pending review comments, mark viewed, submit review, approve, comment, request changes, and stale review behavior.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "GitLab merge request suggestions",
+      "url": "https://docs.gitlab.com/user/project/merge_requests/reviews/suggestions/",
+      "platform": "web",
+      "notes": "Documents applying, batching, rejecting, and resolving suggested code changes in merge request reviews.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Google Docs suggested edits",
+      "url": "https://support.google.com/docs/answer/6033474?co=GENIE.Platform%3DDesktop&hl=en",
+      "platform": "web",
+      "notes": "Documents suggesting edits, reviewing suggested edits, previewing accepted or rejected outcomes, and accepting or rejecting suggestions.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Microsoft Word tracked changes",
+      "url": "https://support.microsoft.com/en-us/office/accept-or-reject-tracked-changes-in-word-b2dac7d8-f497-4e94-81bd-d64e62eee0e8",
+      "platform": "desktop",
+      "notes": "Documents moving through tracked changes, accepting or rejecting one change, and accepting or rejecting all changes.",
+      "checkedAt": "2026-06-11"
+    },
+    {
+      "product": "Azure Repos pull request review",
+      "url": "https://learn.microsoft.com/en-us/azure/devops/repos/git/review-pull-requests?view=azure-devops",
+      "platform": "web",
+      "notes": "Documents reviewing pull request changes, commenting, suggesting changes, and responding during pull request review.",
+      "checkedAt": "2026-06-11"
+    }
+  ],
+  "sources": [
+    {
+      "id": "github-reviewing-proposed-changes",
+      "note": "GitHub documents reviewing proposed pull request changes, suggestions, pending review comments, viewed files, review submission, approve, comment, request changes, and stale review behavior."
+    },
+    {
+      "id": "github-commenting-on-pull-request",
+      "note": "GitHub documents pull request comments, line and file comments, suggestion blocks, batched review comments, notifications, and resolved or outdated conversations."
+    },
+    {
+      "id": "gitlab-merge-request-suggestions",
+      "note": "GitLab documents applying, batching, rejecting, and resolving suggested changes in merge request review."
+    },
+    {
+      "id": "google-docs-suggest-edits",
+      "note": "Google Docs documents suggested edits, previewed accepted or rejected outcomes, and accepting or rejecting suggestions."
+    },
+    {
+      "id": "microsoft-word-accept-reject-tracked-changes",
+      "note": "Microsoft Word documents moving through tracked changes and accepting or rejecting individual or all changes."
+    },
+    {
+      "id": "azure-repos-review-pull-requests",
+      "note": "Azure Repos documents reviewing pull request changes, commenting on proposed changes, suggesting changes, and responding to comments."
+    }
+  ],
+  "maturity": "established",
+  "lastVerified": "2026-06-11"
+}

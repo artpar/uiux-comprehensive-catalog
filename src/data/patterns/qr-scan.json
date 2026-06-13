@@ -1,0 +1,281 @@
+{
+  "id": "qr-scan",
+  "completionStatus": "complete",
+  "completionNotes": "Completed as a source-backed QR scanning pattern with detector support, delegated scanner, live camera scan, scan from photo, permission, torch, aim guide, focus, distance, glare, no code, multiple codes, decoding, decoded preview, unsafe URL warning, expired payload, duplicate scan, manual code fallback, success, cleanup, offline validation, privacy handling, related-pattern distinctions, live demo behavior, comparison rules, duplicate audit coverage, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers QR scanning as detection, decode, payload validation, and safe action preview with unsupported detector, delegated scanner, pre-scan rationale, camera permission, camera ready, aim guide, torch, focus, low light, no code, multiple codes, decoding, decoded preview, unsafe URL, expired payload, duplicate scan, scan from photo, manual code, success, cleanup, sensitive secret retention, and offline validation states.",
+    "relatedPatternDistinction": "Camera capture owns creating reviewable media; permission request owns camera-access rationale; file upload owns existing-file attachment; two-factor authentication owns identity enrollment and challenge semantics; security warning owns unsafe decoded destinations; sensitive-data reveal owns masking after sensitive content is already present.",
+    "liveDemoBehavior": "Good demo exercises unsupported, pre-scan, delegated scanner, permission, camera ready, aim guide, torch, focus, low light, no code, multiple codes, decoding, decoded preview, unsafe URL, expired payload, duplicate scan, scan from photo, manual code, success, cleanup, and offline validation states. Bad demo exercises auto-open URL, camera-only dead end, wrong code selected, spinner with no guidance, no payload preview, retained secret, and repeated action failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes QR scan from camera capture, permission request, file upload, two-factor authentication, and security warning by detector support, supported formats, live scan repair, decoded payload preview, multiple-code selection, scan-from-photo fallback, manual code fallback, unsafe destination review, expired or duplicate payload handling, action confirmation, and secret cleanup.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 273 complete patterns, 1 stub pattern, 24 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/qr-scan/ with required terms present, no duplicate IDs, no page overflow, and no overflowing QR demo elements. The live demo controls for all 21 good states and 7 bad states were clicked successfully. The comparison route /compare/qr-scan-vs-camera-capture-vs-permission-request-vs-file-upload-vs-two-factor-authentication-vs-security-warning/ was checked at desktop and compact widths with concrete decision terms present, no duplicate IDs, and no page overflow.",
+    "screenshots": [
+      "screenshots/patterns/qr-scan.png"
+    ]
+  },
+  "name": "QR scan",
+  "aliases": [
+    "qr code scan",
+    "scan qr code",
+    "barcode scan",
+    "code scanner",
+    "scan from camera",
+    "scan from photo",
+    "qr reader",
+    "barcode reader"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Input And Data Entry",
+    "Task And Workflow Patterns",
+    "Trust, Safety, And Privacy",
+    "Error Prevention And Recovery",
+    "Feedback, Status, And System State"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Camera or image-based QR detection, decode, validation, and action preview flow",
+  "uiGuidance": [
+    "Render QR scan as a detection and decode flow with clear purpose, supported-format check, permission state, camera preview or delegated scanner handoff, aim guide, torch and camera controls, scan feedback, decoded summary, action confirmation, fallback entry, and privacy copy.",
+    "Show scanning state separately from decoded payload state: users need to know whether the system is waiting for a code, focusing, decoding, found multiple codes, rejected an invalid code, warning about a destination, or ready to act."
+  ],
+  "uxGuidance": [
+    "Use QR scan when users can complete a task faster by pointing a camera or selecting an image that contains a QR code, and the decoded payload can be validated before the product acts on it.",
+    "Design the lifecycle from unsupported detector through permission, camera readiness, alignment, focus, detection, decode, validation, duplicate or expired handling, safe preview, action, fallback, and cleanup."
+  ],
+  "uiExamples": {
+    "good": [
+      "A device-pairing flow says Scan the QR code on your thermostat, shows a square guide, offers torch and Enter code, then previews Pair thermostat TH-204 before connecting.",
+      "A payment scan reads a QR code, displays merchant name, amount, and domain, and requires Confirm payment before opening the payment app.",
+      "A login setup flow scans an authenticator QR code, hides the secret after pairing, and offers manual key entry if camera access is denied."
+    ],
+    "bad": [
+      "The scanner opens the camera and immediately follows the first decoded URL without showing the destination.",
+      "A camera permission denial leaves a blank panel even though paste code or scan from photo would work.",
+      "The UI shows a spinner forever when the QR code is too small, poorly lit, expired, or outside supported formats."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user scans a warehouse label, sees the decoded asset ID and item name, confirms it is the intended pallet, and continues to inspection.",
+      "A user points at a sheet with several codes, taps the highlighted target code, and avoids opening the neighboring Wi-Fi code.",
+      "A user cannot use the camera, uploads a photo of the QR code, sees the decoded login issuer, and finishes enrollment without exposing the secret after setup."
+    ],
+    "bad": [
+      "A scanner silently accepts an expired event ticket and the user learns it failed only at the final gate.",
+      "A QR code opens an external site with a lookalike domain before the user can inspect it.",
+      "The app records decoded Wi-Fi credentials and camera frames after the user cancels the scan."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "QR codes can speed entry, pairing, tickets, payments, device setup, warehouse work, Wi-Fi sharing, and authenticator enrollment, but the scan is camera-dependent, detector-dependent, visually fragile, and security-sensitive; without explicit scanning state, fallback, payload validation, and action preview, users can scan the wrong code, act on malicious content, or get blocked by camera failure.",
+  "solution": "Provide a QR scan flow that starts from a deliberate user action, checks scanner support, explains camera use, guides alignment and lighting, decodes only supported formats, handles multiple, missing, invalid, duplicate, expired, and unsafe payloads, previews the decoded result before consequential action, offers scan-from-photo or manual-code fallback, and clears frames or secrets after the task.",
+  "problemContext": [
+    "The product wants to decode a QR or barcode from camera preview, a delegated OS scanner, a static image, or a pasted/manual code.",
+    "Codes may contain URLs, payment intents, Wi-Fi credentials, device-pairing tokens, tickets, one-time login secrets, coupons, inventory IDs, contact cards, or plain text.",
+    "Users may face denied camera permission, unsupported web APIs, missing scanner modules, dim light, glare, motion, tiny codes, damaged labels, multiple visible codes, expired codes, reused codes, or unsafe destinations.",
+    "QR scan is adjacent to camera capture, permission request, file upload, two-factor authentication, security warning, sensitive-data reveal, and payment or device-pairing flows."
+  ],
+  "selectionRules": [
+    "Choose QR scan when decoding a code and acting on the decoded payload is the central task.",
+    "Use camera capture when the task is creating and reviewing media rather than interpreting a code value.",
+    "Use permission request for the standalone camera-access rationale; QR scan includes permission only as one state inside the scan lifecycle.",
+    "Use file upload when users provide an existing file; scan from photo is a QR fallback only when the file is an image containing a code to decode.",
+    "Use two-factor authentication when the QR code enrolls, verifies, or recovers an identity factor; the scanner must protect secrets and hand results to the auth flow.",
+    "Use security warning when the decoded QR payload is suspicious, external, destructive, payment-related, or credential-related.",
+    "Preview decoded URLs, merchants, device names, account issuers, ticket IDs, or inventory IDs before opening, pairing, paying, submitting, or importing.",
+    "Support scan repair actions such as torch, move closer, hold steady, clean lens, switch camera, choose from photo, paste code, or manual entry.",
+    "Treat multiple visible codes as a selection problem and avoid executing whichever code happens to decode first.",
+    "Clear camera frames, decoded secrets, and temporary payloads after cancel, timeout, successful action, or route change unless the task explicitly saves them."
+  ],
+  "requiredStates": [
+    "Unsupported detector, missing scanner module, insecure context, or unsupported format state.",
+    "Pre-scan rationale state with task purpose, camera use, payload type, privacy, and fallback.",
+    "Camera permission not requested, requesting, granted, denied, and revoked states.",
+    "Delegated scanner state when the OS or platform scanner handles camera access outside the app.",
+    "Live preview state with aim guide, active camera status, torch, switch camera, and stop control.",
+    "Focusing, too far, too close, glare, low light, motion blur, damaged code, and no code found states.",
+    "Detecting and decoding state with progress or frame feedback.",
+    "Multiple codes found state with target selection before action.",
+    "Decoded payload preview state with format, destination, issuer, merchant, device, or ID summary.",
+    "Invalid, unsupported, malformed, expired, already used, duplicate, or wrong-task payload state.",
+    "Unsafe URL, external destination, payment, credential, or account-change warning state.",
+    "Scan from photo or image import fallback state.",
+    "Manual code, paste key, enter URL, or typed fallback state.",
+    "Successful action state for open, pair, pay, import, check in, redeem, or attach.",
+    "Cancel, timeout, retry, and cleanup state that stops camera and clears transient values.",
+    "Sensitive secret retention state for authenticator seeds, Wi-Fi credentials, payment payloads, and login tokens.",
+    "Offline decode or offline validation state that explains what can be decoded locally and what needs network verification."
+  ],
+  "interactionContract": [
+    "Scanning starts only after users choose a QR-dependent task and can see purpose, fallback, and privacy impact.",
+    "Users can tell whether the scanner is unsupported, waiting for permission, active, focusing, decoding, blocked, invalid, warning, confirmed, or complete.",
+    "The detected payload is not executed silently when it can navigate, pay, pair, import credentials, join a network, or change account state.",
+    "Poor scan conditions produce actionable repair guidance rather than an endless spinner.",
+    "Camera denial or unsupported detection preserves the task through scan from photo, paste code, manual key entry, or another device path.",
+    "Multiple visible codes require target selection or a stable highlighted target before action.",
+    "Secrets, frames, decoded raw values, and failed payloads are cleared when no longer needed."
+  ],
+  "implementationChecklist": [
+    "Define payload types, supported code formats, trusted domains, validation endpoints, expiry rules, duplicate handling, fallback paths, and retention before building the scanner.",
+    "Check detector support and supported formats, and provide a platform fallback when BarcodeDetector, scanner modules, or camera APIs are unavailable.",
+    "Use camera access only after explicit user action, and show active camera state, aim guide, torch, switch camera, cancel, and fallback controls while scanning.",
+    "Throttle frame analysis, limit formats to expected values, handle decode errors, and avoid repeated actions from the same payload.",
+    "Parse and validate decoded values before action, including scheme, domain, issuer, merchant, amount, account target, device ID, expiry, and replay status where relevant.",
+    "Show a confirmation or warning for external links, payments, authenticator seeds, Wi-Fi credentials, device pairing, account changes, and irreversible actions.",
+    "Provide scan from photo, paste code, manual key, typed URL, or support path when scanning fails or camera access is denied.",
+    "Stop camera streams, clear decoded secrets, remove transient frames, and avoid logging raw payloads after cancel, timeout, or success."
+  ],
+  "commonMisuses": [
+    "Opening the first decoded URL without showing the destination or risk.",
+    "Using a camera capture flow that saves images when only the decoded QR value is needed.",
+    "Blocking the task after camera denial despite available manual code or image fallback.",
+    "Showing a scanner with no guidance for distance, light, glare, focus, or damaged codes.",
+    "Executing the wrong code when several codes are visible in one frame.",
+    "Treating an expired, duplicate, unsupported, or wrong-task code as a generic scan failure.",
+    "Persisting authenticator secrets, Wi-Fi passwords, payment payloads, or camera frames after setup."
+  ],
+  "critiqueQuestions": [
+    "What decoded payload types are accepted, and what happens when the QR contains a URL, payment, credential, device token, ticket, or unknown text?",
+    "Can users understand scan state, repair poor scan conditions, and complete the task without camera access?",
+    "Does the flow preview or confirm consequential payloads before opening, paying, pairing, importing, or changing account state?",
+    "How does the scanner handle multiple codes, repeated detections, expired codes, and unsupported formats?",
+    "What decoded values, frames, or secrets are retained, logged, or cleared?",
+    "Is this really QR scan, or does camera capture, permission request, file upload, two-factor authentication, or security warning own the main problem?"
+  ],
+  "useWhen": [
+    "Users need to decode a QR or barcode to pair a device, open a known destination, redeem a ticket, start payment, enroll an authenticator, join Wi-Fi, identify inventory, or import a short payload.",
+    "The product can validate decoded values and expose safe action, retry, and fallback paths.",
+    "Camera or image scanning materially reduces typing errors compared with manual entry."
+  ],
+  "avoidWhen": [
+    "A typed code, link, NFC tap, saved account, or standard file upload is simpler and less privacy-sensitive.",
+    "The product cannot validate or safely preview decoded URLs, payment payloads, authenticator secrets, or device tokens.",
+    "Camera access would be used only to collect an image rather than decode a code.",
+    "The flow has no fallback for users who cannot use a camera or platform scanner."
+  ],
+  "variants": [
+    "Live camera QR scanner",
+    "Delegated OS code scanner",
+    "Scan from photo",
+    "Manual QR code fallback",
+    "Payment QR scan",
+    "Ticket QR scan",
+    "Device pairing QR scan",
+    "Authenticator setup QR scan",
+    "Wi-Fi QR scan",
+    "Inventory barcode scan",
+    "Multiple-code target selection",
+    "Unsafe QR warning"
+  ],
+  "accessibility": [
+    "Provide manual code, paste key, scan from photo, or assisted alternatives for users who cannot point a camera at a code.",
+    "Label scan, torch, switch camera, choose photo, paste code, stop camera, retry, confirm, and cancel controls visibly and programmatically.",
+    "Do not rely on a visual reticle alone; provide text guidance for move closer, hold steady, improve light, target selected, code found, invalid code, and safe action.",
+    "Announce scanner state changes and decoded summaries through text status, not only animation or vibration.",
+    "Keep focus in the scanner surface only when it has a clear exit and returns focus to the invoking control after cancel or success.",
+    "Make decoded destinations, merchant names, issuers, amounts, and warnings readable at zoomed text sizes.",
+    "Avoid continuous auto-submit loops that screen-reader or switch-control users cannot interrupt.",
+    "Respect reduced motion and avoid camera-overlay animations that obscure the scan instructions."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches scan start, choose photo, paste code, torch, switch camera, stop, retry, decoded preview, warning details, confirm, and cancel controls.",
+    "Enter or Space activates visible controls and never opens a decoded payload from an invisible listener.",
+    "After camera permission returns, focus moves to scanner status or the primary fallback if permission was denied.",
+    "After decode, focus moves to the decoded preview heading or warning heading before confirm action.",
+    "Escape stops scanning or opens discard review when a decoded but unconfirmed payload exists.",
+    "Arrow keys may move between selectable detected targets only when multiple-code selection is active and labeled.",
+    "Manual code fields support paste and validation without forcing camera activation.",
+    "After success, focus returns to the paired device, imported account, payment review, ticket result, or next task step."
+  ],
+  "failureModes": [
+    "The scanner shows a live camera but never reports whether QR detection is supported.",
+    "The first decoded URL opens automatically and bypasses destination preview.",
+    "A denied camera prompt strands users without scan from photo, paste, or manual entry.",
+    "The app keeps scanning and firing actions repeatedly from the same code.",
+    "Multiple codes in view select the wrong payload.",
+    "Low light, glare, small code, motion blur, or damaged print only produce a spinner.",
+    "Expired, duplicate, malformed, unsafe, or wrong-task payloads are not distinguished.",
+    "Sensitive decoded secrets and camera frames remain in logs, previews, or history."
+  ],
+  "relatedPatterns": [
+    "camera-capture",
+    "permission-request",
+    "file-upload",
+    "two-factor-authentication",
+    "security-warning",
+    "sensitive-data-reveal"
+  ],
+  "comparisons": [
+    "qr-scan-vs-camera-capture-vs-permission-request-vs-file-upload-vs-two-factor-authentication-vs-security-warning"
+  ],
+  "examples": [
+    {
+      "product": "MDN Barcode Detection API",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Barcode_Detection_API",
+      "platform": "web",
+      "notes": "Documents detecting QR codes and other barcode formats from images and video sources.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Google ML Kit Barcode Scanning",
+      "url": "https://developers.google.com/ml-kit/vision/barcode-scanning/android",
+      "platform": "mobile",
+      "notes": "Documents Android QR and barcode decoding, model choices, extracted values, and custom scanner guidance.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Google Code Scanner",
+      "url": "https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner",
+      "platform": "mobile",
+      "notes": "Documents delegated Android code scanning without app camera permission and built-in scanner UI behavior.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Android QR scanner with UPI support",
+      "url": "https://developer.android.com/about/versions/13/features/qrscanner",
+      "platform": "mobile",
+      "notes": "Documents OS QR scanning entry points and handoff to payment flows from live camera or static image.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mdn-barcode-detection-api",
+      "note": "Supports secure-context barcode detection, limited browser availability, QR format support, detector construction, and image/video detection."
+    },
+    {
+      "id": "mdn-barcodedetector",
+      "note": "Supports BarcodeDetector interface behavior, supported format discovery, and detected barcode values."
+    },
+    {
+      "id": "wicg-shape-detection-api",
+      "note": "Supports detected barcode raw values, bounding boxes, corner points, supported formats, and decode errors."
+    },
+    {
+      "id": "google-ml-kit-barcode-scanning-android",
+      "note": "Supports Android custom QR scanning UI, barcode data extraction, supported formats, and performance guidance."
+    },
+    {
+      "id": "google-ml-kit-code-scanner",
+      "note": "Supports delegated Android QR scanning without app camera permission, auto-zoom, and returned barcode objects."
+    },
+    {
+      "id": "android-qr-scanner-upi",
+      "note": "Supports Android OS-level QR scan entry points and payment handoff behavior."
+    },
+    {
+      "id": "mdn-mediadevices-getusermedia",
+      "note": "Supports camera access states when web QR scanning uses live video."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports permission-state handling around camera access."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "chat-interface-vs-prompt-box-vs-threaded-discussion-vs-comments-vs-feed",
+  "title": "Chat interface vs prompt box vs threaded discussion vs comments vs feed",
+  "summary": "Use chat interface for ordered multi-turn conversation with user and assistant turns, transcript state, follow-up context, response lifecycle, and conversation history; prompt box for the single request composer; threaded discussion for human forum-style replies; comments for object-level notes; and feed for time-ordered activity or content streams.",
+  "patternIds": [
+    "chat-interface",
+    "prompt-box",
+    "threaded-discussion",
+    "comments",
+    "feed"
+  ],
+  "decisionRules": [
+    "Choose chat interface when the primary surface is a conversation transcript with user turns, assistant turns, follow-up prompts, turn-level status, copied or cited responses, and a saved or resumable conversation identity.",
+    "Choose prompt box when the design problem is the editable single request composer only; the prompt box can live inside chat, but it does not own the transcript, turn ordering, response lifecycle, or conversation history.",
+    "Choose threaded discussion when multiple people reply to each other in human forum-style replies, quote specific replies, moderate posts, and track unread human contributions.",
+    "Choose comments when users attach object-level notes, decisions, or review remarks to a document, task, cell, or artifact rather than conduct an assistant conversation.",
+    "Choose feed when the surface presents a chronological stream of items or updates for browsing, not a turn-taking dialogue with an input composer anchored to the transcript.",
+    "A chat interface must show role ownership for each turn, preserve the exact user prompt that produced each assistant answer, and distinguish current draft, submitted message, streaming answer, complete answer, failed answer, and edited follow-up.",
+    "Chat needs conversation-level controls such as new chat, history list, rename, pin, delete, export, copy answer, continue, regenerate, stop generation, retry turn, and clear conversation according to product risk.",
+    "Do not hide grounding, tool use, source scope, model mode, memory state, or conversation retention when those settings alter what later turns can use.",
+    "For long transcripts, preserve scroll position, focus, selected text, draft prompt, active citation, and turn identity when a new response streams, fails, regenerates, or when older history is loaded.",
+    "When conversation history is disabled, unavailable, expired, deleted, or limited by policy, the chat interface should state whether follow-up context is still active for the current session."
+  ],
+  "failureModes": [
+    "A chat surface shows only the latest answer, so users cannot inspect the prompt, context, or prior answer that shaped a follow-up.",
+    "New assistant output appears at the top or mid-transcript, breaking chronological reading order and screen reader announcement.",
+    "The composer sends a follow-up using hidden prior context after the UI says history is off.",
+    "Regenerate replaces an answer without retaining which prompt, sources, or tool calls changed.",
+    "A human threaded discussion is styled like AI chat, hiding author identity, moderation, and reply depth.",
+    "The feed auto-scrolls while a user reads an older turn and loses their place."
+  ],
+  "sources": [
+    {
+      "id": "openai-conversation-state",
+      "note": "Supports multi-turn conversation state, conversation identifiers, messages, tool calls, tool outputs, and response chaining."
+    },
+    {
+      "id": "microsoft-365-copilot-chat-start",
+      "note": "Supports chat compose, add-content, tools, references, dictation, and submitted prompts in Copilot Chat."
+    },
+    {
+      "id": "microsoft-365-copilot-chat-history",
+      "note": "Supports conversation lists, saved chat history, revisiting prior conversations, and history controls."
+    },
+    {
+      "id": "w3c-aria-log-role-chat",
+      "note": "Supports sequential chat transcript updates through an accessible log region."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

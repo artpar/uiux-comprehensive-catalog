@@ -1,0 +1,57 @@
+{
+  "id": "infinite-scroll-with-no-footer-access-vs-feed-vs-pagination-vs-card-list-vs-skip-link",
+  "title": "Infinite scroll with no footer access vs feed vs pagination vs card list vs skip link",
+  "summary": "Flag infinite scroll with no footer access when automatic loading prevents users from reaching footer utilities, legal links, help, feedback, language, or an end state. Use feed for controlled dynamic streams, pagination for stable result pages, card list for bounded object collections, and skip links as a bypass aid rather than a substitute for reachable footer access.",
+  "patternIds": [
+    "infinite-scroll-with-no-footer-access",
+    "feed",
+    "pagination",
+    "card-list",
+    "skip-link"
+  ],
+  "decisionRules": [
+    "Flag infinite scroll with no footer access when near-bottom auto-loading keeps pushing footer links, end state, support links, legal links, feedback, or language controls away from the user.",
+    "Choose feed when the main experience is consuming a dynamic stream and the design still preserves reading position, exposes loaded boundaries, communicates loading and end states, and keeps footer or escape routes reachable.",
+    "Choose pagination when users need stable page position, shareable URLs, exact result review, known totals, current page, or guaranteed footer access.",
+    "Choose card list when users browse or manage a bounded set of object cards with filters, sort, selection, save, compare, and card-scoped actions rather than a continuing stream.",
+    "Choose skip link behavior when users need a keyboard bypass to main content, footer, filters, or search, but do not use a skip link alone to excuse an endlessly extending stream.",
+    "Use Load more when continuous browsing is helpful but users need to choose when another batch is inserted and when they can reach footer utilities.",
+    "If footer links are legally or operationally important, repeat them in a stable utility area, stop automatic loading before the footer, or provide a jump-to-footer target that moves focus reliably.",
+    "Do not rely on Back to top, browser find, search, or fast scrolling as the only way to reach footer utilities.",
+    "Do not implement infinite scroll for task-completion, comparison, audit review, legal acceptance, privacy changes, or support-seeking flows where users need a known end or footer destination.",
+    "In generated UI review, inspect auto-load triggers, spinner loops, virtualized focus, mobile near-bottom behavior, return-from-detail position, loaded counts, footer-only links, keyboard tab order, and focus order."
+  ],
+  "failureModes": [
+    "The user scrolls toward Privacy, but another batch loads and pushes the footer below the viewport again.",
+    "A product grid puts Contact, Returns, and Terms only in the footer while auto-loading products forever.",
+    "A keyboard user tabs through newly inserted cards indefinitely before reaching footer navigation.",
+    "A feed loads older items forever, has no end-of-feed message, and loses the user's position after opening a post.",
+    "A Skip to footer link exists but focuses a target that immediately moves when auto-load inserts more content.",
+    "A mobile page shows footer links for a moment, then near-bottom loading shifts them out from under the user's finger.",
+    "A spinner loop at the bottom hides whether more items exist, loading failed, or the end was reached.",
+    "A bounded catalog is implemented as endless feed browsing, losing sorting, filtering, comparison, and footer-access expectations."
+  ],
+  "sources": [
+    {
+      "id": "nng-infinite-scrolling-tips",
+      "note": "Supports distinguishing infinite scroll from load-more and pagination by orientation, task completion, and footer reachability."
+    },
+    {
+      "id": "wai-aria-apg-feed",
+      "note": "Supports controlled feed semantics, article loading, item positions, and keyboard behavior for true dynamic streams."
+    },
+    {
+      "id": "govuk-pagination-component",
+      "note": "Supports bounded result traversal with current page and previous/next as an alternative when position and footer access matter."
+    },
+    {
+      "id": "shopify-polaris-resource-list",
+      "note": "Supports resource-list behavior for bounded collections with filtering, sorting, loading, selection, and pagination."
+    },
+    {
+      "id": "wcag-focus-order",
+      "note": "Supports maintaining meaningful focus order when dynamic insertion could trap keyboard navigation before footer links."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

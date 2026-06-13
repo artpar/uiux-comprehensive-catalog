@@ -1,0 +1,263 @@
+{
+  "id": "cookie-consent",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed cookie consent pattern with distinct purpose-level runtime enforcement guidance, live demo states, comparison decision rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "name": "Cookie consent",
+  "aliases": [
+    "cookie permission",
+    "cookie choices",
+    "tracking consent",
+    "cookie preference consent",
+    "analytics consent",
+    "advertising cookie consent",
+    "cookie opt-in",
+    "tracking preference"
+  ],
+  "category": "Trust, Safety, And Privacy",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Selection And Choice",
+    "Personalization And Preference",
+    "Input And Data Entry"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Purpose-level consent and runtime enforcement model for cookies, local storage, pixels, tags, SDKs, and similar device storage or access",
+  "uiGuidance": [
+    "Present strictly necessary storage separately from optional cookie purposes such as analytics, advertising, personalization, functional enhancements, pixels, SDKs, and similar technologies.",
+    "Use off-by-default optional controls, comparable accept and reject routes, purpose details, vendor or tag visibility where relevant, and a clear save or withdraw action tied to the runtime state."
+  ],
+  "uxGuidance": [
+    "Use cookie consent when the user must decide which non-essential storage or tracking purposes can run before optional cookies, tags, pixels, local storage, or SDKs are activated.",
+    "Make the consent durable and reversible by recording purpose, version, region, timestamp, source surface, browser signal, and withdrawal state, then enforcing that record before optional scripts run."
+  ],
+  "uiExamples": {
+    "good": [
+      "A cookie settings page shows essential cookies locked on, analytics, personalization, and advertising off by default, plus Accept all, Reject all, Save choices, and a vendor details panel.",
+      "A runtime consent inspector shows analytics tags blocked until the analytics purpose is saved and advertising tags blocked because a browser privacy signal is active."
+    ],
+    "bad": [
+      "A second-layer settings panel has all optional cookie categories preselected and a prominent Save button.",
+      "The service stores cookieConsent=true while analytics, advertising, local storage, and personalization run without purpose-level records."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user rejects all optional cookies, continues using the service, later opens Cookie settings, enables analytics only, receives a saved confirmation, and can withdraw again.",
+      "A new advertising purpose is added, so the service treats the prior consent as stale and asks again before loading advertising tags."
+    ],
+    "bad": [
+      "The user closes the banner and the product treats inactivity as consent to advertising cookies.",
+      "A user enables Do Not Sell or Global Privacy Control in the browser, but the consent runtime still loads ad pixels."
+    ]
+  },
+  "platforms": [
+    "web",
+    "mobile",
+    "desktop"
+  ],
+  "problem": "Cookie consent fails when optional storage runs before choice, accept is easier than reject, categories are preselected, consent is recorded as one vague flag, users cannot withdraw, or runtime tags do not match saved purpose-level choices.",
+  "solution": "Build a cookie consent flow that separates essential and optional purposes, blocks optional storage before consent, provides equal accept and reject routes, records purpose-level evidence, handles region and browser signals, supports withdrawal and renewal, and verifies runtime tags against the stored consent state.",
+  "problemContext": [
+    "Cookie consent applies to cookies and similar technologies such as local storage, pixels, tags, analytics SDKs, advertising identifiers, personalization storage, service-worker storage, and device access for tracking purposes.",
+    "The consent mechanism may be launched from a cookie banner, cookies page, privacy settings, preference center, footer link, first-run flow, or regional compliance surface.",
+    "Strictly necessary storage is handled differently from optional analytics, advertising, personalization, functional, social media, and measurement purposes.",
+    "Cookie consent is a runtime contract: the UI, consent record, tag manager, server rendering, and client storage must all agree before optional technologies run."
+  ],
+  "selectionRules": [
+    "Choose cookie consent when the decision controls cookies, pixels, local storage, tags, SDKs, or similar storage and access on the user's device.",
+    "Use cookie banner for the first-layer notice that introduces cookie choices, not for the entire consent management model.",
+    "Use consent prompt for optional data use that is not specifically cookie or similar device storage.",
+    "Use preference center when the user returns to a durable hub that includes cookies alongside communication, topic, language, and privacy preferences.",
+    "Use privacy settings for broader account, device, data-sharing, and product privacy controls.",
+    "Use legal acceptance for terms or policy agreement; do not bundle legal acceptance with cookie consent.",
+    "Refresh cookie consent when purposes, vendors, region rules, storage types, controller, or consequences materially change.",
+    "Treat browser privacy signals and regional requirements as inputs to consent enforcement, not as decorative status text."
+  ],
+  "requiredStates": [
+    "Pre-consent state with optional storage blocked.",
+    "Strictly necessary explanation state.",
+    "Accept all optional purposes state.",
+    "Reject all optional purposes state.",
+    "Granular purpose choices state.",
+    "Vendor or tag details state.",
+    "Saved consent record state.",
+    "Return visit state with stored preferences applied.",
+    "Withdrawal or change preferences state.",
+    "Renewal after version or purpose change state.",
+    "Expired consent state.",
+    "Browser privacy signal or Global Privacy Control state.",
+    "No-JavaScript server-side preference state.",
+    "Runtime mismatch or tag blocked state.",
+    "Mobile compact consent state."
+  ],
+  "interactionContract": [
+    "Optional cookies, pixels, local storage, analytics tags, advertising tags, and similar technologies remain blocked until the matching purpose is accepted.",
+    "Strictly necessary storage is identified separately and is not represented as optional consent.",
+    "Accept all and reject all actions are reachable with comparable effort, prominence, keyboard access, and language clarity.",
+    "Granular choices start off unless a current valid consent record already exists for the same purpose, version, and region.",
+    "Saving consent writes a purpose-level record with version, timestamp, region, source surface, browser signal state, and withdrawal route.",
+    "Withdrawal or reject-all stops future optional storage and updates the consent record rather than only hiding the interface.",
+    "Adding or changing optional purposes triggers a renewal flow before new tags run.",
+    "Runtime enforcement reports blocked, allowed, stale, unknown, failed-write, and signal-conflict states."
+  ],
+  "implementationChecklist": [
+    "Inventory all cookies, pixels, tags, SDKs, local storage, service-worker storage, and server-set identifiers before designing the UI.",
+    "Classify each item as strictly necessary or optional with purpose, vendor, lifetime, region, source, and runtime owner.",
+    "Block optional technologies before consent in both server-rendered and client-rendered paths.",
+    "Provide accept all, reject all, granular save, purpose details, vendor details, and withdrawal routes with comparable effort.",
+    "Record purpose-level consent version, timestamp, region, controller, source surface, browser signal, and withdrawal state.",
+    "Handle return visits, stale versions, new purposes, browser privacy signals, no-JavaScript submission, failed record writes, and tag-manager mismatches.",
+    "Verify with network or tag inspection that optional storage does not run before consent and stops after withdrawal.",
+    "Keep cookie consent separate from legal acceptance, marketing email opt-in, notification preferences, and broad privacy settings."
+  ],
+  "commonMisuses": [
+    "Firing analytics or advertising tags before the user chooses.",
+    "Using one accepted flag instead of purpose-level consent records.",
+    "Preselecting optional categories in the settings layer.",
+    "Making Accept all much easier to find than Reject all.",
+    "Treating scrolling, swiping, closing, inactivity, or continued browsing as consent.",
+    "Hiding withdrawal after the banner disappears.",
+    "Claiming advertising cookies are strictly necessary without a defensible classification.",
+    "Letting tag-manager configuration drift away from saved consent choices."
+  ],
+  "critiqueQuestions": [
+    "Which cookies, storage APIs, tags, SDKs, and server identifiers are strictly necessary versus optional?",
+    "What proves optional storage is blocked before consent and after withdrawal?",
+    "Can users reject all optional purposes with comparable effort to accepting all?",
+    "Are optional purposes off by default and saved separately?",
+    "What consent version, region, timestamp, source surface, and browser signal are recorded?",
+    "How does the product handle new purposes, expired consent, no-JavaScript users, and failed record writes?",
+    "Where can users later withdraw or change cookie consent after the banner is gone?"
+  ],
+  "useWhen": [
+    "The product uses cookies, local storage, pixels, tags, SDKs, or similar technologies that are not strictly necessary.",
+    "The service needs purpose-level runtime enforcement and an evidence record for optional storage choices.",
+    "Users must be able to accept, reject, manage, renew, and withdraw cookie choices."
+  ],
+  "avoidWhen": [
+    "The product only needs to show the first-layer cookie notice; use cookie banner.",
+    "The decision is optional data use unrelated to cookies or similar technologies; use consent prompt.",
+    "The user is managing all account privacy controls; use privacy settings.",
+    "The user is accepting terms or policies; use legal acceptance."
+  ],
+  "variants": [
+    "Purpose-level cookie consent",
+    "Cookie settings page",
+    "Cookie preference center",
+    "Accept all and reject all",
+    "Granular purpose toggles",
+    "Vendor details",
+    "Consent evidence record",
+    "Withdrawal route",
+    "Consent renewal",
+    "Browser privacy signal handling",
+    "No-JavaScript consent form",
+    "Runtime tag audit"
+  ],
+  "accessibility": [
+    "Use native buttons and form controls for accept, reject, save, and purpose choices.",
+    "Do not rely on color, size, or link styling to make reject harder to perceive.",
+    "Associate each purpose toggle with a concise purpose explanation and optional details.",
+    "Expose saved, blocked, stale, and failed consent states through status text without forcing focus jumps.",
+    "Keep purpose tables, vendor details, and controls readable at high zoom and compact widths.",
+    "Preserve keyboard order across first layer, details, save, reject, withdrawal, and no-JavaScript fallback."
+  ],
+  "keyboardBehavior": [
+    "Tab reaches Accept all, Reject all, Manage, purpose toggles, vendor details, Save choices, and withdrawal routes in a predictable order.",
+    "Space toggles checkbox or switch controls according to native behavior.",
+    "Enter activates buttons and links without treating page scroll or dismissal as consent.",
+    "After saving, focus moves to confirmation or remains near the saved controls with status announced.",
+    "After withdrawal, focus moves to the updated consent status and runtime-blocking confirmation.",
+    "No optional storage should depend on a keyboard shortcut, hover-only reveal, or pointer-only gesture."
+  ],
+  "failureModes": [
+    "Optional storage runs before consent.",
+    "Consent is inferred from inactivity, scrolling, swiping, or closing.",
+    "Optional purposes are preselected.",
+    "Reject all is hidden, delayed, visually de-emphasized, or split across several steps.",
+    "The consent record lacks purpose, version, timestamp, region, source surface, or withdrawal state.",
+    "A new purpose runs under an older consent version.",
+    "Browser privacy signals conflict with runtime advertising tags.",
+    "Withdrawal changes the UI but not the tag manager or server storage."
+  ],
+  "relatedPatterns": [
+    "cookie-banner",
+    "consent-prompt",
+    "preference-center",
+    "privacy-settings",
+    "legal-acceptance",
+    "notification-preferences",
+    "permission-request",
+    "settings-management",
+    "sensitive-data-reveal",
+    "data-export"
+  ],
+  "comparisons": [
+    "cookie-consent-vs-cookie-banner-vs-consent-prompt-vs-preference-center-vs-privacy-settings-vs-legal-acceptance"
+  ],
+  "examples": [
+    {
+      "product": "ICO cookies and similar technologies guidance",
+      "url": "https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/cookies-and-similar-technologies/",
+      "platform": "web",
+      "notes": "Documents active consent, no optional cookies before consent, strictly necessary exemptions, user controls, and consent records.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "EDPB Cookie Banner Taskforce report",
+      "url": "https://www.edpb.europa.eu/system/files/2023-01/edpb_20230118_report_cookie_banner_taskforce_en.pdf",
+      "platform": "web",
+      "notes": "Documents problematic cookie consent practices including pre-ticked boxes, missing reject options, deceptive links, contrast issues, and withdrawal access.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "CNIL cookies and tracking devices guidelines",
+      "url": "https://www.cnil.fr/en/cookies-and-other-tracking-devices-cnil-publishes-new-guidelines",
+      "platform": "web",
+      "notes": "Documents no tracking before consent, continued service access after refusal, proof of consent, easy withdrawal, and no scroll or swipe consent.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "OneTrust cookie preference center",
+      "url": "https://my.onetrust.com/s/article/UUID-42966d0e-6c85-aeee-88fd-b568ef4d3101",
+      "platform": "web",
+      "notes": "Documents cookie preference center configuration for cookie consent choices and save behavior.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "ico-cookies-and-similar-technologies",
+      "note": "Supports clear information, active consent, no optional cookies before consent, strictly necessary exemptions, user controls, and consent records."
+    },
+    {
+      "id": "edpb-cookie-banner-taskforce-report",
+      "note": "Supports reject-option, pre-ticked-box, deceptive-link, contrast, essential-cookie, and withdrawal rules for cookie consent interfaces."
+    },
+    {
+      "id": "cnil-cookies-tracking-guidelines",
+      "note": "Supports no tracking before consent, no scroll or swipe consent, continued access after refusal, proof of consent, and easy withdrawal."
+    },
+    {
+      "id": "govuk-cookie-banner-component",
+      "note": "Supports the relationship between the cookie banner entry surface and the saved cookie preference."
+    },
+    {
+      "id": "onetrust-cookie-preference-center-config",
+      "note": "Supports cookie preference center configuration and save behavior for cookie consent choices."
+    }
+  ],
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers cookie consent as a purpose-level runtime enforcement pattern with pre-consent blocked, strictly necessary, accept all, reject all, granular purposes, vendor details, saved consent record, return visit, withdrawal, renewal, expired consent, browser privacy signal, no-JavaScript form, runtime mismatch, mobile compact consent, tracking-before-choice, preselected purposes, hidden reject all, accepted-flag-only, consent wall, signal ignored, and stale purpose states.",
+    "relatedPatternDistinction": "Separated from cookie banner as the first-layer notice surface, consent prompt as non-cookie optional data-use consent, preference center as a durable hub for many preferences, privacy settings as broader account and device privacy controls, legal acceptance as terms or policy agreement, notification preferences as channel and topic choices, and permission request as runtime capability access.",
+    "liveDemoBehavior": "Good demo exercises pre-consent blocked, strictly necessary, accept all, reject all, granular purposes, vendor details, saved consent record, return visit, withdrawal, renewal, expired consent, browser privacy signal, no-JavaScript form, runtime mismatch, and mobile compact consent. Bad demo exercises tracking-before-choice, preselected purposes, hidden reject all, accepted-flag-only, consent wall, signal ignored, and stale purpose failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes cookie consent from cookie banner, consent prompt, preference center, privacy settings, and legal acceptance by analytics, advertising, personalization, pixels, local storage, SDKs, tags, device storage, first-layer notice, non-cookie purpose, durable hub, broader privacy controls, terms, strictly necessary storage, off-by-default controls, optional tag blocking, timestamp, version, region, withdrawal state, reject optional purposes, Global Privacy Control, expired consent, no-JavaScript, runtime verification, scrolling, swiping, inactivity, preselected toggles, and consent walls.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 261 complete patterns, 1 excluded pattern, 36 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks exercised cookie-consent pattern states; required pattern terms were present; duplicate IDs, page overflow, and demo overflow were absent. Comparison route was checked at desktop and compact widths with required decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/cookie-consent.png"
+    ]
+  },
+  "maturity": "established",
+  "lastVerified": "2026-06-13"
+}

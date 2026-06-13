@@ -1,0 +1,61 @@
+{
+  "id": "location-permission-flow-vs-permission-request-vs-map-view-vs-address-entry-vs-privacy-settings-vs-offline-state",
+  "title": "Location permission flow vs permission request vs map view vs address entry vs privacy settings vs offline state",
+  "summary": "Use location permission flow when a task needs current device coordinates and must explain purpose, timing, precision, permission scope, errors, stale coordinates, fallback, settings recovery, and retention. Use permission request for generic resource access, map view for spatial display, address entry for typed or selected places, privacy settings for durable controls, and offline state for connectivity loss.",
+  "patternIds": [
+    "location-permission-flow",
+    "permission-request",
+    "map-view",
+    "address-entry",
+    "privacy-settings",
+    "offline-state"
+  ],
+  "decisionRules": [
+    "Choose location permission flow when the product needs current device location for a task and must handle pre-prompt rationale, browser or OS prompt timing, allow once, while using, background denial, precise or approximate choice, granted fix, denied state, settings recovery, timeout, unavailable location, cached or stale coordinates, manual fallback, active tracking, stop sharing, and retention.",
+    "Choose permission request when the design problem is a generic access ask for camera, microphone, notifications, clipboard, contacts, photos, or location; location permission flow is the specialized geolocation lifecycle inside a current-location task.",
+    "Choose map view when users need to inspect spatial context, markers, routes, regions, layers, clustering, or panning and zooming; a map may consume location but does not own permission purpose, precision, denial recovery, stale-coordinate handling, or tracking stop controls.",
+    "Choose address entry when users type, paste, search, or select a postal address, delivery address, pickup point, or saved place; do not force device coordinates when a manual address is the simpler and less invasive answer.",
+    "Choose privacy settings when users manage durable account, device, app, analytics, sharing, location history, or retention preferences outside the immediate task; do not hide task-time location denial recovery only inside settings.",
+    "Choose offline state when the issue is network absence, cached data, queued work, or reconnect behavior; offline is different from location permission denied, location timeout, inaccurate coordinates, or location services disabled.",
+    "A complete location permission flow states why location is needed before the native prompt, what precision is acceptable, whether one-time or session access is enough, whether background tracking is requested, and what is stored after the task completes.",
+    "Location denial must preserve the task through manual address entry, saved place selection, retry, or settings instructions instead of showing a blank map or looping permission prompts.",
+    "Stale coordinates must be labeled with last updated time and accuracy; never present cached coordinates as a fresh current-location fix.",
+    "Active tracking must expose a persistent indicator and Stop sharing control, and retained location data must have a clear purpose, duration, and deletion or settings path."
+  ],
+  "failureModes": [
+    "The app asks for exact location on first load before users choose a location-dependent task.",
+    "A denied prompt leaves a blank map with no manual address, saved place, retry, or settings recovery.",
+    "Approximate location is rejected even though city-level routing, tax, store availability, or content personalization would work.",
+    "Cached coordinates from yesterday are shown as current location.",
+    "Background tracking begins after a while-using prompt without a visible indicator or stop control.",
+    "A no-internet banner is shown for a permission denial, causing users to troubleshoot the wrong issue.",
+    "The app stores latitude and longitude after the task without purpose, retention copy, or privacy settings access."
+  ],
+  "sources": [
+    {
+      "id": "mdn-geolocation-api",
+      "note": "Supports secure-context geolocation, permission prompts, current and watched positions, errors, and permission lifetime."
+    },
+    {
+      "id": "mdn-geolocation-getcurrentposition",
+      "note": "Supports current-position requests, maximumAge, timeout, high-accuracy options, and error callbacks."
+    },
+    {
+      "id": "w3c-geolocation",
+      "note": "Supports geolocation consent, privacy considerations, position options, errors, and watch lifecycle."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports querying geolocation permission state and handling granted, denied, and prompt states."
+    },
+    {
+      "id": "android-runtime-permissions",
+      "note": "Supports runtime permission request timing, denial recovery, and rationale guidance on mobile."
+    },
+    {
+      "id": "mapbox-gl-js-geolocate-control",
+      "note": "Supports current-location controls, tracking states, and map-adjacent geolocation behavior."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

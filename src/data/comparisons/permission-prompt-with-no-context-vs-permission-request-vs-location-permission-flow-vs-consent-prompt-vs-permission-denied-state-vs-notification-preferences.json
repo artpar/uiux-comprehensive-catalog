@@ -1,0 +1,52 @@
+{
+  "id": "permission-prompt-with-no-context-vs-permission-request-vs-location-permission-flow-vs-consent-prompt-vs-permission-denied-state-vs-notification-preferences",
+  "title": "Permission prompt with no context vs permission request vs location permission flow vs consent prompt vs permission denied state vs notification preferences",
+  "summary": "Flag permission prompt with no context when a device, browser, or app permission appears before a resource-dependent feature is visible or explained; use permission request for the corrected contextual platform prompt, location permission flow for current-coordinate lifecycle work, consent prompt for optional data-use opt-in, permission denied state for account authorization boundaries, and notification preferences for message channel settings.",
+  "patternIds": [
+    "permission-prompt-with-no-context",
+    "permission-request",
+    "location-permission-flow",
+    "consent-prompt",
+    "permission-denied-state",
+    "notification-preferences"
+  ],
+  "decisionRules": [
+    "Choose permission prompt with no context when the product asks for camera, microphone, location, photos, contacts, notifications, Bluetooth, clipboard, motion, storage, or another powerful feature before the user starts the feature that needs it.",
+    "Choose permission prompt with no context when the visible copy says vague phrases such as improve your experience, enable full functionality, or stay connected without naming the resource, task, fallback, and denial outcome.",
+    "Choose permission prompt with no context when one visible action triggers a mismatched system prompt, such as Scan receipt triggering contacts, Store finder triggering background location, or Message customer triggering photos.",
+    "Choose permission prompt with no context when multiple resources are bundled into a first-run setup step without separate feature-specific rationale and separate choices.",
+    "Choose permission request when the corrected flow asks in context, names the resource and feature, invokes the system prompt from a deliberate user action, handles grant and deny outcomes, and provides manual entry, manual fallback, or settings recovery.",
+    "Choose location permission flow when current coordinates, precision, approximate versus precise access, one-time or while-using scope, stale coordinates, active tracking, stop sharing, or manual location fallback is the central behavior.",
+    "Choose consent prompt when the decision is active opt-in to optional data use such as marketing, research, AI training, personalization, partner sharing, or sensitive-data processing rather than platform resource access.",
+    "Choose permission denied state when the user is authenticated but lacks role, license, share, policy, owner approval, or account authorization for a known object or action.",
+    "Choose notification preferences when users manage message channels, topics, frequency, quiet hours, digests, preview privacy, or subscriptions after OS-level notification access is granted, denied, or routed to settings.",
+    "If denial only affects one feature, the product should keep unrelated account access, checkout, browsing, editing, manual entry, or navigation available; blocked-on-deny and repeat-nag flows belong to the anti-pattern."
+  ],
+  "failureModes": [
+    "A first-run onboarding checklist asks for location, notifications, contacts, and photos before the user chooses any task.",
+    "A vague modal says Allow access for a better experience and then triggers the browser microphone prompt.",
+    "A store finder asks for background precise location when ZIP code or approximate location would satisfy the task.",
+    "A denied permission blocks the whole account or loops the same prompt instead of offering manual entry, upload, picker, chat-only, continue-without, or settings recovery.",
+    "A consent prompt is used to obtain device permission but never handles platform grant, denial, limited, revoked, or settings-required states.",
+    "A notification preferences page hides that OS notifications are denied and provides no settings route."
+  ],
+  "sources": [
+    {
+      "id": "nng-permission-requests",
+      "note": "Supports contextual timing, clear request copy, user benefit framing, informed choice, reversal, and dark-pattern avoidance."
+    },
+    {
+      "id": "android-runtime-permissions",
+      "note": "Supports contextual runtime permission requests, user-action association, denial handling, revocation handling, and graceful degradation."
+    },
+    {
+      "id": "mdn-permissions-api",
+      "note": "Supports browser prompt states, API-specific prompt behavior, permission queries, and revocation through browser settings."
+    },
+    {
+      "id": "w3c-permissions-api",
+      "note": "Supports powerful-feature permissions, allow or deny choices, permission lifetime, and state change behavior."
+    }
+  ],
+  "lastVerified": "2026-06-13"
+}

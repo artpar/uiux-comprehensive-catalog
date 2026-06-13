@@ -1,0 +1,62 @@
+{
+  "id": "agent-progress-trace-vs-agent-plan-preview-vs-streaming-response-vs-activity-log-vs-progress-bar-vs-human-approval-gate",
+  "title": "Agent progress trace vs agent plan preview vs streaming response vs activity log vs progress bar vs human approval gate",
+  "summary": "Use agent progress trace for live multi-step agent execution after work starts; agent plan preview before execution; streaming response for generated output chunks; activity log for retained evidence; progress bar for measurable bounded work; and human approval gate for one paused authorization checkpoint.",
+  "patternIds": [
+    "agent-progress-trace",
+    "agent-plan-preview",
+    "streaming-response",
+    "activity-log",
+    "progress-bar",
+    "human-approval-gate"
+  ],
+  "decisionRules": [
+    "Choose agent progress trace when an agent run has started and users need live multi-step agent execution monitoring with an ordered trace of queued, active, completed, blocked, retrying, failed, skipped, cancelled, and final run states.",
+    "Choose agent plan preview when users need to inspect objective, proposed steps, planned tools, data access, risks, approval gates, and expected outputs before execution starts.",
+    "Choose streaming response when the main user-visible work is generated output chunks arriving over time, not a run-level timeline of multiple steps and tools.",
+    "Choose activity log when the task is retained evidence, investigation, export, or audit after the run, not live monitoring or intervention.",
+    "Choose progress bar when one measurable bounded work operation has honest percent, bytes, rows, items, or stages.",
+    "Choose human approval gate when execution is paused at one paused authorization checkpoint and an eligible human must approve, reject, edit, or bypass before that step resumes.",
+    "The agent progress trace should show run ID, plan version, current step, elapsed time, last event time, active tool or task, queued next step, retry attempt, blocker, approval wait, cancellation, and final outcome.",
+    "The trace should link to tool-use visibility for exact tool input, tool output, permission, and payload details, but it should not dump raw tool logs as the primary progress surface.",
+    "The trace should hand off to activity log or audit trail after completion while preserving the connection to the reviewed plan version and final run outcome.",
+    "Do not use fake percent or a progress bar percentage for an agent trace unless the run has a real bounded total; use step state, elapsed time, and live milestones instead.",
+    "Mark retry attempts and duplicate events explicitly so completed steps do not appear to run twice.",
+    "Do not label generated answer streaming, post-hoc audit rows, or pre-run plan text as an agent progress trace."
+  ],
+  "failureModes": [
+    "A multi-step agent run shows only a vague spinner or Thinking label.",
+    "A progress trace hides active tool, blocked permission, human approval gate, retry attempt, failed step, skipped step, or final outcome.",
+    "Raw tool JSON is exposed as progress and leaks private payloads or implementation details.",
+    "A trace appears complete while queued side-effect steps or approval gates remain unresolved.",
+    "Retries and duplicate events make users think completed steps ran twice.",
+    "The final audit record cannot be tied back to run ID, plan version, and trace outcome."
+  ],
+  "sources": [
+    {
+      "id": "openai-responses-streaming-events",
+      "note": "Supports event-based live updates for response and tool execution surfaces."
+    },
+    {
+      "id": "openai-streaming-responses",
+      "note": "Supports server-sent updates while generated or agent work continues."
+    },
+    {
+      "id": "w3c-aria-log-role-chat",
+      "note": "Supports sequential appended updates for live trace milestones."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports accessible announcement of meaningful status changes."
+    },
+    {
+      "id": "microsoft-human-ai-guidelines",
+      "note": "Supports user control, correction, and expectation-setting for AI behavior."
+    },
+    {
+      "id": "carbon-progress-bar-component",
+      "note": "Supports the comparison boundary between measurable progress bars and non-percent trace milestones."
+    }
+  ],
+  "lastVerified": "2026-06-11"
+}

@@ -1,0 +1,258 @@
+{
+  "id": "pull-to-refresh",
+  "completionStatus": "complete",
+  "completionNotes": "Source-backed pull-to-refresh pattern with top-of-scroll, pull distance, threshold, release, status, manual refresh, offline, nested-scroll, rate-limit, duplicate-request, related-pattern distinction, live demo, comparison rules, duplicate audit, browser spot-checks, and screenshot evidence.",
+  "completionEvidence": {
+    "patternSpecificGuidance": "Covers pull to refresh as a top-of-scroll vertical drag that refreshes the current data set, with idle, at top, pulling, threshold, release to refresh, refreshing, success, empty result, no new data, failed, offline, nested scroll, rate limited, manual refresh, and mobile compact states.",
+    "relatedPatternDistinction": "Separated from touch gesture as the broader gesture contract, feed as stream structure and reading-position behavior, offline state as disconnected cached-data behavior, loading spinner as pending-operation feedback, progress bar as measurable progress, and retry as reattempting a known failed refresh request.",
+    "liveDemoBehavior": "Good demo exercises idle, at top, pulling, threshold, release to refresh, refreshing, success, empty result, no new data, failed, offline, nested scroll, rate limited, manual refresh, and mobile compact states. Bad demo exercises anywhere pull, no indicator, double refresh, eats scroll, offline spin, destructive refresh, and hidden manual failures.",
+    "comparisonDecisionRules": "Comparison page distinguishes pull to refresh from touch gesture, feed, offline state, loading spinner, and retry by top-of-scroll detection, pull distance, threshold, release-to-refresh copy, refreshing status, last updated timestamp, no-new-data result, duplicate-request guard, manual refresh equivalent, stream ordering, cached data, pending waits, and failed-request reattempts.",
+    "duplicateAudit": "2026-06-13: node --import tsx scripts/catalog-completion-audit.ts reported 264 complete patterns, 1 excluded in-progress pattern, 33 missing goal patterns, and 0 normalized duplicate field groups before promotion.",
+    "manualSpotCheck": "2026-06-13: desktop 1440x940 and compact 500x844 browser checks rendered /patterns/pull-to-refresh/ with required terms present, no duplicate IDs, no page overflow, and no pull-to-refresh demo overflow. The live demo controls for all good and bad states were clicked successfully. The comparison route /compare/pull-to-refresh-vs-touch-gesture-vs-feed-vs-offline-state-vs-loading-spinner-vs-retry/ was checked at desktop and compact widths with concrete decision terms present and no duplicate IDs or overflow.",
+    "screenshots": [
+      "screenshots/patterns/pull-to-refresh.png"
+    ]
+  },
+  "name": "Pull to refresh",
+  "aliases": [
+    "swipe to refresh",
+    "pull down to refresh",
+    "drag down refresh",
+    "overscroll refresh",
+    "refresh gesture",
+    "mobile refresh gesture"
+  ],
+  "category": "Cross-Device And Physical Interaction",
+  "secondaryCategories": [
+    "Feedback, Status, And System State",
+    "Navigation And Wayfinding",
+    "Data Display And Exploration",
+    "Error Prevention And Recovery"
+  ],
+  "patternType": "ui-ux",
+  "surfaceType": "Top-of-scroll vertical drag gesture that refreshes the current data set",
+  "uiGuidance": [
+    "Show pull-to-refresh only at the beginning of scrollable content, with a clear pull distance, threshold, release-to-refresh state, refreshing indicator, and completion status tied to the current data set.",
+    "Keep a visible or menu-based manual refresh action for keyboard, switch, assistive pointer, external device, and users who do not discover or cannot perform the gesture."
+  ],
+  "uxGuidance": [
+    "Use pull-to-refresh when users expect to check for newer content in a feed, inbox, list, dashboard, or status surface without leaving their current place.",
+    "Preserve scroll position, existing content, item identity, focus, and cached data while the refresh runs; never use the gesture as the only path to data freshness or as a hidden destructive action."
+  ],
+  "uiExamples": {
+    "good": [
+      "A mobile inbox at the top of the message list shows Pull to refresh, Release to refresh, Refreshing, Last updated 10:42, and a Refresh menu item that runs the same request.",
+      "A field dashboard keeps cached cards visible during refresh, disables duplicate refresh, announces No new updates, and shows a Retry refresh action after a failed request."
+    ],
+    "bad": [
+      "A feed refreshes from any scroll position, causing accidental network calls while users read older content.",
+      "A list clears all rows during refresh, spins forever when offline, and has no manual refresh path.",
+      "A hidden pull gesture resets filters or deletes cached items without a review step."
+    ]
+  },
+  "uxExamples": {
+    "good": [
+      "A user reaches the top of a notifications list, drags down, sees the pull distance cross threshold, releases, and the list updates while older items stay in place.",
+      "A keyboard user opens the overflow menu, chooses Refresh, and hears the same refreshing and last-updated status as the touch gesture.",
+      "A user pulls while offline, keeps cached data visible, sees Offline: showing last updated 10:42, and can retry when the connection returns."
+    ],
+    "bad": [
+      "A user tries to scroll up inside a nested comments panel and accidentally refreshes the whole page.",
+      "A user pulls repeatedly while the previous refresh is still pending, creating duplicate requests and jumping the list.",
+      "A screen reader user never learns that a refresh started or ended because the indicator is purely visual."
+    ]
+  },
+  "platforms": [
+    "mobile",
+    "web",
+    "desktop"
+  ],
+  "problem": "Users on scrollable, freshness-sensitive surfaces need a lightweight way to check for newer data, but a hidden vertical gesture can conflict with scrolling, nested views, offline state, duplicate requests, and accessibility unless the refresh contract is explicit.",
+  "solution": "Constrain pull-to-refresh to the top of the relevant scroll container, show pull progress and release threshold, run one scoped refresh request at a time, preserve existing content and position, expose status messages and last-updated copy, and provide an equivalent manual refresh control.",
+  "problemContext": [
+    "The surface is a feed, inbox, notification center, activity list, dashboard, timeline, or status list where users expect newer server data.",
+    "The content already scrolls vertically, and the refresh gesture begins only when the relevant scroll container is at its top boundary.",
+    "The same content may also support nested scrolling, search filters, pagination, offline cache, live updates, load-more, or retry after failure.",
+    "Users may interact through touch, mouse, keyboard, switch control, screen reader, external keyboard, D-pad, or assistive pointer devices."
+  ],
+  "selectionRules": [
+    "Choose pull to refresh when the design problem is the vertical top-of-scroll drag that refreshes the current data set.",
+    "Use touch gesture when the question is the broader gesture vocabulary, threshold, feedback, and fallback contract across many touch actions.",
+    "Use feed, activity feed, notification center, dashboard layout, or list view when the primary problem is stream structure, ordering, unread state, filtering, or content comprehension.",
+    "Use loading spinner or progress bar when the question is status display for a running operation rather than the user gesture that starts refresh.",
+    "Use offline state when connection loss changes what data is available, and show pull-to-refresh failure or disabled refresh as one state inside that offline contract.",
+    "Use retry when a known refresh request failed and the user is reattempting that same failed request outside the pull gesture.",
+    "Trigger only when the user pulls downward from the beginning of the intended scroll container; do not fire from the middle of a list or inside the wrong nested scroller.",
+    "Provide an equivalent manual refresh action in the toolbar, overflow menu, command menu, or visible control.",
+    "Do not use pull-to-refresh for destructive, reset, submit, payment, account, security, or consent actions.",
+    "Do not replace pagination, live update controls, or stale-data labeling with a hidden gesture."
+  ],
+  "requiredStates": [
+    "Idle state with current content visible and last updated timestamp when freshness matters.",
+    "Scrolled-not-at-top state where upward scroll does not arm refresh.",
+    "At-top armed state that can begin measuring downward pull distance.",
+    "Pulling-under-threshold state with progress feedback and no request started.",
+    "Threshold reached state with Release to refresh copy.",
+    "Refreshing state with one in-flight refresh, disabled duplicate activation, and status message.",
+    "Success state with refreshed content, stable scroll or focus, and updated timestamp.",
+    "No-new-data state that confirms the refresh completed without changing the list.",
+    "Failed refresh state that preserves existing content and offers retry or manual refresh.",
+    "Offline or cached-data state that labels stale content and avoids endless spinning.",
+    "Nested scroll state where inner content scrolls before the outer refresh container arms.",
+    "Rate-limited or cooldown state with wait reason and next possible refresh time.",
+    "Manual refresh equivalent state reachable without the gesture.",
+    "Mobile compact and large-text states where indicator, controls, and status do not overlap."
+  ],
+  "interactionContract": [
+    "Pull-to-refresh begins only when the intended scroll container is at its top boundary and the user drags downward beyond normal scroll tolerance.",
+    "The indicator shows progress toward a defined threshold before refresh starts.",
+    "The refresh request starts on release after threshold, not merely on touch down or incidental overscroll.",
+    "Releasing before threshold cancels the gesture and leaves data unchanged.",
+    "Only one refresh runs per data scope at a time; duplicate pulls, manual refresh, and automatic refresh share the same in-flight guard.",
+    "Existing content stays visible during refresh unless the product has a stronger reason to switch to a separate loading state.",
+    "The result announces refreshing, refreshed, no new updates, failed, offline, or rate limited through visible text and programmatic status.",
+    "Nested scroll containers define which scroller owns the gesture before implementation."
+  ],
+  "implementationChecklist": [
+    "Name the data scope refreshed by the gesture, such as current inbox filter, current feed, selected workspace, or current dashboard cards.",
+    "Detect the top of the intended scroll container and exclude middle-of-list, horizontal swipe, row action, text selection, drag handle, and nested-scroll gestures.",
+    "Set pull distance, threshold, release boundary, cancel behavior, indicator placement, and in-flight duplicate guard.",
+    "Make the manual refresh control call the same refresh method as the pull gesture.",
+    "Preserve scroll anchor, selected item, focus target, filters, read state, expanded rows, and cached data across the refresh.",
+    "Show last updated, refreshing, refreshed, no new updates, failed, offline, retry, and rate-limited states near the affected content.",
+    "Use status messaging so assistive technology can perceive refresh start and result without moving focus unexpectedly.",
+    "Test top-of-scroll detection, nested scrollers, slow network, offline mode, rate limits, duplicate pulls, large text, screen reader, keyboard, switch, mouse wheel, touchpad, and mobile landscape."
+  ],
+  "commonMisuses": [
+    "Making pull-to-refresh the only way to update the data.",
+    "Triggering refresh from anywhere in the list instead of only from the top of the intended scroll container.",
+    "Providing no pull distance, threshold, release-to-refresh, refreshing, success, failure, or last-updated feedback.",
+    "Clearing existing content during refresh and making the surface feel like a full page reload.",
+    "Letting nested comment panels, maps, carousels, or row actions fight the refresh gesture.",
+    "Starting duplicate refresh requests while one is already in progress.",
+    "Spinning forever while offline or rate limited.",
+    "Using the gesture for hidden reset, delete, submit, or destructive effects."
+  ],
+  "critiqueQuestions": [
+    "Which exact scroll container owns the pull, and how do you know it is at the top?",
+    "What pull distance and threshold tell users when release will refresh?",
+    "What visible and announced status proves refreshing started, succeeded, found no new data, failed, or was blocked offline?",
+    "Where is the equivalent manual refresh path for users who cannot or do not perform the gesture?",
+    "What happens to scroll position, focus, selected item, filters, and cached content while refresh runs?",
+    "How do nested scrollers, horizontal row actions, touch gesture shortcuts, and browser or OS gestures avoid conflicts?",
+    "What prevents duplicate refresh, rate-limit loops, and destructive side effects?"
+  ],
+  "useWhen": [
+    "A top-of-list gesture is a platform-expected shortcut for checking freshness on a scrollable data surface.",
+    "The content can remain useful while a refresh request runs.",
+    "The product can provide an equivalent manual refresh control and honest status feedback."
+  ],
+  "avoidWhen": [
+    "The surface is not scrollable or does not have a clear top boundary.",
+    "Data freshness must be automatic, real-time, scheduled, or explicit through a visible command rather than hidden behind a gesture.",
+    "The action changes data destructively, submits work, resets configuration, or has consequences beyond refreshing current content.",
+    "Nested scroll, map panning, row swipe, or drag behavior cannot be resolved predictably.",
+    "The product cannot preserve content, focus, and state during refresh."
+  ],
+  "variants": [
+    "Feed pull to refresh",
+    "Inbox pull to refresh",
+    "Dashboard pull to refresh",
+    "Refresh from toolbar or overflow",
+    "Pull with last updated timestamp",
+    "Pull with no new updates result",
+    "Offline pull refresh",
+    "Nested scroll pull refresh",
+    "Rate-limited refresh",
+    "Large-text pull refresh"
+  ],
+  "accessibility": [
+    "Provide a manual refresh command that does not require a path-based gesture.",
+    "Expose Refresh, Refreshing, Refreshed, No new updates, Offline, Failed, and Rate limited states through text and status messaging.",
+    "Do not move focus simply because refresh begins; keep focus stable unless the user activated a manual control that has a clear result target.",
+    "Keep refresh controls reachable by keyboard, switch, screen reader, external keyboard, and assistive pointer devices.",
+    "Avoid relying on color or motion alone to communicate threshold, in-progress state, or completion.",
+    "Respect target size and spacing for manual controls and adjacent row actions."
+  ],
+  "keyboardBehavior": [
+    "Keyboard users can reach a Refresh action in a toolbar, overflow menu, command area, or near the list header.",
+    "The manual Refresh action enters the same refreshing, success, no-new-data, failed, offline, and rate-limited states as the gesture.",
+    "Focus remains on the Refresh control or relevant status while the request is pending, then returns to the refreshed list or status without a surprise jump.",
+    "Repeated Enter or Space activation is ignored or disabled while a refresh is already running.",
+    "Escape is not required for normal cancellation, because releasing before threshold cancels the touch gesture; keyboard users receive disabled or pending state instead."
+  ],
+  "failureModes": [
+    "A feed refreshes while the user is reading older content in the middle of the list.",
+    "A nested comments scroller pulls the whole page instead of scrolling its own content.",
+    "The pull indicator appears but no status is announced to assistive technology.",
+    "The refresh clears content, loses focus, collapses expanded rows, or changes filters.",
+    "Manual refresh and pull-to-refresh start separate duplicate requests.",
+    "Offline refresh spins indefinitely instead of preserving cached content with a timestamp.",
+    "A hidden pull gesture performs reset, delete, submit, or sign-out behavior."
+  ],
+  "relatedPatterns": [
+    "touch-gesture",
+    "feed",
+    "offline-state",
+    "loading-spinner",
+    "retry",
+    "progress-bar"
+  ],
+  "comparisons": [
+    "pull-to-refresh-vs-touch-gesture-vs-feed-vs-offline-state-vs-loading-spinner-vs-retry"
+  ],
+  "examples": [
+    {
+      "product": "Android Developers SwipeRefreshLayout",
+      "url": "https://developer.android.com/develop/ui/views/touch-and-input/swipe/add-swipe-interface",
+      "platform": "mobile",
+      "notes": "Documents swipe-to-refresh for scrollable content and a refresh action-bar item for users who cannot perform the gesture.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "Android Developers Pull to refresh in Compose",
+      "url": "https://developer.android.com/develop/ui/compose/components/pull-to-refresh",
+      "platform": "mobile",
+      "notes": "Documents dragging downward at the beginning of content to refresh data, with refresh state, callback, indicator, and threshold controls.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Pointer Gestures",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html",
+      "platform": "web",
+      "notes": "Supports the need for non-path-based alternatives when a path-based gesture triggers functionality.",
+      "checkedAt": "2026-06-13"
+    },
+    {
+      "product": "W3C WCAG Status Messages",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html",
+      "platform": "web",
+      "notes": "Supports announcing refresh progress and results without moving focus.",
+      "checkedAt": "2026-06-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "android-swipe-refresh-layout",
+      "note": "Supports using swipe-to-refresh with scrollable content and providing a manual refresh menu action for users who cannot perform the gesture."
+    },
+    {
+      "id": "android-compose-pull-to-refresh",
+      "note": "Supports the beginning-of-content pull gesture, refresh state, refresh callback, indicator, and threshold behavior."
+    },
+    {
+      "id": "w3c-wcag-pointer-gestures",
+      "note": "Supports alternatives for path-based gestures."
+    },
+    {
+      "id": "wcag-status-messages",
+      "note": "Supports programmatically determinable refresh status updates without moving focus."
+    },
+    {
+      "id": "w3c-wcag-target-size-minimum",
+      "note": "Supports target size and spacing expectations for the manual refresh control and adjacent actions."
+    }
+  ],
+  "maturity": "standard",
+  "lastVerified": "2026-06-13"
+}
