@@ -13787,12 +13787,105 @@ select:hover {
   gap: 24px;
 }
 
+.decision-workbench.finder-collapsed {
+  grid-template-columns: 52px minmax(660px, 1.9fr) minmax(250px, 0.55fr);
+}
+
 .finder-panel {
   gap: 10px;
 }
 
+.finder-backdrop {
+  display: none;
+}
+
+.finder-toggle {
+  white-space: nowrap;
+}
+
+.finder-toggle-count {
+  display: inline-grid;
+  min-width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 820;
+}
+
 .finder-head {
   align-items: baseline;
+}
+
+.finder-head > div {
+  display: grid;
+  gap: 2px;
+}
+
+.finder-panel-close {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel-soft);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 820;
+}
+
+.finder-panel-close:hover {
+  border-color: #9fbdb8;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.finder-panel.is-collapsed {
+  min-height: calc(100vh - 96px);
+  padding: 0;
+}
+
+.finder-collapsed-button {
+  display: grid;
+  width: 48px;
+  min-height: 180px;
+  place-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--accent-strong);
+  cursor: pointer;
+  padding: 12px 8px;
+}
+
+.finder-collapsed-button span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.82rem;
+  font-weight: 820;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.finder-collapsed-button strong {
+  display: inline-grid;
+  min-width: 28px;
+  min-height: 28px;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+}
+
+.finder-collapsed-button:hover {
+  border-color: #9fbdb8;
+  background: var(--accent-soft);
 }
 
 .finder-panel label span {
@@ -17076,6 +17169,10 @@ body:has(.decision-workbench) main {
     column-gap: 24px;
   }
 
+  .decision-workbench.finder-collapsed {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
   .lab-titlebar {
     grid-template-columns: 1fr;
   }
@@ -17092,18 +17189,63 @@ body:has(.decision-workbench) main {
     padding-top: 10px;
   }
 
-  .decision-workbench {
+  .decision-workbench,
+  .decision-workbench.finder-open,
+  .decision-workbench.finder-collapsed {
     grid-template-columns: 1fr;
     grid-template-areas:
       "lab"
-      "finder"
       "decision";
     gap: 20px;
   }
 
-  .finder-panel,
   .decision-panel {
     position: static;
+  }
+
+  .finder-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    border: 0;
+    background: rgba(17, 24, 39, 0.42);
+    padding: 0;
+  }
+
+  .finder-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    top: 0;
+    min-height: 100dvh;
+    overflow-y: auto;
+    padding: 18px;
+    background: var(--bg);
+  }
+
+  .finder-panel.is-collapsed {
+    display: none;
+  }
+
+  .finder-panel.is-open {
+    border: 0;
+  }
+
+  .finder-head {
+    position: sticky;
+    top: -18px;
+    z-index: 1;
+    margin: -18px -18px 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 16px 18px 12px;
+  }
+
+  .finder-panel-close {
+    width: 36px;
+    height: 36px;
+    background: var(--panel);
   }
 
   .lab-titlebar h2 {

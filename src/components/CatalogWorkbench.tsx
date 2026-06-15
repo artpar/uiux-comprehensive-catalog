@@ -354,8 +354,15 @@ export default function CatalogWorkbench({
   const [decisionById, setDecisionById] = useState<Record<string, DecisionStatus>>({});
   const [critiqueNote, setCritiqueNote] = useState("");
   const [expandedLab, setExpandedLab] = useState(false);
+  const [finderOpen, setFinderOpen] = useState(() =>
+    typeof window === "undefined" ? true : !window.matchMedia("(max-width: 760px)").matches
+  );
+  const [isNarrowViewport, setIsNarrowViewport] = useState(() =>
+    typeof window === "undefined" ? false : window.matchMedia("(max-width: 760px)").matches
+  );
   const [hydrated, setHydrated] = useState(false);
   const searchRef = useRef<HTMLInputElement | null>(null);
+  const finderTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const scopedAcceptedCandidates = useMemo(() => {
     return patterns.filter((pattern) => {
@@ -468,6 +475,27 @@ export default function CatalogWorkbench({
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 760px)");
+    const syncFinderDefault = () => {
+      setIsNarrowViewport(media.matches);
+      setFinderOpen(!media.matches);
+    };
+
+    syncFinderDefault();
+    media.addEventListener("change", syncFinderDefault);
+    return () => media.removeEventListener("change", syncFinderDefault);
+  }, []);
+
+  useEffect(() => {
+    if (!isNarrowViewport || !finderOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [finderOpen, isNarrowViewport]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -600,6 +628,20 @@ export default function CatalogWorkbench({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [filtered, selected]);
 
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (!finderOpen || event.key !== "Escape") return;
+      const panel = document.getElementById("pattern-finder-panel");
+      if (panel && event.target instanceof Node && panel.contains(event.target)) {
+        event.preventDefault();
+        closeFinderPanel();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [finderOpen]);
+
   async function copyAgentBrief() {
     if (!agentBrief) return;
     try {
@@ -621,9 +663,38 @@ export default function CatalogWorkbench({
     setDecisionById((current) => ({ ...current, [selected.id]: status }));
   }
 
+  function focusFinderTrigger() {
+    window.requestAnimationFrame(() => finderTriggerRef.current?.focus());
+  }
+
+  function openFinderPanel() {
+    setFinderOpen(true);
+    if (isNarrowViewport) {
+      window.requestAnimationFrame(() => searchRef.current?.focus());
+    }
+  }
+
+  function closeFinderPanel(restoreFocus = true) {
+    setFinderOpen(false);
+    if (restoreFocus) focusFinderTrigger();
+  }
+
+  function toggleFinderPanel() {
+    if (finderOpen) {
+      closeFinderPanel();
+      return;
+    }
+    openFinderPanel();
+  }
+
+  function selectCandidate(patternId: string) {
+    setSelectedId(patternId);
+    if (isNarrowViewport) closeFinderPanel();
+  }
+
   return (
     <section
-      className="workbench decision-workbench"
+      className={finderOpen ? "workbench decision-workbench finder-open" : "workbench decision-workbench finder-collapsed"}
       aria-label="Pattern decision workbench"
       aria-busy={!hydrated}
     >
@@ -632,6 +703,8 @@ export default function CatalogWorkbench({
         <article
           className={expandedLab ? "lab-panel is-expanded" : "lab-panel"}
           aria-labelledby="selected-pattern-title"
+          aria-hidden={finderOpen && isNarrowViewport ? true : undefined}
+          inert={finderOpen && isNarrowViewport ? true : undefined}
         >
           <div className="lab-titlebar">
             <div>
@@ -644,6 +717,18 @@ export default function CatalogWorkbench({
               <p>{selected.problem}</p>
             </div>
             <div className="lab-actions" aria-label="Selected pattern actions">
+              <button
+                ref={finderTriggerRef}
+                className="action-link action-button finder-toggle"
+                type="button"
+                onClick={toggleFinderPanel}
+                aria-expanded={finderOpen}
+                aria-controls="pattern-finder-panel"
+              >
+                <span className="action-mark" aria-hidden="true">{finderOpen ? "<" : "list"}</span>
+                Patterns
+                <span className="finder-toggle-count">{filtered.length}</span>
+              </button>
               <button
                 className="action-link action-button"
                 type="button"
@@ -734,165 +819,205 @@ export default function CatalogWorkbench({
         </article>
       )}
 
-      <aside className="finder-panel" aria-label="Find candidate patterns">
-        <div className="finder-head">
-          <span className="rail-label">Pattern switcher</span>
-          <strong>{candidateCountLabel}</strong>
-        </div>
-        <p className="result-summary compact-only" aria-live="polite">{filteredSummary}</p>
+      {finderOpen && isNarrowViewport && (
+        <button className="finder-backdrop" type="button" aria-label="Close pattern finder" onClick={() => closeFinderPanel()} />
+      )}
 
-        <label>
-          <span>Search</span>
-          <input
-            ref={searchRef}
-            type="search"
-            name="catalog-query"
-            aria-keyshortcuts="/"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Example: irreversible action"
-          />
-        </label>
-
-        <details className="filter-details compact-disclosure">
-          <summary>{activeJob ? activeJob.label : "Jobs"}</summary>
-          <div className="job-chips" role="group" aria-label="User job filters">
-            <button
-              className={job === "all" ? "is-active" : ""}
-              aria-pressed={job === "all"}
-              onClick={() => setJob("all")}
-            >
-              All jobs
-            </button>
-            {jobGroups.map((item) => (
+      <aside
+        id="pattern-finder-panel"
+        className={finderOpen ? "finder-panel is-open" : "finder-panel is-collapsed"}
+        aria-label="Find candidate patterns"
+        role={finderOpen && isNarrowViewport ? "dialog" : undefined}
+        aria-modal={finderOpen && isNarrowViewport ? "true" : undefined}
+      >
+        {!finderOpen ? (
+          <button
+            className="finder-collapsed-button"
+            type="button"
+            onClick={openFinderPanel}
+            aria-expanded={finderOpen}
+            aria-controls="pattern-finder-panel"
+          >
+            <span>Patterns</span>
+            <strong>{filtered.length}</strong>
+          </button>
+        ) : (
+          <>
+            <div className="finder-head">
+              <div>
+                <span className="rail-label">Pattern switcher</span>
+                <strong>{candidateCountLabel}</strong>
+              </div>
               <button
-                key={item.id}
-                className={job === item.id ? "is-active" : ""}
-                aria-pressed={job === item.id}
-                onClick={() => setJob(item.id)}
+                className="finder-panel-close"
+                type="button"
+                onClick={() => closeFinderPanel()}
+                aria-label={isNarrowViewport ? "Close pattern finder" : "Collapse pattern finder"}
               >
-                {item.label}
+                x
               </button>
-            ))}
-          </div>
-        </details>
+            </div>
+            <p className="result-summary compact-only" aria-live="polite">{filteredSummary}</p>
 
-        <div className="decision-buttons mode-switcher" role="group" aria-label="Candidate mode">
-          {([
-            ["recommended", "Recommended"],
-            ["all", "All patterns"],
-            ["audit", "Audit flags"]
-          ] as [CandidateMode, string][]).map(([mode, label]) => (
-            <button
-              key={mode}
-              type="button"
-              className={candidateMode === mode ? "is-active" : ""}
-              aria-pressed={candidateMode === mode}
-              onClick={() => setCandidateMode(mode)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {activeJob && <p className="finder-context">{activeJob.decisionPrompt}</p>}
-        {selectedWasFilteredOut && (
-          <p className="finder-context" role="status">
-            Selected pattern is outside the current candidate filters. It remains open so you can inspect or compare it.
-          </p>
-        )}
-
-        <details className="filter-details">
-          <summary>Advanced filters</summary>
-          <div className="filter-content">
             <label>
-              <span>Category</span>
-              <select name="catalog-category" value={category} onChange={(event) => setCategory(event.target.value)}>
-                <option value="all">All categories</option>
-                {categories.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+              <span>Search</span>
+              <input
+                ref={searchRef}
+                type="search"
+                name="catalog-query"
+                aria-keyshortcuts="/"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Example: irreversible action"
+              />
             </label>
 
-            <div className="filter-pair">
-              <label>
-                <span>Platform</span>
-                <select name="catalog-platform" value={platform} onChange={(event) => setPlatform(event.target.value)}>
-                  <option value="all">All platforms</option>
-                  {platforms.map((item) => (
-                    <option key={item} value={item}>
-                      {formatLabel(item)}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            <details className="filter-details compact-disclosure">
+              <summary>{activeJob ? activeJob.label : "Jobs"}</summary>
+              <div className="job-chips" role="group" aria-label="User job filters">
+                <button
+                  className={job === "all" ? "is-active" : ""}
+                  aria-pressed={job === "all"}
+                  onClick={() => setJob("all")}
+                >
+                  All jobs
+                </button>
+                {jobGroups.map((item) => (
+                  <button
+                    key={item.id}
+                    className={job === item.id ? "is-active" : ""}
+                    aria-pressed={job === item.id}
+                    onClick={() => setJob(item.id)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </details>
 
-              <label>
-                <span>Maturity</span>
-                <select name="catalog-maturity" value={maturity} onChange={(event) => setMaturity(event.target.value)}>
-                  <option value="all">All levels</option>
-                  {maturities.map((item) => (
-                    <option key={item} value={item}>
-                      {formatLabel(item)}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            <div className="decision-buttons mode-switcher" role="group" aria-label="Candidate mode">
+              {([
+                ["recommended", "Recommended"],
+                ["all", "All patterns"],
+                ["audit", "Audit flags"]
+              ] as [CandidateMode, string][]).map(([mode, label]) => (
+                <button
+                  key={mode}
+                  type="button"
+                  className={candidateMode === mode ? "is-active" : ""}
+                  aria-pressed={candidateMode === mode}
+                  onClick={() => setCandidateMode(mode)}
+                >
+                  {label}
+                </button>
+              ))}
             </div>
 
-            <p className="filter-note">Candidate mode controls whether anti-patterns appear as audit flags or normal entries.</p>
-          </div>
-        </details>
+            {activeJob && <p className="finder-context">{activeJob.decisionPrompt}</p>}
+            {selectedWasFilteredOut && (
+              <p className="finder-context" role="status">
+                Selected pattern is outside the current candidate filters. It remains open so you can inspect or compare it.
+              </p>
+            )}
 
-        <div className="pattern-list candidate-list" aria-label="Candidate patterns">
-          {filtered.length === 0 && (
-            <div className="empty-catalog-state">
-              <h3>No matching patterns</h3>
-              <p>Clear a filter or broaden the search to inspect candidates again.</p>
-              <button
-                className="demo-button small"
-                type="button"
-                onClick={() => {
-                  setQuery("");
-                  setJob("all");
-                  setCategory("all");
-                  setPlatform("all");
-                  setMaturity("all");
-                  setCandidateMode("recommended");
-                }}
-              >
-                <span className="action-mark" aria-hidden="true">x</span>
-                Reset filters
-              </button>
+            <details className="filter-details">
+              <summary>Advanced filters</summary>
+              <div className="filter-content">
+                <label>
+                  <span>Category</span>
+                  <select name="catalog-category" value={category} onChange={(event) => setCategory(event.target.value)}>
+                    <option value="all">All categories</option>
+                    {categories.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <div className="filter-pair">
+                  <label>
+                    <span>Platform</span>
+                    <select name="catalog-platform" value={platform} onChange={(event) => setPlatform(event.target.value)}>
+                      <option value="all">All platforms</option>
+                      {platforms.map((item) => (
+                        <option key={item} value={item}>
+                          {formatLabel(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Maturity</span>
+                    <select name="catalog-maturity" value={maturity} onChange={(event) => setMaturity(event.target.value)}>
+                      <option value="all">All levels</option>
+                      {maturities.map((item) => (
+                        <option key={item} value={item}>
+                          {formatLabel(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <p className="filter-note">Candidate mode controls whether anti-patterns appear as audit flags or normal entries.</p>
+              </div>
+            </details>
+
+            <div className="pattern-list candidate-list" aria-label="Candidate patterns">
+              {filtered.length === 0 && (
+                <div className="empty-catalog-state">
+                  <h3>No matching patterns</h3>
+                  <p>Clear a filter or broaden the search to inspect candidates again.</p>
+                  <button
+                    className="demo-button small"
+                    type="button"
+                    onClick={() => {
+                      setQuery("");
+                      setJob("all");
+                      setCategory("all");
+                      setPlatform("all");
+                      setMaturity("all");
+                      setCandidateMode("recommended");
+                    }}
+                  >
+                    <span className="action-mark" aria-hidden="true">x</span>
+                    Reset filters
+                  </button>
+                </div>
+              )}
+
+              {filtered.map((pattern) => (
+                <button
+                  key={pattern.id}
+                  className={pattern.id === selected?.id ? "pattern-row is-selected" : "pattern-row"}
+                  onClick={() => selectCandidate(pattern.id)}
+                  aria-current={pattern.id === selected?.id ? "true" : undefined}
+                >
+                  <span className="row-title">
+                    <HighlightedText text={pattern.name} term={firstMatchedTerm(pattern, query)} />
+                  </span>
+                  <span className="row-meta">
+                    <span>{formatPatternType(pattern.patternType)}</span>
+                    <span>{formatLabel(pattern.maturity)}</span>
+                    <span>{formatLabel(pattern.completionStatus)}</span>
+                    <span>{sourceCountLabel(pattern)}</span>
+                  </span>
+                </button>
+              ))}
             </div>
-          )}
-
-          {filtered.map((pattern) => (
-            <button
-              key={pattern.id}
-              className={pattern.id === selected?.id ? "pattern-row is-selected" : "pattern-row"}
-              onClick={() => setSelectedId(pattern.id)}
-              aria-current={pattern.id === selected?.id ? "true" : undefined}
-            >
-              <span className="row-title">
-                <HighlightedText text={pattern.name} term={firstMatchedTerm(pattern, query)} />
-              </span>
-              <span className="row-meta">
-                <span>{formatPatternType(pattern.patternType)}</span>
-                <span>{formatLabel(pattern.maturity)}</span>
-                <span>{formatLabel(pattern.completionStatus)}</span>
-                <span>{sourceCountLabel(pattern)}</span>
-              </span>
-            </button>
-          ))}
-        </div>
+          </>
+        )}
       </aside>
 
       {selected && (
-        <aside className="decision-panel" aria-label="Decision guidance and agent export">
+        <aside
+          className="decision-panel"
+          aria-label="Decision guidance and agent export"
+          aria-hidden={finderOpen && isNarrowViewport ? true : undefined}
+          inert={finderOpen && isNarrowViewport ? true : undefined}
+        >
           <section className="decision-card fit-card minimal-fit">
             <span className="rail-label">Decision fit</span>
             <h3>{selected.name}</h3>
