@@ -1,0 +1,25 @@
+---
+import CatalogWorkbench from "@/components/CatalogWorkbench";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { comparisons, patterns } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+
+const seededCategories = [...new Set(patterns.map((pattern) => pattern.category))].sort();
+const seededPlatforms = [...new Set(patterns.flatMap((pattern) => pattern.platforms))].sort();
+const seededMaturities = [...new Set(patterns.map((pattern) => pattern.maturity))].sort();
+---
+
+<BaseLayout
+  title="Pattern Lab | UI/UX Pattern Catalog"
+  description="An interactive decision lab for choosing UI/UX patterns from source-backed rules, live examples, and implementation checks."
+>
+  <CatalogWorkbench
+    client:load
+    patterns={patterns}
+    comparisons={comparisons}
+    categories={seededCategories}
+    platforms={seededPlatforms}
+    maturities={seededMaturities}
+    baseUrl={withBase("/")}
+  />
+</BaseLayout>

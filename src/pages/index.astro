@@ -1,12 +1,8 @@
 ---
-import CatalogWorkbench from "@/components/CatalogWorkbench";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { comparisons, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 
-const seededCategories = [...new Set(patterns.map((pattern) => pattern.category))].sort();
-const seededPlatforms = [...new Set(patterns.flatMap((pattern) => pattern.platforms))].sort();
-const seededMaturities = [...new Set(patterns.map((pattern) => pattern.maturity))].sort();
 const completeCount = patterns.filter((pattern) => pattern.completionStatus === "complete").length;
 const stubCount = patterns.filter((pattern) => pattern.completionStatus === "stub").length;
 const comparisonCount = comparisons.length;
@@ -25,19 +21,6 @@ const dailyPatternPayload = completePatterns.map((pattern) => ({
   href: withBase(`/patterns/${pattern.id}/`)
 }));
 const subscribeEndpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "mailto:artpar@gmail.com";
-const coverageRows = seededCategories.map((category) => {
-  const categoryPatterns = patterns.filter((pattern) => pattern.category === category);
-  const categoryComplete = categoryPatterns.filter((pattern) => pattern.completionStatus === "complete").length;
-  const categoryStub = categoryPatterns.filter((pattern) => pattern.completionStatus === "stub").length;
-  return {
-    category,
-    count: categoryPatterns.length,
-    complete: categoryComplete,
-    stub: categoryStub,
-    patterns: categoryPatterns.map((pattern) => pattern.name).join(", "),
-    maturity: [...new Set(categoryPatterns.map((pattern) => pattern.maturity))].join(", ")
-  };
-});
 ---
 
 <BaseLayout
@@ -54,7 +37,7 @@ const coverageRows = seededCategories.map((category) => {
           live examples, accessibility expectations, and real decision rules between similar patterns.
         </p>
         <div class="landing-actions" aria-label="Primary actions">
-          <a class="primary-action" href="#catalog-workbench">Browse the catalog</a>
+          <a class="primary-action" href={withBase("/lab/")}>Open the lab</a>
           <a class="secondary-action" href="#subscribe">Get the pattern email</a>
         </div>
       </div>
@@ -177,47 +160,6 @@ const coverageRows = seededCategories.map((category) => {
         </p>
       </section>
     </div>
-  </section>
-
-  <section id="catalog-workbench" class="catalog-workbench-section" aria-label="Catalog workbench">
-  <CatalogWorkbench
-    client:load
-    patterns={patterns}
-    comparisons={comparisons}
-    categories={seededCategories}
-    platforms={seededPlatforms}
-    maturities={seededMaturities}
-    baseUrl={withBase("/")}
-  />
-  </section>
-
-  <section class="comparison-matrix detail-panel catalog-coverage">
-    <h2>Catalog Coverage</h2>
-    <p>{completeCount} complete patterns, {stubCount} stubs. Stub entries are inspectable drafts and are excluded from completion claims.</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Family</th>
-          <th>Complete</th>
-          <th>Stubs</th>
-          <th>Current entries</th>
-          <th>Maturity represented</th>
-          <th>Entry names</th>
-        </tr>
-      </thead>
-      <tbody>
-        {coverageRows.map((row) => (
-          <tr>
-            <th scope="row">{row.category}</th>
-            <td>{row.complete}</td>
-            <td>{row.stub}</td>
-            <td>{row.count}</td>
-            <td>{row.maturity}</td>
-            <td>{row.patterns}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
   </section>
   <script is:inline type="application/json" id="daily-pattern-data" set:html={JSON.stringify(dailyPatternPayload)} />
   <script>

@@ -725,7 +725,7 @@ export default function CatalogWorkbench({
                 aria-expanded={finderOpen}
                 aria-controls="pattern-finder-panel"
               >
-                <span className="action-mark" aria-hidden="true">{finderOpen ? "<" : "list"}</span>
+                <span className="action-mark" aria-hidden="true">{finderOpen ? "<" : ">"}</span>
                 Patterns
                 <span className="finder-toggle-count">{filtered.length}</span>
               </button>

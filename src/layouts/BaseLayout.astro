@@ -9,12 +9,14 @@ type Props = {
 
 const { title, description = "A source-backed catalog of practical UI/UX patterns." } = Astro.props;
 const currentPath = Astro.url.pathname;
+const sitemapHref = new URL(withBase("/sitemap.xml"), Astro.site ?? Astro.url).toString();
 const navItems = [
-  { href: withBase("/"), label: "Patterns", icon: "#", active: currentPath === withBase("/") || currentPath.startsWith(withBase("/patterns/")) },
-  { href: withBase("/agent/"), label: "Agent exports", icon: "{}", active: currentPath.startsWith(withBase("/agent/")) },
+  { href: withBase("/"), label: "Home", icon: "#", active: currentPath === withBase("/") },
+  { href: withBase("/lab/"), label: "Lab", icon: "[]", active: currentPath.startsWith(withBase("/lab/")) || currentPath.startsWith(withBase("/patterns/")) },
   { href: withBase("/compare/"), label: "Compare", icon: "<>", active: currentPath.startsWith(withBase("/compare/")) },
-  { href: withBase("/sources/"), label: "Sources", icon: "[]", active: currentPath.startsWith(withBase("/sources/")) },
-  { href: withBase("/anti-patterns/"), label: "Anti-patterns", icon: "!", active: currentPath.startsWith(withBase("/anti-patterns/")) }
+  { href: withBase("/sources/"), label: "Sources", icon: "{}", active: currentPath.startsWith(withBase("/sources/")) },
+  { href: withBase("/anti-patterns/"), label: "Anti-patterns", icon: "!", active: currentPath.startsWith(withBase("/anti-patterns/")) },
+  { href: withBase("/agent/"), label: "Agent exports", icon: "->", active: currentPath.startsWith(withBase("/agent/")) }
 ];
 ---
 
@@ -25,6 +27,7 @@ const navItems = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <link rel="sitemap" href={sitemapHref} type="application/xml" />
     <title>{title}</title>
   </head>
   <body>
