@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { comparisons, patterns, getPattern } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { patternCategories } from "@/schemas/catalog";
 
 const patternOptions = patterns
   .filter((pattern) => pattern.maturity !== "anti-pattern")
@@ -9,65 +10,148 @@ const patternOptions = patterns
   .sort((a, b) => a.name.localeCompare(b.name));
 const comparisonOptions = comparisons.map((comparison) => {
   const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(Boolean);
+  const categories = [
+    ...new Set(
+      comparedPatterns
+        .flatMap((pattern) => [pattern?.category, ...(pattern?.secondaryCategories ?? [])])
+        .filter(Boolean)
+    )
+  ];
   return {
     id: comparison.id,
     title: comparison.title,
     href: withBase(`/compare/${comparison.id}/`),
     patternIds: comparison.patternIds,
     patternNames: comparedPatterns.map((pattern) => pattern?.name ?? "").filter(Boolean),
-    rule: comparison.decisionRules[0]
+    categories,
+    primaryCategory: categories[0] ?? "Other",
+    summary: comparison.summary,
+    rule: comparison.decisionRules[0],
+    lastVerified: comparison.lastVerified
   };
 });
+const categoryGroups = patternCategories
+  .map((category) => ({
+    category,
+    comparisons: comparisonOptions.filter((comparison) => comparison.primaryCategory === category)
+  }))
+  .filter((group) => group.comparisons.length > 0);
+const categoryFilters = patternCategories
+  .map((category) => ({
+    category,
+    count: comparisonOptions.filter((comparison) => comparison.primaryCategory === category).length
+  }))
+  .filter((item) => item.count > 0);
 ---
 
 <BaseLayout title="Pattern Comparisons | UI/UX Pattern Catalog">
-  <section class="compare-picker" aria-labelledby="compare-title">
-    <div>
-      <span class="eyebrow">Compare</span>
-      <h1 id="compare-title">Pick two patterns</h1>
-    </div>
+  <div class="compare-home">
+    <section class="compare-hero" aria-labelledby="compare-title">
+      <div class="compare-intro">
+        <span class="eyebrow">Compare</span>
+        <h1 id="compare-title">Choose the right pattern before you build</h1>
+        <p>Use pairwise comparisons when two patterns look similar but behave differently in real product work.</p>
+      </div>
 
-    <form class="compare-form" data-compare-form>
-      <label>
-        <span>First pattern</span>
-        <select name="first">
-          <option value="">Choose pattern</option>
-          {patternOptions.map((pattern) => <option value={pattern.id}>{pattern.name}</option>)}
-        </select>
-      </label>
+      <form class="compare-form" data-compare-form>
+        <label>
+          <span>First pattern</span>
+          <select name="first">
+            <option value="">Choose pattern</option>
+            {patternOptions.map((pattern) => <option value={pattern.id}>{pattern.name}</option>)}
+          </select>
+        </label>
 
-      <label>
-        <span>Second pattern</span>
-        <select name="second">
-          <option value="">Choose pattern</option>
-          {patternOptions.map((pattern) => <option value={pattern.id}>{pattern.name}</option>)}
-        </select>
-      </label>
+        <label>
+          <span>Second pattern</span>
+          <select name="second">
+            <option value="">Choose pattern</option>
+            {patternOptions.map((pattern) => <option value={pattern.id}>{pattern.name}</option>)}
+          </select>
+        </label>
 
-      <a class="demo-button primary compare-open is-disabled" data-compare-open href="#" aria-disabled="true">
-        Open comparison
-      </a>
-      <p class="demo-status" data-compare-status>Choose a supported pair to compare.</p>
-    </form>
-  </section>
-
-  <section class="comparison-list" aria-labelledby="available-comparisons">
-    <h2 id="available-comparisons">Available comparisons</h2>
-    <div class="comparison-list-grid">
-      {comparisonOptions.map((comparison) => (
-        <a class="comparison-row" href={comparison.href}>
-          <span>{comparison.patternNames.join(" vs ")}</span>
-          <strong>{comparison.rule}</strong>
+        <a class="demo-button primary compare-open is-disabled" data-compare-open href="#" aria-disabled="true">
+          Open comparison
         </a>
-      ))}
-    </div>
-  </section>
+        <p class="demo-status" data-compare-status>Choose a supported pair to compare.</p>
+      </form>
+    </section>
+
+    <section class="compare-browse" aria-labelledby="available-comparisons">
+      <div class="compare-browse-head">
+        <div class="section-heading">
+          <span>{comparisonOptions.length} comparisons</span>
+          <h2 id="available-comparisons">Comparison library</h2>
+        </div>
+        <label class="compare-search">
+          <span>Search comparisons</span>
+          <input data-compare-search type="search" placeholder="Search by pattern, category, or decision rule" />
+        </label>
+      </div>
+
+      <label class="compare-category-select">
+        <span>Category</span>
+        <select data-compare-category-select>
+          <option value="all">All categories ({comparisonOptions.length})</option>
+          {categoryFilters.map((item) => <option value={item.category}>{item.category} ({item.count})</option>)}
+        </select>
+      </label>
+
+      <p class="compare-result-count" data-compare-result-count>{comparisonOptions.length} comparisons shown</p>
+      <p class="compare-empty" data-compare-empty hidden>No comparisons match this filter.</p>
+
+      <div class="comparison-library">
+        {categoryGroups.map((group) => (
+          <section class="comparison-category-section" data-category-section={group.category}>
+            <div class="comparison-category-head">
+              <h3>{group.category}</h3>
+              <span>{group.comparisons.length}</span>
+            </div>
+            <div class="comparison-list-grid">
+              {group.comparisons.map((comparison) => (
+                <a
+                  class="comparison-row"
+                  href={comparison.href}
+                  data-compare-card
+                  data-primary-category={comparison.primaryCategory}
+                  data-categories={comparison.categories.join("|")}
+                  data-search={[
+                    comparison.title,
+                    comparison.summary,
+                    comparison.rule,
+                    comparison.patternNames.join(" "),
+                    comparison.categories.join(" ")
+                  ].join(" ").toLowerCase()}
+                >
+                  <span>{comparison.patternNames.join(" vs ")}</span>
+                  <strong>{comparison.rule}</strong>
+                  <div class="comparison-row-meta">
+                    <small>{comparison.patternNames.length} patterns</small>
+                    <small>{comparison.primaryCategory}</small>
+                    <small>Verified {comparison.lastVerified}</small>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  </div>
 
   <script is:inline define:vars={{ comparisonOptions }}>
     const comparisons = comparisonOptions;
     const form = document.querySelector("[data-compare-form]");
     const openLink = document.querySelector("[data-compare-open]");
     const status = document.querySelector("[data-compare-status]");
+    const search = document.querySelector("[data-compare-search]");
+    const categorySelect = document.querySelector("[data-compare-category-select]");
+    const categoryButtons = [...document.querySelectorAll("[data-compare-category]")];
+    const cards = [...document.querySelectorAll("[data-compare-card]")];
+    const sections = [...document.querySelectorAll("[data-category-section]")];
+    const resultCount = document.querySelector("[data-compare-result-count]");
+    const empty = document.querySelector("[data-compare-empty]");
+    let activeCategory = "all";
 
     function updateCompareLink() {
       if (!(form instanceof HTMLFormElement) || !(openLink instanceof HTMLAnchorElement) || !status) return;
@@ -102,6 +186,48 @@ const comparisonOptions = comparisons.map((comparison) => {
     form?.addEventListener("change", updateCompareLink);
     openLink?.addEventListener("click", (event) => {
       if (openLink.getAttribute("aria-disabled") === "true") event.preventDefault();
+    });
+
+    function updateLibraryFilter() {
+      const query = search instanceof HTMLInputElement ? search.value.trim().toLowerCase() : "";
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const primaryCategory = String(card.getAttribute("data-primary-category") || "");
+        const searchText = String(card.getAttribute("data-search") || "");
+        const matchesCategory = activeCategory === "all" || primaryCategory === activeCategory;
+        const matchesSearch = !query || searchText.includes(query);
+        const isVisible = matchesCategory && matchesSearch;
+        card.hidden = !isVisible;
+        if (isVisible) visibleCount += 1;
+      });
+
+      sections.forEach((section) => {
+        const hasVisibleCard = Boolean(section.querySelector("[data-compare-card]:not([hidden])"));
+        section.hidden = !hasVisibleCard;
+      });
+
+      categoryButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.getAttribute("data-compare-category") === activeCategory);
+      });
+      if (categorySelect instanceof HTMLSelectElement) categorySelect.value = activeCategory;
+
+      if (resultCount) {
+        resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? "comparison" : "comparisons"} shown`;
+      }
+      if (empty) empty.hidden = visibleCount > 0;
+    }
+
+    search?.addEventListener("input", updateLibraryFilter);
+    categorySelect?.addEventListener("change", () => {
+      activeCategory = categorySelect instanceof HTMLSelectElement ? categorySelect.value : "all";
+      updateLibraryFilter();
+    });
+    categoryButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeCategory = button.getAttribute("data-compare-category") || "all";
+        updateLibraryFilter();
+      });
     });
   </script>
 </BaseLayout>

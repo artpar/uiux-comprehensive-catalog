@@ -3,59 +3,131 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPattern, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 
-const antiPatterns = patterns.filter((pattern) => pattern.maturity === "anti-pattern");
+const antiPatterns = patterns
+  .filter((pattern) => pattern.maturity === "anti-pattern")
+  .sort((a, b) => a.name.localeCompare(b.name));
+const groupedCounts = [...new Set(antiPatterns.map((pattern) => pattern.category))]
+  .sort()
+  .map((category) => ({
+    category,
+    count: antiPatterns.filter((pattern) => pattern.category === category).length
+  }));
+const highRiskExamples = antiPatterns.slice(0, 4);
 ---
 
-<BaseLayout title="Anti-patterns | UI/UX Pattern Catalog">
-  <section class="page-head">
-    <h1>Anti-patterns</h1>
-    <p>Audit generated UI for recurring interaction choices that create avoidable confusion, risk, or unrecoverable failure.</p>
+<BaseLayout
+  title="Anti-patterns | UI/UX Pattern Catalog"
+  description="A readable index of UI and UX anti-patterns with compact audit cues and safer alternatives."
+>
+  <section class="anti-pattern-home" aria-labelledby="anti-title">
+    <div class="anti-pattern-intro">
+      <p class="eyebrow">Anti-patterns</p>
+      <h1 id="anti-title">Find risky interaction choices before they ship.</h1>
+      <p>
+        Use this as a triage index. Start with the pattern name and symptom, then open the audit details only when
+        the issue looks relevant.
+      </p>
+    </div>
+
+    <dl class="anti-pattern-stats" aria-label="Anti-pattern coverage">
+      <div><dt>{antiPatterns.length}</dt><dd>audit entries</dd></div>
+      <div><dt>{groupedCounts.length}</dt><dd>affected families</dd></div>
+      <div><dt>{highRiskExamples.length}</dt><dd>quick checks shown first</dd></div>
+    </dl>
   </section>
 
-  <section class="detail-panel anti-audit">
-    <h2>Audit Mode</h2>
-    <p>Check each detection cue against the UI under review. If a cue is present, replace the interaction with the safer pattern contract before shipping or generating more code.</p>
-    <div class="audit-grid">
-      {antiPatterns.map((pattern) => (
-        <article class="audit-card">
-          <div class="card-meta">
-            <span>High severity</span>
-            <span>{pattern.category}</span>
-          </div>
+  <section class="anti-pattern-section" aria-labelledby="families-title">
+    <div class="section-heading">
+      <h2 id="families-title">Where issues cluster</h2>
+      <p>Use the counts to decide which risk area to review first.</p>
+    </div>
+    <div class="anti-family-list">
+      {groupedCounts.map((group) => (
+        <a href={`#${group.category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`}>
+          <span>{group.category}</span>
+          <strong>{group.count}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="anti-pattern-section" aria-labelledby="quick-title">
+    <div class="section-heading">
+      <h2 id="quick-title">Quick checks</h2>
+      <p>Common symptoms that usually deserve immediate review.</p>
+    </div>
+    <div class="anti-quick-list">
+      {highRiskExamples.map((pattern) => (
+        <article>
           <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
-          <label class="audit-check">
-            <input type="checkbox" name={`audit-${pattern.id}`} />
-            <span>{pattern.problemContext[0]}</span>
-          </label>
-          <h4>Detection cues</h4>
-          <ul>
-            {pattern.commonMisuses.slice(0, 3).map((item) => <li>{item}</li>)}
-          </ul>
-          <h4>Remediate with</h4>
-          <ul>
-            {pattern.implementationChecklist.slice(0, 3).map((item) => <li>{item}</li>)}
-          </ul>
-          <div class="comparison-links">
-            {pattern.relatedPatterns.map((id) => {
-              const related = getPattern(id);
-              return <a href={withBase(`/patterns/${id}/`)}>Safer alternative: {related?.name ?? id}</a>;
-            })}
-          </div>
+          <p>{pattern.problem}</p>
         </article>
       ))}
     </div>
   </section>
 
-  <div class="pattern-grid">
-    {antiPatterns.map((pattern) => (
-      <article class="pattern-card">
-        <div class="card-meta">
-          <span>{pattern.category}</span>
-          <span>{pattern.maturity}</span>
-        </div>
-        <h2><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h2>
-        <p>{pattern.problem}</p>
-      </article>
-    ))}
-  </div>
+  <section class="anti-pattern-section" aria-labelledby="all-anti-title">
+    <div class="section-heading">
+      <h2 id="all-anti-title">All anti-patterns</h2>
+      <p>Open a row when you need detection cues, remediation, and safer alternatives.</p>
+    </div>
+
+    <div class="anti-pattern-list">
+      {groupedCounts.map((group) => (
+        <section class="anti-pattern-group" id={group.category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}>
+          <div class="anti-pattern-group-head">
+            <h3>{group.category}</h3>
+            <span>{group.count} entries</span>
+          </div>
+
+          <div class="catalog-card-grid anti-card-grid">
+            {antiPatterns.filter((pattern) => pattern.category === group.category).map((pattern) => {
+            const related = pattern.relatedPatterns.map((id) => getPattern(id)).filter(Boolean);
+            return (
+              <article class="catalog-card anti-pattern-card">
+                <h4><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h4>
+                <p>{pattern.problem}</p>
+                <div class="anti-card-actions">
+                  <a class="quiet-link" href={withBase(`/lab/?pattern=${pattern.id}&mode=audit`)}>Inspect in lab</a>
+                </div>
+
+                <details class="anti-pattern-details">
+                  <summary>Audit details</summary>
+                  <div class="anti-pattern-detail-stack">
+                    <section>
+                      <h5>Detection cue</h5>
+                      <p>{pattern.problemContext[0]}</p>
+                    </section>
+                    <section>
+                      <h5>Common signs</h5>
+                      <ul>
+                        {pattern.commonMisuses.slice(0, 2).map((item) => <li>{item}</li>)}
+                      </ul>
+                    </section>
+                    <section>
+                      <h5>Safer move</h5>
+                      <ul>
+                        {pattern.implementationChecklist.slice(0, 2).map((item) => <li>{item}</li>)}
+                      </ul>
+                    </section>
+                    {related.length > 0 && (
+                      <section>
+                        <h5>Alternatives</h5>
+                        <div class="anti-related-links">
+                          {related.slice(0, 3).map((item) => (
+                            item && <a href={withBase(`/patterns/${item.id}/`)}>{item.name}</a>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+                  </div>
+                </details>
+              </article>
+            );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
 </BaseLayout>

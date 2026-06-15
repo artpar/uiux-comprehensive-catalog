@@ -1,229 +1,257 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { comparisons, patterns } from "@/lib/catalog";
+import { comparisons, patterns, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 
-const completeCount = patterns.filter((pattern) => pattern.completionStatus === "complete").length;
-const stubCount = patterns.filter((pattern) => pattern.completionStatus === "stub").length;
-const comparisonCount = comparisons.length;
-const targetCount = 300;
-const missingCount = Math.max(0, targetCount - completeCount - stubCount);
 const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
-const buildDayIndex = Math.floor(Date.now() / 86400000);
-const fallbackPattern = completePatterns[buildDayIndex % completePatterns.length] ?? patterns[0];
-const dailyPatternPayload = completePatterns.map((pattern) => ({
+const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
+const categoryDescriptions: Record<string, string> = {
+  "AI And Automation UX": "Patterns for prompts, agent plans, transparency, approval, and AI output review.",
+  "Collaboration And Social Interaction": "Patterns for comments, mentions, presence, feeds, handoffs, and shared work.",
+  "Cross-Device And Physical Interaction": "Patterns for touch, sensors, device permissions, haptics, camera, and offline use.",
+  "Data Display And Exploration": "Patterns for tables, dashboards, charts, maps, timelines, and drill-down views.",
+  "Disclosure And Attention Management": "Patterns for revealing detail, focusing attention, and keeping context stable.",
+  "Error Prevention And Recovery": "Patterns for preventing mistakes, explaining failure, retrying, undoing, and restoring work.",
+  "Feedback, Status, And System State": "Patterns for loading, progress, alerts, banners, notifications, and system confidence.",
+  "Input And Data Entry": "Patterns for forms, fields, validation, uploads, dates, addresses, payments, and account data.",
+  "Navigation And Wayfinding": "Patterns for moving through pages, sections, steps, breadcrumbs, menus, and local hierarchy.",
+  "Personalization And Preference": "Patterns for defaults, settings, preferences, saved views, recommendations, and user control.",
+  "Search, Browse, And Discovery": "Patterns for search, filters, categories, suggestions, empty results, and saved retrieval.",
+  "Selection And Choice": "Patterns for choosing values, commands, objects, options, ranges, and contextual actions.",
+  "Task And Workflow Patterns": "Patterns for staged tasks, approvals, review, scheduling, checkout, and multi-step work.",
+  "Trust, Safety, And Privacy": "Patterns for consent, warnings, privacy, security, permissions, reporting, and sensitive data."
+};
+const categoryGroups = [...new Set(patterns.map((pattern) => pattern.category))]
+  .sort()
+  .map((category) => {
+    const categoryPatterns = patterns.filter((pattern) => pattern.category === category);
+    return {
+      category,
+      completeCount: categoryPatterns.filter((pattern) => pattern.completionStatus === "complete").length,
+      totalCount: categoryPatterns.length,
+      description: categoryDescriptions[category],
+      sample: categoryPatterns.find((pattern) => pattern.completionStatus === "complete") ?? categoryPatterns[0]
+    };
+  });
+const featuredPatterns = completePatterns
+  .filter((pattern) => pattern.maturity !== "anti-pattern")
+  .slice(0, 6);
+const searchPayload = patterns.map((pattern) => ({
   id: pattern.id,
   name: pattern.name,
   category: pattern.category,
   surfaceType: pattern.surfaceType,
-  useWhen: pattern.useWhen[0] ?? pattern.problem,
-  avoidWhen: pattern.avoidWhen[0] ?? pattern.commonMisuses[0] ?? pattern.problem,
+  problem: pattern.problem,
+  useWhen: pattern.useWhen[0] ?? pattern.selectionRules[0] ?? pattern.problem,
   href: withBase(`/patterns/${pattern.id}/`)
 }));
-const subscribeEndpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "mailto:artpar@gmail.com";
+
+function slugify(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+function categoryHref(category: string) {
+  return withBase(`/patterns/#${slugify(category)}`);
+}
+
+function labCategoryHref(category: string) {
+  return withBase(`/lab/?category=${encodeURIComponent(category)}`);
+}
 ---
 
 <BaseLayout
   title="UI/UX Pattern Catalog"
-  description="A source-backed UI/UX pattern catalog with live demos, comparison rules, and daily pattern guidance for engineers and product managers."
+  description="A readable, source-backed catalog of practical UI and UX patterns with an interactive lab for decision work."
 >
-  <section class="landing-hero" aria-labelledby="landing-title">
-    <div class="landing-hero-inner">
-      <div class="landing-hero-copy">
-        <p class="eyebrow">Source-backed UI and UX patterns</p>
-        <h1 id="landing-title">Ship interfaces from evidence, not pattern folklore.</h1>
-        <p class="landing-lede">
-          A practical catalog for engineers and product managers who need precise interaction contracts,
-          live examples, accessibility expectations, and real decision rules between similar patterns.
-        </p>
-        <div class="landing-actions" aria-label="Primary actions">
-          <a class="primary-action" href={withBase("/lab/")}>Open the lab</a>
-          <a class="secondary-action" href="#subscribe">Get the pattern email</a>
-        </div>
-      </div>
-      <div class="landing-hero-media" aria-hidden="true">
-        <img src={withBase("/assets/landing-hero.png")} alt="" loading="eager" />
-        <div class="landing-hero-note">
-          <span>Daily pattern brief</span>
-          <strong>Evidence, tradeoffs, states, and implementation checks.</strong>
-        </div>
-      </div>
-      <dl class="landing-stats" aria-label="Catalog status">
-        <div>
-          <dt>{completeCount}</dt>
-          <dd>complete patterns</dd>
-        </div>
-        <div>
-          <dt>{comparisonCount}</dt>
-          <dd>decision comparisons</dd>
-        </div>
-        <div>
-          <dt>{missingCount}</dt>
-          <dd>remaining targets</dd>
-        </div>
-      </dl>
-    </div>
-  </section>
-
-  <section class="landing-band landing-subscribe-band" id="subscribe" aria-labelledby="subscribe-title">
-    <div class="subscribe-copy">
-      <p class="eyebrow">Email list</p>
-      <h2 id="subscribe-title">Subscribe for one pattern worth discussing.</h2>
+  <section class="catalog-home" aria-labelledby="catalog-title">
+    <div class="catalog-intro">
+      <p class="eyebrow">UI and UX pattern catalog</p>
+      <h1 id="catalog-title">Find the right pattern.</h1>
       <p>
-        The email is for product teams that want sharper interface choices: when to use a pattern,
-        when to avoid it, how it fails, and what engineers need to implement it responsibly.
+        Browse practical interface patterns by family, read the decision rule, then open the lab when you need
+        filtering, comparison, live examples, and implementation checks.
       </p>
     </div>
-    <form
-      class="subscribe-form"
-      action={subscribeEndpoint}
-      method="post"
-      data-subscribe-form
-      data-mailto={subscribeEndpoint.startsWith("mailto:") ? subscribeEndpoint : undefined}
-    >
-      <input type="hidden" name="embed" value="1" />
-      <input type="hidden" name="tag" value="landing-page" />
-      <label>
-        Work email
-        <input type="email" name="email" autocomplete="email" placeholder="you@company.com" required />
-      </label>
-      <label>
-        Role
-        <select name="metadata__role" required>
-          <option value="">Choose role</option>
-          <option value="engineering">Engineering</option>
-          <option value="product">Product management</option>
-          <option value="design">Design</option>
-          <option value="research">Research</option>
-          <option value="other">Other</option>
-        </select>
-      </label>
-      <button type="submit">Subscribe</button>
-      <p class="subscribe-note">
-        No spam. Just one practical pattern brief with the tradeoffs, implementation contract, and review prompts.
-      </p>
+
+    <form class="catalog-search" role="search" data-catalog-search>
+      <label for="catalog-query">Search patterns</label>
+      <div class="catalog-search-row">
+        <input
+          id="catalog-query"
+          name="query"
+          type="search"
+          autocomplete="off"
+          placeholder="Try error recovery, navigation, filters, AI"
+          data-catalog-query
+        />
+        <a href={withBase("/patterns/")}>All patterns</a>
+      </div>
+      <div class="catalog-search-results" data-catalog-results hidden></div>
     </form>
+
+    <dl class="catalog-stats" aria-label="Catalog status">
+      <div>
+        <dt>{patterns.length}</dt>
+        <dd>pattern entries</dd>
+      </div>
+      <div>
+        <dt>{completePatterns.length}</dt>
+        <dd>complete patterns</dd>
+      </div>
+      <div>
+        <dt>{comparisons.length}</dt>
+        <dd>comparisons</dd>
+      </div>
+      <div>
+        <dt>{sources.length}</dt>
+        <dd>evidence sources</dd>
+      </div>
+    </dl>
   </section>
 
-  <section class="landing-band pattern-day-band" aria-labelledby="pattern-day-title">
-    <div class="pattern-day-copy">
-      <p class="eyebrow">Pattern of the day</p>
-      <h2 id="pattern-day-title">A daily UI/UX pattern to inspect with your team.</h2>
-      <p>
-        Use it for design crit, backlog grooming, QA heuristics, or implementation review. Each daily pick links to
-        source-backed guidance, good and bad examples, and related-pattern boundaries.
-      </p>
+  <section class="catalog-section" aria-labelledby="subject-title">
+    <div class="section-heading">
+      <h2 id="subject-title">Pattern families</h2>
+      <p>Start from the user problem, not from a component name.</p>
     </div>
-    <article class="pattern-day-card" data-pattern-of-day>
-      <span class="card-meta">{fallbackPattern.category}</span>
-      <h3>{fallbackPattern.name}</h3>
-      <p>{fallbackPattern.surfaceType}</p>
-      <dl>
-        <div>
-          <dt>Use when</dt>
-          <dd>{fallbackPattern.useWhen[0]}</dd>
-        </div>
-        <div>
-          <dt>Avoid when</dt>
-          <dd>{fallbackPattern.avoidWhen[0]}</dd>
-        </div>
-      </dl>
-      <a href={withBase(`/patterns/${fallbackPattern.id}/`)}>Open pattern</a>
-    </article>
+    <div class="category-index">
+      {categoryGroups.map((group) => (
+        <article class="category-row">
+          <a href={categoryHref(group.category)}>
+            <span>{group.category}</span>
+            <strong>{group.totalCount} entries</strong>
+          </a>
+          <p>{group.description ?? group.sample?.useWhen[0] ?? group.sample?.problem}</p>
+          <a class="quiet-link" href={labCategoryHref(group.category)}>Open in lab</a>
+        </article>
+      ))}
+    </div>
   </section>
 
-  <section class="landing-band audience-band" aria-labelledby="audience-title">
+  <section class="catalog-section catalog-two-column" aria-labelledby="featured-title">
     <div>
-      <p class="eyebrow">Why subscribe</p>
-      <h2 id="audience-title">Short enough for inboxes. Specific enough for implementation.</h2>
+      <div class="section-heading">
+        <h2 id="featured-title">Readable entries</h2>
+        <p>Each entry explains when to use it, when to avoid it, what states are required, and what sources back the guidance.</p>
+      </div>
+      <div class="featured-list">
+        {featuredPatterns.map((pattern) => (
+          <article class="featured-row">
+            <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
+            <p>{pattern.useWhen[0]}</p>
+            <span>{pattern.category}</span>
+          </article>
+        ))}
+      </div>
     </div>
-    <div class="audience-grid">
-      <section>
-        <h3>For engineers</h3>
-        <p>
-          Get the contract behind the component: states, keyboard behavior, failure modes, source-backed accessibility notes,
-          and edge cases that usually disappear in mockups.
-        </p>
-      </section>
-      <section>
-        <h3>For product managers</h3>
-        <p>
-          Get the decision rule behind the backlog item: what user problem the pattern solves, what competing patterns it is
-          not, and how to avoid vague acceptance criteria.
-        </p>
-      </section>
-      <section>
-        <h3>For teams</h3>
-        <p>
-          Turn pattern names into review language that helps product, design, engineering, research, and QA catch mismatches
-          before they ship.
-        </p>
-      </section>
-    </div>
+
+    <aside class="lab-invite" aria-labelledby="lab-title">
+      <p class="eyebrow">Interactive lab</p>
+      <h2 id="lab-title">Use the workbench when the choice is not obvious.</h2>
+      <p>
+        Filter by job, category, platform, maturity, risk, reversibility, urgency, confidence, and interruption cost.
+        Compare alternatives and inspect live examples without losing the readable catalog.
+      </p>
+      <div class="lab-invite-actions">
+        <a class="primary-action" href={withBase("/lab/")}>Open lab</a>
+        <a class="secondary-action" href={withBase("/compare/")}>Compare patterns</a>
+      </div>
+      <dl>
+        <div><dt>{antiPatternCount}</dt><dd>anti-pattern checks</dd></div>
+        <div><dt>{completePatterns.length}</dt><dd>ready for implementation review</dd></div>
+      </dl>
+    </aside>
   </section>
-  <script is:inline type="application/json" id="daily-pattern-data" set:html={JSON.stringify(dailyPatternPayload)} />
+
+  <section class="catalog-section email-strip" aria-labelledby="email-title">
+    <div>
+      <p class="eyebrow">Email</p>
+      <h2 id="email-title">One practical pattern at a time.</h2>
+    </div>
+    <p>
+      The newsletter belongs after the catalog path: a concise pattern brief for teams that want sharper
+      implementation and review language.
+    </p>
+    <a href="mailto:artpar@gmail.com?subject=Subscribe%20to%20UI%2FUX%20Pattern%20Catalog">Subscribe</a>
+  </section>
+
+  <script is:inline type="application/json" id="catalog-search-data" set:html={JSON.stringify(searchPayload)} />
   <script>
-    type DailyPattern = {
+    type SearchPattern = {
       id: string;
       name: string;
       category: string;
       surfaceType: string;
+      problem: string;
       useWhen: string;
-      avoidWhen: string;
       href: string;
     };
 
-    const dailyPatternScript = document.getElementById("daily-pattern-data");
-    const patternCard = document.querySelector("[data-pattern-of-day]");
-    const appendText = (
-      parent: Element,
-      tagName: keyof HTMLElementTagNameMap,
-      text: string,
-      className = ""
-    ) => {
-      const node = document.createElement(tagName);
-      if (className) node.className = className;
-      node.textContent = text;
-      parent.append(node);
-      return node;
-    };
-    if (dailyPatternScript && patternCard) {
-      const patterns = JSON.parse(dailyPatternScript.textContent || "[]") as DailyPattern[];
-      if (patterns.length > 0) {
-        const day = Math.floor(Date.now() / 86400000);
-        const pattern = patterns[day % patterns.length];
-        patternCard.replaceChildren();
-        appendText(patternCard, "span", pattern.category, "card-meta");
-        appendText(patternCard, "h3", pattern.name);
-        appendText(patternCard, "p", pattern.surfaceType);
-        const list = document.createElement("dl");
-        const useRow = document.createElement("div");
-        appendText(useRow, "dt", "Use when");
-        appendText(useRow, "dd", pattern.useWhen);
-        const avoidRow = document.createElement("div");
-        appendText(avoidRow, "dt", "Avoid when");
-        appendText(avoidRow, "dd", pattern.avoidWhen);
-        list.append(useRow, avoidRow);
-        patternCard.append(list);
-        const link = document.createElement("a");
-        link.href = pattern.href;
-        link.textContent = "Open pattern";
-        patternCard.append(link);
-      }
+    const searchScript = document.getElementById("catalog-search-data");
+    const searchInput = document.querySelector("[data-catalog-query]");
+    const searchResults = document.querySelector("[data-catalog-results]");
+    const searchForm = document.querySelector("[data-catalog-search]");
+    const patterns = JSON.parse(searchScript?.textContent || "[]") as SearchPattern[];
+
+    function normalize(value: string) {
+      return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     }
 
-    const subscribeForm = document.querySelector("[data-subscribe-form]");
-    if (subscribeForm instanceof HTMLFormElement) {
-      subscribeForm.addEventListener("submit", (event) => {
-        const mailto = subscribeForm.dataset.mailto;
-        if (!mailto) return;
+    function renderSearch(query: string) {
+      if (!(searchResults instanceof HTMLElement)) return;
+      const terms = normalize(query).split(" ").filter(Boolean);
+      searchResults.replaceChildren();
+
+      if (terms.length === 0) {
+        searchResults.hidden = true;
+        return;
+      }
+
+      const matches = patterns
+        .map((pattern) => {
+          const text = normalize([
+            pattern.name,
+            pattern.category,
+            pattern.surfaceType,
+            pattern.problem,
+            pattern.useWhen
+          ].join(" "));
+          const score = terms.reduce((total, term) => total + (text.includes(term) ? 1 : 0), 0);
+          return { pattern, score };
+        })
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score || a.pattern.name.localeCompare(b.pattern.name))
+        .slice(0, 8);
+
+      const status = document.createElement("p");
+      status.className = "catalog-result-status";
+      status.textContent = matches.length ? `${matches.length} matches` : "No matching patterns";
+      searchResults.append(status);
+
+      for (const { pattern } of matches) {
+        const link = document.createElement("a");
+        link.href = pattern.href;
+        const name = document.createElement("strong");
+        name.textContent = pattern.name;
+        const meta = document.createElement("span");
+        meta.textContent = pattern.category;
+        const summary = document.createElement("small");
+        summary.textContent = pattern.useWhen || pattern.problem;
+        link.append(name, meta, summary);
+        searchResults.append(link);
+      }
+
+      searchResults.hidden = false;
+    }
+
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.addEventListener("input", () => renderSearch(searchInput.value));
+    }
+
+    if (searchForm instanceof HTMLFormElement) {
+      searchForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const formData = new FormData(subscribeForm);
-        const email = String(formData.get("email") || "");
-        const role = String(formData.get("metadata__role") || "");
-        const subject = encodeURIComponent("Subscribe to UI/UX Pattern Catalog");
-        const body = encodeURIComponent(`Please add ${email} to the UI/UX Pattern Catalog email list.\nRole: ${role}`);
-        window.location.href = `${mailto}?subject=${subject}&body=${body}`;
+        renderSearch(searchInput instanceof HTMLInputElement ? searchInput.value : "");
       });
     }
   </script>

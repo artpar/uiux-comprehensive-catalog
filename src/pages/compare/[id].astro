@@ -83,7 +83,7 @@ const dimensions = [
     <p>{comparison.decisionRules[0]}</p>
     <div class="comparison-links">
       {comparedPatterns.map((pattern) => (
-        <a data-live-pattern={pattern.id} href={withBase(`/?pattern=${pattern.id}`)}>{pattern.name} live example</a>
+        <a data-live-pattern={pattern.id} href={withBase(`/lab/?pattern=${pattern.id}`)}>{pattern.name} live example</a>
       ))}
     </div>
   </section>
@@ -155,7 +155,7 @@ const dimensions = [
         <summary>Inspect live examples</summary>
         <div class="comparison-links">
           {comparedPatterns.map((pattern) => (
-            <a data-live-pattern={pattern.id} href={withBase(`/?pattern=${pattern.id}`)}>{pattern.name}</a>
+            <a data-live-pattern={pattern.id} href={withBase(`/lab/?pattern=${pattern.id}`)}>{pattern.name}</a>
           ))}
         </div>
       </details>
@@ -226,7 +226,7 @@ const dimensions = [
       const nextParams = new URLSearchParams(window.location.search);
       nextParams.delete("selected");
       if (pattern) nextParams.set("pattern", pattern);
-      link.href = `${link.pathname}?${nextParams.toString()}`;
+      link.href = `${link.pathname}${nextParams.toString() ? `?${nextParams.toString()}` : ""}`;
     });
   </script>
 </BaseLayout>
