@@ -6,7 +6,7 @@ function normalizedBase() {
 }
 
 export const GET: APIRoute = ({ site }) => {
-  const siteUrl = site ?? new URL("https://artpar.github.io");
+  const siteUrl = site ?? new URL("https://uxpatternsguide.com");
   const sitemapUrl = new URL(`${normalizedBase()}sitemap.xml`, siteUrl).toString();
 
   return new Response(`User-agent: *\nAllow: /\n\nSitemap: ${sitemapUrl}\n`, {

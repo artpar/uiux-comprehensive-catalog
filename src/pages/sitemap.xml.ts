@@ -22,7 +22,7 @@ function escapeXml(value: string) {
 }
 
 export const GET: APIRoute = ({ site }) => {
-  const siteUrl = site ?? new URL("https://artpar.github.io");
+  const siteUrl = site ?? new URL("https://uxpatternsguide.com");
   const routes = [
     ...staticRoutes,
     ...patterns.map((pattern) => `patterns/${pattern.id}/`),

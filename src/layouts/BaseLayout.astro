@@ -9,6 +9,7 @@ type Props = {
 
 const { title, description = "A source-backed catalog of practical UI/UX patterns." } = Astro.props;
 const currentPath = Astro.url.pathname;
+const canonicalHref = new URL(currentPath, Astro.site ?? Astro.url).toString();
 const sitemapHref = new URL(withBase("/sitemap.xml"), Astro.site ?? Astro.url).toString();
 const navItems = [
   { href: withBase("/"), label: "Home", icon: "#", active: currentPath === withBase("/") },
@@ -28,12 +29,13 @@ const navItems = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <link rel="canonical" href={canonicalHref} />
     <link rel="sitemap" href={sitemapHref} type="application/xml" />
     <title>{title}</title>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href={withBase("/")}>UI/UX Pattern Catalog</a>
+      <a class="brand" href={withBase("/")}>UX Patterns Guide</a>
       <nav aria-label="Primary">
         {navItems.map((item) => (
           <a href={item.href} aria-current={item.active ? "page" : undefined}>
