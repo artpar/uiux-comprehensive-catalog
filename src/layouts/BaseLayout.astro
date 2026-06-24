@@ -18,6 +18,8 @@ const currentPath = Astro.url.pathname;
 const canonicalHref = new URL(currentPath, Astro.site ?? Astro.url).toString();
 const sitemapHref = new URL(withBase("/sitemap.xml"), Astro.site ?? Astro.url).toString();
 const jsonLd = structuredData ? JSON.stringify(structuredData).replaceAll("</script", "<\\/script") : undefined;
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ?? "abacfae7-b939-4c0e-ae4b-fb950bba4b7f";
+const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL ?? "https://cloud.umami.is/script.js";
 const navItems = [
   { href: withBase("/"), label: "Home", icon: "#", active: currentPath === withBase("/") },
   { href: withBase("/patterns/"), label: "Patterns", icon: "A", active: currentPath.startsWith(withBase("/patterns/")) },
@@ -50,24 +52,21 @@ const navItems = [
     <link rel="sitemap" href={sitemapHref} type="application/xml" />
     <title>{title}</title>
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
-    {import.meta.env.PROD && (
+    {import.meta.env.PROD && umamiWebsiteId && (
       <>
         <script is:inline>
-          window.plausible = window.plausible || function() {
-            (window.plausible.q = window.plausible.q || []).push(arguments);
-          };
           document.addEventListener("click", function(event) {
             var target = event.target instanceof Element ? event.target.closest("[data-analytics-event]") : null;
-            if (!target || typeof window.plausible !== "function") return;
+            if (!target || !window.umami || typeof window.umami.track !== "function") return;
             var props = {};
             for (var key in target.dataset) {
               if (key === "analyticsEvent") continue;
               props[key] = target.dataset[key];
             }
-            window.plausible(target.dataset.analyticsEvent, Object.keys(props).length ? { props: props } : undefined);
+            window.umami.track(target.dataset.analyticsEvent, Object.keys(props).length ? props : undefined);
           });
         </script>
-        <script is:inline defer data-domain="uxpatternsguide.com" src="https://plausible.io/js/script.js"></script>
+        <script is:inline defer src={umamiScriptUrl} data-website-id={umamiWebsiteId}></script>
       </>
     )}
   </head>
