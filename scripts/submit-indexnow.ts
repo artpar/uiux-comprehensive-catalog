@@ -13,6 +13,8 @@ type Options = {
   key: string;
   keyLocation: string;
   dryRun: boolean;
+  retryAttempts: number;
+  retryDelayMs: number;
 };
 
 function optionValue(name: string, fallback?: string): string | undefined {
@@ -31,6 +33,15 @@ function chunk<T>(items: T[], size: number): T[][] {
     chunks.push(items.slice(index, index + size));
   }
   return chunks;
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function shouldRetry(status: number, body: string): boolean {
+  if (status === 429 || status >= 500) return true;
+  return status === 403 && body.includes("SiteVerificationNotCompleted");
 }
 
 function extractSitemapUrls(xml: string, host: string): string[] {
@@ -64,20 +75,34 @@ async function submitBatch(options: Options, urls: string[], batchIndex: number,
     return;
   }
 
-  const response = await fetch(options.endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify(payload),
-  });
+  for (let attempt = 1; attempt <= options.retryAttempts; attempt += 1) {
+    const response = await fetch(options.endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify(payload),
+    });
 
-  if (![200, 202].includes(response.status)) {
     const body = await response.text();
-    throw new Error(
-      `IndexNow batch ${batchIndex + 1}/${batchCount} failed with HTTP ${response.status}: ${body}`,
-    );
+
+    if ([200, 202].includes(response.status)) {
+      console.log(`IndexNow batch ${batchIndex + 1}/${batchCount}: submitted ${urls.length} URLs (${response.status})`);
+      return;
+    }
+
+    if (attempt < options.retryAttempts && shouldRetry(response.status, body)) {
+      console.log(
+        `IndexNow batch ${batchIndex + 1}/${batchCount}: HTTP ${response.status}; retrying in ${
+          options.retryDelayMs / 1000
+        }s (${attempt}/${options.retryAttempts})`,
+      );
+      await sleep(options.retryDelayMs);
+      continue;
+    }
+
+    throw new Error(`IndexNow batch ${batchIndex + 1}/${batchCount} failed with HTTP ${response.status}: ${body}`);
   }
 
-  console.log(`IndexNow batch ${batchIndex + 1}/${batchCount}: submitted ${urls.length} URLs (${response.status})`);
+  throw new Error(`IndexNow batch ${batchIndex + 1}/${batchCount} failed without a response`);
 }
 
 async function main() {
@@ -93,6 +118,8 @@ async function main() {
     key,
     keyLocation,
     dryRun: hasFlag("--dry-run"),
+    retryAttempts: Number(optionValue("--retry-attempts", process.env.INDEXNOW_RETRY_ATTEMPTS ?? "6")),
+    retryDelayMs: Number(optionValue("--retry-delay-ms", process.env.INDEXNOW_RETRY_DELAY_MS ?? "30000")),
   };
 
   const sitemap = options.sitemapPath.startsWith("https://")
