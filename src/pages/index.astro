@@ -35,8 +35,31 @@ const categoryGroups = [...new Set(patterns.map((pattern) => pattern.category))]
     };
   });
 const featuredPatterns = completePatterns
-  .filter((pattern) => pattern.maturity !== "anti-pattern")
-  .slice(0, 6);
+  .filter((pattern) => [
+    "ai-limitation-onboarding",
+    "human-approval-gate",
+    "source-grounding-display",
+    "error-state",
+    "empty-state",
+    "inline-validation"
+  ].includes(pattern.id));
+const decisionTracks = [
+  {
+    title: "Choose",
+    body: "Start from the user problem, compare nearby alternatives, and avoid choosing a component by name alone.",
+    href: withBase("/patterns/")
+  },
+  {
+    title: "Inspect",
+    body: "Open the lab to test states, keyboard behavior, failure modes, and implementation contracts before copying a pattern.",
+    href: withBase("/lab/")
+  },
+  {
+    title: "Prove",
+    body: "Trace guidance back to sources, verification dates, and source-backed claims when a pattern affects risk or trust.",
+    href: withBase("/sources/")
+  }
+];
 const searchPayload = patterns.map((pattern) => ({
   id: pattern.id,
   name: pattern.name,
@@ -67,30 +90,39 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
   description={SITE_DESCRIPTION}
   structuredData={websiteJsonLd(siteUrl)}
 >
-  <section class="catalog-home" aria-labelledby="catalog-title">
-    <div class="catalog-intro">
-      <p class="eyebrow">UX patterns guide</p>
-      <h1 id="catalog-title">Find the right pattern.</h1>
+  <section class="catalog-home home-decision-hero" aria-labelledby="catalog-title">
+    <div class="catalog-intro home-hero-copy">
+      <div class="pattern-kicker">
+        <span>Source-backed UX patterns</span>
+        <span>{completePatterns.length} complete entries</span>
+        <span>{sources.length} sources</span>
+      </div>
+      <h1 id="catalog-title">Choose the right UX pattern before the interface hardens.</h1>
       <p>
-        Browse practical interface patterns by family, read the decision rule, then open the lab when you need
-        filtering, comparison, live examples, and implementation checks.
+        A practical decision system for product teams, designers, frontend engineers, and AI agents:
+        search the problem, compare nearby patterns, inspect required states, and verify the source trail.
       </p>
+      <div class="pattern-hero-actions">
+        <a class="primary-action" href={withBase("/patterns/")}>Browse patterns</a>
+        <a class="secondary-action" href={withBase("/lab/")}>Open lab</a>
+      </div>
     </div>
 
-    <form class="catalog-search" role="search" data-catalog-search>
-      <label for="catalog-query">Search patterns</label>
+    <form class="catalog-search home-search-panel" role="search" data-catalog-search>
+      <label for="catalog-query">Find a pattern by problem</label>
       <div class="catalog-search-row">
         <input
           id="catalog-query"
           name="query"
           type="search"
           autocomplete="off"
-          placeholder="Try error recovery, navigation, filters, AI"
+          placeholder="Try filters, AI, errors"
           data-catalog-query
         />
         <a href={withBase("/patterns/")}>All patterns</a>
       </div>
       <div class="catalog-search-results" data-catalog-results hidden></div>
+      <p>Search by task, risk, component, failure mode, or AI behavior.</p>
     </form>
 
     <dl class="catalog-stats" aria-label="Catalog status">
@@ -111,6 +143,21 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
         <dd>evidence sources</dd>
       </div>
     </dl>
+  </section>
+
+  <section class="catalog-section home-decision-system" aria-labelledby="decision-system-title">
+    <div class="section-heading">
+      <h2 id="decision-system-title">Use it like a product decision system</h2>
+      <p>The site is structured around the work a real team has to do before an interaction ships.</p>
+    </div>
+    <div class="decision-track-grid">
+      {decisionTracks.map((track) => (
+        <a class="decision-track" href={track.href}>
+          <strong>{track.title}</strong>
+          <span>{track.body}</span>
+        </a>
+      ))}
+    </div>
   </section>
 
   <section class="catalog-section" aria-labelledby="subject-title">
@@ -135,15 +182,15 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
   <section class="catalog-section catalog-two-column" aria-labelledby="featured-title">
     <div>
       <div class="section-heading">
-        <h2 id="featured-title">Readable entries</h2>
-        <p>Each entry explains when to use it, when to avoid it, what states are required, and what sources back the guidance.</p>
+        <h2 id="featured-title">High-stakes patterns to inspect first</h2>
+        <p>These entries show the standard every page is moving toward: decision rule, quality bar, implementation contract, and evidence trail.</p>
       </div>
       <div class="featured-list">
         {featuredPatterns.map((pattern) => (
           <article class="featured-row">
             <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
             <p>{pattern.useWhen[0]}</p>
-            <span>{pattern.category}</span>
+            <span>{pattern.category} - {pattern.sources.length} sources</span>
           </article>
         ))}
       </div>
