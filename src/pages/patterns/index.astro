@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
 const groupedPatterns = [...new Set(patterns.map((pattern) => pattern.category))]
   .sort()
@@ -15,12 +16,27 @@ const groupedPatterns = [...new Set(patterns.map((pattern) => pattern.category))
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
+
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const description = "Browse practical UX and UI patterns by family, with source-backed guidance, implementation checks, and live examples.";
 ---
 
 <BaseLayout
-  title="Patterns | UI/UX Pattern Catalog"
-  description="Browse every UI and UX pattern by family, with links to readable guidance and the interactive lab."
+  title={pageTitle("UX and UI Patterns")}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd("UX and UI Patterns", description, "/patterns/", siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Patterns", path: "/patterns/" }
+    ], siteUrl)
+  ]}
 >
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <span aria-current="page">Patterns</span>
+  </nav>
+
   <section class="page-head pattern-index-head">
     <div>
       <h1>Patterns</h1>

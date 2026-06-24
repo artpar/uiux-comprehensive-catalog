@@ -1,16 +1,23 @@
 ---
 import "../styles/global.css";
 import { withBase } from "@/lib/paths";
+import { SITE_NAME } from "@/lib/seo";
 
 type Props = {
   title: string;
   description?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 };
 
-const { title, description = "A source-backed catalog of practical UI/UX patterns." } = Astro.props;
+const {
+  title,
+  description = "A source-backed guide to practical UX and UI patterns.",
+  structuredData
+} = Astro.props;
 const currentPath = Astro.url.pathname;
 const canonicalHref = new URL(currentPath, Astro.site ?? Astro.url).toString();
 const sitemapHref = new URL(withBase("/sitemap.xml"), Astro.site ?? Astro.url).toString();
+const jsonLd = structuredData ? JSON.stringify(structuredData).replaceAll("</script", "<\\/script") : undefined;
 const navItems = [
   { href: withBase("/"), label: "Home", icon: "#", active: currentPath === withBase("/") },
   { href: withBase("/patterns/"), label: "Patterns", icon: "A", active: currentPath.startsWith(withBase("/patterns/")) },
@@ -28,10 +35,19 @@ const navItems = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
     <link rel="canonical" href={canonicalHref} />
     <link rel="sitemap" href={sitemapHref} type="application/xml" />
     <title>{title}</title>
+    {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
     <header class="site-header">

@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { comparisons, patterns, getPattern } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 import { patternCategories } from "@/schemas/catalog";
 
 const patternOptions = patterns
@@ -42,10 +43,27 @@ const categoryFilters = patternCategories
     count: comparisonOptions.filter((comparison) => comparison.primaryCategory === category).length
   }))
   .filter((item) => item.count > 0);
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const description = "Compare UX and UI patterns side by side before choosing an interaction model for a product workflow.";
 ---
 
-<BaseLayout title="Pattern Comparisons | UI/UX Pattern Catalog">
+<BaseLayout
+  title={pageTitle("UX Pattern Comparisons")}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd("UX Pattern Comparisons", description, "/compare/", siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Comparisons", path: "/compare/" }
+    ], siteUrl)
+  ]}
+>
   <div class="compare-home">
+    <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+      <a href={withBase("/")}>Home</a>
+      <span aria-current="page">Comparisons</span>
+    </nav>
+
     <section class="compare-hero" aria-labelledby="compare-title">
       <div class="compare-intro">
         <span class="eyebrow">Compare</span>

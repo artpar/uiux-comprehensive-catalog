@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { comparisons, getPattern, getSource } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
 import type { PatternEntry } from "@/schemas/catalog";
 
 function isPattern(value: PatternEntry | undefined): value is PatternEntry {
@@ -24,6 +25,36 @@ export function getStaticPaths() {
 const { comparison } = Astro.props;
 const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(isPattern);
 const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: `${comparison.title} UX Pattern Comparison`,
+    name: comparison.title,
+    description: comparison.summary,
+    url: absoluteUrl(`/compare/${comparison.id}/`, siteUrl),
+    dateModified: comparison.lastVerified,
+    inLanguage: "en",
+    about: comparedPatterns.map((pattern) => pattern.name),
+    citation: sourceRefs.map(({ source }) => source?.url).filter(Boolean),
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: absoluteUrl("/", siteUrl)
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: absoluteUrl("/", siteUrl)
+    }
+  },
+  breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Comparisons", path: "/compare/" },
+    { name: comparison.title, path: `/compare/${comparison.id}/` }
+  ], siteUrl)
+];
 const dimensions = [
   {
     label: "UI or UX",
@@ -76,7 +107,13 @@ const dimensions = [
 ];
 ---
 
-<BaseLayout title={`${comparison.title} | UI/UX Pattern Catalog`} description={comparison.summary}>
+<BaseLayout title={pageTitle(`${comparison.title} UX Pattern Comparison`)} description={comparison.summary} structuredData={structuredData}>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <a href={withBase("/compare/")}>Comparisons</a>
+    <span aria-current="page">{comparison.title}</span>
+  </nav>
+
   <section class="compare-detail-head">
     <a class="open-link" href={withBase("/compare/")}>Back to compare picker</a>
     <h1>{comparedPatterns.map((pattern) => pattern.name).join(" vs ")}</h1>
@@ -186,7 +223,7 @@ const dimensions = [
 
       <section class="detail-panel compact-note">
         <h2>Verification</h2>
-        <p>Last verified: {comparison.lastVerified}</p>
+        <p>Last verified: <time datetime={comparison.lastVerified}>{comparison.lastVerified}</time></p>
       </section>
     </aside>
   </div>

@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPattern, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
 const antiPatterns = patterns
   .filter((pattern) => pattern.maturity === "anti-pattern")
@@ -13,12 +14,26 @@ const groupedCounts = [...new Set(antiPatterns.map((pattern) => pattern.category
     count: antiPatterns.filter((pattern) => pattern.category === category).length
   }));
 const highRiskExamples = antiPatterns.slice(0, 4);
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const description = "Review UX and UI anti-patterns, detection cues, safer alternatives, and source-backed implementation guidance.";
 ---
 
 <BaseLayout
-  title="Anti-patterns | UI/UX Pattern Catalog"
-  description="A readable index of UI and UX anti-patterns with compact audit cues and safer alternatives."
+  title={pageTitle("UX Anti-patterns")}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd("UX Anti-patterns", description, "/anti-patterns/", siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Anti-patterns", path: "/anti-patterns/" }
+    ], siteUrl)
+  ]}
 >
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <span aria-current="page">Anti-patterns</span>
+  </nav>
+
   <section class="anti-pattern-home" aria-labelledby="anti-title">
     <div class="anti-pattern-intro">
       <p class="eyebrow">Anti-patterns</p>

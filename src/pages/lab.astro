@@ -3,16 +3,31 @@ import CatalogWorkbench from "@/components/CatalogWorkbench";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { comparisons, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
 const seededCategories = [...new Set(patterns.map((pattern) => pattern.category))].sort();
 const seededPlatforms = [...new Set(patterns.flatMap((pattern) => pattern.platforms))].sort();
 const seededMaturities = [...new Set(patterns.map((pattern) => pattern.maturity))].sort();
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const description = "Use the interactive UX pattern lab to filter source-backed patterns by product problem, platform, risk, and implementation state.";
 ---
 
 <BaseLayout
-  title="Pattern Lab | UI/UX Pattern Catalog"
-  description="An interactive decision lab for choosing UI/UX patterns from source-backed rules, live examples, and implementation checks."
+  title={pageTitle("UX Pattern Lab")}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd("UX Pattern Lab", description, "/lab/", siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Pattern Lab", path: "/lab/" }
+    ], siteUrl)
+  ]}
 >
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <span aria-current="page">Pattern Lab</span>
+  </nav>
+
   <CatalogWorkbench
     client:load
     patterns={patterns}

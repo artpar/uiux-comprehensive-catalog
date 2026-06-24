@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { comparisons, patterns, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { SITE_DESCRIPTION, SITE_NAME, websiteJsonLd } from "@/lib/seo";
 
 const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
 const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
@@ -57,11 +58,14 @@ function categoryHref(category: string) {
 function labCategoryHref(category: string) {
   return withBase(`/lab/?category=${encodeURIComponent(category)}`);
 }
+
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 ---
 
 <BaseLayout
-  title="UX Patterns Guide"
-  description="A source-backed guide to practical UX and UI patterns with an interactive lab for choosing the right pattern."
+  title={SITE_NAME}
+  description={SITE_DESCRIPTION}
+  structuredData={websiteJsonLd(siteUrl)}
 >
   <section class="catalog-home" aria-labelledby="catalog-title">
     <div class="catalog-intro">
@@ -172,7 +176,7 @@ function labCategoryHref(category: string) {
       The newsletter belongs after the catalog path: a concise pattern brief for teams that want sharper
       implementation and review language.
     </p>
-    <a href="mailto:artpar@gmail.com?subject=Subscribe%20to%20UI%2FUX%20Pattern%20Catalog">Subscribe</a>
+    <a href="mailto:artpar@gmail.com?subject=Subscribe%20to%20UX%20Patterns%20Guide">Subscribe</a>
   </section>
 
   <script is:inline type="application/json" id="catalog-search-data" set:html={JSON.stringify(searchPayload)} />

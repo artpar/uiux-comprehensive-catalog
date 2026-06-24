@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import PatternPlayground from "@/components/PatternPlayground";
 import { comparisons, getComparison, getPattern, getSource, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
 import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
 
 function isPattern(value: PatternEntry | undefined): value is PatternEntry {
@@ -32,9 +33,48 @@ const related = pattern.relatedPatterns.map((id) => getPattern(id)).filter(isPat
 const patternComparisons = pattern.comparisons.map((id) => getComparison(id)).filter(isComparison);
 const referencedByComparisons = comparisons.filter((comparison) => comparison.patternIds.includes(pattern.id));
 const allComparisons = [...new Map([...patternComparisons, ...referencedByComparisons].map((item) => [item.id, item])).values()];
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const patternKind = pattern.maturity === "anti-pattern" ? "UX Anti-pattern" : "UX Pattern";
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: `${pattern.name} ${patternKind}`,
+    name: pattern.name,
+    description: pattern.problem,
+    url: absoluteUrl(`/patterns/${pattern.id}/`, siteUrl),
+    dateModified: pattern.lastVerified,
+    inLanguage: "en",
+    about: [pattern.category, pattern.surfaceType, ...pattern.aliases],
+    citation: sourceRefs
+      .map(({ source }) => source?.url)
+      .filter(Boolean),
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: absoluteUrl("/", siteUrl)
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: absoluteUrl("/", siteUrl)
+    }
+  },
+  breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Patterns", path: "/patterns/" },
+    { name: pattern.name, path: `/patterns/${pattern.id}/` }
+  ], siteUrl)
+];
 ---
 
-<BaseLayout title={`${pattern.name} | UI/UX Pattern Catalog`} description={pattern.problem}>
+<BaseLayout title={pageTitle(`${pattern.name} ${patternKind}`)} description={pattern.problem} structuredData={structuredData}>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <a href={withBase("/patterns/")}>Patterns</a>
+    <span aria-current="page">{pattern.name}</span>
+  </nav>
+
   <section class="pattern-titlebar">
     <div>
       <div class="pill-list">
@@ -64,7 +104,7 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
         <h2>Decision Snapshot</h2>
         <p><strong>Type:</strong> {formatPatternType(pattern.patternType)} - {pattern.surfaceType}</p>
         <p><strong>Status:</strong> {pattern.completionStatus}</p>
-        <p><strong>Verified:</strong> {pattern.lastVerified}</p>
+        <p><strong>Verified:</strong> <time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></p>
         <p><strong>Sources:</strong> {pattern.sources.length} source-backed claims</p>
         {pattern.completionNotes && (
           <details class="mini-disclosure">
@@ -324,7 +364,7 @@ const allComparisons = [...new Map([...patternComparisons, ...referencedByCompar
 
         <section class="guidance-block verification-strip">
           <h2>Verification</h2>
-          <p>Last verified: {pattern.lastVerified}</p>
+          <p>Last verified: <time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></p>
         </section>
       </section>
     </div>

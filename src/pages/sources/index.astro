@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPatternsForSource, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
 const authorityByType: Record<string, string> = {
   spec: "Normative accessibility and semantics evidence",
@@ -13,9 +14,26 @@ const authorityByType: Record<string, string> = {
   "pattern-library": "Pattern inventory evidence"
 };
 const sourceTypes = [...new Set(sources.map((source) => source.type))].sort();
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const description = "Browse the specs, research, service manuals, product examples, and pattern libraries that support UX Patterns Guide.";
 ---
 
-<BaseLayout title="Sources | UI/UX Pattern Catalog">
+<BaseLayout
+  title={pageTitle("UX Pattern Sources")}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd("UX Pattern Sources", description, "/sources/", siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Sources", path: "/sources/" }
+    ], siteUrl)
+  ]}
+>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <span aria-current="page">Sources</span>
+  </nav>
+
   <section class="page-head">
     <h1>Source index</h1>
     <p>Every accepted pattern is tied back to specs, platform guidance, UX research, service manuals, or real product evidence.</p>

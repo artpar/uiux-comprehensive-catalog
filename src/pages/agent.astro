@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
 const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
 const stubCount = patterns.length - completePatterns.length;
@@ -32,9 +33,26 @@ const antiPatternBrief = patterns
     `Review: ${pattern.critiqueQuestions[0]}`
   ].join("\n"))
   .join("\n\n") || "No anti-patterns are currently marked complete. Stub entries are excluded from this checklist.";
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const description = "Download machine-readable UX pattern guidance for agents that need source-backed interaction contracts before generating UI.";
 ---
 
-<BaseLayout title="Agent Exports | UI/UX Pattern Catalog">
+<BaseLayout
+  title={pageTitle("UX Pattern Agent Exports")}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd("UX Pattern Agent Exports", description, "/agent/", siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Agent exports", path: "/agent/" }
+    ], siteUrl)
+  ]}
+>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <span aria-current="page">Agent exports</span>
+  </nav>
+
   <section class="page-head">
     <h1>Agent exports</h1>
     <p>

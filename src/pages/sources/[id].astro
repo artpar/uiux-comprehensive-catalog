@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPatternsForSource, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
 
 export function getStaticPaths() {
   return sources.map((source) => ({
@@ -16,13 +17,48 @@ const claimRows = linkedPatterns.map((pattern) => ({
   pattern,
   note: pattern.sources.find((ref) => ref.id === source.id)?.note ?? source.notes
 }));
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: `${source.name} UX Pattern Source`,
+    description: source.notes,
+    url: absoluteUrl(`/sources/${source.id}/`, siteUrl),
+    dateModified: source.checkedAt,
+    inLanguage: "en",
+    about: linkedPatterns.map((pattern) => pattern.name),
+    sameAs: source.url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: absoluteUrl("/", siteUrl)
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: absoluteUrl("/", siteUrl)
+    }
+  },
+  breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Sources", path: "/sources/" },
+    { name: source.name, path: `/sources/${source.id}/` }
+  ], siteUrl)
+];
 ---
 
-<BaseLayout title={`${source.name} | UI/UX Pattern Catalog`} description={source.notes}>
+<BaseLayout title={pageTitle(`${source.name} UX Pattern Source`)} description={source.notes} structuredData={structuredData}>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <a href={withBase("/sources/")}>Sources</a>
+    <span aria-current="page">{source.name}</span>
+  </nav>
+
   <section class="page-head">
     <div class="pill-list">
       <span>{source.type}</span>
-      <span>checked {source.checkedAt}</span>
+      <span>checked <time datetime={source.checkedAt}>{source.checkedAt}</time></span>
     </div>
     <h1>{source.name}</h1>
     <p>{source.notes}</p>
@@ -60,6 +96,6 @@ const claimRows = linkedPatterns.map((pattern) => ({
   <section class="detail-panel">
     <h2>Evidence Role</h2>
     <p>This source is treated as <strong>{source.type}</strong> evidence. Use it to validate the decision rules above, not as a visual style reference.</p>
-    <p>Publisher: {source.publisher ?? "Unknown"}. Last checked: {source.checkedAt}.</p>
+    <p>Publisher: {source.publisher ?? "Unknown"}. Last checked: <time datetime={source.checkedAt}>{source.checkedAt}</time>.</p>
   </section>
 </BaseLayout>
