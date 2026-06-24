@@ -12,9 +12,10 @@ type WorkbenchData = {
 type CatalogWorkbenchLoaderProps = {
   dataUrl: string;
   baseUrl: string;
+  detailBaseUrl: string;
 };
 
-export default function CatalogWorkbenchLoader({ dataUrl, baseUrl }: CatalogWorkbenchLoaderProps) {
+export default function CatalogWorkbenchLoader({ dataUrl, baseUrl, detailBaseUrl }: CatalogWorkbenchLoaderProps) {
   const [data, setData] = useState<WorkbenchData | null>(null);
   const [error, setError] = useState("");
 
@@ -62,6 +63,7 @@ export default function CatalogWorkbenchLoader({ dataUrl, baseUrl }: CatalogWork
       platforms={data.platforms}
       maturities={data.maturities}
       baseUrl={baseUrl}
+      detailBaseUrl={detailBaseUrl}
     />
   );
 }

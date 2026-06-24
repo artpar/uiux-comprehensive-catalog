@@ -1,4 +1,48 @@
 import { comparisons, patterns } from "@/lib/catalog";
+import type { PatternEntry } from "@/schemas/catalog";
+
+function patternSearchText(pattern: PatternEntry) {
+  const core = [
+    pattern.name,
+    pattern.aliases.join(" "),
+    pattern.category,
+    pattern.patternType,
+    pattern.surfaceType,
+    pattern.problem,
+    pattern.solution
+  ];
+  const keywordSource = [
+    ...pattern.uiGuidance,
+    ...pattern.uxGuidance,
+    ...pattern.uiExamples.good,
+    ...pattern.uiExamples.bad,
+    ...pattern.uxExamples.good,
+    ...pattern.uxExamples.bad,
+    pattern.selectionRules.join(" "),
+    pattern.requiredStates.join(" "),
+    pattern.commonMisuses.join(" "),
+    pattern.implementationChecklist.join(" "),
+    pattern.variants.join(" "),
+    pattern.avoidWhen.join(" "),
+    pattern.failureModes.join(" "),
+    pattern.critiqueQuestions.join(" "),
+    pattern.useWhen.join(" "),
+    pattern.interactionContract.join(" "),
+    pattern.keyboardBehavior.join(" "),
+    pattern.accessibility.join(" ")
+  ]
+    .join(" ")
+    .toLowerCase()
+    .match(/[a-z0-9][a-z0-9-]{2,}/g) ?? [];
+  const keywords = [...new Set(keywordSource)]
+    .filter((word) => !["with", "that", "this", "from", "when", "then", "into", "only", "must", "user", "users"].includes(word))
+    .slice(0, 32);
+
+  return [...core, keywords.join(" ")]
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 export function GET() {
   const workbenchPatterns = patterns.map((pattern) => ({
@@ -10,30 +54,13 @@ export function GET() {
     surfaceType: pattern.surfaceType,
     problem: pattern.problem,
     solution: pattern.solution,
-    uiGuidance: pattern.uiGuidance,
-    uxGuidance: pattern.uxGuidance,
-    uiExamples: pattern.uiExamples,
-    uxExamples: pattern.uxExamples,
-    selectionRules: pattern.selectionRules,
-    requiredStates: pattern.requiredStates,
-    commonMisuses: pattern.commonMisuses,
-    implementationChecklist: pattern.implementationChecklist,
-    variants: pattern.variants,
-    avoidWhen: pattern.avoidWhen,
-    failureModes: pattern.failureModes,
-    critiqueQuestions: pattern.critiqueQuestions,
     maturity: pattern.maturity,
     completionStatus: pattern.completionStatus,
     platforms: pattern.platforms,
-    useWhen: pattern.useWhen,
-    interactionContract: pattern.interactionContract,
     lastVerified: pattern.lastVerified,
-    keyboardBehavior: pattern.keyboardBehavior,
-    accessibility: pattern.accessibility,
-    sources: pattern.sources.map((source) => ({
-      id: source.id,
-      note: source.note
-    }))
+    searchText: patternSearchText(pattern),
+    sourceCount: pattern.sources.length,
+    sources: []
   }));
   const workbenchComparisons = comparisons.map((comparison) => ({
     id: comparison.id,

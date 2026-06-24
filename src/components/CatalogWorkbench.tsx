@@ -9,9 +9,10 @@ type CatalogWorkbenchProps = {
   platforms: string[];
   maturities: string[];
   baseUrl: string;
+  detailBaseUrl: string;
 };
 
-export type WorkbenchPattern = Pick<
+type WorkbenchPatternSummary = Pick<
   PatternEntry,
   | "id"
   | "name"
@@ -21,6 +22,17 @@ export type WorkbenchPattern = Pick<
   | "surfaceType"
   | "problem"
   | "solution"
+  | "maturity"
+  | "completionStatus"
+  | "platforms"
+  | "lastVerified"
+> & {
+  searchText: string;
+  sourceCount: number;
+};
+
+type WorkbenchPatternDetailFields = Pick<
+  PatternEntry,
   | "uiGuidance"
   | "uxGuidance"
   | "uiExamples"
@@ -33,15 +45,13 @@ export type WorkbenchPattern = Pick<
   | "avoidWhen"
   | "failureModes"
   | "critiqueQuestions"
-  | "maturity"
-  | "completionStatus"
-  | "platforms"
   | "useWhen"
   | "interactionContract"
-  | "lastVerified"
   | "keyboardBehavior"
   | "accessibility"
-> & {
+>;
+
+export type WorkbenchPattern = WorkbenchPatternSummary & Partial<WorkbenchPatternDetailFields> & {
   sources: Array<Pick<PatternEntry["sources"][number], "id" | "note">>;
 };
 
@@ -57,6 +67,30 @@ type JobGroup = {
 
 type DecisionStatus = "reviewing" | "selected" | "rejected" | "compare";
 type CandidateMode = "recommended" | "all" | "audit";
+
+const emptyList: string[] = [];
+const emptySources: WorkbenchPattern["sources"] = [];
+const emptyExamples = { good: emptyList, bad: emptyList };
+
+function list(items: string[] | undefined) {
+  return items ?? emptyList;
+}
+
+function examples(items: WorkbenchPattern["uiExamples"] | WorkbenchPattern["uxExamples"] | undefined) {
+  return items ?? emptyExamples;
+}
+
+function sources(pattern: WorkbenchPattern) {
+  return pattern.sources ?? emptySources;
+}
+
+function sourceTotal(pattern: WorkbenchPattern) {
+  return pattern.sourceCount ?? sources(pattern).length;
+}
+
+function hasPatternDetail(pattern: WorkbenchPattern | undefined): pattern is WorkbenchPattern & Required<WorkbenchPatternDetailFields> {
+  return Boolean(pattern?.uiGuidance);
+}
 
 const jobGroups: JobGroup[] = [
   {
@@ -128,6 +162,9 @@ function formatPatternType(value: WorkbenchPattern["patternType"]) {
 }
 
 function searchText(pattern: WorkbenchPattern) {
+  if (pattern.searchText) return pattern.searchText;
+  const ui = examples(pattern.uiExamples);
+  const ux = examples(pattern.uxExamples);
   return [
     pattern.name,
     pattern.aliases.join(" "),
@@ -136,44 +173,47 @@ function searchText(pattern: WorkbenchPattern) {
     pattern.surfaceType,
     pattern.problem,
     pattern.solution,
-    pattern.uiGuidance.join(" "),
-    pattern.uxGuidance.join(" "),
-    pattern.uiExamples.good.join(" "),
-    pattern.uiExamples.bad.join(" "),
-    pattern.uxExamples.good.join(" "),
-    pattern.uxExamples.bad.join(" "),
-    pattern.selectionRules.join(" "),
-    pattern.requiredStates.join(" "),
-    pattern.commonMisuses.join(" "),
-    pattern.implementationChecklist.join(" "),
-    pattern.variants.join(" "),
-    pattern.avoidWhen.join(" "),
-    pattern.failureModes.join(" "),
-    pattern.critiqueQuestions.join(" ")
+    list(pattern.uiGuidance).join(" "),
+    list(pattern.uxGuidance).join(" "),
+    ui.good.join(" "),
+    ui.bad.join(" "),
+    ux.good.join(" "),
+    ux.bad.join(" "),
+    list(pattern.selectionRules).join(" "),
+    list(pattern.requiredStates).join(" "),
+    list(pattern.commonMisuses).join(" "),
+    list(pattern.implementationChecklist).join(" "),
+    list(pattern.variants).join(" "),
+    list(pattern.avoidWhen).join(" "),
+    list(pattern.failureModes).join(" "),
+    list(pattern.critiqueQuestions).join(" ")
   ].join(" ");
 }
 
 function searchFields(pattern: WorkbenchPattern) {
+  const ui = examples(pattern.uiExamples);
+  const ux = examples(pattern.uxExamples);
   return [
     { label: "name", value: pattern.name },
     { label: "aliases", value: pattern.aliases.join(" ") },
     { label: "problem", value: pattern.problem },
     { label: "solution", value: pattern.solution },
     { label: "UI/UX type", value: `${formatPatternType(pattern.patternType)} ${pattern.surfaceType}` },
-    { label: "UI guidance", value: pattern.uiGuidance.join(" ") },
-    { label: "UX guidance", value: pattern.uxGuidance.join(" ") },
-    { label: "good UI", value: pattern.uiExamples.good.join(" ") },
-    { label: "bad UI", value: pattern.uiExamples.bad.join(" ") },
-    { label: "good UX", value: pattern.uxExamples.good.join(" ") },
-    { label: "bad UX", value: pattern.uxExamples.bad.join(" ") },
-    { label: "selection rule", value: pattern.selectionRules.join(" ") },
-    { label: "required state", value: pattern.requiredStates.join(" ") },
-    { label: "misuse", value: pattern.commonMisuses.join(" ") },
-    { label: "checklist", value: pattern.implementationChecklist.join(" ") },
-    { label: "variant", value: pattern.variants.join(" ") },
-    { label: "avoid rule", value: pattern.avoidWhen.join(" ") },
-    { label: "failure mode", value: pattern.failureModes.join(" ") },
-    { label: "critique question", value: pattern.critiqueQuestions.join(" ") }
+    { label: "catalog text", value: pattern.searchText },
+    { label: "UI guidance", value: list(pattern.uiGuidance).join(" ") },
+    { label: "UX guidance", value: list(pattern.uxGuidance).join(" ") },
+    { label: "good UI", value: ui.good.join(" ") },
+    { label: "bad UI", value: ui.bad.join(" ") },
+    { label: "good UX", value: ux.good.join(" ") },
+    { label: "bad UX", value: ux.bad.join(" ") },
+    { label: "selection rule", value: list(pattern.selectionRules).join(" ") },
+    { label: "required state", value: list(pattern.requiredStates).join(" ") },
+    { label: "misuse", value: list(pattern.commonMisuses).join(" ") },
+    { label: "checklist", value: list(pattern.implementationChecklist).join(" ") },
+    { label: "variant", value: list(pattern.variants).join(" ") },
+    { label: "avoid rule", value: list(pattern.avoidWhen).join(" ") },
+    { label: "failure mode", value: list(pattern.failureModes).join(" ") },
+    { label: "critique question", value: list(pattern.critiqueQuestions).join(" ") }
   ].filter((field) => field.value.trim());
 }
 
@@ -275,7 +315,8 @@ function matchesJob(pattern: WorkbenchPattern, jobId: string) {
 }
 
 function sourceCountLabel(pattern: WorkbenchPattern) {
-  return `${pattern.sources.length} ${pattern.sources.length === 1 ? "source" : "sources"}`;
+  const count = sourceTotal(pattern);
+  return `${count} ${count === 1 ? "source" : "sources"}`;
 }
 
 function formatLabel(value: string) {
@@ -306,7 +347,7 @@ function getMatchReason(pattern: WorkbenchPattern, jobId: string, query: string)
   }
 
   if (!reasons.length) {
-    reasons.push(pattern.selectionRules[0]);
+    reasons.push(list(pattern.selectionRules)[0] ?? pattern.solution);
   }
 
   return reasons[0];
@@ -338,24 +379,26 @@ function buildAgentBrief({
   shortlist: WorkbenchPattern[];
 }) {
   const job = jobGroups.find((item) => item.id === jobId);
+  const ui = examples(pattern.uiExamples);
+  const ux = examples(pattern.uxExamples);
   const lines = [
     `Pattern: ${pattern.name}`,
     `Pattern type: ${formatPatternType(pattern.patternType)} - ${pattern.surfaceType}`,
     `Decision status: ${formatLabel(decisionStatus)}`,
     `Problem: ${pattern.problem}`,
-    `UI guidance: ${pattern.uiGuidance.slice(0, 2).join(" ")}`,
-    `UX guidance: ${pattern.uxGuidance.slice(0, 2).join(" ")}`,
-    `Good UI examples: ${pattern.uiExamples.good.slice(0, 2).join(" ")}`,
-    `Bad UI examples: ${pattern.uiExamples.bad.slice(0, 2).join(" ")}`,
-    `Good UX examples: ${pattern.uxExamples.good.slice(0, 2).join(" ")}`,
-    `Bad UX examples: ${pattern.uxExamples.bad.slice(0, 2).join(" ")}`,
+    `UI guidance: ${list(pattern.uiGuidance).slice(0, 2).join(" ")}`,
+    `UX guidance: ${list(pattern.uxGuidance).slice(0, 2).join(" ")}`,
+    `Good UI examples: ${ui.good.slice(0, 2).join(" ")}`,
+    `Bad UI examples: ${ui.bad.slice(0, 2).join(" ")}`,
+    `Good UX examples: ${ux.good.slice(0, 2).join(" ")}`,
+    `Bad UX examples: ${ux.bad.slice(0, 2).join(" ")}`,
     `Context: risk=${risk}; reversibility=${recovery}; urgency=${urgency}; system-confidence=${confidence}; interruption-cost=${interruptionCost}; platform=${platform === "all" ? "unspecified" : platform}`,
-    `Use when: ${pattern.useWhen.slice(0, 2).join(" ")}`,
-    `Avoid when: ${pattern.avoidWhen.slice(0, 2).join(" ")}`,
-    `Required states: ${pattern.requiredStates.slice(0, 4).join("; ")}`,
-    `Interaction contract: ${pattern.interactionContract.slice(0, 3).join("; ")}`,
-    `Common generated-UI mistakes: ${pattern.commonMisuses.slice(0, 3).join("; ")}`,
-    `Critique questions: ${pattern.critiqueQuestions.slice(0, 3).join("; ")}`
+    `Use when: ${list(pattern.useWhen).slice(0, 2).join(" ")}`,
+    `Avoid when: ${list(pattern.avoidWhen).slice(0, 2).join(" ")}`,
+    `Required states: ${list(pattern.requiredStates).slice(0, 4).join("; ")}`,
+    `Interaction contract: ${list(pattern.interactionContract).slice(0, 3).join("; ")}`,
+    `Common generated-UI mistakes: ${list(pattern.commonMisuses).slice(0, 3).join("; ")}`,
+    `Critique questions: ${list(pattern.critiqueQuestions).slice(0, 3).join("; ")}`
   ];
 
   if (job) lines.unshift(`User job: ${job.label} - ${job.decisionPrompt}`);
@@ -371,7 +414,8 @@ export default function CatalogWorkbench({
   categories,
   platforms,
   maturities,
-  baseUrl
+  baseUrl,
+  detailBaseUrl
 }: CatalogWorkbenchProps) {
   const [query, setQuery] = useState("");
   const [job, setJob] = useState("all");
@@ -388,6 +432,8 @@ export default function CatalogWorkbench({
   const [interruptionCost, setInterruptionCost] = useState("medium");
   const [shortlistIds, setShortlistIds] = useState<string[]>([]);
   const [decisionById, setDecisionById] = useState<Record<string, DecisionStatus>>({});
+  const [patternDetails, setPatternDetails] = useState<Record<string, WorkbenchPattern>>({});
+  const [detailError, setDetailError] = useState("");
   const [critiqueNote, setCritiqueNote] = useState("");
   const [expandedLab, setExpandedLab] = useState(false);
   const [finderOpen, setFinderOpen] = useState(() =>
@@ -448,7 +494,9 @@ export default function CatalogWorkbench({
   }, [auditCandidates, candidateMode, recommendedCandidates, scopedAcceptedCandidates]);
 
   const selectedWasFilteredOut = Boolean(selectedId) && filtered.length > 0 && !filtered.some((pattern) => pattern.id === selectedId);
-  const selected = patterns.find((pattern) => pattern.id === selectedId) ?? filtered[0] ?? patterns[0];
+  const selectedSummary = patterns.find((pattern) => pattern.id === selectedId) ?? filtered[0] ?? patterns[0];
+  const selected = selectedSummary ? patternDetails[selectedSummary.id] ?? selectedSummary : undefined;
+  const selectedHasDetail = hasPatternDetail(selected);
   const selectedComparisons = selected
     ? comparisons.filter((comparison) => comparison.patternIds.includes(selected.id))
     : [];
@@ -471,8 +519,18 @@ export default function CatalogWorkbench({
     .filter((pattern): pattern is WorkbenchPattern => Boolean(pattern));
   const decisionStatus = selected ? decisionById[selected.id] ?? "reviewing" : "reviewing";
   const sourceConfidence = selected
-    ? `${selected.sources.length} source-backed ${selected.sources.length === 1 ? "claim" : "claims"}, verified ${selected.lastVerified}`
+    ? `${sourceTotal(selected)} source-backed ${sourceTotal(selected) === 1 ? "claim" : "claims"}, verified ${selected.lastVerified}`
     : "";
+  const playgroundPattern = selected
+    ? {
+        id: selected.id,
+        name: selected.name,
+        requiredStates: list(selected.requiredStates),
+        keyboardBehavior: list(selected.keyboardBehavior),
+        accessibility: list(selected.accessibility),
+        commonMisuses: list(selected.commonMisuses)
+      }
+    : undefined;
   const agentBrief = selected
     ? buildAgentBrief({
         pattern: selected,
@@ -511,6 +569,27 @@ export default function CatalogWorkbench({
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (!selectedSummary || hasPatternDetail(patternDetails[selectedSummary.id])) return;
+    const controller = new AbortController();
+    setDetailError("");
+
+    async function loadSelectedDetail() {
+      try {
+        const response = await fetch(`${detailBaseUrl}${selectedSummary.id}.json`, { signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const detail = (await response.json()) as WorkbenchPattern;
+        setPatternDetails((current) => ({ ...current, [detail.id]: detail }));
+      } catch (loadError) {
+        if (controller.signal.aborted) return;
+        setDetailError(loadError instanceof Error ? loadError.message : "Could not load selected pattern detail.");
+      }
+    }
+
+    loadSelectedDetail();
+    return () => controller.abort();
+  }, [detailBaseUrl, patternDetails, selectedSummary]);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 760px)");
@@ -750,7 +829,7 @@ export default function CatalogWorkbench({
                 <span>{formatPatternType(selected.patternType)}</span>
                 <span>{selected.surfaceType}</span>
               </div>
-              <p>{selected.problem}</p>
+              <p className="lab-selected-summary" aria-label={selected.problem}>{selected.problem}</p>
             </div>
             <div className="lab-actions" aria-label="Selected pattern actions">
               <button
@@ -807,7 +886,17 @@ export default function CatalogWorkbench({
             <span>{sourceCountLabel(selected)}</span>
           </div>
 
-          <PatternPlayground pattern={selected} variant="preview" />
+          {playgroundPattern && <PatternPlayground pattern={playgroundPattern} variant="preview" />}
+          {!selectedHasDetail && (
+            <p className="demo-status" role="status">
+              Loading full pattern contract...
+            </p>
+          )}
+          {detailError && (
+            <p className="demo-status" role="alert">
+              Full pattern contract could not load. The summary remains available.
+            </p>
+          )}
 
           <div className="decision-status" aria-label="Pattern decision result">
             <span className="rail-label">Decision result</span>
@@ -830,7 +919,7 @@ export default function CatalogWorkbench({
             <section>
               <h3>UI</h3>
               <ul>
-                {selected.uiGuidance.slice(0, 2).map((item) => (
+                {list(selected.uiGuidance).slice(0, 2).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -838,7 +927,7 @@ export default function CatalogWorkbench({
             <section>
               <h3>UX</h3>
               <ul>
-                {selected.uxGuidance.slice(0, 2).map((item) => (
+                {list(selected.uxGuidance).slice(0, 2).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -846,7 +935,7 @@ export default function CatalogWorkbench({
             <section>
               <h3>Decision</h3>
               <ul>
-                {selected.useWhen.slice(0, 1).concat(selected.avoidWhen.slice(0, 1)).map((item) => (
+                {list(selected.useWhen).slice(0, 1).concat(list(selected.avoidWhen).slice(0, 1)).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -1064,19 +1153,19 @@ export default function CatalogWorkbench({
             <dl className="fit-summary">
               <div>
                 <dt>UI</dt>
-                <dd>{selected.uiGuidance[0]}</dd>
+                <dd>{list(selected.uiGuidance)[0] ?? selected.solution}</dd>
               </div>
               <div>
                 <dt>UX</dt>
-                <dd>{selected.uxGuidance[0]}</dd>
+                <dd>{list(selected.uxGuidance)[0] ?? selected.problem}</dd>
               </div>
               <div>
                 <dt>Use when</dt>
-                <dd>{selected.useWhen[0]}</dd>
+                <dd>{list(selected.useWhen)[0] ?? selected.solution}</dd>
               </div>
               <div>
                 <dt>Avoid when</dt>
-                <dd>{selected.avoidWhen[0]}</dd>
+                <dd>{list(selected.avoidWhen)[0] ?? "Use the full pattern contract before applying high-risk variants."}</dd>
               </div>
             </dl>
             <div className="decision-quick-actions" aria-label="Decision actions">
@@ -1102,13 +1191,13 @@ export default function CatalogWorkbench({
               <section>
                 <h4>Good UI</h4>
                 <ul>
-                  {selected.uiExamples.good.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                  {examples(selected.uiExamples).good.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </section>
               <section>
                 <h4>Bad UI</h4>
                 <ul>
-                  {selected.uiExamples.bad.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                  {examples(selected.uiExamples).bad.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </section>
             </div>
@@ -1120,13 +1209,13 @@ export default function CatalogWorkbench({
               <section>
                 <h4>Good UX</h4>
                 <ul>
-                  {selected.uxExamples.good.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                  {examples(selected.uxExamples).good.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </section>
               <section>
                 <h4>Bad UX</h4>
                 <ul>
-                  {selected.uxExamples.bad.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+                  {examples(selected.uxExamples).bad.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </section>
             </div>
@@ -1194,7 +1283,7 @@ export default function CatalogWorkbench({
           <details className="decision-card compact-disclosure">
             <summary>Sources</summary>
             <ul className="claim-list">
-              {selected.sources.slice(0, 3).map((source) => (
+              {sources(selected).slice(0, 3).map((source) => (
                 <li key={source.id}>
                   <a href={`${baseUrl}sources/${source.id}/`}>{source.id}</a>
                   <span>{source.note}</span>
@@ -1206,7 +1295,7 @@ export default function CatalogWorkbench({
           <details className="decision-card compact-disclosure">
             <summary>Required states</summary>
             <ul className="check-list">
-              {selected.requiredStates.slice(0, 4).map((item) => (
+              {list(selected.requiredStates).slice(0, 4).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -1215,7 +1304,7 @@ export default function CatalogWorkbench({
           <details className="decision-card compact-disclosure">
             <summary>Interaction contract</summary>
             <ul className="check-list">
-              {selected.interactionContract.slice(0, 3).map((item) => (
+              {list(selected.interactionContract).slice(0, 3).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -1238,7 +1327,7 @@ export default function CatalogWorkbench({
           <details className="decision-card compact-disclosure">
             <summary>Audit</summary>
             <ul className="check-list audit-list">
-              {selected.critiqueQuestions.slice(0, 3).map((item) => (
+              {list(selected.critiqueQuestions).slice(0, 3).map((item) => (
                 <li key={item}>
                   <label className="audit-check">
                     <input type="checkbox" name={`audit-${selected.id}`} />

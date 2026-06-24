@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import type { PatternEntry } from "@/schemas/catalog";
 
 const QualityPatternDemo = lazy(() => import("./playgrounds/QualityPatternDemo"));
@@ -1209,6 +1209,7 @@ const playgroundPrompts: Record<string, { title: string; prompt: string }> = {
 };
 
 export default function PatternPlayground({ pattern, variant = "detail" }: PatternPlaygroundProps) {
+  const [demoRequested, setDemoRequested] = useState(false);
   const copy = playgroundPrompts[pattern.id] ?? {
     title: `Try ${pattern.name}`,
     prompt: "Interact with the pattern and compare the behavior against the guidance."
@@ -1226,15 +1227,27 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
         </div>
         <span>{pattern.name}</span>
       </div>
-      <Suspense
-        fallback={
-          <div className="demo-surface quality-lab demo-loading" role="status">
-            Loading interactive demo...
+      {demoRequested ? (
+        <Suspense
+          fallback={
+            <div className="demo-surface quality-lab demo-loading" role="status">
+              Loading interactive demo...
+            </div>
+          }
+        >
+          <QualityPatternDemo pattern={pattern} />
+        </Suspense>
+      ) : (
+        <div className="demo-surface demo-on-demand" aria-label={`${pattern.name} interactive demo launcher`}>
+          <div>
+            <strong>Interactive demo is ready</strong>
+            <p>Launch the live UI/UX lab when you want to inspect states, keyboard behavior, and common failure modes.</p>
           </div>
-        }
-      >
-        <QualityPatternDemo pattern={pattern} />
-      </Suspense>
+          <button className="demo-button primary" type="button" onClick={() => setDemoRequested(true)}>
+            Launch demo
+          </button>
+        </div>
+      )}
       {variant === "detail" && (
         <div className="demo-contract" aria-label={`${pattern.name} demo contract`}>
           <section>
