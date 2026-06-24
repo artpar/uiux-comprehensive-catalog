@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { track } from "@/lib/analytics";
 import type { PatternEntry } from "@/schemas/catalog";
 
@@ -1210,22 +1210,18 @@ const playgroundPrompts: Record<string, { title: string; prompt: string }> = {
 };
 
 export default function PatternPlayground({ pattern, variant = "detail" }: PatternPlaygroundProps) {
-  const autoLoadDemo = variant === "detail";
-  const [demoRequested, setDemoRequested] = useState(autoLoadDemo);
   const copy = playgroundPrompts[pattern.id] ?? {
     title: `Try ${pattern.name}`,
     prompt: "Interact with the pattern and compare the behavior against the guidance."
   };
 
   useEffect(() => {
-    if (!autoLoadDemo) return;
-
     track("demo_auto_load", {
       patternId: pattern.id,
       surface: variant,
       route: window.location.pathname
     });
-  }, [autoLoadDemo, pattern.id, variant]);
+  }, [pattern.id, variant]);
 
   return (
     <section
@@ -1239,38 +1235,15 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
         </div>
         <span>{pattern.name}</span>
       </div>
-      {demoRequested ? (
-        <Suspense
-          fallback={
-            <div className="demo-surface quality-lab demo-loading" role="status">
-              Loading interactive demo...
-            </div>
-          }
-        >
-          <QualityPatternDemo pattern={pattern} />
-        </Suspense>
-      ) : (
-        <div className="demo-surface demo-on-demand" aria-label={`${pattern.name} interactive demo launcher`}>
-          <div>
-            <strong>Interactive demo is ready</strong>
-            <p>Launch the live UI/UX lab when you want to inspect states, keyboard behavior, and common failure modes.</p>
+      <Suspense
+        fallback={
+          <div className="demo-surface quality-lab demo-loading" role="status">
+            Loading interactive demo...
           </div>
-          <button
-            className="demo-button primary"
-            type="button"
-            onClick={() => {
-              track("demo_launch", {
-                patternId: pattern.id,
-                surface: variant,
-                route: window.location.pathname
-              });
-              setDemoRequested(true);
-            }}
-          >
-            Launch demo
-          </button>
-        </div>
-      )}
+        }
+      >
+        <QualityPatternDemo pattern={pattern} />
+      </Suspense>
       {variant === "detail" && (
         <div className="demo-contract" aria-label={`${pattern.name} demo contract`}>
           <section>
