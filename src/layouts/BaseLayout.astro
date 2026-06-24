@@ -18,8 +18,8 @@ const currentPath = Astro.url.pathname;
 const canonicalHref = new URL(currentPath, Astro.site ?? Astro.url).toString();
 const sitemapHref = new URL(withBase("/sitemap.xml"), Astro.site ?? Astro.url).toString();
 const jsonLd = structuredData ? JSON.stringify(structuredData).replaceAll("</script", "<\\/script") : undefined;
-const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ?? "abacfae7-b939-4c0e-ae4b-fb950bba4b7f";
-const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL ?? "https://cloud.umami.is/script.js";
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || "abacfae7-b939-4c0e-ae4b-fb950bba4b7f";
+const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || "https://cloud.umami.is/script.js";
 const navItems = [
   { href: withBase("/"), label: "Home", icon: "#", active: currentPath === withBase("/") },
   { href: withBase("/patterns/"), label: "Patterns", icon: "A", active: currentPath.startsWith(withBase("/patterns/")) },
