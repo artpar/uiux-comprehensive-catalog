@@ -362,7 +362,17 @@ const structuredData = [
           <ul>
             {sourceRefs.map(({ ref, source }) => (
               <li>
-                {source ? <a href={withBase(`/sources/${source.id}/`)}>{source.name}</a> : ref.id}
+                {source ? (
+                  <a
+                    href={withBase(`/sources/${source.id}/`)}
+                    data-analytics-event="source_click"
+                    data-source-id={source.id}
+                    data-pattern-id={pattern.id}
+                    data-route="pattern_detail"
+                  >
+                    {source.name}
+                  </a>
+                ) : ref.id}
                 <br />
                 <span>{ref.note}</span>
               </li>

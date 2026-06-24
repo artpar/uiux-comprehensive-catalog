@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState } from "react";
+import { track } from "@/lib/analytics";
 import type { PatternEntry } from "@/schemas/catalog";
 
 const QualityPatternDemo = lazy(() => import("./playgrounds/QualityPatternDemo"));
@@ -1243,7 +1244,18 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
             <strong>Interactive demo is ready</strong>
             <p>Launch the live UI/UX lab when you want to inspect states, keyboard behavior, and common failure modes.</p>
           </div>
-          <button className="demo-button primary" type="button" onClick={() => setDemoRequested(true)}>
+          <button
+            className="demo-button primary"
+            type="button"
+            onClick={() => {
+              track("demo_launch", {
+                patternId: pattern.id,
+                surface: variant,
+                route: window.location.pathname
+              });
+              setDemoRequested(true);
+            }}
+          >
             Launch demo
           </button>
         </div>

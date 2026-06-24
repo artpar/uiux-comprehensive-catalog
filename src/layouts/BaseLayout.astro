@@ -50,6 +50,26 @@ const navItems = [
     <link rel="sitemap" href={sitemapHref} type="application/xml" />
     <title>{title}</title>
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
+    {import.meta.env.PROD && (
+      <>
+        <script is:inline>
+          window.plausible = window.plausible || function() {
+            (window.plausible.q = window.plausible.q || []).push(arguments);
+          };
+          document.addEventListener("click", function(event) {
+            var target = event.target instanceof Element ? event.target.closest("[data-analytics-event]") : null;
+            if (!target || typeof window.plausible !== "function") return;
+            var props = {};
+            for (var key in target.dataset) {
+              if (key === "analyticsEvent") continue;
+              props[key] = target.dataset[key];
+            }
+            window.plausible(target.dataset.analyticsEvent, Object.keys(props).length ? { props: props } : undefined);
+          });
+        </script>
+        <script is:inline defer data-domain="uxpatternsguide.com" src="https://plausible.io/js/script.js"></script>
+      </>
+    )}
   </head>
   <body>
     <header class="site-header">

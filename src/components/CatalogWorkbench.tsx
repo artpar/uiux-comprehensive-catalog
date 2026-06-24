@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import PatternPlayground from "@/components/PatternPlayground";
+import { track } from "@/lib/analytics";
 import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
 
 type CatalogWorkbenchProps = {
@@ -571,6 +572,23 @@ export default function CatalogWorkbench({
   }, []);
 
   useEffect(() => {
+    if (!hydrated || !query.trim()) return;
+    const timer = window.setTimeout(() => {
+      track("lab_search", {
+        queryLength: query.trim().length,
+        resultCount: filtered.length,
+        job,
+        category,
+        platform,
+        maturity,
+        mode: candidateMode
+      });
+    }, 700);
+
+    return () => window.clearTimeout(timer);
+  }, [candidateMode, category, filtered.length, hydrated, job, maturity, platform, query]);
+
+  useEffect(() => {
     if (!selectedSummary || hasPatternDetail(patternDetails[selectedSummary.id])) return;
     const controller = new AbortController();
     setDetailError("");
@@ -761,6 +779,13 @@ export default function CatalogWorkbench({
     if (!agentBrief) return;
     try {
       await navigator.clipboard.writeText(agentBrief);
+      if (selected) {
+        track("copy_agent_brief", {
+          patternId: selected.id,
+          category: selected.category,
+          status: decisionStatus
+        });
+      }
       setCopyStatus("Copied selected pattern brief.");
     } catch {
       setCopyStatus("Copy failed. Select the text and copy manually.");
@@ -803,8 +828,23 @@ export default function CatalogWorkbench({
   }
 
   function selectCandidate(patternId: string) {
+    const nextPattern = patterns.find((pattern) => pattern.id === patternId);
+    track("pattern_open_from_lab", {
+      patternId,
+      category: nextPattern?.category,
+      mode: candidateMode,
+      resultCount: filtered.length
+    });
     setSelectedId(patternId);
     if (isNarrowViewport) closeFinderPanel();
+  }
+
+  function trackFilterChange(filterName: string, value: string) {
+    track("lab_filter_change", {
+      filter: filterName,
+      value,
+      resultCount: filtered.length
+    });
   }
 
   return (
@@ -1003,7 +1043,10 @@ export default function CatalogWorkbench({
                 <button
                   className={job === "all" ? "is-active" : ""}
                   aria-pressed={job === "all"}
-                  onClick={() => setJob("all")}
+                  onClick={() => {
+                    trackFilterChange("job", "all");
+                    setJob("all");
+                  }}
                 >
                   All jobs
                 </button>
@@ -1012,7 +1055,10 @@ export default function CatalogWorkbench({
                     key={item.id}
                     className={job === item.id ? "is-active" : ""}
                     aria-pressed={job === item.id}
-                    onClick={() => setJob(item.id)}
+                    onClick={() => {
+                      trackFilterChange("job", item.id);
+                      setJob(item.id);
+                    }}
                   >
                     {item.label}
                   </button>
@@ -1031,7 +1077,10 @@ export default function CatalogWorkbench({
                   type="button"
                   className={candidateMode === mode ? "is-active" : ""}
                   aria-pressed={candidateMode === mode}
-                  onClick={() => setCandidateMode(mode)}
+                  onClick={() => {
+                    trackFilterChange("mode", mode);
+                    setCandidateMode(mode);
+                  }}
                 >
                   {label}
                 </button>
@@ -1050,7 +1099,14 @@ export default function CatalogWorkbench({
               <div className="filter-content">
                 <label>
                   <span>Category</span>
-                  <select name="catalog-category" value={category} onChange={(event) => setCategory(event.target.value)}>
+                  <select
+                    name="catalog-category"
+                    value={category}
+                    onChange={(event) => {
+                      trackFilterChange("category", event.target.value);
+                      setCategory(event.target.value);
+                    }}
+                  >
                     <option value="all">All categories</option>
                     {categories.map((item) => (
                       <option key={item} value={item}>
@@ -1063,7 +1119,14 @@ export default function CatalogWorkbench({
                 <div className="filter-pair">
                   <label>
                     <span>Platform</span>
-                    <select name="catalog-platform" value={platform} onChange={(event) => setPlatform(event.target.value)}>
+                    <select
+                      name="catalog-platform"
+                      value={platform}
+                      onChange={(event) => {
+                        trackFilterChange("platform", event.target.value);
+                        setPlatform(event.target.value);
+                      }}
+                    >
                       <option value="all">All platforms</option>
                       {platforms.map((item) => (
                         <option key={item} value={item}>
@@ -1075,7 +1138,14 @@ export default function CatalogWorkbench({
 
                   <label>
                     <span>Maturity</span>
-                    <select name="catalog-maturity" value={maturity} onChange={(event) => setMaturity(event.target.value)}>
+                    <select
+                      name="catalog-maturity"
+                      value={maturity}
+                      onChange={(event) => {
+                        trackFilterChange("maturity", event.target.value);
+                        setMaturity(event.target.value);
+                      }}
+                    >
                       <option value="all">All levels</option>
                       {maturities.map((item) => (
                         <option key={item} value={item}>
@@ -1099,6 +1169,7 @@ export default function CatalogWorkbench({
                     className="demo-button small"
                     type="button"
                     onClick={() => {
+                      trackFilterChange("reset", "all");
                       setQuery("");
                       setJob("all");
                       setCategory("all");
@@ -1285,7 +1356,18 @@ export default function CatalogWorkbench({
             <ul className="claim-list">
               {sources(selected).slice(0, 3).map((source) => (
                 <li key={source.id}>
-                  <a href={`${baseUrl}sources/${source.id}/`}>{source.id}</a>
+                  <a
+                    href={`${baseUrl}sources/${source.id}/`}
+                    onClick={() => {
+                      track("source_click", {
+                        sourceId: source.id,
+                        patternId: selected.id,
+                        route: window.location.pathname
+                      });
+                    }}
+                  >
+                    {source.id}
+                  </a>
                   <span>{source.note}</span>
                 </li>
               ))}
