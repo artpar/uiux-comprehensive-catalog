@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type DragEvent, type KeyboardEvent as ReactKeyboardEvent, type ReactNode, type RefObject } from "react";
+import playgroundCssUrl from "@/styles/playground.css?url";
 
 type PatternGroup =
   | "search"
@@ -25,6 +26,34 @@ type QualityPatternDemoProps = {
     id: string;
   };
 };
+
+let playgroundStylesPromise: Promise<void> | null = null;
+
+function loadPlaygroundStyles() {
+  if (typeof document === "undefined") return Promise.resolve();
+  if (playgroundStylesPromise) return playgroundStylesPromise;
+
+  const existing = document.querySelector<HTMLLinkElement>(`link[href="${playgroundCssUrl}"]`);
+  if (existing?.sheet) {
+    playgroundStylesPromise = Promise.resolve();
+    return playgroundStylesPromise;
+  }
+
+  playgroundStylesPromise = new Promise((resolve, reject) => {
+    const link = existing ?? document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = playgroundCssUrl;
+    link.dataset.playgroundStyles = "true";
+    link.addEventListener("load", () => resolve(), { once: true });
+    link.addEventListener("error", () => reject(new Error("Playground styles failed to load.")), { once: true });
+
+    if (!existing) {
+      document.head.append(link);
+    }
+  });
+
+  return playgroundStylesPromise;
+}
 
 const patternMeta: Record<string, PatternMeta> = {
   autocomplete: {
@@ -2139,6 +2168,30 @@ const fallbackMeta: PatternMeta = {
 export default function QualityPatternDemo({ pattern }: QualityPatternDemoProps) {
   const patternId = pattern.id;
   const meta = patternMeta[patternId] ?? fallbackMeta;
+  const [stylesReady, setStylesReady] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    loadPlaygroundStyles()
+      .then(() => {
+        if (isMounted) setStylesReady(true);
+      })
+      .catch(() => {
+        if (isMounted) setStylesReady(true);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (!stylesReady) {
+    return (
+      <div className="demo-surface quality-lab demo-loading" role="status">
+        Loading interactive demo...
+      </div>
+    );
+  }
 
   return (
     <div className="demo-surface quality-lab">
