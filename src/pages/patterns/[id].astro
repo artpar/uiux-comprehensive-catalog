@@ -33,6 +33,14 @@ const related = pattern.relatedPatterns.map((id) => getPattern(id)).filter(isPat
 const patternComparisons = pattern.comparisons.map((id) => getComparison(id)).filter(isComparison);
 const referencedByComparisons = comparisons.filter((comparison) => comparison.patternIds.includes(pattern.id));
 const allComparisons = [...new Map([...patternComparisons, ...referencedByComparisons].map((item) => [item.id, item])).values()];
+const playgroundPattern = {
+  id: pattern.id,
+  name: pattern.name,
+  requiredStates: pattern.requiredStates,
+  keyboardBehavior: pattern.keyboardBehavior,
+  accessibility: pattern.accessibility,
+  commonMisuses: pattern.commonMisuses
+};
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const patternKind = pattern.maturity === "anti-pattern" ? "UX Anti-pattern" : "UX Pattern";
 const structuredData = [
@@ -95,7 +103,7 @@ const structuredData = [
   </section>
 
   <div class="pattern-lab">
-    <PatternPlayground client:load pattern={pattern} variant="detail" />
+    <PatternPlayground client:visible pattern={playgroundPattern} variant="detail" />
   </div>
 
   <div class="pattern-workspace">

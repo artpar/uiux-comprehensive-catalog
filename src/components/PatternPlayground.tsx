@@ -1,8 +1,15 @@
+import { lazy, Suspense } from "react";
 import type { PatternEntry } from "@/schemas/catalog";
-import QualityPatternDemo from "./playgrounds/QualityPatternDemo";
+
+const QualityPatternDemo = lazy(() => import("./playgrounds/QualityPatternDemo"));
+
+export type PlaygroundPattern = Pick<
+  PatternEntry,
+  "id" | "name" | "requiredStates" | "keyboardBehavior" | "accessibility" | "commonMisuses"
+>;
 
 type PatternPlaygroundProps = {
-  pattern: PatternEntry;
+  pattern: PlaygroundPattern;
   variant?: "detail" | "preview";
 };
 
@@ -1219,7 +1226,15 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
         </div>
         <span>{pattern.name}</span>
       </div>
-      <QualityPatternDemo pattern={pattern} />
+      <Suspense
+        fallback={
+          <div className="demo-surface quality-lab demo-loading" role="status">
+            Loading interactive demo...
+          </div>
+        }
+      >
+        <QualityPatternDemo pattern={pattern} />
+      </Suspense>
       {variant === "detail" && (
         <div className="demo-contract" aria-label={`${pattern.name} demo contract`}>
           <section>

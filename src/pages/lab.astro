@@ -1,13 +1,9 @@
 ---
-import CatalogWorkbench from "@/components/CatalogWorkbench";
+import CatalogWorkbenchLoader from "@/components/CatalogWorkbenchLoader";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { comparisons, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
-const seededCategories = [...new Set(patterns.map((pattern) => pattern.category))].sort();
-const seededPlatforms = [...new Set(patterns.flatMap((pattern) => pattern.platforms))].sort();
-const seededMaturities = [...new Set(patterns.map((pattern) => pattern.maturity))].sort();
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const description = "Use the interactive UX pattern lab to filter source-backed patterns by product problem, platform, risk, and implementation state.";
 ---
@@ -28,13 +24,9 @@ const description = "Use the interactive UX pattern lab to filter source-backed 
     <span aria-current="page">Pattern Lab</span>
   </nav>
 
-  <CatalogWorkbench
+  <CatalogWorkbenchLoader
     client:load
-    patterns={patterns}
-    comparisons={comparisons}
-    categories={seededCategories}
-    platforms={seededPlatforms}
-    maturities={seededMaturities}
+    dataUrl={withBase("/lab-data.json")}
     baseUrl={withBase("/")}
   />
 </BaseLayout>

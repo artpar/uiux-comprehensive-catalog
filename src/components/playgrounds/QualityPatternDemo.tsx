@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type CSSProperties, type DragEvent, type KeyboardEvent as ReactKeyboardEvent, type ReactNode, type RefObject } from "react";
-import type { PatternEntry } from "@/schemas/catalog";
 
 type PatternGroup =
   | "search"
@@ -22,7 +21,9 @@ type PatternMeta = {
 };
 
 type QualityPatternDemoProps = {
-  pattern: PatternEntry;
+  pattern: {
+    id: string;
+  };
 };
 
 const patternMeta: Record<string, PatternMeta> = {

@@ -3,13 +3,49 @@ import PatternPlayground from "@/components/PatternPlayground";
 import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
 
 type CatalogWorkbenchProps = {
-  patterns: PatternEntry[];
-  comparisons: ComparisonEntry[];
+  patterns: WorkbenchPattern[];
+  comparisons: WorkbenchComparison[];
   categories: string[];
   platforms: string[];
   maturities: string[];
   baseUrl: string;
 };
+
+export type WorkbenchPattern = Pick<
+  PatternEntry,
+  | "id"
+  | "name"
+  | "aliases"
+  | "category"
+  | "patternType"
+  | "surfaceType"
+  | "problem"
+  | "solution"
+  | "uiGuidance"
+  | "uxGuidance"
+  | "uiExamples"
+  | "uxExamples"
+  | "selectionRules"
+  | "requiredStates"
+  | "commonMisuses"
+  | "implementationChecklist"
+  | "variants"
+  | "avoidWhen"
+  | "failureModes"
+  | "critiqueQuestions"
+  | "maturity"
+  | "completionStatus"
+  | "platforms"
+  | "useWhen"
+  | "interactionContract"
+  | "lastVerified"
+  | "keyboardBehavior"
+  | "accessibility"
+> & {
+  sources: Array<Pick<PatternEntry["sources"][number], "id" | "note">>;
+};
+
+export type WorkbenchComparison = Pick<ComparisonEntry, "id" | "title" | "patternIds">;
 
 type JobGroup = {
   id: string;
@@ -85,13 +121,13 @@ const searchSynonyms: Record<string, string[]> = {
   undo: ["recover", "restore", "reversible"]
 };
 
-function formatPatternType(value: PatternEntry["patternType"]) {
+function formatPatternType(value: WorkbenchPattern["patternType"]) {
   if (value === "ui") return "UI";
   if (value === "ux") return "UX";
   return "UI + UX";
 }
 
-function searchText(pattern: PatternEntry) {
+function searchText(pattern: WorkbenchPattern) {
   return [
     pattern.name,
     pattern.aliases.join(" "),
@@ -117,7 +153,7 @@ function searchText(pattern: PatternEntry) {
   ].join(" ");
 }
 
-function searchFields(pattern: PatternEntry) {
+function searchFields(pattern: WorkbenchPattern) {
   return [
     { label: "name", value: pattern.name },
     { label: "aliases", value: pattern.aliases.join(" ") },
@@ -175,7 +211,7 @@ function queryTerms(query: string) {
     .flatMap((term) => [term, ...(searchSynonyms[term] ?? [])]);
 }
 
-function matchesText(pattern: PatternEntry, query: string) {
+function matchesText(pattern: WorkbenchPattern, query: string) {
   const text = normalizeSearch(searchText(pattern));
   const words = text.split(" ");
   return queryTerms(query).some((term) => {
@@ -185,19 +221,19 @@ function matchesText(pattern: PatternEntry, query: string) {
   });
 }
 
-function getSearchExplanation(pattern: PatternEntry, query: string) {
+function getSearchExplanation(pattern: WorkbenchPattern, query: string) {
   if (!query.trim()) return "";
   const evidence = getSearchEvidence(pattern, query);
   if (!evidence) return "Matched by fuzzy search across aliases, rules, states, and misuse guidance.";
   return `Matched ${evidence.label}: ${evidence.snippet}`;
 }
 
-function firstMatchedTerm(pattern: PatternEntry, query: string) {
+function firstMatchedTerm(pattern: WorkbenchPattern, query: string) {
   if (!query.trim()) return "";
   return getSearchEvidence(pattern, query)?.term ?? "";
 }
 
-function getSearchEvidence(pattern: PatternEntry, query: string) {
+function getSearchEvidence(pattern: WorkbenchPattern, query: string) {
   const terms = queryTerms(query);
   for (const field of searchFields(pattern)) {
     const normalized = normalizeSearch(field.value);
@@ -231,14 +267,14 @@ function HighlightedText({ text, term }: { text: string; term: string }) {
   );
 }
 
-function matchesJob(pattern: PatternEntry, jobId: string) {
+function matchesJob(pattern: WorkbenchPattern, jobId: string) {
   if (jobId === "all") return true;
   const job = jobGroups.find((item) => item.id === jobId);
   if (!job) return true;
   return job.patternIds.includes(pattern.id) || job.categories.includes(pattern.category);
 }
 
-function sourceCountLabel(pattern: PatternEntry) {
+function sourceCountLabel(pattern: WorkbenchPattern) {
   return `${pattern.sources.length} ${pattern.sources.length === 1 ? "source" : "sources"}`;
 }
 
@@ -258,7 +294,7 @@ function candidateModeFromParam(value: string | null): CandidateMode | null {
   return isCandidateMode(value) ? value : null;
 }
 
-function getMatchReason(pattern: PatternEntry, jobId: string, query: string) {
+function getMatchReason(pattern: WorkbenchPattern, jobId: string, query: string) {
   const reasons: string[] = [];
   const job = jobGroups.find((item) => item.id === jobId);
   if (job && matchesJob(pattern, jobId)) {
@@ -289,7 +325,7 @@ function buildAgentBrief({
   decisionStatus,
   shortlist
 }: {
-  pattern: PatternEntry;
+  pattern: WorkbenchPattern;
   jobId: string;
   query: string;
   platform: string;
@@ -299,7 +335,7 @@ function buildAgentBrief({
   confidence: string;
   interruptionCost: string;
   decisionStatus: DecisionStatus;
-  shortlist: PatternEntry[];
+  shortlist: WorkbenchPattern[];
 }) {
   const job = jobGroups.find((item) => item.id === jobId);
   const lines = [
@@ -391,7 +427,7 @@ export default function CatalogWorkbench({
     const activeJob = jobGroups.find((item) => item.id === job);
     return [...scopedAcceptedCandidates]
       .sort((a, b) => {
-        const score = (pattern: PatternEntry) => {
+        const score = (pattern: WorkbenchPattern) => {
           let value = 0;
           if (activeJob?.patternIds.includes(pattern.id)) value += 80;
           if (activeJob?.categories.includes(pattern.category)) value += 40;
@@ -432,7 +468,7 @@ export default function CatalogWorkbench({
         : `${filtered.length} patterns`;
   const shortlist = shortlistIds
     .map((id) => patterns.find((pattern) => pattern.id === id))
-    .filter((pattern): pattern is PatternEntry => Boolean(pattern));
+    .filter((pattern): pattern is WorkbenchPattern => Boolean(pattern));
   const decisionStatus = selected ? decisionById[selected.id] ?? "reviewing" : "reviewing";
   const sourceConfidence = selected
     ? `${selected.sources.length} source-backed ${selected.sources.length === 1 ? "claim" : "claims"}, verified ${selected.lastVerified}`
@@ -467,7 +503,7 @@ export default function CatalogWorkbench({
   contextParams.set("confidence", confidence);
   contextParams.set("interruption", interruptionCost);
 
-  function comparisonHref(comparison: ComparisonEntry) {
+  function comparisonHref(comparison: WorkbenchComparison) {
     const suffix = contextParams.toString();
     return `${baseUrl}compare/${comparison.id}/${suffix ? `?${suffix}` : ""}`;
   }
