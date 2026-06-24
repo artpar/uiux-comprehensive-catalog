@@ -14,6 +14,7 @@ const authorityByType: Record<string, string> = {
   "pattern-library": "Pattern inventory evidence"
 };
 const sourceTypes = [...new Set(sources.map((source) => source.type))].sort();
+const linkedPatternCount = new Set(sources.flatMap((source) => getPatternsForSource(source.id).map((pattern) => pattern.id))).size;
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const description = "Browse the specs, research, service manuals, product examples, and pattern libraries that support UX Patterns Guide.";
 ---
@@ -34,12 +35,27 @@ const description = "Browse the specs, research, service manuals, product exampl
     <span aria-current="page">Sources</span>
   </nav>
 
-  <section class="page-head">
-    <h1>Source index</h1>
-    <p>Every accepted pattern is tied back to specs, platform guidance, UX research, service manuals, or real product evidence.</p>
+  <section class="pattern-directory-hero source-index-hero">
+    <div>
+      <div class="pattern-kicker">
+        <span>{sources.length} sources</span>
+        <span>{sourceTypes.length} evidence types</span>
+        <span>{linkedPatternCount} linked patterns</span>
+      </div>
+      <h1>Source index</h1>
+      <p>Every accepted pattern is tied back to specs, platform guidance, UX research, service manuals, or real product evidence.</p>
+      <div class="pattern-hero-actions">
+        <a class="primary-action" href="#evidence-weight">Review evidence weight</a>
+        <a class="secondary-action" href="#source-list">Browse sources</a>
+      </div>
+    </div>
+    <aside class="source-method-panel">
+      <h2>How to read sources</h2>
+      <p>Sources validate decision rules, behavior contracts, accessibility expectations, and failure risks. They are not treated as visual style templates.</p>
+    </aside>
   </section>
 
-  <section class="comparison-matrix detail-panel">
+  <section class="comparison-matrix detail-panel evidence-weight-panel" id="evidence-weight">
     <h2>Evidence Weight</h2>
     <table>
       <thead>
@@ -56,8 +72,8 @@ const description = "Browse the specs, research, service manuals, product exampl
           return (
             <tr>
               <th scope="row">{type}</th>
-              <td>{authorityByType[type] ?? "Supporting evidence"}</td>
-              <td>{typeSources.length} sources backing {linkedPatternCount} patterns</td>
+              <td data-label="How to use it">{authorityByType[type] ?? "Supporting evidence"}</td>
+              <td data-label="Current coverage">{typeSources.length} sources backing {linkedPatternCount} patterns</td>
             </tr>
           );
         })}
@@ -65,7 +81,7 @@ const description = "Browse the specs, research, service manuals, product exampl
     </table>
   </section>
 
-  <div class="source-list">
+  <div class="source-list" id="source-list">
     {sourceTypes.map((type) => (
       <section class="source-group">
         <h2>{type}</h2>

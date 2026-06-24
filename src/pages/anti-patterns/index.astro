@@ -34,14 +34,22 @@ const description = "Review UX and UI anti-patterns, detection cues, safer alter
     <span aria-current="page">Anti-patterns</span>
   </nav>
 
-  <section class="anti-pattern-home" aria-labelledby="anti-title">
+  <section class="anti-pattern-home anti-decision-hero" aria-labelledby="anti-title">
     <div class="anti-pattern-intro">
-      <p class="eyebrow">Anti-patterns</p>
+      <div class="pattern-kicker">
+        <span>{antiPatterns.length} anti-patterns</span>
+        <span>{groupedCounts.length} families</span>
+        <span>Safer alternatives</span>
+      </div>
       <h1 id="anti-title">Find risky interaction choices before they ship.</h1>
       <p>
         Use this as a triage index. Start with the pattern name and symptom, then open the audit details only when
         the issue looks relevant.
       </p>
+      <div class="pattern-hero-actions">
+        <a class="primary-action" href="#all-anti-title">Review anti-patterns</a>
+        <a class="secondary-action" href={withBase("/lab/?mode=audit")}>Open audit lab</a>
+      </div>
     </div>
 
     <dl class="anti-pattern-stats" aria-label="Anti-pattern coverage">
@@ -76,6 +84,7 @@ const description = "Review UX and UI anti-patterns, detection cues, safer alter
         <article>
           <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
           <p>{pattern.problem}</p>
+          <a class="quiet-link" href={withBase(`/patterns/${pattern.id}/`)}>Open diagnosis</a>
         </article>
       ))}
     </div>

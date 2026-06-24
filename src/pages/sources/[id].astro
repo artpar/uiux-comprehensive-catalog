@@ -55,14 +55,28 @@ const structuredData = [
     <span aria-current="page">{source.name}</span>
   </nav>
 
-  <section class="page-head">
-    <div class="pill-list">
-      <span>{source.type}</span>
-      <span>checked <time datetime={source.checkedAt}>{source.checkedAt}</time></span>
+  <section class="pattern-decision-hero source-detail-hero">
+    <div class="pattern-hero-main">
+      <div class="pattern-kicker">
+        <span>{source.type}</span>
+        <span>{linkedPatterns.length} linked patterns</span>
+        <span>checked <time datetime={source.checkedAt}>{source.checkedAt}</time></span>
+      </div>
+      <h1>{source.name}</h1>
+      <p class="pattern-definition">{source.notes}</p>
+      <div class="pattern-hero-actions">
+        <a class="primary-action" href={source.url}>Open source</a>
+        <a class="secondary-action" href={withBase("/sources/")}>All sources</a>
+      </div>
     </div>
-    <h1>{source.name}</h1>
-    <p>{source.notes}</p>
-    <p><a href={source.url}>Open source</a></p>
+    <aside class="pattern-trust-panel">
+      <dl>
+        <div><dt>Evidence type</dt><dd>{source.type}</dd></div>
+        <div><dt>Publisher</dt><dd>{source.publisher ?? "Unknown"}</dd></div>
+        <div><dt>Pattern claims</dt><dd>{linkedPatterns.length}</dd></div>
+        <div><dt>Checked</dt><dd><time datetime={source.checkedAt}>{source.checkedAt}</time></dd></div>
+      </dl>
+    </aside>
   </section>
 
   <section class="comparison-matrix detail-panel">
