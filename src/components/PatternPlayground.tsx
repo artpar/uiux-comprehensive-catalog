@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { track } from "@/lib/analytics";
 import type { PatternEntry } from "@/schemas/catalog";
 
@@ -1210,11 +1210,22 @@ const playgroundPrompts: Record<string, { title: string; prompt: string }> = {
 };
 
 export default function PatternPlayground({ pattern, variant = "detail" }: PatternPlaygroundProps) {
-  const [demoRequested, setDemoRequested] = useState(false);
+  const autoLoadDemo = variant === "detail";
+  const [demoRequested, setDemoRequested] = useState(autoLoadDemo);
   const copy = playgroundPrompts[pattern.id] ?? {
     title: `Try ${pattern.name}`,
     prompt: "Interact with the pattern and compare the behavior against the guidance."
   };
+
+  useEffect(() => {
+    if (!autoLoadDemo) return;
+
+    track("demo_auto_load", {
+      patternId: pattern.id,
+      surface: variant,
+      route: window.location.pathname
+    });
+  }, [autoLoadDemo, pattern.id, variant]);
 
   return (
     <section
