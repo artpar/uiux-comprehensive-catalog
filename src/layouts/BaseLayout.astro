@@ -66,7 +66,31 @@ const navItems = [
             window.umami.track(target.dataset.analyticsEvent, Object.keys(props).length ? props : undefined);
           });
         </script>
-        <script is:inline defer src={umamiScriptUrl} data-website-id={umamiWebsiteId}></script>
+        <script is:inline data-umami-src={umamiScriptUrl} data-umami-id={umamiWebsiteId}>
+          (function() {
+            var currentScript = document.currentScript;
+            var src = currentScript && currentScript.dataset.umamiSrc;
+            var websiteId = currentScript && currentScript.dataset.umamiId;
+            if (!src || !websiteId) return;
+
+            function loadUmami() {
+              if (document.querySelector('script[data-website-id="' + websiteId + '"]')) return;
+              var script = document.createElement("script");
+              script.defer = true;
+              script.src = src;
+              script.dataset.websiteId = websiteId;
+              document.head.appendChild(script);
+            }
+
+            window.addEventListener("load", function() {
+              if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(loadUmami, { timeout: 3000 });
+              } else {
+                window.setTimeout(loadUmami, 1500);
+              }
+            }, { once: true });
+          })();
+        </script>
       </>
     )}
   </head>

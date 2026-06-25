@@ -60,16 +60,6 @@ const decisionTracks = [
     href: withBase("/sources/")
   }
 ];
-const searchPayload = patterns.map((pattern) => ({
-  id: pattern.id,
-  name: pattern.name,
-  category: pattern.category,
-  surfaceType: pattern.surfaceType,
-  problem: pattern.problem,
-  useWhen: pattern.useWhen[0] ?? pattern.selectionRules[0] ?? pattern.problem,
-  href: withBase(`/patterns/${pattern.id}/`)
-}));
-
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
@@ -108,7 +98,7 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
       </div>
     </div>
 
-    <form class="catalog-search home-search-panel" role="search" data-catalog-search>
+    <form class="catalog-search home-search-panel" role="search" data-catalog-search data-search-index-url={withBase("/pattern-search.json")}>
       <label for="catalog-query">Find a pattern by problem</label>
       <div class="catalog-search-row">
         <input
@@ -226,7 +216,6 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
     <a href="mailto:artpar@gmail.com?subject=Subscribe%20to%20UX%20Patterns%20Guide">Subscribe</a>
   </section>
 
-  <script is:inline type="application/json" id="catalog-search-data" set:html={JSON.stringify(searchPayload)} />
   <script>
     type SearchPattern = {
       id: string;
@@ -236,19 +225,28 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
       problem: string;
       useWhen: string;
       href: string;
+      searchText: string;
     };
 
-    const searchScript = document.getElementById("catalog-search-data");
     const searchInput = document.querySelector("[data-catalog-query]");
     const searchResults = document.querySelector("[data-catalog-results]");
     const searchForm = document.querySelector("[data-catalog-search]");
-    const patterns = JSON.parse(searchScript?.textContent || "[]") as SearchPattern[];
+    let searchIndexPromise: Promise<SearchPattern[]> | undefined;
+
+    function getSearchIndex() {
+      if (searchIndexPromise) return searchIndexPromise;
+      const url = searchForm instanceof HTMLElement ? searchForm.dataset.searchIndexUrl : undefined;
+      searchIndexPromise = fetch(url || "/pattern-search.json")
+        .then((response) => (response.ok ? response.json() : []))
+        .catch(() => []) as Promise<SearchPattern[]>;
+      return searchIndexPromise;
+    }
 
     function normalize(value: string) {
       return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     }
 
-    function renderSearch(query: string) {
+    async function renderSearch(query: string) {
       if (!(searchResults instanceof HTMLElement)) return;
       const terms = normalize(query).split(" ").filter(Boolean);
       searchResults.replaceChildren();
@@ -258,15 +256,18 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
         return;
       }
 
+      const loading = document.createElement("p");
+      loading.className = "catalog-result-status";
+      loading.textContent = "Searching...";
+      searchResults.append(loading);
+      searchResults.hidden = false;
+
+      const patterns = await getSearchIndex();
+      searchResults.replaceChildren();
+
       const matches = patterns
         .map((pattern) => {
-          const text = normalize([
-            pattern.name,
-            pattern.category,
-            pattern.surfaceType,
-            pattern.problem,
-            pattern.useWhen
-          ].join(" "));
+          const text = normalize(pattern.searchText || [pattern.name, pattern.category, pattern.surfaceType, pattern.problem, pattern.useWhen].join(" "));
           const score = terms.reduce((total, term) => total + (text.includes(term) ? 1 : 0), 0);
           return { pattern, score };
         })

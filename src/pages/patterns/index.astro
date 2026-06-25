@@ -30,17 +30,6 @@ const groupedPatterns = [...new Set(patterns.map((pattern) => pattern.category))
   }));
 const completeCount = patterns.filter((pattern) => pattern.completionStatus === "complete").length;
 const sourceClaimCount = patterns.reduce((total, pattern) => total + pattern.sources.length, 0);
-const searchPayload = patterns.map((pattern) => ({
-  id: pattern.id,
-  name: pattern.name,
-  category: pattern.category,
-  maturity: pattern.maturity,
-  surfaceType: pattern.surfaceType,
-  problem: pattern.problem,
-  useWhen: pattern.useWhen[0] ?? pattern.problem,
-  href: withBase(`/patterns/${pattern.id}/`)
-}));
-
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
@@ -80,7 +69,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
       </div>
     </div>
 
-    <form class="catalog-search pattern-directory-search" role="search" data-pattern-index-search>
+    <form class="catalog-search pattern-directory-search" role="search" data-pattern-index-search data-search-index-url={withBase("/pattern-search.json")}>
       <label for="pattern-index-query">Search by problem, state, or pattern name</label>
       <div class="catalog-search-row">
         <input
@@ -118,15 +107,8 @@ const description = "Browse practical UX and UI patterns by family, with source-
             <article
               class="catalog-card pattern-index-card"
               data-pattern-index-card
+              data-pattern-id={pattern.id}
               data-category={pattern.category}
-              data-search={[
-                pattern.name,
-                pattern.category,
-                pattern.surfaceType,
-                pattern.problem,
-                pattern.useWhen.join(" "),
-                pattern.aliases.join(" ")
-              ].join(" ").toLowerCase()}
             >
               <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
               <p>{pattern.useWhen[0] ?? pattern.problem}</p>
@@ -146,9 +128,9 @@ const description = "Browse practical UX and UI patterns by family, with source-
       </section>
     ))}
   </div>
-  <script is:inline type="application/json" id="pattern-index-search-data" set:html={JSON.stringify(searchPayload)} />
   <script>
     type PatternSearchEntry = {
+      id: string;
       name: string;
       category: string;
       maturity: string;
@@ -156,45 +138,69 @@ const description = "Browse practical UX and UI patterns by family, with source-
       problem: string;
       useWhen: string;
       href: string;
+      searchText: string;
     };
 
-    const patternSearchData = JSON.parse(document.getElementById("pattern-index-search-data")?.textContent || "[]") as PatternSearchEntry[];
     const patternSearchInput = document.querySelector("[data-pattern-index-query]");
     const patternSearchResults = document.querySelector("[data-pattern-index-results]");
     const patternSearchForm = document.querySelector("[data-pattern-index-search]");
     const patternCards = [...document.querySelectorAll("[data-pattern-index-card]")];
     const patternSections = [...document.querySelectorAll(".pattern-index-group")];
+    let patternSearchDataPromise: Promise<PatternSearchEntry[]> | undefined;
+
+    function getPatternSearchData() {
+      if (patternSearchDataPromise) return patternSearchDataPromise;
+      const url = patternSearchForm instanceof HTMLElement ? patternSearchForm.dataset.searchIndexUrl : undefined;
+      patternSearchDataPromise = fetch(url || "/pattern-search.json")
+        .then((response) => (response.ok ? response.json() : []))
+        .catch(() => []) as Promise<PatternSearchEntry[]>;
+      return patternSearchDataPromise;
+    }
 
     function normalizePatternSearch(value: string) {
       return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     }
 
-    function renderPatternSearch(query: string) {
+    async function renderPatternSearch(query: string) {
       const terms = normalizePatternSearch(query).split(" ").filter(Boolean);
       if (patternSearchResults instanceof HTMLElement) patternSearchResults.replaceChildren();
 
+      if (terms.length === 0) {
+        for (const card of patternCards) {
+          if (card instanceof HTMLElement) card.hidden = false;
+        }
+
+        for (const section of patternSections) {
+          if (section instanceof HTMLElement) section.hidden = false;
+        }
+
+        if (patternSearchResults instanceof HTMLElement) patternSearchResults.hidden = true;
+        return;
+      }
+
+      const patternSearchData = await getPatternSearchData();
+      const visiblePatternIds = new Set(
+        patternSearchData
+          .filter((pattern) => terms.every((term) => normalizePatternSearch(pattern.searchText || "").includes(term)))
+          .map((pattern) => pattern.id)
+      );
+
       for (const card of patternCards) {
         if (!(card instanceof HTMLElement)) continue;
-        const text = card.dataset.search || "";
-        const visible = terms.length === 0 || terms.every((term) => text.includes(term));
-        card.hidden = !visible;
+        card.hidden = !visiblePatternIds.has(card.dataset.patternId || "");
       }
 
       for (const section of patternSections) {
         if (!(section instanceof HTMLElement)) continue;
         const visibleCards = section.querySelectorAll("[data-pattern-index-card]:not([hidden])");
-        section.hidden = terms.length > 0 && visibleCards.length === 0;
+        section.hidden = visibleCards.length === 0;
       }
 
       if (!(patternSearchResults instanceof HTMLElement)) return;
-      if (terms.length === 0) {
-        patternSearchResults.hidden = true;
-        return;
-      }
 
       const matches = patternSearchData
         .map((pattern) => {
-          const text = normalizePatternSearch([pattern.name, pattern.category, pattern.maturity, pattern.surfaceType, pattern.problem, pattern.useWhen].join(" "));
+          const text = normalizePatternSearch(pattern.searchText || [pattern.name, pattern.category, pattern.maturity, pattern.surfaceType, pattern.problem, pattern.useWhen].join(" "));
           const score = terms.reduce((total, term) => total + (text.includes(term) ? 1 : 0), 0);
           return { pattern, score };
         })
