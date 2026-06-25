@@ -8,5 +8,8 @@ export default defineConfig({
   site,
   base,
   integrations: [react()],
-  output: "static"
+  output: "static",
+  build: {
+    inlineStylesheets: "always"
+  }
 });
