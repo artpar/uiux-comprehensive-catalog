@@ -86,47 +86,49 @@ const description = "Browse practical UX and UI patterns by family, with source-
     </form>
   </section>
 
-  <nav class="letter-nav category-jump" aria-label="Jump to pattern family">
-    {groupedPatterns.map((group) => (
-      <a href={`#${slugify(group.category)}`}>{group.category}</a>
-    ))}
-  </nav>
+  <div class="pattern-directory-layout">
+    <nav class="letter-nav category-jump" aria-label="Jump to pattern family">
+      {groupedPatterns.map((group) => (
+        <a href={`#${slugify(group.category)}`}>{group.category}</a>
+      ))}
+    </nav>
 
-  <div class="pattern-index">
-    {groupedPatterns.map((group) => (
-      <section class="pattern-index-group" id={slugify(group.category)} aria-labelledby={`${slugify(group.category)}-title`}>
-        <div class="pattern-index-group-head">
-          <div>
-            <h2 id={`${slugify(group.category)}-title`}>{group.category}</h2>
-            <p>{categoryDescriptions[group.category]}</p>
+    <div class="pattern-index">
+      {groupedPatterns.map((group) => (
+        <section class="pattern-index-group" id={slugify(group.category)} aria-labelledby={`${slugify(group.category)}-title`}>
+          <div class="pattern-index-group-head">
+            <div>
+              <h2 id={`${slugify(group.category)}-title`}>{group.category}</h2>
+              <p>{categoryDescriptions[group.category]}</p>
+            </div>
+            <span>{group.patterns.length} entries</span>
           </div>
-          <span>{group.patterns.length} entries</span>
-        </div>
-        <div class="catalog-card-grid">
-          {group.patterns.map((pattern) => (
-            <article
-              class="catalog-card pattern-index-card"
-              data-pattern-index-card
-              data-pattern-id={pattern.id}
-              data-category={pattern.category}
-            >
-              <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
-              <p>{pattern.useWhen[0] ?? pattern.problem}</p>
-              <dl class="pattern-card-facts">
-                <div><dt>Type</dt><dd>{pattern.patternType.toUpperCase()}</dd></div>
-                <div><dt>Sources</dt><dd>{pattern.sources.length}</dd></div>
-                <div><dt>Verified</dt><dd>{pattern.lastVerified}</dd></div>
-              </dl>
-              <div class="pill-list">
-                <span>{pattern.maturity}</span>
-                <span>{pattern.completionStatus}</span>
-              </div>
-              <a class="quiet-link" href={withBase(`/lab/?pattern=${pattern.id}`)}>Open in lab</a>
-            </article>
-          ))}
-        </div>
-      </section>
-    ))}
+          <div class="catalog-card-grid">
+            {group.patterns.map((pattern) => (
+              <article
+                class="catalog-card pattern-index-card"
+                data-pattern-index-card
+                data-pattern-id={pattern.id}
+                data-category={pattern.category}
+              >
+                <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
+                <p>{pattern.useWhen[0] ?? pattern.problem}</p>
+                <dl class="pattern-card-facts">
+                  <div><dt>Type</dt><dd>{pattern.patternType.toUpperCase()}</dd></div>
+                  <div><dt>Sources</dt><dd>{pattern.sources.length}</dd></div>
+                  <div><dt>Verified</dt><dd>{pattern.lastVerified}</dd></div>
+                </dl>
+                <div class="pill-list">
+                  <span>{pattern.maturity}</span>
+                  <span>{pattern.completionStatus}</span>
+                </div>
+                <a class="quiet-link" href={withBase(`/lab/?pattern=${pattern.id}`)}>Open in lab</a>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
   </div>
   <script>
     type PatternSearchEntry = {
