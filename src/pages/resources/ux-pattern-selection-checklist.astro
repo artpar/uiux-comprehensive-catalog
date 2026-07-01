@@ -1,0 +1,313 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { patterns, sources } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import { absoluteUrl, breadcrumbJsonLd, pageTitle } from "@/lib/seo";
+
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
+const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
+const latestVerified = patterns.reduce((latest, pattern) => pattern.lastVerified > latest ? pattern.lastVerified : latest, "2026-07-01");
+const description =
+  "A practical checklist for choosing the right UX pattern before design review, implementation, or AI-generated UI.";
+
+const checklistItems = [
+  {
+    id: "job",
+    label: "User task is clear",
+    detail: "The review starts with the task, decision, or risk the user needs to handle.",
+    action: "Write the task in one sentence before naming a component."
+  },
+  {
+    id: "stakes",
+    label: "Risk level is clear",
+    detail: "The team knows whether a mistake is minor, costly, destructive, private, or safety-related.",
+    action: "Tag the flow as low, medium, or high consequence."
+  },
+  {
+    id: "reversible",
+    label: "Recovery path is clear",
+    detail: "The choice accounts for undo, cancel, edit, draft, recovery, and audit needs.",
+    action: "State what happens if the user changes their mind."
+  },
+  {
+    id: "alternatives",
+    label: "Alternatives were compared",
+    detail: "The chosen pattern beat plausible alternatives instead of winning by familiarity.",
+    action: "Compare at least two patterns before implementation."
+  },
+  {
+    id: "states",
+    label: "Required states are listed",
+    detail: "Empty, loading, error, disabled, success, keyboard, focus, and recovery states are planned.",
+    action: "Add missing states to the implementation brief."
+  },
+  {
+    id: "accessibility",
+    label: "Accessibility contract is testable",
+    detail: "Labels, roles, focus order, contrast, keyboard support, and announcements can be verified.",
+    action: "Turn accessibility needs into review checks."
+  },
+  {
+    id: "misuse",
+    label: "Known misuses are rejected",
+    detail: "The team has checked whether the design matches common anti-pattern conditions.",
+    action: "List at least one misuse that would make this pattern wrong."
+  },
+  {
+    id: "evidence",
+    label: "Evidence is linked",
+    detail: "Guidance points to source-backed claims, platform conventions, or observed product behavior.",
+    action: "Link the pattern choice to sources or catalog entries."
+  }
+];
+
+const readinessBands = [
+  { score: "0-2", label: "Do not implement", detail: "The team is naming components before understanding the interaction problem." },
+  { score: "3-5", label: "Needs design review", detail: "The pattern may be plausible, but states, risk, or accessibility are underspecified." },
+  { score: "6-7", label: "Ready with caveats", detail: "Implementation can begin if the missing item is tracked as a review blocker." },
+  { score: "8", label: "Ready to build", detail: "The choice has a clear task, state plan, rejection criteria, and source trail." }
+];
+
+const reviewPrompt = [
+  "Use this UX pattern selection checklist before designing, implementing, or prompting AI to generate UI:",
+  "",
+  "1. Name the user's task in one sentence.",
+  "2. State risk level, reversibility, platform, and interruption cost.",
+  "3. Compare at least two plausible patterns before choosing one.",
+  "4. List required empty, loading, error, disabled, success, keyboard, focus, and recovery states.",
+  "5. Reject the choice if known anti-pattern conditions match the flow.",
+  "6. Link the decision to source-backed guidance or a catalog entry.",
+  "",
+  "Decision output:",
+  "- Selected pattern:",
+  "- Alternatives rejected:",
+  "- Required states:",
+  "- Accessibility checks:",
+  "- Evidence links:",
+  "- Review blockers:"
+].join("\n");
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: "UX Pattern Selection Checklist",
+    description,
+    url: absoluteUrl("/resources/ux-pattern-selection-checklist/", siteUrl),
+    isPartOf: {
+      "@type": "WebSite",
+      name: "UX Patterns Guide",
+      url: absoluteUrl("/", siteUrl)
+    },
+    about: ["UX patterns", "UI design review", "interaction design", "accessibility"],
+    inLanguage: "en"
+  },
+  breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Resources", path: "/resources/" },
+    { name: "UX Pattern Selection Checklist", path: "/resources/ux-pattern-selection-checklist/" }
+  ], siteUrl)
+];
+---
+
+<BaseLayout
+  title={pageTitle("UX Pattern Selection Checklist")}
+  description={description}
+  structuredData={structuredData}
+>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <a href={withBase("/resources/")}>Resources</a>
+    <span aria-current="page">UX Pattern Selection Checklist</span>
+  </nav>
+
+  <section class="checklist-hero" aria-labelledby="checklist-title">
+    <div class="checklist-hero-copy">
+      <div class="pattern-kicker">
+        <span>{patterns.length} catalog entries</span>
+        <span>{completePatterns.length} complete patterns</span>
+        <span>{sources.length} evidence sources</span>
+      </div>
+      <h1 id="checklist-title">UX pattern selection checklist</h1>
+      <p>
+        Use this before design review, frontend implementation, or AI-generated UI. It helps teams
+        choose the pattern that fits the task instead of defaulting to a familiar component.
+      </p>
+      <div class="pattern-hero-actions">
+        <a class="primary-action" href="#scorecard">Run the checklist</a>
+        <a class="secondary-action" href={withBase("/lab/")}>Open pattern lab</a>
+      </div>
+    </div>
+
+    <aside class="checklist-summary" aria-labelledby="checklist-summary-title">
+      <h2 id="checklist-summary-title">When to use it</h2>
+      <ul>
+        <li>Before a component choice becomes a requirement.</li>
+        <li>Before asking AI to generate UI.</li>
+        <li>Before approving a high-risk, multi-step, or accessibility-sensitive flow.</li>
+      </ul>
+      <dl>
+        <div><dt>{antiPatternCount}</dt><dd>anti-pattern checks in the catalog</dd></div>
+        <div><dt>{latestVerified}</dt><dd>latest catalog verification</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  <section class="checklist-section" aria-labelledby="method-title">
+    <div class="section-heading">
+      <h2 id="method-title">The decision method</h2>
+      <p>Start with the task and risk. Choose the pattern only after the context is clear.</p>
+    </div>
+    <ol class="checklist-method">
+      <li>
+        <strong>Frame the task</strong>
+        <span>Name the user goal, risk level, reversibility, platform, and interruption cost.</span>
+      </li>
+      <li>
+        <strong>Compare plausible patterns</strong>
+        <span>Use nearby alternatives so the selected pattern wins on task fit, not habit.</span>
+      </li>
+      <li>
+        <strong>Define the state contract</strong>
+        <span>Plan empty, loading, error, disabled, success, keyboard, focus, and recovery behavior.</span>
+      </li>
+      <li>
+        <strong>Reject known misuses</strong>
+        <span>Check anti-pattern conditions before the design reaches implementation.</span>
+      </li>
+    </ol>
+  </section>
+
+  <section id="scorecard" class="checklist-section checklist-score-section" aria-labelledby="scorecard-title">
+    <div class="section-heading">
+      <h2 id="scorecard-title">Pattern readiness scorecard</h2>
+      <p>Check each item that is already true. Aim for 8 before implementation starts.</p>
+    </div>
+
+    <div class="checklist-score-layout">
+      <form class="checklist-scorecard" data-checklist-scorecard>
+        {checklistItems.map((item) => (
+          <label class="checklist-check" for={`check-${item.id}`}>
+            <input id={`check-${item.id}`} type="checkbox" value={item.id} data-checklist-item />
+            <span>
+              <strong>{item.label}</strong>
+              <small>{item.detail}</small>
+              <em>{item.action}</em>
+            </span>
+          </label>
+        ))}
+      </form>
+
+      <aside class="checklist-result" aria-live="polite">
+        <span class="checklist-score" data-checklist-score>0/8</span>
+        <h3 data-checklist-label>Do not implement</h3>
+        <p data-checklist-detail>The team is naming components before understanding the interaction problem.</p>
+        <a class="action-link" href={withBase("/patterns/")}>Browse patterns</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="checklist-section" aria-labelledby="bands-title">
+    <div class="section-heading">
+      <h2 id="bands-title">How to interpret the score</h2>
+      <p>Use the score as a review gate, not as decoration. Missing evidence or state planning should block high-risk flows.</p>
+    </div>
+    <div class="readiness-bands">
+      {readinessBands.map((band) => (
+        <article>
+          <strong>{band.score}</strong>
+          <h3>{band.label}</h3>
+          <p>{band.detail}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="checklist-section checklist-copy-section" aria-labelledby="prompt-title">
+    <div class="section-heading">
+      <h2 id="prompt-title">Copyable review prompt</h2>
+      <p>Use this in design reviews, issue templates, PR descriptions, or AI prompts.</p>
+    </div>
+    <div class="checklist-copy-panel">
+      <textarea id="ux-pattern-review-prompt" readonly rows="14">{reviewPrompt}</textarea>
+      <div class="checklist-copy-actions">
+        <button class="demo-button primary" type="button" data-copy-target="ux-pattern-review-prompt">Copy prompt</button>
+        <a class="secondary-action" href={withBase("/compare/")}>Compare patterns</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="checklist-section checklist-related" aria-labelledby="related-title">
+    <div class="section-heading">
+      <h2 id="related-title">Next checks</h2>
+      <p>Once the checklist exposes the risk profile, move into the part of the catalog that supports the decision.</p>
+    </div>
+    <div class="decision-track-grid">
+      <a class="decision-track" href={withBase("/patterns/")}>
+        <strong>Find a pattern</strong>
+        <span>Start from task family, state requirements, and source-backed guidance.</span>
+      </a>
+      <a class="decision-track" href={withBase("/anti-patterns/")}>
+        <strong>Reject bad fits</strong>
+        <span>Check whether a familiar pattern creates avoidable risk in this flow.</span>
+      </a>
+      <a class="decision-track" href={withBase("/agent/")}>
+        <strong>Prepare agent context</strong>
+        <span>Give AI systems pattern contracts before they generate UI code.</span>
+      </a>
+    </div>
+  </section>
+
+  <script>
+    const checklistInputs = [...document.querySelectorAll("[data-checklist-item]")];
+    const scoreNode = document.querySelector("[data-checklist-score]");
+    const labelNode = document.querySelector("[data-checklist-label]");
+    const detailNode = document.querySelector("[data-checklist-detail]");
+    const bands = [
+      {
+        min: 0,
+        label: "Do not implement",
+        detail: "The team is naming components before understanding the interaction problem."
+      },
+      {
+        min: 3,
+        label: "Needs design review",
+        detail: "The pattern may be plausible, but states, risk, or accessibility are underspecified."
+      },
+      {
+        min: 6,
+        label: "Ready with caveats",
+        detail: "Implementation can begin if the missing item is tracked as a review blocker."
+      },
+      {
+        min: 8,
+        label: "Ready to build",
+        detail: "The choice has a job, state contract, rejection criteria, and source trail."
+      }
+    ];
+
+    function updateChecklistScore() {
+      const checked = checklistInputs.filter((input) => input instanceof HTMLInputElement && input.checked).length;
+      const activeBand = [...bands].reverse().find((band) => checked >= band.min) || bands[0];
+      if (scoreNode) scoreNode.textContent = `${checked}/${checklistInputs.length}`;
+      if (labelNode) labelNode.textContent = activeBand.label;
+      if (detailNode) detailNode.textContent = activeBand.detail;
+    }
+
+    checklistInputs.forEach((input) => input.addEventListener("change", updateChecklistScore));
+    updateChecklistScore();
+
+    document.querySelectorAll("[data-copy-target]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const target = document.getElementById(button.getAttribute("data-copy-target") || "");
+        if (!(target instanceof HTMLTextAreaElement)) return;
+        await navigator.clipboard.writeText(target.value);
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = "Copy prompt";
+        }, 1400);
+      });
+    });
+  </script>
+</BaseLayout>

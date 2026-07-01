@@ -33,6 +33,8 @@ export const GET: APIRoute = ({ site }) => {
     { path: "", lastmod: latestSourceDate },
     { path: "agent/", lastmod: latestPatternDate },
     { path: "anti-patterns/", lastmod: latestPatternDate },
+    { path: "resources/", lastmod: latestPatternDate },
+    { path: "resources/ux-pattern-selection-checklist/", lastmod: latestPatternDate },
     { path: "compare/", lastmod: latestComparisonDate },
     { path: "lab/", lastmod: latestPatternDate },
     { path: "patterns/", lastmod: latestPatternDate },

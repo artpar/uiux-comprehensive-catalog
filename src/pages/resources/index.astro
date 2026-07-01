@@ -1,0 +1,152 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { patterns } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
+
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
+const description =
+  "Practical UX resources for reviewing pattern choices, writing implementation tickets, and preparing AI prompts.";
+const resources = [
+  {
+    title: "UX Pattern Selection Checklist",
+    href: withBase("/resources/ux-pattern-selection-checklist/"),
+    summary:
+      "Check whether a UX pattern fits the task before design review, implementation, or AI-generated UI.",
+    type: "Checklist",
+    meta: "Use for design reviews, AI prompts, and frontend tickets.",
+    primaryAction: "Use checklist"
+  }
+];
+
+const resourcePaths = [
+  {
+    label: "Review a pattern choice",
+    type: "Checklist",
+    href: withBase("/resources/ux-pattern-selection-checklist/"),
+    detail: "Check the task, risk, states, accessibility, and evidence before work starts."
+  },
+  {
+    label: "Compare alternatives",
+    type: "Catalog tool",
+    href: withBase("/compare/"),
+    detail: "Use when more than one UX pattern could fit the same workflow."
+  },
+  {
+    label: "Prepare an AI prompt",
+    type: "Export",
+    href: withBase("/agent/"),
+    detail: "Give the model pattern rules before it generates interface code."
+  },
+  {
+    label: "Verify evidence",
+    type: "Sources",
+    href: withBase("/sources/"),
+    detail: "Trace pattern guidance back to source-backed claims."
+  }
+];
+
+const nextActions = [
+  { label: "Browse patterns", href: withBase("/patterns/"), detail: "Use when you already know the interaction family." },
+  { label: "Compare patterns", href: withBase("/compare/"), detail: "Use when more than one pattern could fit." },
+  { label: "Open agent exports", href: withBase("/agent/"), detail: "Use before asking AI to generate or review UI." }
+];
+---
+
+<BaseLayout
+  title={pageTitle("Resources")}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd("Resources", description, "/resources/", siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Resources", path: "/resources/" }
+    ], siteUrl)
+  ]}
+>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <span aria-current="page">Resources</span>
+  </nav>
+
+  <section class="resource-hero" aria-labelledby="resources-title">
+    <div>
+      <div class="pattern-kicker">
+        <span>{resources.length} resource</span>
+        <span>{resourcePaths.length} task paths</span>
+        <span>{completePatterns.length} catalog patterns</span>
+      </div>
+      <h1 id="resources-title">Resources</h1>
+      <p>{description}</p>
+    </div>
+
+    <aside class="resource-quick-panel" aria-labelledby="resource-quick-title">
+      <h2 id="resource-quick-title">Start here when</h2>
+      <ul>
+        <li>A team is choosing between similar UI patterns.</li>
+        <li>An implementation ticket needs required states.</li>
+        <li>An AI prompt needs source-backed UX constraints.</li>
+      </ul>
+      <a class="quiet-link" href={withBase("/resources/ux-pattern-selection-checklist/")}>Start with the checklist</a>
+    </aside>
+  </section>
+
+  <section class="resource-section resource-main" aria-labelledby="available-title">
+    <div class="section-heading">
+      <h2 id="available-title">Available now</h2>
+      <p>Use the checklist before a pattern choice becomes a design, ticket, or AI prompt.</p>
+    </div>
+
+    <div class="resource-card-list">
+      {resources.map((resource) => (
+        <article class="resource-card">
+          <div class="resource-card-copy">
+            <div class="pill-list">
+              <span>{resource.type}</span>
+            </div>
+            <h3><a href={resource.href}>{resource.title}</a></h3>
+            <p>{resource.summary}</p>
+          </div>
+          <div class="resource-card-action">
+            <span class="resource-meta">{resource.meta}</span>
+            <a class="primary-action" href={resource.href}>{resource.primaryAction}</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="resource-section" aria-labelledby="paths-title">
+    <div class="section-heading">
+      <h2 id="paths-title">What are you trying to do?</h2>
+      <p>Start with the resource that matches the decision in front of you.</p>
+    </div>
+    <div class="resource-type-grid">
+      {resourcePaths.map((path) => (
+        <a href={path.href}>
+          <div>
+            <h3>{path.label}</h3>
+            <strong>{path.type}</strong>
+          </div>
+          <p>{path.detail}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="resource-section" aria-labelledby="next-title">
+    <div class="section-heading">
+      <h2 id="next-title">Continue in the catalog</h2>
+      <p>Resources give you a fast starting point. The catalog carries the detailed pattern evidence.</p>
+    </div>
+    <div class="resource-route-list">
+      {nextActions.map((action) => (
+        <a href={action.href}>
+          <strong>{action.label}</strong>
+          <span>{action.detail}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
