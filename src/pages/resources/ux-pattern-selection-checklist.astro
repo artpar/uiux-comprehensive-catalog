@@ -10,6 +10,14 @@ const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti
 const latestVerified = patterns.reduce((latest, pattern) => pattern.lastVerified > latest ? pattern.lastVerified : latest, "2026-07-01");
 const description =
   "A practical checklist for choosing the right UX pattern before design review, implementation, or AI-generated UI.";
+const checklistUrl = absoluteUrl("/resources/ux-pattern-selection-checklist/", siteUrl);
+const citationText = "UX Patterns Guide. \"UX Pattern Selection Checklist.\" " + checklistUrl;
+const shareText = [
+  "A practical UX pattern selection checklist for design reviews, frontend tickets, and AI-generated UI:",
+  checklistUrl,
+  "",
+  "It helps teams check task fit, risk, required states, accessibility, anti-patterns, and evidence before choosing a UI pattern."
+].join("\n");
 
 const checklistItems = [
   {
@@ -94,7 +102,7 @@ const structuredData = [
     "@type": "CreativeWork",
     name: "UX Pattern Selection Checklist",
     description,
-    url: absoluteUrl("/resources/ux-pattern-selection-checklist/", siteUrl),
+    url: checklistUrl,
     isPartOf: {
       "@type": "WebSite",
       name: "UX Patterns Guide",
@@ -238,6 +246,29 @@ const structuredData = [
     </div>
   </section>
 
+  <section class="checklist-section checklist-citation-section" aria-labelledby="citation-title">
+    <div class="section-heading">
+      <h2 id="citation-title">Cite this resource</h2>
+      <p>Use the direct checklist URL when referencing it from articles, course notes, issue templates, or design-system docs.</p>
+    </div>
+    <div class="checklist-citation-grid">
+      <article class="checklist-copy-panel">
+        <h3>Citation</h3>
+        <textarea id="ux-pattern-checklist-citation" readonly rows="3">{citationText}</textarea>
+        <div class="checklist-copy-actions">
+          <button class="demo-button primary" type="button" data-copy-target="ux-pattern-checklist-citation">Copy citation</button>
+        </div>
+      </article>
+      <article class="checklist-copy-panel">
+        <h3>Share summary</h3>
+        <textarea id="ux-pattern-checklist-share" readonly rows="5">{shareText}</textarea>
+        <div class="checklist-copy-actions">
+          <button class="demo-button primary" type="button" data-copy-target="ux-pattern-checklist-share">Copy summary</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <section class="checklist-section checklist-related" aria-labelledby="related-title">
     <div class="section-heading">
       <h2 id="related-title">Next checks</h2>
@@ -303,9 +334,10 @@ const structuredData = [
         const target = document.getElementById(button.getAttribute("data-copy-target") || "");
         if (!(target instanceof HTMLTextAreaElement)) return;
         await navigator.clipboard.writeText(target.value);
+        const originalText = button.textContent || "Copy";
         button.textContent = "Copied";
         window.setTimeout(() => {
-          button.textContent = "Copy prompt";
+          button.textContent = originalText;
         }, 1400);
       });
     });
