@@ -1,47 +1,86 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { patterns } from "@/lib/catalog";
+import { comparisons, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
 const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
 const stubCount = patterns.length - completePatterns.length;
-const featuredPatterns = completePatterns.slice(0, 4);
-const patternBrief = featuredPatterns
-  .map((pattern) => [
-    `Pattern: ${pattern.name}`,
-    `Use when: ${pattern.selectionRules[0]}`,
-    `Must include: ${pattern.requiredStates.slice(0, 2).join("; ")}`,
-    `Avoid: ${pattern.commonMisuses[0]}`
-  ].join("\n"))
-  .join("\n\n") || "No patterns are currently marked complete. Stub entries are excluded from agent-ready guidance.";
-
-const decisionBrief = [
-  "Before generating UI:",
-  "1. Identify user job, consequence severity, reversibility, platform, and interruption cost.",
-  "2. Choose the pattern whose required states and interaction contract match that context.",
-  "3. Reject patterns whose avoid-when rules or common misuses match the current flow.",
-  "4. Generate the required empty, loading, error, disabled, keyboard, and recovery states."
-].join("\n");
-
-const antiPatternBrief = patterns
-  .filter((pattern) => pattern.completionStatus === "complete" && pattern.maturity === "anti-pattern")
-  .map((pattern) => [
-    `Anti-pattern: ${pattern.name}`,
-    `Detect: ${pattern.problemContext[0]}`,
-    `Replace with: ${pattern.implementationChecklist[0]}`,
-    `Review: ${pattern.critiqueQuestions[0]}`
-  ].join("\n"))
-  .join("\n\n") || "No anti-patterns are currently marked complete. Stub entries are excluded from this checklist.";
+const categoryCount = new Set(completePatterns.map((pattern) => pattern.category)).size;
+const antiPatternCount = completePatterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
-const description = "Download machine-readable UX pattern guidance for agents that need source-backed interaction contracts before generating UI.";
+const origin = siteUrl.origin;
+const description = "Static UX pattern artifacts, installable Agent Skills, and focused retrieval files for agents generating or reviewing UI.";
+const copyPastePrompt = [
+  "Before generating or reviewing UI, use UX Patterns Guide as external context.",
+  "",
+  `Read ${origin}/agent/start.md for the workflow, then search ${origin}/agent/index.json for 2-5 candidate patterns.`,
+  "",
+  `Load only the relevant pattern contracts from ${origin}/agent/patterns/{id}.md. If candidates overlap, load the related comparison pack from ${origin}/agent/comparisons/{id}.md. Before final output, apply ${origin}/agent/anti-pattern-checklist.md.`,
+  "",
+  "In your answer, name the selected pattern, rejected alternatives, required states, interaction contract, common generated-UI mistakes avoided, and review questions. Do not load the full catalog unless you are building an offline index."
+].join("\n");
+const agentPrompt = [
+  "Use UX Patterns Guide before generating or reviewing UI.",
+  `1. Read ${origin}/agent/start.md`,
+  `2. Search ${origin}/agent/index.json for 2-5 candidate patterns.`,
+  `3. Load only relevant pattern contracts from ${origin}/agent/patterns/{id}.md`,
+  `4. Load comparison packs from ${origin}/agent/comparisons/{id}.md when candidates overlap.`,
+  `5. Apply ${origin}/agent/anti-pattern-checklist.md before final output.`,
+  "Return the selected pattern, rejected alternatives, required states, interaction contract, and review questions."
+].join("\n");
+const skillEntry = `${origin}/agent/skills/ux-patterns/SKILL.md`;
+const artifactRows = [
+  {
+    label: "Copy-paste prompt",
+    href: "/agent/copy-paste.md",
+    detail: "One message to paste into an agent that can fetch URLs."
+  },
+  {
+    label: "Root discovery",
+    href: "/llms.txt",
+    detail: "Curated first-read file for agents that start from the domain."
+  },
+  {
+    label: "Start guide",
+    href: "/agent/start.md",
+    detail: "Retrieval order and required agent output."
+  },
+  {
+    label: "Compact index",
+    href: "/agent/index.json",
+    detail: "Small searchable map of pattern IDs, fit rules, keywords, and URLs."
+  },
+  {
+    label: "Pattern contracts",
+    href: "/agent/patterns/index.md",
+    detail: "One focused markdown and JSON file per pattern."
+  },
+  {
+    label: "Comparison packs",
+    href: "/agent/comparisons/index.md",
+    detail: "Decision rules for nearby alternatives."
+  },
+  {
+    label: "Portable skill",
+    href: "/agent/skills/ux-patterns/SKILL.md",
+    detail: "Agent Skills entrypoint for Codex, Claude Code, and compatible clients."
+  }
+];
+const retrievalSteps = [
+  "Read the root discovery or start guide.",
+  "Search the compact index instead of loading the full export.",
+  "Open only the relevant pattern contracts.",
+  "Use comparison packs to reject nearby alternatives.",
+  "Run the review workflow and anti-pattern checklist before final output."
+];
 ---
 
 <BaseLayout
-  title={pageTitle("UX Pattern Agent Exports")}
+  title={pageTitle("Agent-First UX Pattern Exports")}
   description={description}
   structuredData={[
-    collectionPageJsonLd("UX Pattern Agent Exports", description, "/agent/", siteUrl),
+    collectionPageJsonLd("Agent-First UX Pattern Exports", description, "/agent/", siteUrl),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
       { name: "Agent exports", path: "/agent/" }
@@ -57,65 +96,136 @@ const description = "Download machine-readable UX pattern guidance for agents th
     <div>
       <div class="pattern-kicker">
         <span>{completePatterns.length} complete patterns</span>
-        <span>{stubCount} stubs excluded</span>
-        <span>Build generated</span>
+        <span>{comparisons.length} comparisons</span>
+        <span>Static artifacts</span>
       </div>
-      <h1>Agent exports</h1>
+      <h1>Agent-first UX pattern context</h1>
       <p>
-        Static context files for LLM agents that need to choose better UI/UX patterns before generating
-        code. These files are generated from validated pattern data during the build.
+        Build-time generated files for agents that need to choose source-backed interaction patterns,
+        load only the relevant contracts, and review generated UI without a server-side runtime.
       </p>
       <div class="pattern-hero-actions">
-        <a class="primary-action" href={withBase("/agent/patterns.md")}>Open Markdown</a>
-        <a class="secondary-action" href={withBase("/agent/patterns.json")}>Open JSON</a>
+        <button class="primary-action" data-copy-target="agent-copy-paste">Copy agent instruction</button>
+        <a class="secondary-action" href={withBase("/llms.txt")}>Open llms.txt</a>
       </div>
     </div>
     <aside class="source-method-panel">
-      <h2>Agent contract</h2>
-      <p>Use exports before generation and again after review: choose a pattern, include required states, reject known misuses, and keep evidence-backed constraints visible.</p>
+      <h2>Retrieval contract</h2>
+      <ol class="agent-flow-list">
+        {retrievalSteps.map((step) => <li>{step}</li>)}
+      </ol>
     </aside>
   </section>
 
-  <div class="agent-export-grid">
+  <section class="catalog-section agent-paste-section" aria-labelledby="paste-title">
+    <div class="section-heading">
+      <h2 id="paste-title">Copy-paste activation</h2>
+      <p>Paste this one message into an agent that can fetch URLs. No download, install step, package manager, or server runtime is required.</p>
+    </div>
+    <section class="detail-panel export-card agent-paste-card">
+      <div class="decision-card-head">
+        <h3>One-message setup</h3>
+        <button class="demo-button small" data-copy-target="agent-copy-paste">Copy instruction</button>
+      </div>
+      <textarea id="agent-copy-paste" name="agent-copy-paste" readonly rows="11">{copyPastePrompt}</textarea>
+      <div class="agent-copy-actions">
+        <a class="action-link" href={withBase("/agent/copy-paste.md")}>Open copy-paste file</a>
+        <a class="action-link" href={withBase("/agent/start.md")}>Open start guide</a>
+      </div>
+    </section>
+  </section>
+
+  <section class="catalog-section agent-install-section" aria-labelledby="install-title">
+    <div class="section-heading">
+      <h2 id="install-title">Optional deeper integration</h2>
+      <p>Use these only when an agent supports persistent skills or you are building local retrieval. The copy-paste instruction above is the default path.</p>
+    </div>
+    <div class="agent-install-grid">
+      <section class="detail-panel export-card">
+        <div class="decision-card-head">
+          <h3>Agent Skill entrypoint</h3>
+          <button class="demo-button small" data-copy-value={skillEntry}>Copy URL</button>
+        </div>
+        <p>Use this `SKILL.md` in Codex, Claude Code, or any Agent Skills compatible client.</p>
+        <textarea id="skill-entry" class="agent-short-textarea" name="skill-entry" readonly rows="3">{skillEntry}</textarea>
+        <a class="action-link" href={withBase("/agent/skills/ux-patterns/SKILL.md")}>Open skill</a>
+      </section>
+
+      <section class="detail-panel export-card">
+        <div class="decision-card-head">
+          <h3>Starter prompt</h3>
+          <button class="demo-button small" data-copy-target="agent-start-prompt">Copy prompt</button>
+        </div>
+        <p>Use when a coding agent has not installed the skill but can fetch static URLs.</p>
+        <textarea id="agent-start-prompt" name="agent-start-prompt" readonly rows="9">{agentPrompt}</textarea>
+        <a class="action-link" href={withBase("/agent/review-workflow.md")}>Open review workflow</a>
+      </section>
+    </div>
+  </section>
+
+  <section class="catalog-section" aria-labelledby="artifact-title">
+    <div class="section-heading">
+      <h2 id="artifact-title">Static artifact map</h2>
+      <p>Agents should start small, then retrieve only the contracts and comparisons needed for the current UI task.</p>
+    </div>
+    <div class="agent-artifact-list">
+      {artifactRows.map((artifact) => (
+        <a href={withBase(artifact.href)}>
+          <strong>{artifact.label}</strong>
+          <span>{artifact.detail}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <div class="agent-export-grid" aria-label="Agent artifact details">
     <section class="detail-panel export-card">
       <div class="decision-card-head">
-        <h2>Pattern Guidance</h2>
-        <button class="demo-button small" data-copy-target="pattern-guidance">Copy preview</button>
+        <h2>Layer 1: Compact index</h2>
       </div>
-      <p>Use before code generation when an agent needs pattern contracts and common mistakes.</p>
-      <textarea id="pattern-guidance" name="pattern-guidance" readonly rows="10">{patternBrief}</textarea>
-      <a class="action-link" href={withBase("/agent/patterns.md")}>Open full Markdown</a>
-    </section>
-
-    <section class="detail-panel export-card">
-      <div class="decision-card-head">
-        <h2>Decision Guide</h2>
-        <button class="demo-button small" data-copy-target="decision-guide">Copy preview</button>
-      </div>
-      <p>Use when the agent must choose between patterns from task risk and state requirements.</p>
-      <textarea id="decision-guide" name="decision-guide" readonly rows="10">{decisionBrief}</textarea>
-      <a class="action-link" href={withBase("/agent/decision-guide.md")}>Open full Markdown</a>
-    </section>
-
-    <section class="detail-panel export-card">
-      <div class="decision-card-head">
-        <h2>Anti-pattern Checklist</h2>
-        <button class="demo-button small" data-copy-target="anti-pattern-checklist">Copy preview</button>
-      </div>
-      <p>Use after generation or during review to find known interaction failures and safer replacements.</p>
-      <textarea id="anti-pattern-checklist" name="anti-pattern-checklist" readonly rows="10">{antiPatternBrief}</textarea>
-      <a class="action-link" href={withBase("/agent/anti-pattern-checklist.md")}>Open full Markdown</a>
-    </section>
-
-    <section class="detail-panel export-card">
-      <h2>Machine-readable JSON</h2>
-      <p>Use for retrieval, custom agents, or automated catalog checks.</p>
+      <p>Use for retrieval and candidate selection. It carries IDs, keywords, fit rules, required-state summaries, and direct artifact URLs.</p>
       <dl class="export-shape">
-        <div><dt>patterns[].selectionRules</dt><dd>Candidate choice rules.</dd></div>
-        <div><dt>patterns[].requiredStates</dt><dd>States the generated UI must include.</dd></div>
-        <div><dt>patterns[].commonMisuses</dt><dd>What not to generate.</dd></div>
+        <div><dt>{completePatterns.length} patterns</dt><dd>Complete entries only; {stubCount} stubs excluded.</dd></div>
+        <div><dt>{categoryCount} categories</dt><dd>Useful for coarse filtering before loading contracts.</dd></div>
+        <div><dt>Small first context</dt><dd>Avoid loading the full Markdown export unless building an offline index.</dd></div>
       </dl>
-      <a class="action-link" href={withBase("/agent/patterns.json")}>Open JSON</a>
+      <a class="action-link" href={withBase("/agent/index.json")}>Open index JSON</a>
+    </section>
+
+    <section class="detail-panel export-card">
+      <div class="decision-card-head">
+        <h2>Layer 2: Pattern contracts</h2>
+      </div>
+      <p>Each pattern has its own markdown and JSON file with required states, interaction contract, accessibility, keyboard behavior, and failure modes.</p>
+      <dl class="export-shape">
+        <div><dt>Markdown</dt><dd>`/agent/patterns/&#123;id&#125;.md` for agent-readable contracts.</dd></div>
+        <div><dt>JSON</dt><dd>`/agent/patterns/&#123;id&#125;.json` for custom local retrieval.</dd></div>
+        <div><dt>Evidence</dt><dd>Source IDs, notes, and verification dates stay attached.</dd></div>
+      </dl>
+      <a class="action-link" href={withBase("/agent/patterns/modal-dialog.md")}>Open example contract</a>
+    </section>
+
+    <section class="detail-panel export-card">
+      <div class="decision-card-head">
+        <h2>Layer 3: Comparisons</h2>
+      </div>
+      <p>Decision packs prevent agents from picking a component by name when nearby patterns would fit better.</p>
+      <dl class="export-shape">
+        <div><dt>{comparisons.length} packs</dt><dd>Rules for modal vs sheet, toast vs inline error, table vs grid, and other close calls.</dd></div>
+        <div><dt>Rejected alternatives</dt><dd>Use these to explain why a different pattern was not selected.</dd></div>
+      </dl>
+      <a class="action-link" href={withBase("/agent/comparisons/index.md")}>Open comparison index</a>
+    </section>
+
+    <section class="detail-panel export-card">
+      <h2>Review layer</h2>
+      <p>Use after generation to catch known failures before code review or handoff.</p>
+      <dl class="export-shape">
+        <div><dt>{antiPatternCount} anti-patterns</dt><dd>Static checklist for common generated-UI failures.</dd></div>
+        <div><dt>Review workflow</dt><dd>Names missing states, contract breaks, and required revisions.</dd></div>
+        <div><dt>Full exports</dt><dd>Still available for offline indexing and custom tooling.</dd></div>
+      </dl>
+      <a class="action-link" href={withBase("/agent/anti-pattern-checklist.md")}>Open anti-pattern checklist</a>
     </section>
   </div>
 
@@ -125,9 +235,20 @@ const description = "Download machine-readable UX pattern guidance for agents th
         const target = document.getElementById(button.getAttribute("data-copy-target") || "");
         if (!(target instanceof HTMLTextAreaElement)) return;
         await navigator.clipboard.writeText(target.value);
+        const original = button.textContent;
         button.textContent = "Copied";
         window.setTimeout(() => {
-          button.textContent = "Copy preview";
+          button.textContent = original;
+        }, 1400);
+      });
+    });
+    document.querySelectorAll("[data-copy-value]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(button.getAttribute("data-copy-value") || "");
+        const original = button.textContent;
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = original;
         }, 1400);
       });
     });

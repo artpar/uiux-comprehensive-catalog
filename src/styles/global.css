@@ -2086,10 +2086,119 @@ textarea {
   gap: 12px;
 }
 
+.agent-install-section {
+  border-top: 0;
+}
+
+.agent-paste-section {
+  border-top: 0;
+}
+
+.agent-paste-card {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  justify-self: stretch;
+}
+
+.agent-paste-section .agent-paste-card {
+  grid-column: 1 / -1;
+}
+
+.agent-paste-card textarea {
+  min-height: 260px;
+  border-color: rgba(7, 61, 55, 0.22);
+  background: #f7fbfa;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.86rem;
+  line-height: 1.48;
+}
+
+.agent-copy-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.agent-install-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.agent-hero,
+.agent-hero > div,
+.agent-paste-card,
+.agent-install-grid > *,
+.agent-artifact-list > *,
+.agent-export-grid > *,
+.source-method-panel {
+  min-width: 0;
+}
+
+.agent-artifact-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--line);
+}
+
+.agent-artifact-list a {
+  display: grid;
+  gap: 8px;
+  min-height: 136px;
+  align-content: start;
+  background: var(--panel);
+  color: var(--text);
+  padding: 16px;
+  text-decoration: none;
+}
+
+.agent-artifact-list a:hover {
+  background: #f5fbf9;
+}
+
+.agent-artifact-list strong {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.agent-artifact-list span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.agent-flow-list {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding-left: 20px;
+  color: #445053;
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.export-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
 .export-card textarea {
   min-height: 220px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 0.8rem;
+}
+
+.agent-install-grid .export-card textarea {
+  min-height: 0;
 }
 
 .export-shape {
@@ -2187,6 +2296,33 @@ textarea {
     padding-top: 8px;
   }
 
+  .agent-hero {
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  .agent-hero h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+    letter-spacing: 0;
+  }
+
+  .agent-hero p,
+  .agent-flow-list li,
+  .agent-artifact-list span,
+  .export-card p,
+  .export-card textarea,
+  .export-shape dd {
+    overflow-wrap: anywhere;
+  }
+
+  .agent-hero .pattern-hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .agent-hero .pattern-hero-actions a {
+    width: 100%;
+  }
 
   .pattern-titlebar,
   .page-head,
@@ -2195,6 +2331,8 @@ textarea {
   .context-list,
   .pattern-grid,
   .demo-contract,
+  .agent-install-grid,
+  .agent-artifact-list,
   .agent-export-grid {
     grid-template-columns: 1fr;
   }
@@ -5438,6 +5576,71 @@ body:has(.decision-workbench) main {
   .checklist-copy-actions,
   .checklist-copy-actions .demo-button,
   .checklist-copy-actions .secondary-action {
+    width: 100%;
+  }
+}
+
+/* Agent page overrides live at the end so later product-page rules cannot widen the static export surface. */
+.agent-hero,
+.agent-hero *,
+.agent-paste-card,
+.agent-paste-card *,
+.agent-install-grid > *,
+.agent-artifact-list > *,
+.agent-export-grid > * {
+  min-width: 0;
+}
+
+.agent-install-grid .agent-short-textarea {
+  height: 78px;
+  min-height: 78px;
+}
+
+.agent-install-grid #agent-start-prompt {
+  min-height: 176px;
+}
+
+@media (max-width: 980px) {
+  .agent-hero {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .agent-hero {
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  .agent-hero h1 {
+    font-size: clamp(2rem, 9vw, 3rem);
+    letter-spacing: 0;
+  }
+
+  .agent-hero p,
+  .agent-flow-list li,
+  .agent-artifact-list span,
+  .export-card p,
+  .export-card textarea,
+  .export-shape dd {
+    overflow-wrap: anywhere;
+  }
+
+  .agent-hero .pattern-hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .agent-hero .pattern-hero-actions a {
+    width: 100%;
+  }
+
+  .agent-paste-card textarea {
+    min-height: 340px;
+  }
+
+  .agent-copy-actions .action-link {
     width: 100%;
   }
 }
