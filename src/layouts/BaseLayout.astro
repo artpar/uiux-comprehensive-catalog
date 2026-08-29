@@ -20,6 +20,7 @@ const sitemapHref = new URL(withBase("/sitemap.xml"), Astro.site ?? Astro.url).t
 const jsonLd = structuredData ? JSON.stringify(structuredData).replaceAll("</script", "<\\/script") : undefined;
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || "abacfae7-b939-4c0e-ae4b-fb950bba4b7f";
 const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || "https://cloud.umami.is/script.js";
+const umamiDomains = import.meta.env.PUBLIC_UMAMI_DOMAINS || "uxpatternsguide.com";
 const navItems = [
   { href: withBase("/"), label: "Home", icon: "#", active: currentPath === withBase("/") },
   { href: withBase("/patterns/"), label: "Patterns", icon: "A", active: currentPath.startsWith(withBase("/patterns/")) },
@@ -60,22 +61,92 @@ const navItems = [
     {import.meta.env.PROD && umamiWebsiteId && (
       <>
         <script is:inline>
+          window.__analyticsQueue = window.__analyticsQueue || [];
+          window.__trackAnalytics = function(eventName, props) {
+            if (window.umami && typeof window.umami.track === "function") {
+              window.umami.track(eventName, props);
+              return;
+            }
+            window.__analyticsQueue.push([eventName, props]);
+          };
+
           document.addEventListener("click", function(event) {
             var target = event.target instanceof Element ? event.target.closest("[data-analytics-event]") : null;
-            if (!target || !window.umami || typeof window.umami.track !== "function") return;
+            var eventName = target && target.dataset.analyticsEvent;
             var props = {};
-            for (var key in target.dataset) {
-              if (key === "analyticsEvent") continue;
-              props[key] = target.dataset[key];
+
+            if (target) {
+              for (var key in target.dataset) {
+                if (key === "analyticsEvent") continue;
+                props[key] = target.dataset[key];
+              }
+            } else {
+              var link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+              if (!(link instanceof HTMLAnchorElement)) return;
+              var url = new URL(link.href, window.location.href);
+              if (url.origin !== window.location.origin) return;
+              var patternMatch = url.pathname.match(/\/patterns\/([^/]+)\/?$/);
+              var comparisonMatch = url.pathname.match(/\/compare\/([^/]+)\/?$/);
+              if (patternMatch) {
+                eventName = "pattern_opened";
+                props.patternId = decodeURIComponent(patternMatch[1]);
+              } else if (comparisonMatch) {
+                eventName = "comparison_opened";
+                props.comparisonId = decodeURIComponent(comparisonMatch[1]);
+              } else {
+                return;
+              }
+              props.origin = link.dataset.analyticsOrigin || "internal_link";
             }
-            window.umami.track(target.dataset.analyticsEvent, Object.keys(props).length ? props : undefined);
+
+            if (eventName) window.__trackAnalytics(eventName, Object.keys(props).length ? props : undefined);
           });
+
+          (function() {
+            var elapsed = false;
+            var depthReached = false;
+            var sent = false;
+
+            function pageType() {
+              var path = window.location.pathname;
+              if (/\/patterns\/[^/]+\/?$/.test(path)) return "pattern_detail";
+              if (/\/sources\/[^/]+\/?$/.test(path)) return "source_detail";
+              if (/\/compare\/[^/]+\/?$/.test(path)) return "comparison_detail";
+              if (/\/resources\/[^/]+\/?$/.test(path)) return "resource_detail";
+              if (/\/lab\/?$/.test(path)) return "lab";
+              if (/\/patterns\/?$/.test(path)) return "pattern_directory";
+              return path === "/" ? "home" : "other";
+            }
+
+            function maybeTrackEngagement() {
+              if (sent || !elapsed || !depthReached) return;
+              sent = true;
+              window.__trackAnalytics("engaged_read", { seconds: 30, depth: 50, surface: pageType() });
+              window.removeEventListener("scroll", checkDepth);
+              window.removeEventListener("resize", checkDepth);
+            }
+
+            function checkDepth() {
+              var documentHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+              depthReached = documentHeight <= window.innerHeight || (window.scrollY + window.innerHeight) / documentHeight >= 0.5;
+              maybeTrackEngagement();
+            }
+
+            window.setTimeout(function() {
+              elapsed = true;
+              maybeTrackEngagement();
+            }, 30000);
+            window.addEventListener("scroll", checkDepth, { passive: true });
+            window.addEventListener("resize", checkDepth, { passive: true });
+            window.requestAnimationFrame(checkDepth);
+          })();
         </script>
-        <script is:inline data-umami-src={umamiScriptUrl} data-umami-id={umamiWebsiteId}>
+        <script is:inline data-umami-src={umamiScriptUrl} data-umami-id={umamiWebsiteId} data-umami-domains={umamiDomains}>
           (function() {
             var currentScript = document.currentScript;
             var src = currentScript && currentScript.dataset.umamiSrc;
             var websiteId = currentScript && currentScript.dataset.umamiId;
+            var domains = currentScript && currentScript.dataset.umamiDomains;
             if (!src || !websiteId) return;
 
             function loadUmami() {
@@ -84,16 +155,23 @@ const navItems = [
               script.defer = true;
               script.src = src;
               script.dataset.websiteId = websiteId;
+              if (domains) script.dataset.domains = domains;
+              script.dataset.excludeHash = "true";
+              script.dataset.excludeSearch = "true";
+              script.dataset.performance = "true";
+              script.addEventListener("load", function() {
+                window.setTimeout(function() {
+                  if (!window.umami || typeof window.umami.track !== "function") return;
+                  var queued = window.__analyticsQueue.splice(0);
+                  queued.forEach(function(item) {
+                    window.umami.track(item[0], item[1]);
+                  });
+                }, 0);
+              }, { once: true });
               document.head.appendChild(script);
             }
 
-            window.addEventListener("load", function() {
-              if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(loadUmami, { timeout: 3000 });
-              } else {
-                window.setTimeout(loadUmami, 1500);
-              }
-            }, { once: true });
+            loadUmami();
           })();
         </script>
       </>

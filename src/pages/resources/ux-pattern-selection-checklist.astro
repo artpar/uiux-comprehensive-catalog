@@ -291,10 +291,13 @@ const structuredData = [
   </section>
 
   <script>
+    import { track } from "@/lib/analytics";
+
     const checklistInputs = [...document.querySelectorAll("[data-checklist-item]")];
     const scoreNode = document.querySelector("[data-checklist-score]");
     const labelNode = document.querySelector("[data-checklist-label]");
     const detailNode = document.querySelector("[data-checklist-detail]");
+    let completionTracked = false;
     const bands = [
       {
         min: 0,
@@ -324,6 +327,10 @@ const structuredData = [
       if (scoreNode) scoreNode.textContent = `${checked}/${checklistInputs.length}`;
       if (labelNode) labelNode.textContent = activeBand.label;
       if (detailNode) detailNode.textContent = activeBand.detail;
+      if (!completionTracked && checked === checklistInputs.length) {
+        completionTracked = true;
+        track("checklist_completed", { checklist: "pattern_selection", itemCount: checklistInputs.length });
+      }
     }
 
     checklistInputs.forEach((input) => input.addEventListener("change", updateChecklistScore));
@@ -334,6 +341,7 @@ const structuredData = [
         const target = document.getElementById(button.getAttribute("data-copy-target") || "");
         if (!(target instanceof HTMLTextAreaElement)) return;
         await navigator.clipboard.writeText(target.value);
+        track("guidance_copied", { surface: "pattern_selection_checklist", asset: target.id });
         const originalText = button.textContent || "Copy";
         button.textContent = "Copied";
         window.setTimeout(() => {

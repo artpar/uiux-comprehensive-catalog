@@ -181,6 +181,7 @@ const description = "Compare UX and UI patterns side by side before choosing an 
     const resultCount = document.querySelector("[data-compare-result-count]");
     const empty = document.querySelector("[data-compare-empty]");
     let activeCategory = "all";
+    let compareSearchTrackingTimer;
 
     function updateCompareLink() {
       if (!(form instanceof HTMLFormElement) || !(openLink instanceof HTMLAnchorElement) || !status) return;
@@ -245,6 +246,17 @@ const description = "Compare UX and UI patterns side by side before choosing an 
         resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? "comparison" : "comparisons"} shown`;
       }
       if (empty) empty.hidden = visibleCount > 0;
+
+      window.clearTimeout(compareSearchTrackingTimer);
+      if (query) {
+        compareSearchTrackingTimer = window.setTimeout(() => {
+          const props = { surface: "comparison_directory", queryLength: query.length, resultCount: visibleCount };
+          if (typeof window.__trackAnalytics === "function") {
+            window.__trackAnalytics("catalog_search", props);
+            if (visibleCount === 0) window.__trackAnalytics("zero_result_search", props);
+          }
+        }, 700);
+      }
     }
 
     search?.addEventListener("input", updateLibraryFilter);

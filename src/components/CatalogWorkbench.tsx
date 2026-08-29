@@ -574,7 +574,8 @@ export default function CatalogWorkbench({
   useEffect(() => {
     if (!hydrated || !query.trim()) return;
     const timer = window.setTimeout(() => {
-      track("lab_search", {
+      track("catalog_search", {
+        surface: "lab",
         queryLength: query.trim().length,
         resultCount: filtered.length,
         job,
@@ -583,6 +584,17 @@ export default function CatalogWorkbench({
         maturity,
         mode: candidateMode
       });
+      if (filtered.length === 0) {
+        track("zero_result_search", {
+          surface: "lab",
+          queryLength: query.trim().length,
+          job,
+          category,
+          platform,
+          maturity,
+          mode: candidateMode
+        });
+      }
     }, 700);
 
     return () => window.clearTimeout(timer);
@@ -780,7 +792,8 @@ export default function CatalogWorkbench({
     try {
       await navigator.clipboard.writeText(agentBrief);
       if (selected) {
-        track("copy_agent_brief", {
+        track("guidance_copied", {
+          surface: "lab_agent_brief",
           patternId: selected.id,
           category: selected.category,
           status: decisionStatus
@@ -829,7 +842,8 @@ export default function CatalogWorkbench({
 
   function selectCandidate(patternId: string) {
     const nextPattern = patterns.find((pattern) => pattern.id === patternId);
-    track("pattern_open_from_lab", {
+    track("pattern_opened", {
+      origin: "lab",
       patternId,
       category: nextPattern?.category,
       mode: candidateMode,
@@ -1359,10 +1373,10 @@ export default function CatalogWorkbench({
                   <a
                     href={`${baseUrl}sources/${source.id}/`}
                     onClick={() => {
-                      track("source_click", {
+                      track("evidence_opened", {
+                        surface: "lab",
                         sourceId: source.id,
-                        patternId: selected.id,
-                        route: window.location.pathname
+                        patternId: selected.id
                       });
                     }}
                   >

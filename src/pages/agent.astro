@@ -230,11 +230,14 @@ const retrievalSteps = [
   </div>
 
   <script>
+    import { track } from "@/lib/analytics";
+
     document.querySelectorAll("[data-copy-target]").forEach((button) => {
       button.addEventListener("click", async () => {
         const target = document.getElementById(button.getAttribute("data-copy-target") || "");
         if (!(target instanceof HTMLTextAreaElement)) return;
         await navigator.clipboard.writeText(target.value);
+        track("agent_instruction_copied", { asset: target.id || "instruction" });
         const original = button.textContent;
         button.textContent = "Copied";
         window.setTimeout(() => {
@@ -245,6 +248,7 @@ const retrievalSteps = [
     document.querySelectorAll("[data-copy-value]").forEach((button) => {
       button.addEventListener("click", async () => {
         await navigator.clipboard.writeText(button.getAttribute("data-copy-value") || "");
+        track("agent_instruction_copied", { asset: "skill_entry" });
         const original = button.textContent;
         button.textContent = "Copied";
         window.setTimeout(() => {

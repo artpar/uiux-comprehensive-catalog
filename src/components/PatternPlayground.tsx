@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useRef } from "react";
 import { track } from "@/lib/analytics";
 import type { PatternEntry } from "@/schemas/catalog";
 
@@ -1210,23 +1210,38 @@ const playgroundPrompts: Record<string, { title: string; prompt: string }> = {
 };
 
 export default function PatternPlayground({ pattern, variant = "detail" }: PatternPlaygroundProps) {
+  const interactionTracked = useRef(false);
   const copy = playgroundPrompts[pattern.id] ?? {
     title: `Try ${pattern.name}`,
     prompt: "Interact with the pattern and compare the behavior against the guidance."
   };
 
-  useEffect(() => {
-    track("demo_auto_load", {
+  function trackInteraction(method: "pointer" | "keyboard") {
+    if (interactionTracked.current) return;
+    interactionTracked.current = true;
+    track("lab_interacted", {
       patternId: pattern.id,
       surface: variant,
-      route: window.location.pathname
+      method
     });
-  }, [pattern.id, variant]);
+  }
 
   return (
     <section
       className={variant === "preview" ? "playground-panel playground-preview" : "detail-panel playground-panel"}
       aria-labelledby={`live-example-title-${pattern.id}-${variant}`}
+      onPointerDownCapture={(event) => {
+        if (event.target instanceof Element && event.target.closest(".demo-surface")) trackInteraction("pointer");
+      }}
+      onKeyDownCapture={(event) => {
+        if (
+          event.target instanceof Element &&
+          event.target.closest(".demo-surface") &&
+          ["Enter", " ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
+        ) {
+          trackInteraction("keyboard");
+        }
+      }}
     >
       <div className="playground-heading">
         <div>

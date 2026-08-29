@@ -131,6 +131,8 @@ const description = "Browse practical UX and UI patterns by family, with source-
     </div>
   </div>
   <script>
+    import { track } from "@/lib/analytics";
+
     type PatternSearchEntry = {
       id: string;
       name: string;
@@ -149,6 +151,8 @@ const description = "Browse practical UX and UI patterns by family, with source-
     const patternCards = [...document.querySelectorAll("[data-pattern-index-card]")];
     const patternSections = [...document.querySelectorAll(".pattern-index-group")];
     let patternSearchDataPromise: Promise<PatternSearchEntry[]> | undefined;
+    let patternSearchTrackingTimer: number | undefined;
+    let patternSearchRenderSequence = 0;
 
     function getPatternSearchData() {
       if (patternSearchDataPromise) return patternSearchDataPromise;
@@ -164,6 +168,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
     }
 
     async function renderPatternSearch(query: string) {
+      const renderSequence = ++patternSearchRenderSequence;
       const terms = normalizePatternSearch(query).split(" ").filter(Boolean);
       if (patternSearchResults instanceof HTMLElement) patternSearchResults.replaceChildren();
 
@@ -181,6 +186,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
       }
 
       const patternSearchData = await getPatternSearchData();
+      if (renderSequence !== patternSearchRenderSequence) return;
       const visiblePatternIds = new Set(
         patternSearchData
           .filter((pattern) => terms.every((term) => normalizePatternSearch(pattern.searchText || "").includes(term)))
@@ -224,11 +230,18 @@ const description = "Browse practical UX and UI patterns by family, with source-
         meta.textContent = `${pattern.category} - ${pattern.maturity}`;
         const summary = document.createElement("small");
         summary.textContent = pattern.useWhen || pattern.problem;
+        link.dataset.analyticsOrigin = "pattern_directory_search";
         link.append(name, meta, summary);
         patternSearchResults.append(link);
       }
 
       patternSearchResults.hidden = false;
+      window.clearTimeout(patternSearchTrackingTimer);
+      patternSearchTrackingTimer = window.setTimeout(() => {
+        const props = { surface: "pattern_directory", queryLength: query.trim().length, resultCount: visiblePatternIds.size };
+        track("catalog_search", props);
+        if (visiblePatternIds.size === 0) track("zero_result_search", props);
+      }, 700);
     }
 
     if (patternSearchInput instanceof HTMLInputElement) {
