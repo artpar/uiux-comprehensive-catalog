@@ -644,9 +644,17 @@ export default function CatalogWorkbench({
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    let savedState: { selectedId?: string; shortlistIds?: string[] } = {};
+    try {
+      savedState = JSON.parse(window.localStorage.getItem("uxpg:lab-state") || "{}");
+    } catch {
+      savedState = {};
+    }
     const patternId = params.get("pattern") ?? params.get("selected");
     if (patternId && patterns.some((pattern) => pattern.id === patternId)) {
       setSelectedId(patternId);
+    } else if (savedState.selectedId && patterns.some((pattern) => pattern.id === savedState.selectedId)) {
+      setSelectedId(savedState.selectedId);
     }
 
     const shortlist = params
@@ -654,6 +662,9 @@ export default function CatalogWorkbench({
       ?.split(",")
       .filter((id) => patterns.some((pattern) => pattern.id === id));
     if (shortlist?.length) setShortlistIds(shortlist);
+    else if (savedState.shortlistIds?.length) {
+      setShortlistIds(savedState.shortlistIds.filter((id) => patterns.some((pattern) => pattern.id === id)));
+    }
 
     const queryParam = params.get("query");
     if (queryParam) setQuery(queryParam);
@@ -694,6 +705,11 @@ export default function CatalogWorkbench({
       setInterruptionCost(interruptionParam);
     }
   }, [categories, maturities, patterns, platforms]);
+
+  useEffect(() => {
+    if (!hydrated || !selectedId) return;
+    window.localStorage.setItem("uxpg:lab-state", JSON.stringify({ selectedId, shortlistIds }));
+  }, [hydrated, selectedId, shortlistIds]);
 
   useEffect(() => {
     if (!selected) return;
@@ -805,6 +821,16 @@ export default function CatalogWorkbench({
     }
   }
 
+  async function copyWorkbenchLink() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      track("link_copied", { surface: "lab", itemCount: shortlistIds.length });
+      setCopyStatus(shortlistIds.length ? "Copied a link with your shortlist and decision context." : "Copied this Lab state.");
+    } catch {
+      setCopyStatus("Copy failed. Copy the address from your browser.");
+    }
+  }
+
   function toggleShortlist(patternId: string) {
     setShortlistIds((current) =>
       current.includes(patternId) ? current.filter((id) => id !== patternId) : [...current, patternId]
@@ -906,6 +932,10 @@ export default function CatalogWorkbench({
               >
                 <span className="action-mark" aria-hidden="true">{shortlistIds.includes(selected.id) ? "-" : "+"}</span>
                 {shortlistIds.includes(selected.id) ? "Shortlisted" : "Shortlist"}
+              </button>
+              <button className="action-link action-button" type="button" onClick={copyWorkbenchLink}>
+                <span className="action-mark" aria-hidden="true">↗</span>
+                Share state
               </button>
               <button
                 className="action-link action-button"

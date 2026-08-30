@@ -7,16 +7,19 @@ type Props = {
   title: string;
   description?: string;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  image?: string;
 };
 
 const {
   title,
   description = "A source-backed guide to practical UX and UI patterns.",
-  structuredData
+  structuredData,
+  image = "/assets/social-card.webp"
 } = Astro.props;
 const currentPath = Astro.url.pathname;
 const canonicalHref = new URL(currentPath, Astro.site ?? Astro.url).toString();
 const sitemapHref = new URL(withBase("/sitemap.xml"), Astro.site ?? Astro.url).toString();
+const socialImageHref = new URL(withBase(image), Astro.site ?? Astro.url).toString();
 const jsonLd = structuredData ? JSON.stringify(structuredData).replaceAll("</script", "<\\/script") : undefined;
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || "abacfae7-b939-4c0e-ae4b-fb950bba4b7f";
 const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || "https://cloud.umami.is/script.js";
@@ -46,9 +49,14 @@ const navItems = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalHref} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImageHref} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="UX Patterns Guide — source-backed patterns for product teams" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageHref} />
     <link rel="icon" href={withBase("/favicon.ico")} sizes="any" />
     <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
     <link rel="icon" href={withBase("/favicon-32x32.png")} type="image/png" sizes="32x32" />
@@ -188,9 +196,147 @@ const navItems = [
           </a>
         ))}
       </nav>
+      <button class="saved-items-trigger" type="button" data-saved-items-trigger aria-label="Saved items">
+        Saved <span data-saved-count>0</span>
+      </button>
     </header>
     <main>
       <slot />
     </main>
+    <dialog class="saved-items-dialog" data-saved-items-dialog aria-labelledby="saved-items-title">
+      <div class="saved-items-head">
+        <h2 id="saved-items-title">Saved items</h2>
+        <button type="button" data-saved-items-close aria-label="Close saved items">Close</button>
+      </div>
+      <div data-saved-items-list></div>
+    </dialog>
+    <script>
+      import { track } from "@/lib/analytics";
+
+      type SavedItem = { id: string; title: string; kind: string; url: string };
+      const storageKey = "uxpg:saved-items";
+
+      function readSavedItems(): SavedItem[] {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(storageKey) || "[]");
+          return Array.isArray(parsed) ? parsed.filter((item) => item?.id && item?.url) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function writeSavedItems(items: SavedItem[]) {
+        localStorage.setItem(storageKey, JSON.stringify(items));
+        window.dispatchEvent(new CustomEvent("uxpg:saved-items", { detail: items }));
+      }
+
+      function updateSavedUI(items = readSavedItems()) {
+        document.querySelectorAll<HTMLElement>("[data-saved-count]").forEach((node) => {
+          node.textContent = String(items.length);
+        });
+        document.querySelectorAll<HTMLButtonElement>("[data-save-item]").forEach((button) => {
+          const saved = items.some((item) => item.id === button.dataset.itemId);
+          button.setAttribute("aria-pressed", String(saved));
+          const icon = button.querySelector<HTMLElement>("[data-save-icon]");
+          if (icon) icon.textContent = saved ? "✓" : "+";
+          const label = button.querySelector<HTMLElement>("[data-save-label]");
+          if (label) label.textContent = saved ? "Saved" : "Save";
+        });
+        const list = document.querySelector<HTMLElement>("[data-saved-items-list]");
+        if (!list) return;
+        list.replaceChildren();
+        if (!items.length) {
+          const empty = document.createElement("p");
+          empty.className = "saved-empty";
+          empty.textContent = "Save patterns and comparisons to build a browser-local review list.";
+          list.append(empty);
+          return;
+        }
+        items.forEach((item) => {
+          const row = document.createElement("div");
+          row.className = "saved-item";
+          const link = document.createElement("a");
+          link.href = item.url;
+          const kind = document.createElement("span");
+          kind.textContent = item.kind;
+          const title = document.createElement("strong");
+          title.textContent = item.title;
+          link.append(kind, title);
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.dataset.removeSaved = item.id;
+          remove.setAttribute("aria-label", `Remove ${item.title}`);
+          remove.textContent = "Remove";
+          row.append(link, remove);
+          list.append(row);
+        });
+      }
+
+      document.addEventListener("click", async (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        const saveButton = target?.closest<HTMLButtonElement>("[data-save-item]");
+        if (saveButton) {
+          const id = saveButton.dataset.itemId || "";
+          const items = readSavedItems();
+          const existing = items.some((item) => item.id === id);
+          const next = existing
+            ? items.filter((item) => item.id !== id)
+            : [...items, {
+                id,
+                title: saveButton.dataset.itemTitle || document.title,
+                kind: saveButton.dataset.itemKind || "item",
+                url: window.location.pathname
+              }];
+          writeSavedItems(next);
+          updateSavedUI(next);
+          track(existing ? "item_unsaved" : "item_saved", { itemId: id, surface: saveButton.dataset.itemKind || "unknown" });
+          return;
+        }
+
+        const shareButton = target?.closest<HTMLButtonElement>("[data-share-page]");
+        const copyButton = target?.closest<HTMLButtonElement>("[data-copy-link]");
+        if (shareButton || copyButton) {
+          const wrapper = (shareButton || copyButton)?.closest<HTMLElement>(".engagement-actions");
+          const status = wrapper?.querySelector<HTMLElement>("[data-action-status]");
+          const title = shareButton?.dataset.shareTitle || document.title;
+          const text = shareButton?.dataset.shareText || "";
+          try {
+            if (shareButton && navigator.share) {
+              track("share_opened", { surface: window.location.pathname });
+              await navigator.share({ title, text, url: window.location.href });
+              if (status) status.textContent = "Shared.";
+              track("share_completed", { surface: window.location.pathname, method: "native" });
+            } else {
+              await navigator.clipboard.writeText(window.location.href);
+              if (status) status.textContent = "Link copied.";
+              track("link_copied", { surface: window.location.pathname });
+            }
+          } catch (error) {
+            if (error instanceof DOMException && error.name === "AbortError") return;
+            if (status) status.textContent = "Could not share. Copy the address from your browser.";
+          }
+          return;
+        }
+
+        const removeButton = target?.closest<HTMLButtonElement>("[data-remove-saved]");
+        if (removeButton) {
+          const next = readSavedItems().filter((item) => item.id !== removeButton.dataset.removeSaved);
+          writeSavedItems(next);
+          updateSavedUI(next);
+        }
+      });
+
+      const savedDialog = document.querySelector<HTMLDialogElement>("[data-saved-items-dialog]");
+      document.querySelector("[data-saved-items-trigger]")?.addEventListener("click", () => {
+        updateSavedUI();
+        savedDialog?.showModal();
+      });
+      document.querySelector("[data-saved-items-close]")?.addEventListener("click", () => savedDialog?.close());
+      savedDialog?.addEventListener("click", (event) => {
+        if (event.target === savedDialog) savedDialog.close();
+      });
+      window.addEventListener("uxpg:saved-items", (event) => updateSavedUI((event as CustomEvent<SavedItem[]>).detail));
+      updateSavedUI();
+    </script>
   </body>
 </html>

@@ -1,0 +1,104 @@
+---
+import { withBase } from "@/lib/paths";
+
+type Props = {
+  source: string;
+  heading?: string;
+  description?: string;
+  compact?: boolean;
+};
+
+const {
+  source,
+  heading = "Get one practical pattern each week",
+  description = "A concise, source-backed brief you can use in design review and implementation.",
+  compact = false
+} = Astro.props;
+const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "";
+---
+
+<section class:list={["newsletter-signup", { "is-compact": compact }]} aria-labelledby={`newsletter-${source}`}>
+  <div class="newsletter-copy">
+    <span>UX Patterns newsletter</span>
+    <h2 id={`newsletter-${source}`}>{heading}</h2>
+    <p>{description}</p>
+  </div>
+  <form data-newsletter-form data-endpoint={endpoint} data-source={source} novalidate>
+    <input type="hidden" name="startedAt" value="" data-started-at />
+    <label class="newsletter-honeypot" aria-hidden="true">
+      Website
+      <input name="website" type="text" tabindex="-1" autocomplete="off" />
+    </label>
+    <label>
+      <span>Email address</span>
+      <div class="newsletter-field-row">
+        <input name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
+        <button type="submit">Subscribe</button>
+      </div>
+    </label>
+    <p class="newsletter-consent">By subscribing, you agree to receive the UX Patterns newsletter. Confirm by email; unsubscribe anytime. <a href={withBase("/privacy/")}>Privacy</a></p>
+    <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+  import { track } from "@/lib/analytics";
+
+  document.querySelectorAll<HTMLFormElement>("[data-newsletter-form]").forEach((form) => {
+    if (form.dataset.ready === "true") return;
+    form.dataset.ready = "true";
+    const startedAt = form.querySelector<HTMLInputElement>("[data-started-at]");
+    if (startedAt) startedAt.value = String(Date.now());
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>("[data-newsletter-status]");
+      const button = form.querySelector<HTMLButtonElement>("button[type='submit']");
+      const email = form.querySelector<HTMLInputElement>("input[name='email']");
+      const endpoint = form.dataset.endpoint;
+      if (!email?.validity.valid) {
+        if (status) status.textContent = "Enter a valid email address.";
+        email?.focus();
+        return;
+      }
+      if (!endpoint) {
+        if (status) status.textContent = "Subscriptions are being connected. Please try again shortly.";
+        return;
+      }
+
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Subscribing…";
+      }
+      if (status) status.textContent = "Saving your subscription…";
+
+      const data = new FormData(form);
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: data.get("email"),
+            website: data.get("website"),
+            startedAt: data.get("startedAt"),
+            source: `${form.dataset.source}:${window.location.pathname}`,
+            campaign: new URLSearchParams(window.location.search).get("utm_campaign") || ""
+          })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.message || "Subscription failed.");
+        if (status) status.textContent = result.message || "Thanks — check your inbox to confirm.";
+        form.classList.add("is-success");
+        email.value = "";
+        track("newsletter_subscribed", { surface: form.dataset.source || "unknown" });
+      } catch (error) {
+        if (status) status.textContent = error instanceof Error ? error.message : "Subscription failed. Please try again.";
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = "Subscribe";
+        }
+      }
+    });
+  });
+</script>

@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PatternPlayground from "@/components/PatternPlayground";
+import EngagementActions from "@/components/EngagementActions.astro";
+import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import { comparisons, getComparison, getPattern, getSource, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
@@ -114,6 +116,7 @@ const structuredData = [
         <a class="action-link primary-action" href={withBase(`/lab/?pattern=${pattern.id}`)}>Open in lab</a>
         {primaryComparison && <a class="action-link secondary-action" href={withBase(`/compare/${primaryComparison.id}/`)}>Compare alternatives</a>}
       </div>
+      <EngagementActions id={pattern.id} title={pattern.name} summary={pattern.solution} kind="pattern" />
     </div>
 
     <aside class="pattern-trust-panel" aria-label="Pattern verification">
@@ -146,10 +149,10 @@ const structuredData = [
 
   <nav class="pattern-page-nav" aria-label="Pattern sections">
     <a href="#decision">Decision</a>
+    <a href="#lab">Try it</a>
     <a href="#anatomy">Anatomy</a>
     <a href="#quality">Examples</a>
     <a href="#contract">Contract</a>
-    <a href="#lab">Lab</a>
     <a href="#evidence">Evidence</a>
   </nav>
 
@@ -173,6 +176,24 @@ const structuredData = [
       </article>
     </div>
   </section>
+
+  <section class="pattern-lab-section pattern-lab-priority" id="lab" aria-labelledby="lab-heading">
+    <div class="section-heading">
+      <span>Interactive example</span>
+      <h2 id="lab-heading">Try the strong and weak states</h2>
+      <p>Interact with the pattern before reading the full contract. Explore the good implementation, then trigger the failure modes.</p>
+    </div>
+    <div class="pattern-lab">
+      <PatternPlayground client:visible pattern={playgroundPattern} variant="detail" />
+    </div>
+  </section>
+
+  <NewsletterSignup
+    source={`pattern:${pattern.id}`}
+    heading={`Keep improving ${pattern.name.toLowerCase()}`}
+    description="Get one source-backed pattern brief each week, with states to test and mistakes to avoid."
+    compact
+  />
 
   <div class="pattern-workspace pattern-expert-layout">
     <div class="pattern-reading">
@@ -242,16 +263,6 @@ const structuredData = [
               <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
             </article>
           ))}
-        </div>
-      </section>
-
-      <section class="pattern-lab-section" id="lab" aria-labelledby="lab-heading">
-        <div class="section-heading">
-          <span>Interactive lab</span>
-          <h2 id="lab-heading">Inspect the states before you copy the pattern</h2>
-        </div>
-        <div class="pattern-lab">
-          <PatternPlayground client:visible pattern={playgroundPattern} variant="detail" />
         </div>
       </section>
 

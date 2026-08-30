@@ -1,0 +1,23 @@
+---
+type Props = {
+  id: string;
+  title: string;
+  summary: string;
+  kind: "pattern" | "comparison" | "resource";
+};
+
+const { id, title, summary, kind } = Astro.props;
+---
+
+<div class="engagement-actions" aria-label={`${title} actions`}>
+  <button type="button" data-save-item data-item-id={`${kind}:${id}`} data-item-title={title} data-item-kind={kind} aria-pressed="false">
+    <span aria-hidden="true" data-save-icon>+</span><span data-save-label>Save</span>
+  </button>
+  <button type="button" data-share-page data-share-title={title} data-share-text={summary}>
+    <span aria-hidden="true">↗</span><span>Share</span>
+  </button>
+  <button type="button" data-copy-link>
+    <span aria-hidden="true">⧉</span><span>Copy link</span>
+  </button>
+  <p data-action-status aria-live="polite"></p>
+</div>

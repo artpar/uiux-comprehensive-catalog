@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import EngagementActions from "@/components/EngagementActions.astro";
+import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import { comparisons, getPattern, getSource } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
@@ -123,6 +125,7 @@ const dimensions = [
         <a data-live-pattern={pattern.id} href={withBase(`/lab/?pattern=${pattern.id}`)}>{pattern.name} live example</a>
       ))}
     </div>
+    <EngagementActions id={comparison.id} title={comparison.title} summary={comparison.decisionRules[0]} kind="comparison" />
   </section>
 
   <section class="detail-panel context-panel" id="workbench-context" hidden>
@@ -227,6 +230,13 @@ const dimensions = [
       </section>
     </aside>
   </div>
+
+  <NewsletterSignup
+    source={`comparison:${comparison.id}`}
+    heading="Get better pattern decisions in your inbox"
+    description="One concise comparison or implementation pattern each week, backed by the same source trail."
+    compact
+  />
 
   <script>
     const contextPanel = document.getElementById("workbench-context");

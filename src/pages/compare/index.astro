@@ -31,12 +31,6 @@ const comparisonOptions = comparisons.map((comparison) => {
     lastVerified: comparison.lastVerified
   };
 });
-const categoryGroups = patternCategories
-  .map((category) => ({
-    category,
-    comparisons: comparisonOptions.filter((comparison) => comparison.primaryCategory === category)
-  }))
-  .filter((group) => group.comparisons.length > 0);
 const categoryFilters = patternCategories
   .map((category) => ({
     category,
@@ -129,42 +123,9 @@ const description = "Compare UX and UI patterns side by side before choosing an 
       <p class="compare-result-count" data-compare-result-count>{comparisonOptions.length} comparisons shown</p>
       <p class="compare-empty" data-compare-empty hidden>No comparisons match this filter.</p>
 
-      <div class="comparison-library">
-        {categoryGroups.map((group) => (
-          <section class="comparison-category-section" data-category-section={group.category}>
-            <div class="comparison-category-head">
-              <h3>{group.category}</h3>
-              <span>{group.comparisons.length}</span>
-            </div>
-            <div class="comparison-list-grid">
-              {group.comparisons.map((comparison) => (
-                <a
-                  class="comparison-row"
-                  href={comparison.href}
-                  data-compare-card
-                  data-primary-category={comparison.primaryCategory}
-                  data-categories={comparison.categories.join("|")}
-                  data-search={[
-                    comparison.title,
-                    comparison.summary,
-                    comparison.rule,
-                    comparison.patternNames.join(" "),
-                    comparison.categories.join(" ")
-                  ].join(" ").toLowerCase()}
-                >
-                  <span>{comparison.patternNames.join(" vs ")}</span>
-                  <strong>{comparison.rule}</strong>
-                  <div class="comparison-row-meta">
-                    <small>{comparison.patternNames.length} patterns</small>
-                    <small>{comparison.primaryCategory}</small>
-                    <small>Verified {comparison.lastVerified}</small>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
+      <div class="comparison-library" data-comparison-library aria-live="polite"></div>
+      <button class="secondary-action compare-load-more" type="button" data-compare-load-more>Show more comparisons</button>
+      <noscript><p>JavaScript is required to filter the comparison directory. Individual comparison pages remain directly accessible from pattern pages and the sitemap.</p></noscript>
     </section>
   </div>
 
@@ -176,11 +137,12 @@ const description = "Compare UX and UI patterns side by side before choosing an 
     const search = document.querySelector("[data-compare-search]");
     const categorySelect = document.querySelector("[data-compare-category-select]");
     const categoryButtons = [...document.querySelectorAll("[data-compare-category]")];
-    const cards = [...document.querySelectorAll("[data-compare-card]")];
-    const sections = [...document.querySelectorAll("[data-category-section]")];
+    const library = document.querySelector("[data-comparison-library]");
+    const loadMore = document.querySelector("[data-compare-load-more]");
     const resultCount = document.querySelector("[data-compare-result-count]");
     const empty = document.querySelector("[data-compare-empty]");
     let activeCategory = "all";
+    let visibleLimit = 24;
     let compareSearchTrackingTimer;
 
     function updateCompareLink() {
@@ -220,22 +182,60 @@ const description = "Compare UX and UI patterns side by side before choosing an 
 
     function updateLibraryFilter() {
       const query = search instanceof HTMLInputElement ? search.value.trim().toLowerCase() : "";
-      let visibleCount = 0;
-
-      cards.forEach((card) => {
-        const primaryCategory = String(card.getAttribute("data-primary-category") || "");
-        const searchText = String(card.getAttribute("data-search") || "");
-        const matchesCategory = activeCategory === "all" || primaryCategory === activeCategory;
-        const matchesSearch = !query || searchText.includes(query);
-        const isVisible = matchesCategory && matchesSearch;
-        card.hidden = !isVisible;
-        if (isVisible) visibleCount += 1;
+      const matches = comparisons.filter((comparison) => {
+        const searchText = [
+          comparison.title,
+          comparison.summary,
+          comparison.rule,
+          comparison.patternNames.join(" "),
+          comparison.categories.join(" ")
+        ].join(" ").toLowerCase();
+        return (activeCategory === "all" || comparison.primaryCategory === activeCategory) && (!query || searchText.includes(query));
       });
+      const visible = matches.slice(0, visibleLimit);
 
-      sections.forEach((section) => {
-        const hasVisibleCard = Boolean(section.querySelector("[data-compare-card]:not([hidden])"));
-        section.hidden = !hasVisibleCard;
-      });
+      if (library) {
+        library.replaceChildren();
+        const groups = new Map();
+        visible.forEach((comparison) => {
+          const items = groups.get(comparison.primaryCategory) || [];
+          items.push(comparison);
+          groups.set(comparison.primaryCategory, items);
+        });
+        groups.forEach((items, category) => {
+          const section = document.createElement("section");
+          section.className = "comparison-category-section";
+          const head = document.createElement("div");
+          head.className = "comparison-category-head";
+          const heading = document.createElement("h3");
+          heading.textContent = category;
+          const count = document.createElement("span");
+          count.textContent = String(items.length);
+          head.append(heading, count);
+          const list = document.createElement("div");
+          list.className = "comparison-list-grid";
+          items.forEach((comparison) => {
+            const link = document.createElement("a");
+            link.className = "comparison-row";
+            link.href = comparison.href;
+            const names = document.createElement("span");
+            names.textContent = comparison.patternNames.join(" vs ");
+            const rule = document.createElement("strong");
+            rule.textContent = comparison.rule;
+            const meta = document.createElement("div");
+            meta.className = "comparison-row-meta";
+            [`${comparison.patternNames.length} patterns`, comparison.primaryCategory, `Verified ${comparison.lastVerified}`].forEach((value) => {
+              const item = document.createElement("small");
+              item.textContent = value;
+              meta.append(item);
+            });
+            link.append(names, rule, meta);
+            list.append(link);
+          });
+          section.append(head, list);
+          library.append(section);
+        });
+      }
 
       categoryButtons.forEach((button) => {
         button.classList.toggle("is-active", button.getAttribute("data-compare-category") === activeCategory);
@@ -243,25 +243,33 @@ const description = "Compare UX and UI patterns side by side before choosing an 
       if (categorySelect instanceof HTMLSelectElement) categorySelect.value = activeCategory;
 
       if (resultCount) {
-        resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? "comparison" : "comparisons"} shown`;
+        resultCount.textContent = `${Math.min(visible.length, matches.length)} of ${matches.length} ${matches.length === 1 ? "comparison" : "comparisons"} shown`;
       }
-      if (empty) empty.hidden = visibleCount > 0;
+      if (empty) empty.hidden = matches.length > 0;
+      if (loadMore instanceof HTMLButtonElement) {
+        loadMore.hidden = visible.length >= matches.length;
+        loadMore.textContent = `Show ${Math.min(24, matches.length - visible.length)} more comparisons`;
+      }
 
       window.clearTimeout(compareSearchTrackingTimer);
       if (query) {
         compareSearchTrackingTimer = window.setTimeout(() => {
-          const props = { surface: "comparison_directory", queryLength: query.length, resultCount: visibleCount };
+          const props = { surface: "comparison_directory", queryLength: query.length, resultCount: matches.length };
           if (typeof window.__trackAnalytics === "function") {
             window.__trackAnalytics("catalog_search", props);
-            if (visibleCount === 0) window.__trackAnalytics("zero_result_search", props);
+            if (matches.length === 0) window.__trackAnalytics("zero_result_search", props);
           }
         }, 700);
       }
     }
 
-    search?.addEventListener("input", updateLibraryFilter);
+    search?.addEventListener("input", () => {
+      visibleLimit = 24;
+      updateLibraryFilter();
+    });
     categorySelect?.addEventListener("change", () => {
       activeCategory = categorySelect instanceof HTMLSelectElement ? categorySelect.value : "all";
+      visibleLimit = 24;
       updateLibraryFilter();
     });
     categoryButtons.forEach((button) => {
@@ -270,5 +278,10 @@ const description = "Compare UX and UI patterns side by side before choosing an 
         updateLibraryFilter();
       });
     });
+    loadMore?.addEventListener("click", () => {
+      visibleLimit += 24;
+      updateLibraryFilter();
+    });
+    updateLibraryFilter();
   </script>
 </BaseLayout>
