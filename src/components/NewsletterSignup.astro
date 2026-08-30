@@ -15,6 +15,7 @@ const {
   compact = false
 } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "";
+const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`;
 ---
 
 <section class:list={["newsletter-signup", { "is-compact": compact }]} aria-labelledby={`newsletter-${source}`}>
@@ -29,13 +30,13 @@ const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "";
       Website
       <input name="website" type="text" tabindex="-1" autocomplete="off" />
     </label>
-    <label>
-      <span>Email address</span>
+    <div class="newsletter-field">
+      <label for={emailInputId}>Email address</label>
       <div class="newsletter-field-row">
-        <input name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
+        <input id={emailInputId} name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
         <button type="submit">Subscribe</button>
       </div>
-    </label>
+    </div>
     <p class="newsletter-consent">By subscribing, you agree to receive the UX Patterns newsletter. We will use this address only for the newsletter; unsubscribe anytime. <a href={withBase("/privacy/")}>Privacy</a></p>
     <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
   </form>
@@ -82,7 +83,11 @@ const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "";
             website: data.get("website"),
             startedAt: data.get("startedAt"),
             source: `${form.dataset.source}:${window.location.pathname}`,
-            campaign: new URLSearchParams(window.location.search).get("utm_campaign") || ""
+            campaign: new URLSearchParams(window.location.search).get("utm_campaign") || "",
+            utmSource: new URLSearchParams(window.location.search).get("utm_source") || "",
+            utmMedium: new URLSearchParams(window.location.search).get("utm_medium") || "",
+            utmContent: new URLSearchParams(window.location.search).get("utm_content") || "",
+            referrerHost: document.referrer ? new URL(document.referrer).hostname : ""
           })
         });
         const result = await response.json().catch(() => ({}));
@@ -90,7 +95,7 @@ const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "";
         if (status) status.textContent = result.message || "Thanks — check your inbox to confirm.";
         form.classList.add("is-success");
         email.value = "";
-        track("newsletter_subscribed", { surface: form.dataset.source || "unknown" });
+        track("newsletter_signup_submitted", { surface: form.dataset.source || "unknown" });
       } catch (error) {
         if (status) status.textContent = error instanceof Error ? error.message : "Subscription failed. Please try again.";
       } finally {

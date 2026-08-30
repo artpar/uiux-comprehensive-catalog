@@ -28,6 +28,8 @@ function setCors(req, res) {
   res.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.set("Access-Control-Allow-Headers", "Content-Type");
   res.set("Access-Control-Max-Age", "3600");
+  res.set("Cache-Control", "no-store");
+  res.set("X-Content-Type-Options", "nosniff");
 }
 
 function page(title, message, returnPath = "/") {
@@ -81,13 +83,22 @@ async function subscribe(req, res) {
   const token = randomBytes(32).toString("hex");
   const source = String(body.source || "/").slice(0, 300);
   const campaign = String(body.campaign || "").slice(0, 120);
+  const utmSource = String(body.utmSource || "").slice(0, 120);
+  const utmMedium = String(body.utmMedium || "").slice(0, 120);
+  const utmContent = String(body.utmContent || "").slice(0, 120);
+  const referrerHost = String(body.referrerHost || "").toLowerCase().slice(0, 253);
   await ref.set({
     email,
     status: "pending",
     source,
     campaign,
+    utmSource,
+    utmMedium,
+    utmContent,
+    referrerHost,
     consentVersion: "2026-08-30",
     confirmationTokenHash: hash(token),
+    confirmationExpiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000),
     createdAt: existing.exists ? existing.data()?.createdAt : FieldValue.serverTimestamp(),
     updatedAt: FieldValue.serverTimestamp()
   }, { merge: true });
@@ -116,6 +127,11 @@ async function updateByToken(req, res, nextStatus) {
     return res.status(404).send(page("Link expired", "This subscription link is no longer active."));
   }
   const ref = snapshot.docs[0].ref;
+  const subscriber = snapshot.docs[0].data();
+  const expiresAt = subscriber.confirmationExpiresAt?.toDate?.();
+  if (nextStatus === "confirmed" && expiresAt instanceof Date && expiresAt.getTime() < Date.now()) {
+    return res.status(410).send(page("Link expired", "This confirmation link has expired. Subscribe again to receive a new link."));
+  }
   await ref.set({
     status: nextStatus,
     updatedAt: FieldValue.serverTimestamp(),
@@ -136,6 +152,7 @@ http("newsletter", async (req, res) => {
   setCors(req, res);
   if (req.method === "OPTIONS") return res.status(204).send("");
   try {
+    if (req.method === "GET" && req.path === "/health") return res.status(200).json({ ok: true });
     if (req.method === "POST" && (req.path === "/" || req.path === "/subscribe")) return await subscribe(req, res);
     if (req.method === "GET" && req.path === "/confirm") return await updateByToken(req, res, "confirmed");
     if ((req.method === "GET" || req.method === "POST") && req.path === "/unsubscribe") {

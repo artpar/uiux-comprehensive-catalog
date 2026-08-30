@@ -7,6 +7,8 @@ type Props = {
 };
 
 const { id, title, summary, kind } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalUrl)}`;
 ---
 
 <div class="engagement-actions" aria-label={`${title} actions`}>
@@ -14,10 +16,10 @@ const { id, title, summary, kind } = Astro.props;
     <span aria-hidden="true" data-save-icon>+</span><span data-save-label>Save</span>
   </button>
   <button type="button" data-share-page data-share-title={title} data-share-text={summary}>
-    <span aria-hidden="true">↗</span><span>Share</span>
+    <span aria-hidden="true">↗</span><span data-share-label>Share</span>
   </button>
-  <button type="button" data-copy-link>
-    <span aria-hidden="true">⧉</span><span>Copy link</span>
-  </button>
+  <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" data-share-linkedin>
+    <span aria-hidden="true">in</span><span>LinkedIn</span>
+  </a>
   <p data-action-status aria-live="polite"></p>
 </div>

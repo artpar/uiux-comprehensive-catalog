@@ -206,9 +206,13 @@ const navItems = [
     <dialog class="saved-items-dialog" data-saved-items-dialog aria-labelledby="saved-items-title">
       <div class="saved-items-head">
         <h2 id="saved-items-title">Saved items</h2>
-        <button type="button" data-saved-items-close aria-label="Close saved items">Close</button>
+        <div class="saved-items-head-actions">
+          <button type="button" data-copy-saved-list>Copy list</button>
+          <button type="button" data-saved-items-close aria-label="Close saved items">Close</button>
+        </div>
       </div>
       <div data-saved-items-list></div>
+      <p class="saved-items-status" data-saved-items-status aria-live="polite"></p>
     </dialog>
     <script>
       import { track } from "@/lib/analytics";
@@ -293,15 +297,20 @@ const navItems = [
           return;
         }
 
+        const linkedInLink = target?.closest<HTMLAnchorElement>("[data-share-linkedin]");
+        if (linkedInLink) {
+          track("share_completed", { surface: window.location.pathname, method: "linkedin" });
+          return;
+        }
+
         const shareButton = target?.closest<HTMLButtonElement>("[data-share-page]");
-        const copyButton = target?.closest<HTMLButtonElement>("[data-copy-link]");
-        if (shareButton || copyButton) {
-          const wrapper = (shareButton || copyButton)?.closest<HTMLElement>(".engagement-actions");
+        if (shareButton) {
+          const wrapper = shareButton.closest<HTMLElement>(".engagement-actions");
           const status = wrapper?.querySelector<HTMLElement>("[data-action-status]");
-          const title = shareButton?.dataset.shareTitle || document.title;
-          const text = shareButton?.dataset.shareText || "";
+          const title = shareButton.dataset.shareTitle || document.title;
+          const text = shareButton.dataset.shareText || "";
           try {
-            if (shareButton && navigator.share) {
+            if (navigator.share) {
               track("share_opened", { surface: window.location.pathname });
               await navigator.share({ title, text, url: window.location.href });
               if (status) status.textContent = "Shared.";
@@ -332,10 +341,31 @@ const navItems = [
         savedDialog?.showModal();
       });
       document.querySelector("[data-saved-items-close]")?.addEventListener("click", () => savedDialog?.close());
+      document.querySelector("[data-copy-saved-list]")?.addEventListener("click", async () => {
+        const items = readSavedItems();
+        const status = document.querySelector<HTMLElement>("[data-saved-items-status]");
+        if (!items.length) {
+          if (status) status.textContent = "Save an item before copying the list.";
+          return;
+        }
+        const text = items
+          .map((item) => `${item.title} — ${new URL(item.url, window.location.origin).toString()}`)
+          .join("\n");
+        try {
+          await navigator.clipboard.writeText(text);
+          if (status) status.textContent = `${items.length} saved ${items.length === 1 ? "item" : "items"} copied.`;
+          track("saved_list_copied", { itemCount: items.length });
+        } catch {
+          if (status) status.textContent = "Could not copy the list. Try again from a secure browser window.";
+        }
+      });
       savedDialog?.addEventListener("click", (event) => {
         if (event.target === savedDialog) savedDialog.close();
       });
       window.addEventListener("uxpg:saved-items", (event) => updateSavedUI((event as CustomEvent<SavedItem[]>).detail));
+      document.querySelectorAll<HTMLElement>("[data-share-label]").forEach((label) => {
+        if (!navigator.share) label.textContent = "Copy link";
+      });
       updateSavedUI();
     </script>
   </body>
