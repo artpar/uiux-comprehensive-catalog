@@ -10,8 +10,8 @@ type Props = {
 
 const {
   source,
-  heading = "Get one practical pattern each week",
-  description = "A concise, source-backed brief you can use in design review and implementation.",
+  heading = "Be there for the first pattern brief",
+  description = "Join the launch list. We will tell you when the first source-backed issue is ready.",
   compact = false
 } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "";
@@ -25,20 +25,16 @@ const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`
     <p>{description}</p>
   </div>
   <form data-newsletter-form data-endpoint={endpoint} data-source={source} novalidate>
-    <input type="hidden" name="startedAt" value="" data-started-at />
-    <label class="newsletter-honeypot" aria-hidden="true">
-      Website
-      <input name="website" type="text" tabindex="-1" autocomplete="off" />
-    </label>
+    <input class="newsletter-honeypot" name="company" type="text" tabindex="-1" autocomplete="off" hidden />
     <div class="newsletter-field">
       <label for={emailInputId}>Email address</label>
       <div class="newsletter-field-row">
-        <input id={emailInputId} name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
-        <button type="submit">Subscribe</button>
+        <input id={emailInputId} name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" aria-describedby={`${emailInputId}-status`} required />
+        <button type="submit">Join launch list</button>
       </div>
     </div>
-    <p class="newsletter-consent">By subscribing, you agree to receive the UX Patterns newsletter. We will use this address only for the newsletter; unsubscribe anytime. <a href={withBase("/privacy/")}>Privacy</a></p>
-    <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
+    <p class="newsletter-consent">By joining, you agree to receive the launch announcement and future UX Patterns Guide issues. We use this address only for the newsletter; unsubscribe anytime. <a href={withBase("/privacy/")}>Privacy</a></p>
+    <p id={`${emailInputId}-status`} class="newsletter-status" data-newsletter-status role="status" aria-live="polite" aria-atomic="true"></p>
   </form>
 </section>
 
@@ -48,9 +44,6 @@ const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`
   document.querySelectorAll<HTMLFormElement>("[data-newsletter-form]").forEach((form) => {
     if (form.dataset.ready === "true") return;
     form.dataset.ready = "true";
-    const startedAt = form.querySelector<HTMLInputElement>("[data-started-at]");
-    if (startedAt) startedAt.value = String(Date.now());
-
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const status = form.querySelector<HTMLElement>("[data-newsletter-status]");
@@ -58,10 +51,12 @@ const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`
       const email = form.querySelector<HTMLInputElement>("input[name='email']");
       const endpoint = form.dataset.endpoint;
       if (!email?.validity.valid) {
-        if (status) status.textContent = "Enter a valid email address.";
+        email?.setAttribute("aria-invalid", "true");
+        if (status) status.textContent = "Enter an email address in the format name@example.com.";
         email?.focus();
         return;
       }
+      email.removeAttribute("aria-invalid");
       if (!endpoint) {
         if (status) status.textContent = "Subscriptions are being connected. Please try again shortly.";
         return;
@@ -80,8 +75,7 @@ const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: data.get("email"),
-            website: data.get("website"),
-            startedAt: data.get("startedAt"),
+            company: data.get("company"),
             source: `${form.dataset.source}:${window.location.pathname}`,
             campaign: new URLSearchParams(window.location.search).get("utm_campaign") || "",
             utmSource: new URLSearchParams(window.location.search).get("utm_source") || "",
@@ -101,9 +95,13 @@ const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`
       } finally {
         if (button) {
           button.disabled = false;
-          button.textContent = "Subscribe";
+          button.textContent = "Join launch list";
         }
       }
+    });
+
+    form.querySelector<HTMLInputElement>("input[name='email']")?.addEventListener("input", (event) => {
+      if (event.currentTarget instanceof HTMLInputElement) event.currentTarget.removeAttribute("aria-invalid");
     });
   });
 </script>

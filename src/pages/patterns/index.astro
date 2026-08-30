@@ -69,7 +69,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
       </div>
     </div>
 
-    <form class="catalog-search pattern-directory-search" role="search" data-pattern-index-search data-search-index-url={withBase("/pattern-search.json")}>
+    <form class="catalog-search pattern-directory-search" role="search" action={withBase("/patterns/")} method="get" data-pattern-index-search data-search-index-url={withBase("/pattern-search.json")}>
       <label for="pattern-index-query">Search by problem, state, or pattern name</label>
       <div class="catalog-search-row">
         <input
@@ -78,11 +78,12 @@ const description = "Browse practical UX and UI patterns by family, with source-
           type="search"
           autocomplete="off"
           placeholder="Try empty state, AI approval"
+          aria-controls="pattern-index-results"
           data-pattern-index-query
         />
         <button type="submit">Search</button>
       </div>
-      <div class="catalog-search-results" data-pattern-index-results hidden></div>
+      <div id="pattern-index-results" class="catalog-search-results" aria-live="polite" data-pattern-index-results hidden></div>
     </form>
   </section>
 
@@ -93,7 +94,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
       ))}
     </nav>
 
-    <div class="pattern-index">
+    <div class="pattern-index" id="pattern-results" tabindex="-1">
       {groupedPatterns.map((group) => (
         <section class="pattern-index-group" id={slugify(group.category)} aria-labelledby={`${slugify(group.category)}-title`}>
           <div class="pattern-index-group-head">
@@ -167,6 +168,13 @@ const description = "Browse practical UX and UI patterns by family, with source-
       return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     }
 
+    function syncPatternSearchUrl(query: string) {
+      const url = new URL(window.location.href);
+      if (query.trim()) url.searchParams.set("q", query.trim());
+      else url.searchParams.delete("q");
+      window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    }
+
     async function renderPatternSearch(query: string) {
       const renderSequence = ++patternSearchRenderSequence;
       const terms = normalizePatternSearch(query).split(" ").filter(Boolean);
@@ -187,11 +195,10 @@ const description = "Browse practical UX and UI patterns by family, with source-
 
       const patternSearchData = await getPatternSearchData();
       if (renderSequence !== patternSearchRenderSequence) return;
-      const visiblePatternIds = new Set(
-        patternSearchData
-          .filter((pattern) => terms.every((term) => normalizePatternSearch(pattern.searchText || "").includes(term)))
-          .map((pattern) => pattern.id)
+      const matchedPatterns = patternSearchData.filter((pattern) =>
+        terms.every((term) => normalizePatternSearch(pattern.searchText || "").includes(term))
       );
+      const visiblePatternIds = new Set(matchedPatterns.map((pattern) => pattern.id));
 
       for (const card of patternCards) {
         if (!(card instanceof HTMLElement)) continue;
@@ -206,33 +213,32 @@ const description = "Browse practical UX and UI patterns by family, with source-
 
       if (!(patternSearchResults instanceof HTMLElement)) return;
 
-      const matches = patternSearchData
-        .map((pattern) => {
-          const text = normalizePatternSearch(pattern.searchText || [pattern.name, pattern.category, pattern.maturity, pattern.surfaceType, pattern.problem, pattern.useWhen].join(" "));
-          const score = terms.reduce((total, term) => total + (text.includes(term) ? 1 : 0), 0);
-          return { pattern, score };
-        })
-        .filter((item) => item.score > 0)
-        .sort((a, b) => b.score - a.score || a.pattern.name.localeCompare(b.pattern.name))
-        .slice(0, 8);
-
       const status = document.createElement("p");
       status.className = "catalog-result-status";
-      status.textContent = matches.length ? `${matches.length} matching patterns` : "No matching patterns";
+      status.textContent = matchedPatterns.length
+        ? `${matchedPatterns.length} ${matchedPatterns.length === 1 ? "pattern matches" : "patterns match"} “${query.trim()}”.`
+        : `No patterns match “${query.trim()}”.`;
       patternSearchResults.append(status);
 
-      for (const { pattern } of matches) {
-        const link = document.createElement("a");
-        link.href = pattern.href;
-        const name = document.createElement("strong");
-        name.textContent = pattern.name;
-        const meta = document.createElement("span");
-        meta.textContent = `${pattern.category} - ${pattern.maturity}`;
-        const summary = document.createElement("small");
-        summary.textContent = pattern.useWhen || pattern.problem;
-        link.dataset.analyticsOrigin = "pattern_directory_search";
-        link.append(name, meta, summary);
-        patternSearchResults.append(link);
+      if (matchedPatterns.length) {
+        const jump = document.createElement("a");
+        jump.href = "#pattern-results";
+        jump.textContent = "Jump to matching patterns";
+        patternSearchResults.append(jump);
+      } else {
+        const clear = document.createElement("button");
+        clear.type = "button";
+        clear.className = "catalog-search-clear";
+        clear.textContent = "Clear search and browse all patterns";
+        clear.addEventListener("click", () => {
+          if (patternSearchInput instanceof HTMLInputElement) {
+            patternSearchInput.value = "";
+            patternSearchInput.focus();
+          }
+          syncPatternSearchUrl("");
+          renderPatternSearch("");
+        });
+        patternSearchResults.append(clear);
       }
 
       patternSearchResults.hidden = false;
@@ -245,14 +251,25 @@ const description = "Browse practical UX and UI patterns by family, with source-
     }
 
     if (patternSearchInput instanceof HTMLInputElement) {
-      patternSearchInput.addEventListener("input", () => renderPatternSearch(patternSearchInput.value));
+      patternSearchInput.addEventListener("input", () => {
+        syncPatternSearchUrl(patternSearchInput.value);
+        renderPatternSearch(patternSearchInput.value);
+      });
     }
 
     if (patternSearchForm instanceof HTMLFormElement) {
       patternSearchForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        renderPatternSearch(patternSearchInput instanceof HTMLInputElement ? patternSearchInput.value : "");
+        const query = patternSearchInput instanceof HTMLInputElement ? patternSearchInput.value : "";
+        syncPatternSearchUrl(query);
+        renderPatternSearch(query);
       });
+    }
+
+    const initialPatternQuery = new URLSearchParams(window.location.search).get("q") || "";
+    if (patternSearchInput instanceof HTMLInputElement && initialPatternQuery) {
+      patternSearchInput.value = initialPatternQuery;
+      renderPatternSearch(initialPatternQuery);
     }
   </script>
 </BaseLayout>

@@ -25,14 +25,11 @@ const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || "abacfae7-b939
 const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || "https://cloud.umami.is/script.js";
 const umamiDomains = import.meta.env.PUBLIC_UMAMI_DOMAINS || "uxpatternsguide.com";
 const navItems = [
-  { href: withBase("/"), label: "Home", icon: "#", active: currentPath === withBase("/") },
   { href: withBase("/patterns/"), label: "Patterns", icon: "A", active: currentPath.startsWith(withBase("/patterns/")) },
-  { href: withBase("/resources/"), label: "Resources", icon: "::", active: currentPath.startsWith(withBase("/resources/")) },
   { href: withBase("/lab/"), label: "Lab", icon: "[]", active: currentPath.startsWith(withBase("/lab/")) },
   { href: withBase("/compare/"), label: "Compare", icon: "<>", active: currentPath.startsWith(withBase("/compare/")) },
-  { href: withBase("/sources/"), label: "Sources", icon: "{}", active: currentPath.startsWith(withBase("/sources/")) },
-  { href: withBase("/anti-patterns/"), label: "Anti-patterns", icon: "!", active: currentPath.startsWith(withBase("/anti-patterns/")) },
-  { href: withBase("/agent/"), label: "Agent exports", icon: "->", active: currentPath.startsWith(withBase("/agent/")) }
+  { href: withBase("/resources/"), label: "Resources", icon: "::", active: currentPath.startsWith(withBase("/resources/")) },
+  { href: withBase("/sources/"), label: "Sources", icon: "{}", active: currentPath.startsWith(withBase("/sources/")) }
 ];
 ---
 
@@ -186,8 +183,9 @@ const navItems = [
     )}
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="site-header">
-      <a class="brand" href={withBase("/")}>UX Patterns Guide</a>
+      <a class="brand" href={withBase("/")} aria-current={currentPath === withBase("/") ? "page" : undefined}>UX Patterns Guide</a>
       <nav aria-label="Primary">
         {navItems.map((item) => (
           <a href={item.href} aria-current={item.active ? "page" : undefined}>
@@ -200,9 +198,21 @@ const navItems = [
         Saved <span data-saved-count>0</span>
       </button>
     </header>
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
+    <footer class="site-footer">
+      <div>
+        <a class="footer-brand" href={withBase("/")}>UX Patterns Guide</a>
+        <p>Source-backed guidance for choosing, testing, and implementing interaction patterns.</p>
+      </div>
+      <nav aria-label="More UX Patterns Guide links">
+        <a href={withBase("/anti-patterns/")}>Anti-patterns</a>
+        <a href={withBase("/agent/")}>Agent exports</a>
+        <a href={withBase("/privacy/")}>Privacy</a>
+        <a href="mailto:artpar@gmail.com?subject=UX%20Patterns%20Guide%20feedback">Send feedback</a>
+      </nav>
+    </footer>
     <dialog class="saved-items-dialog" data-saved-items-dialog aria-labelledby="saved-items-title">
       <div class="saved-items-head">
         <h2 id="saved-items-title">Saved items</h2>

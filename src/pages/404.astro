@@ -1,0 +1,29 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+---
+
+<BaseLayout title={pageTitle("Page not found")} description="Find the UX pattern, comparison, source, or resource you were looking for.">
+  <section class="not-found-page" aria-labelledby="not-found-title">
+    <p class="eyebrow">404 · Page not found</p>
+    <h1 id="not-found-title">That route is not in the catalog.</h1>
+    <p>The page may have moved, the link may be incomplete, or the pattern may use a different name.</p>
+
+    <form class="catalog-search" role="search" action={withBase("/patterns/")} method="get">
+      <label for="missing-page-query">Search the pattern directory</label>
+      <div class="catalog-search-row">
+        <input id="missing-page-query" name="q" type="search" autocomplete="off" placeholder="Try the task, problem, or pattern name" />
+        <button type="submit">Search patterns</button>
+      </div>
+    </form>
+
+    <nav class="not-found-routes" aria-label="Popular destinations">
+      <a class="primary-action" href={withBase("/patterns/")}>Browse patterns</a>
+      <a class="secondary-action" href={withBase("/lab/")}>Open the lab</a>
+      <a class="secondary-action" href={withBase("/compare/")}>Compare alternatives</a>
+    </nav>
+
+    <p class="not-found-help">Following a broken link? <a href="mailto:artpar@gmail.com?subject=Broken%20link%20on%20UX%20Patterns%20Guide">Report it so it can be repaired.</a></p>
+  </section>
+</BaseLayout>

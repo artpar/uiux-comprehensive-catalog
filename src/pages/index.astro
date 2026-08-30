@@ -113,11 +113,12 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
           type="search"
           autocomplete="off"
           placeholder="Try filters, AI, errors"
+          aria-controls="home-catalog-results"
           data-catalog-query
         />
         <a href={withBase("/patterns/")}>All patterns</a>
       </div>
-      <div class="catalog-search-results" data-catalog-results hidden></div>
+      <div id="home-catalog-results" class="catalog-search-results" aria-live="polite" data-catalog-results hidden></div>
       <p>Search by task, risk, component, failure mode, or AI behavior.</p>
     </form>
 
@@ -215,8 +216,8 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 
   <NewsletterSignup
     source="homepage"
-    heading="One practical pattern at a time"
-    description="Get a concise pattern brief with implementation language, failure checks, and source links."
+    heading="Be there for the first pattern brief"
+    description="Join the launch list for concise implementation guidance, failure checks, and source links."
   />
 
   <script>
@@ -286,7 +287,9 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 
       const status = document.createElement("p");
       status.className = "catalog-result-status";
-      status.textContent = matches.length ? `${matches.length} matches` : "No matching patterns";
+      status.textContent = scoredMatches.length
+        ? `Showing ${matches.length} of ${scoredMatches.length} matching patterns`
+        : "No matching patterns";
       searchResults.append(status);
 
       for (const { pattern } of matches) {

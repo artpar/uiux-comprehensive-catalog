@@ -37,6 +37,13 @@ const categoryFilters = patternCategories
     count: comparisonOptions.filter((comparison) => comparison.primaryCategory === category).length
   }))
   .filter((item) => item.count > 0);
+const initialComparisons = comparisonOptions.slice(0, 24);
+const initialComparisonGroups = [...initialComparisons.reduce((groups, comparison) => {
+  const items = groups.get(comparison.primaryCategory) ?? [];
+  items.push(comparison);
+  groups.set(comparison.primaryCategory, items);
+  return groups;
+}, new Map<string, typeof comparisonOptions>())];
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const description = "Compare UX and UI patterns side by side before choosing an interaction model for a product workflow.";
 ---
@@ -92,10 +99,10 @@ const description = "Compare UX and UI patterns side by side before choosing an 
           </select>
         </label>
 
-        <a class="demo-button primary compare-open is-disabled" data-compare-open href="#" aria-disabled="true">
+        <button class="demo-button primary compare-open" data-compare-open type="button" disabled>
           Open comparison
-        </a>
-        <p class="demo-status" data-compare-status>Choose a supported pair to compare.</p>
+        </button>
+        <p class="demo-status" data-compare-status role="status" aria-live="polite">Choose a supported pair to compare.</p>
       </form>
     </section>
 
@@ -123,14 +130,36 @@ const description = "Compare UX and UI patterns side by side before choosing an 
       <p class="compare-result-count" data-compare-result-count>{comparisonOptions.length} comparisons shown</p>
       <p class="compare-empty" data-compare-empty hidden>No comparisons match this filter.</p>
 
-      <div class="comparison-library" data-comparison-library aria-live="polite"></div>
+      <div class="comparison-library" data-comparison-library>
+        {initialComparisonGroups.map(([category, items]) => (
+          <section class="comparison-category-section">
+            <div class="comparison-category-head">
+              <h3>{category}</h3>
+              <span>{items.length}</span>
+            </div>
+            <div class="comparison-list-grid">
+              {items.map((comparison) => (
+                <a class="comparison-row" href={comparison.href}>
+                  <span>{comparison.patternNames.join(" vs ")}</span>
+                  <strong>{comparison.rule}</strong>
+                  <div class="comparison-row-meta">
+                    <small>{comparison.patternNames.length} patterns</small>
+                    <small>{comparison.primaryCategory}</small>
+                    <small>Verified {comparison.lastVerified}</small>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
       <button class="secondary-action compare-load-more" type="button" data-compare-load-more>Show more comparisons</button>
-      <noscript><p>JavaScript is required to filter the comparison directory. Individual comparison pages remain directly accessible from pattern pages and the sitemap.</p></noscript>
+      <noscript><p>The first 24 comparisons are shown above. Browse the sitemap or individual pattern pages for the full library.</p></noscript>
     </section>
   </div>
 
-  <script is:inline define:vars={{ comparisonOptions }}>
-    const comparisons = comparisonOptions;
+  <script is:inline define:vars={{ comparisonDataUrl: withBase("/comparison-search.json") }}>
+    let comparisons = [];
     const form = document.querySelector("[data-compare-form]");
     const openLink = document.querySelector("[data-compare-open]");
     const status = document.querySelector("[data-compare-status]");
@@ -146,7 +175,7 @@ const description = "Compare UX and UI patterns side by side before choosing an 
     let compareSearchTrackingTimer;
 
     function updateCompareLink() {
-      if (!(form instanceof HTMLFormElement) || !(openLink instanceof HTMLAnchorElement) || !status) return;
+      if (!(form instanceof HTMLFormElement) || !(openLink instanceof HTMLButtonElement) || !status) return;
       const data = new FormData(form);
       const first = String(data.get("first") || "");
       const second = String(data.get("second") || "");
@@ -154,30 +183,27 @@ const description = "Compare UX and UI patterns side by side before choosing an 
       const match = comparisons.find((comparison) => [...comparison.patternIds].sort().join("|") === selected);
 
       if (!first || !second) {
-        openLink.href = "#";
-        openLink.classList.add("is-disabled");
-        openLink.setAttribute("aria-disabled", "true");
+        openLink.disabled = true;
         status.textContent = "Choose a supported pair to compare.";
         return;
       }
 
       if (!match || first === second) {
-        openLink.href = "#";
-        openLink.classList.add("is-disabled");
-        openLink.setAttribute("aria-disabled", "true");
+        openLink.disabled = true;
         status.textContent = "No comparison page exists for that pair yet.";
         return;
       }
 
-      openLink.href = match.href;
-      openLink.classList.remove("is-disabled");
-      openLink.removeAttribute("aria-disabled");
+      openLink.disabled = false;
+      openLink.dataset.href = match.href;
       status.textContent = match.title;
     }
 
     form?.addEventListener("change", updateCompareLink);
-    openLink?.addEventListener("click", (event) => {
-      if (openLink.getAttribute("aria-disabled") === "true") event.preventDefault();
+    openLink?.addEventListener("click", () => {
+      if (openLink instanceof HTMLButtonElement && !openLink.disabled && openLink.dataset.href) {
+        window.location.assign(openLink.dataset.href);
+      }
     });
 
     function updateLibraryFilter() {
@@ -282,6 +308,19 @@ const description = "Compare UX and UI patterns side by side before choosing an 
       visibleLimit += 24;
       updateLibraryFilter();
     });
-    updateLibraryFilter();
+    fetch(comparisonDataUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error(`Comparison data request failed: ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        comparisons = Array.isArray(data) ? data : [];
+        updateCompareLink();
+        updateLibraryFilter();
+      })
+      .catch(() => {
+        if (status) status.textContent = "Comparison finder is unavailable. Browse the comparison links below.";
+        if (loadMore instanceof HTMLButtonElement) loadMore.hidden = true;
+      });
   </script>
 </BaseLayout>

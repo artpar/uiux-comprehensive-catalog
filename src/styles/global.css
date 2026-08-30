@@ -55,6 +55,25 @@ body {
   color: var(--text);
 }
 
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  transform: translateY(-160%);
+  border: 2px solid var(--focus);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 800;
+  padding: 10px 14px;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 a {
   color: var(--accent);
 }
@@ -145,6 +164,45 @@ main {
   width: min(1680px, calc(100vw - 24px));
   margin: 0 auto;
   padding: 10px 0 42px;
+  scroll-margin-top: 80px;
+}
+
+.site-footer {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto;
+  gap: 28px;
+  align-items: start;
+  width: min(1120px, calc(100vw - 32px));
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+  padding: 26px 0 38px;
+}
+
+.site-footer p {
+  max-width: 62ch;
+  margin: 7px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.footer-brand {
+  color: var(--text);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  justify-content: flex-end;
+}
+
+.site-footer nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
 }
 
 .primary-action,
@@ -341,6 +399,23 @@ main {
 }
 
 .catalog-search-results a:hover {
+  background: var(--accent-soft);
+}
+
+.catalog-search-clear {
+  width: calc(100% - 20px);
+  min-height: 44px;
+  margin: 0 10px 10px;
+  border: 1px solid var(--accent-strong);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 780;
+  padding: 8px 12px;
+}
+
+.catalog-search-clear:hover {
   background: var(--accent-soft);
 }
 
@@ -1965,6 +2040,28 @@ textarea {
   gap: 8px;
 }
 
+.demo-on-demand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 132px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.demo-on-demand strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.demo-on-demand p {
+  margin: 0;
+  color: var(--muted);
+}
+
 .demo-contract section {
   border: 1px solid var(--line);
   background: var(--panel-soft);
@@ -2247,6 +2344,15 @@ textarea {
 }
 
 @media (max-width: 760px) {
+  .demo-on-demand {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .demo-on-demand .demo-button {
+    width: 100%;
+  }
+
   .site-header {
     align-items: stretch;
     flex-direction: column;
@@ -4912,6 +5018,17 @@ body:has(.decision-workbench) main {
 
   main {
     width: min(100vw - 16px, 1680px);
+    scroll-margin-top: 138px;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
   }
 
 
@@ -6008,6 +6125,46 @@ body:has(.decision-workbench) main {
   font-size: 1.08rem;
 }
 
+.not-found-page {
+  display: grid;
+  gap: 20px;
+  width: min(820px, calc(100% - 24px));
+  margin: clamp(34px, 8vh, 90px) auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  padding: clamp(24px, 5vw, 52px);
+}
+
+.not-found-page h1,
+.not-found-page p {
+  margin: 0;
+}
+
+.not-found-page h1 {
+  max-width: 16ch;
+  font-size: clamp(2.2rem, 6vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.not-found-page > p:not(.eyebrow) {
+  max-width: 66ch;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.not-found-routes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.not-found-help {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
 /* The Lab opens directly into the task; its context header stays compact. */
 .lab-page-head {
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.38fr);
@@ -6051,10 +6208,29 @@ body:has(.decision-workbench) main {
   }
 
   .site-header {
+    flex-wrap: wrap;
     padding: 8px;
   }
 
   .site-header .brand {
-    padding-right: 84px;
+    padding: 8px 84px 8px 4px;
+  }
+
+  .site-header nav {
+    order: 3;
+    flex-basis: 100%;
+    padding-bottom: 2px;
+  }
+
+  .site-header nav a {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 7px 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner-only {
+    animation: none;
   }
 }

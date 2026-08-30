@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 import type { PatternEntry } from "@/schemas/catalog";
 
@@ -1211,6 +1211,7 @@ const playgroundPrompts: Record<string, { title: string; prompt: string }> = {
 
 export default function PatternPlayground({ pattern, variant = "detail" }: PatternPlaygroundProps) {
   const interactionTracked = useRef(false);
+  const [demoOpen, setDemoOpen] = useState(false);
   const copy = playgroundPrompts[pattern.id] ?? {
     title: `Try ${pattern.name}`,
     prompt: "Interact with the pattern and compare the behavior against the guidance."
@@ -1250,17 +1251,36 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
         </div>
         <span>{pattern.name}</span>
       </div>
-      <Suspense
-        fallback={
-          <div className="demo-surface quality-lab demo-loading" role="status">
-            Loading interactive demo...
+      {demoOpen ? (
+        <Suspense
+          fallback={
+            <div className="demo-surface quality-lab demo-loading" role="status">
+              Loading interactive demo...
+            </div>
+          }
+        >
+          <QualityPatternDemo pattern={pattern} />
+        </Suspense>
+      ) : (
+        <div className="demo-on-demand">
+          <div>
+            <strong>Interactive example</strong>
+            <p>Load a working state model to test the guidance above.</p>
           </div>
-        }
-      >
-        <QualityPatternDemo pattern={pattern} />
-      </Suspense>
+          <button
+            className="demo-button primary"
+            type="button"
+            onClick={() => {
+              trackInteraction("pointer");
+              setDemoOpen(true);
+            }}
+          >
+            Start interactive example
+          </button>
+        </div>
+      )}
       {variant === "detail" && (
-        <div className="demo-contract" aria-label={`${pattern.name} demo contract`}>
+        <section className="demo-contract" aria-label={`${pattern.name} demo contract`}>
           <section>
             <h3>State To Inspect</h3>
             <p>{pattern.requiredStates[0]}</p>
@@ -1273,7 +1293,7 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
             <h3>Avoid Generating</h3>
             <p>{pattern.commonMisuses[0]}</p>
           </section>
-        </div>
+        </section>
       )}
     </section>
   );

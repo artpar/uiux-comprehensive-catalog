@@ -63,11 +63,10 @@ async function sendConfirmation(email, token, req) {
 async function subscribe(req, res) {
   const body = req.body && typeof req.body === "object" ? req.body : {};
   const email = String(body.email || "").trim().toLowerCase();
-  const website = String(body.website || "").trim();
-  const startedAt = Number(body.startedAt || 0);
+  const honeypot = String(body.company || body.website || "").trim();
 
-  if (website || (startedAt && Date.now() - startedAt < 1200)) {
-    return res.status(202).json({ ok: true, message: "Check your inbox to confirm." });
+  if (honeypot) {
+    return res.status(202).json({ ok: true, message: "You're on the launch list." });
   }
   if (!emailPattern.test(email) || email.length > 254) {
     return res.status(400).json({ ok: false, message: "Enter a valid email address." });
@@ -113,7 +112,9 @@ async function subscribe(req, res) {
 
   return res.status(202).json({
     ok: true,
-    message: sent ? "Check your inbox to confirm." : "Thanks — your email has been saved."
+    message: sent
+      ? "Check your inbox to confirm your subscription."
+      : "You're on the launch list. We'll email you when the first issue is ready."
   });
 }
 
