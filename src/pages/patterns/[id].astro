@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PatternPlayground from "@/components/PatternPlayground";
 import EngagementActions from "@/components/EngagementActions.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import { categorySlug } from "@/lib/categories";
 import { comparisons, getComparison, getPattern, getSource, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
@@ -37,14 +37,6 @@ const patternComparisons = pattern.comparisons.map((id) => getComparison(id)).fi
 const referencedByComparisons = comparisons.filter((comparison) => comparison.patternIds.includes(pattern.id));
 const allComparisons = [...new Map([...patternComparisons, ...referencedByComparisons].map((item) => [item.id, item])).values()];
 const primaryComparison = allComparisons[0];
-const playgroundPattern = {
-  id: pattern.id,
-  name: pattern.name,
-  requiredStates: pattern.requiredStates,
-  keyboardBehavior: pattern.keyboardBehavior,
-  accessibility: pattern.accessibility,
-  commonMisuses: pattern.commonMisuses
-};
 const anatomyItems = [
   { label: "User need", value: pattern.problemContext[0] ?? pattern.problem },
   { label: "Pattern promise", value: pattern.solution },
@@ -91,6 +83,7 @@ const structuredData = [
   breadcrumbJsonLd([
     { name: "Home", path: "/" },
     { name: "Patterns", path: "/patterns/" },
+    { name: pattern.category, path: `/patterns/category/${categorySlug(pattern.category)}/` },
     { name: pattern.name, path: `/patterns/${pattern.id}/` }
   ], siteUrl)
 ];
@@ -100,6 +93,7 @@ const structuredData = [
   <nav class="breadcrumb-trail" aria-label="Breadcrumb">
     <a href={withBase("/")}>Home</a>
     <a href={withBase("/patterns/")}>Patterns</a>
+    <a href={withBase(`/patterns/category/${categorySlug(pattern.category)}/`)}>{pattern.category}</a>
     <span aria-current="page">{pattern.name}</span>
   </nav>
 
@@ -119,10 +113,10 @@ const structuredData = [
       <EngagementActions id={pattern.id} title={pattern.name} summary={pattern.solution} kind="pattern" />
     </div>
 
-    <aside class="pattern-trust-panel" aria-label="Pattern verification">
+    <aside class="pattern-trust-panel" aria-label="Pattern evidence summary">
       <dl>
         <div>
-          <dt>Verified</dt>
+          <dt>Source trail checked</dt>
           <dd><time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></dd>
         </div>
         <div>
@@ -138,12 +132,7 @@ const structuredData = [
           <dd>{pattern.platforms.join(", ")}</dd>
         </div>
       </dl>
-      {pattern.completionNotes && (
-        <details class="mini-disclosure">
-          <summary>Catalog note</summary>
-          <p>{pattern.completionNotes}</p>
-        </details>
-      )}
+      <p class="trust-caveat">This date means the linked source trail was reviewed. It is not a claim that every use of this pattern is validated for every audience.</p>
     </aside>
   </section>
 
@@ -179,12 +168,20 @@ const structuredData = [
 
   <section class="pattern-lab-section pattern-lab-priority" id="lab" aria-labelledby="lab-heading">
     <div class="section-heading">
-      <span>Interactive example</span>
-      <h2 id="lab-heading">Try the strong and weak states</h2>
-      <p>Interact with the pattern before reading the full contract. Explore the good implementation, then trigger the failure modes.</p>
+      <span>Test the behavior</span>
+      <h2 id="lab-heading">Open the interactive example when you need it</h2>
+      <p>The full lab is intentionally loaded on request. That keeps this reading page fast while preserving the strong and weak states, keyboard checks, and failure scenarios.</p>
     </div>
-    <div class="pattern-lab">
-      <PatternPlayground client:visible pattern={playgroundPattern} variant="detail" />
+    <div class="pattern-lab-launch">
+      <div>
+        <strong>In the lab you can</strong>
+        <ul>
+          <li>switch between strong UI, weak UI, strong UX, and weak UX;</li>
+          <li>trigger required, empty, loading, error, and recovery states;</li>
+          <li>inspect keyboard and accessibility expectations beside the demo.</li>
+        </ul>
+      </div>
+      <a class="primary-action" href={withBase(`/lab/?pattern=${pattern.id}`)}>Launch {pattern.name} in the lab</a>
     </div>
   </section>
 
@@ -404,7 +401,7 @@ const structuredData = [
 
     <section class="guidance-block verification-strip">
       <h2>Verification</h2>
-      <p>Last verified: <time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></p>
+      <p>Source trail checked: <time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></p>
     </section>
   </section>
 </BaseLayout>

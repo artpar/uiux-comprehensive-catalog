@@ -1,28 +1,13 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import { categoryDescriptions, categorySlug } from "@/lib/categories";
 import { comparisons, patterns, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { SITE_DESCRIPTION, SITE_NAME, websiteJsonLd } from "@/lib/seo";
 
 const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
 const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
-const categoryDescriptions: Record<string, string> = {
-  "AI And Automation UX": "Patterns for prompts, agent plans, transparency, approval, and AI output review.",
-  "Collaboration And Social Interaction": "Patterns for comments, mentions, presence, feeds, handoffs, and shared work.",
-  "Cross-Device And Physical Interaction": "Patterns for touch, sensors, device permissions, haptics, camera, and offline use.",
-  "Data Display And Exploration": "Patterns for tables, dashboards, charts, maps, timelines, and drill-down views.",
-  "Disclosure And Attention Management": "Patterns for revealing detail, focusing attention, and keeping context stable.",
-  "Error Prevention And Recovery": "Patterns for preventing mistakes, explaining failure, retrying, undoing, and restoring work.",
-  "Feedback, Status, And System State": "Patterns for loading, progress, alerts, banners, notifications, and system confidence.",
-  "Input And Data Entry": "Patterns for forms, fields, validation, uploads, dates, addresses, payments, and account data.",
-  "Navigation And Wayfinding": "Patterns for moving through pages, sections, steps, breadcrumbs, menus, and local hierarchy.",
-  "Personalization And Preference": "Patterns for defaults, settings, preferences, saved views, recommendations, and user control.",
-  "Search, Browse, And Discovery": "Patterns for search, filters, categories, suggestions, empty results, and saved retrieval.",
-  "Selection And Choice": "Patterns for choosing values, commands, objects, options, ranges, and contextual actions.",
-  "Task And Workflow Patterns": "Patterns for staged tasks, approvals, review, scheduling, checkout, and multi-step work.",
-  "Trust, Safety, And Privacy": "Patterns for consent, warnings, privacy, security, permissions, reporting, and sensitive data."
-};
 const categoryGroups = [...new Set(patterns.map((pattern) => pattern.category))]
   .sort()
   .map((category) => {
@@ -66,12 +51,8 @@ const decisionTracks = [
     href: withBase("/sources/")
   }
 ];
-function slugify(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-}
-
 function categoryHref(category: string) {
-  return withBase(`/patterns/#${slugify(category)}`);
+  return withBase(`/patterns/category/${categorySlug(category)}/`);
 }
 
 function labCategoryHref(category: string) {
@@ -90,7 +71,7 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
     <div class="catalog-intro home-hero-copy">
       <div class="pattern-kicker">
         <span>Source-backed UX patterns</span>
-        <span>{completePatterns.length} complete entries</span>
+        <span>{completePatterns.length} documented entries</span>
         <span>{sources.length} sources</span>
       </div>
       <h1 id="catalog-title">Choose the right UX pattern before the interface hardens.</h1>
@@ -129,7 +110,7 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
       </div>
       <div>
         <dt>{completePatterns.length}</dt>
-        <dd>complete patterns</dd>
+        <dd>documented patterns</dd>
       </div>
       <div>
         <dt>{comparisons.length}</dt>
@@ -209,7 +190,7 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
       </div>
       <dl>
         <div><dt>{antiPatternCount}</dt><dd>anti-pattern checks</dd></div>
-        <div><dt>{completePatterns.length}</dt><dd>ready for implementation review</dd></div>
+        <div><dt>{completePatterns.length}</dt><dd>documented for review</dd></div>
       </dl>
     </aside>
   </section>

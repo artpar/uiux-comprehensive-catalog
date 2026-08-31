@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { categoryNames, categorySlug } from "@/lib/categories";
 import { comparisons, patterns, sources } from "@/lib/catalog";
 
 type SitemapRoute = {
@@ -38,6 +39,7 @@ export const GET: APIRoute = ({ site }) => {
     { path: "compare/", lastmod: latestComparisonDate },
     { path: "lab/", lastmod: latestPatternDate },
     { path: "patterns/", lastmod: latestPatternDate },
+    ...categoryNames.map((category) => ({ path: `patterns/category/${categorySlug(category)}/`, lastmod: latestPatternDate })),
     { path: "sources/", lastmod: latestSourceDate },
     ...patterns.map((pattern) => ({ path: `patterns/${pattern.id}/`, lastmod: pattern.lastVerified })),
     ...comparisons.map((comparison) => ({ path: `compare/${comparison.id}/`, lastmod: comparison.lastVerified })),

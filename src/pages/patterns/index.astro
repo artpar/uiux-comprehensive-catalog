@@ -1,41 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { categoryDescriptions, categoryNames, categorySlug } from "@/lib/categories";
 import { patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
-const categoryDescriptions: Record<string, string> = {
-  "AI And Automation UX": "AI capability boundaries, agent control, source grounding, uncertainty, approval, and safe fallback.",
-  "Collaboration And Social Interaction": "Comments, mentions, presence, feeds, handoffs, shared attention, and team workflow.",
-  "Cross-Device And Physical Interaction": "Touch, haptics, sensors, camera, permissions, offline states, and device adaptation.",
-  "Data Display And Exploration": "Tables, dashboards, charts, maps, compare views, timelines, and drill-down behavior.",
-  "Disclosure And Attention Management": "Progressive disclosure, overlays, warnings, focus, and interruption management.",
-  "Error Prevention And Recovery": "Validation, undo, retry, fallback, destructive action review, and recovery paths.",
-  "Feedback, Status, And System State": "Loading, progress, alerts, banners, sync, confidence, and system visibility.",
-  "Input And Data Entry": "Forms, field behavior, uploads, dates, addresses, payment entry, and account data.",
-  "Navigation And Wayfinding": "Headers, breadcrumbs, tabs, side navigation, steps, local anchors, and return paths.",
-  "Personalization And Preference": "Settings, preference centers, saved views, defaults, recommendations, and user control.",
-  "Search, Browse, And Discovery": "Search, filters, facets, category browsing, query correction, and no-results recovery.",
-  "Selection And Choice": "Choice controls, object pickers, ranges, menu actions, bulk selection, and commands.",
-  "Task And Workflow Patterns": "Multi-step work, approvals, scheduling, review queues, checkout, and task completion.",
-  "Trust, Safety, And Privacy": "Consent, privacy, security, sensitive data, reporting, permissions, and safety exits."
-};
-const groupedPatterns = [...new Set(patterns.map((pattern) => pattern.category))]
-  .sort()
-  .map((category) => ({
+const families = categoryNames.map((category) => {
+  const entries = patterns.filter((pattern) => pattern.category === category);
+  return {
     category,
-    patterns: patterns
-      .filter((pattern) => pattern.category === category)
-      .sort((a, b) => a.name.localeCompare(b.name))
-  }));
-const completeCount = patterns.filter((pattern) => pattern.completionStatus === "complete").length;
+    description: categoryDescriptions[category],
+    count: entries.length,
+    antiPatternCount: entries.filter((pattern) => pattern.maturity === "anti-pattern").length,
+    sampleNames: entries.slice(0, 3).map((pattern) => pattern.name)
+  };
+});
+const featuredIds = [
+  "human-approval-gate", "source-grounding-display", "empty-state", "error-state",
+  "inline-validation", "no-results-recovery", "destructive-action-confirmation", "progressive-disclosure"
+];
+const featuredPatterns = featuredIds
+  .map((id) => patterns.find((pattern) => pattern.id === id))
+  .filter((pattern) => Boolean(pattern));
 const sourceClaimCount = patterns.reduce((total, pattern) => total + pattern.sources.length, 0);
-function slugify(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-}
-
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
-const description = "Browse practical UX and UI patterns by family, with source-backed guidance, implementation checks, and live examples.";
+const description = "Browse practical UX and UI patterns by family, with source-backed guidance, implementation checks, and interactive examples.";
 ---
 
 <BaseLayout
@@ -43,10 +32,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
   description={description}
   structuredData={[
     collectionPageJsonLd("UX and UI Patterns", description, "/patterns/", siteUrl),
-    breadcrumbJsonLd([
-      { name: "Home", path: "/" },
-      { name: "Patterns", path: "/patterns/" }
-    ], siteUrl)
+    breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Patterns", path: "/patterns/" }], siteUrl)
   ]}
 >
   <nav class="breadcrumb-trail" aria-label="Breadcrumb">
@@ -57,12 +43,12 @@ const description = "Browse practical UX and UI patterns by family, with source-
   <section class="pattern-directory-hero" aria-labelledby="patterns-title">
     <div>
       <div class="pattern-kicker">
-        <span>{patterns.length} patterns</span>
-        <span>{completeCount} complete</span>
-        <span>{sourceClaimCount} source claims</span>
+        <span>{patterns.length} documented entries</span>
+        <span>{families.length} problem families</span>
+        <span>{sourceClaimCount} source references</span>
       </div>
-      <h1 id="patterns-title">Pattern directory</h1>
-      <p>{description}</p>
+      <h1 id="patterns-title">Find a pattern by the problem you need to solve</h1>
+      <p>{description} Start with search when you can describe the problem; browse a family when you are still framing it.</p>
       <div class="pattern-hero-actions">
         <a class="primary-action" href={withBase("/lab/")}>Open interactive lab</a>
         <a class="secondary-action" href={withBase("/compare/")}>Compare alternatives</a>
@@ -72,204 +58,138 @@ const description = "Browse practical UX and UI patterns by family, with source-
     <form class="catalog-search pattern-directory-search" role="search" action={withBase("/patterns/")} method="get" data-pattern-index-search data-search-index-url={withBase("/pattern-search.json")}>
       <label for="pattern-index-query">Search by problem, state, or pattern name</label>
       <div class="catalog-search-row">
-        <input
-          id="pattern-index-query"
-          name="query"
-          type="search"
-          autocomplete="off"
-          placeholder="Try empty state, AI approval"
-          aria-controls="pattern-index-results"
-          data-pattern-index-query
-        />
+        <input id="pattern-index-query" name="q" type="search" autocomplete="off" placeholder="Try recovering from no results" aria-controls="pattern-search-output" data-pattern-index-query />
         <button type="submit">Search</button>
       </div>
-      <div id="pattern-index-results" class="catalog-search-results" aria-live="polite" data-pattern-index-results hidden></div>
+      <p>Use two or three specific terms for a shorter list.</p>
     </form>
   </section>
 
-  <div class="pattern-directory-layout">
-    <nav class="letter-nav category-jump" aria-label="Jump to pattern family">
-      {groupedPatterns.map((group) => (
-        <a href={`#${slugify(group.category)}`}>{group.category}</a>
-      ))}
-    </nav>
+  <section id="pattern-search-output" class="catalog-section pattern-search-output" aria-labelledby="pattern-search-title" data-pattern-search-output hidden>
+    <div class="section-heading">
+      <h2 id="pattern-search-title" tabindex="-1" data-pattern-search-title>Search results</h2>
+      <p aria-live="polite" data-pattern-search-status></p>
+    </div>
+    <div class="catalog-card-grid" data-pattern-search-grid></div>
+    <div class="pattern-search-actions">
+      <button type="button" class="secondary-action" data-pattern-search-clear>Clear search</button>
+      <a href={withBase("/lab/")}>Use advanced filters in the lab</a>
+    </div>
+  </section>
 
-    <div class="pattern-index" id="pattern-results" tabindex="-1">
-      {groupedPatterns.map((group) => (
-        <section class="pattern-index-group" id={slugify(group.category)} aria-labelledby={`${slugify(group.category)}-title`}>
-          <div class="pattern-index-group-head">
-            <div>
-              <h2 id={`${slugify(group.category)}-title`}>{group.category}</h2>
-              <p>{categoryDescriptions[group.category]}</p>
-            </div>
-            <span>{group.patterns.length} entries</span>
+  <section class="catalog-section" aria-labelledby="family-title">
+    <div class="section-heading">
+      <span>Browse</span>
+      <h2 id="family-title">Choose a problem family</h2>
+      <p>Each family has its own focused index, so you can scan related options without loading the entire catalog at once.</p>
+    </div>
+    <div class="pattern-family-grid">
+      {families.map((family) => (
+        <article class="pattern-family-card" id={categorySlug(family.category)}>
+          <div>
+            <h3><a href={withBase(`/patterns/category/${categorySlug(family.category)}/`)}>{family.category}</a></h3>
+            <p>{family.description}</p>
           </div>
-          <div class="catalog-card-grid">
-            {group.patterns.map((pattern) => (
-              <article
-                class="catalog-card pattern-index-card"
-                data-pattern-index-card
-                data-pattern-id={pattern.id}
-                data-category={pattern.category}
-              >
-                <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
-                <p>{pattern.useWhen[0] ?? pattern.problem}</p>
-                <dl class="pattern-card-facts">
-                  <div><dt>Type</dt><dd>{pattern.patternType.toUpperCase()}</dd></div>
-                  <div><dt>Sources</dt><dd>{pattern.sources.length}</dd></div>
-                  <div><dt>Verified</dt><dd>{pattern.lastVerified}</dd></div>
-                </dl>
-                <div class="pill-list">
-                  <span>{pattern.maturity}</span>
-                  <span>{pattern.completionStatus}</span>
-                </div>
-                <a class="quiet-link" href={withBase(`/lab/?pattern=${pattern.id}`)}>Open in lab</a>
-              </article>
-            ))}
+          <p class="pattern-family-examples">Includes {family.sampleNames.join(", ")}</p>
+          <div class="pattern-family-meta">
+            <span>{family.count} entries</span>
+            {family.antiPatternCount > 0 && <span>{family.antiPatternCount} anti-pattern {family.antiPatternCount === 1 ? "check" : "checks"}</span>}
           </div>
-        </section>
+        </article>
       ))}
     </div>
-  </div>
+  </section>
+
+  <section class="catalog-section catalog-two-column" aria-labelledby="starting-points-title">
+    <div>
+      <div class="section-heading">
+        <span>Starting points</span>
+        <h2 id="starting-points-title">Frequently useful decisions</h2>
+        <p>Use these when you want a concrete entry before narrowing the catalog.</p>
+      </div>
+      <div class="featured-list">
+        {featuredPatterns.map((pattern) => pattern && (
+          <article class="featured-row">
+            <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
+            <p>{pattern.useWhen[0] ?? pattern.problem}</p>
+            <span>{pattern.category} · {pattern.sources.length} source {pattern.sources.length === 1 ? "reference" : "references"}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <aside class="catalog-method-note" aria-labelledby="terms-title">
+      <p class="eyebrow">Read the labels honestly</p>
+      <h2 id="terms-title">Evidence is context, not a universal verdict</h2>
+      <dl>
+        <div><dt>Source trail checked</dt><dd>The linked references were reviewed on the shown date. It does not mean every implementation was usability-tested.</dd></div>
+        <div><dt>Established or standard</dt><dd>A maturity signal based on recurring guidance and usage, not a guarantee that the pattern fits your users.</dd></div>
+        <div><dt>Documented entry</dt><dd>The catalog fields and review checks are filled in. “Documented” does not mean “proven.”</dd></div>
+      </dl>
+      <a href={withBase("/sources/")}>Inspect the evidence library</a>
+    </aside>
+  </section>
+
   <script>
     import { track } from "@/lib/analytics";
+    type PatternSearchEntry = { id: string; name: string; category: string; maturity: string; surfaceType: string; problem: string; useWhen: string; href: string; searchText: string };
 
-    type PatternSearchEntry = {
-      id: string;
-      name: string;
-      category: string;
-      maturity: string;
-      surfaceType: string;
-      problem: string;
-      useWhen: string;
-      href: string;
-      searchText: string;
-    };
+    const form = document.querySelector("[data-pattern-index-search]");
+    const input = document.querySelector("[data-pattern-index-query]");
+    const output = document.querySelector("[data-pattern-search-output]");
+    const title = document.querySelector("[data-pattern-search-title]");
+    const status = document.querySelector("[data-pattern-search-status]");
+    const grid = document.querySelector("[data-pattern-search-grid]");
+    const clear = document.querySelector("[data-pattern-search-clear]");
+    let searchDataPromise: Promise<PatternSearchEntry[]> | undefined;
+    let sequence = 0;
 
-    const patternSearchInput = document.querySelector("[data-pattern-index-query]");
-    const patternSearchResults = document.querySelector("[data-pattern-index-results]");
-    const patternSearchForm = document.querySelector("[data-pattern-index-search]");
-    const patternCards = [...document.querySelectorAll("[data-pattern-index-card]")];
-    const patternSections = [...document.querySelectorAll(".pattern-index-group")];
-    let patternSearchDataPromise: Promise<PatternSearchEntry[]> | undefined;
-    let patternSearchTrackingTimer: number | undefined;
-    let patternSearchRenderSequence = 0;
-
-    function getPatternSearchData() {
-      if (patternSearchDataPromise) return patternSearchDataPromise;
-      const url = patternSearchForm instanceof HTMLElement ? patternSearchForm.dataset.searchIndexUrl : undefined;
-      patternSearchDataPromise = fetch(url || "/pattern-search.json")
-        .then((response) => (response.ok ? response.json() : []))
+    function normalize(value: string) { return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+    function searchData() {
+      if (searchDataPromise) return searchDataPromise;
+      const url = form instanceof HTMLElement ? form.dataset.searchIndexUrl : undefined;
+      searchDataPromise = fetch(url || "/pattern-search.json")
+        .then((response) => { if (!response.ok) throw new Error("Search index unavailable"); return response.json(); })
         .catch(() => []) as Promise<PatternSearchEntry[]>;
-      return patternSearchDataPromise;
+      return searchDataPromise;
     }
-
-    function normalizePatternSearch(value: string) {
-      return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-    }
-
-    function syncPatternSearchUrl(query: string) {
+    function syncUrl(query: string) {
       const url = new URL(window.location.href);
-      if (query.trim()) url.searchParams.set("q", query.trim());
-      else url.searchParams.delete("q");
-      window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      if (query.trim()) url.searchParams.set("q", query.trim()); else url.searchParams.delete("q");
+      window.history.replaceState(null, "", `${url.pathname}${url.search}`);
     }
-
-    async function renderPatternSearch(query: string) {
-      const renderSequence = ++patternSearchRenderSequence;
-      const terms = normalizePatternSearch(query).split(" ").filter(Boolean);
-      if (patternSearchResults instanceof HTMLElement) patternSearchResults.replaceChildren();
-
-      if (terms.length === 0) {
-        for (const card of patternCards) {
-          if (card instanceof HTMLElement) card.hidden = false;
-        }
-
-        for (const section of patternSections) {
-          if (section instanceof HTMLElement) section.hidden = false;
-        }
-
-        if (patternSearchResults instanceof HTMLElement) patternSearchResults.hidden = true;
-        return;
+    function addResult(pattern: PatternSearchEntry) {
+      if (!(grid instanceof HTMLElement)) return;
+      const card = document.createElement("article"); card.className = "catalog-card pattern-index-card";
+      const heading = document.createElement("h3"); const link = document.createElement("a");
+      link.href = pattern.href; link.textContent = pattern.name; heading.append(link);
+      const summary = document.createElement("p"); summary.textContent = pattern.useWhen || pattern.problem;
+      const meta = document.createElement("p"); meta.className = "pattern-result-meta";
+      meta.textContent = `${pattern.category} · ${pattern.maturity.replaceAll("-", " ")} · ${pattern.surfaceType}`;
+      card.append(heading, summary, meta); grid.append(card);
+    }
+    async function render(query: string, moveFocus = false) {
+      const current = ++sequence; const terms = normalize(query).split(" ").filter(Boolean);
+      if (terms.length === 0) { if (output instanceof HTMLElement) output.hidden = true; if (grid instanceof HTMLElement) grid.replaceChildren(); return; }
+      if (output instanceof HTMLElement) output.hidden = false;
+      if (status instanceof HTMLElement) status.textContent = "Searching the catalog…";
+      if (grid instanceof HTMLElement) grid.replaceChildren();
+      const data = await searchData(); if (current !== sequence) return;
+      const matches = data.filter((pattern) => terms.every((term) => normalize(pattern.searchText).includes(term)));
+      const visibleMatches = matches.slice(0, 48); visibleMatches.forEach(addResult);
+      if (status instanceof HTMLElement) {
+        if (data.length === 0) status.textContent = "Search is temporarily unavailable. Browse a problem family below.";
+        else if (matches.length === 0) status.textContent = `No patterns match “${query.trim()}”. Try fewer terms or browse a family below.`;
+        else if (matches.length > visibleMatches.length) status.textContent = `${matches.length} patterns match “${query.trim()}”. Showing the first ${visibleMatches.length}; add another term to narrow the list.`;
+        else status.textContent = `${matches.length} ${matches.length === 1 ? "pattern matches" : "patterns match"} “${query.trim()}”.`;
       }
-
-      const patternSearchData = await getPatternSearchData();
-      if (renderSequence !== patternSearchRenderSequence) return;
-      const matchedPatterns = patternSearchData.filter((pattern) =>
-        terms.every((term) => normalizePatternSearch(pattern.searchText || "").includes(term))
-      );
-      const visiblePatternIds = new Set(matchedPatterns.map((pattern) => pattern.id));
-
-      for (const card of patternCards) {
-        if (!(card instanceof HTMLElement)) continue;
-        card.hidden = !visiblePatternIds.has(card.dataset.patternId || "");
-      }
-
-      for (const section of patternSections) {
-        if (!(section instanceof HTMLElement)) continue;
-        const visibleCards = section.querySelectorAll("[data-pattern-index-card]:not([hidden])");
-        section.hidden = visibleCards.length === 0;
-      }
-
-      if (!(patternSearchResults instanceof HTMLElement)) return;
-
-      const status = document.createElement("p");
-      status.className = "catalog-result-status";
-      status.textContent = matchedPatterns.length
-        ? `${matchedPatterns.length} ${matchedPatterns.length === 1 ? "pattern matches" : "patterns match"} “${query.trim()}”.`
-        : `No patterns match “${query.trim()}”.`;
-      patternSearchResults.append(status);
-
-      if (matchedPatterns.length) {
-        const jump = document.createElement("a");
-        jump.href = "#pattern-results";
-        jump.textContent = "Jump to matching patterns";
-        patternSearchResults.append(jump);
-      } else {
-        const clear = document.createElement("button");
-        clear.type = "button";
-        clear.className = "catalog-search-clear";
-        clear.textContent = "Clear search and browse all patterns";
-        clear.addEventListener("click", () => {
-          if (patternSearchInput instanceof HTMLInputElement) {
-            patternSearchInput.value = "";
-            patternSearchInput.focus();
-          }
-          syncPatternSearchUrl("");
-          renderPatternSearch("");
-        });
-        patternSearchResults.append(clear);
-      }
-
-      patternSearchResults.hidden = false;
-      window.clearTimeout(patternSearchTrackingTimer);
-      patternSearchTrackingTimer = window.setTimeout(() => {
-        const props = { surface: "pattern_directory", queryLength: query.trim().length, resultCount: visiblePatternIds.size };
-        track("catalog_search", props);
-        if (visiblePatternIds.size === 0) track("zero_result_search", props);
-      }, 700);
+      if (moveFocus && title instanceof HTMLElement) title.focus();
+      track("catalog_search", { surface: "pattern_directory", queryLength: query.trim().length, resultCount: matches.length });
+      if (matches.length === 0) track("zero_result_search", { surface: "pattern_directory", queryLength: query.trim().length });
     }
-
-    if (patternSearchInput instanceof HTMLInputElement) {
-      patternSearchInput.addEventListener("input", () => {
-        syncPatternSearchUrl(patternSearchInput.value);
-        renderPatternSearch(patternSearchInput.value);
-      });
-    }
-
-    if (patternSearchForm instanceof HTMLFormElement) {
-      patternSearchForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const query = patternSearchInput instanceof HTMLInputElement ? patternSearchInput.value : "";
-        syncPatternSearchUrl(query);
-        renderPatternSearch(query);
-      });
-    }
-
-    const initialPatternQuery = new URLSearchParams(window.location.search).get("q") || "";
-    if (patternSearchInput instanceof HTMLInputElement && initialPatternQuery) {
-      patternSearchInput.value = initialPatternQuery;
-      renderPatternSearch(initialPatternQuery);
-    }
+    if (form instanceof HTMLFormElement) form.addEventListener("submit", (event) => { event.preventDefault(); const query = input instanceof HTMLInputElement ? input.value : ""; syncUrl(query); render(query, true); });
+    if (clear instanceof HTMLButtonElement) clear.addEventListener("click", () => { if (input instanceof HTMLInputElement) { input.value = ""; input.focus(); } syncUrl(""); render(""); });
+    const initialQuery = new URLSearchParams(window.location.search).get("q") || "";
+    if (input instanceof HTMLInputElement && initialQuery) { input.value = initialQuery; render(initialQuery); }
   </script>
 </BaseLayout>

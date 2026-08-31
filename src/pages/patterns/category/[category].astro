@@ -1,0 +1,136 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { categoryDescriptions, categoryNames, categorySlug } from "@/lib/categories";
+import { patterns } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
+
+export function getStaticPaths() {
+  return categoryNames.map((category) => ({
+    params: { category: categorySlug(category) },
+    props: {
+      category,
+      entries: patterns.filter((pattern) => pattern.category === category)
+    }
+  }));
+}
+
+const { category, entries } = Astro.props;
+const sortedEntries = [...entries].sort((a, b) => a.name.localeCompare(b.name));
+const antiPatternCount = sortedEntries.filter((pattern) => pattern.maturity === "anti-pattern").length;
+const description = categoryDescriptions[category] ?? `Browse ${category} UX patterns.`;
+const categoryPath = `/patterns/category/${categorySlug(category)}/`;
+const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
+---
+
+<BaseLayout
+  title={pageTitle(category)}
+  description={description}
+  structuredData={[
+    collectionPageJsonLd(category, description, categoryPath, siteUrl),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Patterns", path: "/patterns/" },
+      { name: category, path: categoryPath }
+    ], siteUrl)
+  ]}
+>
+  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+    <a href={withBase("/")}>Home</a>
+    <a href={withBase("/patterns/")}>Patterns</a>
+    <span aria-current="page">{category}</span>
+  </nav>
+
+  <section class="pattern-family-hero" aria-labelledby="family-page-title">
+    <div>
+      <div class="pattern-kicker">
+        <span>{sortedEntries.length} documented entries</span>
+        {antiPatternCount > 0 && <span>{antiPatternCount} anti-pattern {antiPatternCount === 1 ? "check" : "checks"}</span>}
+      </div>
+      <h1 id="family-page-title">{category}</h1>
+      <p>{description}</p>
+      <a class="quiet-link" href={withBase("/patterns/")}>Browse all problem families</a>
+    </div>
+    <form class="catalog-search family-search" role="search" action={withBase(categoryPath)} method="get" data-family-search>
+      <label for="family-query">Filter this family</label>
+      <div class="catalog-search-row">
+        <input id="family-query" name="q" type="search" autocomplete="off" placeholder="Try approval or recovery" aria-controls="family-pattern-list" data-family-query />
+        <button type="submit">Filter</button>
+      </div>
+      <p aria-live="polite" data-family-status>{sortedEntries.length} entries in this family.</p>
+    </form>
+  </section>
+
+  <section class="catalog-section" aria-labelledby="family-list-title">
+    <div class="section-heading">
+      <span>Pattern index</span>
+      <h2 id="family-list-title">Compare nearby options before choosing</h2>
+      <p>Open an entry for its decision rule, states, implementation contract, and source trail.</p>
+    </div>
+    <div class="catalog-card-grid" id="family-pattern-list" tabindex="-1">
+      {sortedEntries.map((pattern) => (
+        <article class="catalog-card pattern-index-card" data-family-card data-search-text={`${pattern.name} ${pattern.aliases.join(" ")} ${pattern.problem} ${pattern.useWhen.join(" ")} ${pattern.maturity}`.toLowerCase()}>
+          <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
+          <p>{pattern.useWhen[0] ?? pattern.problem}</p>
+          <dl class="pattern-card-facts">
+            <div><dt>Type</dt><dd>{pattern.patternType.toUpperCase()}</dd></div>
+            <div><dt>Sources</dt><dd>{pattern.sources.length}</dd></div>
+            <div><dt>Trail checked</dt><dd><time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></dd></div>
+          </dl>
+          <div class="pill-list"><span>{pattern.maturity}</span><span>{pattern.surfaceType}</span></div>
+          <a class="quiet-link" href={withBase(`/lab/?pattern=${pattern.id}`)}>Test in lab</a>
+        </article>
+      ))}
+    </div>
+    <div class="empty-search-state" data-family-empty hidden>
+      <h3>No entries match that phrase</h3>
+      <p>Try fewer words, clear the filter, or search across all pattern families.</p>
+      <button type="button" class="secondary-action" data-family-clear>Clear filter</button>
+      <a href={withBase("/patterns/")}>Search all patterns</a>
+    </div>
+  </section>
+
+  <nav class="pattern-family-next" aria-label="More ways to explore">
+    <a href={withBase(`/lab/?category=${encodeURIComponent(category)}`)}>Use advanced filters for this family</a>
+    <a href={withBase("/compare/")}>Compare named alternatives</a>
+    <a href={withBase("/patterns/")}>Choose another family</a>
+  </nav>
+
+  <script>
+    import { track } from "@/lib/analytics";
+
+    const form = document.querySelector("[data-family-search]");
+    const input = document.querySelector("[data-family-query]");
+    const status = document.querySelector("[data-family-status]");
+    const cards = [...document.querySelectorAll("[data-family-card]")];
+    const empty = document.querySelector("[data-family-empty]");
+    const clear = document.querySelector("[data-family-clear]");
+    let trackingTimer: number | undefined;
+    function normalize(value: string) { return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+    function render(query: string) {
+      const terms = normalize(query).split(" ").filter(Boolean);
+      let count = 0;
+      cards.forEach((card) => {
+        if (!(card instanceof HTMLElement)) return;
+        const haystack = normalize(card.dataset.searchText || "");
+        card.hidden = !terms.every((term) => haystack.includes(term));
+        if (!card.hidden) count += 1;
+      });
+      if (status instanceof HTMLElement) status.textContent = terms.length ? `${count} ${count === 1 ? "entry matches" : "entries match"} “${query.trim()}”.` : `${cards.length} entries in this family.`;
+      if (empty instanceof HTMLElement) empty.hidden = count !== 0;
+      const url = new URL(window.location.href);
+      if (query.trim()) url.searchParams.set("q", query.trim()); else url.searchParams.delete("q");
+      window.history.replaceState(null, "", `${url.pathname}${url.search}`);
+      window.clearTimeout(trackingTimer);
+      if (terms.length) trackingTimer = window.setTimeout(() => {
+        track("catalog_filter", { surface: "pattern_family", queryLength: query.trim().length, resultCount: count });
+        if (count === 0) track("zero_result_search", { surface: "pattern_family", queryLength: query.trim().length });
+      }, 700);
+    }
+    if (form instanceof HTMLFormElement) form.addEventListener("submit", (event) => { event.preventDefault(); render(input instanceof HTMLInputElement ? input.value : ""); });
+    if (input instanceof HTMLInputElement) input.addEventListener("input", () => render(input.value));
+    if (clear instanceof HTMLButtonElement) clear.addEventListener("click", () => { if (input instanceof HTMLInputElement) { input.value = ""; input.focus(); } render(""); });
+    const initialQuery = new URLSearchParams(window.location.search).get("q") || "";
+    if (input instanceof HTMLInputElement && initialQuery) { input.value = initialQuery; render(initialQuery); }
+  </script>
+</BaseLayout>

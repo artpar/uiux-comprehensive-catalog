@@ -4,9 +4,9 @@ import type { PatternEntry } from "@/schemas/catalog";
 
 function searchableText(pattern: PatternEntry) {
   const supportingTerms = [
-    ...pattern.selectionRules.slice(0, 2),
-    ...pattern.requiredStates.slice(0, 3),
-    ...pattern.commonMisuses.slice(0, 3)
+    ...pattern.selectionRules.slice(0, 1),
+    ...pattern.requiredStates.slice(0, 2),
+    ...pattern.commonMisuses.slice(0, 1)
   ];
 
   return [
@@ -17,7 +17,7 @@ function searchableText(pattern: PatternEntry) {
     pattern.patternType,
     pattern.surfaceType,
     pattern.problem,
-    pattern.useWhen.join(" "),
+    pattern.useWhen.slice(0, 2).join(" "),
     supportingTerms.join(" ")
   ]
     .join(" ")
