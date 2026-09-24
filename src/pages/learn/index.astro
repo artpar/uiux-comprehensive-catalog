@@ -6,40 +6,111 @@ import { pageTitle } from "@/lib/seo";
 ---
 
 <BaseLayout title={pageTitle("Learn UX deeply")} description="A 20-lesson path to understand, diagnose, design, test, and practice UX across interfaces and services.">
-  <div class="learning-page">
-    <header class="learning-hero learning-overview-hero"><div><p class="learning-eyebrow">Learn · 5 capabilities · 20 lessons</p><h1>Become stronger at UX, one decision at a time.</h1><p class="learning-lead">Learn principles, see expert reasoning, make a guided decision, then apply the idea to a new situation. The path covers digital, voice, physical, AI-assisted, and service experiences.</p><div class="learning-hero-actions"><a class="primary-action" href={withBase(`/learn/${learningLessons[0].id}/`)} data-start-link>Start the path</a><a href={withBase("/practice/")}>Explore practice</a></div></div><div class="learning-progress-card"><strong data-progress-summary>Start at your own pace</strong><span data-progress-detail>Your progress and optional drafts are stored in this browser. No account is required.</span><a data-resume-link hidden href={withBase(`/learn/${learningLessons[0].id}/`)}>Resume lesson →</a></div></header>
-    <div class="learning-stage-list">
-      {learningStages.map((stage, stageIndex) => <section class="learning-stage" aria-labelledby={`stage-${stage.id}`}><div class="learning-stage-heading"><span>{String(stageIndex + 1).padStart(2, "0")}</span><div><h2 id={`stage-${stage.id}`}>{stage.title}</h2><p>{stage.outcome}</p></div></div><ol>{learningLessons.filter((lesson) => lesson.stage === stage.id).map((lesson) => <li><a href={withBase(`/learn/${lesson.id}/`)} data-learning-list-id={lesson.id}><strong>{lesson.title}</strong><span>{lesson.outcome}</span><small>{lesson.context}</small></a></li>)}</ol></section>)}
+  <div class="learning-page course-page">
+    <header class="course-hero">
+      <div class="course-hero-copy">
+        <p class="learning-eyebrow">The UX learning path <span aria-hidden="true">/</span> <span data-hero-count>5 units · 20 lessons</span></p>
+        <h1>Your path to stronger UX judgment.</h1>
+        <p class="learning-lead">Learn UX through 20 guided lessons. Study a method, make a decision, and apply it in a new setting.</p>
+        <div class="course-hero-actions"><a class="primary-action" href={withBase(`/learn/${learningLessons[0].id}/`)} data-start-link>Begin lesson 1 →</a><a href={withBase("/practice/")}>Explore independent practice</a></div>
+      </div>
+      <aside class="course-next-card" aria-label="Your next lesson">
+        <div class="course-next-top"><span class="course-orbit" aria-hidden="true">✦</span><span>Your next step</span></div>
+        <p class="course-next-unit" data-next-unit>Unit 1 · Understand experience quality</p>
+        <h2 data-next-title>{learningLessons[0].title}</h2>
+        <p data-next-outcome>{learningLessons[0].outcome}</p>
+        <a href={withBase(`/learn/${learningLessons[0].id}/`)} data-resume-link>Open lesson →</a>
+      </aside>
+    </header>
+
+    <section class="course-progress" aria-label="Course progress">
+      <div class="course-progress-heading"><div><span class="learning-eyebrow">Your path</span><h2>One useful decision at a time.</h2></div><strong data-progress-summary>0 of 20 lessons complete</strong></div>
+      <div class="course-progress-track" role="progressbar" aria-label="Lessons complete" aria-valuemin="0" aria-valuemax={learningLessons.length} aria-valuenow="0" data-course-progress><span></span></div>
+      <p data-progress-detail>Start anywhere. Your completed work and optional drafts stay in this browser.</p>
+    </section>
+
+    <div class="course-units" aria-label="Course units">
+      {learningStages.map((stage, stageIndex) => {
+        const lessons = learningLessons.filter((lesson) => lesson.stage === stage.id);
+        return <section class="course-unit" data-course-unit={stage.id} data-status={stageIndex === 0 ? "current" : "upcoming"} aria-labelledby={`stage-${stage.id}`}>
+          <div class="course-unit-heading">
+            <div class="course-unit-marker" aria-hidden="true">{String(stageIndex + 1).padStart(2, "0")}</div>
+            <div class="course-unit-title"><p class="course-unit-kicker">Unit {stageIndex + 1} <span data-unit-status>{stageIndex === 0 ? "Begin here" : "Ahead"}</span></p><h2 id={`stage-${stage.id}`}>{stage.title}</h2><p>{stage.outcome}</p></div>
+            <strong class="course-unit-count" data-unit-count>0 / {lessons.length} lessons</strong>
+          </div>
+          <ol class="course-lesson-list">{lessons.map((lesson) => <li>
+            <a href={withBase(`/learn/${lesson.id}/`)} data-learning-list-id={lesson.id} data-status={lesson === learningLessons[0] ? "current" : undefined} class="course-lesson">
+              <span class="course-lesson-number" aria-hidden="true">{String(learningLessons.indexOf(lesson) + 1).padStart(2, "0")}</span>
+              <span class="course-lesson-copy"><strong>{lesson.title}</strong><span>{lesson.outcome}</span></span>
+              <span class="course-lesson-state" data-lesson-state>{lesson === learningLessons[0] ? "Start →" : "Explore ↗"}</span>
+            </a>
+          </li>)}</ol>
+        </section>;
+      })}
     </div>
-    <p class="learning-caveat">Completing these exercises shows exposure and practice. It does not certify professional mastery. Review the sources and test the methods in your own setting.</p>
+    <p class="learning-caveat">Completion reflects your own review of an independent task. It is a record of practice, not professional certification. You can revisit any lesson whenever your work calls for it.</p>
   </div>
   <script>
-    import { learningLessons } from "@/data/learning";
+    import { learningLessons, learningStages } from "@/data/learning";
     import { countCompleted, learningStorageAvailable, readLearningProgress, resumeLessonId } from "@/lib/learning-progress";
     import { withBase } from "@/lib/paths";
     import { track } from "@/lib/analytics";
     const progress = readLearningProgress();
     const completed = countCompleted(progress);
-    const resumeId = resumeLessonId(learningLessons.map((lesson) => lesson.id), progress);
+    const resumeId = resumeLessonId(learningLessons.map((lesson) => lesson.id), progress) || learningLessons[0].id;
+    const resumeLesson = learningLessons.find((lesson) => lesson.id === resumeId) || learningLessons[0];
+    const resumeStage = learningStages.findIndex((stage) => stage.id === resumeLesson.stage);
     const resume = document.querySelector<HTMLAnchorElement>("[data-resume-link]");
     const start = document.querySelector<HTMLAnchorElement>("[data-start-link]");
     const summary = document.querySelector<HTMLElement>("[data-progress-summary]");
+    const heroCount = document.querySelector<HTMLElement>("[data-hero-count]");
     const detail = document.querySelector<HTMLElement>("[data-progress-detail]");
-    if (!learningStorageAvailable() && detail) detail.textContent = "Browser storage is unavailable. You can still study and copy your work, but progress will not persist.";
-    if (completed || Object.keys(progress).length) {
-      if (summary) summary.textContent = `${completed} of ${learningLessons.length} independent tasks completed`;
-      if (detail) detail.textContent = completed === learningLessons.length ? "You have finished this path. Revisit a lesson or apply it to live work." : "Resume where you left off, or open any lesson.";
-      if (resume && resumeId) { resume.href = withBase(`/learn/${resumeId}/`); resume.hidden = false; }
-      if (start) {
-        start.textContent = completed === learningLessons.length ? "Review a lesson" : "Continue learning";
-        if (resumeId) start.href = withBase(`/learn/${resumeId}/`);
-      }
-      track("learning_path_resumed", { completed: String(completed) });
+    const progressbar = document.querySelector<HTMLElement>("[data-course-progress]");
+    const nextUnit = document.querySelector<HTMLElement>("[data-next-unit]");
+    const nextTitle = document.querySelector<HTMLElement>("[data-next-title]");
+    const nextOutcome = document.querySelector<HTMLElement>("[data-next-outcome]");
+    if (summary) summary.textContent = `${completed} of ${learningLessons.length} lessons complete`;
+    if (heroCount && completed) heroCount.textContent = `${completed} of ${learningLessons.length} lessons complete`;
+    if (progressbar) {
+      progressbar.setAttribute("aria-valuenow", String(completed));
+      const fill = progressbar.querySelector<HTMLElement>("span");
+      if (fill) fill.style.width = `${Math.round(completed / learningLessons.length * 100)}%`;
     }
+    if (start) {
+      start.href = withBase(`/learn/${resumeId}/`);
+      start.textContent = completed === learningLessons.length ? "Revisit the path →" : completed || Object.keys(progress).length ? "Continue the path →" : "Begin lesson 1 →";
+    }
+    if (resume) resume.href = withBase(`/learn/${resumeId}/`);
+    if (nextUnit) nextUnit.textContent = `Unit ${resumeStage + 1} · ${learningStages[resumeStage].title}`;
+    if (nextTitle) nextTitle.textContent = resumeLesson.title;
+    if (nextOutcome) nextOutcome.textContent = resumeLesson.outcome;
+    if (completed === learningLessons.length) {
+      if (nextUnit) nextUnit.textContent = "Path complete · keep practicing";
+      if (nextTitle) nextTitle.textContent = "Return with a new question.";
+      if (nextOutcome) nextOutcome.textContent = "Revisit a lesson, try another case, or use a method in live work.";
+      if (resume) { resume.href = withBase("/practice/"); resume.textContent = "Explore practice →"; }
+    }
+    if (!learningStorageAvailable()) {
+      if (detail) detail.textContent = "Browser storage is unavailable. You can take the course and copy your work, but progress will not persist.";
+    } else if (completed && detail) detail.textContent = "Your completed tasks and drafts are saved on this device. Pick up where you left off.";
     document.querySelectorAll<HTMLAnchorElement>("[data-learning-list-id]").forEach((link) => {
       const entry = progress[link.dataset.learningListId || ""];
-      if (entry?.completed) link.dataset.status = "complete";
-      else if (entry?.taught || entry?.choice !== undefined || entry?.artifact) link.dataset.status = "started";
+      const state = link.querySelector<HTMLElement>("[data-lesson-state]");
+      delete link.dataset.status;
+      if (entry?.completed) { link.dataset.status = "complete"; if (state) state.textContent = "Complete ✓"; }
+      else if (entry?.taught || entry?.choice !== undefined || entry?.artifact) { link.dataset.status = "started"; if (state) state.textContent = "Continue →"; }
+      else if (link.dataset.learningListId === resumeId) { link.dataset.status = "current"; if (state) state.textContent = "Start →"; }
+      else if (state) state.textContent = "Explore ↗";
     });
+    document.querySelectorAll<HTMLElement>("[data-course-unit]").forEach((unit) => {
+      const lessons = learningLessons.filter((lesson) => lesson.stage === unit.dataset.courseUnit);
+      const done = lessons.filter((lesson) => progress[lesson.id]?.completed).length;
+      const count = unit.querySelector<HTMLElement>("[data-unit-count]");
+      const state = unit.querySelector<HTMLElement>("[data-unit-status]");
+      if (count) count.textContent = `${done} / ${lessons.length} lessons`;
+      unit.dataset.status = done === lessons.length ? "complete" : lessons.some((lesson) => lesson.id === resumeId) ? "current" : "upcoming";
+      if (state) state.textContent = unit.dataset.status === "complete" ? "Complete" : unit.dataset.status === "current" ? "In progress" : "Ahead";
+    });
+    if (completed || Object.keys(progress).length) track("learning_path_resumed", { completed: String(completed) });
   </script>
 </BaseLayout>
