@@ -12,7 +12,7 @@ type Props = {
 
 const {
   title,
-  description = "A source-backed guide to practical UX and UI patterns.",
+  description = "Learn, practice, and apply UX judgment with guided lessons, work tools, and source-backed patterns.",
   structuredData,
   image = "/assets/social-card.webp"
 } = Astro.props;
@@ -25,11 +25,10 @@ const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || "abacfae7-b939
 const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || "https://cloud.umami.is/script.js";
 const umamiDomains = import.meta.env.PUBLIC_UMAMI_DOMAINS || "uxpatternsguide.com";
 const navItems = [
-  { href: withBase("/patterns/"), label: "Patterns", icon: "A", active: currentPath.startsWith(withBase("/patterns/")) },
-  { href: withBase("/lab/"), label: "Lab", icon: "[]", active: currentPath.startsWith(withBase("/lab/")) },
-  { href: withBase("/compare/"), label: "Compare", icon: "<>", active: currentPath.startsWith(withBase("/compare/")) },
-  { href: withBase("/resources/"), label: "Resources", icon: "::", active: currentPath.startsWith(withBase("/resources/")) },
-  { href: withBase("/sources/"), label: "Sources", icon: "{}", active: currentPath.startsWith(withBase("/sources/")) }
+  { href: withBase("/learn/"), label: "Learn", icon: "01", active: currentPath.startsWith(withBase("/learn/")) },
+  { href: withBase("/practice/"), label: "Practice", icon: "02", active: currentPath.startsWith(withBase("/practice/")) },
+  { href: withBase("/work/"), label: "Work", icon: "03", active: currentPath.startsWith(withBase("/work/")) },
+  { href: withBase("/reference/"), label: "Reference", icon: "04", active: currentPath.startsWith(withBase("/reference/")) }
 ];
 ---
 
@@ -37,6 +36,11 @@ const navItems = [
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    {import.meta.env.DEV && <script is:inline>
+      if (new URLSearchParams(window.location.search).has("qaStorageBlocked")) {
+        Object.defineProperty(window, "localStorage", { configurable: true, get() { throw new DOMException("Storage blocked for local QA", "SecurityError"); } });
+      }
+    </script>}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="msvalidate.01" content="BD93A582145D3C26A00A7FB4FDE65BE5" />
@@ -119,6 +123,12 @@ const navItems = [
               if (/\/compare\/[^/]+\/?$/.test(path)) return "comparison_detail";
               if (/\/resources\/[^/]+\/?$/.test(path)) return "resource_detail";
               if (/\/lab\/?$/.test(path)) return "lab";
+              if (/\/learn\/[^/]+\/?$/.test(path)) return "lesson";
+              if (/\/learn\/?$/.test(path)) return "learn";
+              if (/\/practice\/?$/.test(path)) return "practice";
+              if (/\/work\/[^/]+\/?$/.test(path)) return "work_tool";
+              if (/\/work\/?$/.test(path)) return "work";
+              if (/\/reference\/?$/.test(path)) return "reference";
               if (/\/patterns\/?$/.test(path)) return "pattern_directory";
               return path === "/" ? "home" : "other";
             }
@@ -188,7 +198,7 @@ const navItems = [
       <a class="brand" href={withBase("/")} aria-current={currentPath === withBase("/") ? "page" : undefined}>UX Patterns Guide</a>
       <nav aria-label="Primary">
         {navItems.map((item) => (
-          <a href={item.href} aria-current={item.active ? "page" : undefined}>
+          <a href={item.href} aria-current={item.active ? "page" : undefined} data-analytics-event="mode_opened" data-mode={item.label.toLowerCase()} data-analytics-origin="primary_nav">
             <span class="nav-mark" aria-hidden="true">{item.icon}</span>
             {item.label}
           </a>
@@ -204,9 +214,13 @@ const navItems = [
     <footer class="site-footer">
       <div>
         <a class="footer-brand" href={withBase("/")}>UX Patterns Guide</a>
-        <p>Source-backed guidance for choosing, testing, and implementing interaction patterns.</p>
+        <p>Learn UX, practice judgment, use methods at work, and consult source-backed patterns.</p>
       </div>
       <nav aria-label="More UX Patterns Guide links">
+        <a href={withBase("/patterns/")}>Patterns</a>
+        <a href={withBase("/lab/")}>Lab</a>
+        <a href={withBase("/compare/")}>Compare</a>
+        <a href={withBase("/sources/")}>Sources</a>
         <a href={withBase("/anti-patterns/")}>Anti-patterns</a>
         <a href={withBase("/agent/")}>Agent exports</a>
         <a href={withBase("/privacy/")}>Privacy</a>
@@ -239,9 +253,14 @@ const navItems = [
         }
       }
 
-      function writeSavedItems(items: SavedItem[]) {
-        localStorage.setItem(storageKey, JSON.stringify(items));
-        window.dispatchEvent(new CustomEvent("uxpg:saved-items", { detail: items }));
+      function writeSavedItems(items: SavedItem[]): boolean {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(items));
+          window.dispatchEvent(new CustomEvent("uxpg:saved-items", { detail: items }));
+          return true;
+        } catch {
+          return false;
+        }
       }
 
       function updateSavedUI(items = readSavedItems()) {
@@ -301,7 +320,11 @@ const navItems = [
                 kind: saveButton.dataset.itemKind || "item",
                 url: window.location.pathname
               }];
-          writeSavedItems(next);
+          if (!writeSavedItems(next)) {
+            const status = saveButton.closest(".engagement-actions")?.querySelector<HTMLElement>("[data-action-status]");
+            if (status) status.textContent = "Saving is unavailable in this browser. Copy the page link instead.";
+            return;
+          }
           updateSavedUI(next);
           track(existing ? "item_unsaved" : "item_saved", { itemId: id, surface: saveButton.dataset.itemKind || "unknown" });
           return;
@@ -340,8 +363,11 @@ const navItems = [
         const removeButton = target?.closest<HTMLButtonElement>("[data-remove-saved]");
         if (removeButton) {
           const next = readSavedItems().filter((item) => item.id !== removeButton.dataset.removeSaved);
-          writeSavedItems(next);
-          updateSavedUI(next);
+          if (writeSavedItems(next)) updateSavedUI(next);
+          else {
+            const status = document.querySelector<HTMLElement>("[data-saved-items-status]");
+            if (status) status.textContent = "Saved items cannot be changed in this browser.";
+          }
         }
       });
 

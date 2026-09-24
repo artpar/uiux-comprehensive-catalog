@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import { categoryNames, categorySlug } from "@/lib/categories";
 import { comparisons, patterns, sources } from "@/lib/catalog";
+import { learningLessons } from "@/data/learning";
+import { workflows } from "@/data/workflows";
 
 type SitemapRoute = {
   path: string;
@@ -36,6 +38,13 @@ export const GET: APIRoute = ({ site }) => {
     { path: "anti-patterns/", lastmod: latestPatternDate },
     { path: "resources/", lastmod: latestPatternDate },
     { path: "resources/ux-pattern-selection-checklist/", lastmod: latestPatternDate },
+    { path: "learn/", lastmod: latestSourceDate },
+    ...learningLessons.map((lesson) => ({ path: `learn/${lesson.id}/`, lastmod: latestSourceDate })),
+    { path: "practice/", lastmod: latestSourceDate },
+    ...learningLessons.map((lesson) => ({ path: `practice/${lesson.id}/`, lastmod: latestSourceDate })),
+    { path: "work/", lastmod: latestSourceDate },
+    ...workflows.map((workflow) => ({ path: `work/${workflow.id}/`, lastmod: latestSourceDate })),
+    { path: "reference/", lastmod: latestSourceDate },
     { path: "compare/", lastmod: latestComparisonDate },
     { path: "lab/", lastmod: latestPatternDate },
     { path: "patterns/", lastmod: latestPatternDate },

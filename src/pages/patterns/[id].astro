@@ -7,6 +7,8 @@ import { comparisons, getComparison, getPattern, getSource, patterns } from "@/l
 import { withBase } from "@/lib/paths";
 import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
 import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
+import { learningLessons } from "@/data/learning";
+import { workflowForStage } from "@/data/workflows";
 
 function isPattern(value: PatternEntry | undefined): value is PatternEntry {
   return Boolean(value);
@@ -37,6 +39,8 @@ const patternComparisons = pattern.comparisons.map((id) => getComparison(id)).fi
 const referencedByComparisons = comparisons.filter((comparison) => comparison.patternIds.includes(pattern.id));
 const allComparisons = [...new Map([...patternComparisons, ...referencedByComparisons].map((item) => [item.id, item])).values()];
 const primaryComparison = allComparisons[0];
+const relatedLessons = learningLessons.filter((lesson) => lesson.patternIds.includes(pattern.id)).slice(0, 2);
+const relatedWorkflow = relatedLessons[0] && workflowForStage(relatedLessons[0].stage);
 const anatomyItems = [
   { label: "User need", value: pattern.problemContext[0] ?? pattern.problem },
   { label: "Pattern promise", value: pattern.solution },
@@ -110,6 +114,8 @@ const structuredData = [
         <a class="action-link primary-action" href={withBase(`/lab/?pattern=${pattern.id}`)}>Open in lab</a>
         {primaryComparison && <a class="action-link secondary-action" href={withBase(`/compare/${primaryComparison.id}/`)}>Compare alternatives</a>}
       </div>
+      {relatedLessons.length > 0 && <p class="pattern-learning-links">Develop this judgment: {relatedLessons.map((lesson, index) => <><a href={withBase(`/learn/${lesson.id}/`)}>{lesson.title}</a>{index < relatedLessons.length - 1 ? " · " : ""}</>)}</p>}
+      <p class="pattern-learning-links"><a href={withBase(relatedWorkflow ? `/work/${relatedWorkflow.id}/` : "/work/")}>{relatedWorkflow ? `Apply this: ${relatedWorkflow.title}` : "Apply a guided UX workflow to your project"} →</a></p>
       <EngagementActions id={pattern.id} title={pattern.name} summary={pattern.solution} kind="pattern" />
     </div>
 

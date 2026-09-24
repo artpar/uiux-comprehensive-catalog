@@ -1,6 +1,6 @@
 export const SITE_NAME = "UX Patterns Guide";
 export const SITE_DESCRIPTION =
-  "A source-backed guide to practical UX and UI patterns with an interactive lab for choosing the right pattern.";
+  "Learn, practice, and apply UX judgment across interfaces and services, with guided work tools and a source-backed pattern library.";
 
 export function absoluteUrl(path: string, site: URL) {
   return new URL(path, site).toString();

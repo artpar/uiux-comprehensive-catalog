@@ -1,0 +1,22 @@
+export const practiceContexts: Record<string, string> = {
+  "experience-beyond-screen": "Physical",
+  "understandable-interaction": "Physical",
+  "inclusive-completion": "Voice",
+  "trust-and-consequence": "Physical",
+  "observe-the-task": "Enterprise",
+  "choose-evidence": "Voice",
+  "distinguish-causes": "Web",
+  "frame-the-problem": "Service",
+  "shape-the-journey": "Service",
+  "compare-alternatives": "Physical",
+  "design-every-state": "Enterprise",
+  "prototype-the-question": "Web",
+  "state-a-hypothesis": "Web",
+  "choose-a-test": "Enterprise",
+  "interpret-findings": "Physical",
+  "revise-and-retest": "Voice",
+  "work-with-constraints": "Enterprise",
+  "coordinate-channels": "Service",
+  "communicate-a-decision": "Mobile",
+  "capstone-ux-decision": "AI-assisted"
+};

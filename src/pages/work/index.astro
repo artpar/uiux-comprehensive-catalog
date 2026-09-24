@@ -1,0 +1,11 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { workflows } from "@/data/workflows";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+---
+<BaseLayout title={pageTitle("Work on a UX decision")} description="Guided UX workflows for critique, research planning, and design decisions.">
+  <div class="learning-page"><header class="learning-hero"><div><p class="learning-eyebrow">Work</p><h1>Bring the method into your project.</h1><p class="learning-lead">Use a guided workflow to make a problem statement, test plan, or design decision memo. Each produces a document you can copy or download.</p></div></header>
+  <div class="work-grid">{workflows.map((workflow, index) => <article class="work-card"><span>0{index + 1} / Guided workflow</span><h2><a href={withBase(`/work/${workflow.id}/`)}>{workflow.title}</a></h2><p>{workflow.description}</p><small>{workflow.result}</small></article>)}</div>
+  <p class="learning-caveat">Your answers stay in this browser unless you choose to copy or download them. Analytics record only which workflow you use, never your answers.</p></div>
+</BaseLayout>
