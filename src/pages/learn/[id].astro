@@ -120,6 +120,19 @@ const relatedWorkflow = workflowForStage(lesson.stage);
         if (complete) complete.checked = Boolean(initial.completed);
         track("learning_resumed", { lessonId: id });
       }
+      function reopenCompletedTask() {
+        if (!complete?.checked) return;
+        complete.checked = false;
+        const saved = saveLessonProgress(id, { completed: false });
+        if (lessonStatus) lessonStatus.textContent = "Independent task in progress";
+        if (status) status.textContent = saved ? "Your changes reopened this task. Review and mark it complete again when ready." : "Your changes reopened this task, but progress could not be saved. Copy your work to keep it.";
+      }
+      artifact?.addEventListener("input", reopenCompletedTask);
+      form?.querySelectorAll<HTMLInputElement>('input[name="guided-choice"]').forEach((choice) => choice.addEventListener("change", () => {
+        reopenCompletedTask();
+        if (feedback) feedback.hidden = true;
+        if (lessonStatus) lessonStatus.textContent = "Decision in progress";
+      }));
       taught?.addEventListener("change", () => {
         const saved = saveLessonProgress(id, { taught: taught.checked, ...(!taught.checked ? { completed: false } : {}) });
         if (!taught.checked && complete) complete.checked = false;
