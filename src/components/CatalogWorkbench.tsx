@@ -426,6 +426,7 @@ export default function CatalogWorkbench({
   const [candidateMode, setCandidateMode] = useState<CandidateMode>("recommended");
   const [selectedId, setSelectedId] = useState(patterns[0]?.id ?? "");
   const [copyStatus, setCopyStatus] = useState("Ready to copy.");
+  const [storageUnavailable, setStorageUnavailable] = useState(false);
   const [risk, setRisk] = useState("medium");
   const [recovery, setRecovery] = useState("reversible");
   const [urgency, setUrgency] = useState("normal");
@@ -649,6 +650,7 @@ export default function CatalogWorkbench({
       savedState = JSON.parse(window.localStorage.getItem("uxpg:lab-state") || "{}");
     } catch {
       savedState = {};
+      setStorageUnavailable(true);
     }
     const patternId = params.get("pattern") ?? params.get("selected");
     if (patternId && patterns.some((pattern) => pattern.id === patternId)) {
@@ -708,7 +710,12 @@ export default function CatalogWorkbench({
 
   useEffect(() => {
     if (!hydrated || !selectedId) return;
-    window.localStorage.setItem("uxpg:lab-state", JSON.stringify({ selectedId, shortlistIds }));
+    try {
+      window.localStorage.setItem("uxpg:lab-state", JSON.stringify({ selectedId, shortlistIds }));
+      setStorageUnavailable(false);
+    } catch {
+      setStorageUnavailable(true);
+    }
   }, [hydrated, selectedId, shortlistIds]);
 
   useEffect(() => {
@@ -894,6 +901,7 @@ export default function CatalogWorkbench({
       aria-busy={!hydrated}
     >
       {!hydrated && <p className="hydration-status" role="status">Preparing interactive controls...</p>}
+      {storageUnavailable && <p className="hydration-status" role="status">Browser storage is unavailable. Your shortlist works in this tab; use Share state to copy a link before leaving.</p>}
       {selected && (
         <article
           className={expandedLab ? "lab-panel is-expanded" : "lab-panel"}
