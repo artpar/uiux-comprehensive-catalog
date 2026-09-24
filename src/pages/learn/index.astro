@@ -30,7 +30,10 @@ import { pageTitle } from "@/lib/seo";
       if (summary) summary.textContent = `${completed} of ${learningLessons.length} independent tasks completed`;
       if (detail) detail.textContent = completed === learningLessons.length ? "You have finished this path. Revisit a lesson or apply it to live work." : "Resume where you left off, or open any lesson.";
       if (resume && resumeId) { resume.href = withBase(`/learn/${resumeId}/`); resume.hidden = false; }
-      if (start) start.textContent = completed === learningLessons.length ? "Review a lesson" : "Continue learning";
+      if (start) {
+        start.textContent = completed === learningLessons.length ? "Review a lesson" : "Continue learning";
+        if (resumeId) start.href = withBase(`/learn/${resumeId}/`);
+      }
       track("learning_path_resumed", { completed: String(completed) });
     }
     document.querySelectorAll<HTMLAnchorElement>("[data-learning-list-id]").forEach((link) => {
