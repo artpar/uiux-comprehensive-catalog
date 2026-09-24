@@ -1,0 +1,45 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { workflows } from "@/data/workflows";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+export function getStaticPaths() { return workflows.map((workflow) => ({ params: { id: workflow.id }, props: { workflow } })); }
+const { workflow } = Astro.props;
+---
+<BaseLayout title={pageTitle(workflow.title)} description={workflow.description}>
+  <div class="learning-page work-page" data-workflow-id={workflow.id}><nav class="learning-breadcrumb" aria-label="Breadcrumb"><a href={withBase("/work/")}>Work</a><span aria-hidden="true">/</span><span>{workflow.title}</span></nav>
+  <header class="learning-hero"><div><p class="learning-eyebrow">Guided workflow</p><h1>{workflow.title}</h1><p class="learning-lead">{workflow.description}</p></div><div class="learning-progress-card"><strong>Output</strong><span>{workflow.result}</span></div></header>
+  <div class="learning-layout"><div class="learning-main"><form data-work-form>{workflow.fields.map((field, index) => <div class="work-question"><span class="learning-step">{String(index + 1).padStart(2, "0")}</span><label for={`field-${field.id}`}>{field.label}</label><p id={`help-${field.id}`}>{field.help}</p><textarea id={`field-${field.id}`} name={field.id} rows="5" placeholder={field.placeholder} aria-describedby={`help-${field.id}`} required></textarea></div>)}<div class="learning-actions"><button type="button" data-save-work>Save draft</button><button class="primary-action" type="submit">Build document</button></div></form><p data-work-status role="status"></p><section class="work-output" data-work-output hidden aria-labelledby="work-output-title"><h2 id="work-output-title">Your document</h2><p>Review and edit your answers above, then rebuild the document if needed.</p><textarea data-work-document rows="25" aria-label="Generated document"></textarea><div class="learning-actions"><button type="button" data-copy-work>Copy</button><button type="button" data-download-work>Download Markdown</button></div></section></div><aside class="learning-side"><h2>Use alongside</h2><a href={withBase(`/learn/${workflow.lessonId}/`)}>Related lesson →</a><h3>Reference patterns</h3><ul>{workflow.patternIds.map((id) => <li><a href={withBase(`/patterns/${id}/`)}>{id.replaceAll("-", " ")}</a></li>)}</ul><p>Drafts are local to this browser. Copy or download a document before clearing browser storage.</p></aside></div></div>
+  <script>
+    import { track } from "@/lib/analytics";
+    const root = document.querySelector<HTMLElement>("[data-workflow-id]");
+    if (root) {
+      const id = root.dataset.workflowId || "";
+      const key = `uxpg:work:v1:${id}`;
+      const form = root.querySelector<HTMLFormElement>("[data-work-form]");
+      const status = root.querySelector<HTMLElement>("[data-work-status]");
+      const output = root.querySelector<HTMLElement>("[data-work-output]");
+      const documentArea = root.querySelector<HTMLTextAreaElement>("[data-work-document]");
+      let prior: Record<string, string> = {};
+      try { prior = JSON.parse(localStorage.getItem(key) || "{}"); } catch { /* Continue without stored draft. */ }
+      if (form && prior && typeof prior === "object") {
+        Object.entries(prior).forEach(([name, value]) => { const field = form.elements.namedItem(name); if (field instanceof HTMLTextAreaElement && typeof value === "string") field.value = value; });
+        if (Object.keys(prior).length) track("work_resumed", { workflowId: id });
+      }
+      function values() { const data: Record<string, string> = {}; form?.querySelectorAll<HTMLTextAreaElement>("textarea[name]").forEach((field) => { data[field.name] = field.value; }); return data; }
+      function save() { try { localStorage.setItem(key, JSON.stringify(values())); if (status) status.textContent = "Draft saved in this browser."; track("work_draft_saved", { workflowId: id }); } catch { if (status) status.textContent = "Saving is unavailable. Build and copy your document to keep it."; } }
+      root.querySelector("[data-save-work]")?.addEventListener("click", save);
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault(); if (!form.reportValidity() || !documentArea || !output) return;
+        const sections = [...form.querySelectorAll<HTMLTextAreaElement>("textarea[name]")].map((field) => `## ${form.querySelector<HTMLLabelElement>(`label[for="${field.id}"]`)?.textContent || field.name}\n\n${field.value.trim()}`);
+        const title = root.querySelector("h1")?.textContent || "UX work document";
+        documentArea.value = `# ${title}\n\n${sections.join("\n\n")}\n\n---\nPrepared with UX Patterns Guide. Review this draft with your team and validate its assumptions.\n`;
+        output.hidden = false; output.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+        save(); track("work_document_built", { workflowId: id });
+      });
+      root.querySelector("[data-copy-work]")?.addEventListener("click", async () => { try { await navigator.clipboard.writeText(documentArea?.value || ""); if (status) status.textContent = "Document copied."; track("work_document_exported", { workflowId: id, format: "copy" }); } catch { if (status) status.textContent = "Copy unavailable. Select the document text to copy it."; } });
+      root.querySelector("[data-download-work]")?.addEventListener("click", () => { const blob = new Blob([documentArea?.value || ""], { type: "text/markdown;charset=utf-8" }); const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.href = url; link.download = `${id}.md`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); track("work_document_exported", { workflowId: id, format: "markdown" }); });
+      track("work_opened", { workflowId: id });
+    }
+  </script>
+</BaseLayout>

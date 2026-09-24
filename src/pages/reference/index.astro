@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { comparisons, patterns, sources } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+---
+<BaseLayout title={pageTitle("UX reference library")} description="Explore source-backed UX patterns, comparisons, interactive examples, and evidence sources.">
+  <div class="learning-page"><header class="learning-hero"><div><p class="learning-eyebrow">Reference</p><h1>Find guidance when the work calls for it.</h1><p class="learning-lead">Search the catalog, compare alternatives, inspect interaction states in the lab, and follow claims back to their sources.</p></div><div class="learning-progress-card"><strong>{patterns.length} patterns</strong><span>{comparisons.length} comparisons · {sources.length} evidence sources</span></div></header>
+  <form class="catalog-search home-search-panel" role="search" action={withBase("/patterns/")} method="get"><label for="reference-query">Search by task, risk, or pattern</label><div class="catalog-search-row"><input id="reference-query" name="q" type="search" placeholder="Try AI review, errors, or confirmation" /><button type="submit">Search patterns</button></div></form>
+  <div class="work-grid"><a class="work-card" href={withBase("/patterns/")}><span>Catalog</span><h2>Patterns</h2><p>Explore use conditions, required states, failure modes, accessibility, and implementation guidance.</p></a><a class="work-card" href={withBase("/compare/")}><span>Decisions</span><h2>Comparisons</h2><p>Examine nearby options and the conditions that make one fit better.</p></a><a class="work-card" href={withBase("/lab/")}><span>Interaction</span><h2>Lab</h2><p>Inspect live behavior and states before applying a pattern.</p></a><a class="work-card" href={withBase("/sources/")}><span>Evidence</span><h2>Sources</h2><p>Review the source trail and verification context behind the catalog.</p></a><a class="work-card" href={withBase("/agent/")}><span>Exports</span><h2>Agent resources</h2><p>Use the structured catalog exports in research and implementation workflows.</p></a></div>
+  <p class="learning-caveat">Want to build judgment around these references? <a href={withBase("/learn/")}>Follow the learning path</a> or <a href={withBase("/work/")}>make a work document</a>.</p></div>
+</BaseLayout>

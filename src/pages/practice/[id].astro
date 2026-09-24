@@ -1,0 +1,36 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { learningLessons, learningStages } from "@/data/learning";
+import { practiceRubric } from "@/data/practice-rubric";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+export function getStaticPaths() { return learningLessons.map((lesson) => ({ params: { id: lesson.id }, props: { lesson } })); }
+const { lesson } = Astro.props;
+const stage = learningStages.find((item) => item.id === lesson.stage);
+const next = learningLessons[(learningLessons.findIndex((item) => item.id === lesson.id) + 1) % learningLessons.length];
+---
+<BaseLayout title={pageTitle(`Practice: ${lesson.title}`)} description={lesson.transferTask}>
+  <div class="learning-page" data-practice-id={lesson.id}><nav class="learning-breadcrumb" aria-label="Breadcrumb"><a href={withBase("/practice/")}>Practice</a><span aria-hidden="true">/</span><span>{stage?.title}</span></nav>
+  <header class="learning-hero"><div><p class="learning-eyebrow">Independent case · {stage?.title}</p><h1>{lesson.title}</h1><p class="learning-lead">Apply the method in a new context. Review your own artifact against the criteria and decide what evidence would change it.</p></div><div class="learning-progress-card"><strong>Before you begin</strong><span>Need the method or a worked example? <a href={withBase(`/learn/${lesson.id}/`)}>Open the full lesson</a>.</span></div></header>
+  <div class="learning-layout"><div class="learning-main"><section class="learning-block"><p class="learning-step">01 / New context</p><h2>The situation</h2><p class="learning-step">Fictional scenario</p><p class="learning-context">{lesson.transferContext}</p><p>{lesson.transferTask}</p><p><strong>Produce:</strong> {lesson.artifact}</p></section>
+  <section class="learning-block"><p class="learning-step">02 / Make and review</p><h2>Your artifact</h2><label class="learning-field" for="practice-artifact">Draft or outline your response</label><textarea id="practice-artifact" rows="14" placeholder="Write the reasoning and the artifact you would share with a colleague."></textarea><p>Your writing is stored only in this browser if you save it. Copy it to keep a separate version.</p><div class="learning-actions"><button type="button" data-save-practice>Save attempt</button><button type="button" data-copy-practice>Copy attempt</button></div></section>
+  <section class="learning-block"><p class="learning-step">03 / Self-review</p><h2>Check your judgment</h2><p><strong>Specific standard:</strong> {lesson.assessmentFocus}</p><fieldset class="practice-review"><legend>Review questions</legend>{practiceRubric[lesson.stage].map((criterion, index) => <label><input type="checkbox" data-review-check={index} /><span>{criterion}</span></label>)}</fieldset><label class="learning-field" for="practice-revision">What would you improve, and what evidence could change your answer?</label><textarea id="practice-revision" rows="5"></textarea><button class="primary-action" type="button" data-finish-practice>Record reviewed attempt</button><p data-practice-status role="status"></p><div class="learning-feedback" data-practice-feedback hidden><h3>Next step</h3><p>Your review is a prompt for revision, not an automatic grade. Compare your artifact with the specific standard above, inspect the <a href={withBase(`/learn/${lesson.id}/`)}>worked example and guided feedback</a>, then test your assumptions in the actual setting.</p><p>Use the evidence you named in your revision note to decide whether to keep, change, or discard your approach.</p></div></section><nav class="learning-next" aria-label="Practice navigation"><a href={withBase("/practice/")}>← All cases</a><a href={withBase(`/practice/${next.id}/`)}>Another case →</a></nav></div>
+  <aside class="learning-side"><h2>Connected resources</h2><a href={withBase(`/learn/${lesson.id}/`)}>Study the lesson →</a><h3>Related patterns</h3><ul>{lesson.patternIds.map((id) => <li><a href={withBase(`/patterns/${id}/`)}>{id.replaceAll("-", " ")}</a></li>)}</ul><a href={withBase("/work/")}>Use a work tool →</a></aside></div></div>
+  <script>
+    import { track } from "@/lib/analytics";
+    const root = document.querySelector<HTMLElement>("[data-practice-id]");
+    if (root) {
+      const id = root.dataset.practiceId || ""; const key = `uxpg:practice:v1:${id}`;
+      const artifact = root.querySelector<HTMLTextAreaElement>("#practice-artifact");
+      const revision = root.querySelector<HTMLTextAreaElement>("#practice-revision");
+      const status = root.querySelector<HTMLElement>("[data-practice-status]");
+      const feedback = root.querySelector<HTMLElement>("[data-practice-feedback]");
+      try { const value = JSON.parse(localStorage.getItem(key) || "{}"); if (artifact) artifact.value = value.artifact || ""; if (revision) revision.value = value.revision || ""; if (value.reviewed && feedback) feedback.hidden = false; if (value.artifact) track("practice_resumed", { lessonId: id }); } catch { /* Storage is optional. */ }
+      function save(reviewed = false) { try { localStorage.setItem(key, JSON.stringify({ artifact: artifact?.value || "", revision: revision?.value || "", reviewed, updatedAt: new Date().toISOString() })); if (status) status.textContent = reviewed ? "Reviewed attempt saved in this browser." : "Attempt saved in this browser."; return true; } catch { if (status) status.textContent = "Saving is unavailable. Copy your attempt to keep it."; return false; } }
+      root.querySelector("[data-save-practice]")?.addEventListener("click", () => { if (save()) track("practice_attempt_saved", { lessonId: id }); });
+      root.querySelector("[data-copy-practice]")?.addEventListener("click", async () => { try { await navigator.clipboard.writeText(`${artifact?.value || ""}\n\nRevision: ${revision?.value || ""}`); if (status) status.textContent = "Attempt copied."; } catch { if (status) status.textContent = "Copy unavailable. Select your text to copy it."; } });
+      root.querySelector("[data-finish-practice]")?.addEventListener("click", () => { const checked = root.querySelectorAll("[data-review-check]:checked").length; if (!artifact?.value.trim() || !revision?.value.trim() || checked < 3) { if (status) status.textContent = "Write an artifact and revision, then review all three questions before recording the attempt."; return; } save(true); if (feedback) feedback.hidden = false; track("practice_attempt_reviewed", { lessonId: id }); });
+      track("practice_case_opened", { lessonId: id });
+    }
+  </script>
+</BaseLayout>

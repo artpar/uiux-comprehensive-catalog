@@ -1,0 +1,41 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { learningLessons, learningStages } from "@/data/learning";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+---
+
+<BaseLayout title={pageTitle("Learn UX deeply")} description="A 20-lesson path to understand, diagnose, design, test, and practice UX across interfaces and services.">
+  <div class="learning-page">
+    <header class="learning-hero learning-overview-hero"><div><p class="learning-eyebrow">Learn · 5 capabilities · 20 lessons</p><h1>Become stronger at UX, one decision at a time.</h1><p class="learning-lead">Learn principles, see expert reasoning, make a guided decision, then apply the idea to a new situation. The path covers digital, voice, physical, AI-assisted, and service experiences.</p><div class="learning-hero-actions"><a class="primary-action" href={withBase(`/learn/${learningLessons[0].id}/`)} data-start-link>Start the path</a><a href={withBase("/practice/")}>Explore practice</a></div></div><div class="learning-progress-card"><strong data-progress-summary>Start at your own pace</strong><span data-progress-detail>Your progress and optional drafts are stored in this browser. No account is required.</span><a data-resume-link hidden href={withBase(`/learn/${learningLessons[0].id}/`)}>Resume lesson →</a></div></header>
+    <div class="learning-stage-list">
+      {learningStages.map((stage, stageIndex) => <section class="learning-stage" aria-labelledby={`stage-${stage.id}`}><div class="learning-stage-heading"><span>{String(stageIndex + 1).padStart(2, "0")}</span><div><h2 id={`stage-${stage.id}`}>{stage.title}</h2><p>{stage.outcome}</p></div></div><ol>{learningLessons.filter((lesson) => lesson.stage === stage.id).map((lesson) => <li><a href={withBase(`/learn/${lesson.id}/`)} data-learning-list-id={lesson.id}><strong>{lesson.title}</strong><span>{lesson.outcome}</span><small>{lesson.context}</small></a></li>)}</ol></section>)}
+    </div>
+    <p class="learning-caveat">Completing these exercises shows exposure and practice. It does not certify professional mastery. Review the sources and test the methods in your own setting.</p>
+  </div>
+  <script>
+    import { learningLessons } from "@/data/learning";
+    import { countCompleted, readLearningProgress, resumeLessonId } from "@/lib/learning-progress";
+    import { withBase } from "@/lib/paths";
+    import { track } from "@/lib/analytics";
+    const progress = readLearningProgress();
+    const completed = countCompleted(progress);
+    const resumeId = resumeLessonId(learningLessons.map((lesson) => lesson.id), progress);
+    const resume = document.querySelector<HTMLAnchorElement>("[data-resume-link]");
+    const start = document.querySelector<HTMLAnchorElement>("[data-start-link]");
+    const summary = document.querySelector<HTMLElement>("[data-progress-summary]");
+    const detail = document.querySelector<HTMLElement>("[data-progress-detail]");
+    if (completed || Object.keys(progress).length) {
+      if (summary) summary.textContent = `${completed} of ${learningLessons.length} independent tasks completed`;
+      if (detail) detail.textContent = completed === learningLessons.length ? "You have finished this path. Revisit a lesson or apply it to live work." : "Resume where you left off, or open any lesson.";
+      if (resume && resumeId) { resume.href = withBase(`/learn/${resumeId}/`); resume.hidden = false; }
+      if (start) start.textContent = "Continue learning";
+      track("learning_path_resumed", { completed: String(completed) });
+    }
+    document.querySelectorAll<HTMLAnchorElement>("[data-learning-list-id]").forEach((link) => {
+      const entry = progress[link.dataset.learningListId || ""];
+      if (entry?.completed) link.dataset.status = "complete";
+      else if (entry?.taught || entry?.choice !== undefined || entry?.artifact) link.dataset.status = "started";
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,157 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { learningLessons, learningStages, lessonIndex } from "@/data/learning";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+
+export function getStaticPaths() {
+  return learningLessons.map((lesson) => ({ params: { id: lesson.id }, props: { lesson } }));
+}
+
+const { lesson } = Astro.props;
+const index = lessonIndex(lesson.id);
+const stage = learningStages.find((item) => item.id === lesson.stage);
+const next = learningLessons[index + 1];
+const previous = learningLessons[index - 1];
+---
+
+<BaseLayout title={pageTitle(lesson.title)} description={lesson.outcome}>
+  <article class="learning-page" data-lesson-id={lesson.id} data-feedbacks={JSON.stringify(lesson.options.map((option) => option.feedback))}>
+    <nav class="learning-breadcrumb" aria-label="Breadcrumb"><a href={withBase("/learn/")}>Learn</a><span aria-hidden="true">/</span><span>{stage?.title}</span></nav>
+    <header class="learning-hero">
+      <div><p class="learning-eyebrow">Lesson {index + 1} of {learningLessons.length} · {stage?.title}</p><h1>{lesson.title}</h1><p class="learning-lead">{lesson.outcome}</p></div>
+      <div class="learning-progress-card"><strong data-lesson-status>Not started</strong><span>Your progress and optional notes are saved in this browser.</span></div>
+    </header>
+    <div class="learning-layout">
+      <div class="learning-main">
+        <section class="learning-block" aria-labelledby="concept-title">
+          <p class="learning-step">01 / Learn</p><h2 id="concept-title">The idea</h2>
+          {lesson.teach.map((paragraph) => <p>{paragraph}</p>)}
+          <div class="learning-callout"><strong>A common mistake</strong><p>{lesson.misconception}</p></div>
+        </section>
+        <section class="learning-block" aria-labelledby="worked-title">
+          <p class="learning-step">02 / See the reasoning</p><h2 id="worked-title">Worked example</h2>
+          <p class="learning-step">Fictional scenario</p><p class="learning-context">{lesson.context}</p><p>{lesson.workedExample}</p>
+          <label class="learning-complete"><input type="checkbox" data-taught-checkbox /> I reviewed the explanation and worked example.</label>
+        </section>
+        <section class="learning-block" aria-labelledby="decision-title">
+          <p class="learning-step">03 / Decide</p><h2 id="decision-title">Guided decision</h2>
+          <p>{lesson.guidedQuestion}</p>
+          <form data-guided-form>
+            <fieldset><legend>Choose the option you would try first</legend>
+              {lesson.options.map((option, optionIndex) => <label class="learning-choice"><input type="radio" name="guided-choice" value={optionIndex} required /><span>{option.label}</span></label>)}
+            </fieldset>
+            <label class="learning-field" for="decision-reason">Why would you choose it? What would you verify?</label>
+            <textarea id="decision-reason" name="reason" rows="4" required minlength="20" placeholder="Name the tradeoff and the evidence that could change your mind."></textarea>
+            <label class="learning-field" for="decision-confidence">How confident are you under these conditions?</label>
+            <select id="decision-confidence" name="confidence" required><option value="">Choose a level</option><option value="low">Low — I need key evidence</option><option value="medium">Medium — I can test this direction</option><option value="high">High — the conditions are clear</option></select>
+            <button class="primary-action" type="submit">See feedback</button>
+          </form>
+          <div class="learning-feedback" data-feedback hidden tabindex="-1" aria-live="polite">
+            <h3>Feedback on your choice</h3><p data-feedback-text></p>
+            <p><strong>What could change the answer:</strong> {lesson.evidenceShift}</p>
+            <p class="learning-honesty">This feedback helps you examine the decision; it does not grade your written reasoning.</p>
+          </div>
+        </section>
+        <section class="learning-block" aria-labelledby="transfer-title">
+          <p class="learning-step">04 / Apply elsewhere</p><h2 id="transfer-title">Independent application</h2>
+          <p class="learning-step">Fictional scenario</p><p class="learning-context">{lesson.transferContext}</p><p>{lesson.transferTask}</p>
+          <p><strong>Make:</strong> {lesson.artifact}</p>
+          <label class="learning-field" for="transfer-response">Draft your artifact or paste a working outline</label>
+          <textarea id="transfer-response" rows="10" placeholder="Your work stays in this browser unless you copy it elsewhere."></textarea>
+          <div class="learning-actions"><button type="button" data-save-artifact>Save draft</button><button type="button" data-copy-artifact>Copy draft</button></div>
+          <div class="learning-callout"><strong>Review your work against this criterion</strong><p>{lesson.assessmentFocus}</p></div>
+          <label class="learning-complete"><input type="checkbox" data-complete-checkbox /> I completed the independent task and reviewed my artifact against the criterion.</label>
+          <p class="learning-storage-status" data-storage-status role="status"></p>
+        </section>
+        <section class="learning-block" aria-labelledby="references-title">
+          <p class="learning-step">05 / Keep working</p><h2 id="references-title">Sources and related patterns</h2>
+          <ul class="learning-link-list">{lesson.sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label} <span aria-hidden="true">↗</span></a></li>)}</ul>
+          <div class="learning-patterns">{lesson.patternIds.map((id) => <a href={withBase(`/patterns/${id}/`)}>{id.replaceAll("-", " ")}</a>)}</div>
+          <p><a href={withBase("/work/")}>Use a guided work tool with your own project →</a></p>
+        </section>
+        <nav class="learning-next" aria-label="Lesson navigation">
+          {previous && <a href={withBase(`/learn/${previous.id}/`)}>← {previous.title}</a>}
+          {next ? <a href={withBase(`/learn/${next.id}/`)}>Next: {next.title} →</a> : <a href={withBase("/practice/")}>Explore practice →</a>}
+        </nav>
+      </div>
+      <aside class="learning-side" aria-label="Learning path"><h2>In this stage</h2><ol>{learningLessons.filter((item) => item.stage === lesson.stage).map((item) => <li><a href={withBase(`/learn/${item.id}/`)} aria-current={item.id === lesson.id ? "page" : undefined}>{item.title}</a></li>)}</ol><a href={withBase("/learn/")}>Full path →</a></aside>
+    </div>
+  </article>
+  <script>
+    import { readLearningProgress, saveLessonProgress } from "@/lib/learning-progress";
+    import { track } from "@/lib/analytics";
+    const root = document.querySelector<HTMLElement>("[data-lesson-id]");
+    if (root) {
+      const id = root.dataset.lessonId || "";
+      const form = root.querySelector<HTMLFormElement>("[data-guided-form]");
+      const feedback = root.querySelector<HTMLElement>("[data-feedback]");
+      const feedbackText = root.querySelector<HTMLElement>("[data-feedback-text]");
+      const reason = root.querySelector<HTMLTextAreaElement>("#decision-reason");
+      const confidence = root.querySelector<HTMLSelectElement>("#decision-confidence");
+      const artifact = root.querySelector<HTMLTextAreaElement>("#transfer-response");
+      const taught = root.querySelector<HTMLInputElement>("[data-taught-checkbox]");
+      const complete = root.querySelector<HTMLInputElement>("[data-complete-checkbox]");
+      const status = root.querySelector<HTMLElement>("[data-storage-status]");
+      const lessonStatus = root.querySelector<HTMLElement>("[data-lesson-status]");
+      const feedbacks: string[] = JSON.parse(root.dataset.feedbacks || "[]");
+      const initial = readLearningProgress()[id];
+      if (initial) {
+        if (taught) taught.checked = Boolean(initial.taught);
+        if (initial.choice !== undefined) {
+          const choice = form?.querySelector<HTMLInputElement>(`input[value="${initial.choice}"]`);
+          if (choice) choice.checked = true;
+          if (feedback && feedbackText) { feedbackText.textContent = feedbacks[initial.choice] || ""; feedback.hidden = false; }
+          lessonStatus && (lessonStatus.textContent = initial.completed ? "Independent task completed" : "Decision practiced");
+          track("learning_resumed", { lessonId: id });
+        }
+        else if (initial.taught && lessonStatus) lessonStatus.textContent = "Teaching reviewed";
+        if (reason) reason.value = initial.reason || "";
+        if (confidence) confidence.value = initial.confidence || "";
+        if (artifact) artifact.value = initial.artifact || "";
+        if (complete) complete.checked = Boolean(initial.completed);
+      }
+      taught?.addEventListener("change", () => {
+        const saved = saveLessonProgress(id, { taught: taught.checked, ...(!taught.checked ? { completed: false } : {}) });
+        if (!taught.checked && complete) complete.checked = false;
+        if (lessonStatus) lessonStatus.textContent = taught.checked ? "Teaching reviewed" : "Teaching not reviewed";
+        if (!saved && status) status.textContent = "Progress could not be saved on this device. You can still continue and copy your work.";
+        if (taught.checked) track("lesson_teaching_reviewed", { lessonId: id });
+      });
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const choice = Number(new FormData(form).get("guided-choice"));
+        if (feedbackText) feedbackText.textContent = feedbacks[choice] || "";
+        if (feedback) { feedback.hidden = false; feedback.focus(); }
+        if (lessonStatus) lessonStatus.textContent = "Decision practiced";
+        const saved = saveLessonProgress(id, { choice, reason: reason?.value || "", confidence: confidence?.value || "" });
+        if (!saved && status) status.textContent = "Progress could not be saved on this device. You can still continue and copy your work.";
+        track("guided_decision_completed", { lessonId: id, option: String(choice) });
+      });
+      root.querySelector("[data-save-artifact]")?.addEventListener("click", () => {
+        if (!artifact) return;
+        const saved = saveLessonProgress(id, { artifact: artifact.value });
+        if (status) status.textContent = saved ? "Draft saved in this browser." : "Could not save on this device. Copy your draft to keep it.";
+        if (saved) track("learning_artifact_saved", { lessonId: id });
+      });
+      root.querySelector("[data-copy-artifact]")?.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(artifact?.value || ""); if (status) status.textContent = "Draft copied."; }
+        catch { if (status) status.textContent = "Copy was unavailable. Select the text above to copy it."; }
+      });
+      complete?.addEventListener("change", () => {
+        if (!complete.checked) { saveLessonProgress(id, { completed: false }); if (lessonStatus) lessonStatus.textContent = "Independent task in progress"; return; }
+        if (!taught?.checked || !feedback || feedback.hidden || !artifact?.value.trim()) {
+          complete.checked = false;
+          if (status) status.textContent = "Review the teaching, complete the guided decision, and write your independent artifact first.";
+          return;
+        }
+        const saved = saveLessonProgress(id, { artifact: artifact.value, completed: true });
+        if (lessonStatus) lessonStatus.textContent = "Independent task completed";
+        if (status) status.textContent = saved ? "Completion saved in this browser." : "Completion could not be saved on this device. Copy your work to keep it.";
+        track("lesson_completed", { lessonId: id });
+      });
+      track("lesson_opened", { lessonId: id });
+    }
+  </script>
+</BaseLayout>
