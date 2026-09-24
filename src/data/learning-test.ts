@@ -13,11 +13,11 @@ export const testingLessons: LearningLesson[] = [
     ],
     misconception: "A hypothesis is the same as a feature wish. A useful hypothesis states a mechanism and conditions under which it might fail.",
     workedExample: "An expert writes: 'When people issue an ambiguous heating command without viewing the display, a spoken zone name plus a short correction phrase will increase detection and correction of wrong-zone actions. It may slow frequent commands.' They prepare two task conditions and observe comprehension and friction rather than asking only which voice sounds nicer.",
-    guidedQuestion: "Which hypothesis best supports a useful test?",
+    guidedQuestion: "Which first hypothesis would best balance error detection and routine friction in a useful test?",
     options: [
-      { label: "The new voice response will make the assistant feel more trustworthy.", feedback: "Trust may matter, but this does not state the task or observable mechanism. Define what people will understand or do differently." },
-      { label: "If the assistant names the affected zone and offers correction on ambiguous commands, hands-free users will identify wrong-zone actions sooner; the extra response may increase friction.", feedback: "This is strongest because it specifies the situation, expected behavior, and a possible cost. Choose measures and tasks before testing." },
-      { label: "People will prefer the new response because it contains more information.", feedback: "Preference alone may not indicate safe action. Some people may prefer brevity while still needing enough information to detect errors." }
+      { label: "Naming the zone after every command should increase recognition of wrong-zone actions, though extra speech may slow frequent users.", feedback: "This is testable and names a cost. It may burden every routine command when the observed risk centers on ambiguous ones; compare the frequency and consequence of each situation." },
+      { label: "Naming the zone and offering correction on ambiguous commands should speed error detection for hands-free users, but may add friction.", feedback: "This is strongest for the stated first test because it specifies the situation, expected behavior, and a possible cost. Choose measures and tasks before testing." },
+      { label: "Confirming before every heating action should prevent wrong-zone changes, though repeated prompts may interrupt routine use.", feedback: "This is also testable and may be right when a wrong action has serious consequences. Under the stated uncertainty, test whether a targeted response can reveal and recover errors with less routine interruption." }
     ],
     strongestOption: 1,
     evidenceShift: "If wrong-zone actions are extremely rare but extra speech disrupts every command, a different intervention at the ambiguity point may be preferable.",
@@ -42,9 +42,9 @@ export const testingLessons: LearningLesson[] = [
     workedExample: "An expert brings a participant into a simulated lobby with a ticket kiosk and nearby signs. They ask the participant to arrive for an appointment, then watch whether the person can identify a completion signal without prompting. They note when staff help is requested and ask afterward what the participant thinks happened. The simulation cannot prove the real clinic's staff system works.",
     guidedQuestion: "Which first study task is least likely to lead participants?",
     options: [
-      { label: "Tap the green Check In button and enter your appointment code; tell us if the confirmation appears.", feedback: "This tells the participant where to go and what success looks like. It can check control operation, but hides discoverability and understanding." },
-      { label: "Do you think this kiosk is easy to use? Explain your rating.", feedback: "An opinion may reveal concerns but does not show whether the person can complete check-in or understand its outcome." },
-      { label: "You have arrived for an appointment. Let the clinic know you are here, then show what you would do while waiting.", feedback: "This best represents the user's goal without giving away the interface path. Define what evidence will show staff receipt in the prototype and observe recovery if the task fails." }
+      { label: "You have an appointment code. Find a way to check in, and tell us when you believe you are finished.", feedback: "This is realistic and leaves interface discovery open. Asking when the participant believes they are finished is useful, but it does not observe what they do next in the lobby or whether they seek staff help." },
+      { label: "You have arrived for an appointment. Use any available route to let the clinic know you are here.", feedback: "This tests the wider service goal and may be useful for comparing channels. If the decision concerns the kiosk specifically, the open route may not produce enough kiosk use without careful setup." },
+      { label: "You have arrived for an appointment. Let the clinic know you are here, then show what you would do while waiting.", feedback: "This best represents the user's goal without giving away the interface path and observes the next step. Define what evidence will show staff receipt in the prototype and watch recovery if the task fails." }
     ],
     strongestOption: 2,
     evidenceShift: "If the research question is specifically whether a known control's target can be activated by a motor-impaired user, a more directed task may be appropriate.",
@@ -69,9 +69,9 @@ export const testingLessons: LearningLesson[] = [
     workedExample: "In a fictional six-person study, three triggered audio pause while the workout timer continued; two noticed only after another minute. An expert writes the observation and consequence, then hypothesizes that the command and 'Paused' response do not distinguish the target. They would inspect recordings and the assistant's intent logs before ruling out recognition errors.",
     guidedQuestion: "Which conclusion is supported by the fictional six-person study?",
     options: [
-      { label: "Half of all runners will pause audio by mistake, so the command should be removed.", feedback: "The sample does not estimate a population rate, and removing a useful command is one possible response without testing alternatives." },
-      { label: "In this test, three participants paused audio while trying to pause the workout; the target may be ambiguous, so inspect intent logs and test clearer responses.", feedback: "This is strongest because it states the observation, labels the explanation as tentative, and identifies a discriminating next check." },
-      { label: "The problem is definitely the spoken response, because one participant described it as ambiguous.", feedback: "The quote is valuable, but one report cannot rule out recognition or context-selection errors. Examine the system state and other sessions." }
+      { label: "Three of six participants paused audio in this test; prioritize command disambiguation and retest the interaction.", feedback: "This reports the sample accurately and suggests a useful direction. It treats the target choice as the cause before checking whether recognition, context selection, or execution produced the observed result." },
+      { label: "Three participants paused audio while trying to pause the workout; target ambiguity is one hypothesis, so inspect intent logs and test clearer responses.", feedback: "This is strongest because it states the observation, labels the explanation as tentative, and identifies a discriminating next check." },
+      { label: "Two participants noticed the wrong result only after a minute; revise feedback first and check whether they detect the target sooner.", feedback: "This targets a serious detection delay. It does not yet explain why the wrong action happened; inspect intent and execution logs alongside the feedback test." }
     ],
     strongestOption: 1,
     evidenceShift: "If intent logs show that the system consistently selected 'audio' before speaking, the command-disambiguation design becomes the focus; if it selected 'workout' but the timer kept running, the issue may be execution or feedback instead.",
@@ -96,8 +96,8 @@ export const testingLessons: LearningLesson[] = [
     workedExample: "A fictional prototype test finds that people in another room miss the display and believe 'Okay' confirms a whole-home action. An expert changes the response to 'Bedroom heating off' and supports 'Undo that' for ambiguous actions. They retest whether people identify the zone, correct a wrong one, and tire of extra speech during routine use.",
     guidedQuestion: "Users miss the on-screen zone and have no hands-free correction. Which next revision would you test?",
     options: [
-      { label: "Make the display label bolder and require users to check it after every command.", feedback: "This may help those near a display, but it does not address people acting from another room or hands-free. A visual improvement can still be part of a broader design." },
-      { label: "Ask the user to choose a zone before every heating command.", feedback: "This can prevent some ambiguity, but repeated questions may burden clear commands. It may be suitable for high-consequence or low-confidence actions." },
+      { label: "Name the zone on the display and add a haptic cue when the system changes a heating zone.", feedback: "This may help people wearing or viewing the device. It still misses those acting from another room with no display or wearable; a visual improvement can complement the spoken path." },
+      { label: "Ask for spoken zone confirmation before every heating action, then offer cancellation.", feedback: "This can prevent ambiguity before action and may fit high-consequence settings. Repeated prompts could burden clear routine commands; test that cost and reserve confirmation for uncertain cases if possible." },
       { label: "Speak the affected zone and offer a short voice correction when the target is ambiguous.", feedback: "This best addresses the observed feedback and recovery gaps while limiting routine friction. Retest in noise and with users who cannot or do not use the display." }
     ],
     strongestOption: 2,

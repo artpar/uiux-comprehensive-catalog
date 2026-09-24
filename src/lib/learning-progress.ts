@@ -10,6 +10,10 @@ export type LessonProgress = {
 
 const key = "uxpg:learning:v1";
 
+export function learningStorageAvailable(): boolean {
+  try { localStorage.getItem(key); return true; } catch { return false; }
+}
+
 export function readLearningProgress(): Record<string, LessonProgress> {
   try {
     const value = JSON.parse(localStorage.getItem(key) || "{}");
@@ -38,5 +42,5 @@ export function countCompleted(progress = readLearningProgress()): number {
 export function resumeLessonId(ids: string[], progress = readLearningProgress()): string | undefined {
   const recent = ids.filter((id) => progress[id] && !progress[id].completed)
     .sort((a, b) => (progress[b]?.updatedAt || "").localeCompare(progress[a]?.updatedAt || ""))[0];
-  return recent || ids.find((id) => !progress[id]?.completed) || ids[0];
+  return recent || ids.find((id) => !progress[id]?.completed);
 }

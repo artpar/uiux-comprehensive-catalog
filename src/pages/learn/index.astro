@@ -15,7 +15,7 @@ import { pageTitle } from "@/lib/seo";
   </div>
   <script>
     import { learningLessons } from "@/data/learning";
-    import { countCompleted, readLearningProgress, resumeLessonId } from "@/lib/learning-progress";
+    import { countCompleted, learningStorageAvailable, readLearningProgress, resumeLessonId } from "@/lib/learning-progress";
     import { withBase } from "@/lib/paths";
     import { track } from "@/lib/analytics";
     const progress = readLearningProgress();
@@ -25,11 +25,12 @@ import { pageTitle } from "@/lib/seo";
     const start = document.querySelector<HTMLAnchorElement>("[data-start-link]");
     const summary = document.querySelector<HTMLElement>("[data-progress-summary]");
     const detail = document.querySelector<HTMLElement>("[data-progress-detail]");
+    if (!learningStorageAvailable() && detail) detail.textContent = "Browser storage is unavailable. You can still study and copy your work, but progress will not persist.";
     if (completed || Object.keys(progress).length) {
       if (summary) summary.textContent = `${completed} of ${learningLessons.length} independent tasks completed`;
       if (detail) detail.textContent = completed === learningLessons.length ? "You have finished this path. Revisit a lesson or apply it to live work." : "Resume where you left off, or open any lesson.";
       if (resume && resumeId) { resume.href = withBase(`/learn/${resumeId}/`); resume.hidden = false; }
-      if (start) start.textContent = "Continue learning";
+      if (start) start.textContent = completed === learningLessons.length ? "Review a lesson" : "Continue learning";
       track("learning_path_resumed", { completed: String(completed) });
     }
     document.querySelectorAll<HTMLAnchorElement>("[data-learning-list-id]").forEach((link) => {

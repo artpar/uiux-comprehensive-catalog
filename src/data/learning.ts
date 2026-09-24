@@ -29,8 +29,10 @@ export type LearningLesson = {
   evidenceShift: string;
   transferContext: string;
   transferTask: string;
+  evidencePacket?: string[];
   artifact: string;
   assessmentFocus: string;
+  assessmentCriteria?: string[];
   patternIds: string[];
   sources: Array<{ label: string; href: string }>;
 };
@@ -58,9 +60,9 @@ export const learningLessons: LearningLesson[] = [
     workedExample: "An expert reviewing a kiosk that says 'Checked in. Please wait near reception' would ask what event triggers that message. If it appears before the staff system acknowledges receipt, the words may create false confidence. The expert maps kiosk submission, staff receipt, and visitor confirmation as separate moments before recommending a change.",
     guidedQuestion: "The kiosk can receive a staff-system acknowledgment, but has no printer. Which first change would you test? Choose one and explain what you would verify.",
     options: [
-      { label: "Keep the fast reset and direct visitors to staff when uncertain.", feedback: "This preserves privacy and may work when staff are always available, but it transfers verification to the visitor and does not show whether the handoff succeeded. Observe whether staff can reliably answer and whether visitors notice the help route." },
-      { label: "Leave 'Done' visible longer and add a larger next-step message.", feedback: "A longer message may be easier to see, but duration and typography cannot make an unacknowledged submission true. First determine what the system knows and when." },
-      { label: "Confirm only after staff-system receipt, show a privacy-safe next step, and allow the visitor to end the session.", feedback: "This is strongest under the stated conditions because it ties the message to the service outcome. Verify that the acknowledgment means staff can act, and test how long a shared-screen confirmation can remain visible safely." }
+      { label: "Wait for staff-system receipt, then clear the kiosk promptly and send a confirmation to the visitor's phone.", feedback: "This ties confirmation to receipt and protects the shared screen. It depends on visitors having a usable phone and consenting to that channel; test access and privacy before relying on it." },
+      { label: "Show a provisional kiosk message immediately, then ask the visitor to check status with reception.", feedback: "The provisional wording is honest and may be necessary without reliable acknowledgment. Here, the system can acknowledge receipt, so this approach adds a staff handoff that may be avoidable. Observe whether the reception route works at busy times." },
+      { label: "Wait for staff-system receipt, then show a brief confirmation and next step on the kiosk.", feedback: "This is the strongest first test under the stated conditions because it connects the message to the service outcome without requiring another device. Verify that acknowledgment means staff can act; test visibility, privacy, and how the shared screen resets." }
     ],
     strongestOption: 2,
     evidenceShift: "If the staff system cannot give a reliable acknowledgment, use a clearly provisional status and an alternative confirmation route instead of claiming completion.",
@@ -85,9 +87,9 @@ export const learningLessons: LearningLesson[] = [
     workedExample: "A reviewer sees the check mark after a local write while the network is offline. They change the state language to 'Saved on this device; waiting to sync' and design a later 'Synced' state. They also test what happens when the document closes before sync. The wording follows the state model rather than decorating it.",
     guidedQuestion: "The editor has reliable local saving but intermittent sync. Which state treatment would you prototype first? Explain the tradeoff.",
     options: [
-      { label: "Use the same check mark for both local save and sync to keep the toolbar quiet.", feedback: "This reduces visual noise, but it merges states with different consequences. It could be acceptable only if remote sync does not matter to the user's next task, which needs evidence." },
-      { label: "Name local save and sync separately, show pending sync unobtrusively, and surface failure with recovery.", feedback: "This best matches the system's actual transitions and protects the user's work. Test whether the pending state is noticeable when it matters without interrupting routine editing." },
-      { label: "Show a blocking confirmation after every keystroke until remote sync completes.", feedback: "This provides strong certainty but would disrupt the core writing task and may make offline use impossible. A stronger interruption could be justified before a consequential share or handoff, not every edit." }
+      { label: "Keep one quiet Saved label in the toolbar and put detailed sync status in the document menu.", feedback: "This keeps routine editing calm and may fit a single-device task. It risks hiding a pending remote copy when a collaborator or another device depends on it; test whether people find the detail at the moment it matters." },
+      { label: "Distinguish saved-on-device from synced in the toolbar, with a recoverable failure state.", feedback: "This best matches the system's actual transitions while preserving routine editing. Test whether the pending state is noticeable when it matters without making every save feel urgent." },
+      { label: "Show separate local and remote status badges persistently beside the document title.", feedback: "This makes both states visible and can suit high-stakes shared work. It may add constant noise to ordinary editing; test comprehension and attention costs before using a persistent dual display." }
     ],
     strongestOption: 1,
     evidenceShift: "If the document is used only on one device and never shared, the distinction between local and remote state may be less prominent; the failure path still needs to be honest.",
@@ -112,9 +114,9 @@ export const learningLessons: LearningLesson[] = [
     workedExample: "An expert notices that a red light and a spoken 'payment declined' are the only failure signals. They propose a text status with a clear heading and next action, verify controls can be reached and operated, and ask visitors using assistive technology to test the payment and recovery sequence. They do not infer success from the presence of two modalities alone.",
     guidedQuestion: "A kiosk gives a spoken direction in a noisy hall and also shows a color-coded arrow. Which first revision would you test?",
     options: [
-      { label: "Add a large pictogram beside the colored arrow and keep the spoken prompt.", feedback: "A pictogram may help many visitors, but it may still be ambiguous or inaccessible without text. Test comprehension with varied users and conditions." },
-      { label: "Increase the spoken volume and lengthen the prompt.", feedback: "Higher volume can help some people but can increase noise and reveal private information. It does not help people who cannot hear or process the announcement." },
-      { label: "Provide a text direction and labeled visual cue, retain optional audio, and test reach and comprehension in the actual hall.", feedback: "This is the strongest starting point because it does not make one sensory channel essential. The precise display, language, and audio controls still need testing with the visitors who use the kiosk." }
+      { label: "Pair the existing color arrow with a large pictogram and a staff-help route.", feedback: "This may help many visitors and gives a fallback, but the symbol's meaning may vary and staff availability is uncertain. Test comprehension and whether the route works in the real hall." },
+      { label: "Add a text direction to the arrow and keep audio automatic for every visitor.", feedback: "Text improves the visual channel, but automatic speech may be missed in noise or reveal private information. Test whether audio can be controlled and whether the text remains usable with glare and at different heights." },
+      { label: "Use text and a labeled visual cue, with optional audio and a reachable help route.", feedback: "This is the strongest starting point because essential information is not tied to one sensory channel. The language, reach, privacy, and comprehension still need testing with people using the kiosk in the hall." }
     ],
     strongestOption: 2,
     evidenceShift: "If the kiosk is used outdoors in bright light, contrast and glare testing may change the visual treatment; if the direction contains private information, the audio path may need individual control.",
@@ -139,9 +141,9 @@ export const learningLessons: LearningLesson[] = [
     workedExample: "An expert examines a 'Send now' button next to an AI draft. They add a review step showing recipients, the exact outgoing content, source status, and the operator's authority. If a source is outdated, the flow blocks the unsupported claim and offers editing or escalation. The design is judged by whether the human can actually catch a harmful action, not by the presence of a modal.",
     guidedQuestion: "The draft cites a superseded policy, but the operator can see the approved current policy. Which flow would you test first?",
     options: [
-      { label: "Pause all AI drafting until the retrieval system is repaired.", feedback: "This is defensible if stale sources are widespread or reviewers cannot detect them, but it removes useful drafting for low-risk messages. Establish the scope of failure first." },
-      { label: "Warn about the stale citation, let the operator check the current policy and edit, and require approval for exceptions.", feedback: "This is strongest when the current policy and reviewer authority can be verified. Test whether the warning is noticed under realistic workload and whether exceptions actually reach an authorized approver." },
-      { label: "Let the operator acknowledge the warning and send, since the operator is responsible for the message.", feedback: "Acknowledgment alone may not supply authority or expose the policy difference. It shifts risk to a busy operator without ensuring the review is meaningful." }
+      { label: "Pause drafting for policy-sensitive messages while leaving routine drafting available.", feedback: "This is defensible if stale sources are widespread or reviewers cannot reliably detect them. It can also withhold useful drafting when an approved current policy and authorized reviewer are available. Establish the scope of failure first." },
+      { label: "Flag the stale source, route the operator to the approved policy, and require approval for exceptions.", feedback: "This is strongest when the current policy and reviewer authority can be verified. Test whether the warning is noticed under realistic workload and whether exceptions actually reach an authorized approver." },
+      { label: "Require the operator to compare the draft and current policy, then record their attestation before sending.", feedback: "This adds a meaningful review record, but an attestation alone may not handle exceptions that require another authority. It could fit messages entirely within the operator's remit; define that boundary and test the review." }
     ],
     strongestOption: 1,
     evidenceShift: "If no approved policy can be reached or source errors are systematic, pausing the affected feature becomes more defensible until the source and review path are repaired.",

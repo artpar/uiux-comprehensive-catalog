@@ -80,8 +80,8 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
         Learn how to understand, diagnose, design, test, and improve experiences across interfaces and services. Practice on new cases, use guided methods in your project, and return to the reference library whenever you need it.
       </p>
       <div class="pattern-hero-actions">
-        <a class="primary-action" href={withBase("/learn/")} data-home-learn-link>Explore the learning path</a>
-        <a class="secondary-action" href={withBase("/work/")}>Use a work tool</a>
+        <a class="primary-action" href={withBase("/learn/")} data-home-learn-link data-analytics-event="mode_opened" data-mode="learn" data-analytics-origin="home_hero">Explore the learning path</a>
+        <a class="secondary-action" href={withBase("/work/")} data-analytics-event="mode_opened" data-mode="work" data-analytics-origin="home_hero">Use a work tool</a>
       </div>
     </div>
 
@@ -126,10 +126,10 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
   <section class="catalog-section" aria-labelledby="journey-title">
     <div class="section-heading"><h2 id="journey-title">A place to keep developing your practice</h2><p>Enter through the task you have today. The learning path, practice cases, work tools, and catalog connect as your needs change.</p></div>
     <div class="work-grid">
-      <a class="work-card" href={withBase("/learn/")}><span>01 / Learn</span><h3>Build the foundations</h3><p>{learningLessons.length} lessons with teaching, worked reasoning, feedback, and independent application.</p></a>
-      <a class="work-card" href={withBase("/practice/")}><span>02 / Practice</span><h3>Try a new context</h3><p>Revisit cases by skill and produce an artifact you can review against specific criteria.</p></a>
-      <a class="work-card" href={withBase("/work/")}><span>03 / Work</span><h3>Make a usable document</h3><p>Build a critique, test plan, or design decision memo for your current project.</p></a>
-      <a class="work-card" href={withBase("/reference/")}><span>04 / Reference</span><h3>Check a decision</h3><p>Search patterns, compare options, inspect the lab, and trace the source trail.</p></a>
+      <a class="work-card" href={withBase("/learn/")} data-analytics-event="mode_opened" data-mode="learn" data-analytics-origin="home_card"><span>01 / Learn</span><h3>Build the foundations</h3><p>{learningLessons.length} lessons with teaching, worked reasoning, feedback, and independent application.</p></a>
+      <a class="work-card" href={withBase("/practice/")} data-analytics-event="mode_opened" data-mode="practice" data-analytics-origin="home_card"><span>02 / Practice</span><h3>Try a new context</h3><p>Revisit cases by skill and produce an artifact you can review against specific criteria.</p></a>
+      <a class="work-card" href={withBase("/work/")} data-analytics-event="mode_opened" data-mode="work" data-analytics-origin="home_card"><span>03 / Work</span><h3>Make a usable document</h3><p>Build a critique, test plan, or design decision memo for your current project.</p></a>
+      <a class="work-card" href={withBase("/reference/")} data-analytics-event="mode_opened" data-mode="reference" data-analytics-origin="home_card"><span>04 / Reference</span><h3>Check a decision</h3><p>Search patterns, compare options, inspect the lab, and trace the source trail.</p></a>
     </div>
   </section>
 
@@ -220,7 +220,11 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
     if (Object.keys(savedProgress).length) {
       const resumeId = resumeLessonId(learningLessons.map((lesson) => lesson.id), savedProgress);
       const learnLink = document.querySelector<HTMLAnchorElement>("[data-home-learn-link]");
-      if (learnLink && resumeId) { learnLink.href = withBase(`/learn/${resumeId}/`); learnLink.textContent = `Resume learning · ${countCompleted(savedProgress)} of ${learningLessons.length} completed`; }
+      if (learnLink) {
+        const completed = countCompleted(savedProgress);
+        learnLink.href = withBase(resumeId ? `/learn/${resumeId}/` : "/learn/");
+        learnLink.textContent = resumeId ? `Resume learning · ${completed} of ${learningLessons.length} completed` : "Review your completed learning path";
+      }
     }
 
     type SearchPattern = {

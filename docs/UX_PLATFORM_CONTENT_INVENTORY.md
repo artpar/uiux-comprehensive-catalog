@@ -40,3 +40,5 @@ The existing catalog retains 298 pattern entries, 286 comparisons, 897 source re
 ## Source review
 
 18 distinct lesson source URLs returned HTTP 200 on 2026-09-24. These links support general methods and principles; they do not establish the operating facts of fictional organizations. The catalog has its own per-claim source trail.
+
+The capstone's community health center is fictional. Its seven-item evidence packet includes observed session behavior, booking-system behavior, staff ledger delay, access barriers, policy unknowns, and delivery constraints. The criteria require learners to keep those facts separate from hypotheses and avoid inventing organizational policy.

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { learningLessons, learningStages, lessonIndex } from "@/data/learning";
+import { workflowForStage } from "@/data/workflows";
 import { withBase } from "@/lib/paths";
 import { pageTitle } from "@/lib/seo";
 
@@ -13,6 +14,7 @@ const index = lessonIndex(lesson.id);
 const stage = learningStages.find((item) => item.id === lesson.stage);
 const next = learningLessons[index + 1];
 const previous = learningLessons[index - 1];
+const relatedWorkflow = workflowForStage(lesson.stage);
 ---
 
 <BaseLayout title={pageTitle(lesson.title)} description={lesson.outcome}>
@@ -55,20 +57,22 @@ const previous = learningLessons[index - 1];
         </section>
         <section class="learning-block" aria-labelledby="transfer-title">
           <p class="learning-step">04 / Apply elsewhere</p><h2 id="transfer-title">Independent application</h2>
-          <p class="learning-step">Fictional scenario</p><p class="learning-context">{lesson.transferContext}</p><p>{lesson.transferTask}</p>
+          <p class="learning-step">Fictional scenario</p><p class="learning-context">{lesson.transferContext}</p>
+          {lesson.evidencePacket && <div class="learning-evidence"><h3>Evidence and constraints</h3><ul>{lesson.evidencePacket.map((item) => <li>{item}</li>)}</ul></div>}
+          <p>{lesson.transferTask}</p>
           <p><strong>Make:</strong> {lesson.artifact}</p>
           <label class="learning-field" for="transfer-response">Draft your artifact or paste a working outline</label>
           <textarea id="transfer-response" rows="10" placeholder="Your work stays in this browser unless you copy it elsewhere."></textarea>
           <div class="learning-actions"><button type="button" data-save-artifact>Save draft</button><button type="button" data-copy-artifact>Copy draft</button></div>
-          <div class="learning-callout"><strong>Review your work against this criterion</strong><p>{lesson.assessmentFocus}</p></div>
-          <label class="learning-complete"><input type="checkbox" data-complete-checkbox /> I completed the independent task and reviewed my artifact against the criterion.</label>
+          <div class="learning-callout"><strong>Review your work against {lesson.assessmentCriteria ? "these criteria" : "this criterion"}</strong><p>{lesson.assessmentFocus}</p>{lesson.assessmentCriteria && <ul>{lesson.assessmentCriteria.map((item) => <li>{item}</li>)}</ul>}</div>
+          <label class="learning-complete"><input type="checkbox" data-complete-checkbox /> I completed the independent task and reviewed my artifact against {lesson.assessmentCriteria ? "the criteria" : "the criterion"}.</label>
           <p class="learning-storage-status" data-storage-status role="status"></p>
         </section>
         <section class="learning-block" aria-labelledby="references-title">
           <p class="learning-step">05 / Keep working</p><h2 id="references-title">Sources and related patterns</h2>
           <ul class="learning-link-list">{lesson.sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label} <span aria-hidden="true">↗</span></a></li>)}</ul>
           <div class="learning-patterns">{lesson.patternIds.map((id) => <a href={withBase(`/patterns/${id}/`)}>{id.replaceAll("-", " ")}</a>)}</div>
-          <p><a href={withBase("/work/")}>Use a guided work tool with your own project →</a></p>
+          <p><a href={withBase(`/work/${relatedWorkflow.id}/`)}>Apply this skill: {relatedWorkflow.title} →</a></p>
         </section>
         <nav class="learning-next" aria-label="Lesson navigation">
           {previous && <a href={withBase(`/learn/${previous.id}/`)}>← {previous.title}</a>}
@@ -79,7 +83,7 @@ const previous = learningLessons[index - 1];
     </div>
   </article>
   <script>
-    import { readLearningProgress, saveLessonProgress } from "@/lib/learning-progress";
+    import { learningStorageAvailable, readLearningProgress, saveLessonProgress } from "@/lib/learning-progress";
     import { track } from "@/lib/analytics";
     const root = document.querySelector<HTMLElement>("[data-lesson-id]");
     if (root) {
@@ -94,6 +98,11 @@ const previous = learningLessons[index - 1];
       const complete = root.querySelector<HTMLInputElement>("[data-complete-checkbox]");
       const status = root.querySelector<HTMLElement>("[data-storage-status]");
       const lessonStatus = root.querySelector<HTMLElement>("[data-lesson-status]");
+      if (!learningStorageAvailable()) {
+        const storageNote = root.querySelector<HTMLElement>(".learning-progress-card span");
+        if (storageNote) storageNote.textContent = "Browser storage is unavailable. You can continue and copy your work, but progress will not persist.";
+        if (status) status.textContent = "Browser storage is unavailable. Copy your artifact to keep it.";
+      }
       const feedbacks: string[] = JSON.parse(root.dataset.feedbacks || "[]");
       const initial = readLearningProgress()[id];
       if (initial) {
@@ -103,13 +112,13 @@ const previous = learningLessons[index - 1];
           if (choice) choice.checked = true;
           if (feedback && feedbackText) { feedbackText.textContent = feedbacks[initial.choice] || ""; feedback.hidden = false; }
           lessonStatus && (lessonStatus.textContent = initial.completed ? "Independent task completed" : "Decision practiced");
-          track("learning_resumed", { lessonId: id });
         }
         else if (initial.taught && lessonStatus) lessonStatus.textContent = "Teaching reviewed";
         if (reason) reason.value = initial.reason || "";
         if (confidence) confidence.value = initial.confidence || "";
         if (artifact) artifact.value = initial.artifact || "";
         if (complete) complete.checked = Boolean(initial.completed);
+        track("learning_resumed", { lessonId: id });
       }
       taught?.addEventListener("change", () => {
         const saved = saveLessonProgress(id, { taught: taught.checked, ...(!taught.checked ? { completed: false } : {}) });

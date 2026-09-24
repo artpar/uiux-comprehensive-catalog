@@ -36,6 +36,11 @@ const navItems = [
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    {import.meta.env.DEV && <script is:inline>
+      if (new URLSearchParams(window.location.search).has("qaStorageBlocked")) {
+        Object.defineProperty(window, "localStorage", { configurable: true, get() { throw new DOMException("Storage blocked for local QA", "SecurityError"); } });
+      }
+    </script>}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="msvalidate.01" content="BD93A582145D3C26A00A7FB4FDE65BE5" />
@@ -193,7 +198,7 @@ const navItems = [
       <a class="brand" href={withBase("/")} aria-current={currentPath === withBase("/") ? "page" : undefined}>UX Patterns Guide</a>
       <nav aria-label="Primary">
         {navItems.map((item) => (
-          <a href={item.href} aria-current={item.active ? "page" : undefined}>
+          <a href={item.href} aria-current={item.active ? "page" : undefined} data-analytics-event="mode_opened" data-mode={item.label.toLowerCase()} data-analytics-origin="primary_nav">
             <span class="nav-mark" aria-hidden="true">{item.icon}</span>
             {item.label}
           </a>
@@ -248,9 +253,14 @@ const navItems = [
         }
       }
 
-      function writeSavedItems(items: SavedItem[]) {
-        localStorage.setItem(storageKey, JSON.stringify(items));
-        window.dispatchEvent(new CustomEvent("uxpg:saved-items", { detail: items }));
+      function writeSavedItems(items: SavedItem[]): boolean {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(items));
+          window.dispatchEvent(new CustomEvent("uxpg:saved-items", { detail: items }));
+          return true;
+        } catch {
+          return false;
+        }
       }
 
       function updateSavedUI(items = readSavedItems()) {
@@ -310,7 +320,11 @@ const navItems = [
                 kind: saveButton.dataset.itemKind || "item",
                 url: window.location.pathname
               }];
-          writeSavedItems(next);
+          if (!writeSavedItems(next)) {
+            const status = saveButton.closest(".engagement-actions")?.querySelector<HTMLElement>("[data-action-status]");
+            if (status) status.textContent = "Saving is unavailable in this browser. Copy the page link instead.";
+            return;
+          }
           updateSavedUI(next);
           track(existing ? "item_unsaved" : "item_saved", { itemId: id, surface: saveButton.dataset.itemKind || "unknown" });
           return;
@@ -349,8 +363,11 @@ const navItems = [
         const removeButton = target?.closest<HTMLButtonElement>("[data-remove-saved]");
         if (removeButton) {
           const next = readSavedItems().filter((item) => item.id !== removeButton.dataset.removeSaved);
-          writeSavedItems(next);
-          updateSavedUI(next);
+          if (writeSavedItems(next)) updateSavedUI(next);
+          else {
+            const status = document.querySelector<HTMLElement>("[data-saved-items-status]");
+            if (status) status.textContent = "Saved items cannot be changed in this browser.";
+          }
         }
       });
 

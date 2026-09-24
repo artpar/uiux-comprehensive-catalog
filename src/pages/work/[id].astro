@@ -21,7 +21,11 @@ const { workflow } = Astro.props;
       const output = root.querySelector<HTMLElement>("[data-work-output]");
       const documentArea = root.querySelector<HTMLTextAreaElement>("[data-work-document]");
       let prior: Record<string, string> = {};
-      try { prior = JSON.parse(localStorage.getItem(key) || "{}"); } catch { /* Continue without stored draft. */ }
+      try { prior = JSON.parse(localStorage.getItem(key) || "{}"); } catch {
+        if (status) status.textContent = "Browser storage is unavailable. Build and copy or download your document to keep it.";
+        const note = root.querySelector<HTMLElement>(".learning-side p");
+        if (note) note.textContent = "Browser storage is unavailable. Copy or download your document before leaving this page.";
+      }
       if (form && prior && typeof prior === "object") {
         Object.entries(prior).forEach(([name, value]) => { const field = form.elements.namedItem(name); if (field instanceof HTMLTextAreaElement && typeof value === "string") field.value = value; });
         if (Object.keys(prior).length) track("work_resumed", { workflowId: id });

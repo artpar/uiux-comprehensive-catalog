@@ -10,12 +10,19 @@ import { pageTitle } from "@/lib/seo";
   <div class="learning-page"><header class="learning-hero"><div><p class="learning-eyebrow">Practice</p><h1>Apply the method to a new setting.</h1><p class="learning-lead">Each case starts with a taught lesson and ends with an independent artifact. Return to a case when you want to test your judgment in a different context.</p></div></header>
     <div class="practice-filters"><label for="practice-skill">Skill</label><select id="practice-skill"><option value="all">All skills</option>{learningStages.map((stage) => <option value={stage.id}>{stage.title}</option>)}</select><label for="practice-context">Context</label><select id="practice-context"><option value="all">All contexts</option>{[...new Set(Object.values(practiceContexts))].sort().map((context) => <option value={context}>{context}</option>)}</select><p>Open a case to study the method, get feedback on a guided decision, and produce the independent artifact.</p></div>
     <p class="practice-count" data-practice-count role="status">{learningLessons.length} cases</p>
-    <div class="practice-grid">{learningLessons.map((lesson) => <article class="practice-card" data-practice-stage={lesson.stage} data-practice-context={practiceContexts[lesson.id]}><span>{learningStages.find((stage) => stage.id === lesson.stage)?.title} · {practiceContexts[lesson.id]}</span><h2><a href={withBase(`/practice/${lesson.id}/`)}>{lesson.title}</a></h2><p><strong>New context:</strong> {lesson.transferContext}</p><p><strong>Make:</strong> {lesson.artifact}</p><small>{lesson.assessmentFocus}</small></article>)}</div>
+    <div class="practice-grid">{learningLessons.map((lesson) => <article class="practice-card" data-practice-stage={lesson.stage} data-practice-context={practiceContexts[lesson.id]} data-practice-card-id={lesson.id}><span>{learningStages.find((stage) => stage.id === lesson.stage)?.title} · {practiceContexts[lesson.id]}</span><h2><a href={withBase(`/practice/${lesson.id}/`)}>{lesson.title}</a></h2><p><strong>New context:</strong> {lesson.transferContext}</p><p><strong>Make:</strong> {lesson.artifact}</p><small>{lesson.assessmentFocus}</small><p class="practice-card-status" data-practice-card-status></p></article>)}</div>
   </div>
   <script>
     import { track } from "@/lib/analytics";
     const skill = document.querySelector<HTMLSelectElement>("#practice-skill");
     const context = document.querySelector<HTMLSelectElement>("#practice-context");
+    document.querySelectorAll<HTMLElement>("[data-practice-card-id]").forEach((card) => {
+      try {
+        const entry = JSON.parse(localStorage.getItem(`uxpg:practice:v1:${card.dataset.practiceCardId}`) || "{}");
+        const status = card.querySelector<HTMLElement>("[data-practice-card-status]");
+        if (status) status.textContent = entry.reviewed ? "Reviewed attempt saved" : entry.artifact ? "Draft saved" : "";
+      } catch { /* Storage is optional. */ }
+    });
     function filter() {
       let visible = 0;
       document.querySelectorAll<HTMLElement>("[data-practice-stage]").forEach((card) => { card.hidden = (skill?.value !== "all" && card.dataset.practiceStage !== skill?.value) || (context?.value !== "all" && card.dataset.practiceContext !== context?.value); if (!card.hidden) visible++; });

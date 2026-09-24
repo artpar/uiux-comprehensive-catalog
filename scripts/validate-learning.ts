@@ -20,6 +20,7 @@ for (const lesson of learningLessons) {
   if (![0, 1, 2].includes(lesson.strongestOption)) errors.push(`${lesson.id}: invalid answer position`);
   else answerPositions[lesson.strongestOption]++;
   if (lesson.transferContext === lesson.context) errors.push(`${lesson.id}: no transfer context`);
+  if (lesson.id === "capstone-ux-decision" && ((lesson.evidencePacket?.length || 0) < 5 || (lesson.assessmentCriteria?.length || 0) < 4)) errors.push(`${lesson.id}: capstone needs an evidence packet and detailed criteria`);
   if (!practiceContexts[lesson.id]) errors.push(`${lesson.id}: no practice context`);
   if (!lesson.sources.length || lesson.sources.some((source) => !source.href.startsWith("https://"))) errors.push(`${lesson.id}: missing HTTPS source`);
   for (const id of lesson.patternIds) if (!patternIds.has(id)) errors.push(`${lesson.id}: unknown pattern ${id}`);

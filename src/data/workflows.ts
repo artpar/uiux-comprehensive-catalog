@@ -51,3 +51,8 @@ export const workflows: Workflow[] = [
     ]
   }
 ];
+
+export function workflowForStage(stage: string): Workflow {
+  const id = stage === "test" ? "test-plan" : stage === "understand" || stage === "diagnose" ? "ux-critique" : "decision-memo";
+  return workflows.find((workflow) => workflow.id === id)!;
+}
