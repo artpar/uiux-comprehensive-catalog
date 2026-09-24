@@ -2,10 +2,10 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import { categoryDescriptions, categorySlug } from "@/lib/categories";
-import { comparisons, patterns, sources } from "@/lib/catalog";
+import { patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { SITE_DESCRIPTION, SITE_NAME, websiteJsonLd } from "@/lib/seo";
-import { learningLessons } from "@/data/learning";
+import { learningLessons, learningStages } from "@/data/learning";
 
 const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
 const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
@@ -71,16 +71,15 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
   <section class="catalog-home home-decision-hero" aria-labelledby="catalog-title">
     <div class="catalog-intro home-hero-copy">
       <div class="pattern-kicker">
-        <span>UX learning and reference</span>
-        <span>{completePatterns.length} documented entries</span>
-        <span>{sources.length} sources</span>
+        <span>A professional UX learning path</span>
+        <span>{learningLessons.length} lessons · {learningStages.length} units</span>
       </div>
-      <h1 id="catalog-title">Grow your UX judgment. Use it in real work.</h1>
+      <h1 id="catalog-title">Keep growing as a UX practitioner.</h1>
       <p>
-        Learn how to understand, diagnose, design, test, and improve experiences across interfaces and services. Practice on new cases, use guided methods in your project, and return to the reference library whenever you need it.
+        Follow a course that teaches you to understand, diagnose, design, and test experiences. Practice each idea in a new context, then bring the methods and reference library into your real work.
       </p>
       <div class="pattern-hero-actions">
-        <a class="primary-action" href={withBase("/learn/")} data-home-learn-link data-analytics-event="mode_opened" data-mode="learn" data-analytics-origin="home_hero">Explore the learning path</a>
+        <a class="primary-action" href={withBase("/learn/")} data-home-learn-link data-analytics-event="mode_opened" data-mode="learn" data-analytics-origin="home_hero">Explore the UX course</a>
         <a class="secondary-action" href={withBase("/work/")} data-analytics-event="mode_opened" data-mode="work" data-analytics-origin="home_hero">Use a work tool</a>
       </div>
     </div>
@@ -103,24 +102,7 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
       <p>Search by task, risk, component, failure mode, or AI behavior.</p>
     </form>
 
-    <dl class="catalog-stats" aria-label="Catalog status">
-      <div>
-        <dt>{patterns.length}</dt>
-        <dd>pattern entries</dd>
-      </div>
-      <div>
-        <dt>{completePatterns.length}</dt>
-        <dd>documented patterns</dd>
-      </div>
-      <div>
-        <dt>{comparisons.length}</dt>
-        <dd>comparisons</dd>
-      </div>
-      <div>
-        <dt>{sources.length}</dt>
-        <dd>evidence sources</dd>
-      </div>
-    </dl>
+    <div class="home-course-strip" aria-label="Five course units"><strong>THE COURSE PATH</strong><ol>{learningStages.map((stage, index) => <li><a href={withBase(`/learn/#stage-${stage.id}`)}><span>{String(index + 1).padStart(2, "0")}</span>{stage.title}</a></li>)}</ol></div>
   </section>
 
   <section class="catalog-section" aria-labelledby="journey-title">
@@ -223,7 +205,7 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
       if (learnLink) {
         const completed = countCompleted(savedProgress);
         learnLink.href = withBase(resumeId ? `/learn/${resumeId}/` : "/learn/");
-        learnLink.textContent = resumeId ? `Resume learning · ${completed} of ${learningLessons.length} completed` : "Review your completed learning path";
+        learnLink.textContent = resumeId ? `Continue your UX course · ${completed} of ${learningLessons.length} complete` : "Review your completed UX course";
       }
     }
 
