@@ -85,8 +85,9 @@ const navItems = [
             var props = {};
 
             if (target) {
+              var allowedProps = ["mode", "analyticsOrigin", "surface", "sourceId", "sourceType", "patternId"];
               for (var key in target.dataset) {
-                if (key === "analyticsEvent") continue;
+                if (!allowedProps.includes(key)) continue;
                 props[key] = target.dataset[key];
               }
             } else {
