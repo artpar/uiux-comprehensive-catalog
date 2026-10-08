@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { uiPrinciples } from "@/data/ui-principles";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+---
+
+<BaseLayout title={pageTitle("UI and UX principles")} description="Study information structure, visual design, content, media, data, accessibility, and outcome measurement through practical chapters.">
+  <div class="learning-page principle-index">
+    <nav class="learning-breadcrumb" aria-label="Breadcrumb"><a href={withBase("/learn/")}>Learn</a><span aria-hidden="true">/</span><span>UI and UX principles</span></nav>
+    <header class="learning-hero"><div><p class="learning-eyebrow">Interface and service foundations · {uiPrinciples.length} chapters</p><h1>Understand the task before choosing its parts.</h1><p class="learning-lead">Follow a task from its information structure through layout, words, color, forms, screens, media, data, access, and measurement. Each chapter gives you a method, worked reasoning, a practice prompt, and source readings.</p></div></header>
+    <section class="principle-path" aria-labelledby="principle-path-title"><div class="section-heading"><h2 id="principle-path-title">Study in order</h2><p>The chapters build a shared vocabulary. Pattern families and live examples give each principle a concrete application.</p><p data-principle-count>0 of {uiPrinciples.length} chapters complete</p></div><ol>{uiPrinciples.map((principle, index) => <li data-principle-id={principle.id}><a href={withBase(`/principles/${principle.id}/`)}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{principle.title}</strong><p>{principle.outcome}</p></div><span data-principle-state>→</span></a></li>)}</ol></section>
+    <section class="learning-block principle-connection"><h2>Carry the method into UX work</h2><p>These chapters explain how the interface communicates. The UX course follows a person's whole task through research, design, testing, and a service decision.</p><a class="primary-action" href={withBase("/learn/")}>Open the UX course →</a></section>
+  </div>
+  <script>
+    import { readPrincipleProgress } from "@/lib/principle-progress";
+    const progress = readPrincipleProgress();
+    document.querySelectorAll<HTMLElement>("[data-principle-id]").forEach((row) => {
+      if (progress.has(row.dataset.principleId || "")) {
+        row.dataset.status = "complete";
+        const state = row.querySelector<HTMLElement>("[data-principle-state]");
+        if (state) state.textContent = "Complete ✓";
+      }
+    });
+    const count = document.querySelector<HTMLElement>("[data-principle-count]");
+    if (count) count.textContent = `${progress.size} of ${document.querySelectorAll("[data-principle-id]").length} chapters complete`;
+  </script>
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+import { learningLessons } from "@/data/learning";
+import { uiPrinciples } from "@/data/ui-principles";
+import { withBase } from "@/lib/paths";
+const isUiPath = Astro.url.pathname.startsWith(withBase("/principles/"));
+---
+
+<div class="learner-progress-bar" data-learner-progress aria-label="Your learning progress">
+  <a class="learner-progress-home" href={withBase(isUiPath ? "/principles/" : "/learn/")}>{isUiPath ? "UI and UX principles" : "My learning"}</a>
+  <span class="learner-progress-count" data-learner-count>0 of {isUiPath ? uiPrinciples.length : learningLessons.length} {isUiPath ? "chapters" : "lessons"} complete</span>
+  <div class="learner-progress-track" role="progressbar" aria-label={isUiPath ? "UI and UX principles completion" : "UX learning path completion"} aria-valuemin="0" aria-valuemax={isUiPath ? uiPrinciples.length : learningLessons.length} aria-valuenow="0" data-learner-track><span></span></div>
+  <a class="learner-progress-next" href={withBase(isUiPath ? `/principles/${uiPrinciples[0].id}/` : `/learn/${learningLessons[0].id}/`)} data-learner-next>{isUiPath ? "Start chapter 1 →" : "Start lesson 1 →"}</a>
+</div>
+
+<script>
+  import { learningLessons } from "@/data/learning";
+  import { uiPrinciples } from "@/data/ui-principles";
+  import { countCompleted, readLearningProgress, resumeLessonId } from "@/lib/learning-progress";
+  import { readPrincipleProgress } from "@/lib/principle-progress";
+  import { withBase } from "@/lib/paths";
+
+  const root = document.querySelector<HTMLElement>("[data-learner-progress]");
+  if (root) {
+    if (window.location.pathname.startsWith(withBase("/principles/"))) {
+      const renderUiProgress = () => {
+      const ids = uiPrinciples.map((principle) => principle.id);
+      const progress = readPrincipleProgress();
+      const completed = ids.filter((id) => progress.has(id)).length;
+      const nextId = ids.find((id) => !progress.has(id));
+      const count = root.querySelector<HTMLElement>("[data-learner-count]");
+      const track = root.querySelector<HTMLElement>("[data-learner-track]");
+      const next = root.querySelector<HTMLAnchorElement>("[data-learner-next]");
+      if (count) count.textContent = `${completed} of ${ids.length} chapters complete`;
+      if (track) { track.setAttribute("aria-valuenow", String(completed)); const fill = track.querySelector<HTMLElement>("span"); if (fill) fill.style.width = `${Math.round(completed / ids.length * 100)}%`; }
+      if (next) { next.href = withBase(nextId ? `/principles/${nextId}/` : "/principles/"); next.textContent = nextId ? completed ? "Continue UI chapters →" : "Start chapter 1 →" : "Review UI chapters →"; }
+      };
+      renderUiProgress();
+      window.addEventListener("principle-progress-updated", renderUiProgress);
+    } else {
+    const progress = readLearningProgress();
+    const completed = countCompleted(progress);
+    const resumeId = resumeLessonId(learningLessons.map((lesson) => lesson.id), progress);
+    const next = root.querySelector<HTMLAnchorElement>("[data-learner-next]");
+    const count = root.querySelector<HTMLElement>("[data-learner-count]");
+    const track = root.querySelector<HTMLElement>("[data-learner-track]");
+    if (count) count.textContent = `${completed} of ${learningLessons.length} lessons complete`;
+    if (track) {
+      track.setAttribute("aria-valuenow", String(completed));
+      const fill = track.querySelector<HTMLElement>("span");
+      if (fill) fill.style.width = `${Math.round(completed / learningLessons.length * 100)}%`;
+    }
+    if (next) {
+      next.href = withBase(resumeId ? `/learn/${resumeId}/` : "/learn/");
+      next.textContent = completed === learningLessons.length ? "Review your path →" : completed || Object.keys(progress).length ? "Resume your next lesson →" : "Start lesson 1 →";
+    }
+    }
+  }
+</script>

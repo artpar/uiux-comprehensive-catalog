@@ -1,8 +1,12 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { categoryDescriptions, categoryNames, categorySlug } from "@/lib/categories";
-import { patterns } from "@/lib/catalog";
+import { getSource, patterns } from "@/lib/catalog";
+import { familyGuides } from "@/data/family-guides";
+import { familyStudyRoutes, studySequence } from "@/data/family-study-routes";
+import { principleForCategory, uiPrinciples } from "@/data/ui-principles";
 import { withBase } from "@/lib/paths";
+import { affirmative } from "@/lib/lesson-copy";
 import { breadcrumbJsonLd, collectionPageJsonLd, pageTitle } from "@/lib/seo";
 
 export function getStaticPaths() {
@@ -16,8 +20,18 @@ export function getStaticPaths() {
 }
 
 const { category, entries } = Astro.props;
-const sortedEntries = [...entries].sort((a, b) => a.name.localeCompare(b.name));
-const antiPatternCount = sortedEntries.filter((pattern) => pattern.maturity === "anti-pattern").length;
+const guide = familyGuides[category];
+const principle = uiPrinciples.find((item) => item.id === principleForCategory[category]);
+const starters = guide.starterIds.map((id) => entries.find((entry) => entry.id === id)).filter(Boolean);
+const guideSources = [...new Map(starters.flatMap((pattern) => pattern?.sources ?? []).map((ref) => [ref.id, getSource(ref.id)])).values()].filter(Boolean).slice(0, 3);
+const route = familyStudyRoutes[category];
+const routeIds = studySequence(category);
+const routeSections = [
+  { title: "Build the foundation", purpose: "Learn the shared task and the core interaction choices.", ids: route.foundations },
+  { title: "Apply the patterns", purpose: "Choose a specialized form for the context and follow its complete behavior.", ids: route.applications },
+  { title: "Review the quality risks", purpose: "Study failure cases and identify the better recovery route.", ids: route.qualityChecks }
+].filter((section) => section.ids.length > 0);
+const antiPatternCount = entries.filter((pattern) => pattern.maturity === "anti-pattern").length;
 const description = categoryDescriptions[category] ?? `Browse ${category} UX patterns.`;
 const categoryPath = `/patterns/category/${categorySlug(category)}/`;
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
@@ -44,7 +58,7 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
   <section class="pattern-family-hero" aria-labelledby="family-page-title">
     <div>
       <div class="pattern-kicker">
-        <span>{sortedEntries.length} documented entries</span>
+        <span>{entries.length} documented entries</span>
         {antiPatternCount > 0 && <span>{antiPatternCount} anti-pattern {antiPatternCount === 1 ? "check" : "checks"}</span>}
       </div>
       <h1 id="family-page-title">{category}</h1>
@@ -57,33 +71,50 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
         <input id="family-query" name="q" type="search" autocomplete="off" placeholder="Try approval or recovery" aria-controls="family-pattern-list" data-family-query />
         <button type="submit">Filter</button>
       </div>
-      <p aria-live="polite" data-family-status>{sortedEntries.length} entries in this family.</p>
+      <p aria-live="polite" data-family-status>{entries.length} entries in this family.</p>
     </form>
+  </section>
+
+  <section class="family-guide" aria-labelledby="family-guide-title">
+    <div class="section-heading"><span>Learn the family</span><h2 id="family-guide-title">{guide.question}</h2><p>{guide.principle}</p></div>
+    <div class="family-guide-grid">
+      <div><h3>Use this method</h3><ol>{guide.method.map((step) => <li>{step}</li>)}</ol></div>
+      <div><h3>Compare the outcome</h3><p><strong>Strong:</strong> {guide.strong}</p><p><strong>Weak:</strong> {guide.weak}</p><p><strong>Try it:</strong> {guide.practice}</p></div>
+    </div>
+    <div class="family-guide-next"><div><h3>Read these patterns first</h3><ol>{starters.map((pattern) => pattern && <li><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a><span>{affirmative(pattern.useWhen, `Study ${pattern.name.toLowerCase()} in a complete task.`)}</span></li>)}</ol></div><div><h3>Build the foundation</h3>{principle && <p><a href={withBase(`/principles/${principle.id}/`)}>{principle.title} →</a></p>}<h3>Follow the evidence</h3><ul>{guideSources.map((source) => source && <li><a href={withBase(`/sources/${source.id}/`)}>{source.name}</a></li>)}</ul></div></div>
   </section>
 
   <section class="catalog-section" aria-labelledby="family-list-title">
     <div class="section-heading">
-      <span>Pattern index</span>
-      <h2 id="family-list-title">Compare nearby options before choosing</h2>
-      <p>Open an entry for its decision rule, states, implementation contract, and source trail.</p>
+      <span>Complete study route · {routeIds.length} entries</span>
+      <h2 id="family-list-title">Work through the family in order</h2>
+      <p>Begin with the core behavior, apply it in different contexts, then review cases that reveal the quality boundary. Open each entry for its decision rule, states, example, and source trail.</p>
+      <p class="family-route-progress" data-family-progress>0 of {routeIds.length} studies complete</p>
+      <a class="primary-action family-route-resume" href={withBase(`/patterns/${routeIds[0]}/`)} data-family-resume>Start this family →</a>
     </div>
-    <div class="catalog-card-grid" id="family-pattern-list" tabindex="-1">
-      {sortedEntries.map((pattern) => (
-        <article class="catalog-card pattern-index-card" data-family-card data-search-text={`${pattern.name} ${pattern.aliases.join(" ")} ${pattern.problem} ${pattern.useWhen.join(" ")} ${pattern.maturity}`.toLowerCase()}>
-          <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
-          <p>{pattern.useWhen[0] ?? pattern.problem}</p>
-          <dl class="pattern-card-facts">
-            <div><dt>Type</dt><dd>{pattern.patternType.toUpperCase()}</dd></div>
-            <div><dt>Sources</dt><dd>{pattern.sources.length}</dd></div>
-            <div><dt>Trail checked</dt><dd><time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></dd></div>
-          </dl>
-          <div class="pill-list"><span>{pattern.maturity}</span><span>{pattern.surfaceType}</span></div>
-          <a class="quiet-link" href={withBase(`/lab/?pattern=${pattern.id}`)}>Test in lab</a>
-        </article>
-      ))}
+    <div id="family-pattern-list" tabindex="-1">
+      {routeSections.map((section) => <section class="family-route-stage" aria-label={section.title}>
+        <div class="section-heading"><span>{section.ids.length} entries</span><h3>{section.title}</h3><p>{section.purpose}</p></div>
+        <div class="catalog-card-grid">
+          {section.ids.map((id) => {
+            const pattern = entries.find((item) => item.id === id);
+            if (!pattern) return null;
+            const number = routeIds.indexOf(id) + 1;
+            return <article class="catalog-card pattern-index-card" data-family-card data-pattern-id={pattern.id} data-search-text={`${pattern.name} ${pattern.aliases.join(" ")} ${pattern.problem} ${pattern.useWhen.join(" ")} ${pattern.maturity}`.toLowerCase()}>
+              <span class="family-route-number">Lesson {String(number).padStart(2, "0")} / {routeIds.length}</span>
+              <span class="family-route-complete" data-route-complete hidden>Complete ✓</span>
+              <h4><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h4>
+              <p>{affirmative(pattern.useWhen, `Study ${pattern.name.toLowerCase()} in a complete task.`)}</p>
+              <dl class="pattern-card-facts"><div><dt>Type</dt><dd>{pattern.patternType.toUpperCase()}</dd></div><div><dt>Sources</dt><dd>{pattern.sources.length}</dd></div><div><dt>Trail checked</dt><dd><time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></dd></div></dl>
+              <div class="pill-list"><span>{pattern.maturity}</span><span>{pattern.surfaceType}</span></div>
+              <a class="quiet-link" href={withBase(`/lab/?pattern=${pattern.id}`)}>Test in lab</a>
+            </article>;
+          })}
+        </div>
+      </section>)}
     </div>
     <div class="empty-search-state" data-family-empty hidden>
-      <h3>No entries match that phrase</h3>
+      <h3>Try another phrase</h3>
       <p>Try fewer words, clear the filter, or search across all pattern families.</p>
       <button type="button" class="secondary-action" data-family-clear>Clear filter</button>
       <a href={withBase("/patterns/")}>Search all patterns</a>
@@ -98,11 +129,34 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 
   <script>
     import { track } from "@/lib/analytics";
+    import { readPatternProgress } from "@/lib/pattern-progress";
+    import { withBase } from "@/lib/paths";
 
     const form = document.querySelector("[data-family-search]");
     const input = document.querySelector("[data-family-query]");
     const status = document.querySelector("[data-family-status]");
     const cards = [...document.querySelectorAll("[data-family-card]")];
+    const progressLabel = document.querySelector<HTMLElement>("[data-family-progress]");
+    const resumeLink = document.querySelector<HTMLAnchorElement>("[data-family-resume]");
+    function renderProgress() {
+      const progress = readPatternProgress();
+      let done = 0;
+      cards.forEach((card) => {
+        if (!(card instanceof HTMLElement)) return;
+        const completed = progress.has(card.dataset.patternId || "");
+        if (completed) done += 1;
+        const label = card.querySelector<HTMLElement>("[data-route-complete]");
+        if (label) label.hidden = !completed;
+      });
+      if (progressLabel) progressLabel.textContent = `${done} of ${cards.length} studies complete`;
+      if (resumeLink) {
+        const next = cards.find((card) => card instanceof HTMLElement && !progress.has(card.dataset.patternId || ""));
+        if (next instanceof HTMLElement) { resumeLink.href = withBase(`/patterns/${next.dataset.patternId}/`); resumeLink.textContent = done ? "Continue this family →" : "Start this family →"; }
+        else { resumeLink.href = withBase("/patterns/"); resumeLink.textContent = "Choose another family →"; }
+      }
+    }
+    renderProgress();
+    window.addEventListener("pattern-progress-updated", renderProgress);
     const empty = document.querySelector("[data-family-empty]");
     const clear = document.querySelector("[data-family-clear]");
     let trackingTimer: number | undefined;

@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EngagementActions from "@/components/EngagementActions.astro";
-import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import { comparisons, getPattern, getSource } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { affirmative } from "@/lib/lesson-copy";
 import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
 import type { PatternEntry } from "@/schemas/catalog";
+import { principleForCategory, uiPrinciples } from "@/data/ui-principles";
 
 function isPattern(value: PatternEntry | undefined): value is PatternEntry {
   return Boolean(value);
@@ -26,6 +27,9 @@ export function getStaticPaths() {
 
 const { comparison } = Astro.props;
 const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(isPattern);
+const relatedPrinciple = uiPrinciples.find((item) => item.id === principleForCategory[comparedPatterns[0]?.category]);
+const comparisonLead = affirmative([comparison.summary, ...comparison.decisionRules], `Choose the interaction that supports the person's task and its outcome.`);
+const practiceCase = affirmative(comparison.failureModes, `A person reaches a result and needs a clear route to continue.`);
 const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const structuredData = [
@@ -64,47 +68,47 @@ const dimensions = [
   },
   {
     label: "UI guidance",
-    value: (pattern: PatternEntry) => pattern.uiGuidance[0]
+    value: (pattern: PatternEntry) => affirmative(pattern.uiGuidance, "Give each control a clear label and visible state.")
   },
   {
     label: "UX guidance",
-    value: (pattern: PatternEntry) => pattern.uxGuidance[0]
+    value: (pattern: PatternEntry) => affirmative(pattern.uxGuidance, "Help the person reach a clear task outcome.")
   },
   {
     label: "Good UI",
-    value: (pattern: PatternEntry) => pattern.uiExamples.good[0]
+    value: (pattern: PatternEntry) => affirmative(pattern.uiExamples.good, "The interface shows a clear action and state.")
   },
   {
     label: "Bad UI",
-    value: (pattern: PatternEntry) => pattern.uiExamples.bad[0]
+    value: (pattern: PatternEntry) => affirmative([...pattern.uiExamples.bad, ...pattern.failureModes], "The visual cue leaves the next action unclear.")
   },
   {
     label: "Good UX",
-    value: (pattern: PatternEntry) => pattern.uxExamples.good[0]
+    value: (pattern: PatternEntry) => affirmative(pattern.uxExamples.good, "The person reaches the intended result with clear feedback.")
   },
   {
     label: "Bad UX",
-    value: (pattern: PatternEntry) => pattern.uxExamples.bad[0]
+    value: (pattern: PatternEntry) => affirmative([...pattern.uxExamples.bad, ...pattern.failureModes], "The person spends extra work resolving the result.")
   },
   {
     label: "Best fit",
-    value: (pattern: PatternEntry) => pattern.useWhen[0] ?? pattern.selectionRules[0]
+    value: (pattern: PatternEntry) => affirmative([...pattern.useWhen, ...pattern.selectionRules], "Choose this pattern when it supports the person's task.")
   },
   {
     label: "Avoid when",
-    value: (pattern: PatternEntry) => pattern.avoidWhen[0] ?? pattern.failureModes[0]
+    value: (pattern: PatternEntry) => affirmative(pattern.avoidWhen, "Choose another interaction when the task calls for a different route.")
   },
   {
     label: "Required state",
-    value: (pattern: PatternEntry) => pattern.requiredStates[0]
+    value: (pattern: PatternEntry) => affirmative(pattern.requiredStates, "Show the current state and next action.")
   },
   {
     label: "Accessibility burden",
-    value: (pattern: PatternEntry) => pattern.accessibility[0] ?? pattern.keyboardBehavior[0] ?? "Verify focus, labels, and operable controls."
+    value: (pattern: PatternEntry) => affirmative([...pattern.accessibility, ...pattern.keyboardBehavior], "Verify focus, labels, and operable controls.")
   },
   {
     label: "Common misuse",
-    value: (pattern: PatternEntry) => pattern.commonMisuses[0]
+    value: (pattern: PatternEntry) => affirmative([...pattern.commonMisuses, ...pattern.failureModes], "The interface creates extra interpretation or recovery work.")
   }
 ];
 ---
@@ -119,13 +123,19 @@ const dimensions = [
   <section class="compare-detail-head">
     <a class="open-link" href={withBase("/compare/")}>Back to compare picker</a>
     <h1>{comparedPatterns.map((pattern) => pattern.name).join(" vs ")}</h1>
-    <p>{comparison.decisionRules[0]}</p>
+    <p>{comparisonLead}</p>
     <div class="comparison-links">
       {comparedPatterns.map((pattern) => (
         <a data-live-pattern={pattern.id} href={withBase(`/lab/?pattern=${pattern.id}`)}>{pattern.name} live example</a>
       ))}
     </div>
-    <EngagementActions id={comparison.id} title={comparison.title} summary={comparison.decisionRules[0]} kind="comparison" />
+    <EngagementActions id={comparison.id} title={comparison.title} summary={comparisonLead} kind="comparison" />
+  </section>
+
+  <section class="comparison-study" aria-labelledby="comparison-study-title">
+    <div class="section-heading"><span>Learn the decision</span><h2 id="comparison-study-title">Match the interaction to the person's task</h2><p>{comparisonLead}</p></div>
+    <div class="comparison-study-options">{comparedPatterns.map((pattern) => <article><h3>{pattern.name}</h3><p><strong>Use it when:</strong> {affirmative(pattern.useWhen, `The task calls for ${pattern.name.toLowerCase()}.`)}</p><p><strong>Make this state clear:</strong> {affirmative(pattern.requiredStates, `Show the current state and next action.`)}</p><p><strong>Observe the result:</strong> {affirmative(pattern.uxExamples.good, `The person reaches a clear outcome.`)}</p><a href={withBase(`/patterns/${pattern.id}/`)}>Study the full pattern →</a></article>)}</div>
+    <div class="comparison-study-prompt"><p><strong>Practice the judgment:</strong> Imagine this situation: {practiceCase} Write the person's goal, choose one of these patterns, and show the state that helps the person continue. Use the decision rules and source trail below to explain your choice.</p>{relatedPrinciple && <a href={withBase(`/principles/${relatedPrinciple.id}/`)}>Review the underlying principle →</a>}</div>
   </section>
 
   <section class="detail-panel context-panel" id="workbench-context" hidden>
@@ -184,7 +194,7 @@ const dimensions = [
 
   <div class="detail-grid">
     <div class="stack">
-      <details class="detail-panel compact-disclosure" open>
+      <details class="detail-panel compact-disclosure">
         <summary>Decision rules</summary>
         <ul>
           {comparison.decisionRules.map((item) => <li>{item}</li>)}
@@ -231,13 +241,6 @@ const dimensions = [
     </aside>
   </div>
 
-  <NewsletterSignup
-    source={`comparison:${comparison.id}`}
-    heading="Get the first comparison brief"
-    description="Join the launch list for concise pattern decisions backed by the same source trail."
-    compact
-  />
-
   <script>
     const contextPanel = document.getElementById("workbench-context");
     const params = new URLSearchParams(window.location.search);
@@ -263,7 +266,7 @@ const dimensions = [
       contextKeys.forEach((key) => {
         const target = contextPanel.querySelector(`[data-context-value="${key}"]`);
         if (!target) return;
-        target.textContent = params.get(key)?.replaceAll(",", ", ") || "Not set";
+        target.textContent = params.get(key)?.replaceAll(",", ", ") || "Add detail";
       });
     }
 

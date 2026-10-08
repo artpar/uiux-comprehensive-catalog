@@ -1,8 +1,8 @@
 # UI/UX Comprehensive Catalog
 
-A source-backed catalog of practical UI/UX patterns.
+A source-backed UI/UX learning site with a guided course, principle chapters, pattern studies, comparisons, and practice tools.
 
-This project catalogs interaction and workflow patterns, not visual design systems, CSS recipes, color palettes, typography, or trend galleries. The primary output is agent-usable guidance that helps LLMs choose better UI/UX patterns before generating code.
+The curriculum connects 20 UX lessons, 14 UI and UX principle chapters, and ordered study routes through 14 pattern families. The reference library includes 298 patterns, 286 comparisons, and source trails. Agent exports provide decision guidance for interface implementation.
 
 ## Run Locally
 
@@ -16,6 +16,22 @@ npm run dev
 ```sh
 npm run check
 ```
+
+This runs type checking, content validation, completion audits, and a production build.
+
+## Learning Content
+
+- `/curriculum/` maps the whole learning route.
+- `/learn/` contains the core UX course.
+- `/principles/` teaches interface and service principles.
+- `/patterns/` groups pattern studies into ordered family routes with browser-local progress.
+- `/compare/`, `/practice/`, and `/work/` support application to real decisions.
+
+Course content lives in `src/data/course-content-*.json`, `src/data/ui-principles.ts`, and `src/data/family-guides.ts`. Family sequencing lives in `src/data/family-study-routes.ts`. The research index and collection notes live in `research/`.
+
+## Deployment
+
+Pushing `main` runs `.github/workflows/pages.yml`, which validates, builds, and deploys the static site to GitHub Pages at `https://uxpatternsguide.com`.
 
 ## Agent Exports
 

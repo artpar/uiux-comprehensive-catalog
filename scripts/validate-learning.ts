@@ -1,6 +1,5 @@
 import { readdirSync } from "node:fs";
 import { learningLessons, learningStages } from "../src/data/learning";
-import { practiceContexts } from "../src/data/practice-contexts";
 import { workflows } from "../src/data/workflows";
 
 const errors: string[] = [];
@@ -12,8 +11,10 @@ for (const lesson of learningLessons) {
   if (lessonIds.has(lesson.id)) errors.push(`Duplicate lesson: ${lesson.id}`);
   lessonIds.add(lesson.id);
   if (!learningStages.some((stage) => stage.id === lesson.stage)) errors.push(`${lesson.id}: unknown stage`);
-  if (lesson.teach.length < 2 || lesson.teach.some((paragraph) => paragraph.length < 150)) errors.push(`${lesson.id}: teaching is too thin`);
-  for (const field of ["workedExample", "misconception", "guidedQuestion", "transferContext", "transferTask", "artifact", "assessmentFocus"] as const) {
+  if (lesson.teach.length < 4 || lesson.teach.some((paragraph) => paragraph.length < 150) || lesson.teach.join(" ").split(/\s+/).length < 160) errors.push(`${lesson.id}: teaching is too thin`);
+  if ((lesson.terms?.length || 0) < 3 || (lesson.methodSteps?.length || 0) < 3 || !lesson.bridge?.trim()) errors.push(`${lesson.id}: missing beginner scaffold`);
+  if ((lesson.evidencePacket?.length || 0) < 3 || (lesson.assessmentCriteria?.length || 0) < 3) errors.push(`${lesson.id}: case evidence or review criteria are too thin`);
+  for (const field of ["workedExample", "keyDistinction", "guidedQuestion", "transferContext", "transferTask", "artifact", "assessmentFocus"] as const) {
     if (!lesson[field]?.trim()) errors.push(`${lesson.id}: missing ${field}`);
   }
   if (lesson.options.length !== 3 || lesson.options.some((option) => !option.label || option.feedback.length < 80)) errors.push(`${lesson.id}: guided options need substantive feedback`);
@@ -21,8 +22,11 @@ for (const lesson of learningLessons) {
   else answerPositions[lesson.strongestOption]++;
   if (lesson.transferContext === lesson.context) errors.push(`${lesson.id}: no transfer context`);
   if (lesson.id === "capstone-ux-decision" && ((lesson.evidencePacket?.length || 0) < 5 || (lesson.assessmentCriteria?.length || 0) < 4)) errors.push(`${lesson.id}: capstone needs an evidence packet and detailed criteria`);
-  if (!practiceContexts[lesson.id]) errors.push(`${lesson.id}: no practice context`);
-  if (!lesson.sources.length || lesson.sources.some((source) => !source.href.startsWith("https://"))) errors.push(`${lesson.id}: missing HTTPS source`);
+  if (lesson.transferContext.length < 60) errors.push(`${lesson.id}: practice case needs a concrete situation`);
+  if (lesson.sources.length < 2 || lesson.sources.some((source) => !source.href.startsWith("https://"))) errors.push(`${lesson.id}: missing HTTPS source`);
+  const authoredText = [lesson.outcome, lesson.context, ...lesson.teach, lesson.keyDistinction, lesson.workedExample, lesson.guidedQuestion, ...lesson.options.flatMap((option) => [option.label, option.feedback]), lesson.evidenceShift, lesson.transferContext, lesson.transferTask, ...(lesson.evidencePacket || []), lesson.artifact, lesson.assessmentFocus, ...(lesson.assessmentCriteria || []), ...(lesson.terms || []).flatMap((term) => [term.term, term.meaning]), ...(lesson.methodSteps || []), lesson.bridge || "", ...lesson.sources.map((source) => source.note || "")];
+  const negativeForm = /\b(?:no|not|never|without|cannot|can't|couldn't|doesn't|don't|won't|isn't|aren't|shouldn't|hasn't|haven't|didn't|wouldn't|mustn't)\b/i;
+  if (authoredText.some((text) => negativeForm.test(text))) errors.push(`${lesson.id}: negative sentence form in authored lesson copy`);
   for (const id of lesson.patternIds) if (!patternIds.has(id)) errors.push(`${lesson.id}: unknown pattern ${id}`);
 }
 

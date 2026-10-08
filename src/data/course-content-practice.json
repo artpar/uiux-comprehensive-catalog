@@ -1,0 +1,102 @@
+[
+  {
+    "id":"work-with-constraints","title":"Make a responsible release decision","outcome":"Stage an improvement around system limits, owners, and patient needs.","context":"The clinic can update kiosk wording this month. A change to the appointment service and staff queue requires a later release.",
+    "teach":[
+      "A constraint describes a condition that shapes what the team can deliver. The clinic's release calendar, the queue refresh interval, and reception capacity all matter to the check-in design. Record each condition with its owner and the evidence that supports it. This turns a vague limit into a concrete planning input.",
+      "Separate what the current release can improve from what a later release can improve. Kiosk wording can describe the service receipt accurately and guide patients during a delay. Reception can use a shared status-check script. A later service change can shorten the queue interval or provide direct staff visibility.",
+      "Give every interim route an operational owner. A reception-help link works when staff can query the appointment service and explain the result. A status message works when engineering ties it to the right event. A staged decision names these dependencies, the patient consequence, and a check after release.",
+      "Define a release condition and a pause condition. The team can release wording after verifying receipt behavior and staff support. A service state that leaves staff unable to confirm arrival calls for a different interim route. These conditions keep the recommendation connected to the clinic's actual capabilities."
+    ],
+    "keyDistinction":"A practical constraint becomes part of the design when the team names its owner, patient effect, and release condition.",
+    "workedExample":"The team schedules receipt-backed copy for the current release and gives reception a lookup script for delayed requests. Engineering verifies that the receipt trigger matches an accepted arrival. Operations tests the script during a busy morning. A later release targets the staff queue refresh. The decision record includes a check on repeat entry and reception questions after launch.",
+    "guidedQuestion":"The kiosk copy can change now, and the staff queue integration is scheduled later. Which current release plan connects patient status to operational support?",
+    "options":[
+      {"label":"Release receipt-backed wording with a delayed route, train reception on direct lookup, and verify both before launch.","feedback":"This uses the current receipt event and gives the delayed path a staff owner. Track patient understanding and reception demand after release."},
+      {"label":"Wait for the queue integration so kiosk and reception messages can change on the same day.","feedback":"A coordinated release may simplify operations. The team can also evaluate a smaller receipt-backed improvement while the integration is prepared."},
+      {"label":"Release new wording now and let reception answer patient questions using the usual queue view.","feedback":"The wording can improve clarity quickly. Add direct lookup and a shared staff explanation for the interval before the queue refreshes."}
+    ],"strongestOption":0,
+    "evidenceShift":"A direct lookup that becomes unavailable during outages would require a different delayed route or a narrower release.",
+    "transferContext":"The clinic's evening reception team has fewer staff members and a longer response time for status questions.",
+    "transferTask":"Add the evening condition to the staged plan. Name the owner, patient route, and a release check for that period.",
+    "evidencePacket":["Fictional delivery fact: kiosk copy can change in the current release.","Fictional delivery fact: staff queue integration belongs to a later release.","Fictional operations fact: reception can query the appointment service directly during staffed hours.","Fictional extension: the evening team has fewer available staff."],
+    "artifact":"A staged release memo with patient status, dependencies, owners, checks, and a pause condition.",
+    "assessmentFocus":"The plan gives patients an accurate current route and assigns ownership to every supporting service step.",
+    "assessmentCriteria":["The current and later releases have distinct outcomes.","The staff route has a named owner and check.","The release condition follows actual receipt and lookup capability."],
+    "sourceIds":["constraints","service_intro","sharing"]
+  },
+  {
+    "id":"coordinate-channels","title":"Coordinate the service across channels","outcome":"Align kiosk, reception, phone messages, and backstage events around one patient status.","context":"Mira can check in at the kiosk, ask reception, and receive an appointment update on her phone.",
+    "teach":[
+      "A service crosses channels whenever a person moves between interfaces, messages, and people. A patient may read a kiosk receipt, ask a receptionist, then receive a delay notice by phone. These touchpoints should describe the same underlying appointment state and offer a fitting next action in each setting.",
+      "A service blueprint adds the work behind the patient journey. Put patient actions on the top row, visible staff and interface actions below, and backstage systems beneath them. Connect each patient message to the event and owner that supports it. The receipt, queue refresh, and delay update then occupy distinct places in the blueprint.",
+      "Channel consistency comes from shared meaning. A kiosk can give a short receipt and waiting instruction. A phone message can carry a changed appointment time. Reception can explain a queue delay and resolve a mismatch. Their wording can differ while the appointment status and promise remain aligned.",
+      "Trace one interruption across every channel. During an appointment delay, identify the source of the new time, when each channel updates, and how a patient gets help. Test the full route with a patient and a staff member so the blueprint reflects actual work."
+    ],
+    "keyDistinction":"Connected channels share a source of truth and give people a useful next action for their setting.",
+    "workedExample":"A receptionist changes Mira's appointment to 10:30. The appointment service stores the new time and triggers a phone message. The kiosk status page reads from that record, while reception sees it after the next queue refresh. The team marks this interval in the blueprint and gives staff a direct lookup route. Mira receives the same 10:30 expectation wherever she asks.",
+    "guidedQuestion":"The appointment service stores a new time at 09:40, the phone message sends at 09:41, and the staff queue refreshes at 09:42. Which blueprint detail most helps the team coordinate the interval?",
+    "options":[
+      {"label":"Show each channel's update event, its source, its owner, and the patient action during the interval.","feedback":"This makes the timing and responsibility visible across channels. The team can use it to design consistent messages and a working help route."},
+      {"label":"Give kiosk, phone, and reception the same sentence about the new time.","feedback":"Shared wording can reduce variation. Add the underlying update timing and each channel's action so the sentence reflects what that channel knows."},
+      {"label":"Move all appointment updates to the phone message and let staff refer patients to it.","feedback":"A phone message can travel with the patient. The blueprint should also include the clinic route for people who use reception or need another channel."}
+    ],"strongestOption":0,
+    "evidenceShift":"A staff queue with immediate updates would shorten the interval and simplify the receptionist's lookup step.",
+    "transferContext":"A patient has changed phone numbers since registration and asks reception for an appointment update.",
+    "transferTask":"Add this route to the blueprint. Show how reception verifies the current time, communicates it, and updates the patient's contact preference.",
+    "evidencePacket":["Fictional service fact: the appointment service is the source for current appointment time.","Fictional channel detail: phone messages send after the appointment record changes.","Fictional operations detail: the staff queue refreshes separately; reception can query the record directly."],
+    "artifact":"A service blueprint fragment with patient, channel, staff, system, and recovery rows.",
+    "assessmentFocus":"The blueprint connects every patient promise to a current service event and an owner across channels.",
+    "assessmentCriteria":["Patient-visible messages have named sources.","Update timing appears for each channel.","A patient with a changed contact route can still learn the current appointment state."],
+    "sourceIds":["blueprint","joined_channels","journey_flow"]
+  },
+  {
+    "id":"communicate-a-decision","title":"Explain a design decision clearly","outcome":"Write a short decision record linking evidence, options, choice, and review trigger.","context":"The clinic team has a tested kiosk revision and a staged plan for queue integration.",
+    "teach":[
+      "A decision record lets colleagues understand a choice and revisit it when conditions change. Begin with the patient's task and the observed difficulty. Follow with the evidence that matters: receipt timing, queue timing, patient interpretation, and the prototype findings. Each item should support a part of the reasoning.",
+      "Present credible alternatives fairly. The clinic compared a kiosk receipt, a phone message, and a staffed confirmation route. Summarize what each offers and which condition shapes its use. Then explain the chosen first release in terms of patient understanding, access, privacy, and operational feasibility.",
+      "State remaining uncertainty and a check after release. The prototype study revealed how six patients used the flow in a simulated lobby. Routine clinic sessions will show broader demand for reception help and repeat check-in. Give the owner and date for reviewing those signals.",
+      "Keep the record short enough for a team meeting. A useful structure is problem, evidence, options, recommendation, dependencies, and review trigger. Link the deeper case artifacts for readers who need to inspect the detail."
+    ],
+    "keyDistinction":"A strong recommendation stays reviewable because its evidence, assumptions, owner, and trigger are visible.",
+    "workedExample":"The designer recommends receipt-backed kiosk wording and a staffed delayed route for the current release. The record links Mira's field note, receipt and queue timestamps, and the six-session prototype findings. It explains why a phone message remains an option for later study. Engineering owns the receipt trigger; operations owns reception lookup; the team reviews status questions after four weeks.",
+    "guidedQuestion":"Which opening gives a decision record the strongest foundation?",
+    "options":[
+      {"label":"We chose a new kiosk message because it is shorter and matches the current design system.","feedback":"Consistency and brevity can help implementation. Lead with the patient task, observed difficulty, and receipt evidence so the decision remains traceable."},
+      {"label":"Patients asked reception about check-in during a queue delay; receipt and study evidence support a clearer kiosk status and a staffed delay route.","feedback":"This connects the task difficulty to evidence and a proposed response. Follow it with alternatives, owners, and the review trigger."},
+      {"label":"The team compared kiosk, phone, and reception routes and selected the kiosk for launch.","feedback":"The option set is visible. Add the patient problem and the evidence that favored the first release so readers can understand the choice."}
+    ],"strongestOption":1,
+    "evidenceShift":"A later service release that gives reception immediate visibility could change the role of the staffed delay route.",
+    "transferContext":"Four weeks after launch, reception logs show fewer status questions during the morning and a similar number during evening sessions.",
+    "transferTask":"Add this result to the decision record as a follow-up. State one evening-session question and the next owner action.",
+    "evidencePacket":["Fictional current evidence: Mira asks reception after reading Done; receipt and queue timestamps show a delay.","Fictional prototype evidence: two of six patients treated a delayed state as completed check-in before the revision.","Fictional release plan: kiosk copy changes now; queue integration follows later.","Fictional follow-up: morning status questions fall after launch; evening questions remain similar."],
+    "artifact":"A one-page decision record with linked evidence, alternatives, recommendation, owners, and review trigger.",
+    "assessmentFocus":"A colleague can follow the chain from patient evidence to choice and see the condition for revisiting it.",
+    "assessmentCriteria":["The problem and evidence appear before the recommendation.","Alternatives receive a fair account.","An owner and observable review trigger close the record."],
+    "sourceIds":["sharing","findings","problem_statement"]
+  },
+  {
+    "id":"capstone-ux-decision","title":"Capstone: improve a complete service","outcome":"Apply the full UX process to a new, evidence-rich library reservation case.","context":"A city library lets members reserve study rooms online, receive a phone message, use a lobby kiosk, and ask library staff for help.",
+    "teach":[
+      "The capstone brings together the course's methods in a new service. Begin with the member's goal: reserve a room and arrive knowing the booking is confirmed. Map the visible route and the staff and system events behind it. Use the supplied case evidence as the starting material for every claim.",
+      "Separate observations, system facts, and possible explanations. Several members reached the library with a confirmation message while the staff ledger still showed an earlier view. The booking service issues a receipt when it accepts a reservation; the staff ledger updates later. This timing suggests several design and operational questions.",
+      "Frame one consequential problem, compare at least two responses, and specify received, pending, changed, and help states. Then write a test task that could reveal whether members understand the status. Plan a revision rule and a decision owner. The complete chain matters more than visual polish.",
+      "Use the same evidence discipline you practiced with the clinic. A small test can reveal how participants interpret a message; service records can help estimate frequency in operation. Finish with a decision record that states the chosen route, its assumptions, and the next check."
+    ],
+    "keyDistinction":"A capstone demonstrates a connected chain from task and evidence through design, testing, ownership, and revision.",
+    "workedExample":"A member reserves Room B online at 14:02 and receives a booking receipt. The staff ledger shows the reservation at 14:05. In one observed session, the member asks staff whether the room is ready; staff use a direct booking lookup to confirm it. An expert maps the interval, distinguishes reservation receipt from physical room readiness, and tests whether a clearer arrival message reduces uncertainty. The decision record assigns the ledger and staff routes to their owners.",
+    "guidedQuestion":"A member has a booking-service receipt while the staff ledger still shows an earlier view. Which first design direction best supports the member's arrival?",
+    "options":[
+      {"label":"Show the booking receipt and current room details, and give staff a direct lookup route during ledger refresh.","feedback":"This connects member confirmation to the booking service and gives staff an operational route. Test how members understand room readiness and how staff handle a changed room."},
+      {"label":"Wait for the staff ledger to refresh before sending any booking message to the member.","feedback":"This aligns the message with staff visibility. Compare the extra wait with the value of a receipt-backed message and a direct staff lookup."},
+      {"label":"Send a message when a member selects a room and let staff resolve any later conflict.","feedback":"Early feedback can help planning. Tie the booking claim to the service receipt and give members a clear route when availability changes."}
+    ],"strongestOption":0,
+    "evidenceShift":"A ledger that becomes the library's official reservation record would change the event that controls the final confirmation.",
+    "transferContext":"The independent case dossier includes a changed room assignment, a member who uses staff help, and an evening arrival after the desk closes.",
+    "transferTask":"Create a compact case dossier: task map, evidence ledger, problem statement, two alternatives, state sequence, one test task, and a decision record. Give the evening arrival a usable recovery route and name the owner of each service handoff.",
+    "evidencePacket":["Fictional observation: in six moderated sessions, two members visited the help desk after receiving an online booking message because they expected a staff handoff.","Fictional observation: one member arrived after the desk closed and used the lobby kiosk to confirm Room B.","Fictional system fact: the booking service issues a receipt when it accepts a reservation; its receipt includes room, date, and time.","Fictional operations fact: the staff ledger refreshes from the booking service every three minutes; staff can query a booking receipt directly during open hours.","Fictional service fact: room readiness is recorded by a separate facilities process and can change after a reservation receipt.","Fictional access fact: the lobby kiosk has large text and keyboard controls; the team has scheduled a screen-reader study for the online route.","Fictional channel fact: phone messages send after the booking service issues a receipt; members can choose a staff phone call during desk hours.","Fictional delivery constraint: the next release can change message copy and the staff lookup script; ledger timing and facilities integration require later work."],
+    "artifact":"A reviewable service decision dossier with map, evidence, problem, alternatives, states, test, and owner-led follow-up.",
+    "assessmentFocus":"The proposal connects supplied evidence to a coherent member journey, accurate status, accessible help, and a testable decision.",
+    "assessmentCriteria":["Observations and system facts support each major claim.","The map shows booking receipt, ledger update, and room readiness as distinct events.","Two credible alternatives address status and the evening help route.","The test task can reveal member understanding of reservation and readiness.","The decision record names owners, assumptions, and a revision trigger."],
+    "sourceIds":["service_intro","joined_channels","blueprint","test_planning"]
+  }
+]

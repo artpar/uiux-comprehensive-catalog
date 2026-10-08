@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import LearnerProgressBar from "@/components/LearnerProgressBar.astro";
 import { withBase } from "@/lib/paths";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -25,10 +26,10 @@ const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || "abacfae7-b939
 const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || "https://cloud.umami.is/script.js";
 const umamiDomains = import.meta.env.PUBLIC_UMAMI_DOMAINS || "uxpatternsguide.com";
 const navItems = [
-  { href: withBase("/learn/"), label: "Learn", icon: "01", active: currentPath.startsWith(withBase("/learn/")) },
+  { href: withBase("/learn/"), label: "Learn", icon: "01", active: currentPath === withBase("/") || currentPath.startsWith(withBase("/learn/")) || currentPath.startsWith(withBase("/principles/")) || currentPath.startsWith(withBase("/curriculum/")) },
   { href: withBase("/practice/"), label: "Practice", icon: "02", active: currentPath.startsWith(withBase("/practice/")) },
   { href: withBase("/work/"), label: "Work", icon: "03", active: currentPath.startsWith(withBase("/work/")) },
-  { href: withBase("/reference/"), label: "Reference", icon: "04", active: currentPath.startsWith(withBase("/reference/")) }
+  { href: withBase("/reference/"), label: "Reference", icon: "04", active: ["/reference/", "/patterns/", "/compare/", "/sources/", "/lab/", "/anti-patterns/", "/resources/"].some((path) => currentPath.startsWith(withBase(path))) }
 ];
 ---
 
@@ -126,6 +127,8 @@ const navItems = [
               if (/\/lab\/?$/.test(path)) return "lab";
               if (/\/learn\/[^/]+\/?$/.test(path)) return "lesson";
               if (/\/learn\/?$/.test(path)) return "learn";
+              if (/\/principles\/[^/]+\/?$/.test(path)) return "ui_principle";
+              if (/\/principles\/?$/.test(path)) return "ui_principles";
               if (/\/practice\/?$/.test(path)) return "practice";
               if (/\/work\/[^/]+\/?$/.test(path)) return "work_tool";
               if (/\/work\/?$/.test(path)) return "work";
@@ -209,16 +212,19 @@ const navItems = [
         Saved <span data-saved-count>0</span>
       </button>
     </header>
+    <LearnerProgressBar />
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <footer class="site-footer">
       <div>
         <a class="footer-brand" href={withBase("/")}>UX Patterns Guide</a>
-        <p>Learn UX, practice judgment, use methods at work, and consult source-backed patterns.</p>
+        <p>Learn UI and UX, practice judgment, use methods at work, and consult source-backed patterns.</p>
       </div>
       <nav aria-label="More UX Patterns Guide links">
         <a href={withBase("/patterns/")}>Patterns</a>
+        <a href={withBase("/principles/")}>UI and UX principles</a>
+        <a href={withBase("/curriculum/")}>Curriculum map</a>
         <a href={withBase("/lab/")}>Lab</a>
         <a href={withBase("/compare/")}>Compare</a>
         <a href={withBase("/sources/")}>Sources</a>

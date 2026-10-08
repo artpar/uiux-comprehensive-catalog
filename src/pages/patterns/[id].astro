@@ -1,14 +1,17 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EngagementActions from "@/components/EngagementActions.astro";
-import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import { categorySlug } from "@/lib/categories";
 import { comparisons, getComparison, getPattern, getSource, patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
+import { affirmative, affirmativeMany } from "@/lib/lesson-copy";
 import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
 import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
 import { learningLessons } from "@/data/learning";
 import { workflowForStage } from "@/data/workflows";
+import { familyGuides } from "@/data/family-guides";
+import { familyStudyRoutes, studySequence } from "@/data/family-study-routes";
+import { principleForCategory, uiPrinciples } from "@/data/ui-principles";
 
 function isPattern(value: PatternEntry | undefined): value is PatternEntry {
   return Boolean(value);
@@ -16,12 +19,6 @@ function isPattern(value: PatternEntry | undefined): value is PatternEntry {
 
 function isComparison(value: ComparisonEntry | undefined): value is ComparisonEntry {
   return Boolean(value);
-}
-
-function formatPatternType(value: PatternEntry["patternType"]) {
-  if (value === "ui") return "UI";
-  if (value === "ux") return "UX";
-  return "UI + UX";
 }
 
 export function getStaticPaths() {
@@ -32,6 +29,26 @@ export function getStaticPaths() {
 }
 
 const { pattern } = Astro.props;
+const familyGuide = familyGuides[pattern.category];
+const familyRoute = familyStudyRoutes[pattern.category];
+const familySequence = studySequence(pattern.category);
+const routeIndex = familySequence.indexOf(pattern.id);
+const previousPattern = routeIndex > 0 ? getPattern(familySequence[routeIndex - 1]) : undefined;
+const nextPattern = routeIndex < familySequence.length - 1 ? getPattern(familySequence[routeIndex + 1]) : undefined;
+const routeStage = familyRoute.foundations.includes(pattern.id) ? "Foundation" : familyRoute.applications.includes(pattern.id) ? "Application" : "Quality check";
+const lessonUse = affirmative(pattern.useWhen, `Use ${pattern.name.toLowerCase()} for the task shown in the worked example.`);
+const lessonNeed = affirmative(pattern.problemContext, lessonUse);
+const lessonSolution = affirmative([pattern.solution, ...pattern.uxGuidance, ...pattern.selectionRules], lessonUse);
+const lessonState = affirmative(pattern.requiredStates, `Show the current state and the person's next action.`);
+const lessonReview = affirmative(pattern.critiqueQuestions, `Can a person complete this task and explain the result?`);
+const lessonContract = affirmative(pattern.interactionContract, lessonState);
+const lessonRecovery = affirmative(pattern.failureModes, "The person needs a visible route to correct the result and continue the task.");
+const lessonAccess = affirmative([...pattern.accessibility, ...pattern.keyboardBehavior], "Give the person a clear label, focus path, and operable control.");
+const lessonUseList = affirmativeMany(pattern.useWhen, 4, lessonUse);
+const lessonAlternativeList = affirmativeMany(pattern.avoidWhen, 4, "Choose an alternative when the task calls for a different interaction.");
+const strongExamples = affirmativeMany([...pattern.uiExamples.good, ...pattern.uxExamples.good], 4, "The person understands the action and reaches the intended result.");
+const weakExamples = affirmativeMany([...pattern.uiExamples.bad, ...pattern.uxExamples.bad, ...pattern.failureModes], 4, "The interface leaves the next action unclear and adds recovery work.");
+const relatedPrinciple = uiPrinciples.find((item) => item.id === principleForCategory[pattern.category]);
 const sourceRefs = pattern.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
 const related = pattern.relatedPatterns.map((id) => getPattern(id)).filter(isPattern);
 const uniqueRelated = [...new Map(related.map((item) => [item.id, item])).values()];
@@ -42,20 +59,20 @@ const primaryComparison = allComparisons[0];
 const relatedLessons = learningLessons.filter((lesson) => lesson.patternIds.includes(pattern.id)).slice(0, 2);
 const relatedWorkflow = relatedLessons[0] && workflowForStage(relatedLessons[0].stage);
 const anatomyItems = [
-  { label: "User need", value: pattern.problemContext[0] ?? pattern.problem },
-  { label: "Pattern promise", value: pattern.solution },
-  { label: "Required state", value: pattern.requiredStates[0] },
-  { label: "Recovery path", value: pattern.failureModes[0] ?? pattern.commonMisuses[0] },
+  { label: "User need", value: lessonNeed },
+  { label: "Pattern promise", value: lessonSolution },
+  { label: "Required state", value: lessonState },
+  { label: "Failure to inspect", value: lessonRecovery },
   {
     label: "Access contract",
-    value: pattern.accessibility[0] ?? pattern.keyboardBehavior[0] ?? "Verify focus order, readable labels, and non-pointer operation."
+    value: lessonAccess
   }
 ];
 const implementationGroups = [
-  { label: "States", items: pattern.requiredStates.slice(0, 4) },
-  { label: "Interaction", items: pattern.interactionContract.slice(0, 4) },
-  { label: "Accessibility", items: [...pattern.accessibility, ...pattern.keyboardBehavior].slice(0, 4) },
-  { label: "Review", items: pattern.critiqueQuestions.slice(0, 4) }
+  { label: "States", items: affirmativeMany(pattern.requiredStates, 4, lessonState) },
+  { label: "Interaction", items: affirmativeMany(pattern.interactionContract, 4, lessonContract) },
+  { label: "Accessibility", items: affirmativeMany([...pattern.accessibility, ...pattern.keyboardBehavior], 4, lessonAccess) },
+  { label: "Review", items: affirmativeMany(pattern.critiqueQuestions, 4, lessonReview) }
 ];
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const patternKind = pattern.maturity === "anti-pattern" ? "UX Anti-pattern" : "UX Pattern";
@@ -94,55 +111,47 @@ const structuredData = [
 ---
 
 <BaseLayout title={pageTitle(`${pattern.name} ${patternKind}`)} description={pattern.problem} structuredData={structuredData}>
-  <nav class="breadcrumb-trail" aria-label="Breadcrumb">
-    <a href={withBase("/")}>Home</a>
-    <a href={withBase("/patterns/")}>Patterns</a>
-    <a href={withBase(`/patterns/category/${categorySlug(pattern.category)}/`)}>{pattern.category}</a>
-    <span aria-current="page">{pattern.name}</span>
-  </nav>
+  <div class="pattern-learning-shell">
+    <nav class="pattern-learning-rail" aria-label="On this page">
+      <strong>Pattern workspace</strong>
+      <a class="is-active" href="#pattern-title">Overview</a>
+      <a href="#study">Understand the pattern</a>
+      <a href="#decision">Decide when to use it</a>
+      <a href="#lab">Try the behavior</a>
+      <a href="#quality">See the quality bar</a>
+      <a href="#contract">Implementation</a>
+      <a href="#evidence">Sources</a>
+    </nav>
 
-  <section class="pattern-decision-hero" aria-labelledby="pattern-title">
-    <div class="pattern-hero-main">
-      <div class="pattern-kicker">
-        <span>{formatPatternType(pattern.patternType)}</span>
-        <span>{pattern.category}</span>
-        <span>{pattern.maturity}</span>
-      </div>
+    <section class="pattern-learning-main" aria-labelledby="pattern-title">
+      <nav class="breadcrumb-trail" aria-label="Breadcrumb"><a href={withBase("/patterns/")}>Patterns</a><a href={withBase(`/patterns/category/${categorySlug(pattern.category)}/`)}>{pattern.category}</a><span aria-current="page">{pattern.name}</span></nav>
+      <p class="pattern-learning-eyebrow">{routeStage} · lesson {routeIndex + 1} of {familySequence.length} · {pattern.category}</p>
       <h1 id="pattern-title">{pattern.name}</h1>
-      <p class="pattern-definition">{pattern.solution}</p>
-      <div class="pattern-hero-actions">
-        <a class="action-link primary-action" href={withBase(`/lab/?pattern=${pattern.id}`)}>Open in lab</a>
-        {primaryComparison && <a class="action-link secondary-action" href={withBase(`/compare/${primaryComparison.id}/`)}>Compare alternatives</a>}
-      </div>
-      {relatedLessons.length > 0 && <p class="pattern-learning-links">Develop this judgment: {relatedLessons.map((lesson, index) => <><a href={withBase(`/learn/${lesson.id}/`)}>{lesson.title}</a>{index < relatedLessons.length - 1 ? " · " : ""}</>)}</p>}
-      <p class="pattern-learning-links"><a href={withBase(relatedWorkflow ? `/work/${relatedWorkflow.id}/` : "/work/")}>{relatedWorkflow ? `Apply this: ${relatedWorkflow.title}` : "Apply a guided UX workflow to your project"} →</a></p>
-      <EngagementActions id={pattern.id} title={pattern.name} summary={pattern.solution} kind="pattern" />
-    </div>
+      <p class="pattern-learning-principle"><strong>Underlying principle:</strong> {familyGuide.principle}</p>
+      <p class="pattern-learning-lead">{lessonSolution}</p>
+      <div class="pattern-next-card"><div><span>Start with the decision</span><h2>Does this fit your task?</h2><p>{lessonUse}</p><p class="pattern-next-caution"><strong>Review the boundary:</strong> Compare the task with the alternatives in the decision section.</p></div><a class="primary-action" href="#decision">Review the decision →</a></div>
+      <div class="pattern-learning-actions"><a href={withBase(`/lab/?pattern=${pattern.id}`)}>Try the live example →</a>{primaryComparison && <a href={withBase(`/compare/${primaryComparison.id}/`)}>Compare alternatives →</a>}<EngagementActions id={pattern.id} title={pattern.name} summary={pattern.solution} kind="pattern" /></div>
+    </section>
 
-    <aside class="pattern-trust-panel" aria-label="Pattern evidence summary">
-      <dl>
-        <div>
-          <dt>Source trail checked</dt>
-          <dd><time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></dd>
-        </div>
-        <div>
-          <dt>Sources</dt>
-          <dd>{pattern.sources.length} claims</dd>
-        </div>
-        <div>
-          <dt>Surface</dt>
-          <dd>{pattern.surfaceType}</dd>
-        </div>
-        <div>
-          <dt>Platforms</dt>
-          <dd>{pattern.platforms.join(", ")}</dd>
-        </div>
-      </dl>
-      <p class="trust-caveat">This date means the linked source trail was reviewed. It is not a claim that every use of this pattern is validated for every audience.</p>
+    <aside class="pattern-learning-side" aria-label="Continue learning">
+      <div class="pattern-learning-side-card"><h2>Develop this skill</h2>{relatedLessons.length > 0 ? <><p>{relatedLessons[0].title}</p><a href={withBase(`/learn/${relatedLessons[0].id}/`)}>Open related lesson →</a></> : relatedPrinciple ? <><p>{relatedPrinciple.outcome}</p><a href={withBase(`/principles/${relatedPrinciple.id}/`)}>Study the principle →</a></> : <><p>Follow the connected learning path.</p><a href={withBase("/learn/")}>Open the course →</a></>}</div>
+      <div class="pattern-learning-side-card"><h2>In your work</h2><p>{lessonReview}</p><a href={withBase(relatedWorkflow ? `/work/${relatedWorkflow.id}/` : "/work/")}>{relatedWorkflow ? `Use ${relatedWorkflow.title} →` : "Use a guided work tool →"}</a></div>
+      <div class="pattern-learning-side-card"><h2>Source trail</h2><p>{pattern.sources.length} linked sources · checked <time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></p><a href="#evidence">See the evidence →</a></div>
     </aside>
+  </div>
+
+  <section class="pattern-study" id="study" aria-labelledby="pattern-study-title">
+    <div class="section-heading"><span>Study the interaction</span><h2 id="pattern-study-title">Follow the task before choosing the component</h2><p>{familyGuide.principle}</p></div>
+    <div class="pattern-study-grid">
+      <article><span>01 / Recognize the need</span><h3>What the person is doing</h3><p>{lessonNeed}</p></article>
+      <article><span>02 / Design the response</span><h3>What the interface must communicate</h3><p>{lessonSolution}</p><p>{lessonState}</p></article>
+      <article><span>03 / Judge the outcome</span><h3>What to look for</h3><p>{lessonReview}</p><p>{lessonContract}</p></article>
+    </div>
+    <div class="pattern-study-footer"><p><strong>Practice this pattern:</strong> Sketch {pattern.name.toLowerCase()} for this situation: {lessonUse} Include this state: {lessonState} Review your sketch with this question: {lessonReview}</p><a href={withBase(`/patterns/category/${categorySlug(pattern.category)}/`)}>Study the {pattern.category} family →</a>{relatedPrinciple && <a href={withBase(`/principles/${relatedPrinciple.id}/`)}>Read the underlying principle →</a>}</div>
   </section>
 
   <nav class="pattern-page-nav" aria-label="Pattern sections">
+    <a href="#study">Study</a>
     <a href="#decision">Decision</a>
     <a href="#lab">Try it</a>
     <a href="#anatomy">Anatomy</a>
@@ -159,15 +168,15 @@ const structuredData = [
     <div class="decision-matrix">
       <article class="decision-cell decision-cell-strong">
         <h3>Use when</h3>
-        <ul>{pattern.useWhen.map((item) => <li>{item}</li>)}</ul>
+        <ul>{lessonUseList.map((item) => <li>{item}</li>)}</ul>
       </article>
       <article class="decision-cell">
         <h3>Avoid when</h3>
-        <ul>{pattern.avoidWhen.map((item) => <li>{item}</li>)}</ul>
+        <ul>{lessonAlternativeList.map((item) => <li>{item}</li>)}</ul>
       </article>
       <article class="decision-cell">
         <h3>Problem it prevents</h3>
-        <p>{pattern.problem}</p>
+        <p>{lessonNeed}</p>
       </article>
     </div>
   </section>
@@ -190,13 +199,6 @@ const structuredData = [
       <a class="primary-action" href={withBase(`/lab/?pattern=${pattern.id}`)}>Launch {pattern.name} in the lab</a>
     </div>
   </section>
-
-  <NewsletterSignup
-    source={`pattern:${pattern.id}`}
-    heading="Get the first UX Patterns Guide issue"
-    description="Join the launch list for source-backed briefs with states to test and mistakes to avoid."
-    compact
-  />
 
   <div class="pattern-workspace pattern-expert-layout">
     <div class="pattern-reading">
@@ -227,8 +229,7 @@ const structuredData = [
               <h3>Specific, visible, recoverable</h3>
             </div>
             <ul>
-              {pattern.uiExamples.good.slice(0, 2).map((item) => <li>{item}</li>)}
-              {pattern.uxExamples.good.slice(0, 2).map((item) => <li>{item}</li>)}
+              {strongExamples.map((item) => <li>{item}</li>)}
             </ul>
           </article>
           <article class="quality-column quality-column-weak">
@@ -237,8 +238,7 @@ const structuredData = [
               <h3>Vague, hidden, hard to recover from</h3>
             </div>
             <ul>
-              {pattern.uiExamples.bad.slice(0, 2).map((item) => <li>{item}</li>)}
-              {pattern.uxExamples.bad.slice(0, 2).map((item) => <li>{item}</li>)}
+              {weakExamples.map((item) => <li>{item}</li>)}
             </ul>
           </article>
         </div>
@@ -327,13 +327,13 @@ const structuredData = [
     <aside class="pattern-sidebar pattern-expert-sidebar" aria-label="Pattern quick navigation">
       <section class="sidebar-panel">
         <h2>Review checklist</h2>
-        <ul>{pattern.critiqueQuestions.slice(0, 4).map((item) => <li>{item}</li>)}</ul>
+        <ul>{affirmativeMany(pattern.critiqueQuestions, 4, lessonReview).map((item) => <li>{item}</li>)}</ul>
       </section>
 
       {pattern.commonMisuses.length > 0 && (
         <section class="sidebar-panel">
           <h2>Common mistakes</h2>
-          <ul>{pattern.commonMisuses.slice(0, 4).map((item) => <li>{item}</li>)}</ul>
+          <ul>{affirmativeMany(pattern.commonMisuses, 4, lessonRecovery).map((item) => <li>{item}</li>)}</ul>
         </section>
       )}
 
@@ -410,4 +410,24 @@ const structuredData = [
       <p>Source trail checked: <time datetime={pattern.lastVerified}>{pattern.lastVerified}</time></p>
     </section>
   </section>
+  <nav class="pattern-study-navigation" aria-label="Continue the family study route">
+    <div><span>{routeStage} · {routeIndex + 1} of {familySequence.length}</span><strong>Continue this pattern family</strong></div>
+    <button type="button" data-complete-pattern={pattern.id}>Mark lesson complete</button><span role="status" data-pattern-progress-status></span>
+    {previousPattern && <a href={withBase(`/patterns/${previousPattern.id}/`)}>← {previousPattern.name}</a>}
+    {nextPattern && <a href={withBase(`/patterns/${nextPattern.id}/`)}>{nextPattern.name} →</a>}
+    {!nextPattern && <a href={withBase("/patterns/")}>Choose another family →</a>}
+  </nav>
+  <script>
+    import { completePatternStudy, readPatternProgress } from "@/lib/pattern-progress";
+    const button = document.querySelector<HTMLButtonElement>("[data-complete-pattern]");
+    const status = document.querySelector<HTMLElement>("[data-pattern-progress-status]");
+    if (button) {
+      const id = button.dataset.completePattern || "";
+      if (readPatternProgress().has(id)) { button.textContent = "Lesson complete ✓"; button.disabled = true; }
+      button.addEventListener("click", () => {
+        if (completePatternStudy(id)) { button.textContent = "Lesson complete ✓"; button.disabled = true; if (status) status.textContent = "Progress saved in this browser."; window.dispatchEvent(new Event("pattern-progress-updated")); }
+        else if (status) status.textContent = "Continue to the next pattern and keep your notes nearby.";
+      });
+    }
+  </script>
 </BaseLayout>

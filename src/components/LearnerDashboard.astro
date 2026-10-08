@@ -1,0 +1,104 @@
+---
+import { learningLessons, learningStages } from "@/data/learning";
+import { uiPrinciples } from "@/data/ui-principles";
+import { withBase } from "@/lib/paths";
+
+type Props = { compact?: boolean };
+const { compact = false } = Astro.props;
+---
+
+<section class:list={["learner-dashboard", { "learner-dashboard-compact": compact }]} data-learning-dashboard aria-labelledby="dashboard-title">
+  <nav class="dashboard-rail" aria-label="Learning workspace">
+    <strong>Workspace</strong>
+    <a class="is-active" href={withBase("/learn/")}>My learning</a>
+    <a href={withBase("/curriculum/")}>Curriculum map</a>
+    <a href={withBase("/principles/")}>UI and UX principles</a>
+    <a href={withBase("/practice/")}>Practice</a>
+    <a href={withBase("/work/")}>Work tools</a>
+    <a href={withBase("/reference/")}>Reference</a>
+  </nav>
+
+  <div class="dashboard-main">
+    <p class="dashboard-eyebrow">My learning</p>
+    <h1 id="dashboard-title" data-dashboard-title>Your UX learning path.</h1>
+    <p class="dashboard-lead" data-dashboard-intro>Start with one lesson. Your completed work, decisions, and drafts stay in this browser so you can return to them.</p>
+    <div class="dashboard-resume">
+      <div>
+        <p class="dashboard-eyebrow" data-dashboard-resume-label>START · UX FOUNDATIONS</p>
+        <h2 data-dashboard-next-title>{learningLessons[0].title}</h2>
+        <p data-dashboard-next-outcome>{learningLessons[0].outcome}</p>
+        <div class="dashboard-progress-track" role="progressbar" aria-label="UX course progress" aria-valuemin="0" aria-valuemax={learningLessons.length} aria-valuenow="0" data-dashboard-progress><span></span></div>
+        <small data-dashboard-progress-count>0 of {learningLessons.length} lessons complete</small>
+        <a class="dashboard-primary" href={withBase(`/learn/${learningLessons[0].id}/`)} data-dashboard-resume>Start lesson 1 →</a>
+      </div>
+      <div class="dashboard-art" aria-hidden="true" data-dashboard-number>01</div>
+    </div>
+
+    <div class="dashboard-section-head"><h2>Course path</h2><a href={withBase("/learn/#full-path")}>See all lessons →</a></div>
+    <ol class="dashboard-unit-list">
+      {learningStages.map((stage, index) => {
+        const lessons = learningLessons.filter((lesson) => lesson.stage === stage.id);
+        return <li><a href={withBase(`/learn/#stage-${stage.id}`)}><span class="dashboard-unit-number">{String(index + 1).padStart(2, "0")}</span><span><strong>{stage.title}</strong><small>{lessons.length} lessons · {stage.outcome}</small></span><span class="dashboard-unit-status" data-dashboard-stage={stage.id}>{index === 0 ? "Next up" : "To do"}</span></a></li>;
+      })}
+    </ol>
+  </div>
+
+  <aside class="dashboard-side" aria-label="Your progress">
+    <div class="dashboard-side-card"><h2>Your progress</h2><strong data-dashboard-progress-count>0 of {learningLessons.length} lessons complete</strong><div class="dashboard-progress-track" role="progressbar" aria-label="UX course progress" aria-valuemin="0" aria-valuemax={learningLessons.length} aria-valuenow="0" data-dashboard-progress><span></span></div><p>Completed lessons and drafts are stored in this browser.</p></div>
+    <div class="dashboard-side-card"><h2>Last completed</h2><p data-dashboard-last>Your first lesson is ready</p></div>
+    <div class="dashboard-side-card"><h2>UI and UX principles</h2><strong data-ui-principle-count>0 of {uiPrinciples.length} chapters complete</strong><p>Study structure, visual design, content, media, data, access, and measurement.</p><a href={withBase("/principles/")}>Open the chapters →</a></div>
+    <div class="dashboard-side-card"><h2>Use it in practice</h2><p>Try a new case after a lesson, then bring the method into your own work.</p><a href={withBase("/practice/")}>Find a practice case →</a></div>
+  </aside>
+</section>
+
+<script>
+  import { learningLessons } from "@/data/learning";
+  import { countCompleted, learningStorageAvailable, readLearningProgress, resumeLessonId } from "@/lib/learning-progress";
+  import { withBase } from "@/lib/paths";
+  import { readPrincipleProgress } from "@/lib/principle-progress";
+  import { uiPrinciples } from "@/data/ui-principles";
+
+  const root = document.querySelector<HTMLElement>("[data-learning-dashboard]");
+  if (root) {
+    const progress = readLearningProgress();
+    const total = learningLessons.length;
+    const count = countCompleted(progress);
+    const resumeId = resumeLessonId(learningLessons.map((lesson) => lesson.id), progress);
+    const next = learningLessons.find((lesson) => lesson.id === resumeId) ?? learningLessons[0];
+    const nextIndex = learningLessons.indexOf(next);
+    const finished = count === total;
+    const lastId = Object.keys(progress).filter((id) => progress[id]?.completed).sort((a, b) => (progress[b]?.updatedAt || "").localeCompare(progress[a]?.updatedAt || ""))[0];
+    const last = learningLessons.find((lesson) => lesson.id === lastId);
+    const setText = (selector: string, value: string) => root.querySelectorAll<HTMLElement>(selector).forEach((el) => { el.textContent = value; });
+    setText("[data-dashboard-title]", count || Object.keys(progress).length ? "Pick up where you left off." : "Your UX learning path.");
+    setText("[data-dashboard-intro]", count || Object.keys(progress).length ? "Your next step is saved. Continue the lesson, return to your draft, or revisit something you completed." : "Start with one lesson. Your completed work, decisions, and drafts stay in this browser so you can return to them.");
+    setText("[data-dashboard-resume-label]", finished ? "PATH COMPLETE · KEEP PRACTICING" : count || Object.keys(progress).length ? "CONTINUE · YOUR NEXT LESSON" : "START · UX FOUNDATIONS");
+    setText("[data-dashboard-next-title]", finished ? "Keep using what you learned." : next.title);
+    setText("[data-dashboard-next-outcome]", finished ? "Revisit a lesson or try an independent practice case." : next.outcome);
+    setText("[data-dashboard-progress-count]", `${count} of ${total} lessons complete`);
+    setText("[data-dashboard-last]", last?.title ?? "Your first lesson is ready");
+    setText("[data-ui-principle-count]", `${readPrincipleProgress().size} of ${uiPrinciples.length} chapters complete`);
+    setText("[data-dashboard-number]", String(nextIndex + 1).padStart(2, "0"));
+    root.querySelectorAll<HTMLElement>("[data-dashboard-progress]").forEach((bar) => {
+      bar.setAttribute("aria-valuenow", String(count));
+      const fill = bar.querySelector<HTMLElement>("span");
+      if (fill) fill.style.width = `${Math.round(count / total * 100)}%`;
+    });
+    const resume = root.querySelector<HTMLAnchorElement>("[data-dashboard-resume]");
+    if (resume) {
+      resume.href = withBase(finished ? "/practice/" : `/learn/${next.id}/`);
+      resume.textContent = finished ? "Explore practice →" : count || Object.keys(progress).length ? "Resume lesson →" : "Start lesson 1 →";
+    }
+    const nextStage = next.stage;
+    root.querySelectorAll<HTMLElement>("[data-dashboard-stage]").forEach((status) => {
+      const lessons = learningLessons.filter((lesson) => lesson.stage === status.dataset.dashboardStage);
+      const done = lessons.filter((lesson) => progress[lesson.id]?.completed).length;
+      status.dataset.status = done === lessons.length ? "done" : status.dataset.dashboardStage === nextStage ? "current" : "todo";
+      status.textContent = done === lessons.length ? `✓ ${done}/${lessons.length} complete` : status.dataset.dashboardStage === nextStage ? `● ${done}/${lessons.length} · Next up` : `${done}/${lessons.length} · To do`;
+    });
+    if (!learningStorageAvailable()) {
+      const note = root.querySelector<HTMLElement>(".dashboard-side-card p");
+      if (note) note.textContent = "Saving needs browser storage. Copy work you want to keep across visits.";
+    }
+  }
+</script>

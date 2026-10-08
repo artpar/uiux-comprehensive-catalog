@@ -1,14 +1,12 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import LearnerDashboard from "@/components/LearnerDashboard.astro";
 import { categoryDescriptions, categorySlug } from "@/lib/categories";
 import { patterns } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { SITE_DESCRIPTION, SITE_NAME, websiteJsonLd } from "@/lib/seo";
-import { learningLessons, learningStages } from "@/data/learning";
+import { learningLessons } from "@/data/learning";
 
-const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
-const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
 const categoryGroups = [...new Set(patterns.map((pattern) => pattern.category))]
   .sort()
   .map((category) => {
@@ -21,37 +19,6 @@ const categoryGroups = [...new Set(patterns.map((pattern) => pattern.category))]
       sample: categoryPatterns.find((pattern) => pattern.completionStatus === "complete") ?? categoryPatterns[0]
     };
   });
-const featuredPatterns = completePatterns
-  .filter((pattern) => [
-    "ai-limitation-onboarding",
-    "human-approval-gate",
-    "source-grounding-display",
-    "error-state",
-    "empty-state",
-    "inline-validation"
-  ].includes(pattern.id));
-const decisionTracks = [
-  {
-    title: "Review",
-    body: "Use the checklist to define task fit, risk, required states, accessibility checks, and evidence before the choice becomes a ticket.",
-    href: withBase("/resources/ux-pattern-selection-checklist/")
-  },
-  {
-    title: "Choose",
-    body: "Start from the user problem, compare nearby alternatives, and avoid choosing a component by name alone.",
-    href: withBase("/patterns/")
-  },
-  {
-    title: "Inspect",
-    body: "Open the lab to test states, keyboard behavior, failure modes, and implementation contracts before copying a pattern.",
-    href: withBase("/lab/")
-  },
-  {
-    title: "Prove",
-    body: "Trace guidance back to sources, verification dates, and source-backed claims when a pattern affects risk or trust.",
-    href: withBase("/sources/")
-  }
-];
 function categoryHref(category: string) {
   return withBase(`/patterns/category/${categorySlug(category)}/`);
 }
@@ -68,22 +35,10 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
   description={SITE_DESCRIPTION}
   structuredData={websiteJsonLd(siteUrl)}
 >
-  <section class="catalog-home home-decision-hero" aria-labelledby="catalog-title">
-    <div class="catalog-intro home-hero-copy">
-      <div class="pattern-kicker">
-        <span>A professional UX learning path</span>
-        <span>{learningLessons.length} lessons · {learningStages.length} units</span>
-      </div>
-      <h1 id="catalog-title">Keep growing as a UX practitioner.</h1>
-      <p>
-        Follow a course that teaches you to understand, diagnose, design, and test experiences. Practice each idea in a new context, then bring the methods and reference library into your real work.
-      </p>
-      <div class="pattern-hero-actions">
-        <a class="primary-action" href={withBase("/learn/")} data-home-learn-link data-analytics-event="mode_opened" data-mode="learn" data-analytics-origin="home_hero">Explore the UX course</a>
-        <a class="secondary-action" href={withBase("/work/")} data-analytics-event="mode_opened" data-mode="work" data-analytics-origin="home_hero">Use a work tool</a>
-      </div>
-    </div>
+  <LearnerDashboard compact />
 
+  <section class="home-finder" aria-labelledby="home-finder-title">
+    <div><p class="learning-eyebrow">Reference library</p><h2 id="home-finder-title">Need an answer for work today?</h2><p>Search by the task, failure, or interaction you are designing. Each result opens a decision guide with a live example and sources.</p></div>
     <form class="catalog-search home-search-panel" role="search" data-catalog-search data-search-index-url={withBase("/pattern-search.json")}>
       <label for="catalog-query">Have a specific UX question?</label>
       <div class="catalog-search-row">
@@ -99,34 +54,17 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
         <a href={withBase("/patterns/")}>All patterns</a>
       </div>
       <div id="home-catalog-results" class="catalog-search-results" aria-live="polite" data-catalog-results hidden></div>
-      <p>Search by task, risk, component, failure mode, or AI behavior.</p>
     </form>
-
-    <div class="home-course-strip" aria-label="Five course units"><strong>THE COURSE PATH</strong><ol>{learningStages.map((stage, index) => <li><a href={withBase(`/learn/#stage-${stage.id}`)}><span>{String(index + 1).padStart(2, "0")}</span>{stage.title}</a></li>)}</ol></div>
   </section>
 
   <section class="catalog-section" aria-labelledby="journey-title">
     <div class="section-heading"><h2 id="journey-title">A place to keep developing your practice</h2><p>Enter through the task you have today. The learning path, practice cases, work tools, and catalog connect as your needs change.</p></div>
     <div class="work-grid">
-      <a class="work-card" href={withBase("/learn/")} data-analytics-event="mode_opened" data-mode="learn" data-analytics-origin="home_card"><span>01 / Learn</span><h3>Build the foundations</h3><p>{learningLessons.length} lessons with teaching, worked reasoning, feedback, and independent application.</p></a>
-      <a class="work-card" href={withBase("/practice/")} data-analytics-event="mode_opened" data-mode="practice" data-analytics-origin="home_card"><span>02 / Practice</span><h3>Try a new context</h3><p>Revisit cases by skill and produce an artifact you can review against specific criteria.</p></a>
-      <a class="work-card" href={withBase("/work/")} data-analytics-event="mode_opened" data-mode="work" data-analytics-origin="home_card"><span>03 / Work</span><h3>Make a usable document</h3><p>Build a critique, test plan, or design decision memo for your current project.</p></a>
-      <a class="work-card" href={withBase("/reference/")} data-analytics-event="mode_opened" data-mode="reference" data-analytics-origin="home_card"><span>04 / Reference</span><h3>Check a decision</h3><p>Search patterns, compare options, inspect the lab, and trace the source trail.</p></a>
-    </div>
-  </section>
-
-  <section class="catalog-section home-decision-system" aria-labelledby="decision-system-title">
-    <div class="section-heading">
-      <h2 id="decision-system-title">Use it like a product decision system</h2>
-      <p>The site is structured around the work a real team has to do before an interaction ships.</p>
-    </div>
-    <div class="decision-track-grid">
-      {decisionTracks.map((track) => (
-        <a class="decision-track" href={track.href}>
-          <strong>{track.title}</strong>
-          <span>{track.body}</span>
-        </a>
-      ))}
+      <a class="work-card" href={withBase("/learn/")} data-analytics-event="mode_opened" data-mode="learn" data-analytics-origin="home_card"><span>01 / Learn UX</span><h3>Follow the whole task</h3><p>{learningLessons.length} lessons on research, interaction design, testing, and professional decisions.</p></a>
+      <a class="work-card" href={withBase("/principles/")} data-analytics-event="mode_opened" data-mode="principles" data-analytics-origin="home_card"><span>02 / Learn UI and UX</span><h3>Design the interface</h3><p>Fourteen chapters on structure, visual design, content, media, data, access, trust, and automation.</p></a>
+      <a class="work-card" href={withBase("/practice/")} data-analytics-event="mode_opened" data-mode="practice" data-analytics-origin="home_card"><span>03 / Practice</span><h3>Try a new context</h3><p>Revisit cases by skill and produce an artifact you can review against specific criteria.</p></a>
+      <a class="work-card" href={withBase("/work/")} data-analytics-event="mode_opened" data-mode="work" data-analytics-origin="home_card"><span>04 / Work</span><h3>Make a usable document</h3><p>Build a critique, test plan, or design decision memo for your current project.</p></a>
+      <a class="work-card" href={withBase("/reference/")} data-analytics-event="mode_opened" data-mode="reference" data-analytics-origin="home_card"><span>05 / Reference</span><h3>Check a decision</h3><p>Search patterns, compare options, inspect the lab, and trace the source trail.</p></a>
     </div>
   </section>
 
@@ -152,62 +90,8 @@ const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
     </details>
   </section>
 
-  <section class="catalog-section catalog-two-column" aria-labelledby="featured-title">
-    <div>
-      <div class="section-heading">
-        <h2 id="featured-title">High-stakes patterns to inspect first</h2>
-      <p>Each entry connects a decision rule, quality bar, implementation contract, and evidence trail.</p>
-      </div>
-      <div class="featured-list">
-        {featuredPatterns.map((pattern) => (
-          <article class="featured-row">
-            <h3><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></h3>
-            <p>{pattern.useWhen[0]}</p>
-            <span>{pattern.category} - {pattern.sources.length} sources</span>
-          </article>
-        ))}
-      </div>
-    </div>
-
-    <aside class="lab-invite" aria-labelledby="lab-title">
-      <p class="eyebrow">Interactive lab</p>
-      <h2 id="lab-title">Use the workbench when the choice is not obvious.</h2>
-      <p>
-        Filter by job, category, platform, maturity, risk, reversibility, urgency, confidence, and interruption cost.
-        Compare alternatives and inspect live examples without losing the readable catalog.
-      </p>
-      <div class="lab-invite-actions">
-        <a class="primary-action" href={withBase("/lab/")}>Open lab</a>
-        <a class="secondary-action" href={withBase("/compare/")}>Compare patterns</a>
-      </div>
-      <dl>
-        <div><dt>{antiPatternCount}</dt><dd>anti-pattern checks</dd></div>
-        <div><dt>{completePatterns.length}</dt><dd>documented for review</dd></div>
-      </dl>
-    </aside>
-  </section>
-
-  <NewsletterSignup
-    source="homepage"
-    heading="Be there for the first pattern brief"
-    description="Join the launch list for concise implementation guidance, failure checks, and source links."
-  />
-
   <script>
-    import { learningLessons } from "@/data/learning";
-    import { countCompleted, readLearningProgress, resumeLessonId } from "@/lib/learning-progress";
-    import { withBase } from "@/lib/paths";
     import { track } from "@/lib/analytics";
-    const savedProgress = readLearningProgress();
-    if (Object.keys(savedProgress).length) {
-      const resumeId = resumeLessonId(learningLessons.map((lesson) => lesson.id), savedProgress);
-      const learnLink = document.querySelector<HTMLAnchorElement>("[data-home-learn-link]");
-      if (learnLink) {
-        const completed = countCompleted(savedProgress);
-        learnLink.href = withBase(resumeId ? `/learn/${resumeId}/` : "/learn/");
-        learnLink.textContent = resumeId ? `Continue your UX course · ${completed} of ${learningLessons.length} complete` : "Review your completed UX course";
-      }
-    }
 
     type SearchPattern = {
       id: string;

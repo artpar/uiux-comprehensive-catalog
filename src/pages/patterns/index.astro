@@ -50,7 +50,8 @@ const description = "Browse practical UX and UI patterns by family, with source-
       <h1 id="patterns-title">Find a pattern by the problem you need to solve</h1>
       <p>{description} Start with search when you can describe the problem; browse a family when you are still framing it.</p>
       <div class="pattern-hero-actions">
-        <a class="primary-action" href={withBase("/lab/")}>Open interactive lab</a>
+        <a class="primary-action" href={withBase("/principles/")}>Learn the UI and UX principles</a>
+        <a class="secondary-action" href={withBase("/lab/")}>Open interactive lab</a>
         <a class="secondary-action" href={withBase("/compare/")}>Compare alternatives</a>
       </div>
     </div>
@@ -58,12 +59,14 @@ const description = "Browse practical UX and UI patterns by family, with source-
     <form class="catalog-search pattern-directory-search" role="search" action={withBase("/patterns/")} method="get" data-pattern-index-search data-search-index-url={withBase("/pattern-search.json")}>
       <label for="pattern-index-query">Search by problem, state, or pattern name</label>
       <div class="catalog-search-row">
-        <input id="pattern-index-query" name="q" type="search" autocomplete="off" placeholder="Try recovering from no results" aria-controls="pattern-search-output" data-pattern-index-query />
+        <input id="pattern-index-query" name="q" type="search" autocomplete="off" placeholder="Try empty search recovery" aria-controls="pattern-search-output" data-pattern-index-query />
         <button type="submit">Search</button>
       </div>
       <p>Use two or three specific terms for a shorter list.</p>
     </form>
   </section>
+
+  <section class="catalog-section catalog-reading-guide" aria-labelledby="reading-guide-title"><div class="section-heading"><span>How to study a pattern</span><h2 id="reading-guide-title">Begin with the person's task, then inspect the interface</h2><p>A pattern is a reusable response to a recurring task. Its value depends on the people, system states, and consequences in the current setting.</p></div><ol><li><strong>Recognize the need.</strong> Describe the goal and the moment where the person needs help.</li><li><strong>Compare the fit.</strong> Read the use and avoid conditions beside nearby alternatives.</li><li><strong>Inspect behavior.</strong> Follow the initial, pending, success, failure, and recovery states in the live example.</li><li><strong>Check the evidence.</strong> Read the linked sources and test the choice in the actual context.</li></ol></section>
 
   <section id="pattern-search-output" class="catalog-section pattern-search-output" aria-labelledby="pattern-search-title" data-pattern-search-output hidden>
     <div class="section-heading">
@@ -81,7 +84,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
     <div class="section-heading">
       <span>Browse</span>
       <h2 id="family-title">Choose a problem family</h2>
-      <p>Each family has its own focused index, so you can scan related options without loading the entire catalog at once.</p>
+      <p>Each family has a focused guide and index for studying related options in context.</p>
     </div>
     <div class="pattern-family-grid">
       {families.map((family) => (
@@ -120,11 +123,11 @@ const description = "Browse practical UX and UI patterns by family, with source-
 
     <aside class="catalog-method-note" aria-labelledby="terms-title">
       <p class="eyebrow">Read the labels honestly</p>
-      <h2 id="terms-title">Evidence is context, not a universal verdict</h2>
+      <h2 id="terms-title">Read evidence in its context</h2>
       <dl>
-        <div><dt>Source trail checked</dt><dd>The linked references were reviewed on the shown date. It does not mean every implementation was usability-tested.</dd></div>
-        <div><dt>Established or standard</dt><dd>A maturity signal based on recurring guidance and usage, not a guarantee that the pattern fits your users.</dd></div>
-        <div><dt>Documented entry</dt><dd>The catalog fields and review checks are filled in. “Documented” does not mean “proven.”</dd></div>
+        <div><dt>Source trail checked</dt><dd>The linked references were reviewed on the shown date. Each implementation still benefits from task-specific usability checks.</dd></div>
+        <div><dt>Established or standard</dt><dd>This maturity signal reflects recurring guidance and usage. Check the pattern's fit with your users.</dd></div>
+        <div><dt>Documented entry</dt><dd>The catalog fields and review checks are filled in. Use them to plan a local test.</dd></div>
       </dl>
       <a href={withBase("/sources/")}>Inspect the evidence library</a>
     </aside>
@@ -179,7 +182,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
       const visibleMatches = matches.slice(0, 48); visibleMatches.forEach(addResult);
       if (status instanceof HTMLElement) {
         if (data.length === 0) status.textContent = "Search is temporarily unavailable. Browse a problem family below.";
-        else if (matches.length === 0) status.textContent = `No patterns match “${query.trim()}”. Try fewer terms or browse a family below.`;
+        else if (matches.length === 0) status.textContent = `Try fewer terms for “${query.trim()}” or browse a family below.`;
         else if (matches.length > visibleMatches.length) status.textContent = `${matches.length} patterns match “${query.trim()}”. Showing the first ${visibleMatches.length}; add another term to narrow the list.`;
         else status.textContent = `${matches.length} ${matches.length === 1 ? "pattern matches" : "patterns match"} “${query.trim()}”.`;
       }

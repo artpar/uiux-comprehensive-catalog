@@ -1,0 +1,40 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { learningLessons, learningStages } from "@/data/learning";
+import { uiPrinciples } from "@/data/ui-principles";
+import { familyLearningOrder } from "@/data/family-study-routes";
+import { categoryDescriptions, categorySlug } from "@/lib/categories";
+import { comparisons, patterns } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+
+---
+
+<BaseLayout title={pageTitle("Curriculum map")} description="Follow a guided path through UX research and decisions, interface principles, pattern families, comparisons, and practice.">
+  <div class="learning-page curriculum-page">
+    <nav class="learning-breadcrumb" aria-label="Breadcrumb"><a href={withBase("/learn/")}>Learn</a><span aria-hidden="true">/</span><span>Curriculum map</span></nav>
+    <header class="learning-hero"><div><p class="learning-eyebrow">Your complete route through the library</p><h1>Learn the work, then study the patterns.</h1><p class="learning-lead">Start with the human task and the evidence behind it. Build the interface, practice choices across pattern families, then test those choices in a realistic setting. Each part connects to a method, an exercise, and source material.</p></div></header>
+
+    <div class="curriculum-overview" aria-label="Curriculum size">
+      <span><strong>{learningLessons.length}</strong> core lessons</span>
+      <span><strong>{uiPrinciples.length}</strong> principle chapters</span>
+      <span><strong>{familyLearningOrder.length}</strong> guided families</span>
+      <span><strong>{patterns.length}</strong> pattern studies</span>
+      <span><strong>{comparisons.length}</strong> comparisons</span>
+    </div>
+
+    <section class="curriculum-section" aria-labelledby="curriculum-core"><div class="section-heading"><span>01 / Understand the whole task</span><h2 id="curriculum-core">Core UX course</h2><p>Work through one service case across research, problem framing, interaction design, testing, and a final decision. Each lesson produces an artifact for the next stage.</p></div>
+      <div class="curriculum-grid">{learningStages.map((stage, index) => <article class="curriculum-card"><span>Unit {index + 1}</span><h3>{stage.title}</h3><p>{stage.outcome}</p><ol>{learningLessons.filter((lesson) => lesson.stage === stage.id).map((lesson) => <li><a href={withBase(`/learn/${lesson.id}/`)}>{lesson.title}</a></li>)}</ol></article>)}</div>
+    </section>
+
+    <section class="curriculum-section" aria-labelledby="curriculum-principles"><div class="section-heading"><span>02 / Build the interface</span><h2 id="curriculum-principles">UI and UX principles</h2><p>Apply the same task to information structure, content, visual design, controls, media, accessibility, data, and outcome measurement. Each chapter defines the idea, works through a case, and gives you a review method.</p></div>
+      <ol class="curriculum-principle-list">{uiPrinciples.map((principle, index) => <li><a href={withBase(`/principles/${principle.id}/`)}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{principle.title}</strong><p>{principle.outcome}</p></div><span aria-hidden="true">→</span></a></li>)}</ol>
+    </section>
+
+    <section class="curriculum-section" aria-labelledby="curriculum-families"><div class="section-heading"><span>03 / Build pattern judgment</span><h2 id="curriculum-families">Study every pattern family</h2><p>Each family moves from core behavior to specialized applications and quality checks. A pattern page gives you the task, complete states, worked examples, a practice prompt, and the next lesson in that family.</p></div>
+      <ol class="curriculum-family-list">{familyLearningOrder.map((category, index) => <li><a href={withBase(`/patterns/category/${categorySlug(category)}/`)}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{category}</strong><p>{categoryDescriptions[category]}</p></div><em>{patterns.filter((pattern) => pattern.category === category).length} studies</em><span aria-hidden="true">→</span></a></li>)}</ol>
+    </section>
+
+    <section class="curriculum-section curriculum-finish" aria-labelledby="curriculum-apply"><div class="section-heading"><span>04 / Apply and test</span><h2 id="curriculum-apply">Choose, try, and explain</h2><p>Use a comparison when several patterns seem plausible. Try the states in the lab. Complete a practice case, then carry the decision into your own project with a work tool.</p></div><div class="curriculum-grid"><a class="curriculum-card" href={withBase("/compare/")}><span>Compare</span><h3>Choose among alternatives →</h3><p>Use the decision rules to explain which interaction fits the task.</p></a><a class="curriculum-card" href={withBase("/lab/")}><span>Try</span><h3>Inspect behavior →</h3><p>Switch between strong and weak states and check recovery.</p></a><a class="curriculum-card" href={withBase("/practice/")}><span>Practice</span><h3>Work through a case →</h3><p>Produce an artifact and review it against explicit criteria.</p></a><a class="curriculum-card" href={withBase("/work/")}><span>Transfer</span><h3>Use the method at work →</h3><p>Prepare a critique, test plan, or decision memo for a real task.</p></a></div></section>
+  </div>
+</BaseLayout>

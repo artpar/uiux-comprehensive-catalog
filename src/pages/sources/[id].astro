@@ -12,6 +12,15 @@ export function getStaticPaths() {
 }
 
 const { source } = Astro.props;
+const evidenceRole: Record<string, string> = {
+  spec: "Use this source to check a technical or accessibility requirement against its exact wording and scope.",
+  "platform-guideline": "Use this source to understand a platform convention and the setting it was designed for.",
+  "ux-research": "Use this source to examine the study question, participants, observations, and limits before applying a finding.",
+  "service-manual": "Use this source to study a complete public-service task and the guidance that supports its implementation.",
+  "product-example": "Use this source to inspect a concrete implementation and the decisions visible in its context.",
+  "hci-literature": "Use this source to trace a research claim to its method and evidence.",
+  "pattern-library": "Use this source to compare a documented solution with the task and states in your own product."
+};
 const linkedPatterns = getPatternsForSource(source.id);
 const claimRows = linkedPatterns.map((pattern) => ({
   pattern,
@@ -86,6 +95,8 @@ const structuredData = [
     </aside>
   </section>
 
+  <section class="catalog-section catalog-reading-guide" aria-labelledby="read-source-title"><div class="section-heading"><span>Read with a purpose</span><h2 id="read-source-title">What this source can teach</h2><p>{evidenceRole[source.type]}</p></div><ol><li><strong>Start with the original.</strong> Open the source and find the guidance or example relevant to your task.</li><li><strong>Trace the connection.</strong> Use the claim notes below to see how this site applies the source to specific patterns.</li><li><strong>Check the setting.</strong> Compare the source's platform, people, and constraints with your own decision.</li></ol></section>
+
   <section class="comparison-matrix detail-panel">
     <h2>Pattern Decisions This Source Supports</h2>
     {linkedPatterns.length > 0 ? (
@@ -110,13 +121,13 @@ const structuredData = [
         </tbody>
       </table>
     ) : (
-      <p>No linked patterns yet.</p>
+      <p>This source is ready for a future pattern connection.</p>
     )}
   </section>
 
   <section class="detail-panel">
     <h2>Evidence Role</h2>
-    <p>This source is treated as <strong>{source.type}</strong> evidence. Use it to validate the decision rules above, not as a visual style reference.</p>
+    <p>This source is treated as <strong>{source.type}</strong> evidence. Its value comes from the specific claims and setting described above.</p>
     <p>Publisher: {source.publisher ?? "Unknown"}. Last checked: <time datetime={source.checkedAt}>{source.checkedAt}</time>.</p>
   </section>
 </BaseLayout>

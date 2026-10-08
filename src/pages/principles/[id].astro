@@ -1,0 +1,43 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { uiPrinciples } from "@/data/ui-principles";
+import { getPattern } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+import { pageTitle } from "@/lib/seo";
+
+export function getStaticPaths() {
+  return uiPrinciples.map((principle) => ({ params: { id: principle.id }, props: { principle } }));
+}
+
+const { principle } = Astro.props;
+const index = uiPrinciples.findIndex((item) => item.id === principle.id);
+const next = uiPrinciples[index + 1];
+const relatedPatterns = principle.patternIds.map((id) => getPattern(id)).filter(Boolean);
+---
+
+<BaseLayout title={pageTitle(principle.title)} description={principle.outcome}>
+  <div class="learning-page principle-detail">
+    <nav class="learning-breadcrumb" aria-label="Breadcrumb"><a href={withBase("/principles/")}>UI and UX principles</a><span aria-hidden="true">/</span><span>{principle.title}</span></nav>
+    <header class="learning-hero"><div><p class="learning-eyebrow">Chapter {String(index + 1).padStart(2, "0")} / {String(uiPrinciples.length).padStart(2, "0")}</p><h1>{principle.title}</h1><p class="learning-lead">{principle.outcome}</p></div><div class="learning-progress-card"><strong>Your goal</strong><span>{principle.practice}</span></div></header>
+    <div class="principle-layout"><div class="principle-main">
+      <section class="learning-block"><p class="learning-step">01 / Begin with the task</p><h2>The principle</h2><p>{principle.opening}</p><dl class="principle-terms">{principle.concepts.map((item) => <div><dt>{item.term}</dt><dd>{item.meaning}</dd></div>)}</dl>{principle.explanation.map((paragraph) => <p>{paragraph}</p>)}</section>
+      <section class="learning-block"><p class="learning-step">02 / Follow a method</p><h2>Apply it in four steps</h2><ol class="principle-method">{principle.method.map((step) => <li>{step}</li>)}</ol></section>
+      <section class="learning-block"><p class="learning-step">03 / Compare outcomes</p><h2>Strong and weak execution</h2><div class="principle-example-grid"><article><span>Strong</span><p>{principle.strong}</p></article><article><span>Weak</span><p>{principle.weak}</p></article></div><h3>Why the outcome changes</h3><p>{principle.reasoning}</p></section>
+      <section class="learning-block"><p class="learning-step">04 / Use the method</p><h2>Practice on a real screen</h2><p>{principle.practice}</p><h3>Review your work</h3><ul class="principle-review">{principle.review.map((criterion) => <li>{criterion}</li>)}</ul><p>Keep your observation, interpretation, and proposed change together. Use the related patterns to inspect complete interaction states.</p><button class="primary-action principle-complete" type="button" data-complete-principle={principle.id}>Mark chapter complete</button><p data-principle-status role="status"></p></section>
+      <nav class="learning-next" aria-label="Principle navigation"><a href={withBase("/principles/")}>← All principles</a>{next && <a href={withBase(`/principles/${next.id}/`)}>Next: {next.title} →</a>}</nav>
+    </div><aside class="learning-side"><h2>Read the sources</h2><ul>{principle.readings.map((reading) => <li><a href={reading.url}>{reading.title}</a><p>{reading.purpose}</p></li>)}</ul><h2>See the patterns</h2><ul>{relatedPatterns.map((pattern) => pattern && <li><a href={withBase(`/patterns/${pattern.id}/`)}>{pattern.name}</a></li>)}</ul><a href={withBase("/learn/")}>Continue with the UX course →</a></aside></div>
+  </div>
+  <script>
+    import { completePrinciple, readPrincipleProgress } from "@/lib/principle-progress";
+    const button = document.querySelector<HTMLButtonElement>("[data-complete-principle]");
+    const status = document.querySelector<HTMLElement>("[data-principle-status]");
+    if (button) {
+      const id = button.dataset.completePrinciple || "";
+      if (readPrincipleProgress().has(id)) { button.textContent = "Chapter complete ✓"; if (status) status.textContent = "Your next chapter is ready."; }
+      button.addEventListener("click", () => {
+        if (completePrinciple(id)) { button.textContent = "Chapter complete ✓"; if (status) status.textContent = "Progress saved in this browser. Continue to the next chapter when you are ready."; window.dispatchEvent(new Event("principle-progress-updated")); }
+        else if (status) status.textContent = "Continue to the next chapter. Keep your notes in a place you can return to.";
+      });
+    }
+  </script>
+</BaseLayout>
