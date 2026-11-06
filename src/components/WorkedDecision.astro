@@ -1,0 +1,18 @@
+---
+import type { WorkedDecision } from "@/data/priority-editorial";
+import { getPattern } from "@/lib/catalog";
+import { withBase } from "@/lib/paths";
+const { decision, id = "worked-decision" } = Astro.props as { decision: WorkedDecision; id?: string };
+---
+<section class="worked-decision" id={id} aria-labelledby={`${id}-title`}>
+  <p class="worked-decision-eyebrow">Worked decision · constructed example</p>
+  <h2 id={`${id}-title`}>{decision.question}</h2>
+  <p class="worked-decision-scenario">{decision.scenario}</p>
+  <div class="worked-decision-links" aria-label="Related interactive examples">{decision.patternIds.map((patternId) => <a class="secondary-action" href={withBase(`/lab/?pattern=${patternId}`)}>Try {getPattern(patternId)?.name ?? patternId} →</a>)}</div>
+  <div class="worked-decision-scroll" role="region" aria-labelledby={`${id}-caption`} tabindex="0">
+    <table><caption id={`${id}-caption`}><span>{decision.caption}</span></caption><thead><tr>{decision.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead><tbody>{decision.rows.map((row) => <tr><th scope="row">{row[0]}</th><td>{row[1]}</td><td>{row[2]}</td></tr>)}</tbody></table>
+  </div>
+  <div class="worked-decision-reasoning"><div><h3>Why this choice</h3><p>{decision.reasoning}</p></div><div><h3>Where the decision changes</h3><p>{decision.boundary}</p></div></div>
+  <h3>Try these checks</h3><ol class="worked-decision-checks">{decision.checks.map((check) => <li>{check}</li>)}</ol>
+  <div class="worked-decision-evidence"><h3>What the sources support</h3><ul>{decision.evidence.map((source) => <li><p>{source.claim} <a href={source.url}>{source.title} ↗</a></p></li>)}</ul><p class="worked-decision-note">These source claims were checked on <time datetime={decision.sourcesChecked}>{decision.sourcesChecked}</time>. The scenario and decision analysis are illustrative; the checks are a test plan, not reported results from a user study.</p></div>
+</section>

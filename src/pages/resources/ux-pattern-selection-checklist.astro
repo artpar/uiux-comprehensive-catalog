@@ -2,16 +2,19 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import EngagementActions from "@/components/EngagementActions.astro";
+import EditorialByline from "@/components/EditorialByline.astro";
+import WorkedDecision from "@/components/WorkedDecision.astro";
+import { editorialFor } from "@/data/priority-editorial";
 import { patterns, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
-import { absoluteUrl, breadcrumbJsonLd, pageTitle } from "@/lib/seo";
+import { absoluteUrl, breadcrumbJsonLd, editorialArticle, pageTitle } from "@/lib/seo";
 
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const completePatterns = patterns.filter((pattern) => pattern.completionStatus === "complete");
 const antiPatternCount = patterns.filter((pattern) => pattern.maturity === "anti-pattern").length;
 const latestVerified = patterns.reduce((latest, pattern) => pattern.lastVerified > latest ? pattern.lastVerified : latest, "2026-07-01");
-const description =
-  "A practical checklist for choosing the right UX pattern before design review, implementation, or AI-generated UI.";
+const editorial = editorialFor("/resources/ux-pattern-selection-checklist/")!;
+const description = editorial.description;
 const checklistUrl = absoluteUrl("/resources/ux-pattern-selection-checklist/", siteUrl);
 const citationText = "UX Patterns Guide. \"UX Pattern Selection Checklist.\" " + checklistUrl;
 const shareText = [
@@ -76,7 +79,7 @@ const readinessBands = [
   { score: "0-2", label: "Define the task", detail: "Write the person's goal, consequence, and context before choosing an interface pattern." },
   { score: "3-5", label: "Clarify the design", detail: "Compare alternatives and specify the states, access needs, and recovery route." },
   { score: "6-7", label: "Complete the review", detail: "Resolve the remaining question and record its owner before implementation." },
-  { score: "8", label: "Ready to build", detail: "The choice has a clear task, state plan, rejection criteria, and source trail." }
+  { score: "8", label: "Review the evidence", detail: "Check the evidence behind each answer and resolve remaining high-consequence risks before approval." }
 ];
 
 const reviewPrompt = [
@@ -99,20 +102,7 @@ const reviewPrompt = [
 ].join("\n");
 
 const structuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: "UX Pattern Selection Checklist",
-    description,
-    url: checklistUrl,
-    isPartOf: {
-      "@type": "WebSite",
-      name: "UX Patterns Guide",
-      url: absoluteUrl("/", siteUrl)
-    },
-    about: ["UX patterns", "UI design review", "interaction design", "accessibility"],
-    inLanguage: "en"
-  },
+  editorialArticle(editorial, siteUrl),
   breadcrumbJsonLd([
     { name: "Home", path: "/" },
     { name: "Resources", path: "/resources/" },
@@ -122,7 +112,7 @@ const structuredData = [
 ---
 
 <BaseLayout
-  title={pageTitle("UX Pattern Selection Checklist")}
+  title={pageTitle(editorial.title)}
   description={description}
   structuredData={structuredData}
 >
@@ -139,10 +129,10 @@ const structuredData = [
         <span>{completePatterns.length} documented patterns</span>
         <span>{sources.length} evidence sources</span>
       </div>
-      <h1 id="checklist-title">UX pattern selection checklist</h1>
+      <h1 id="checklist-title">{editorial.title}</h1>
+      <EditorialByline updated={editorial.updated} />
       <p>
-        Use this before design review, frontend implementation, or AI-generated UI. It helps teams
-        choose a pattern from the person's task, the service state, and the consequence of a mistake.
+        {editorial.answer}
       </p>
       <div class="pattern-hero-actions">
         <a class="primary-action" href="#scorecard">Run the checklist</a>
@@ -165,7 +155,7 @@ const structuredData = [
     </aside>
   </section>
 
-  <section class="checklist-section" aria-labelledby="checklist-example-title"><div class="section-heading"><span>Worked decision</span><h2 id="checklist-example-title">A clinic check-in confirmation</h2><p>A patient taps Check in at a kiosk. The kiosk receives the request while the appointment service records arrival a few seconds later. The design decision is the message the patient sees during that interval.</p></div><div class="principle-example-grid"><article><span>Strong reasoning</span><p>Map the pending and received states, use a status pattern during the handoff, then show a receipt-backed confirmation after the appointment service records arrival. Test whether patients understand the difference.</p></article><article><span>Weak reasoning</span><p>Place a generic Done message after the tap. The screen suggests completion while the service still has a pending handoff, so patients seek a second confirmation from staff.</p></article></div><p>Use the checklist to connect task, risk, alternatives, states, accessibility, and evidence. <a href={withBase("/patterns/success-confirmation/")}>Study success confirmation →</a></p></section>
+  <WorkedDecision decision={editorial} />
 
   <section class="checklist-section" aria-labelledby="method-title">
     <div class="section-heading">
@@ -195,7 +185,7 @@ const structuredData = [
   <section id="scorecard" class="checklist-section checklist-score-section" aria-labelledby="scorecard-title">
     <div class="section-heading">
       <h2 id="scorecard-title">Pattern readiness scorecard</h2>
-      <p>Check each item that is already true. Aim for 8 before implementation starts.</p>
+      <p>Check each item supported by evidence. Use the count to find review gaps and discuss their consequences.</p>
     </div>
 
     <div class="checklist-score-layout">
@@ -321,8 +311,8 @@ const structuredData = [
       },
       {
         min: 8,
-        label: "Ready to build",
-        detail: "The choice has a job, state contract, rejection criteria, and source trail."
+        label: "Review the evidence",
+        detail: "Check the evidence behind each answer and resolve remaining high-consequence risks before approval."
       }
     ];
 

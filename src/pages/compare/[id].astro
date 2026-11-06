@@ -1,10 +1,13 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EngagementActions from "@/components/EngagementActions.astro";
+import EditorialByline from "@/components/EditorialByline.astro";
+import WorkedDecision from "@/components/WorkedDecision.astro";
+import { editorialFor } from "@/data/priority-editorial";
 import { comparisons, getPattern, getSource } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { affirmative } from "@/lib/lesson-copy";
-import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
+import { absoluteUrl, breadcrumbJsonLd, editorialArticle, pageTitle, SITE_NAME } from "@/lib/seo";
 import type { PatternEntry } from "@/schemas/catalog";
 import { principleForCategory, uiPrinciples } from "@/data/ui-principles";
 
@@ -26,6 +29,7 @@ export function getStaticPaths() {
 }
 
 const { comparison } = Astro.props;
+const editorial = editorialFor(`/compare/${comparison.id}/`);
 const comparedPatterns = comparison.patternIds.map((id) => getPattern(id)).filter(isPattern);
 const relatedPrinciple = uiPrinciples.find((item) => item.id === principleForCategory[comparedPatterns[0]?.category]);
 const comparisonLead = affirmative([comparison.summary, ...comparison.decisionRules], `Choose the interaction that supports the person's task and its outcome.`);
@@ -33,7 +37,7 @@ const practiceCase = affirmative(comparison.failureModes, `A person reaches a re
 const sourceRefs = comparison.sources.map((ref) => ({ ref, source: getSource(ref.id) }));
 const siteUrl = Astro.site ?? new URL("https://uxpatternsguide.com");
 const structuredData = [
-  {
+  editorial ? editorialArticle(editorial, siteUrl) : {
     "@context": "https://schema.org",
     "@type": "TechArticle",
     headline: `${comparison.title} UX Pattern Comparison`,
@@ -111,9 +115,10 @@ const dimensions = [
     value: (pattern: PatternEntry) => affirmative([...pattern.commonMisuses, ...pattern.failureModes], "The interface creates extra interpretation or recovery work.")
   }
 ];
+const MatrixTag = editorial ? "details" : "section";
 ---
 
-<BaseLayout title={pageTitle(`${comparison.title} UX Pattern Comparison`)} description={comparison.summary} structuredData={structuredData}>
+<BaseLayout title={pageTitle(editorial?.title ?? `${comparison.title} UX Pattern Comparison`)} description={editorial?.description ?? comparison.summary} structuredData={structuredData}>
   <nav class="breadcrumb-trail" aria-label="Breadcrumb">
     <a href={withBase("/")}>Home</a>
     <a href={withBase("/compare/")}>Comparisons</a>
@@ -122,21 +127,22 @@ const dimensions = [
 
   <section class="compare-detail-head">
     <a class="open-link" href={withBase("/compare/")}>Back to compare picker</a>
-    <h1>{comparedPatterns.map((pattern) => pattern.name).join(" vs ")}</h1>
-    <p>{comparisonLead}</p>
+    <h1>{editorial?.title ?? comparedPatterns.map((pattern) => pattern.name).join(" vs ")}</h1>
+    {editorial && <EditorialByline updated={editorial.updated} />}
+    <p>{editorial?.answer ?? comparisonLead}</p>
     <div class="comparison-links">
-      {comparedPatterns.map((pattern) => (
+      {comparedPatterns.filter((pattern) => !editorial || editorial.patternIds.includes(pattern.id)).map((pattern) => (
         <a data-live-pattern={pattern.id} href={withBase(`/lab/?pattern=${pattern.id}`)}>{pattern.name} live example</a>
       ))}
     </div>
     <EngagementActions id={comparison.id} title={comparison.title} summary={comparisonLead} kind="comparison" />
   </section>
 
-  <section class="comparison-study" aria-labelledby="comparison-study-title">
+  {editorial ? <WorkedDecision decision={editorial} /> : <section class="comparison-study" aria-labelledby="comparison-study-title">
     <div class="section-heading"><span>Learn the decision</span><h2 id="comparison-study-title">Match the interaction to the person's task</h2><p>{comparisonLead}</p></div>
     <div class="comparison-study-options">{comparedPatterns.map((pattern) => <article><h3>{pattern.name}</h3><p><strong>Use it when:</strong> {affirmative(pattern.useWhen, `The task calls for ${pattern.name.toLowerCase()}.`)}</p><p><strong>Make this state clear:</strong> {affirmative(pattern.requiredStates, `Show the current state and next action.`)}</p><p><strong>Observe the result:</strong> {affirmative(pattern.uxExamples.good, `The person reaches a clear outcome.`)}</p><a href={withBase(`/patterns/${pattern.id}/`)}>Study the full pattern →</a></article>)}</div>
     <div class="comparison-study-prompt"><p><strong>Practice the judgment:</strong> Imagine this situation: {practiceCase} Write the person's goal, choose one of these patterns, and show the state that helps the person continue. Use the decision rules and source trail below to explain your choice.</p>{relatedPrinciple && <a href={withBase(`/principles/${relatedPrinciple.id}/`)}>Review the underlying principle →</a>}</div>
-  </section>
+  </section>}
 
   <section class="detail-panel context-panel" id="workbench-context" hidden>
     <h2>Workbench Context</h2>
@@ -157,8 +163,8 @@ const dimensions = [
     </dl>
   </section>
 
-  <section class="comparison-matrix detail-panel compare-decision-table">
-    <h2>Decision dimensions</h2>
+  <MatrixTag class="comparison-matrix detail-panel compare-decision-table">
+    {editorial ? <summary>Compare the full pattern contracts</summary> : <h2>Decision dimensions</h2>}
     <table>
       <thead>
         <tr>
@@ -190,7 +196,7 @@ const dimensions = [
         </article>
       ))}
     </div>
-  </section>
+  </MatrixTag>
 
   <div class="detail-grid">
     <div class="stack">

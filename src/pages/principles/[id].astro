@@ -1,24 +1,29 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import EditorialByline from "@/components/EditorialByline.astro";
+import WorkedDecision from "@/components/WorkedDecision.astro";
+import { editorialFor } from "@/data/priority-editorial";
 import { uiPrinciples } from "@/data/ui-principles";
 import { getPattern } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
-import { pageTitle } from "@/lib/seo";
+import { editorialArticle, pageTitle } from "@/lib/seo";
 
 export function getStaticPaths() {
   return uiPrinciples.map((principle) => ({ params: { id: principle.id }, props: { principle } }));
 }
 
 const { principle } = Astro.props;
+const editorial = editorialFor(`/principles/${principle.id}/`);
 const index = uiPrinciples.findIndex((item) => item.id === principle.id);
 const next = uiPrinciples[index + 1];
 const relatedPatterns = principle.patternIds.map((id) => getPattern(id)).filter(Boolean);
 ---
 
-<BaseLayout title={pageTitle(principle.title)} description={principle.outcome}>
+<BaseLayout title={pageTitle(editorial?.title ?? principle.title)} description={editorial?.description ?? principle.outcome} structuredData={editorial ? editorialArticle(editorial, Astro.site ?? new URL("https://uxpatternsguide.com")) : undefined}>
   <div class="learning-page principle-detail">
     <nav class="learning-breadcrumb" aria-label="Breadcrumb"><a href={withBase("/principles/")}>UI and UX principles</a><span aria-hidden="true">/</span><span>{principle.title}</span></nav>
-    <header class="learning-hero"><div><p class="learning-eyebrow">Chapter {String(index + 1).padStart(2, "0")} / {String(uiPrinciples.length).padStart(2, "0")}</p><h1>{principle.title}</h1><p class="learning-lead">{principle.outcome}</p></div><div class="learning-progress-card"><strong>Your goal</strong><span>{principle.practice}</span></div></header>
+    <header class="learning-hero"><div><p class="learning-eyebrow">Chapter {String(index + 1).padStart(2, "0")} / {String(uiPrinciples.length).padStart(2, "0")}</p><h1>{editorial?.title ?? principle.title}</h1>{editorial && <EditorialByline updated={editorial.updated} />}<p class="learning-lead">{editorial?.answer ?? principle.outcome}</p></div><div class="learning-progress-card"><strong>Your goal</strong><span>{principle.practice}</span></div></header>
+    {editorial && <WorkedDecision decision={editorial} />}
     <div class="principle-layout"><div class="principle-main">
       <section class="learning-block"><p class="learning-step">01 / Begin with the task</p><h2>The principle</h2><p>{principle.opening}</p><dl class="principle-terms">{principle.concepts.map((item) => <div><dt>{item.term}</dt><dd>{item.meaning}</dd></div>)}</dl>{principle.explanation.map((paragraph) => <p>{paragraph}</p>)}</section>
       <section class="learning-block"><p class="learning-step">02 / Follow a method</p><h2>Apply it in four steps</h2><ol class="principle-method">{principle.method.map((step) => <li>{step}</li>)}</ol></section>
