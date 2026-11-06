@@ -21,6 +21,8 @@ This runs type checking, content validation, completion audits, a production bui
 
 Sitemap modification dates come from the Git history of page templates and their content dependencies, including local edits in a working checkout. Builds without Git history omit the optional dates. CI fetches full history so checkout times never become modification dates. Run `npm run test:sitemap` for the coverage and date regression checks.
 
+Source detail pages are reference records: they remain accessible with `noindex, follow` and are omitted from the sitemap. The source directory and original guides remain indexable. Keep robots.txt open so crawlers can read the exclusion. The decision and Search Console baseline are recorded in `research/growth-remediation-baseline.json`; this policy does not guarantee ranking improvements. See [Google's noindex documentation](https://developers.google.com/search/docs/crawling-indexing/block-indexing).
+
 The same build renders all four example states for every catalog pattern, tests search relevance and active-reading measurement, and enforces a 400 KB limit per JavaScript chunk. Demo implementations live in `src/components/playgrounds/examples`; the loader requests a dedicated pattern module or its generic interaction group. Preserve the four-state and keyboard behavior when editing an example. Editorial drafts belong in `docs/editorial-drafts`, outside the public route tree.
 
 ## Visitor measurement

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getPatternsForSource, sources } from "@/lib/catalog";
+import { comparisons, getPatternsForSource, sources } from "@/lib/catalog";
 import { withBase } from "@/lib/paths";
 import { absoluteUrl, breadcrumbJsonLd, pageTitle, SITE_NAME } from "@/lib/seo";
 
@@ -22,6 +22,7 @@ const evidenceRole: Record<string, string> = {
   "pattern-library": "Use this source to compare a documented solution with the task and states in your own product."
 };
 const linkedPatterns = getPatternsForSource(source.id);
+const linkedComparisons = comparisons.filter((comparison) => comparison.sources.some((ref) => ref.id === source.id));
 const claimRows = linkedPatterns.map((pattern) => ({
   pattern,
   note: pattern.sources.find((ref) => ref.id === source.id)?.note ?? source.notes
@@ -57,7 +58,7 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={pageTitle(`${source.name} UX Pattern Source`)} description={source.notes} structuredData={structuredData}>
+<BaseLayout title={pageTitle(`${source.name} UX Pattern Source`)} description={source.notes} structuredData={structuredData} noindex>
   <nav class="breadcrumb-trail" aria-label="Breadcrumb">
     <a href={withBase("/")}>Home</a>
     <a href={withBase("/sources/")}>Sources</a>
@@ -124,6 +125,11 @@ const structuredData = [
       <p>This source is ready for a future pattern connection.</p>
     )}
   </section>
+
+  {linkedComparisons.length > 0 && <section class="detail-panel">
+    <h2>Comparisons supported by this source</h2>
+    <ul>{linkedComparisons.map((comparison) => <li><a href={withBase(`/compare/${comparison.id}/`)}>{comparison.title}</a><p>{comparison.sources.find((ref) => ref.id === source.id)?.note}</p></li>)}</ul>
+  </section>}
 
   <section class="detail-panel">
     <h2>Evidence Role</h2>

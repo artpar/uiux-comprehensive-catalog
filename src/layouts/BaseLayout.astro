@@ -9,13 +9,15 @@ type Props = {
   description?: string;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
   image?: string;
+  noindex?: boolean;
 };
 
 const {
   title,
   description = "Learn, practice, and apply UX judgment with guided lessons, work tools, and source-backed patterns.",
   structuredData,
-  image = "/assets/social-card.webp"
+  image = "/assets/social-card.webp",
+  noindex = false
 } = Astro.props;
 const currentPath = Astro.url.pathname;
 const canonicalHref = new URL(currentPath, Astro.site ?? Astro.url).toString();
@@ -44,6 +46,7 @@ const navItems = [
     </script>}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="msvalidate.01" content="BD93A582145D3C26A00A7FB4FDE65BE5" />
     <meta name="naver-site-verification" content="da84aabacd3ceabd6ab1f06a452ee49de25539f7" />
     <meta property="og:site_name" content={SITE_NAME} />

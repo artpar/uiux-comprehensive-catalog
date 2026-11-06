@@ -71,3 +71,15 @@ test("archives without history omit lastmod instead of using checkout time", () 
     assert.equal(contentModifiedDates(f.directory)(["src/pages/example.astro"]), undefined);
   } finally { f.cleanup(); }
 });
+
+test("noindex references remain accessible but cannot appear in the sitemap", () => {
+  const f = fixture();
+  try {
+    f.write("index.html", '<link rel="canonical" href="https://example.com/">');
+    f.write("sources/reference/index.html", '<meta name="robots" content="noindex, follow"><link rel="canonical" href="https://example.com/sources/reference/">');
+    f.write("sitemap.xml", '<urlset><url><loc>https://example.com/</loc></url></urlset>');
+    assert.deepEqual(validateSitemap(f.directory), { count: 1, failures: [] });
+    f.write("sitemap.xml", '<urlset><url><loc>https://example.com/</loc></url><url><loc>https://example.com/sources/reference/</loc></url></urlset>');
+    assert.match(validateSitemap(f.directory).failures.join("\n"), /no indexable canonical HTML page.*sources\/reference/);
+  } finally { f.cleanup(); }
+});

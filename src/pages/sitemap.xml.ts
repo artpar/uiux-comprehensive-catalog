@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { categoryNames, categorySlug } from "@/lib/categories";
-import { comparisons, patterns, sources } from "@/lib/catalog";
+import { comparisons, patterns } from "@/lib/catalog";
 import { learningLessons } from "@/data/learning";
 import { workflows } from "@/data/workflows";
 import { uiPrinciples } from "@/data/ui-principles";
@@ -51,8 +51,7 @@ export const GET: APIRoute = ({ site }) => {
     ...workflows.map((workflow) => ({ path: `work/${workflow.id}/`, files: ["src/pages/work/[id].astro"] })),
     ...categoryNames.map((category) => ({ path: `patterns/category/${categorySlug(category)}/`, files: ["src/pages/patterns/category/[category].astro", ...patterns.filter((pattern) => pattern.category === category).map((pattern) => patternFile(pattern.id))] })),
     ...patterns.map((pattern) => ({ path: `patterns/${pattern.id}/`, files: ["src/pages/patterns/[id].astro", patternFile(pattern.id), ...pattern.sources.map((source) => sourceFile(source.id)), ...pattern.relatedPatterns.map(patternFile)] })),
-    ...comparisons.map((comparison) => ({ path: `compare/${comparison.id}/`, files: ["src/pages/compare/[id].astro", `src/data/comparisons/${comparison.id}.json`, ...comparison.patternIds.map(patternFile), ...comparison.sources.map((source) => sourceFile(source.id))] })),
-    ...sources.map((source) => ({ path: `sources/${source.id}/`, files: ["src/pages/sources/[id].astro", sourceFile(source.id), ...patterns.filter((pattern) => pattern.sources.some((ref) => ref.id === source.id)).map((pattern) => patternFile(pattern.id))] }))
+    ...comparisons.map((comparison) => ({ path: `compare/${comparison.id}/`, files: ["src/pages/compare/[id].astro", `src/data/comparisons/${comparison.id}.json`, ...comparison.patternIds.map(patternFile), ...comparison.sources.map((source) => sourceFile(source.id))] }))
   ] satisfies SitemapRoute[];
 
   const urls = routes
