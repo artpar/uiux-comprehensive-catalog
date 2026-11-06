@@ -32,6 +32,7 @@ export function GET() {
       patterns.map((pattern) => ({
         id: pattern.id,
         name: pattern.name,
+        aliases: pattern.aliases,
         category: pattern.category,
         maturity: pattern.maturity,
         surfaceType: pattern.surfaceType,

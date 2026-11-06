@@ -286,7 +286,7 @@ const missingPatterns = [...expectedPatterns.entries()]
   .filter(([, candidates]) => candidates.every((id) => !presentIds.has(id)))
   .map(([label]) => label);
 const duplicateGroups = duplicateAudit(patterns);
-const demoSource = await readFile(path.join(root, "src", "components", "playgrounds", "QualityPatternDemo.tsx"), "utf8");
+const demoSource = await readFile(path.join(root, "src", "components", "playgrounds", "examples", "shared.tsx"), "utf8");
 const playgroundSource = await readFile(path.join(root, "src", "components", "PatternPlayground.tsx"), "utf8");
 
 comparisons.forEach(({ file, data }) => assertComparisonRules(data, file));

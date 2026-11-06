@@ -5,16 +5,22 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && npm run validate:data && npm run validate:learning && npm run validate:guides && npm run audit:completion && npm run generate:agent && astro build",
+    "build": "astro check && npm run validate:data && npm run validate:learning && npm run validate:guides && npm run audit:completion && npm run test:sitemap && npm run test:analytics && npm run test:search && npm run validate:playgrounds && npm run generate:agent && astro build && npm run validate:sitemap && npm run validate:bundles",
     "preview": "astro preview",
     "typecheck": "astro check",
     "validate:data": "tsx scripts/validate-data.ts",
     "validate:learning": "tsx scripts/validate-learning.ts",
     "validate:guides": "tsx scripts/validate-guides.ts",
+    "validate:sitemap": "tsx scripts/validate-sitemap.ts",
+    "test:sitemap": "tsx --test scripts/sitemap.test.ts",
+    "test:analytics": "tsx --test scripts/reading-metrics.test.ts",
+    "test:search": "tsx --test scripts/catalog-search.test.ts",
+    "validate:playgrounds": "tsx scripts/validate-playgrounds.ts",
+    "validate:bundles": "tsx scripts/validate-bundles.ts",
     "audit:completion": "tsx scripts/catalog-completion-audit.ts",
     "generate:agent": "tsx scripts/generate-agent-exports.ts",
     "indexnow:submit": "tsx scripts/submit-indexnow.ts",
-    "check": "npm run typecheck && npm run validate:data && npm run validate:learning && npm run validate:guides && npm run audit:completion && npm run generate:agent && astro build"
+    "check": "npm run build"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.7",

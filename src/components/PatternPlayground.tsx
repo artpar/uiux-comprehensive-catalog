@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from "react";
+import { Component, lazy, Suspense, useCallback, useEffect, useRef, type ReactNode } from "react";
 import { track } from "@/lib/analytics";
 import type { PatternEntry } from "@/schemas/catalog";
 
@@ -1209,17 +1209,45 @@ const playgroundPrompts: Record<string, { title: string; prompt: string }> = {
   }
 };
 
+class ExampleBoundary extends Component<{ children: ReactNode; onError: () => void }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch() { this.props.onError(); }
+  render() {
+    return this.state.failed ? <div role="alert"><p>The example could not load. Reload the page to try again.</p><button className="demo-button" onClick={() => window.location.reload()}>Reload example</button></div> : this.props.children;
+  }
+}
+
 export default function PatternPlayground({ pattern, variant = "detail" }: PatternPlaygroundProps) {
   const interactionTracked = useRef(false);
-  const [demoOpen, setDemoOpen] = useState(false);
+  const readyTracked = useRef(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => { track("example_opened", { patternId: pattern.id, surface: variant }); }, [pattern.id, variant]);
+  useEffect(() => {
+    if (!headingRef.current || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      track("example_viewed", { patternId: pattern.id, surface: variant });
+      observer.disconnect();
+    }, { threshold: 0.5 });
+    observer.observe(headingRef.current);
+    return () => observer.disconnect();
+  }, [pattern.id, variant]);
+  const onReady = useCallback(() => {
+    if (readyTracked.current) return;
+    readyTracked.current = true;
+    track("example_ready", { patternId: pattern.id, surface: variant });
+  }, [pattern.id, variant]);
+  const onError = useCallback(() => { track("example_failed", { patternId: pattern.id, surface: variant }); }, [pattern.id, variant]);
   const copy = playgroundPrompts[pattern.id] ?? {
     title: `Try ${pattern.name}`,
     prompt: "Interact with the pattern and compare the behavior against the guidance."
   };
 
-  function trackInteraction(method: "pointer" | "keyboard") {
+  function trackInteraction(method: "pointer" | "keyboard" | "activation") {
     if (interactionTracked.current) return;
     interactionTracked.current = true;
+    track("example_interacted", { patternId: pattern.id, surface: variant, method });
     track("lab_interacted", {
       patternId: pattern.id,
       surface: variant,
@@ -1232,13 +1260,16 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
       className={variant === "preview" ? "playground-panel playground-preview" : "detail-panel playground-panel"}
       aria-labelledby={`live-example-title-${pattern.id}-${variant}`}
       onPointerDownCapture={(event) => {
-        if (event.target instanceof Element && event.target.closest(".demo-surface")) trackInteraction("pointer");
+        if (event.target instanceof Element && event.target.closest("[data-demo-ready]") && event.target.closest("button, a, input, select, textarea, [role='button'], [role='slider']")) trackInteraction("pointer");
+      }}
+      onClickCapture={(event) => {
+        if (event.target instanceof Element && event.target.closest("[data-demo-ready]") && event.target.closest("button, a, input, select, textarea, [role='button'], [role='slider']")) trackInteraction(event.detail > 0 ? "pointer" : "activation");
       }}
       onKeyDownCapture={(event) => {
         if (
           event.target instanceof Element &&
-          event.target.closest(".demo-surface") &&
-          ["Enter", " ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
+          event.target.closest("[data-demo-ready]") &&
+          (event.key.length === 1 || ["Enter", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key))
         ) {
           trackInteraction("keyboard");
         }
@@ -1246,12 +1277,12 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
     >
       <div className="playground-heading">
         <div>
-          <h2 id={`live-example-title-${pattern.id}-${variant}`}>{copy.title}</h2>
+          <h2 ref={headingRef} id={`live-example-title-${pattern.id}-${variant}`}>{copy.title}</h2>
           <p>{copy.prompt}</p>
         </div>
         <span>{pattern.name}</span>
       </div>
-      {demoOpen ? (
+      <ExampleBoundary key={pattern.id} onError={onError}>
         <Suspense
           fallback={
             <div className="demo-surface quality-lab demo-loading" role="status">
@@ -1259,26 +1290,9 @@ export default function PatternPlayground({ pattern, variant = "detail" }: Patte
             </div>
           }
         >
-          <QualityPatternDemo pattern={pattern} />
+          <QualityPatternDemo pattern={pattern} onReady={onReady} onError={onError} />
         </Suspense>
-      ) : (
-        <div className="demo-on-demand">
-          <div>
-            <strong>Interactive example</strong>
-            <p>Load a working state model to test the guidance above.</p>
-          </div>
-          <button
-            className="demo-button primary"
-            type="button"
-            onClick={() => {
-              trackInteraction("pointer");
-              setDemoOpen(true);
-            }}
-          >
-            Start interactive example
-          </button>
-        </div>
-      )}
+      </ExampleBoundary>
       {variant === "detail" && (
         <section className="demo-contract" aria-label={`${pattern.name} demo contract`}>
           <section>

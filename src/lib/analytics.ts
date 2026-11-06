@@ -5,6 +5,7 @@ type AnalyticsEvent = [eventName: string, props?: Record<string, AnalyticsValue>
 declare global {
   interface Window {
     __analyticsQueue?: AnalyticsEvent[];
+    __analyticsDisabled?: boolean;
     __trackAnalytics?: (eventName: string, props?: Record<string, AnalyticsValue>) => void;
     umami?: {
       track?: (eventName: string, props?: Record<string, AnalyticsValue>) => void;
@@ -13,7 +14,7 @@ declare global {
 }
 
 export function track(eventName: string, props: AnalyticsProps = {}) {
-  if (import.meta.env.DEV || typeof window === "undefined") return;
+  if (import.meta.env.DEV || typeof window === "undefined" || window.__analyticsDisabled) return;
 
   const cleanProps = Object.fromEntries(
     Object.entries(props).filter((entry): entry is [string, AnalyticsValue] => entry[1] !== undefined)

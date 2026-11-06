@@ -3,10 +3,13 @@ import { categoryNames, categorySlug } from "@/lib/categories";
 import { comparisons, patterns, sources } from "@/lib/catalog";
 import { learningLessons } from "@/data/learning";
 import { workflows } from "@/data/workflows";
+import { uiPrinciples } from "@/data/ui-principles";
+import { contentModifiedDates } from "@/lib/content-modified";
+import { readFileSync } from "node:fs";
 
 type SitemapRoute = {
   path: string;
-  lastmod: string;
+  files: string[];
 };
 
 function normalizedBase() {
@@ -29,34 +32,35 @@ function escapeXml(value: string) {
 
 export const GET: APIRoute = ({ site }) => {
   const siteUrl = site ?? new URL("https://uxpatternsguide.com");
-  const latestPatternDate = patterns.reduce((latest, pattern) => pattern.lastVerified > latest ? pattern.lastVerified : latest, "2026-06-01");
-  const latestComparisonDate = comparisons.reduce((latest, comparison) => comparison.lastVerified > latest ? comparison.lastVerified : latest, latestPatternDate);
-  const latestSourceDate = sources.reduce((latest, source) => source.checkedAt > latest ? source.checkedAt : latest, latestComparisonDate);
+  const modified = contentModifiedDates();
+  const patternFile = (id: string) => `src/data/patterns/${id}.json`;
+  const sourceFile = (id: string) => `src/data/sources/${id}.json`;
+  const catalogData = ["src/data/patterns/", "src/data/comparisons/", "src/data/sources/"];
+  // Discover static pages automatically. Dynamic routes below supply their content records.
+  const staticPages = Object.keys(import.meta.glob("./**/*.astro"))
+    .filter((file) => !file.includes("[") && file !== "./404.astro" && !file.startsWith("./preview/"));
   const routes = [
-    { path: "", lastmod: latestSourceDate },
-    { path: "agent/", lastmod: latestPatternDate },
-    { path: "anti-patterns/", lastmod: latestPatternDate },
-    { path: "resources/", lastmod: latestPatternDate },
-    { path: "resources/ux-pattern-selection-checklist/", lastmod: latestPatternDate },
-    { path: "learn/", lastmod: latestSourceDate },
-    ...learningLessons.map((lesson) => ({ path: `learn/${lesson.id}/`, lastmod: latestSourceDate })),
-    { path: "practice/", lastmod: latestSourceDate },
-    ...learningLessons.map((lesson) => ({ path: `practice/${lesson.id}/`, lastmod: latestSourceDate })),
-    { path: "work/", lastmod: latestSourceDate },
-    ...workflows.map((workflow) => ({ path: `work/${workflow.id}/`, lastmod: latestSourceDate })),
-    { path: "reference/", lastmod: latestSourceDate },
-    { path: "compare/", lastmod: latestComparisonDate },
-    { path: "lab/", lastmod: latestPatternDate },
-    { path: "patterns/", lastmod: latestPatternDate },
-    ...categoryNames.map((category) => ({ path: `patterns/category/${categorySlug(category)}/`, lastmod: latestPatternDate })),
-    { path: "sources/", lastmod: latestSourceDate },
-    ...patterns.map((pattern) => ({ path: `patterns/${pattern.id}/`, lastmod: pattern.lastVerified })),
-    ...comparisons.map((comparison) => ({ path: `compare/${comparison.id}/`, lastmod: comparison.lastVerified })),
-    ...sources.map((source) => ({ path: `sources/${source.id}/`, lastmod: source.checkedAt }))
+    ...staticPages.map((file) => ({
+      path: file.slice(2).replace(/(?:^|\/)index\.astro$/, "/").replace(/\.astro$/, "/").replace(/^\//, ""),
+      files: [`src/pages/${file.slice(2)}`, ...(readFileSync(`src/pages/${file.slice(2)}`, "utf8").includes('@/lib/catalog') ? catalogData : [])]
+    })),
+    ...learningLessons.flatMap((lesson) => ["learn", "practice"].map((section) => ({
+      path: `${section}/${lesson.id}/`, files: [`src/pages/${section}/[id].astro`]
+    }))),
+    ...uiPrinciples.map((principle) => ({ path: `principles/${principle.id}/`, files: ["src/pages/principles/[id].astro", ...principle.patternIds.map(patternFile)] })),
+    ...workflows.map((workflow) => ({ path: `work/${workflow.id}/`, files: ["src/pages/work/[id].astro"] })),
+    ...categoryNames.map((category) => ({ path: `patterns/category/${categorySlug(category)}/`, files: ["src/pages/patterns/category/[category].astro", ...patterns.filter((pattern) => pattern.category === category).map((pattern) => patternFile(pattern.id))] })),
+    ...patterns.map((pattern) => ({ path: `patterns/${pattern.id}/`, files: ["src/pages/patterns/[id].astro", patternFile(pattern.id), ...pattern.sources.map((source) => sourceFile(source.id)), ...pattern.relatedPatterns.map(patternFile)] })),
+    ...comparisons.map((comparison) => ({ path: `compare/${comparison.id}/`, files: ["src/pages/compare/[id].astro", `src/data/comparisons/${comparison.id}.json`, ...comparison.patternIds.map(patternFile), ...comparison.sources.map((source) => sourceFile(source.id))] })),
+    ...sources.map((source) => ({ path: `sources/${source.id}/`, files: ["src/pages/sources/[id].astro", sourceFile(source.id), ...patterns.filter((pattern) => pattern.sources.some((ref) => ref.id === source.id)).map((pattern) => patternFile(pattern.id))] }))
   ] satisfies SitemapRoute[];
 
   const urls = routes
-    .map((route) => `  <url><loc>${escapeXml(absoluteUrl(route.path, siteUrl))}</loc><lastmod>${route.lastmod}</lastmod></url>`)
+    .sort((a, b) => a.path.localeCompare(b.path))
+    .map((route) => {
+      const lastmod = modified(route.files);
+      return `  <url><loc>${escapeXml(absoluteUrl(route.path, siteUrl))}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</url>`;
+    })
     .join("\n");
 
   return new Response(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`, {

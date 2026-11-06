@@ -71,8 +71,16 @@ const navItems = [
     {import.meta.env.PROD && umamiWebsiteId && (
       <>
         <script is:inline>
+          var analyticsChoice = new URLSearchParams(window.location.search).get("analytics");
+          window.__analyticsDisabled = analyticsChoice === "off";
+          try {
+            if (analyticsChoice === "off") localStorage.setItem("uxpg:analytics-disabled", "1");
+            if (analyticsChoice === "on") localStorage.removeItem("uxpg:analytics-disabled");
+            window.__analyticsDisabled = localStorage.getItem("uxpg:analytics-disabled") === "1" || analyticsChoice === "off";
+          } catch {}
           window.__analyticsQueue = window.__analyticsQueue || [];
           window.__trackAnalytics = function(eventName, props) {
+            if (window.__analyticsDisabled) return;
             if (window.umami && typeof window.umami.track === "function") {
               window.umami.track(eventName, props);
               return;
@@ -113,55 +121,11 @@ const navItems = [
             if (eventName) window.__trackAnalytics(eventName, Object.keys(props).length ? props : undefined);
           });
 
-          (function() {
-            var elapsed = false;
-            var depthReached = false;
-            var sent = false;
 
-            function pageType() {
-              var path = window.location.pathname;
-              if (/\/patterns\/[^/]+\/?$/.test(path)) return "pattern_detail";
-              if (/\/sources\/[^/]+\/?$/.test(path)) return "source_detail";
-              if (/\/compare\/[^/]+\/?$/.test(path)) return "comparison_detail";
-              if (/\/resources\/[^/]+\/?$/.test(path)) return "resource_detail";
-              if (/\/lab\/?$/.test(path)) return "lab";
-              if (/\/learn\/[^/]+\/?$/.test(path)) return "lesson";
-              if (/\/learn\/?$/.test(path)) return "learn";
-              if (/\/principles\/[^/]+\/?$/.test(path)) return "ui_principle";
-              if (/\/principles\/?$/.test(path)) return "ui_principles";
-              if (/\/practice\/?$/.test(path)) return "practice";
-              if (/\/work\/[^/]+\/?$/.test(path)) return "work_tool";
-              if (/\/work\/?$/.test(path)) return "work";
-              if (/\/reference\/?$/.test(path)) return "reference";
-              if (/\/patterns\/?$/.test(path)) return "pattern_directory";
-              return path === "/" ? "home" : "other";
-            }
-
-            function maybeTrackEngagement() {
-              if (sent || !elapsed || !depthReached) return;
-              sent = true;
-              window.__trackAnalytics("engaged_read", { seconds: 30, depth: 50, surface: pageType() });
-              window.removeEventListener("scroll", checkDepth);
-              window.removeEventListener("resize", checkDepth);
-            }
-
-            function checkDepth() {
-              var documentHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-              depthReached = documentHeight <= window.innerHeight || (window.scrollY + window.innerHeight) / documentHeight >= 0.5;
-              maybeTrackEngagement();
-            }
-
-            window.setTimeout(function() {
-              elapsed = true;
-              maybeTrackEngagement();
-            }, 30000);
-            window.addEventListener("scroll", checkDepth, { passive: true });
-            window.addEventListener("resize", checkDepth, { passive: true });
-            window.requestAnimationFrame(checkDepth);
-          })();
         </script>
         <script is:inline data-umami-src={umamiScriptUrl} data-umami-id={umamiWebsiteId} data-umami-domains={umamiDomains}>
           (function() {
+            if (window.__analyticsDisabled) return;
             var currentScript = document.currentScript;
             var src = currentScript && currentScript.dataset.umamiSrc;
             var websiteId = currentScript && currentScript.dataset.umamiId;
@@ -212,7 +176,7 @@ const navItems = [
         Saved <span data-saved-count>0</span>
       </button>
     </header>
-    <LearnerProgressBar />
+    {navItems[0].active && <LearnerProgressBar />}
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
@@ -247,6 +211,9 @@ const navItems = [
     </dialog>
     <script>
       import { track } from "@/lib/analytics";
+      import { setupReadingAnalytics } from "@/lib/reading-analytics";
+
+      setupReadingAnalytics();
 
       type SavedItem = { id: string; title: string; kind: string; url: string };
       const storageKey = "uxpg:saved-items";

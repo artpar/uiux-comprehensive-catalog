@@ -18,7 +18,7 @@ const endpoint = import.meta.env.PUBLIC_SUBSCRIBE_ENDPOINT || "";
 const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`;
 ---
 
-<section class:list={["newsletter-signup", { "is-compact": compact }]} aria-labelledby={`newsletter-${source}`}>
+{endpoint && <section class:list={["newsletter-signup", { "is-compact": compact }]} aria-labelledby={`newsletter-${source}`}>
   <div class="newsletter-copy">
     <span>UX Patterns newsletter</span>
     <h2 id={`newsletter-${source}`}>{heading}</h2>
@@ -36,7 +36,7 @@ const emailInputId = `newsletter-email-${source.replace(/[^a-z0-9_-]+/gi, "-")}`
     <p class="newsletter-consent">By joining, you agree to receive the launch announcement and future UX Patterns Guide issues. We use this address only for the newsletter; unsubscribe anytime. <a href={withBase("/privacy/")}>Privacy</a></p>
     <p id={`${emailInputId}-status`} class="newsletter-status" data-newsletter-status role="status" aria-live="polite" aria-atomic="true"></p>
   </form>
-</section>
+</section>}
 
 <script>
   import { track } from "@/lib/analytics";

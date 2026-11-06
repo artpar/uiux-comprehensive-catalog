@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import PatternPlayground from "@/components/PatternPlayground";
 import { track } from "@/lib/analytics";
+import { normalizeSearch, rankSearch, searchScore, searchSynonyms } from "@/lib/catalog-search";
 import type { ComparisonEntry, PatternEntry } from "@/schemas/catalog";
 
 type CatalogWorkbenchProps = {
@@ -145,16 +146,6 @@ const jobGroups: JobGroup[] = [
   }
 ];
 
-const searchSynonyms: Record<string, string[]> = {
-  delete: ["destructive", "remove", "irreversible"],
-  destructive: ["delete", "remove", "danger"],
-  error: ["failure", "recovery", "failed"],
-  ai: ["automation", "prompt", "suggestion"],
-  filter: ["facet", "narrow", "search"],
-  mobile: ["navigation", "bottom"],
-  popup: ["modal", "dialog"],
-  undo: ["recover", "restore", "reversible"]
-};
 
 function formatPatternType(value: WorkbenchPattern["patternType"]) {
   if (value === "ui") return "UI";
@@ -218,9 +209,6 @@ function searchFields(pattern: WorkbenchPattern) {
   ].filter((field) => field.value.trim());
 }
 
-function normalizeSearch(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-}
 
 function editDistanceAtMost(a: string, b: string, maxDistance: number) {
   if (Math.abs(a.length - b.length) > maxDistance) return false;
@@ -253,13 +241,7 @@ function queryTerms(query: string) {
 }
 
 function matchesText(pattern: WorkbenchPattern, query: string) {
-  const text = normalizeSearch(searchText(pattern));
-  const words = text.split(" ");
-  return queryTerms(query).some((term) => {
-    if (text.includes(term)) return true;
-    if (term.length < 4) return false;
-    return words.some((word) => editDistanceAtMost(term, word, term.length > 7 ? 2 : 1));
-  });
+  return searchScore({ name: pattern.name, aliases: pattern.aliases, searchText: searchText(pattern) }, query) > 0;
 }
 
 function getSearchExplanation(pattern: WorkbenchPattern, query: string) {
@@ -278,11 +260,11 @@ function getSearchEvidence(pattern: WorkbenchPattern, query: string) {
   const terms = queryTerms(query);
   for (const field of searchFields(pattern)) {
     const normalized = normalizeSearch(field.value);
-    const term = terms.find((item) => normalized.includes(item));
+    const term = terms.find((item) => normalized.split(" ").includes(item));
     if (term) return { label: field.label, snippet: field.value, term };
   }
 
-  for (const field of searchFields(pattern)) {
+  for (const field of searchFields(pattern).slice(0, 2)) {
     const words = normalizeSearch(field.value).split(" ");
     for (const item of terms) {
       if (item.length < 4) continue;
@@ -424,7 +406,18 @@ export default function CatalogWorkbench({
   const [platform, setPlatform] = useState("all");
   const [maturity, setMaturity] = useState("all");
   const [candidateMode, setCandidateMode] = useState<CandidateMode>("recommended");
-  const [selectedId, setSelectedId] = useState(patterns[0]?.id ?? "");
+  const [selectedId, setSelectedId] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const requested = params.get("pattern") ?? params.get("selected");
+      if (requested && patterns.some((pattern) => pattern.id === requested)) return requested;
+      try {
+        const saved = JSON.parse(window.localStorage.getItem("uxpg:lab-state") || "{}");
+        if (patterns.some((pattern) => pattern.id === saved.selectedId)) return saved.selectedId as string;
+      } catch { /* The lab still opens when browser storage is unavailable. */ }
+    }
+    return patterns[0]?.id ?? "";
+  });
   const [copyStatus, setCopyStatus] = useState("Ready to copy.");
   const [storageUnavailable, setStorageUnavailable] = useState(false);
   const [risk, setRisk] = useState("medium");
@@ -477,6 +470,7 @@ export default function CatalogWorkbench({
       .sort((a, b) => {
         const score = (pattern: WorkbenchPattern) => {
           let value = 0;
+          if (query.trim()) value += searchScore({ name: pattern.name, aliases: pattern.aliases, searchText: searchText(pattern) }, query) * 100;
           if (activeJob?.patternIds.includes(pattern.id)) value += 80;
           if (activeJob?.categories.includes(pattern.category)) value += 40;
           if (pattern.maturity === "standard" || pattern.maturity === "established") value += 20;
@@ -487,13 +481,13 @@ export default function CatalogWorkbench({
         return score(b) - score(a) || a.name.localeCompare(b.name);
       })
       .slice(0, 8);
-  }, [job, scopedAcceptedCandidates, selectedId, shortlistIds]);
+  }, [job, query, scopedAcceptedCandidates, selectedId, shortlistIds]);
 
   const filtered = useMemo(() => {
-    if (candidateMode === "audit") return auditCandidates;
-    if (candidateMode === "all") return scopedAcceptedCandidates;
+    if (candidateMode === "audit") return rankSearch(auditCandidates.map((pattern) => ({ ...pattern, searchText: searchText(pattern) })), query);
+    if (candidateMode === "all") return rankSearch(scopedAcceptedCandidates.map((pattern) => ({ ...pattern, searchText: searchText(pattern) })), query);
     return recommendedCandidates;
-  }, [auditCandidates, candidateMode, recommendedCandidates, scopedAcceptedCandidates]);
+  }, [auditCandidates, candidateMode, query, recommendedCandidates, scopedAcceptedCandidates]);
 
   const selectedWasFilteredOut = Boolean(selectedId) && filtered.length > 0 && !filtered.some((pattern) => pattern.id === selectedId);
   const selectedSummary = patterns.find((pattern) => pattern.id === selectedId) ?? filtered[0] ?? patterns[0];
@@ -978,7 +972,7 @@ export default function CatalogWorkbench({
             <span>{sourceCountLabel(selected)}</span>
           </div>
 
-          {playgroundPattern && <PatternPlayground pattern={playgroundPattern} variant="preview" />}
+          {playgroundPattern && <PatternPlayground key={playgroundPattern.id} pattern={playgroundPattern} variant="preview" />}
           {!selectedHasDetail && (
             <p className="demo-status" role="status">
               Loading full pattern contract...

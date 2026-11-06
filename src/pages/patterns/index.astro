@@ -135,7 +135,8 @@ const description = "Browse practical UX and UI patterns by family, with source-
 
   <script>
     import { track } from "@/lib/analytics";
-    type PatternSearchEntry = { id: string; name: string; category: string; maturity: string; surfaceType: string; problem: string; useWhen: string; href: string; searchText: string };
+    import { rankSearch } from "@/lib/catalog-search";
+    type PatternSearchEntry = { id: string; name: string; aliases?: string[]; category: string; maturity: string; surfaceType: string; problem: string; useWhen: string; href: string; searchText: string };
 
     const form = document.querySelector("[data-pattern-index-search]");
     const input = document.querySelector("[data-pattern-index-query]");
@@ -178,7 +179,7 @@ const description = "Browse practical UX and UI patterns by family, with source-
       if (status instanceof HTMLElement) status.textContent = "Searching the catalog…";
       if (grid instanceof HTMLElement) grid.replaceChildren();
       const data = await searchData(); if (current !== sequence) return;
-      const matches = data.filter((pattern) => terms.every((term) => normalize(pattern.searchText).includes(term)));
+      const matches = rankSearch(data, query);
       const visibleMatches = matches.slice(0, 48); visibleMatches.forEach(addResult);
       if (status instanceof HTMLElement) {
         if (data.length === 0) status.textContent = "Search is temporarily unavailable. Browse a problem family below.";
